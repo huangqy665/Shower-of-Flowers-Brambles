@@ -20,3 +20,6 @@ WARMAP_TOTAL_OCCUPATION;完全占领;;;;;;;;;;;;;x
 WARMAP_WAR_PROGRESS;总体战局;;;;;;;;;;;;;x
 WARMAP_APPOINTABLE_LEADERS;可任命主官（军事／政务）;;;;;;;;;;;;;x
 WARMAP_STEP_DOWN;卸任;;;;;;;;;;;;;x
+WARMAP_PROVINCE_TASK_HEADER;省份任务;;;;;;;;;;;;;x
+WARMAP_PROVINCE_TASK_EMERGENCY_MOBILIZATION;地方紧急动员;;;;;;;;;;;;;x
+WARMAP_PROVINCE_TASK_EMERGENCY_MOBILIZATION_DESC;消耗5人力，在所选区域的全部省份获得持续30日的地方紧急动员。效果：当地人力修正 +10%，当地资源产出 +5%。;;;;;;;;;;;;;x

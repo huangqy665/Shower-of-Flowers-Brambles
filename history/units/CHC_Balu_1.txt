@@ -9,18 +9,18 @@ armygroup = {
 			 name = "第115师"		
 			 location = 7398		
 			 regiment = { type = hq_brigade name = "第115师" historical_model = 0 }	
-			 regiment = { type = militia_brigade name = "独立团" historical_model = 0 }		
+			 regiment = { type = light_bergsjaeger name = "独立团" historical_model = 0 }		
 			 division= {		
 				 name = "第343旅"	
 				 location = 7391	
-				 regiment = { type = bergsjaeger_brigade name = "第658团" historical_model = 1 }	
-				 regiment = { type = bergsjaeger_brigade name = "第686团" historical_model = 1 }	
+				 regiment = { type = light_bergsjaeger name = "第658团" historical_model = 1 }	
+				 regiment = { type = light_bergsjaeger name = "第686团" historical_model = 1 }	
 			}		
 			 division= {		
 				 name = "第344旅"	
 				 location = 7391	
-				 regiment = { type = militia_brigade name = "第687团" historical_model = 0 }	
-				 regiment = { type = militia_brigade name = "第519团" historical_model = 0 }	
+				 regiment = { type = light_bergsjaeger name = "第687团" historical_model = 0 }	
+				 regiment = { type = light_bergsjaeger name = "第519团" historical_model = 0 }	
 				 regiment = { type = militia_brigade name = "第688团" historical_model = 0 }	
 			}		
 		}			
@@ -28,17 +28,17 @@ armygroup = {
 			 name = "第120师"		
 			 location = 7418		
 			 regiment = { type = hq_brigade name = "第120师" historical_model = 0 }
-			 regiment = { type = militia_brigade name = "教导团" historical_model = 0 }			
+			 regiment = { type = chc_gundam name = "教导团" historical_model = 0 }			
 			 division= {		
 				 name = "第358旅"	
 				 location = 7418	
-				 regiment = { type = bergsjaeger_brigade name = "第715团" historical_model = 1 }	
-				 regiment = { type = bergsjaeger_brigade name = "第716团" historical_model = 1 }	
+				 regiment = { type = light_bergsjaeger name = "第715团" historical_model = 1 }	
+				 regiment = { type = light_bergsjaeger name = "第716团" historical_model = 1 }	
 			}		
 			 division= {		
 				 name = "第359旅"	
 				 location = 5385	
-				 regiment = { type = militia_brigade name = "第717团" historical_model = 0 }	
+				 regiment = { type = light_bergsjaeger name = "第717团" historical_model = 0 }	
 				 regiment = { type = militia_brigade name = "第718团" historical_model = 0 }	
 			}		
 		}			
@@ -49,16 +49,16 @@ armygroup = {
 			 division= {		
 				 name = "第385旅"	
 				 location = 7405	
-				 regiment = { type = bergsjaeger_brigade name = "第769团" historical_model = 1 }	
-				 regiment = { type = bergsjaeger_brigade name = "第770团" historical_model = 1 }	
+				 regiment = { type = light_bergsjaeger name = "第769团" historical_model = 1 }	
+				 regiment = { type = light_bergsjaeger name = "第770团" historical_model = 1 }	
 			}		
 			 division= {		
 				 name = "第386旅"	
 				 location = 7411	
-				 regiment = { type = bergsjaeger_brigade name = "第771团" historical_model = 1 }	
-				 regiment = { type = bergsjaeger_brigade name = "第772团" historical_model = 1 }	
+				 regiment = { type = light_bergsjaeger name = "第771团" historical_model = 1 }	
+				 regiment = { type = light_bergsjaeger name = "第772团" historical_model = 1 }	
                                 
-				 regiment = { type = bergsjaeger_brigade name = "独立团" historical_model = 1 }	
+				 regiment = { type = light_bergsjaeger name = "独立团" historical_model = 1 }	
 			}			
 		}			
 	}	

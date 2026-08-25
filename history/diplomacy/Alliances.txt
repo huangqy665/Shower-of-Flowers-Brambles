@@ -337,12 +337,6 @@ alliance = {
 	end_date = 1936.1.1
 }
 alliance = {
-	first = CHI
-	second = CRH
-	start_date = 1931.1.1
-	end_date = 1935.10.1
-}
-alliance = {
 	first = CGX
 	second = CGD
 	start_date = 1932.6.25

@@ -1,0 +1,355 @@
+#Powered_by_ParaTranz;
+#CODE;ENGLISH;FRENCH;GERMAN;;SPANISH;;;;;;;;x
+message_notify_rebels_defeat_label;반군 격파 시 알림을 받으시겠습니까?
+message_settings_spectator;사전설정: 관전자 전용
+msg_revolt_title;반군 봉기
+msg_revolt_1;$x$ 반군이 다음 주에서 반란을 일으켰습니다:
+msg_revolt_2;$x$ 반군이 반란을 일으켰습니다(성공하지 못함)
+msg_war_title;선전포고
+msg_war_1;$x$이(가) $y$에 선전포고하여 $val$이(가) 시작되었습니다.
+msg_wargoal_title;전쟁 목표 추가됨
+msg_wargoal_1;$x$이(가) 우리의 전쟁에 다음 전쟁 목표를 추가했습니다:
+msg_war_join_title;국가 참전
+msg_war_join_1;$x$이(가) 진행 중인 $val$에 참가했습니다
+msg_war_becomes_great_title;전쟁 격화
+msg_war_becomes_great_1;$x$이(가) $y$(으)로 확대되었습니다
+msg_siegeover_title;공성전 종료
+msg_siegeover_1;$x$에 대한 공성전이 종료되었습니다.
+msg_siegeover_2;$y$은(는) 더 이상 이 주를 통제하지 않습니다.
+msg_siegeover_3;$y$ 반군은 더 이상 이 주를 통제하지 않습니다.
+msg_siegeover_4;이 주는 이제 $y$의 통제하에 있습니다.
+msg_siegeover_5;이 주는 이제 $y$ 반군의 통제하에 있습니다.
+msg_new_crisis_title;위기 고조
+msg_new_crisis_1;$x$의 소유권을 둘러싼 위기가 고조되고 있습니다.
+msg_new_crisis_2;$x$ 식민지를 둘러싼 위기가 고조되고 있습니다.
+msg_tech_title;기술 연구 완료
+msg_tech_1;$x$ 연구가 완료되었으며, 다음 효과를 가집니다:
+msg_inv_title;발명 획득
+msg_inv_1;$x$이(가) 발명되었으며, 다음 효과를 가집니다:
+msg_fab_discovered_title;조작 발각
+msg_fab_discovered_1;우리의 전쟁 명분 조작이 발각되어 악명이 ?R$x$?! 증가합니다.
+msg_fab_discovered_2;$y$에 대한 $x$ 전쟁 명분 정당화 진행이 발각되었습니다
+msg_fab_canceled_title;조작 취소
+msg_fab_canceled_1;목표 명분이 유효하지 않게 되어 조작이 강제로 취소되었습니다.
+msg_fab_finished_title;조작 완료
+msg_fab_finished_1;우리는 $y$에 대한 $x$ 명분을 완성했습니다.
+msg_leader_died_title;장군 사망
+msg_leader_died_1;$y$ 군을 지휘하던 지휘관 $x$이(가) 사망했습니다.
+msg_leader_died_2;$y$ 함대를 지휘하던 제독 $x$이(가) 사망했습니다.
+msg_peace_offer_accepted_title;평화 협정 수락
+msg_peace_offer_accepted_1;$x$의 일원으로서, $y$이(가) $val$ 평화 협정을 수락했습니다.
+msg_peace_offer_rejected_title;평화 협정 거부됨
+msg_peace_offer_rejected_1;$x$의 일원으로서, $y$이(가) $val$의 평화 협정을 거부했습니다.
+msg_upper_house_title;상원 개편
+msg_upper_house_1;새로운 상원 구성은 다음과 같습니다:
+msg_upper_house_2;$x$ %: $y$
+msg_election_start_title;선거 시작
+msg_election_start_1;선거는 $x$에 종료됩니다.
+msg_dec_rel_title;관계 악화
+msg_dec_rel_1;$x$이(가) $y$와의 외교 관계를 악화시켰습니다.
+msg_inc_rel_title;관계 개선
+msg_inc_rel_1;$x$이(가) $y$와의 외교 관계를 개선했습니다.
+msg_add_sphere_title;국가가 세력권에 편입됨
+msg_add_sphere_1;$x$이(가) $y$을(를) 세력권에 편입했습니다.
+msg_rem_sphere_title;국가가 세력권에서 제외됨
+msg_rem_sphere_1;$x$이(가) $y$을(를) 세력권에서 제외했습니다
+msg_rem_sphere_2;$x$이(가) $y$을(를) $val$의 세력권에서 제외했습니다.
+msg_op_dec_title;평가 하락
+msg_op_dec_1;$x$이(가) $y$에 대한 $val$의 평가를 낮췄습니다.
+msg_op_inc_title;평가 상승
+msg_op_inc_1;$x$이(가) 자신에 대한 $y$의 평가를 높였습니다.
+msg_expel_title;고문 추방
+msg_expel_1;$y$이(가) $x$에게 $val$ 고문을 추방하게 했습니다.
+msg_ban_title;대사관 봉쇄
+msg_ban_1;$x$이(가) $y$ 주재 $val$ 대사관을 봉쇄했습니다.
+msg_ban_2;이는 $x$까지 지속됩니다.
+msg_discredit_title;평판 실추
+msg_discredit_1;$x$이(가) $y$로 하여금 $val$의 평판을 깎아내리게 했습니다.
+msg_discredit_2;이는 $x$까지 지속됩니다.
+msg_ally_call_accepted_title;동맹 이행
+msg_ally_call_accepted_1;$x$이(가) $y$ 동맹을 이행하고 $val$에 참가했습니다.
+msg_ally_call_declined_title;동맹 파기
+msg_ally_call_decline_1;$x$이(가) $y$ 동맹 요청을 거절하고 $val$에 참가하지 않았습니다.
+msg_alliance_declined_title;동맹 거절
+msg_alliance_declined_1;$x$이(가) $y$의 동맹 제안을 거절했습니다.
+msg_alliance_starts_title;동맹 체결
+msg_alliance_starts_1;$x$와(과) $y$이(가) 동맹을 맺었습니다.
+msg_alliance_ends_title;동맹 해체
+msg_alliance_ends_1;$x$와(과) $y$ 사이의 동맹이 종료되었습니다.
+msg_access_refused_title;군사 통행 거부
+msg_access_refused_1;$x$이(가) $y$에게 군사 통행권 부여를 거부했습니다.
+msg_access_granted_title;군사 통행 허가
+msg_access_granted_1;$x$이(가) $y$에게 군사 통행권을 부여했습니다.
+msg_access_canceled_a_title;군사 통행 회수
+msg_access_canceled_a_1;$x$이(가) $y$의 군사 통행권을 회수했습니다.
+msg_access_canceled_b_title;군사 통행 취소
+msg_access_canceled_b_1;$x$은(는) 더 이상 $y$에 대한 군사 통행권이 필요하지 않습니다.
+msg_wsub_start_title;전쟁 지원 시작
+msg_wsub_start_1;$x$이(가) $y$의 현재 전쟁 지원을 시작했습니다.
+msg_wsub_end_title;전쟁 지원 종료
+msg_wsub_end_1;$x$이(가) $y$의 현재 전쟁 지원을 중단했습니다.
+msg_new_gp_title;신흥 열강
+msg_new_gp_1;$x$은(는) 이제 열강입니다.
+msg_lost_gp_title;열강 상실
+msg_lost_gp_1;$x$은(는) 더 이상 열강이 아닙니다.
+msg_decision_title;결정 실행
+msg_decision_1;$x$이(가) $y$ 결정을 실행했습니다.
+msg_decision_2;효과:
+msg_rebels_win_title;반군 승리
+msg_rebels_win_1;$x$ 반군이 승리했습니다.
+msg_rebels_win_2;위신이 ?R$x$?! 감소했습니다
+msg_rebels_win_3;정체가 $x$(으)로 변경됨
+msg_rebels_win_4;정부 이념이 $x$(으)로 변경됨
+msg_rebels_win_5;모든 외교 관계 폐기
+msg_rebels_win_6;효과:
+msg_election_end_title;선거 종료
+msg_election_end_1;$x$가 $y$%의 표를 얻어 이제 집권당이 되었습니다.
+msg_election_end_2;$x$가 $y$%의 표를 얻어 이제 연립정부의 집권당이 되었습니다.
+msg_crisis_joffer_accepted;국가 편들기
+msg_crisis_joffer_accepted_1;$x$가 $y$의 조건을 받아들여 현재 위기에서 그들을 지지합니다.
+msg_crisis_joffer_rejected;국가 중립 유지
+msg_crisis_joffer_reject_1;$x$가 $y$ 측에 합류하라는 제안을 거절했습니다.
+msg_crisis_settled_title;위기 해결
+msg_crisis_settled_1;$x$가 $y$의 조건을 받아들여 현재 위기를 해결했습니다.
+msg_crisis_not_settled_title;위기 해결안 거부
+msg_crisis_not_settled_1;$x$가 $y$가 제안한 현재 위기 해결안을 거부했습니다.
+msg_crisis_escalates_title;위기 고조
+msg_crisis_escalates_1;현재 위기가 $x$(으)로 발전했습니다.
+msg_crisis_fizzle_title;위기 진정
+msg_crisis_fizzle_1;무르익던 이 위기는 국제적 관심을 끌지 못했습니다.
+msg_crisis_fizzle_2;무르익던 이 위기는 지지를 받지 못했습니다.
+msg_crisis_attacker_title;위기 지지
+msg_crisis_attacker_1;$x$가 현재 위기에 가담하여 공격 측을 지지합니다.
+msg_crisis_defender_title;위기 지지
+msg_crisis_defender_1;$x$가 현재 위기에 가담하여 방어 측을 지지합니다.
+msg_crisis_vol_join_title;국가 편들기
+msg_crisis_vol_join_1;$x$가 현재 위기에 가담하여 공격 측을 지지합니다.
+msg_crisis_vol_join_2;$x$가 현재 위기에 가담하여 방어 측을 지지합니다.
+msg_entered_automatic_alliance_title;자동 동맹 가입
+msg_entered_automatic_alliance_1;$x$가 우리가 관심 동맹으로 표시한 조약 때문에 자동으로 우리와 동맹을 맺었습니다.
+msg_chat_message_title;채팅 메시지
+msg_chat_message_1;$x$의 말:
+msg_chat_message_2;$x$
+msg_n_event_title;국가 이벤트
+msg_p_event_title;주 이벤트
+msg_m_event_title;중요 이벤트
+msg_revolt;반란 시
+msg_war_on_nation;선전포고를 받을 때
+msg_war_by_nation;선전포고할 때
+msg_wargoal_added;전쟁 목표 추가 시
+msg_siegeover_by_nation;우리를 포위할 때
+msg_siegeover_on_nation;그들을 포위할 때
+msg_colony_finished;식민 완료 시
+msg_reform_gained;개혁 시
+msg_reform_lost;개혁 상실 시
+msg_ruling_party_change;집권당 변경 시
+msg_upperhouse;상원 개편 시
+msg_electionstart;선거 시
+msg_electiondone;선거 종료 시
+msg_breakcountry;국가 파산 시
+msg_peace_accepted_from_nation;평화안을 수락할 때
+msg_peace_rejected_from_nation;평화안을 거부할 때
+msg_peace_accepted_by_nation;그들이 평화안을 수락할 때
+msg_peace_rejected_by_nation;그들이 평화안을 거부할 때
+msg_mobilization_start;총동원 시
+msg_mobilization_end;동원 해제 시
+msg_factory_complete;공장 완공 시
+msg_rr_complete;철도 완공 시
+msg_fort_complete;요새 완공 시
+msg_naval_base_complete;해군기지 완공 시
+msg_province_event;주 이벤트 발생 시
+msg_national_event;국가 이벤트 발생 시
+msg_major_event;중요 이벤트 발생 시
+msg_invention;발명 발견 시
+msg_tech;연구 완료 시
+msg_leader_dies;지휘관 사망 시
+msg_land_combat_starts_on_nation;육상 전투 시
+msg_naval_combat_starts_on_nation;해상 전투 시
+msg_land_combat_starts_by_nation;육상 전투 시
+msg_naval_combat_starts_by_nation;해상 전투 시
+msg_movement_finishes;이동 완료 시
+msg_decision;결정 완료 시
+msg_lose_great_power;열강 지위 상실 시
+msg_become_great_power;열강이 될 때
+msg_war_subsidies_start_by_nation;전쟁 보조금을 받을 때
+msg_war_subsidies_start_on_nation;전쟁 보조금을 제공할 때
+msg_war_subsidies_end_by_nation;보조금 수령 종료 시
+msg_war_subsidies_end_on_nation;전쟁 보조금 중단 시
+msg_reparations_start_by_nation;전쟁 배상금을 받을 때
+msg_reparations_start_on_nation;전쟁 배상금을 지불할 때
+msg_reparations_end_by_nation;전쟁 배상금 상환 완료 시
+msg_reparations_end_on_nation;전쟁 배상금 상환 완료 시
+msg_mil_access_start_by_nation;군사 통행권 획득 시
+msg_mil_access_start_on_nation;군사 통행권 부여 시
+msg_mil_access_end_by_nation;
+msg_mil_access_end_on_nation;
+msg_mil_access_declined_by_nation;
+msg_mil_access_declined_on_nation;
+msg_alliance_starts;
+msg_alliance_ends;
+msg_alliance_declined_by_nation;
+msg_alliance_declined_on_nation;
+msg_ally_called_accepted_by_nation;
+msg_ally_called_declined_by_nation;
+msg_discredit_by_nation;
+msg_ban_by_nation;
+msg_expell_by_nation;
+msg_discredit_on_nation;
+msg_ban_on_nation;
+msg_expell_on_nation;
+msg_increase_opinion;
+msg_decrease_opinion_by_nation;
+msg_decrease_opinion_on_nation;
+msg_rem_sphere_by_nation;
+msg_rem_sphere_on_nation;
+msg_removed_from_sphere;
+msg_add_sphere;우리나라가 세력권에 편입됨
+msg_added_to_sphere;우리나라가 세력권에 편입됨
+msg_increase_relation_by_nation;그들이 관계를 개선할 때
+msg_increase_relation_on_nation;우리가 관계를 개선할 때
+msg_decrease_relation_by_nation;그들이 관계를 악화시킬 때
+msg_decrease_relation_on_nation;우리가 관계를 악화시킬 때
+msg_join_war_by_nation;한 국가가 전쟁에 참전할 때
+msg_join_war_on_nation;우리가 전쟁에 참전할 때
+msg_gw_unlocked;세계 대전이 가능해질 때
+msg_war_becomes_great;전쟁이 세계 대전으로 발전할 때
+msg_cb_detected_on_nation;
+msg_cb_detected_by_nation;
+msg_crisis_join_offer_accepted_by_nation;
+msg_crisis_join_offer_declined_by_nation;
+msg_crisis_join_offer_accepted_from_nation;
+msg_crisis_join_offer_declined_from_nation;
+msg_crisis_resolution_accepted;위기 해결안이 수락될 때
+msg_crisis_becomes_war;위기가 시작될 때
+msg_crisis_resolution_declined_from_nation;
+msg_crisis_starts;
+msg_crisis_attacker_backer;
+msg_crisis_defender_backer;
+msg_crisis_fizzle;
+msg_war_join_by;
+msg_war_join_on;
+msg_cb_fab_finished;
+msg_cb_fab_cancelled;
+msg_crisis_voluntary_join;
+msg_bankruptcy_title;파산
+amsg_bankruptcy;한 국가가 파산할 때
+msg_bankruptcy_1;$x$ 파산
+message_name_text;메시지
+msg_for_us;대상: 우리나라
+msg_for_interesting;관심 국가
+msg_for_other;기타 국가
+msg_handling_ignore;이 메시지 무시
+msg_handling_log;이 메시지 기록
+msg_handling_sound;이 메시지를 소리와 함께 기록
+msg_handling_popup;메시지 팝업
+msg_handling_pause;메시지를 팝업하고 닫을 때까지 게임 일시정지
+amsg_revolt;반란 발생
+amsg_war_on_nation;이 국가에 선전포고
+amsg_war_by_nation;선전포고
+amsg_wargoal_added;전쟁 목표 추가
+amsg_siegeover_by_nation;포위 완료
+amsg_siegeover_on_nation;이 주 점령
+amsg_colony_finished;식민지 완성
+amsg_reform_gained;개혁 통과
+amsg_reform_lost;개혁 상실
+amsg_ruling_party_change;집권당 변경
+amsg_upperhouse;상원 개편
+amsg_electionstart;전국 선거
+amsg_electiondone;선거 종료
+amsg_breakcountry;반란군 요구
+amsg_peace_accepted_from_nation;평화 협정이 수락됨
+amsg_peace_rejected_from_nation;평화 협정이 거절됨
+amsg_peace_accepted_by_nation;평화 협정 수락
+amsg_peace_rejected_by_nation;평화 협정 거절
+amsg_mobilization_start;총동원
+amsg_mobilization_end;동원 해제
+amsg_factory_complete;공장 완공
+amsg_rr_complete;철도 완공
+amsg_fort_complete;요새 완공
+amsg_naval_base_complete;해군 기지 완공
+amsg_province_event;주 이벤트 발생
+amsg_national_event;국가 이벤트 발생
+amsg_major_event;주요 이벤트 발생
+amsg_invention;발명 발견
+amsg_tech;연구 완료
+amsg_leader_dies;장군 사망
+amsg_land_combat_starts_on_nation;우리 육군이 공격받음
+amsg_naval_combat_starts_on_nation;우리 해군이 공격받음
+amsg_land_combat_starts_by_nation;적군 공격
+amsg_naval_combat_starts_by_nation;해전 발생
+amsg_movement_finishes;부대 대기
+amsg_decision;결정 시행
+amsg_lose_great_power;열강 지위 상실
+amsg_become_great_power;열강이 됨
+amsg_war_subsidies_start_by_nation;전쟁 보조금
+amsg_war_subsidies_start_on_nation;전쟁 보조금을 받음
+amsg_war_subsidies_end_by_nation;전쟁 보조금 중단
+amsg_war_subsidies_end_on_nation;전쟁 보조금이 중단됨
+amsg_reparations_start_by_nation;배상금 지급 시작
+amsg_reparations_start_on_nation;배상금 획득
+amsg_reparations_end_by_nation;배상금 지급 중단
+amsg_reparations_end_on_nation;배상금 지급이 중단됨
+amsg_mil_access_start_by_nation;군사 통행권 부여
+amsg_mil_access_start_on_nation;군사 통행권 획득
+amsg_mil_access_end_by_nation;군사 통행권 회수
+amsg_mil_access_end_on_nation;군사 통행권이 회수됨
+amsg_mil_access_declined_by_nation;군사 통행 요청이 거절됨
+amsg_mil_access_declined_on_nation;군사 통행 요청 거절
+amsg_alliance_starts;동맹 체결
+amsg_alliance_ends;동맹 파기
+amsg_alliance_declined_by_nation;동맹 제안 거절
+amsg_alliance_declined_on_nation;동맹이 거부됨
+amsg_ally_called_accepted_by_nation;동맹 이행
+amsg_ally_called_declined_by_nation;동맹 파기
+amsg_discredit_by_nation;타국 비방
+amsg_ban_by_nation;타국 대사관 봉쇄
+amsg_expell_by_nation;타국 고문 추방
+amsg_discredit_on_nation;비방당함
+amsg_ban_on_nation;대사관이 봉쇄됨
+amsg_expell_on_nation;고문이 추방됨
+amsg_increase_opinion;평가 상승
+amsg_decrease_opinion_by_nation;평가 하락
+amsg_decrease_opinion_on_nation;평가가 하락함
+amsg_rem_sphere_by_nation;타국을 세력권에서 제외
+amsg_rem_sphere_on_nation;타국을 세력권에서 제외
+amsg_removed_from_sphere;세력권에서 제외됨
+amsg_add_sphere;타국을 세력권에 편입
+amsg_added_to_sphere;세력권에 편입됨
+amsg_increase_relation_by_nation;관계 개선
+amsg_increase_relation_on_nation;관계가 개선됨
+amsg_decrease_relation_by_nation;관계 악화
+amsg_decrease_relation_on_nation;관계가 악화됨
+amsg_join_war_by_nation;참전
+amsg_join_war_on_nation;적이 참전
+amsg_gw_unlocked;세계 대전 가능
+amsg_war_becomes_great;세계 대전!
+amsg_cb_detected_on_nation;명분이 발각됨
+amsg_cb_detected_by_nation;명분 정당화가 발각됨
+amsg_crisis_join_offer_accepted_by_nation;위기 참가 제안 수락
+amsg_crisis_join_offer_declined_by_nation;위기 참가 제안 거절
+amsg_crisis_join_offer_accepted_from_nation;위기 참가 제안이 수락됨
+amsg_crisis_join_offer_declined_from_nation;위기 참가 제안이 거절됨
+amsg_crisis_resolution_accepted;위기 해결안 수락
+amsg_crisis_becomes_war;위기가 전쟁이 됨
+amsg_crisis_resolution_declined_from_nation;위기 해결안이 거절됨
+amsg_crisis_starts;새 위기
+amsg_crisis_attacker_backer;열강이 위기 공격측을 지지
+amsg_crisis_defender_backer;열강이 위기 방어측을 지지
+amsg_crisis_fizzle;위기가 관심을 받지 못해 소멸
+amsg_war_join_by;참전
+amsg_war_join_on;적이 참전
+amsg_cb_fab_finished;명분 정당화 성공
+amsg_cb_fab_cancelled;명분 정당화 취소
+amsg_crisis_voluntary_join;무조건 위기에 참가
+amsg_army_built;육군 창설
+amsg_navy_built;해군 창설
+amsg_bankruptcy;국가 파산
+amsg_entered_automatic_alliance;자동 동맹
+amsg_chat_message;채팅 메시지
+amsg_embargo;해당 국가가 금수조치를 선포함
+msg_embargo_issued_title;금수조치 선포
+msg_embargo_issued;?Y$y$?!가 ?Y$x$?!에 금수조치를 선포했습니다.
+msg_embargo_lifted_title;금수조치 해제
+msg_embargo_lifted;?Y$y$?!가 ?Y$x$?!에 대한 금수조치를 해제했습니다.
+msg_free_trade_agreement_signed_title;자유무역협정 체결
+msg_free_trade_agreement_signed; 우리 $x$와 $y$는 자유무역협정을 체결하여 상호 관세를 철폐합니다.

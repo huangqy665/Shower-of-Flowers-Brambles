@@ -104,9 +104,9 @@ country_event = {
 #Ô¥ÍîËÕ±ßÇø
 country_event = {
 	id = 1000039
-	title = "CHC_Event_1000039"
-	subtitle = "N4A_subtitle"
-	desc = "CHC_Event_1000039_desc"
+	title = "yuwansu_army"
+	subtitle = "yuwansu_army_subtitle"
+	desc = "yuwansu_army_desc"
 	picture = "SF_CommunistChina_Army3"
 	trigger = {
 		tag = CHC
@@ -120,7 +120,7 @@ country_event = {
 		months = 1
 	}
 	option = {
-		name = "CHC_Event_1000039_option"
+		name = "yuwansu_army_option"
 		set_country_flag = yuwansu_army
 		load_oob = "CHC_13.txt"
 		ai_chance = { factor = 100 }
@@ -359,7 +359,7 @@ fire_only_once = yes
 		days = 1
 	}
 	option = {
-		name = "CHC_Event_201907042_option"
+		name = "chc_jirecha3_option"
 		manpower = 5
 		load_oob = "CHC_SBLN.txt"
 		ai_chance = { factor = 100 }
@@ -388,7 +388,7 @@ fire_only_once = yes
 		days = 1
 	}
 	option = {
-		name = "CHC_Event_201907043_option"
+		name = "chc_jirecha4_option"
 		manpower = 5
 		load_oob = "CHC_EB.txt"
 		ai_chance = { factor = 100 }
@@ -418,7 +418,7 @@ has_global_flag = Guide_for_guerrilla
 		days = 1
 	}
 	option = {
-		name = "CHC_Event_201907044_option"
+		name = "chc_jirecha5__option"
 		manpower = 5
 		load_oob = "CHC_SN.txt"
 		load_oob = "CHC_ZD.txt"
@@ -450,7 +450,7 @@ has_global_flag = Guide_for_guerrilla
 		days = 1
 	}
 	option = {
-		name = "CHC_Event_201907045_option"
+		name = "chc_jirecha6_option"
 		manpower = 5
 		load_oob = "CHC_HLFLJ.txt"
 		ai_chance = { factor = 100 }
@@ -474,7 +474,7 @@ has_global_flag = Guide_for_guerrilla
 		days = 1
 	}
 	option = {
-		name = "CHC_Event_201907046_option"
+		name = "chc_jirecha7_option"
 		manpower = 5
 		load_oob = "CHC_QY.txt"
 		ai_chance = { factor = 100 }

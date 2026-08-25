@@ -1,6 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\events",
+    "\\localisation"
   ],
+  "SelectedNode": "\\localisation\\SF_Event1.csv",
   "PreviewInSolutionExplorer": false
 }

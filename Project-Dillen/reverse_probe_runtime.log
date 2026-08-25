@@ -1,0 +1,12 @@
+RUN id=2 passed=true code= generation=10 barrier=6 player=CHI message=
+RESULT id=hoi3.query.same_generation status=passed evidence=proven duration_us=664 message=snapshot_id=1,generation=10,player=CHI,queries=6
+RESULT id=hoi3.objects.unit_leader_generation status=passed evidence=confirmed duration_us=1001 message=country_index=58,units=177,assigned_units=177,unassigned_units=0,active_leaders=133,reserve_leaders=336,snapshot_id=2,generation_baseline=captured
+RUN id=3 passed=true code= generation=18 barrier=12 player=CHI message=
+RESULT id=hoi3.query.same_generation status=passed evidence=proven duration_us=652 message=snapshot_id=3,generation=18,player=CHI,queries=6
+RESULT id=hoi3.objects.unit_leader_generation status=passed evidence=confirmed duration_us=680 message=country_index=58,units=177,assigned_units=177,unassigned_units=0,active_leaders=133,reserve_leaders=336,snapshot_id=4,generation_baseline=captured
+RUN id=2 passed=true code= generation=10 barrier=6 player=CHI message=
+RESULT id=hoi3.query.same_generation status=passed evidence=proven duration_us=1069 message=snapshot_id=1,save_generation=1,generation=10,player=CHI,queries=6
+RESULT id=hoi3.objects.unit_leader_generation status=passed evidence=confirmed duration_us=1111 message=country_index=58,units=177,assigned_units=177,unassigned_units=0,active_leaders=133,reserve_leaders=336,snapshot_id=2,save_generation=1,generation_baseline=captured
+RUN id=3 passed=true code= generation=15 barrier=10 player=CHI message=
+RESULT id=hoi3.query.same_generation status=passed evidence=proven duration_us=571 message=snapshot_id=3,save_generation=2,generation=15,player=CHI,queries=6
+RESULT id=hoi3.objects.unit_leader_generation status=passed evidence=proven duration_us=2293 message=country_index=58,units=177,assigned_units=177,unassigned_units=0,active_leaders=134,reserve_leaders=336,snapshot_id=4,save_generation=2,previous_resolved=3,previous_address_changed=3,previous_missing=0

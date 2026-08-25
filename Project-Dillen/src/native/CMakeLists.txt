@@ -1,0 +1,22 @@
+new_core_add_component(
+    new_core_native
+    SOURCES
+        native_access_core_module.cpp
+        native_effect_bridge.cpp
+        native_effect_core_module.cpp
+        native_object_resolver.cpp
+        native_query_service.cpp
+        native_save_load_barrier.cpp
+        native_save_load_core_module.cpp
+        native_access_core_module.h
+        native_effect_bridge.h
+        native_effect_core_module.h
+        native_object_resolver.h
+        native_query_service.h
+        native_save_load_barrier.h
+        native_save_load_core_module.h
+    PUBLIC_LINKS
+        new_core_core
+        new_core_capabilities
+        new_core_engine
+)

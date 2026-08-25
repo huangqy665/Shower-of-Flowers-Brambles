@@ -1,0 +1,105 @@
+#pragma once
+
+#include "native_types.hpp"
+
+#include <stdint.h>
+#include <vector>
+#include <optional>
+#include <map>
+
+namespace simple_fs {
+class file;
+class directory;
+class unopened_file;
+class file_system;
+
+struct file_contents {
+	char const* data = nullptr;
+	uint32_t file_size = 0;
+};
+} // namespace simple_fs
+
+#ifdef _WIN64
+// WINDOWS typedefs go here
+#include "simple_fs_types_win.hpp"
+
+#else
+// LINUX typedefs go here
+#include "simple_fs_types_nix.hpp"
+#endif
+
+namespace simple_fs {
+// general file system functions
+// root paths should include the trailing separator
+void reset(file_system& fs);
+void add_root(file_system& fs, native_string_view root_path);
+// will be added relative to the location that the executable file exists in (but it is stored as an absolute path)
+void add_relative_root(file_system& fs, native_string_view root_path);
+directory get_root(file_system const& fs);
+
+// functions for saving and restoring its state
+native_string extract_state(file_system const& fs);
+void restore_state(file_system& fs, native_string_view data);
+
+// directory functions
+std::vector<unopened_file> list_files(directory const& dir, native_char const* extension);
+std::vector<directory> list_subdirectories(directory const& dir);
+std::optional<file> open_file(directory const& dir, native_string_view file_name);
+std::optional<file> open_file(directory const& dir, std::vector<native_string_view> file_names);
+std::optional<unopened_file> peek_file(directory const& dir, native_string_view file_name);
+void add_ignore_path(file_system& fs, native_string_view replaced_path);
+std::vector<native_string> list_roots(file_system const& fs);
+bool is_ignored_path(file_system const& fs, native_string_view path);
+
+directory open_directory(directory const& dir, native_string_view directory_name);
+native_string get_full_name(directory const& f);
+
+native_string get_mod_save_dir_name(const simple_fs::file_system& fs);
+
+
+// write_file will clear an existing file, if it exists, will create a new file if it does not
+void write_file(directory const& dir, native_string_view file_name, char const* file_data, uint32_t file_size);
+void append_file(directory const& dir, native_string_view file_name, char const* file_data, uint32_t file_size);
+
+
+// unopened file functions
+std::optional<file> open_file(unopened_file const& f);
+native_string get_full_name(unopened_file const& f);
+native_string get_file_name(unopened_file const& f);
+
+// opened file functions
+file_contents view_contents(file const& f);
+native_string get_full_name(file const& f);
+
+// functions that operate outside of a filesystem object
+directory get_or_create_save_game_directory(native_string mod_dir);
+directory get_or_create_templates_directory();
+directory get_or_create_gamerules_directory();
+directory get_or_create_oos_directory();
+directory get_or_create_scenario_directory();
+directory get_or_create_settings_directory();
+directory get_or_create_data_dumps_directory();
+directory get_or_create_root_documents();
+
+// necessary for reading paths out of data from inside older paradox files:
+// even on linux, this must do something, because win1250 isn't ascii or utf8
+native_string win1250_to_native(std::string_view data_in);
+
+// necessary for reading paths out of data from inside files we may create:
+// on linux, this just has to call the string constructor
+ native_string utf8_to_native(std::string_view data_in);
+std::string utf16_to_utf8(std::u16string_view data_in);
+std::string native_to_utf8(native_string_view data_in);
+std::u16string utf8_to_utf16(std::string_view data_in);
+native_string utf16_to_native(std::u16string_view str);
+
+std::string remove_double_backslashes(std::string_view data_in); // unfortunately, paradox decided to escape their paths ...
+native_string correct_slashes(native_string_view path);
+native_string remove_file_extension(const native_string& str);
+void fileseperators_from_native_to_standard(std::vector<char>& input); // in-place conversion of file seperators to the "standard" one to be stored in the scenario file. Currently windows seperator "\" is the standard.
+void fileseperators_from_standard_to_native(std::vector<char>& input); // in-place conversion of file seperators from the "standard" which stored in the scenario file, to the native one used by the OS. Currently windows seperator "\" is the standard.
+std::vector<char> fileseperators_from_native_to_standard_copy(const std::vector<char>& input);
+std::vector<char> fileseperators_from_standard_to_native_copy(const std::vector<char>& input);
+// Standardizes newlines in-place by removing all \r's in Windows, and doing nothing in Nix. The purpose is to produce identical string output in scenario generation. Mainly for lua scripts
+void standardize_newlines(std::string& input);
+} // namespace simple_fs

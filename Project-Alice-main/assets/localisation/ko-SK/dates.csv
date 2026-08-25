@@ -1,0 +1,11 @@
+#Powered_by_ParaTranz;;;;;;;;;;;;;x
+#CODE;ENGLISH;FRENCH;GERMAN;;SPANISH;;;;;;;;x
+date_string_ymd;$year$년$month$$day$일
+date_is_leap;?Y윤년?!
+date_is_not_leap;?Y평년?
+topbar_date_season_nh;북반구 계절: ?Y$x$?!
+topbar_date_season_sh;남반구 계절: ?Y$x$?!
+spring;봄
+summer;여름
+autumn;가을
+winter;겨울

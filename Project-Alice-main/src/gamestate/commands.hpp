@@ -1,0 +1,1242 @@
+#pragma once
+#include "dcon_generated_ids.hpp"
+#include "common_types.hpp"
+#include "events.hpp"
+#include "diplomatic_messages_containers.hpp"
+#include "constants_dcon.hpp"
+#include "constants.hpp"
+#include "container_types.hpp"
+#include "commands_containers.hpp"
+#include "military_constants.hpp"
+#include "network_containers.hpp"
+
+
+namespace command {
+
+enum class command_type : uint8_t {
+	invalid = 0,
+	change_nat_focus = 1,
+	start_research = 2,
+	make_leader = 3,
+	begin_province_building_construction = 4,
+	increase_relations = 5,
+	decrease_relations = 6,
+	begin_factory_building_construction = 7,
+	begin_naval_unit_construction = 8,
+	cancel_naval_unit_construction = 9,
+	change_factory_settings = 10,
+	delete_factory = 11,
+	make_vassal = 12,
+	release_and_play_nation = 13,
+	war_subsidies = 14,
+	cancel_war_subsidies = 15,
+	change_budget = 16,
+	start_election = 17,
+	change_influence_priority = 18,
+	discredit_advisors = 19,
+	expel_advisors = 20,
+	ban_embassy = 21,
+	increase_opinion = 22,
+	decrease_opinion = 23,
+	add_to_sphere = 24,
+	remove_from_sphere = 25,
+	upgrade_colony_to_state = 26,
+		invest_in_colony = 27,
+		abandon_colony = 28,
+		finish_colonization = 29,
+		intervene_in_war = 30,
+		suppress_movement = 31,
+		civilize_nation = 32,
+		appoint_ruling_party = 33,
+		change_issue_option = 34,
+		change_reform_option = 35,
+		become_interested_in_crisis = 36,
+		take_sides_in_crisis = 37,
+		begin_land_unit_construction = 38,
+		cancel_land_unit_construction = 39,
+		change_stockpile_settings = 40,
+		take_decision = 41,
+		make_n_event_choice = 42,
+		make_f_n_event_choice = 43,
+		make_p_event_choice = 44,
+		make_f_p_event_choice = 45,
+		fabricate_cb = 46,
+		cancel_cb_fabrication = 47,
+		ask_for_military_access = 48,
+		ask_for_alliance = 49,
+		call_to_arms = 50,
+		respond_to_diplomatic_message = 51,
+		cancel_military_access = 52,
+		cancel_alliance = 53,
+		cancel_given_military_access = 54,
+		declare_war = 55,
+		add_war_goal = 56,
+		start_peace_offer = 58,
+		add_peace_offer_term = 59,
+		send_peace_offer = 60,
+		move_army = 61,
+		move_navy = 62,
+		embark_army = 63,
+		merge_armies = 64,
+		merge_navies = 65,
+		split_army = 66,
+		split_navy = 67,
+		delete_army = 68,
+		delete_navy = 69,
+		naval_retreat = 72,
+		land_retreat = 73,
+		start_crisis_peace_offer = 74,
+		invite_to_crisis = 75,
+		add_wargoal_to_crisis_offer = 76,
+		send_crisis_peace_offer = 77,
+		change_admiral = 78,
+		change_general = 79,
+		toggle_mobilization = 80,
+		give_military_access = 81,
+		set_rally_point = 82,
+		save_game = 83,
+		cancel_factory_building_construction = 84,
+		disband_undermanned = 85,
+		toggle_hunt_rebels = 88,
+		toggle_select_province = 89,
+		toggle_immigrator_province = 90,
+		state_transfer = 91,
+		release_subject = 92,
+		enable_debt = 93,
+		move_capital = 94,
+		toggle_unit_ai_control = 95,
+		toggle_mobilized_is_ai_controlled = 96,
+		toggle_interested_in_alliance = 97,
+		pbutton_script = 98,
+		nbutton_script = 99,
+		set_factory_type_priority = 100,
+		crisis_add_wargoal = 101,
+		change_land_unit_type = 102,
+		take_province = 103,
+		grant_province = 104,
+		ask_for_free_trade_agreement = 105,
+		switch_embargo_status = 106,
+		revoke_trade_rights = 107,
+		toggle_local_administration = 108,
+		stop_army_movement = 109,
+		stop_navy_movement = 110,
+		command_units = 111,
+		give_back_units = 112,
+		change_game_rule_setting = 113,
+		toggle_production_directive = 114,
+		load_saved_game = 115,
+		change_naval_unit_type = 116,
+
+
+		// network
+		notify_player_timeout = 233,// Sent to every client in the lobby to notify a client has timed out. Is also sent to the timed-out client socket, incase they get can receive it.
+		notify_oos_gamestate = 234, // sent from Client to Host, with the clients OOS gamestate for the host to compare, and generate report from. NOT SAFE for use to untrusted clients as there is no safety in seralizing the binary blob which the client sends.
+		notify_mp_data = 235, // notify client that MP data (not save) is here and should be loaded. MP data is data which needs to be sent to the client from host, but dosent make sense to store in the save (eg. player data and which nations are on ai)
+		resync_lobby = 236,
+		notify_player_ban = 237,
+		notify_player_kick = 238,
+		notify_player_picks_nation = 239,
+		notify_player_joins = 240,
+		notify_player_leaves = 241,
+		notify_player_oos = 242,
+		notify_save_loaded = 243,
+		notify_start_game = 244, // for synchronized "start game"
+		notify_stop_game = 245, // "go back to lobby"
+		notify_pause_game = 246, // visual aid mostly
+		notify_reload = 247,
+		advance_tick = 248,
+		chat_message = 249,
+		network_inactivity_ping = 250,
+		notify_player_fully_loaded = 251, // client sends this to the host to notify that they are fully loaded in, and host transmits it to all clients
+		notify_player_is_loading = 252, // host sends this to all clients to notify that a specific client has begun loading
+		change_ai_nation_state = 253, // host sends this to new clients to inform them of no-ai nations, which arent players. 
+
+	// console cheats
+	network_populate = 254,
+	console_command = 255,
+};
+struct load_save_game_data {
+	bool is_new_game;
+	uint8_t filename_length;
+	const char* filename() const {
+		return reinterpret_cast<const char*>(&filename_length + 1);
+	}
+};
+
+struct pbutton_data {
+	dcon::gui_def_id button;
+	dcon::province_id id;
+};
+struct nbutton_data {
+	dcon::gui_def_id button;
+	dcon::nation_id id;
+};
+
+struct national_focus_data {
+	dcon::state_instance_id target_state;
+	dcon::national_focus_id focus;
+};
+
+struct start_research_data {
+	dcon::technology_id tech;
+};
+
+struct make_leader_data {
+	bool is_general;
+};
+
+struct save_game_data {
+	bool and_quit;
+	uint8_t filename_len;
+	const char* filename() const {
+		return reinterpret_cast<const char*>(&filename_len + 1);
+	}
+};
+
+struct province_building_data {
+	dcon::province_id location;
+	economy::province_building_type type;
+};
+
+struct factory_building_data {
+	dcon::province_id location;
+	dcon::factory_type_id type;
+	bool is_upgrade;
+	dcon::factory_type_id refit_target;
+};
+
+struct diplo_action_data {
+	dcon::nation_id target;
+};
+
+struct naval_unit_construction_data {
+	dcon::province_id location;
+	dcon::unit_type_id type;
+	dcon::province_id template_province;
+};
+
+struct rally_point_data {
+	dcon::province_id location;
+	bool naval = false;
+	bool enable = false;
+};
+
+struct land_unit_construction_data {
+	dcon::province_id location;
+	dcon::culture_id pop_culture;
+	dcon::unit_type_id type;
+	dcon::province_id template_province;
+};
+
+struct factory_data {
+	dcon::factory_id id;
+	uint8_t priority;
+	bool subsidize;
+};
+
+struct tag_target_data {
+	dcon::national_identity_id ident;
+};
+
+struct influence_action_data {
+	dcon::nation_id influence_target;
+	dcon::nation_id gp_target;
+};
+
+struct influence_priority_data {
+	dcon::nation_id influence_target;
+	uint8_t priority;
+};
+
+struct generic_location_data {
+	dcon::province_id prov;
+};
+
+struct generic_state_definition_data {
+	dcon::state_definition_id state_def;
+};
+
+struct cheat_location_data {
+	dcon::province_id prov;
+	dcon::nation_id n;
+};
+
+struct movement_data {
+	dcon::issue_option_id iopt;
+	dcon::national_identity_id tag;
+};
+
+struct political_party_data {
+	dcon::political_party_id p;
+};
+
+struct reform_selection_data {
+	dcon::reform_option_id r;
+};
+
+struct issue_selection_data {
+	dcon::issue_option_id r;
+};
+
+struct budget_settings_data {
+	int8_t education_spending;
+	int8_t military_spending;
+	int8_t administrative_spending;
+	int8_t social_spending;
+	int8_t land_spending;
+	int8_t naval_spending;
+	int8_t construction_spending;
+	int8_t poor_tax;
+	int8_t middle_tax;
+	int8_t rich_tax;
+	int8_t tariffs_import;
+	int8_t tariffs_export;
+	int8_t domestic_investment;
+	int8_t overseas;
+	int8_t subsidies;
+};
+
+struct war_target_data {
+	dcon::war_id war;
+	bool for_attacker;
+};
+
+struct crisis_join_data {
+	bool join_attackers;
+};
+
+struct stockpile_settings_data {
+	float amount;
+	dcon::commodity_id c;
+	bool draw_on_stockpiles;
+};
+
+struct decision_data {
+	dcon::decision_id d;
+};
+
+struct message_data {
+	dcon::nation_id from;
+	diplomatic_message::type type;
+	bool accept;
+};
+
+struct state_transfer_data {
+	dcon::nation_id target;
+	dcon::state_definition_id state;
+};
+
+struct call_to_arms_data {
+	dcon::nation_id target;
+	dcon::war_id war;
+	bool automatic_call = false;
+};
+
+struct cb_fabrication_data {
+	dcon::nation_id target;
+	dcon::cb_type_id type;
+	dcon::state_definition_id target_state;
+};
+
+struct new_war_data {
+	dcon::nation_id target;
+	dcon::state_definition_id cb_state;
+	dcon::national_identity_id cb_tag;
+	dcon::nation_id cb_secondary_nation;
+	dcon::cb_type_id primary_cb;
+	bool call_attacker_allies;
+	bool run_conference;
+};
+
+struct new_war_goal_data {
+	dcon::nation_id target;
+	dcon::state_definition_id cb_state;
+	dcon::national_identity_id cb_tag;
+	dcon::nation_id cb_secondary_nation;
+	dcon::war_id war;
+	dcon::cb_type_id cb_type;
+};
+
+struct crisis_invitation_data {
+	dcon::nation_id invited;
+	dcon::nation_id target;
+	dcon::state_definition_id cb_state;
+	dcon::national_identity_id cb_tag;
+	dcon::nation_id cb_secondary_nation;
+	dcon::cb_type_id cb_type;
+};
+
+struct new_offer_data {
+	dcon::nation_id target;
+	dcon::war_id war;
+	bool is_concession;
+};
+struct offer_wargoal_data {
+	dcon::wargoal_id wg;
+};
+
+struct army_movement_data {
+	dcon::army_id a;
+	dcon::province_id dest;
+	bool reset;
+	military::special_army_order special_order;
+};
+
+struct split_army_data {
+	fixed_bool_t select_both_armies; // if true will select both the existing and the new army as player. If false selects only the new army
+	dcon::army_id army;
+	uint16_t regiment_count;
+	const dcon::regiment_id* regiments() const {
+		return reinterpret_cast<const dcon::regiment_id*>(this + 1);
+	}
+};
+
+struct split_navy_data {
+	fixed_bool_t select_both_navies; // if true will select both the existing and the new navy as player. If false selects only the new navy
+	dcon::navy_id navy;
+	uint16_t ship_count;
+	const dcon::ship_id* ships() const {
+		return reinterpret_cast<const dcon::ship_id*>(this + 1);
+	}
+};
+
+struct navy_movement_data {
+	dcon::navy_id n;
+	dcon::province_id dest;
+	bool reset;
+};
+
+struct merge_army_data {
+	dcon::army_id a;
+	dcon::army_id b;
+};
+
+struct merge_navy_data {
+	dcon::navy_id a;
+	dcon::navy_id b;
+};
+
+struct new_general_data {
+	dcon::army_id a;
+	dcon::leader_id l;
+};
+
+struct new_admiral_data {
+	dcon::navy_id a;
+	dcon::leader_id l;
+};
+
+struct retreat_from_naval_battle_data {
+	dcon::navy_id navy;
+	dcon::province_id dest;
+};
+
+struct land_battle_data {
+	dcon::army_id army;
+	dcon::province_id dest;
+	military::retreat_type retreat_type;
+};
+
+constexpr inline size_t num_packed_units = 10;
+
+struct split_regiments_data {
+	dcon::regiment_id regs[num_packed_units];
+};
+struct split_ships_data {
+	dcon::ship_id ships[num_packed_units];
+};
+
+struct change_land_unit_type_data {
+	dcon::unit_type_id new_type;
+	uint16_t unit_count;
+	const dcon::regiment_id* regiments() const {
+		return reinterpret_cast<const dcon::regiment_id*>(this + 1);
+	}
+
+};
+
+struct change_naval_unit_type_data {
+	dcon::unit_type_id new_type;
+	uint16_t unit_count;
+	const dcon::ship_id* ships() const {
+		return reinterpret_cast<const dcon::ship_id*>(this + 1);
+	}
+
+};
+
+struct cheat_data {
+	float value;
+};
+struct cheat_data_int {
+	int32_t value;
+};
+struct cheat_event_data {
+	int32_t value;
+	dcon::nation_id as;
+};
+
+struct cheat_invention_data_t {
+	dcon::invention_id invention;
+};
+
+struct set_factory_priority_data {
+	dcon::factory_type_id factory;
+	float value;
+};
+
+struct chat_message_data {
+	network::chat_message_targets targets;
+	uint16_t msg_len = 0;
+	const char* body() const {
+		return reinterpret_cast<const char*>(this + 1);
+	}
+};
+
+struct nation_pick_data {
+	dcon::nation_id target;
+};
+
+struct advance_tick_data {
+	sys::checksum_key checksum;
+	int32_t speed;
+	sys::date date;
+};
+
+struct notify_joins_data {
+	sys::player_password_raw player_password;
+	sys::player_name player_name;
+	dcon::nation_id player_nation;
+	bool needs_loading;
+	dcon::client_id client_id;
+};
+struct notify_save_loaded_data {
+	sys::checksum_key checksum;
+	dcon::nation_id target;
+	uint32_t length;
+	const uint8_t* save_data() const {
+		return reinterpret_cast<const uint8_t*>(&length + 1);
+	}
+
+};
+struct notify_reload_data {
+	sys::checksum_key checksum;
+};
+struct notify_leaves_data {
+	bool make_ai;
+};
+//struct notify_player_fully_loaded_data {
+//	sys::player_name name;
+//};
+//struct notify_player_is_loading_data {
+//	dcon::mp_player_id loading_player;
+//};
+struct notify_player_ban_data {
+	bool make_ai;
+};
+struct notify_player_kick_data {
+	bool make_ai;
+};
+struct notify_player_timeout_data {
+	bool make_ai;
+};
+struct notify_oos_gamestate_data {
+	uint32_t size;
+	const uint8_t* gamestate_data() const {
+		return reinterpret_cast<const uint8_t*>(&size + 1);
+	}
+};
+//struct notify_player_oos_data {
+//	uint32_t size;
+//	uint8_t* variable_data() {
+//		return reinterpret_cast<uint8_t*>(&size + 1);
+//	}
+//
+//
+//};
+struct change_ai_nation_state_data {
+	bool no_ai;
+};
+
+struct stop_army_movement_data {
+	dcon::army_id army;
+};
+
+struct stop_navy_movement_data {
+	dcon::navy_id navy;
+};
+
+struct command_units_data {
+	dcon::nation_id target;
+};
+struct change_gamerule_setting_data {
+	dcon::gamerule_id gamerule;
+	uint8_t setting;
+};
+
+struct notify_mp_data_data {
+	uint32_t data_len = 0;
+	const uint8_t* mp_data() const {
+		return reinterpret_cast<const uint8_t*>(&data_len + 1);
+	}
+};
+struct production_directive_data {
+	dcon::state_instance_id for_state;
+	dcon::production_directive_id id;
+};
+
+
+
+
+bool notify_oos_gamestate_is_host_receive_command(const sys::state& state);
+
+
+void pre_execution_broadcast_modifications_notify_save_loaded(sys::state& state, command_data& command);
+void pre_execution_broadcast_modifications_notify_mp_data(sys::state& state, command_data& command);
+
+
+struct command_handler {
+	// These are used in the command_type_handlers for cases of simple true/false being required
+	static bool false_is_host_broadcast_command(const sys::state& state) {
+		return false;
+	}
+	static bool true_is_host_broadcast_command(const sys::state& state) {
+		return true;
+	}
+	static bool false_is_host_receive_command(const sys::state& state) {
+		return false;
+	}
+	static bool true_is_host_receive_command(const sys::state& state) {
+		return true;
+	}
+
+	
+	uint32_t min_payload_size = 0;
+	uint32_t max_payload_size = 0;
+	bool (*is_host_receive_command)(const sys::state& state) = nullptr; // This function is run to determine if the command type is a valid command for the host to receive from clients. Should NOT be nullptr, it is only defaulted to it to satisfy constexpr requirements
+	bool (*is_host_broadcast_command)(const sys::state& state) = nullptr; // This function is run to determine if the command type should be broadcasted by the host to clients after execution. Should NOT be nullptr, it is only defaulted to it to satisfy constexpr requirements
+	void (*pre_execution_broadcast_modifications)(sys::state& state, command_data& command) = nullptr; // If not a nullptr, this function is will be run before the *host* executes the command and broadcasts it. This will always be executed if not a nullptr. Eg used for loading save data into the command before it is broadcast to clients 
+
+};
+
+constexpr uint32_t max_mp_state_size = 500000000; // max 500 MB for the entire MP state
+constexpr uint32_t max_save_size = 32000000; // max 32 MB for entire save
+constexpr uint32_t max_mp_data_size = 5000000; // max 5 MB for mp data
+constexpr uint32_t max_regiment_count = 1000; // theoretical max regiments to be able to be sent in a single command
+constexpr uint32_t max_ship_count = 1000; // theoretical max ships to be able to be sent in a single commnad
+
+// Defines max and min sizes for each command, aswell as handlers for certain functions
+constexpr enum_array<command_type, command_handler> command_type_handlers = {
+	{command_type::change_nat_focus, command_handler{sizeof(command::national_focus_data), sizeof(command::national_focus_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command  } },
+	{command_type::start_research, command_handler{ sizeof(command::start_research_data), sizeof(command::start_research_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::make_leader, command_handler{ sizeof(command::make_leader_data), sizeof(command::make_leader_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::begin_province_building_construction, command_handler{ sizeof(command::province_building_data), sizeof(command::province_building_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::increase_relations, command_handler{ sizeof(command::diplo_action_data),  sizeof(command::diplo_action_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::decrease_relations, command_handler{ sizeof(command::diplo_action_data),  sizeof(command::diplo_action_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::begin_factory_building_construction, command_handler{ sizeof(command::factory_building_data), sizeof(command::factory_building_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::begin_naval_unit_construction, command_handler{ sizeof(command::naval_unit_construction_data), sizeof(command::naval_unit_construction_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::cancel_naval_unit_construction, command_handler{ sizeof(command::naval_unit_construction_data), sizeof(command::naval_unit_construction_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::change_factory_settings, command_handler{ sizeof(command::factory_data), sizeof(command::factory_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::delete_factory, command_handler{ sizeof(command::factory_data), sizeof(command::factory_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::make_vassal, command_handler{ sizeof(command::tag_target_data), sizeof(command::tag_target_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::release_and_play_nation, command_handler{ sizeof(command::tag_target_data), sizeof(command::tag_target_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::war_subsidies, command_handler{ sizeof(command::diplo_action_data), sizeof(command::diplo_action_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::cancel_war_subsidies, command_handler{ sizeof(command::diplo_action_data), sizeof(command::diplo_action_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::change_budget, command_handler{ sizeof(command::budget_settings_data), sizeof(command::budget_settings_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::start_election, command_handler{ 0, 0, &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::change_influence_priority, command_handler{ sizeof(command::influence_priority_data), sizeof(command::influence_priority_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::discredit_advisors, command_handler{ sizeof(command::influence_action_data), sizeof(command::influence_action_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::expel_advisors, command_handler{ sizeof(command::influence_action_data), sizeof(command::influence_action_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::ban_embassy, command_handler{ sizeof(command::influence_action_data), sizeof(command::influence_action_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::increase_opinion, command_handler{ sizeof(command::influence_action_data), sizeof(command::influence_action_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::decrease_opinion, command_handler{ sizeof(command::influence_action_data), sizeof(command::influence_action_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::add_to_sphere, command_handler{ sizeof(command::influence_action_data), sizeof(command::influence_action_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::remove_from_sphere, command_handler{ sizeof(command::influence_action_data), sizeof(command::influence_action_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::upgrade_colony_to_state, command_handler{ sizeof(command::generic_location_data), sizeof(command::generic_location_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::invest_in_colony, command_handler{ sizeof(command::generic_location_data), sizeof(command::generic_location_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::abandon_colony, command_handler{ sizeof(command::generic_location_data), sizeof(command::generic_location_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::finish_colonization, command_handler{sizeof(command::generic_state_definition_data),  sizeof(command::generic_state_definition_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::intervene_in_war, command_handler{sizeof(command::war_target_data),  sizeof(command::war_target_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::suppress_movement, command_handler{ sizeof(command::movement_data), sizeof(command::movement_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::civilize_nation, command_handler{ 0, 0, &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::appoint_ruling_party, command_handler{ sizeof(command::political_party_data), sizeof(command::political_party_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::change_issue_option, command_handler{ sizeof(command::issue_selection_data), sizeof(command::issue_selection_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::change_reform_option, command_handler{ sizeof(command::reform_selection_data), sizeof(command::reform_selection_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::become_interested_in_crisis, command_handler{ 0, 0, &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::take_sides_in_crisis, command_handler{ sizeof(command::crisis_join_data), sizeof(command::crisis_join_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::begin_land_unit_construction, command_handler{ sizeof(command::land_unit_construction_data), sizeof(command::land_unit_construction_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::cancel_land_unit_construction, command_handler{ sizeof(command::land_unit_construction_data), sizeof(command::land_unit_construction_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::change_stockpile_settings, command_handler{ sizeof(command::stockpile_settings_data), sizeof(command::stockpile_settings_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::take_decision, command_handler{ sizeof(command::decision_data), sizeof(command::decision_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::make_n_event_choice, command_handler{ sizeof(command::pending_human_n_event_data), sizeof(command::pending_human_n_event_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::make_f_n_event_choice, command_handler{ sizeof(command::pending_human_f_n_event_data), sizeof(command::pending_human_f_n_event_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::make_p_event_choice, command_handler{sizeof(command::pending_human_p_event_data),  sizeof(command::pending_human_p_event_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::make_f_p_event_choice, command_handler{ sizeof(command::pending_human_f_p_event_data), sizeof(command::pending_human_f_p_event_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::fabricate_cb, command_handler{ sizeof(command::cb_fabrication_data), sizeof(command::cb_fabrication_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::cancel_cb_fabrication, command_handler{ 0, 0, &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::ask_for_military_access, command_handler{ sizeof(command::diplo_action_data), sizeof(command::diplo_action_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::ask_for_alliance, command_handler{ sizeof(command::diplo_action_data), sizeof(command::diplo_action_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::call_to_arms, command_handler{ sizeof(command::call_to_arms_data), sizeof(command::call_to_arms_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::respond_to_diplomatic_message, command_handler{ sizeof(command::message_data), sizeof(command::message_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::cancel_military_access, command_handler{ sizeof(command::diplo_action_data), sizeof(command::diplo_action_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::cancel_alliance, command_handler{ sizeof(command::diplo_action_data), sizeof(command::diplo_action_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::cancel_given_military_access, command_handler{ sizeof(command::diplo_action_data), sizeof(command::diplo_action_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::declare_war, command_handler{ sizeof(command::new_war_data), sizeof(command::new_war_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::add_war_goal, command_handler{ sizeof(command::new_war_goal_data), sizeof(command::new_war_goal_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::start_peace_offer, command_handler{ sizeof(command::new_offer_data), sizeof(command::new_offer_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::add_peace_offer_term, command_handler{ sizeof(command::offer_wargoal_data), sizeof(command::offer_wargoal_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::send_peace_offer, command_handler{ 0, 0, &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::move_army, command_handler{ sizeof(command::army_movement_data), sizeof(command::army_movement_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::move_navy, command_handler{ sizeof(command::navy_movement_data), sizeof(command::navy_movement_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::embark_army, command_handler{ sizeof(command::army_movement_data), sizeof(command::army_movement_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::merge_armies, command_handler{ sizeof(command::merge_army_data), sizeof(command::merge_army_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::merge_navies, command_handler{ sizeof(command::merge_navy_data), sizeof(command::merge_navy_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::split_army, command_handler{ sizeof(command::split_army_data), sizeof(command::split_army_data) + (max_regiment_count * sizeof(dcon::regiment_id)), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::split_navy, command_handler{ sizeof(command::split_navy_data), sizeof(command::split_navy_data) + (max_ship_count * sizeof(dcon::ship_id)), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::delete_army, command_handler{ sizeof(command::army_movement_data), sizeof(command::army_movement_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::delete_navy, command_handler{ sizeof(command::navy_movement_data), sizeof(command::navy_movement_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::naval_retreat, command_handler{ sizeof(command::retreat_from_naval_battle_data), sizeof(command::retreat_from_naval_battle_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::land_retreat, command_handler{ sizeof(command::land_battle_data), sizeof(command::land_battle_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::start_crisis_peace_offer, command_handler{ sizeof(command::new_offer_data), sizeof(command::new_offer_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::invite_to_crisis, command_handler{ sizeof(command::crisis_invitation_data), sizeof(command::crisis_invitation_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::add_wargoal_to_crisis_offer, command_handler{ sizeof(command::crisis_invitation_data), sizeof(command::crisis_invitation_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::send_crisis_peace_offer, command_handler{ 0, 0, &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::change_admiral, command_handler{ sizeof(command::new_admiral_data), sizeof(command::new_admiral_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::change_general, command_handler{ sizeof(command::new_general_data), sizeof(command::new_general_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::toggle_mobilization, command_handler{ 0, 0, &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::give_military_access, command_handler{ sizeof(command::diplo_action_data), sizeof(command::diplo_action_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::set_rally_point, command_handler{ sizeof(command::rally_point_data), sizeof(command::rally_point_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::save_game, command_handler{ sizeof(command::save_game_data), sizeof(command::save_game_data), &command_handler::false_is_host_receive_command, &command_handler::false_is_host_broadcast_command } },
+	{command_type::cancel_factory_building_construction, command_handler{ sizeof(command::factory_building_data), sizeof(command::factory_building_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::disband_undermanned, command_handler{ sizeof(command::army_movement_data), sizeof(command::army_movement_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::toggle_hunt_rebels, command_handler{ sizeof(command::army_movement_data), sizeof(command::army_movement_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::toggle_select_province, command_handler{ sizeof(command::generic_location_data), sizeof(command::generic_location_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::toggle_immigrator_province, command_handler{ sizeof(command::generic_location_data), sizeof(command::generic_location_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::state_transfer, command_handler{ sizeof(command::state_transfer_data), sizeof(command::state_transfer_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::release_subject, command_handler{ sizeof(command::diplo_action_data), sizeof(command::diplo_action_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::enable_debt, command_handler{ sizeof(command::make_leader_data), sizeof(command::make_leader_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::move_capital, command_handler{ sizeof(command::generic_location_data), sizeof(command::generic_location_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::toggle_unit_ai_control, command_handler{ sizeof(command::army_movement_data), sizeof(command::army_movement_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::toggle_mobilized_is_ai_controlled, command_handler{ 0, 0, &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::toggle_interested_in_alliance, command_handler{ sizeof(command::diplo_action_data), sizeof(command::diplo_action_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::pbutton_script, command_handler{ sizeof(command::pbutton_data), sizeof(command::pbutton_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::nbutton_script, command_handler{ sizeof(command::nbutton_data), sizeof(command::nbutton_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{command_type::set_factory_type_priority, command_handler{ sizeof(command::set_factory_priority_data), sizeof(command::set_factory_priority_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::crisis_add_wargoal, command_handler{ sizeof(command::new_war_goal_data), sizeof(command::new_war_goal_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::change_land_unit_type, command_handler{ sizeof(command::change_land_unit_type_data), sizeof(command::change_land_unit_type_data) + (max_regiment_count * sizeof(dcon::regiment_id)), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::change_naval_unit_type, command_handler{ sizeof(command::change_naval_unit_type_data), sizeof(command::change_naval_unit_type_data) + (max_ship_count * sizeof(dcon::ship_id)), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::take_province, command_handler{ sizeof(command::generic_location_data), sizeof(command::generic_location_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::grant_province, command_handler{ 0, 0, &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::ask_for_free_trade_agreement, command_handler{ sizeof(command::diplo_action_data), sizeof(command::diplo_action_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::switch_embargo_status, command_handler{ sizeof(command::diplo_action_data), sizeof(command::diplo_action_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::revoke_trade_rights, command_handler{ sizeof(command::diplo_action_data), sizeof(command::diplo_action_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::toggle_local_administration, command_handler{ sizeof(command::generic_location_data), sizeof(command::generic_location_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::stop_army_movement, command_handler{ sizeof(command::stop_army_movement_data), sizeof(command::stop_army_movement_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::stop_navy_movement, command_handler{ sizeof(command::stop_navy_movement_data), sizeof(command::stop_navy_movement_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::command_units, command_handler{ sizeof(command::command_units_data), sizeof(command::command_units_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::give_back_units, command_handler{ sizeof(command::command_units_data), sizeof(command::command_units_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::change_game_rule_setting, command_handler{ sizeof(command::change_gamerule_setting_data), sizeof(command::change_gamerule_setting_data), &command_handler::false_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::toggle_production_directive, command_handler{ sizeof(command::production_directive_data), sizeof(command::production_directive_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::load_saved_game, command_handler{sizeof(command::load_save_game_data), sizeof(command::load_save_game_data) + FILENAME_MAX, &command_handler::false_is_host_receive_command, &command_handler::false_is_host_broadcast_command } },
+	// network
+	{ command_type::notify_oos_gamestate, command_handler{ sizeof(command::notify_oos_gamestate_data), sizeof(command::notify_oos_gamestate_data) + max_mp_state_size, &notify_oos_gamestate_is_host_receive_command, &command_handler::false_is_host_broadcast_command   } },
+	{ command_type::notify_player_ban, command_handler{ sizeof(command::notify_player_ban_data), sizeof(command::notify_player_ban_data), &command_handler::false_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::notify_player_kick, command_handler{ sizeof(command::notify_player_kick_data), sizeof(command::notify_player_kick_data), &command_handler::false_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::notify_player_picks_nation, command_handler{ sizeof(command::nation_pick_data), sizeof(command::nation_pick_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::notify_player_joins, command_handler{ sizeof(command::notify_joins_data), sizeof(command::notify_joins_data), &command_handler::false_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::notify_player_leaves, command_handler{ sizeof(command::notify_leaves_data), sizeof(command::notify_leaves_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::notify_player_oos, command_handler{ 0, 0, &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::notify_save_loaded, command_handler{ sizeof(command::notify_save_loaded_data), sizeof(command::notify_save_loaded_data) + max_save_size, &command_handler::false_is_host_receive_command, &command_handler::true_is_host_broadcast_command, &pre_execution_broadcast_modifications_notify_save_loaded } },
+	{ command_type::notify_start_game, command_handler{ 0, 0, &command_handler::false_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::notify_stop_game, command_handler{ 0, 0, &command_handler::false_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::notify_pause_game, command_handler{ 0, 0, &command_handler::false_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::notify_reload, command_handler{ sizeof(command::notify_reload_data), sizeof(command::notify_reload_data), &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::advance_tick, command_handler{ sizeof(command::advance_tick_data), sizeof(command::advance_tick_data), &command_handler::false_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::chat_message, command_handler{ sizeof(command::chat_message_data), sizeof(command::chat_message_data) + ui::max_chat_message_len, &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::network_inactivity_ping, command_handler{ sizeof(command::advance_tick_data), sizeof(command::advance_tick_data), &command_handler::true_is_host_receive_command, &command_handler::false_is_host_broadcast_command } },
+	{ command_type::notify_player_fully_loaded, command_handler{ 0, 0, &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::notify_player_is_loading, command_handler{ 0, 0, &command_handler::false_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::change_ai_nation_state, command_handler{ sizeof(command::change_ai_nation_state_data), sizeof(command::change_ai_nation_state_data), &command_handler::false_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::network_populate, command_handler{ 0, 0, &command_handler::true_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+	{ command_type::console_command, command_handler{ 0, 0, &command_handler::false_is_host_receive_command, &command_handler::false_is_host_broadcast_command } },
+	{ command_type::resync_lobby, command_handler{ 0, 0 , &command_handler::false_is_host_receive_command, &command_handler::false_is_host_broadcast_command } },
+	{ command_type::notify_mp_data, command_handler{ sizeof(notify_mp_data_data), sizeof(notify_mp_data_data) + max_mp_data_size, &command_handler::false_is_host_receive_command, &command_handler::true_is_host_broadcast_command, &pre_execution_broadcast_modifications_notify_mp_data } },
+	{ command_type::notify_player_timeout, command_handler{ sizeof(notify_player_timeout_data), sizeof(notify_player_timeout_data), &command_handler::false_is_host_receive_command, &command_handler::true_is_host_broadcast_command } },
+};
+
+
+// decides whether the host should broadcast the command or execute it only for themself
+bool is_host_broadcast_command(const sys::state& state, const command_data& command);
+
+void save_game(sys::state& state, dcon::nation_id source, bool and_quit, const std::string& filename = "");
+
+void set_rally_point(sys::state& state, dcon::nation_id source, dcon::province_id location, bool naval, bool enable);
+
+bool is_console_command(command_type t);
+
+void set_national_focus(sys::state& state, dcon::nation_id source, dcon::state_instance_id target_state, dcon::national_focus_id focus);
+bool can_set_national_focus(sys::state& state, dcon::nation_id source, dcon::state_instance_id target_state, dcon::national_focus_id focus);
+
+void start_research(sys::state& state, dcon::nation_id source, dcon::technology_id tech);
+bool can_start_research(sys::state& state, dcon::nation_id source, dcon::technology_id tech);
+
+void make_leader(sys::state& state, dcon::nation_id source, bool general);
+bool can_make_leader(sys::state& state, dcon::nation_id source, bool general);
+
+void set_factory_type_priority(sys::state& state, dcon::nation_id source, dcon::factory_type_id ftid, float value);
+bool can_set_factory_type_priority(sys::state& state, dcon::nation_id source, dcon::factory_type_id ftid, float value);
+
+void decrease_relations(sys::state& state, dcon::nation_id source, dcon::nation_id target);
+bool can_decrease_relations(sys::state& state, dcon::nation_id source, dcon::nation_id target);
+
+void begin_province_building_construction(sys::state& state, dcon::nation_id source, dcon::province_id p, economy::province_building_type type);
+bool can_begin_province_building_construction(sys::state& state, dcon::nation_id source, dcon::province_id p, economy::province_building_type type);
+
+void begin_factory_building_construction(sys::state& state, dcon::nation_id source, dcon::province_id location, dcon::factory_type_id type, bool is_upgrade, dcon::factory_type_id refit_target = dcon::factory_type_id{});
+bool can_begin_factory_building_construction(sys::state& state, dcon::nation_id source, dcon::province_id location, dcon::factory_type_id type, bool is_upgrade, dcon::factory_type_id refit_target = dcon::factory_type_id{});
+
+void cancel_factory_building_construction(sys::state& state, dcon::nation_id source, dcon::province_id location, dcon::factory_type_id type);
+bool can_cancel_factory_building_construction(sys::state& state, dcon::nation_id source, dcon::province_id location, dcon::factory_type_id type);
+
+void start_naval_unit_construction(sys::state& state, dcon::nation_id source, dcon::province_id location, dcon::unit_type_id type, dcon::province_id template_province = dcon::province_id{});
+bool can_start_naval_unit_construction(sys::state& state, dcon::nation_id source, dcon::province_id location, dcon::unit_type_id type, dcon::province_id template_province = dcon::province_id{});
+void execute_start_naval_unit_construction(sys::state& state, dcon::nation_id source, dcon::province_id location, dcon::unit_type_id type, dcon::province_id template_province = dcon::province_id{});
+
+void start_land_unit_construction(sys::state& state, dcon::nation_id source, dcon::province_id location, dcon::culture_id soldier_culture, dcon::unit_type_id type, dcon::province_id template_province = dcon::province_id{});
+
+template <bool VALIDATE>
+bool can_start_land_unit_construction(sys::state& state, dcon::nation_id source, dcon::province_id location, dcon::culture_id soldier_culture, dcon::unit_type_id type, dcon::province_id template_province = dcon::province_id{});
+
+void execute_start_land_unit_construction(sys::state& state, dcon::nation_id source, dcon::province_id location, dcon::culture_id soldier_culture, dcon::unit_type_id type, dcon::province_id template_province = dcon::province_id{});
+
+void cancel_naval_unit_construction(sys::state& state, dcon::nation_id source, dcon::province_id location, dcon::unit_type_id type);
+bool can_cancel_naval_unit_construction(sys::state& state, dcon::nation_id source, dcon::province_id location, dcon::unit_type_id type);
+
+void cancel_land_unit_construction(sys::state& state, dcon::nation_id source, dcon::province_id location, dcon::culture_id soldier_culture, dcon::unit_type_id type);
+bool can_cancel_land_unit_construction(sys::state& state, dcon::nation_id source, dcon::province_id location, dcon::culture_id soldier_culture, dcon::unit_type_id type);
+
+void delete_factory(sys::state& state, dcon::nation_id source, dcon::factory_id f);
+bool can_delete_factory(sys::state& state, dcon::nation_id source, dcon::factory_id f);
+
+void change_factory_settings(sys::state& state, dcon::nation_id source, dcon::factory_id f, uint8_t priority, bool subsidized);
+bool can_change_factory_settings(sys::state& state, dcon::nation_id source, dcon::factory_id f, uint8_t priority, bool subsidized);
+
+void make_vassal(sys::state& state, dcon::nation_id source, dcon::national_identity_id t);
+bool can_make_vassal(sys::state& state, dcon::nation_id source, dcon::national_identity_id t);
+
+void release_and_play_as(sys::state& state, dcon::nation_id source, dcon::national_identity_id t);
+bool can_release_and_play_as(sys::state& state, dcon::nation_id source, dcon::national_identity_id t, dcon::mp_player_id player);
+
+void give_war_subsidies(sys::state& state, dcon::nation_id source, dcon::nation_id target);
+bool can_give_war_subsidies(sys::state& state, dcon::nation_id source, dcon::nation_id target);
+
+void cancel_war_subsidies(sys::state& state, dcon::nation_id source, dcon::nation_id target);
+bool can_cancel_war_subsidies(sys::state& state, dcon::nation_id source, dcon::nation_id target);
+
+void increase_relations(sys::state& state, dcon::nation_id source, dcon::nation_id target);
+bool can_increase_relations(sys::state& state, dcon::nation_id source, dcon::nation_id target);
+
+inline budget_settings_data make_empty_budget_settings() {
+	return budget_settings_data{
+		.education_spending = int8_t(-127),
+		.military_spending = int8_t(-127),
+		.administrative_spending = int8_t(-127),
+		.social_spending = int8_t(-127),
+		.land_spending = int8_t(-127),
+		.naval_spending = int8_t(-127),
+		.construction_spending = int8_t(-127),
+		.poor_tax = int8_t(-127),
+		.middle_tax = int8_t(-127),
+		.rich_tax = int8_t(-127),
+		.tariffs_import = int8_t(-127),
+		.tariffs_export = int8_t(-127),
+		.domestic_investment = int8_t(-127),
+		.overseas = int8_t(-127),
+		.subsidies = int8_t(-127)
+	};
+}
+// when sending new budget settings, leaving any value as int8_t(-127) will cause it to be ignored, leaving the setting the same
+// You can use the function above to easily make an instance of the settings struct that will change no values
+// Also, in consideration for future networking performance, do not send this command as the slider moves; only send it when the
+// player has stopped dragging the slider, in the case of drag, or maybe even only when the window closes / a day passes while the
+// window is open, if you think we can get away with it. In any case, we want to try to minimize how many times the command is
+// sent per average interaction with the budget.
+void change_budget_settings(sys::state& state, dcon::nation_id source, budget_settings_data const& values);
+inline bool can_change_budget_settings(sys::state& state, dcon::nation_id source, budget_settings_data const& values);
+
+void start_election(sys::state& state, dcon::nation_id source);
+bool can_start_election(sys::state& state, dcon::nation_id source);
+
+void change_influence_priority(sys::state& state, dcon::nation_id source, dcon::nation_id influence_target, uint8_t priority);
+bool can_change_influence_priority(sys::state& state, dcon::nation_id source, dcon::nation_id influence_target, uint8_t priority);
+
+void discredit_advisors(sys::state& state, dcon::nation_id source, dcon::nation_id influence_target, dcon::nation_id affected_gp);
+bool can_discredit_advisors(sys::state& state, dcon::nation_id source, dcon::nation_id influence_target, dcon::nation_id affected_gp);
+
+void expel_advisors(sys::state& state, dcon::nation_id source, dcon::nation_id influence_target, dcon::nation_id affected_gp);
+bool can_expel_advisors(sys::state& state, dcon::nation_id source, dcon::nation_id influence_target, dcon::nation_id affected_gp);
+
+void ban_embassy(sys::state& state, dcon::nation_id source, dcon::nation_id influence_target, dcon::nation_id affected_gp);
+bool can_ban_embassy(sys::state& state, dcon::nation_id source, dcon::nation_id influence_target, dcon::nation_id affected_gp);
+
+void increase_opinion(sys::state& state, dcon::nation_id source, dcon::nation_id influence_target);
+bool can_increase_opinion(sys::state& state, dcon::nation_id source, dcon::nation_id influence_target);
+void execute_increase_opinion(sys::state& state, dcon::nation_id source, dcon::nation_id influence_target);
+
+void decrease_opinion(sys::state& state, dcon::nation_id source, dcon::nation_id influence_target, dcon::nation_id affected_gp);
+bool can_decrease_opinion(sys::state& state, dcon::nation_id source, dcon::nation_id influence_target, dcon::nation_id affected_gp);
+void execute_decrease_opinion(sys::state& state, dcon::nation_id source, dcon::nation_id influence_target, dcon::nation_id affected_gp);
+
+void add_to_sphere(sys::state& state, dcon::nation_id source, dcon::nation_id influence_target);
+bool can_add_to_sphere(sys::state& state, dcon::nation_id source, dcon::nation_id influence_target);
+void execute_add_to_sphere(sys::state& state, dcon::nation_id source, dcon::nation_id influence_target);
+
+void remove_from_sphere(sys::state& state, dcon::nation_id source, dcon::nation_id influence_target, dcon::nation_id affected_gp);
+bool can_remove_from_sphere(sys::state& state, dcon::nation_id source, dcon::nation_id influence_target, dcon::nation_id affected_gp);
+void execute_remove_from_sphere(sys::state& state, dcon::nation_id source, dcon::nation_id influence_target, dcon::nation_id affected_gp);
+
+void upgrade_colony_to_state(sys::state& state, dcon::nation_id source, dcon::state_instance_id si);
+bool can_upgrade_colony_to_state(sys::state& state, dcon::nation_id source, dcon::state_instance_id si);
+
+void invest_in_colony(sys::state& state, dcon::nation_id source, dcon::province_id p);
+bool can_invest_in_colony(sys::state& state, dcon::nation_id source, dcon::province_id p);
+
+void abandon_colony(sys::state& state, dcon::nation_id source, dcon::province_id p);
+bool can_abandon_colony(sys::state& state, dcon::nation_id source, dcon::province_id p);
+
+void finish_colonization(sys::state& state, dcon::nation_id source, dcon::state_definition_id d);
+bool can_finish_colonization(sys::state& state, dcon::nation_id source, dcon::state_definition_id d);
+
+void intervene_in_war(sys::state& state, dcon::nation_id source, dcon::war_id w, bool for_attacker);
+bool can_intervene_in_war(sys::state& state, dcon::nation_id source, dcon::war_id w, bool for_attacker);
+void execute_intervene_in_war(sys::state& state, dcon::nation_id source, dcon::war_id w, bool for_attacker);
+
+void suppress_movement(sys::state& state, dcon::nation_id source, dcon::movement_id m);
+bool can_suppress_movement(sys::state& state, dcon::nation_id source, dcon::movement_id m);
+
+void civilize_nation(sys::state& state, dcon::nation_id source);
+bool can_civilize_nation(sys::state& state, dcon::nation_id source);
+void execute_civilize_nation(sys::state& state, dcon::nation_id source);
+
+void appoint_ruling_party(sys::state& state, dcon::nation_id source, dcon::political_party_id p);
+bool can_appoint_ruling_party(sys::state& state, dcon::nation_id source, dcon::political_party_id p);
+void execute_appoint_ruling_party(sys::state& state, dcon::nation_id source, dcon::political_party_id p);
+
+void enact_reform(sys::state& state, dcon::nation_id source, dcon::reform_option_id r);
+bool can_enact_reform(sys::state& state, dcon::nation_id source, dcon::reform_option_id r);
+
+void enact_issue(sys::state& state, dcon::nation_id source, dcon::issue_option_id i);
+bool can_enact_issue(sys::state& state, dcon::nation_id source, dcon::issue_option_id i);
+
+void become_interested_in_crisis(sys::state& state, dcon::nation_id source);
+bool can_become_interested_in_crisis(sys::state& state, dcon::nation_id source);
+
+void take_sides_in_crisis(sys::state& state, dcon::nation_id source, bool join_attacker);
+bool can_take_sides_in_crisis(sys::state& state, dcon::nation_id source, bool join_attacker);
+
+void change_stockpile_settings(sys::state& state, dcon::nation_id source, dcon::commodity_id c, float target_amount, bool draw_on_stockpiles);
+bool can_change_stockpile_settings(sys::state& state, dcon::nation_id source, dcon::commodity_id c, float target_amount, bool draw_on_stockpiles);
+
+void take_decision(sys::state& state, dcon::nation_id source, dcon::decision_id d);
+bool can_take_decision(sys::state& state, dcon::nation_id source, dcon::decision_id d);
+void execute_take_decision(sys::state& state, dcon::nation_id source, dcon::decision_id d);
+
+void make_event_choice(sys::state& state, event::pending_human_n_event const& e, uint8_t option_id);
+void make_event_choice(sys::state& state, event::pending_human_f_n_event const& e, uint8_t option_id);
+void make_event_choice(sys::state& state, event::pending_human_p_event const& e, uint8_t option_id);
+void make_event_choice(sys::state& state, event::pending_human_f_p_event const& e, uint8_t option_id);
+
+void fabricate_cb(sys::state& state, dcon::nation_id source, dcon::nation_id target, dcon::cb_type_id type, dcon::state_definition_id target_state = dcon::state_definition_id{});
+bool can_fabricate_cb(sys::state& state, dcon::nation_id source, dcon::nation_id target, dcon::cb_type_id type, dcon::state_definition_id target_state = dcon::state_definition_id{});
+
+void cancel_cb_fabrication(sys::state& state, dcon::nation_id source);
+bool can_cancel_cb_fabrication(sys::state& state, dcon::nation_id source);
+
+void ask_for_military_access(sys::state& state, dcon::nation_id asker, dcon::nation_id target);
+bool can_ask_for_access(sys::state& state, dcon::nation_id asker, dcon::nation_id target, bool ignore_cost = false);
+
+void give_military_access(sys::state& state, dcon::nation_id asker, dcon::nation_id target);
+bool can_give_military_access(sys::state& state, dcon::nation_id asker, dcon::nation_id target, bool ignore_cost = false);
+
+void ask_for_alliance(sys::state& state, dcon::nation_id asker, dcon::nation_id target);
+bool can_ask_for_alliance(sys::state& state, dcon::nation_id asker, dcon::nation_id target, bool ignore_cost = false);
+void execute_ask_for_alliance(sys::state& state, dcon::nation_id asker, dcon::nation_id target);
+
+void toggle_interested_in_alliance(sys::state& state, dcon::nation_id asker, dcon::nation_id target);
+bool can_toggle_interested_in_alliance(sys::state& state, dcon::nation_id asker, dcon::nation_id target);
+
+void ask_for_free_trade_agreement(sys::state& state, dcon::nation_id asker, dcon::nation_id target);
+bool can_ask_for_free_trade_agreement(sys::state& state, dcon::nation_id asker, dcon::nation_id target, bool ignore_cost = false);
+
+void switch_embargo_status(sys::state& state, dcon::nation_id asker, dcon::nation_id target);
+bool can_switch_embargo_status(sys::state& state, dcon::nation_id asker, dcon::nation_id target, bool ignore_cost = false);
+// AI uses the function directly
+void execute_switch_embargo_status(sys::state& state, dcon::nation_id asker, dcon::nation_id target);
+
+void revoke_trade_rights(sys::state& state, dcon::nation_id source, dcon::nation_id target);
+bool can_revoke_trade_rights(sys::state& state, dcon::nation_id source, dcon::nation_id target, bool ignore_cost = false);
+
+bool can_give_back_units(sys::state& state, dcon::nation_id asker, dcon::nation_id target);
+void give_back_units(sys::state& state, dcon::nation_id asker, dcon::nation_id target);
+
+bool can_command_units(sys::state& state, dcon::nation_id asker, dcon::nation_id target);
+void command_units(sys::state& state, dcon::nation_id asker, dcon::nation_id target);
+
+void call_to_arms(sys::state& state, dcon::nation_id asker, dcon::nation_id target, dcon::war_id w, bool automatic_call = false);
+void execute_call_to_arms(sys::state& state, dcon::nation_id asker, dcon::nation_id target, dcon::war_id w, bool automatic_call);
+bool can_call_to_arms(sys::state& state, dcon::nation_id asker, dcon::nation_id target, dcon::war_id w, bool ignore_cost = false, bool automatic_call = false);
+
+void respond_to_diplomatic_message(sys::state& state, dcon::nation_id source, dcon::nation_id from, diplomatic_message::type type, bool accept);
+
+void cancel_military_access(sys::state& state, dcon::nation_id source, dcon::nation_id target);
+bool can_cancel_military_access(sys::state& state, dcon::nation_id source, dcon::nation_id target, bool ignore_cost = false);
+
+void cancel_alliance(sys::state& state, dcon::nation_id source, dcon::nation_id target);
+bool can_cancel_alliance(sys::state& state, dcon::nation_id source, dcon::nation_id target, bool ignore_cost = false);
+void execute_cancel_alliance(sys::state& state, dcon::nation_id source, dcon::nation_id target);
+
+void cancel_given_military_access(sys::state& state, dcon::nation_id source, dcon::nation_id target); // this is for cancelling the access someone has with you
+bool can_cancel_given_military_access(sys::state& state, dcon::nation_id source, dcon::nation_id target, bool ignore_cost = false);
+
+void declare_war(sys::state& state, dcon::nation_id source, dcon::nation_id target, dcon::cb_type_id primary_cb, dcon::state_definition_id cb_state, dcon::national_identity_id cb_tag, dcon::nation_id cb_secondary_nation, bool call_attacker_allies, bool run_conference);
+template<bool VALIDATE>
+bool can_declare_war(sys::state& state, dcon::nation_id source, dcon::nation_id target, dcon::cb_type_id primary_cb, dcon::state_definition_id cb_state, dcon::national_identity_id cb_tag, dcon::nation_id cb_secondary_nation);
+void execute_declare_war(sys::state& state, dcon::nation_id source, dcon::nation_id target, dcon::cb_type_id primary_cb, dcon::state_definition_id cb_state, dcon::national_identity_id cb_tag, dcon::nation_id cb_secondary_nation, bool call_attacker_allies, bool run_conference);
+
+void add_war_goal(sys::state& state, dcon::nation_id source, dcon::war_id w, dcon::nation_id target, dcon::cb_type_id primary_cb, dcon::state_definition_id cb_state, dcon::national_identity_id cb_tag, dcon::nation_id cb_secondary_nation);
+bool can_add_war_goal(sys::state& state, dcon::nation_id source, dcon::war_id w, dcon::nation_id target, dcon::cb_type_id primary_cb, dcon::state_definition_id cb_state, dcon::national_identity_id cb_tag, dcon::nation_id cb_secondary_nation);
+
+void stop_army_movement(sys::state& state, dcon::nation_id source, dcon::army_id army);
+bool can_stop_army_movement(sys::state& state, dcon::nation_id source, dcon::army_id army);
+
+void stop_navy_movement(sys::state& state, dcon::nation_id source, dcon::navy_id navy);
+bool can_stop_navy_movement(sys::state& state, dcon::nation_id source, dcon::navy_id navy);
+
+// NOTE: sending an invalid province id will stop movement of an army or navy;
+//     otherwise path will be appended to its current destination if any
+// Thus, if you want to move the unit to a new location from its current location,
+//     first stop its current movement and then send the new destination as a second command
+// ALSO: can returns an empty vector if no path could be made
+void move_army(sys::state& state, dcon::nation_id source, dcon::army_id a, dcon::province_id dest, bool reset, military::special_army_order order = military::special_army_order::none);
+std::vector<dcon::province_id> calculate_army_path(sys::state& state, dcon::nation_id source, dcon::army_id a, dcon::province_id last_province, dcon::province_id dest);
+
+std::vector<dcon::province_id> can_move_army(sys::state& state, dcon::nation_id source, dcon::army_id a, dcon::province_id dest, bool reset = true);
+void execute_move_army(sys::state& state, dcon::nation_id source, dcon::army_id a, dcon::province_id dest, bool reset, military::special_army_order special_order);
+
+void move_navy(sys::state& state, dcon::nation_id source, dcon::navy_id n, dcon::province_id dest, bool reset);
+std::vector<dcon::province_id> calculate_navy_path(sys::state & state, dcon::nation_id source, dcon::navy_id n, dcon::province_id last_province, dcon::province_id dest);
+std::vector<dcon::province_id> can_move_navy(sys::state& state, dcon::nation_id source, dcon::navy_id n, dcon::province_id dest, bool reset = true);
+
+
+// Wrapper to check if a given army can either move to the specified destination, OR stop movement if the dest province is equal to the current army location
+// The movement in this function is always non-shift click behaviour, ie the old path will be cleared and a new path wil override it.
+bool can_retreat_move_or_stop_army(sys::state& state, dcon::nation_id source, dcon::army_id a, dcon::province_id dest);
+
+// Wrapper to check if a given navy can either move to the specified destination, OR stop movement if the dest province is equal to the current army location
+// The movement in this function is always non-shift click behaviour, ie the old path will be cleared and a new path wil override it.
+bool can_move_retreat_or_stop_navy(sys::state& state, dcon::nation_id source, dcon::navy_id n, dcon::province_id dest);
+
+// Wrapper to either add a stop move command to the queue if the army location is equal to the destination, or add a move command if not
+// The movement in this function is always non-shift click behaviour, ie the old path will be cleared and a new path wil override it.
+void move_retreat_or_stop_army(sys::state& state, dcon::nation_id source, dcon::army_id a, dcon::province_id dest, military::special_army_order order);
+
+// Wrapper to either add a stop move command to the queue if the navy location is equal to the destination, or add a move command if not
+// The movement in this function is always non-shift click behaviour, ie the old path will be cleared and a new path wil override it.
+void move_retreat_or_stop_navy(sys::state& state, dcon::nation_id source, dcon::navy_id n, dcon::province_id dest);
+
+void execute_move_navy(sys::state& state, dcon::nation_id source, dcon::navy_id n, dcon::province_id dest, bool reset);
+
+
+// This command is used for getting armies in/out of transports while those transports are docked in port
+// If the army is already embarked, it will disembark; if it is not embarked it will embark
+// Embarking an army onto/off a ship that is off the coast is done by moving the army into the sea/land tile instead.
+void embark_army(sys::state& state, dcon::nation_id source, dcon::army_id a);
+bool can_embark_army(sys::state& state, dcon::nation_id source, dcon::army_id a);
+
+void merge_armies(sys::state& state, dcon::nation_id source, dcon::army_id a, dcon::army_id b);
+bool can_merge_armies(sys::state& state, dcon::nation_id source, dcon::army_id a, dcon::army_id b);
+
+void merge_navies(sys::state& state, dcon::nation_id source, dcon::navy_id a, dcon::navy_id b);
+bool can_merge_navies(sys::state& state, dcon::nation_id source, dcon::navy_id a, dcon::navy_id b);
+void execute_merge_navies(sys::state& state, dcon::nation_id source, dcon::navy_id a, dcon::navy_id b);
+
+void split_army(sys::state& state, dcon::nation_id source, dcon::army_id a, std::span<const dcon::regiment_id> regiments_to_split, fixed_bool_t select_both_armies = false);
+
+void disband_undermanned_regiments(sys::state& state, dcon::nation_id source, dcon::army_id a);
+bool can_disband_undermanned_regiments(sys::state& state, dcon::nation_id source, dcon::army_id a);
+
+void split_navy(sys::state& state, dcon::nation_id source, dcon::navy_id a, std::span<const dcon::ship_id> ships_to_split, fixed_bool_t select_both_armies = false);
+
+void change_land_unit_type(sys::state& state, dcon::nation_id source, std::span<const dcon::regiment_id> regiments, dcon::unit_type_id new_type);
+bool can_change_land_unit_type(sys::state& state, dcon::nation_id source, command_data& command);
+void execute_change_land_unit_type(sys::state& state, dcon::nation_id source, std::span<const dcon::regiment_id> regiments, dcon::unit_type_id new_type);
+
+void change_naval_unit_type(sys::state& state, dcon::nation_id source, std::span<const dcon::ship_id> ships, dcon::unit_type_id new_type);
+
+
+void toggle_rebel_hunting(sys::state& state, dcon::nation_id source, dcon::army_id a);
+void toggle_unit_ai_control(sys::state& state, dcon::nation_id source, dcon::army_id a);
+void toggle_mobilized_is_ai_controlled(sys::state& state, dcon::nation_id source);
+
+void delete_army(sys::state& state, dcon::nation_id source, dcon::army_id a);
+bool can_delete_army(sys::state& state, dcon::nation_id source, dcon::army_id a);
+
+void delete_navy(sys::state& state, dcon::nation_id source, dcon::navy_id a);
+bool can_delete_navy(sys::state& state, dcon::nation_id source, dcon::navy_id a);
+
+
+void retreat_from_naval_battle(sys::state& state, dcon::nation_id source, dcon::navy_id navy, dcon::province_id dest = dcon::province_id{ });
+std::vector<dcon::province_id> can_retreat_from_naval_battle(sys::state& state, dcon::nation_id source, dcon::navy_id navy, military::retreat_type retreat_type, dcon::province_id dest = dcon::province_id{ });
+
+void retreat_from_land_battle(sys::state& state, dcon::nation_id source, dcon::army_id army, military::retreat_type retreat_type, dcon::province_id dest = dcon::province_id{ });
+std::vector<dcon::province_id> can_retreat_from_land_battle(sys::state& state, dcon::nation_id source, dcon::army_id army, military::retreat_type retreat_type, dcon::province_id dest = dcon::province_id{ });
+
+void change_general(sys::state& state, dcon::nation_id source, dcon::army_id a, dcon::leader_id l);
+bool can_change_general(sys::state& state, dcon::nation_id source, dcon::army_id a, dcon::leader_id l);
+
+void change_admiral(sys::state& state, dcon::nation_id source, dcon::navy_id a, dcon::leader_id l);
+bool can_change_admiral(sys::state& state, dcon::nation_id source, dcon::navy_id a, dcon::leader_id l);
+
+void invite_to_crisis(sys::state& state, dcon::nation_id source, dcon::nation_id invitation_to, dcon::nation_id target, dcon::cb_type_id primary_cb, dcon::state_definition_id cb_state, dcon::national_identity_id cb_tag, dcon::nation_id cb_secondary_nation);
+bool can_invite_to_crisis(sys::state& state, dcon::nation_id source, dcon::nation_id invitation_to, dcon::nation_id target, dcon::cb_type_id primary_cb, dcon::state_definition_id cb_state, dcon::national_identity_id cb_tag, dcon::nation_id cb_secondary_nation);
+
+bool crisis_can_add_wargoal(sys::state& state, dcon::nation_id source, sys::full_wg wg);
+void queue_crisis_add_wargoal(sys::state& state, dcon::nation_id source, sys::full_wg wg);
+void execute_crisis_add_wargoal(sys::state& state, dcon::nation_id source, new_war_goal_data const& data);
+
+void toggle_mobilization(sys::state& state, dcon::nation_id source);
+
+void enable_debt(sys::state& state, dcon::nation_id source, bool debt_is_enabled);
+
+void move_capital(sys::state& state, dcon::nation_id source, dcon::province_id p);
+bool can_move_capital(sys::state& state, dcon::nation_id source, dcon::province_id p);
+
+void toggle_local_administration(sys::state& state, dcon::nation_id source, dcon::province_id p);
+bool can_toggle_local_administration(sys::state& state, dcon::nation_id source, dcon::province_id p);
+
+void take_province(sys::state& state, dcon::nation_id source, dcon::province_id prov);
+bool can_take_province(sys::state& state, dcon::nation_id source, dcon::province_id p);
+void execute_take_province(sys::state& state, dcon::nation_id source, dcon::province_id p);
+
+void use_province_button(sys::state& state, dcon::nation_id source, dcon::gui_def_id d, dcon::province_id p);
+bool can_use_province_button(sys::state& state, dcon::nation_id source, dcon::gui_def_id d, dcon::province_id p);
+
+void use_nation_button(sys::state& state, dcon::nation_id source, dcon::gui_def_id d, dcon::nation_id n);
+bool can_use_nation_button(sys::state& state, dcon::nation_id source, dcon::gui_def_id d, dcon::nation_id n);
+
+void toggle_production_directive(sys::state& state, dcon::nation_id source, dcon::state_instance_id for_state, dcon::production_directive_id directive);
+void execute_toggle_production_directive(sys::state& state, dcon::nation_id source, dcon::state_instance_id for_state, dcon::production_directive_id directive);
+
+/*
+PEACE OFFER COMMANDS:
+
+IMPORTANT:
+Even though these are separate commands, they should be sent as a single sequence with no intermediate other commands:
+send start_peace_offer then repeat add_to_peace_offer to populate it, and then send_peace_offer to finish the process
+DO NOT attempt to issue these commands as the player constructs the offer in the ui
+Note that crisis offers are constructed in basically the same way. You cannot have a normal peace offer under construction / in
+flight while constructing / offering a crisis peace offer
+*/
+
+void start_peace_offer(sys::state& state, dcon::nation_id source, dcon::nation_id target, dcon::war_id war, bool is_concession);
+bool can_start_peace_offer(sys::state& state, dcon::nation_id source, dcon::nation_id target, dcon::war_id war, bool is_concession);
+void execute_start_peace_offer(sys::state& state, dcon::nation_id source, dcon::nation_id target, dcon::war_id war, bool is_concession);
+
+void add_to_peace_offer(sys::state& state, dcon::nation_id source, dcon::wargoal_id goal);
+bool can_add_to_peace_offer(sys::state& state, dcon::nation_id source, dcon::wargoal_id goal);
+void execute_add_to_peace_offer(sys::state& state, dcon::nation_id source, dcon::wargoal_id goal);
+
+void send_peace_offer(sys::state& state, dcon::nation_id source);
+bool can_send_peace_offer(sys::state& state, dcon::nation_id source);
+void execute_send_peace_offer(sys::state& state, dcon::nation_id source);
+
+// CRISIS PEACE OFFER COMMANDS
+
+void start_crisis_peace_offer(sys::state& state, dcon::nation_id source, bool is_concession);
+template <bool VALIDATE>
+bool can_start_crisis_peace_offer(sys::state& state, dcon::nation_id source, bool is_concession);
+void execute_start_crisis_peace_offer(sys::state& state, dcon::nation_id source, bool is_concession);
+
+void add_to_crisis_peace_offer(sys::state& state, dcon::nation_id source, dcon::nation_id wargoal_from, dcon::nation_id target, dcon::cb_type_id primary_cb, dcon::state_definition_id cb_state, dcon::national_identity_id cb_tag, dcon::nation_id cb_secondary_nation);
+template <bool VALIDATE>
+bool can_add_to_crisis_peace_offer(sys::state& state, dcon::nation_id source, dcon::nation_id wargoal_from, dcon::nation_id target, dcon::cb_type_id primary_cb, dcon::state_definition_id cb_state, dcon::national_identity_id cb_tag, dcon::nation_id cb_secondary_nation);
+
+void send_crisis_peace_offer(sys::state& state, dcon::nation_id source);
+bool can_send_crisis_peace_offer(sys::state& state, dcon::nation_id source);
+void execute_send_crisis_peace_offer(sys::state& state, dcon::nation_id source);
+
+void toggle_select_province(sys::state& state, dcon::nation_id source, dcon::province_id p);
+bool can_toggle_select_province(sys::state& state, dcon::nation_id source, dcon::province_id p);
+
+void toggle_immigrator_province(sys::state& state, dcon::nation_id source, dcon::province_id prov);
+bool can_toggle_immigrator_province(sys::state& state, dcon::nation_id source, dcon::province_id prov);
+
+void post_chat_message(sys::state& state, ui::chat_message& m);
+void create_and_post_message(sys::state& state, dcon::mp_player_id sender, std::string_view body, const network::chat_message_targets& targets);
+void chat_message(sys::state& state, const network::chat_message_targets& targets, std::string_view body, bool send_to_all = false);
+bool can_chat_message(sys::state& state, command_data& command);
+
+void change_gamerule_setting(sys::state& state, dcon::nation_id source, dcon::gamerule_id gamerule, uint8_t new_setting);
+bool can_change_gamerule_setting(sys::state& state, dcon::nation_id source, dcon::gamerule_id gamerule, uint8_t new_setting);
+
+void release_subject(sys::state& state, dcon::nation_id source, dcon::nation_id target);
+bool can_release_subject(sys::state& state, dcon::nation_id source, dcon::nation_id target);
+
+void state_transfer(sys::state& state, dcon::nation_id asker, dcon::nation_id target, dcon::state_definition_id sid);
+bool can_state_transfer(sys::state& state, dcon::nation_id asker, dcon::nation_id target, dcon::state_definition_id sid);
+
+void notify_oos_gamestate(sys::state& state, dcon::nation_id source);
+
+void advance_tick(sys::state& state, dcon::nation_id source);
+void notify_player_ban(sys::state& state, dcon::nation_id source, bool make_ai, dcon::mp_player_id banned_player);
+bool can_notify_player_ban(sys::state& state, dcon::nation_id source, dcon::mp_player_id banned_player);
+void notify_player_kick(sys::state& state, dcon::nation_id source, bool make_ai, dcon::mp_player_id kicked_player);
+bool can_notify_player_kick(sys::state& state, dcon::nation_id source, dcon::mp_player_id kicked_player);
+void notify_player_joins(sys::state& state, dcon::client_id client, const sys::player_name& name, bool needs_loading, dcon::nation_id player_nation, network::selector_arg arg, bool host_execute, network::selector_function client_selector);
+bool can_notify_player_joins(sys::state& state, dcon::nation_id source, const sys::player_name& name, const sys::player_password_raw& password, bool needs_loading, dcon::nation_id player_nation);
+void notify_player_leaves(sys::state& state, dcon::nation_id source, bool make_ai, dcon::mp_player_id leaving_player);
+bool can_notify_player_leaves(sys::state& state, dcon::nation_id source, bool make_ai, dcon::mp_player_id leaving_player);
+void notify_player_picks_nation(sys::state& state, dcon::nation_id source, dcon::nation_id target);
+bool can_notify_player_picks_nation(sys::state& state, dcon::nation_id source, dcon::nation_id target, dcon::mp_player_id player);
+void execute_notify_player_picks_nation(sys::state& state, dcon::nation_id source, dcon::nation_id target, dcon::mp_player_id player);
+void notify_player_oos(sys::state& state, dcon::nation_id source);
+void notify_save_loaded(sys::state& state, network::selector_arg arg, bool host_execute, network::selector_function client_selector);
+void notify_reload(sys::state& state, network::selector_arg arg, bool host_execute, network::selector_function client_selector);
+bool can_notify_start_game(sys::state& state, dcon::nation_id source);
+void notify_start_game(sys::state& state, network::selector_arg arg, bool host_execute, network::selector_function client_selector);
+void notify_start_game(sys::state& state);
+void notify_player_is_loading(sys::state& state, dcon::mp_player_id loading_player);
+void execute_notify_player_is_loading(sys::state& state, dcon::mp_player_id loading_player);
+void notify_player_fully_loaded(sys::state& state, dcon::nation_id source);
+bool can_notify_stop_game(sys::state& state, dcon::nation_id source);
+void notify_stop_game(sys::state& state, dcon::nation_id source);
+void notify_pause_game(sys::state& state, dcon::nation_id source);
+void resync_lobby(sys::state& state, dcon::nation_id source);
+
+void notify_mp_data(sys::state& state, const network::selector_arg arg, bool host_execute, const network::selector_function client_selector);
+
+void load_save_game(sys::state& state, const std::string& filename, bool is_new_game);
+
+void notify_player_timeout(sys::state& state, dcon::nation_id source, bool make_ai, dcon::mp_player_id disconnected_player);
+bool can_notify_player_timeout(sys::state& state, dcon::nation_id source, bool make_ai, dcon::mp_player_id disconnected_player);
+
+dcon::mp_player_id execute_notify_player_joins(sys::state& state, dcon::client_id client, const sys::player_name& name, const sys::player_password_raw& password, bool needs_loading, dcon::nation_id player_nation);
+
+// executes command no matter if the player is allowed to
+void execute_command(sys::state& state, command_data& c);
+// Only executes the command if the player is allowed to, and returns true if allowed, false if not
+bool try_execute_command(sys::state& state, command_data& c);
+void execute_pending_commands(sys::state& state);
+bool can_perform_command(sys::state& state, command_data& c);
+// Returns true if the command type can be recevied by the host FROM a client. False otherwise
+bool is_host_receive_command(command_type type, const sys::state& state);
+
+
+void notify_console_command(sys::state& state);
+void network_inactivity_ping(sys::state& state, dcon::nation_id source, sys::date date);
+void execute_network_inactivity_ping(sys::state& state, dcon::nation_id source, sys::date date, dcon::mp_player_id player);
+
+
+
+
+} // namespace command
+

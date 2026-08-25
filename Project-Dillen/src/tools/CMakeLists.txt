@@ -1,0 +1,3 @@
+add_executable(gui_indexed_map_make gui_indexed_map_make.cpp)
+new_core_configure_target(gui_indexed_map_make)
+target_link_libraries(gui_indexed_map_make PRIVATE new_core_gui_model)

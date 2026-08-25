@@ -169,6 +169,13 @@ spriteType = {
 }
 
 spriteType = {
+	name = "GFX_china_war_region_task_button"
+	texturefile = "gfx\\war_map\\china_anti_jap\\region_task_bottom.png"
+	noOfFrames = 1
+	loadType = "INGAME"
+}
+
+spriteType = {
 	name = "combat_region_scroll_track"
 	texturefile = "gfx\\war_map\\china_anti_jap\\combat_region_scroll_track.png"
 	noOfFrames = 1

@@ -38,19 +38,6 @@ country_event = {
     dissent = -20
 	}		
 }
-#国共合作
-country_event = {
-	id = 390030
-	major = yes
-	is_triggered_only = yes
-	title = "TKT"
-	desc = "TKD"
-	picture = "CHI_flag"
-	option = {
-		name = "TKOP"
-    dissent = -20
-	}		
-}
 #十大纲领
 country_event = {
 	id = 390038

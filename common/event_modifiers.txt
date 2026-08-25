@@ -2981,3 +2981,8 @@ usa_banning_sea = {
 	local_org_regain = -0.35
 	local_air_organisation = -0.45
 }
+
+china_war_emergency_local_mobilization = {
+	local_manpower_modifier = 0.10
+	local_resources = 0.05
+}

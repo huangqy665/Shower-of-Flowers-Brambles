@@ -166,6 +166,29 @@ guiData = {
 	regions.41.name = "唐努乌梁海"
 	regions.41.capital = "省会：乌里雅苏台"
 	regions.41.totalPopulation = "总人口：80.0 万"
+	provinceTask.header = "WARMAP_PROVINCE_TASK_HEADER"
+	provinceTask.statusText = ""
+
+	list = {
+		name = "province_task_list"
+		revision = 1
+
+		item = {
+			id = 1
+			textkey = "WARMAP_PROVINCE_TASK_EMERGENCY_MOBILIZATION"
+			descriptionkey = "WARMAP_PROVINCE_TASK_EMERGENCY_MOBILIZATION_DESC"
+			taskid = "emergency_local_mobilization"
+			allowedtags = "CHI,CHC,JAP"
+			targetscope = "selected_region_provinces"
+			costoperation = "country.add_manpower"
+			manpowercost = 5
+			effectoperation = "province.add_modifier"
+			modifier = "china_war_emergency_local_mobilization"
+			durationdays = 30
+			atomic = yes
+			enabledwhen = "state.active && selectedregion.id != 0"
+		}
+	}
 
 	list = {
 		name = "leader_candidate_list"

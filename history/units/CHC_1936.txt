@@ -23,22 +23,22 @@ theatre = {
 					location = 5335
 					regiment = { type = light_bergsjaeger name = "第1纵队第1大队" experience = 80 strength = 7 historical_model = 0 }
 					regiment = { type = light_bergsjaeger name = "第1纵队第2大队" experience = 80 strength = 7 historical_model = 0 }
-					regiment = { type = light_bergsjaeger name = "第1纵队第3大队" experience = 80 strength = 7 historical_model = 0 }
-					regiment = { type = light_bergsjaeger name = "第1纵队第4大队" experience = 80 strength = 7 historical_model = 0 }
+					regiment = { type = partisan_bergsjaeger name = "第1纵队第3大队" experience = 80 strength = 7 historical_model = 0 }
+					regiment = { type = partisan_bergsjaeger name = "第1纵队第4大队" experience = 80 strength = 7 historical_model = 0 }
 				}
 				division= {
 					name = "第2纵队"
 					location = 5335
 					regiment = { type = light_bergsjaeger name = "第2纵队第1大队" experience = 80 strength = 7 historical_model = 0 }
 					regiment = { type = light_bergsjaeger name = "第2纵队第2大队" experience = 80 strength = 7 historical_model = 0 }
-					regiment = { type = light_bergsjaeger name = "第2纵队第3大队" experience = 80 strength = 7 historical_model = 0 }
+					regiment = { type = partisan_bergsjaeger name = "第2纵队第3大队" experience = 80 strength = 7 historical_model = 0 }
 				}
 				division= {
 					name = "第3纵队"
 					location = 5335
 					regiment = { type = light_bergsjaeger name = "第3纵队第1大队" experience = 80 strength = 7 historical_model = 0 }
-					regiment = { type = light_bergsjaeger name = "第3纵队第2大队" experience = 80 strength = 7 historical_model = 0 }
-					regiment = { type = light_bergsjaeger name = "第3纵队第3大队" experience = 80 strength = 7 historical_model = 0 }
+					regiment = { type = partisan_bergsjaeger name = "第3纵队第2大队" experience = 80 strength = 7 historical_model = 0 }
+					regiment = { type = partisan_bergsjaeger name = "第3纵队第3大队" experience = 80 strength = 7 historical_model = 0 }
 				}
 			}
 			corps = {

@@ -1,0 +1,12 @@
+new_core_add_component(
+    new_core_leader_capture
+    SOURCES
+        leader_capture_core_module.cpp
+        leader_capture_engine.cpp
+        leader_capture_core_module.h
+        leader_capture_engine.h
+    PUBLIC_LINKS
+        new_core_core
+        new_core_engine
+        new_core_native
+)

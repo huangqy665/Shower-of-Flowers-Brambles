@@ -1,0 +1,43 @@
+diplomatic_decisions = {
+	new_core_native_decision_direct_probe = {
+		potential = {
+			has_global_flag = new_core_native_decision_direct_enable
+		}
+		allow = {
+		}
+		effect = {
+			set_global_flag = new_core_native_decision_direct_result
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	new_core_native_decision_queue_probe = {
+		potential = {
+			has_global_flag = new_core_native_decision_queue_enable
+		}
+		allow = {
+		}
+		effect = {
+			set_global_flag = new_core_native_decision_queue_result
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+
+	new_core_native_decision_cancel_probe = {
+		potential = {
+			has_global_flag = new_core_native_decision_cancel_enable
+		}
+		allow = {
+		}
+		effect = {
+			set_global_flag = new_core_native_decision_cancel_result
+		}
+		ai_will_do = {
+			factor = 0
+		}
+	}
+}

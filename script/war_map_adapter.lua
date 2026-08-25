@@ -4,6 +4,7 @@ local ChinaWarMap = require('overlay_gui')
 local GuiActionBridge = require('gui_action_bridge')
 local GuiDataBridge = require('gui_data_bridge')
 local GuiPersistence = require('scripted_gui_persistence')
+local NativeEffectBridge = require('native_effect_bridge')
 
 P.Version = 9
 P.RegionNames = {}
@@ -32,6 +33,7 @@ P.PersistenceAckTimeoutTicks = 8
 P.LeaderAssignments = {}
 P.NextAssignmentOrder = 1
 P.PersistedAssignmentSlots = 0
+P.ProvinceTaskStatusText = ""
 
 P.RegionDisplayNames = {
 	guangdong_region = "广东省",
@@ -394,6 +396,113 @@ GuiActionBridge.Register("assign_war_map_leader", AssignLeader)
 GuiActionBridge.Register("move_war_map_leader", MoveLeader)
 GuiActionBridge.Register("step_down_war_map_leader", StepDownLeader)
 
+local function IsTagAllowed(tag, allowedTags)
+	for allowedTag in tostring(allowedTags or ""):gmatch("[^,%s]+") do
+		if allowedTag == tag then
+			return true
+		end
+	end
+	return false
+end
+
+local function ParseBoolean(value, defaultValue)
+	if value == nil or value == "" then
+		return defaultValue
+	end
+	value = tostring(value):lower()
+	return value ~= "no"
+		and value ~= "false"
+		and value ~= "off"
+		and value ~= "0"
+end
+
+local function ExecuteProvinceTask(payload)
+	payload = payload or {}
+	local parameters = payload.parameters or {}
+	local state = ChinaWarMap.Tick()
+	local playerTag = tostring(state.playerTag or "")
+	local regionName = P.RegionNames[P.SelectedRegionId]
+	local provinceIds = regionName
+		and ChinaWarMap.GetRegionProvinceIds(regionName) or nil
+	local targetScope = tostring(parameters.targetscope or "")
+	local costOperation = tostring(parameters.costoperation or "")
+	local effectOperation = tostring(parameters.effectoperation or "")
+	local manpowerCost = tonumber(parameters.manpowercost)
+	local modifier = tostring(parameters.modifier or "")
+	local durationDays = tonumber(parameters.durationdays)
+
+	if state.active ~= true
+		or P.SelectedRegionId <= 0
+		or not provinceIds
+		or #provinceIds == 0
+		or targetScope ~= "selected_region_provinces"
+		or not IsTagAllowed(playerTag, parameters.allowedtags)
+		or costOperation == ""
+		or effectOperation == ""
+		or not manpowerCost
+		or manpowerCost <= 0
+		or modifier == ""
+		or not durationDays
+		or durationDays <= 0 then
+		P.ProvinceTaskStatusText = "Task rejected: invalid task data or selection"
+		P.LastDay = nil
+		return false
+	end
+
+	if #provinceIds + 1 > 256 then
+		P.ProvinceTaskStatusText = "Task rejected: native effect batch is too large"
+		P.LastDay = nil
+		return false
+	end
+	if not NativeEffectBridge.IsAvailable(costOperation)
+		or not NativeEffectBridge.IsAvailable(effectOperation) then
+		P.ProvinceTaskStatusText = "Task rejected: required native effect is unavailable"
+		P.LastDay = nil
+		return false
+	end
+
+	local effects = {
+		{
+			operation = costOperation,
+			arguments = {
+				tag = playerTag,
+				amount = -manpowerCost
+			}
+		}
+	}
+	for _, provinceId in ipairs(provinceIds) do
+		table.insert(effects, {
+			operation = effectOperation,
+			arguments = {
+				province_id = provinceId,
+				modifier = modifier,
+				duration_days = durationDays
+			}
+		})
+	end
+
+	local succeeded, code, message, transactionId =
+		NativeEffectBridge.ExecuteTransaction(
+			"province_task",
+			effects,
+			ParseBoolean(parameters.atomic, true)
+		)
+	if succeeded then
+		P.ProvinceTaskStatusText = "Task completed (transaction "
+			.. tostring(transactionId) .. ")"
+	else
+		P.ProvinceTaskStatusText = "Task failed: "
+			.. tostring(code) .. " " .. tostring(message or "")
+	end
+	P.LastDay = nil
+	return succeeded
+end
+
+GuiActionBridge.Register(
+	"execute_war_map_province_task",
+	ExecuteProvinceTask
+)
+
 local function OpenWarMap()
 	P.WindowOpen = true
 	P.LastDay = nil
@@ -476,6 +585,8 @@ function P.BuildSnapshot()
 	snapshot.values["state.windowopen"] = P.WindowOpen
 	snapshot.values["selectedregion.id"] = P.SelectedRegionId
 	snapshot.values["selectedregion.source"] = P.SelectedRegionSource
+	snapshot.values["provinceTask.statusText"] =
+		P.ProvinceTaskStatusText
 	snapshot.values["warProgress.known"] =
 		type(snapshot.warProgress) == "table"
 		and snapshot.warProgress.known == true
@@ -780,14 +891,7 @@ function P.RestoreState(context)
 	P.PendingProfileToken = profileCreated and profileWritten
 		and profileToken or nil
 	P.PendingProfileTicks = 0
-	local windowOpen, persistenceAvailable =
-		GuiPersistence.ReadBoolean(
-		context,
-		P.PersistenceNamespace,
-		"window_open",
-		false
-	)
-	P.WindowOpen = windowOpen
+	P.WindowOpen = false
 	local persistedRevision, revisionAvailable =
 		GuiPersistence.ReadNumber(
 			context,
@@ -804,8 +908,7 @@ function P.RestoreState(context)
 	)
 	P.PendingPersistenceRevision = nil
 	P.PersistenceDirty = false
-	P.PersistenceAvailable = persistenceAvailable
-		and revisionAvailable
+	P.PersistenceAvailable = revisionAvailable
 		and (not profileCreated or profileWritten)
 	P.SelectedRegionId = math.max(0, math.floor(
 		GuiPersistence.ReadNumber(
@@ -920,12 +1023,6 @@ function P.PersistState(context)
 		P.PendingProfileTicks = 0
 	end
 	local success = true
-	success = GuiPersistence.WriteBoolean(
-		context,
-		P.PersistenceNamespace,
-		"window_open",
-		P.WindowOpen
-	) and success
 	success = GuiPersistence.WriteNumber(
 		context,
 		P.PersistenceNamespace,
@@ -1058,6 +1155,8 @@ function P.OnPublisherAcquired(context)
 	P.PendingProfileTicks = 0
 	P.PersistenceDirty = false
 	P.PersistedAssignmentSlots = 0
+	P.ProvinceTaskStatusText = ""
+	P.WindowOpen = false
 	P.RuntimeContext = context
 	P.LastDay = nil
 	P.LastSnapshot = nil
@@ -1066,6 +1165,7 @@ end
 
 function P.OnPublisherLost(context)
 	P.RuntimeContext = context or P.RuntimeContext
+	P.WindowOpen = false
 	return true
 end
 

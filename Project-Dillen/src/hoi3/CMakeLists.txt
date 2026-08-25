@@ -1,0 +1,19 @@
+new_core_add_component(
+    new_core_hoi3
+    SOURCES
+        hoi3_gameplay_effects.cpp
+        hoi3_gameplay_effects_module.cpp
+        hoi3_lifecycle.cpp
+        hoi3_native_object_keys.cpp
+        hoi3_native_queries_module.cpp
+        hoi3_gameplay_effects.h
+        hoi3_gameplay_effects_module.h
+        hoi3_lifecycle.h
+        hoi3_native_object_keys.h
+        hoi3_native_queries_module.h
+    PUBLIC_LINKS
+        new_core_core
+        new_core_engine
+        new_core_native
+        new_core_reverse
+)

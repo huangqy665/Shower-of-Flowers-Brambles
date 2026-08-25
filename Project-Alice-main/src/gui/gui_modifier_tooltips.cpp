@@ -1,0 +1,413 @@
+#include "gui_modifier_tooltips.hpp"
+#include "dcon_generated_ids.hpp"
+#include "demographics.hpp"
+#include "system_state.hpp"
+#include "script_constants.hpp"
+#include "text.hpp"
+#include "triggers.hpp"
+#include "ve_scalar_extensions.hpp"
+#include "province.hpp"
+
+namespace ui {
+
+enum class modifier_display_type : uint8_t {
+	integer,
+	percent,
+	fp_two_places,
+	fp_three_places,
+	yesno,
+	percent_two_places
+};
+struct modifier_display_info {
+	bool positive_is_green;
+	modifier_display_type type;
+	std::string_view name;
+};
+
+static const modifier_display_info province_modifier_names[sys::provincial_mod_offsets::count] = {
+#define MOD_LIST_ELEMENT(num, name, green_is_negative, display_type, locale_name)                                                \
+	modifier_display_info{green_is_negative, display_type, locale_name},
+		MOD_PROV_LIST
+#undef MOD_LIST_ELEMENT
+};
+static const modifier_display_info national_modifier_names[sys::national_mod_offsets::count] = {
+#define MOD_LIST_ELEMENT(num, name, green_is_negative, display_type, locale_name)                                                \
+	modifier_display_info{green_is_negative, display_type, locale_name},
+		MOD_NAT_LIST
+#undef MOD_LIST_ELEMENT
+};
+
+std::string format_modifier_value(sys::state& state, float value, modifier_display_type type) {
+	switch(type) {
+	case modifier_display_type::integer:
+		return (value >= 0.f ? "+" : "") + text::prettify(int64_t(value));
+	case modifier_display_type::percent:
+		return (value >= 0.f ? "+" : "") + text::format_percentage(value, 1);
+	case modifier_display_type::percent_two_places:
+		return (value >= 0.f ? "+" : "") + text::format_percentage(value, 2);
+	case modifier_display_type::fp_two_places:
+		return(value >= 0.f ? "+" : "") + text::format_float(value, 2);
+	case modifier_display_type::fp_three_places:
+		return (value >= 0.f ? "+" : "") + text::format_float(value, 3);
+	case modifier_display_type::yesno:
+		return (value >= 0.f ? "yes" : "no");
+	}
+	return "x%";
+}
+
+void modifier_description(sys::state& state, text::layout_base& layout, dcon::modifier_id mid, int32_t indentation, float scale) {
+	auto fat_id = dcon::fatten(state.world, mid);
+
+	auto const& prov_def = fat_id.get_province_values();
+	for(uint32_t i = 0; i < prov_def.modifier_definition_size; ++i) {
+		if(!bool(prov_def.offsets[i]))
+			break;
+		auto data = province_modifier_names[prov_def.offsets[i].index()];
+		auto box = text::open_layout_box(layout, indentation);
+		text::add_to_layout_box(state, layout, box, text::produce_simple_string(state, data.name), text::text_color::white);
+		text::add_to_layout_box(state, layout, box, std::string_view{ ":" }, text::text_color::white);
+		text::add_space_to_layout_box(state, layout, box);
+		auto color = data.positive_is_green ? (prov_def.values[i] >= 0.f ? text::text_color::green : text::text_color::red)
+			: (prov_def.values[i] >= 0.f ? text::text_color::red : text::text_color::green);
+		text::add_to_layout_box(state, layout, box, format_modifier_value(state, prov_def.values[i] * scale, data.type), color);
+		
+		// Special case since movement_cost is to show two modifiers: movement cost and trade attraction
+		if(prov_def.offsets[i] == sys::provincial_mod_offsets::movement_cost) {
+			text::close_layout_box(layout, box);
+			box = text::open_layout_box(layout, indentation);
+
+			text::add_to_layout_box(state, layout, box, text::produce_simple_string(state, "alice_trade_attractiveness"), text::text_color::white);
+			text::add_to_layout_box(state, layout, box, std::string_view{ ":" }, text::text_color::white);
+			text::add_space_to_layout_box(state, layout, box);
+			auto color2 = (prov_def.values[i] >= 0.f ? text::text_color::red : text::text_color::green);
+			text::add_to_layout_box(state, layout, box, format_modifier_value(state, -1 * prov_def.values[i] * scale, data.type), color2);
+		}
+
+		text::close_layout_box(layout, box);
+	}
+
+	auto const& nat_def = fat_id.get_national_values();
+	for(uint32_t i = 0; i < nat_def.modifier_definition_size; ++i) {
+		if(!bool(nat_def.offsets[i]))
+			break;
+		auto data = national_modifier_names[nat_def.offsets[i].index()];
+		auto box = text::open_layout_box(layout, indentation);
+		text::add_to_layout_box(state, layout, box, text::produce_simple_string(state, data.name), text::text_color::white);
+		text::add_to_layout_box(state, layout, box, std::string_view{":"}, text::text_color::white);
+		text::add_space_to_layout_box(state, layout, box);
+		auto color = data.positive_is_green ? (nat_def.values[i] >= 0.f ? text::text_color::green : text::text_color::red)
+																				: (nat_def.values[i] >= 0.f ? text::text_color::red : text::text_color::green);
+		text::add_to_layout_box(state, layout, box, format_modifier_value(state, nat_def.values[i] * scale, data.type), color);
+		text::close_layout_box(layout, box);
+	}
+}
+void active_single_modifier_description(sys::state& state, text::layout_base& layout, dcon::modifier_id mid, int32_t indentation,
+		bool& header, dcon::national_modifier_value nmid, float scaled) {
+	if(scaled == 0.f)
+		return;
+	auto fat_id = dcon::fatten(state.world, mid);
+	auto const& def = fat_id.get_national_values();
+	for(uint32_t i = 0; i < def.modifier_definition_size; ++i) {
+		if(!bool(def.offsets[i]))
+			break;
+		if(def.offsets[i] != nmid)
+			continue;
+
+		if(!header) {
+			header = true;
+			auto box = text::open_layout_box(layout, 0);
+			text::add_to_layout_box(state, layout, box, text::produce_simple_string(state, national_modifier_names[nmid.index()].name),
+					text::text_color::yellow);
+			text::add_to_layout_box(state, layout, box, std::string_view(":"), text::text_color::yellow);
+			text::close_layout_box(layout, box);
+		}
+
+		auto data = national_modifier_names[nmid.index()];
+		auto box = text::open_layout_box(layout, indentation);
+		text::add_to_layout_box(state, layout, box, text::produce_simple_string(state, fat_id.get_name()), text::text_color::white);
+		text::add_to_layout_box(state, layout, box, std::string_view{":"}, text::text_color::white);
+		text::add_space_to_layout_box(state, layout, box);
+		auto value = def.values[i] * scaled;
+		auto color = data.positive_is_green ? (value >= 0.f ? text::text_color::green : text::text_color::red)
+																				: (value >= 0.f ? text::text_color::red : text::text_color::green);
+		text::add_to_layout_box(state, layout, box, format_modifier_value(state, value, data.type), color);
+		text::close_layout_box(layout, box);
+	}
+}
+void active_single_modifier_description(sys::state& state, text::layout_base& layout, dcon::modifier_id mid, int32_t indentation,
+		bool& header, dcon::provincial_modifier_value pmid, float scaled) {
+	if(scaled == 0.f)
+		return;
+	auto fat_id = dcon::fatten(state.world, mid);
+	auto const& def = fat_id.get_province_values();
+	for(uint32_t i = 0; i < def.modifier_definition_size; ++i) {
+		if(!bool(def.offsets[i]))
+			break;
+		if(def.offsets[i] != pmid)
+			continue;
+
+		if(!header) {
+			header = true;
+			auto box = text::open_layout_box(layout, 0);
+			text::add_to_layout_box(state, layout, box, text::produce_simple_string(state, province_modifier_names[pmid.index()].name),
+					text::text_color::yellow);
+			text::add_to_layout_box(state, layout, box, std::string_view(":"), text::text_color::yellow);
+			text::close_layout_box(layout, box);
+		}
+
+		auto data = province_modifier_names[pmid.index()];
+		auto box = text::open_layout_box(layout, indentation);
+		text::add_to_layout_box(state, layout, box, text::produce_simple_string(state, fat_id.get_name()), text::text_color::white);
+		text::add_to_layout_box(state, layout, box, std::string_view{":"}, text::text_color::white);
+		text::add_space_to_layout_box(state, layout, box);
+		auto value = def.values[i] * scaled;
+		auto color = data.positive_is_green ? (value >= 0.f ? text::text_color::green : text::text_color::red)
+																				: (value >= 0.f ? text::text_color::red : text::text_color::green);
+		text::add_to_layout_box(state, layout, box, format_modifier_value(state, value, data.type), color);
+		text::close_layout_box(layout, box);
+	}
+}
+
+template<typename T>
+void acting_modifiers_description_province(sys::state& state, text::layout_base& layout, dcon::province_id p, int32_t identation,
+		bool& header, T nmid) {
+	if(state.national_definitions.land_province)
+		active_single_modifier_description(state, layout, state.national_definitions.land_province, identation, header, nmid);
+	for(auto mpr : state.world.province_get_current_modifiers(p))
+		active_single_modifier_description(state, layout, mpr.mod_id, identation, header, nmid);
+	if(auto m = state.world.province_get_terrain(p); m)
+		active_single_modifier_description(state, layout, m, identation, header, nmid);
+	if(auto m = state.world.province_get_climate(p); m)
+		active_single_modifier_description(state, layout, m, identation, header, nmid);
+	if(auto m = state.world.province_get_continent(p); m)
+		active_single_modifier_description(state, layout, m, identation, header, nmid);
+	if(auto c = state.world.province_get_crime(p); c) {
+		if(auto m = state.culture_definitions.crimes[c].modifier; m)
+			active_single_modifier_description(state, layout, m, identation, header, nmid);
+	}
+	for(auto t = economy::province_building_type::railroad; t != economy::province_building_type::last; t = economy::province_building_type(uint8_t(t) + 1)) {
+		if(state.economy_definitions.building_definitions[int32_t(t)].province_modifier) {
+			active_single_modifier_description(state, layout, state.economy_definitions.building_definitions[int32_t(t)].province_modifier, identation,
+					header, nmid, state.world.province_get_building_level(p, uint8_t(t)));
+		}
+	}
+	if(state.national_definitions.infrastructure) {
+		active_single_modifier_description(state, layout, state.national_definitions.infrastructure, identation, header, nmid,
+				state.world.province_get_building_level(p, uint8_t(economy::province_building_type::railroad)) * state.economy_definitions.building_definitions[int32_t(economy::province_building_type::railroad)].infrastructure);
+	}
+	if(state.national_definitions.nationalism) {
+		active_single_modifier_description(state, layout, state.national_definitions.nationalism, identation, header, nmid,
+				(state.world.province_get_is_owner_core(p) ? 1.f : 0.f) * state.world.province_get_nationalism(p));
+	}
+	if(state.national_definitions.non_coastal) {
+		active_single_modifier_description(state, layout, state.national_definitions.non_coastal, identation, header, nmid,
+				!state.world.province_get_is_coast(p) ? 1.f : 0.f);
+	}
+	if(state.national_definitions.coastal) {
+		active_single_modifier_description(state, layout, state.national_definitions.coastal, identation, header, nmid,
+				state.world.province_get_is_coast(p) ? 1.f : 0.f);
+	}
+	if(state.national_definitions.overseas) {
+		active_single_modifier_description(state, layout, state.national_definitions.overseas, identation, header, nmid,
+				province::is_overseas(state, p) ? 1.f : 0.f);
+	}
+	if(state.national_definitions.core) {
+		active_single_modifier_description(state, layout, state.national_definitions.core, identation, header, nmid,
+				state.world.province_get_is_owner_core(p) ? 1.f : 0.f);
+	}
+	if(state.national_definitions.has_siege) {
+		active_single_modifier_description(state, layout, state.national_definitions.has_siege, identation, header, nmid,
+				military::province_is_under_siege(state, p) ? 1.f : 0.f);
+	}
+	if(state.national_definitions.blockaded) {
+		active_single_modifier_description(state, layout, state.national_definitions.blockaded, identation, header, nmid,
+				military::province_is_blockaded(state, p) ? 1.f : 0.f);
+	}
+}
+
+void active_modifiers_description(sys::state& state, text::layout_base& layout, dcon::province_id p, int32_t identation,
+		dcon::provincial_modifier_value nmid, bool have_header) {
+	bool header = !have_header;
+	acting_modifiers_description_province(state, layout, p, identation, header, nmid);
+}
+
+void active_modifiers_description(sys::state& state, text::layout_base& layout, dcon::nation_id n, int32_t identation,
+		dcon::national_modifier_value nmid, bool have_header) {
+	bool header = !have_header;
+	if(auto ts = state.world.nation_get_tech_school(n); ts)
+		active_single_modifier_description(state, layout, ts, identation, header, nmid);
+	if(auto nv = state.world.nation_get_national_value(n); nv)
+		active_single_modifier_description(state, layout, nv, identation, header, nmid);
+	for(auto mpr : state.world.nation_get_current_modifiers(n))
+		active_single_modifier_description(state, layout, mpr.mod_id, identation, header, nmid);
+	state.world.for_each_technology([&](dcon::technology_id t) {
+		auto tmod = state.world.technology_get_modifier(t);
+		if(tmod && state.world.nation_get_active_technologies(n, t))
+			active_single_modifier_description(state, layout, tmod, identation, header, nmid);
+	});
+	state.world.for_each_invention([&](dcon::invention_id i) {
+		auto tmod = state.world.invention_get_modifier(i);
+		if(tmod && state.world.nation_get_active_inventions(n, i))
+			active_single_modifier_description(state, layout, tmod, identation, header, nmid);
+	});
+	state.world.for_each_issue([&](dcon::issue_id i) {
+		auto iopt = state.world.nation_get_issues(n, i);
+		auto imod = state.world.issue_option_get_modifier(iopt);
+		if(imod &&
+				(state.world.nation_get_is_civilized(n) || state.world.issue_get_issue_type(i) == uint8_t(culture::issue_type::party)))
+			active_single_modifier_description(state, layout, imod, identation, header, nmid);
+	});
+	if(!state.world.nation_get_is_civilized(n)) {
+		state.world.for_each_reform([&](dcon::reform_id i) {
+			auto iopt = state.world.nation_get_reforms(n, i);
+			auto imod = state.world.reform_option_get_modifier(iopt);
+			if(imod)
+				active_single_modifier_description(state, layout, imod, identation, header, nmid);
+		});
+	}
+
+	auto in_wars = state.world.nation_get_war_participant(n);
+	if(in_wars.begin() != in_wars.end()) {
+		if(state.national_definitions.war)
+			active_single_modifier_description(state, layout, state.national_definitions.war, identation, header, nmid);
+	} else {
+		if(state.national_definitions.peace)
+			active_single_modifier_description(state, layout, state.national_definitions.peace, identation, header, nmid);
+	}
+
+	if(state.national_definitions.badboy) {
+		active_single_modifier_description(state, layout, state.national_definitions.badboy, identation, header, nmid,
+				state.world.nation_get_infamy(n));
+	}
+	if(state.national_definitions.plurality) {
+		active_single_modifier_description(state, layout, state.national_definitions.plurality, identation, header, nmid,
+				state.world.nation_get_plurality(n));
+	}
+	if(state.national_definitions.war_exhaustion) {
+		active_single_modifier_description(state, layout, state.national_definitions.war_exhaustion, identation, header, nmid,
+				state.world.nation_get_war_exhaustion(n));
+	}
+	if(state.national_definitions.average_literacy) {
+		auto literacy = nations::get_avg_non_colonial_literacy(state, n);
+		active_single_modifier_description(state, layout, state.national_definitions.average_literacy, identation, header, nmid, literacy);
+	}
+	if(state.national_definitions.total_blockaded) {
+		auto bc = ve::to_float(state.world.nation_get_central_blockaded(n));
+		auto c = ve::to_float(state.world.nation_get_central_ports(n));
+		active_single_modifier_description(state, layout, state.national_definitions.total_blockaded, identation, header, nmid,
+				c > 0.0f ? bc / c : 0.0f);
+	}
+	if(state.national_definitions.total_occupation) {
+		auto nid = fatten(state.world, n);
+		auto cap_continent = nid.get_capital().get_continent();
+		float total = 0.0f;
+		float occupied = 0.0f;
+		for(auto owned : nid.get_province_ownership()) {
+			if(owned.get_province().get_continent() == cap_continent) {
+				total += 1.0f;
+				if(auto c = owned.get_province().get_nation_from_province_control().id; c && c != n) {
+					occupied += 1.0f;
+				}
+			}
+		}
+		active_single_modifier_description(state, layout, state.national_definitions.total_occupation, identation, header, nmid,
+				total > 0.0f ? occupied / total : 0.0f);
+	}
+
+	if(state.world.nation_get_is_civilized(n) == false) {
+		if(state.national_definitions.unciv_nation)
+			active_single_modifier_description(state, layout, state.national_definitions.unciv_nation, identation, header, nmid);
+	} else if(nations::is_great_power(state, n)) {
+		if(state.national_definitions.great_power)
+			active_single_modifier_description(state, layout, state.national_definitions.great_power, identation, header, nmid);
+	} else if(state.world.nation_get_rank(n) <= uint16_t(state.defines.colonial_rank)) {
+		if(state.national_definitions.second_power)
+			active_single_modifier_description(state, layout, state.national_definitions.second_power, identation, header, nmid);
+	} else {
+		if(state.national_definitions.civ_nation)
+			active_single_modifier_description(state, layout, state.national_definitions.civ_nation, identation, header, nmid);
+	}
+
+	if(state.national_definitions.disarming) {
+		if(bool(state.world.nation_get_disarmed_until(n)) && state.world.nation_get_disarmed_until(n) > state.current_date)
+			active_single_modifier_description(state, layout, state.national_definitions.disarming, identation, header, nmid);
+	}
+	if(state.national_definitions.in_bankrupcy) {
+		if(bool(state.world.nation_get_is_bankrupt(n)))
+			active_single_modifier_description(state, layout, state.national_definitions.in_bankrupcy, identation, header, nmid);
+	}
+	// TODO: debt
+
+	for(auto tm : state.national_definitions.triggered_modifiers) {
+		if(tm.trigger_condition && tm.linked_modifier) {
+			auto trigger_condition_satisfied =
+					trigger::evaluate(state, tm.trigger_condition, trigger::to_generic(n), trigger::to_generic(n), 0);
+			if(trigger_condition_satisfied)
+				active_single_modifier_description(state, layout, tm.linked_modifier, identation, header, nmid);
+		}
+	}
+
+	// Provinces of this nation
+	for(auto pc : state.world.nation_get_province_ownership_as_nation(n)) {
+		auto p = pc.get_province().id;
+		acting_modifiers_description_province<dcon::national_modifier_value>(state, layout, p, identation, header, nmid);
+	}
+}
+void display_battle_reinforcement_modifiers(sys::state& state, dcon::land_battle_id b, text::layout_base& contents, int32_t indent, bool attacker) {
+	uint32_t reserve_count = military::get_reserves_count_by_side(state, b, attacker);
+	//top header displaying how many brigades are currently in reserve on that side
+	text::add_line(state, contents, "alice_reinforce_battle_mod_top", text::variable_type::x, text::format_wholenum(reserve_count), indent);
+
+	// average army spending in battle
+	float reinf_mod = military::calculate_average_battle_supply_spending(state, b, attacker);
+	text::add_line(state, contents, "alice_reinforce_battle_spending_modifier", text::variable_type::x, text::format_float(reinf_mod, 2), indent + 20);
+
+	// location reinforcement bonus
+	reinf_mod = military::calculate_average_battle_location_modifier(state, b, attacker);
+	text::add_line(state, contents, "alice_reinforce_battle_location_modifier", text::variable_type::x, text::format_float(reinf_mod, 2), indent + 20);
+
+	// get the national modifiers 
+	reinf_mod = military::calculate_average_battle_national_modifiers(state, b, attacker);
+	text::add_line(state, contents, "alice_reinforce_battle_national_modifier", text::variable_type::x, text::format_float(reinf_mod, 2), indent + 20);
+}
+
+void display_unit_stats(sys::state& state, text::columnar_layout& contents, dcon::nation_id controller, dcon::unit_type_id unit_type) {
+
+	text::add_line(state, contents, state.military_definitions.unit_base_definitions[unit_type].name);
+	const auto& stats = state.world.nation_get_unit_stats(controller, unit_type);
+	if(state.military_definitions.unit_base_definitions[unit_type].is_land) {
+		if(stats.reconnaissance_or_fire_range > 0) {
+			text::add_line(state, contents, "unit_recon", text::variable_type::x, text::format_float(stats.reconnaissance_or_fire_range, 2));
+		}
+		if(stats.siege_or_torpedo_attack > 0) {
+			text::add_line(state, contents, "unit_siege", text::variable_type::x, text::format_float(stats.siege_or_torpedo_attack, 2));
+		}
+		text::add_line(state, contents, "unit_attack", text::variable_type::x, text::format_float(stats.attack_or_gun_power, 2));
+		text::add_line(state, contents, "unit_defence", text::variable_type::x, text::format_float(stats.defence_or_hull, 2));
+		text::add_line(state, contents, "unit_discipline", text::variable_type::x, text::format_percentage(stats.discipline_or_evasion, 0));
+		if(stats.support > 0) {
+			text::add_line(state, contents, "unit_support", text::variable_type::x, text::format_percentage(stats.support, 0));
+		}
+		text::add_line(state, contents, "unit_maneuver", text::variable_type::x, text::format_float(stats.maneuver, 0));
+		text::add_line(state, contents, "unit_max_speed", text::variable_type::x, text::format_float(stats.maximum_speed, 2));
+		text::add_line(state, contents, "unit_supply_consumption", text::variable_type::x, text::format_percentage(stats.supply_consumption, 0));
+	} else {
+		text::add_line(state, contents, "unit_max_speed", text::variable_type::x, text::format_float(stats.maximum_speed, 2));
+		text::add_line(state, contents, "unit_attack", text::variable_type::x, text::format_float(stats.attack_or_gun_power, 2));
+		if(stats.siege_or_torpedo_attack > 0) {
+			text::add_line(state, contents, "unit_torpedo_attack", text::variable_type::x, text::format_float(stats.siege_or_torpedo_attack, 2));
+		}
+		text::add_line(state, contents, "unit_hull", text::variable_type::x, text::format_float(stats.defence_or_hull, 2));
+		text::add_line(state, contents, "unit_fire_range", text::variable_type::x, text::format_float(stats.reconnaissance_or_fire_range, 2));
+		if(stats.discipline_or_evasion > 0) {
+			text::add_line(state, contents, "unit_evasion", text::variable_type::x, text::format_percentage(stats.discipline_or_evasion, 0));
+		}
+		text::add_line(state, contents, "unit_supply_consumption", text::variable_type::x, text::format_percentage(stats.supply_consumption, 0));
+		text::add_line(state, contents, "unit_supply_load", text::variable_type::x, state.military_definitions.unit_base_definitions[unit_type].supply_consumption_score);
+	}
+
+}
+
+
+
+} // namespace ui

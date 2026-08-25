@@ -1,0 +1,85 @@
+name: Build Matrix
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  linux-build:
+    strategy:
+      matrix:
+        config: [Debug]
+        llvm-version: [20]
+        compiler: [clang]
+        os: [ubuntu-latest]
+
+    env:
+      CC: clang-${{ matrix.llvm-version }}
+      CXX: clang++-${{ matrix.llvm-version }}
+
+    name: Ubuntu with ${{ matrix.compiler }} (${{ matrix.config }})
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Apt LLVM
+      run: |
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh ${{ matrix.llvm-version }}
+          sudo apt-get update
+
+    - name: install Clang
+      run: sudo apt install --no-install-recommends clang-${{ matrix.llvm-version }}
+
+    - name: "Install"
+      uses: awalsh128/cache-apt-pkgs-action@latest
+      with:
+        packages: git build-essential cmake libgl1-mesa-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libicu-dev
+        version: 1.0
+
+    - name: Configure Build Files
+      run: |
+        cmake -DCMAKE_BUILD_TYPE=${{ matrix.config }} -B build
+
+    - name: Build Project Alice
+      run: |
+        cmake --build build --parallel --target Alice
+
+    # - name: Build Project Alice Incremental
+    #   run: |
+    #     cmake --build build --parallel --target AliceIncremental
+
+  windows-build:
+    strategy:
+      matrix:
+        config: [debug-windows]
+    runs-on: [windows-latest]
+    name: Windows (${{ matrix.config }})
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Configure Build Files
+      run: |
+        cmake -G "Visual Studio 18 2026" --preset=x64-${{ matrix.config }} -B build
+
+    - name: Build Project Alice
+      run: |
+        cmake --build build --parallel --target Alice
+
+    - name: Build Project Alice Incremental
+      run: |
+        cmake --build build --parallel --target AliceIncremental
+
+  build-check:
+    needs: [windows-build, linux-build]
+    runs-on: ubuntu-latest
+    name: Build Matrix
+    steps:
+      - name: Check
+        run: |
+          echo success

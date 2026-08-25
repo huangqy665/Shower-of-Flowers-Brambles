@@ -1,0 +1,11 @@
+country_event = {
+	id = 20990001
+	is_triggered_only = yes
+	title = "NEW_CORE_NATIVE_EVENT_PROBE_TITLE"
+	desc = "NEW_CORE_NATIVE_EVENT_PROBE_DESC"
+
+	option = {
+		name = "NEW_CORE_NATIVE_EVENT_PROBE_OPTION"
+		set_global_flag = new_core_native_event_probe_result
+	}
+}

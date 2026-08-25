@@ -1,0 +1,3447 @@
+#include "map_state.hpp"
+
+#include <glm/gtx/intersect.hpp>
+#include <glm/gtx/polar_coordinates.hpp>
+#include <glm/gtc/constants.hpp>
+#include <glm/gtx/transform.hpp>
+
+#include "system_state.hpp"
+#include "military.hpp"
+#include "parsers_declarations.hpp"
+#include "gui_graphics.hpp"
+#include "gui_element_base.hpp"
+
+#include "economy_pops.hpp"
+#include "province.hpp"
+
+#include "projections.hpp"
+#include "gamerule_templates.hpp"
+
+//#include <filesystem>
+
+#include <set>
+
+namespace map {
+
+dcon::province_id map_state::get_selected_province() {
+	return selected_province;
+}
+
+// Called to load the map. Will load the texture and shaders from disk
+void map_state::load_map(sys::state& state) {
+	map_data.load_map(state);
+}
+
+sys::projection_mode map_state::current_view(const sys::state& state) {
+	return state.user_settings.map_is_globe;
+}
+
+
+void map_state::render(sys::state& state, uint32_t screen_x, uint32_t screen_y) {
+	update(state);
+	glm::vec2 inverted_map_shift = { glm::mod(pos.data.x, 1.f), pos.data.y};
+	map_space::point_normalized offset = map_space::normalized_from_inverted({ inverted_map_shift });
+	map_data.render(
+		state,
+		glm::vec2(screen_x, screen_y),
+		offset,
+		zoom,
+		current_view(state),
+		active_map_mode,
+		globe_rotation,
+		time_counter
+	);
+}
+
+glm::vec2 get_port_location(sys::state& state, dcon::province_id p) {
+	auto pt = state.world.province_get_port_to(p);
+	if(!pt)
+		return glm::vec2{};
+
+	auto adj = state.world.get_province_adjacency_by_province_pair(p, pt);
+	assert(adj);
+	auto id = adj.index();
+	auto& map_data = state.map_state.map_data;
+	auto border_index = map_data.adj_index_to_border_edge[id];
+	auto& border = map_data.border_edges[border_index];
+	auto& vertex = map_data.province_border_vertices[border.offset + border.count / 2];
+	glm::vec2 map_size = glm::vec2(map_data.size_x, map_data.size_y);
+
+	return vertex.position * map_size;
+}
+
+glm::vec2 get_port_direction(sys::state& state, dcon::province_id p) {
+	auto pt = state.world.province_get_port_to(p);
+	if(!pt)
+		return glm::vec2{};
+
+	auto adj = state.world.get_province_adjacency_by_province_pair(p, pt);
+	assert(adj);
+	auto id = adj.index();
+	auto& map_data = state.map_state.map_data;
+	auto border_index = map_data.adj_index_to_border_edge[id];
+	auto& border = map_data.border_edges[border_index];
+	auto& vertex = map_data.province_border_vertices[border.offset + border.count / 2];
+
+	auto& next_vertex = vertex.next_point;
+	auto& prev_vertex = vertex.previous_point;
+
+	glm::vec2 map_size = glm::vec2(map_data.size_x, map_data.size_y);
+	auto center = state.world.province_get_mid_point(p) / map_size;
+	auto from_center_to_port = vertex.position - center;
+
+	if(glm::length(next_vertex - prev_vertex) < 0.0001f) {
+		return glm::normalize(from_center_to_port * map_size);
+	}
+
+	auto tangent_direction = glm::normalize(next_vertex - prev_vertex);
+	auto candidate_direction = glm::vec2(tangent_direction.y, -tangent_direction.x);
+
+
+	if(glm::dot(from_center_to_port, candidate_direction) < 0.f){
+		candidate_direction = -candidate_direction;
+	}
+
+	return glm::normalize(candidate_direction * map_size);
+}
+
+bool is_sea_province(sys::state& state, dcon::province_id prov_id) {
+	return prov_id.index() >= state.province_definitions.first_sea_province.index();
+}
+
+glm::vec2 get_navy_location(sys::state& state, dcon::province_id prov_id) {
+	if(is_sea_province(state, prov_id))
+		return state.world.province_get_mid_point(prov_id);
+	else
+		return get_port_location(state, prov_id);
+}
+
+glm::vec2 get_army_location(sys::state& state, dcon::province_id prov_id) {
+	return state.world.province_get_mid_point(prov_id);
+}
+
+void register_trade_flow(display_data& map_data, int node1, int node2, float volume) {
+	assert(node1 >= 0);
+	assert(node2 >= 0);
+	if(map_data.particle_next_node_probability.contains(node1)) {
+		if(map_data.particle_next_node_probability[node1].contains(node2)) {
+			map_data.particle_next_node_probability[node1][node2] += volume;
+		} else {
+			map_data.particle_next_node_probability[node1][node2] = volume;
+		}
+	} else {
+		map_data.particle_next_node_probability[node1] = { };
+		map_data.particle_next_node_probability[node1][node2] = volume;
+	}
+}
+
+void update_trade_flow_arrows(sys::state& state, display_data& map_data) {
+	// idea:
+	// trade graph emits particles which move from the start of edge to the end of edge
+	// when particle reaches the node, it has a chance to dissappear
+	// depending on difference between trade inflow and outflow
+	// or it can be redirected to one of other nodes depending on the volume
+
+	map_data.trade_particles_positions.clear();
+	map_data.particle_next_node_probability.clear();
+	map_data.particle_creation_probability.clear();
+
+	auto size_x = float(map_data.size_x);
+	auto size_y = float(map_data.size_y);
+
+	map_data.trade_flow_vertices.clear();
+	map_data.trade_flow_arrow_counts.clear();
+	map_data.trade_flow_arrow_starts.clear();
+
+	auto cid = state.selected_trade_good;
+
+	if(!cid) {
+		return;
+	}
+
+	// we start with getting some stats on trade routes:
+	// we do not want to display too many of them
+
+	auto total = 0.f;
+	auto count = 0.f;
+
+	std::vector<float> volume_sample;
+	float total_volume = 0.f;
+
+	state.world.for_each_trade_route([&](dcon::trade_route_id trade_route) {
+		auto current_volume = state.world.trade_route_get_volume(trade_route, cid);
+		auto origin =
+			current_volume > 0.f
+			? state.world.trade_route_get_connected_markets(trade_route, 0)
+			: state.world.trade_route_get_connected_markets(trade_route, 1);
+		auto target =
+			current_volume <= 0.f
+			? state.world.trade_route_get_connected_markets(trade_route, 0)
+			: state.world.trade_route_get_connected_markets(trade_route, 1);
+		auto sat = state.world.market_get_actual_probability_to_buy(origin, cid);
+		auto absolute_volume = std::abs(sat * current_volume);
+		total_volume += absolute_volume;
+		volume_sample.push_back(absolute_volume);
+	});
+
+	if(total_volume == 0.f) {
+		return;
+	}
+
+	std::sort(volume_sample.begin(), volume_sample.end());
+	// we are interested only in the most significant routes
+	auto cutoff = std::max(0.01f, volume_sample[9 * volume_sample.size() / 10] * 0.5f);
+
+	// start with construction of trade_graph
+	std::map<int32_t, std::map<int32_t, float>> trade_graph;
+	
+	std::map<int32_t, float> trade_graph_toward_port;
+	/*
+	state.world.for_each_province([&](dcon::province_id province) {
+		auto local_in = economy::estimate_intermediate_consumption(state, cid, province) + economy::estimate_pops_consumption(state, cid, province);
+		auto local_out = economy::estimate_production(state, cid, province);
+		auto absolute_volume = std::abs(local_out - local_in);
+		if(absolute_volume < cutoff) {
+			return;
+		}
+
+		auto sid = state.world.province_get_state_membership(province);
+		//auto mid = state.world.state_instance_get_market_from_local_market(sid);
+		auto target = state.world.state_instance_get_capital(sid).id;
+
+		if(local_in > local_out) {
+			auto path = province::make_unowned_naval_path(state, province, target);
+			auto start = province;
+			for(int i = int(path.size()) - 1; i >= 0; i--) {
+				auto end = path[i];
+				if(trade_graph.contains(start.index())) {
+					if(trade_graph[start.index()].contains(end.index())) {
+						trade_graph[start.index()][end.index()] += absolute_volume;
+					} else {
+						trade_graph[start.index()][end.index()] = absolute_volume;
+					}
+				} else {
+					trade_graph[start.index()] = std::map<int32_t, float>{ };
+					trade_graph[start.index()][end.index()] = absolute_volume;
+				}
+
+				auto start_index = start.index();
+				if(start.index() < state.province_definitions.first_sea_province.index()) {
+					start_index += state.world.province_size();
+				}
+				auto end_index = end.index();
+				if(end.index() < state.province_definitions.first_sea_province.index()) {
+					end_index += state.world.province_size();
+				}
+				register_trade_flow(map_data, start_index, end_index, absolute_volume);
+
+				start = end;
+			}
+		} else {
+			auto path = province::make_unowned_naval_path(state, target, province);
+			auto start = target;
+			for(int i = int(path.size()) - 1; i >= 0; i--) {
+				auto end = path[i];
+				if(trade_graph.contains(start.index())) {
+					if(trade_graph[start.index()].contains(end.index())) {
+						trade_graph[start.index()][end.index()] += absolute_volume;
+					} else {
+						trade_graph[start.index()][end.index()] = absolute_volume;
+					}
+				} else {
+					trade_graph[start.index()] = std::map<int32_t, float>{ };
+					trade_graph[start.index()][end.index()] = absolute_volume;
+				}
+
+				auto start_index = start.index();
+				if(start.index() < state.province_definitions.first_sea_province.index()) {
+					start_index += state.world.province_size();
+				}
+				auto end_index = end.index();
+				if(end.index() < state.province_definitions.first_sea_province.index()) {
+					end_index += state.world.province_size();
+				}
+				register_trade_flow(map_data, start_index, end_index, absolute_volume);
+
+				start = end;
+			}
+		}
+	});
+	*/
+
+	state.world.for_each_trade_route([&](dcon::trade_route_id trade_route) {
+		auto current_volume = state.world.trade_route_get_volume(trade_route, cid);
+		auto origin =
+			current_volume > 0.f
+			? state.world.trade_route_get_connected_markets(trade_route, 0)
+			: state.world.trade_route_get_connected_markets(trade_route, 1);
+		auto target =
+			current_volume <= 0.f
+			? state.world.trade_route_get_connected_markets(trade_route, 0)
+			: state.world.trade_route_get_connected_markets(trade_route, 1);
+		auto s_origin = state.world.market_get_zone_from_local_market(origin);
+		auto s_target = state.world.market_get_zone_from_local_market(target);
+		auto p_origin = state.world.state_instance_get_capital(s_origin);
+		auto p_target = state.world.state_instance_get_capital(s_target);
+		auto sat = state.world.market_get_actual_probability_to_buy(origin, cid);
+		auto absolute_volume = std::abs(sat * current_volume);
+
+		if(absolute_volume < cutoff) {
+			return;
+		}
+
+		bool is_sea = state.world.trade_route_get_is_sea_route(trade_route);
+		if(is_sea) {
+			auto coast_origin = province::state_get_coastal_capital(state, s_origin);
+			auto coast_target = province::state_get_coastal_capital(state, s_target);
+
+			auto path = province::make_sea_trade_route_path(state, coast_origin, coast_target);
+			auto start = coast_origin;
+			for(int i = int(path.size()) - 1; i >= 0; i--) {
+				auto end = path[i];
+				if(trade_graph.contains(start.index())) {
+					if(trade_graph[start.index()].contains(end.index())) {
+						trade_graph[start.index()][end.index()] += absolute_volume;
+					} else {
+						trade_graph[start.index()][end.index()] = absolute_volume;
+					}
+				} else {
+					trade_graph[start.index()] = std::map<int32_t, float>{ };
+					trade_graph[start.index()][end.index()] = absolute_volume;
+				}
+
+				auto start_index = start.index();
+				if(start.index() < state.province_definitions.first_sea_province.index()) {
+					start_index += state.world.province_size();
+				}
+				auto end_index = end.index();
+				if(end.index() < state.province_definitions.first_sea_province.index()) {
+					end_index += state.world.province_size();
+				}
+				register_trade_flow(map_data, start_index, end_index, absolute_volume);
+
+				start = end;
+			}
+		} else {
+			auto path = province::make_land_trade_path(state, p_origin, p_target);
+			auto start = p_origin.id;
+			for(int i = int(path.size()) - 1; i >= 0; i--) {
+				auto end = path[i];
+				if(trade_graph.contains(start.index())) {
+					if(trade_graph[start.index()].contains(end.index())) {
+						trade_graph[start.index()][end.index()] += absolute_volume;
+					} else {
+						trade_graph[start.index()][end.index()] = absolute_volume;
+					}
+				} else {
+					trade_graph[start.index()] = { };
+					trade_graph[start.index()][end.index()] = absolute_volume;
+				}
+
+				register_trade_flow(map_data, start.index(), end.index(), absolute_volume);
+
+				start = end;
+			}
+		}
+	});
+
+	state.world.for_each_market([&](dcon::market_id mid) {
+		auto trade_balance_sea = 0.f;
+		auto trade_balance_land = 0.f;
+
+		auto total_in = 0.f;
+		auto total_out = 0.f;
+
+		state.world.market_for_each_trade_route(mid, [&](auto route) {
+			auto current_volume = state.world.trade_route_get_volume(route, cid);
+			auto origin =
+				current_volume > 0.f
+				? state.world.trade_route_get_connected_markets(route, 0)
+				: state.world.trade_route_get_connected_markets(route, 1);
+			auto target =
+				current_volume <= 0.f
+				? state.world.trade_route_get_connected_markets(route, 0)
+				: state.world.trade_route_get_connected_markets(route, 1);
+			auto sat = state.world.market_get_actual_probability_to_buy(origin, cid);
+
+			if(state.world.trade_route_get_connected_markets(route, 1) == mid) {
+				current_volume = -current_volume;
+			}
+
+			bool is_sea = state.world.trade_route_get_distance(route) == state.world.trade_route_get_sea_distance(route);
+
+			if(is_sea) {
+				trade_balance_sea += current_volume * sat;
+			} else {
+				trade_balance_land += current_volume * sat;
+			}
+
+			if(current_volume > 0) {
+				total_out += current_volume * sat;
+			} else {
+				total_in -= current_volume * sat;
+			}
+		});
+
+
+
+		// if total in > total out
+		// we assume that commodity has a chance to be consumed
+		// it will be represented by a loop edge
+		// so we can assume that total out is actually total in
+
+		auto disappear_weight = 0.f;
+		if(total_in > total_out) {
+			total_out = total_in;
+			disappear_weight = total_in - total_out;
+		}
+
+
+
+		auto sid = state.world.market_get_zone_from_local_market(mid);
+		auto port = province::state_get_coastal_capital(state, sid);
+		auto stockpile_location = state.world.state_instance_get_capital(sid);
+		auto absolute_volume = std::abs(trade_balance_sea);
+
+
+		// set trade graph edges
+
+		auto stockpile_index = stockpile_location.id.index();
+		register_trade_flow(map_data, stockpile_index, stockpile_index, disappear_weight);
+
+
+		if(total_out > total_in) {
+			map_data.particle_creation_probability[stockpile_index] = total_out - total_in;
+		}
+
+		if(trade_balance_sea > cutoff) {
+			auto path = province::make_land_trade_path(state, stockpile_location, port);
+			auto start = stockpile_location.id;
+			for(int i = int(path.size()) - 1; i >= 0; i--) {
+				auto end = path[i];
+				if(trade_graph.contains(start.index())) {
+					if(trade_graph[start.index()].contains(end.index())) {
+						trade_graph[start.index()][end.index()] += absolute_volume;
+					} else {
+						trade_graph[start.index()][end.index()] = absolute_volume;
+					}
+				} else {
+					trade_graph[start.index()] = { };
+					trade_graph[start.index()][end.index()] = absolute_volume;
+				}
+
+				register_trade_flow(map_data, start.index(), end.index(), absolute_volume);
+
+				start = end;
+			}
+			trade_graph_toward_port[port.index()] = absolute_volume;
+
+			auto port_index = port.index() + state.world.province_size();
+			auto city_index = port.index();
+			register_trade_flow(map_data, city_index, port_index, absolute_volume);
+		} else if(trade_balance_sea < -cutoff) {
+			auto path = province::make_land_trade_path(state, port, stockpile_location);
+			auto start = port;
+			for(int i = int(path.size()) - 1; i >= 0; i--) {
+				auto end = path[i];
+
+				if(trade_graph.contains(start.index())) {
+					if(trade_graph[start.index()].contains(end.index())) {
+						trade_graph[start.index()][end.index()] += absolute_volume;
+					} else {
+						trade_graph[start.index()][end.index()] = absolute_volume;
+					}
+				} else {
+					trade_graph[start.index()] = { };
+					trade_graph[start.index()][end.index()] = absolute_volume;
+				}
+
+				register_trade_flow(map_data, start.index(), end.index(), absolute_volume);
+
+				start = end;
+			}
+
+			trade_graph_toward_port[port.index()] = -absolute_volume;
+
+			auto port_index = port.index() + state.world.province_size();
+			auto city_index = port.index();
+			register_trade_flow(map_data, port_index, city_index, absolute_volume);
+		}
+	});
+
+	// generate some particles:
+
+	for(int i = 0; i < std::min(std::max(300, (int)total_volume), 5000); i++) {
+		trade_particle data{
+			{ },
+			{ },
+			-1,
+			-1,
+			-1
+		};
+		map_data.trade_particles_positions.push_back(data);
+	}
+
+	// normalisation:
+
+	{
+		float total_score = 0.f;
+		for(auto const& [candidate, probability] : map_data.particle_creation_probability) {
+			total_score += probability;
+		}
+
+		if(total_score > 0.f) {
+			for(auto const& [candidate, probability] : map_data.particle_creation_probability) {
+				map_data.particle_creation_probability[candidate] /= total_score;
+			}
+		}
+	}
+
+	state.world.for_each_province([&](dcon::province_id origin) {
+		// normal prov
+
+		auto base_index = origin.index();
+		if(map_data.particle_next_node_probability.contains(base_index)) {
+			float total_volume_out = 0.f;
+			for(auto const& [target_index, volume] : map_data.particle_next_node_probability[base_index]) {
+				total_volume_out += volume;
+			}
+
+			for(auto const& [target_index, volume] : map_data.particle_next_node_probability[base_index]) {
+				map_data.particle_next_node_probability[base_index][target_index] = volume / total_volume_out;
+			}
+		}
+
+		map_data.trade_node_position[base_index] = get_army_location(state, origin);
+
+		// port prov
+
+		base_index += state.world.province_size();
+		if(map_data.particle_next_node_probability.contains(base_index)) {
+			float total_volume_out = 0.f;
+			for(auto const& [target_index, volume] : map_data.particle_next_node_probability[base_index]) {
+				total_volume_out += volume;
+			}
+
+			if(total_volume_out > 0.f)
+				for(auto const& [target_index, volume] : map_data.particle_next_node_probability[base_index]) {
+					map_data.particle_next_node_probability[base_index][target_index] = volume / total_volume_out;
+				}
+		}
+
+		if(state.world.province_get_port_to(origin)) {
+			map_data.trade_node_position[base_index] = get_port_location(state, origin) ;
+		} else {
+			map_data.trade_node_position[base_index] = get_army_location(state, origin);
+		}
+	});
+
+
+	auto is_sea = [&](dcon::province_id x) {
+		return x.value >= state.province_definitions.first_sea_province.value;
+	};
+
+	// build arbitrary distance field
+
+	// choose "previous" node for every node
+	// propagate distance backward along previous node
+	// propagate distance forward with usual nodes
+	std::map<int32_t, bool> visited;
+	state.world.for_each_province([&](dcon::province_id origin) { visited[origin.index()] = false; });
+
+	float the_most_fat_route = 0.f;
+
+	std::map<int32_t, std::map<int32_t, float>> trade_graph_incoming;
+	state.world.for_each_province([&](dcon::province_id origin) {
+		trade_graph_incoming[origin.index()] = { };
+	});
+	// todo: use the most important node as previous by storing "volume" and updating previous only when volume gets larger
+	std::map<int32_t, int32_t> previous;
+	state.world.for_each_province([&](dcon::province_id origin) {
+		if(trade_graph.contains(origin.index())) {
+			for(auto& [key, value] : trade_graph[origin.index()]) {
+				previous[key] = origin.index();
+				trade_graph_incoming[key][origin.index()] = value;
+				the_most_fat_route = std::max(the_most_fat_route, value);
+			}
+		}
+	});
+
+	std::map<int32_t, std::map<int32_t, float>> trade_graph_max_incoming;
+	state.world.for_each_province([&](dcon::province_id origin) {
+		trade_graph_max_incoming[origin.index()] = { };
+	});
+
+	state.world.for_each_province([&](dcon::province_id origin) {
+		if(trade_graph.contains(origin.index()) || previous.contains(origin.index())) {
+
+			auto total_outgoing = 0.f;
+			auto total_incoming = 0.f;
+
+			for(auto const& [index, volume] : trade_graph[origin.index()]) {
+				total_outgoing += volume;
+			}
+
+			for(auto const& [index, volume] : trade_graph_incoming[origin.index()]) {
+				total_incoming += volume;
+			}
+
+			auto left_outgoing = total_outgoing;
+			auto left_incoming = total_incoming;
+
+			for(auto const& [target_index, target_volume] : trade_graph[origin.index()]) {
+				for(auto const& [source_index, source_volume] : trade_graph_incoming[origin.index()]) {
+					auto target = dcon::province_id{ dcon::province_id::value_base_t(target_index) };
+					auto source = dcon::province_id{ dcon::province_id::value_base_t(source_index) };
+
+					if(source == target) {
+						continue;
+					}
+
+					// if land->[port]->sea - abort
+					// if sea->[port]->land - abort
+					if(is_sea(source) && !is_sea(origin) && !is_sea(target))continue;
+					if(!is_sea(source) && !is_sea(origin) && is_sea(target))continue;
+
+					auto volume_start =
+						source_volume;
+					auto volume_end =
+						volume_start
+						* map_data.particle_next_node_probability[origin.index()][target_index];
+
+					left_incoming -= volume_end;
+					left_outgoing -= volume_end;
+
+					auto found = trade_graph_max_incoming[target_index].find(origin.index());
+					if(found == trade_graph_max_incoming[target_index].end())
+						trade_graph_max_incoming[target_index][origin.index()] = volume_end;
+					else if(trade_graph_max_incoming[target_index][origin.index()] < volume_end)
+						trade_graph_max_incoming[target_index][origin.index()] = volume_end;
+				}
+			}
+
+			if(left_outgoing > 0.001f) {
+				for(auto const& [target_index, target_volume] : trade_graph[origin.index()]) {
+					auto target = dcon::province_id{ dcon::province_id::value_base_t(target_index) };
+					auto volume = target_volume * left_outgoing / total_outgoing;
+
+					auto found = trade_graph_max_incoming[target_index].find(origin.index());
+					if(found == trade_graph_max_incoming[target_index].end())
+						trade_graph_max_incoming[target_index][origin.index()] = volume;
+					else if(trade_graph_max_incoming[target_index][origin.index()] < volume)
+						trade_graph_max_incoming[target_index][origin.index()] = volume;
+				}
+			}
+		}
+	});
+
+
+	std::map<int32_t, float> distance_field;
+	std::vector<int32_t> to_visit;
+	size_t current_index_to_visit = 0;
+	state.world.for_each_province([&](dcon::province_id origin) {
+		if(trade_graph.contains(origin.index()) && !visited[origin.index()]) {
+			to_visit.clear();
+			to_visit.push_back(origin.index());
+			current_index_to_visit = 0;
+			distance_field[origin.index()] = 0.f;
+
+			while(current_index_to_visit < to_visit.size()) {
+				auto current = to_visit[current_index_to_visit];
+				auto prev_it = previous.find(current);
+				if(prev_it != previous.end() && !visited[prev_it->second]) {
+					auto edge_volume = trade_graph[prev_it->second][current];
+					auto width = std::min(std::sqrt(std::abs(edge_volume)) / cutoff, 5.f) * 1000.f;
+					distance_field[prev_it->second] = distance_field[current] - province::direct_distance(
+						state,
+						dcon::province_id{ (dcon::province_id::value_base_t)(current) },
+						dcon::province_id{ (dcon::province_id::value_base_t)(prev_it->second) }
+					) / width;
+					to_visit.push_back(prev_it->second);
+					visited[prev_it->second] = true;
+				}
+
+				for(auto const& [target_index, volume] : trade_graph[origin.index()]) {
+					if(!visited[target_index]) {
+						auto edge_volume = trade_graph[current][target_index];
+						auto width = std::min(std::sqrt(std::abs(edge_volume)) / cutoff, 5.f) * 1000.f;
+						distance_field[target_index] = distance_field[current] + province::direct_distance(
+							state,
+							dcon::province_id{ (dcon::province_id::value_base_t)(current) },
+							dcon::province_id{ (dcon::province_id::value_base_t)(target_index) }
+						) / width;
+						to_visit.push_back(target_index);
+						visited[target_index] = true;
+					}
+				}
+
+				current_index_to_visit++;
+			}
+		};
+	});
+
+	// now we are building vertices
+
+	auto volume_to_width = [&](float volume) {
+		return std::abs(volume) / std::max(0.05f, the_most_fat_route) * 40000.f;
+	};
+
+	//for(auto const& [coastal_province_index, volume] : trade_graph_toward_port) {
+	//	auto coastal_province = dcon::province_id{ dcon::province_id::value_base_t(coastal_province_index) };
+	//	glm::vec2 current_pos = get_army_location(state, coastal_province);
+	//	glm::vec2 next_pos = put_in_local(get_port_location(state, coastal_province), current_pos, size_x);
+	//	auto port_direction = get_port_direction(state, coastal_province);
+	//	if(volume < 0.f) {
+	//		current_pos = put_in_local(get_port_location(state, coastal_province), current_pos, size_x);
+	//		next_pos = put_in_local(get_army_location(state, coastal_province), current_pos, size_x);
+	//		port_direction = -port_direction;
+	//	}
+	//	glm::vec2 prev_tangent = glm::normalize(next_pos - current_pos);
+	//	auto start_normal = glm::vec2(-prev_tangent.y, prev_tangent.x);
+	//	auto norm_pos = current_pos / glm::vec2(size_x, size_y);
+	//	auto norm_next_pos = next_pos / glm::vec2(size_x, size_y);
+	//	auto old_size = map_data.trade_flow_vertices.size();
+	//	map_data.trade_flow_arrow_starts.push_back(GLint(old_size));
+	//	auto width = volume_to_width(volume);
+	//	map_data.trade_flow_vertices.emplace_back(map::textured_line_with_width_vertex{
+	//		norm_pos,
+	//		+start_normal,
+	//		0.f,
+	//		0.0f,
+	//		width
+	//	});
+	//	map_data.trade_flow_vertices.emplace_back(map::textured_line_with_width_vertex{
+	//		norm_pos,
+	//		-start_normal,
+	//		1.f,
+	//		0.0f,
+	//		width
+	//	});
+	//	// assume that province is a square
+	//	auto distance =
+	//		std::sqrt(float(state.map_state.map_data.province_area[province::to_map_id(coastal_province)]))
+	//		/ 20000.f;
+	//	map_data.trade_flow_vertices.emplace_back(map::textured_line_with_width_vertex{
+	//		norm_next_pos,
+	//		+start_normal,
+	//		0.f,
+	//		distance,
+	//		width
+	//	});
+	//	map_data.trade_flow_vertices.emplace_back(map::textured_line_with_width_vertex{
+	//		norm_next_pos,
+	//		-start_normal,
+	//		1.f,
+	//		distance,
+	//		width
+	//	});
+	//	map_data.trade_flow_arrow_counts.push_back(
+	//		GLsizei(map_data.trade_flow_vertices.size() - old_size)
+	//	);
+	//}
+
+	std::map<int32_t, bool> vertices_built;
+	state.world.for_each_province([&](dcon::province_id origin) { vertices_built[origin.index()] = false; });
+
+	auto build_bezier = [&](glm::vec2 start, glm::vec2 start_tangent, float start_width, glm::vec2 end, glm::vec2 end_tangent, float end_width, float& distance) {
+		auto old_size = map_data.trade_flow_vertices.size();
+		map_data.trade_flow_arrow_starts.push_back(GLint(old_size));
+		auto start_normal = glm::vec2(-start_tangent.y, start_tangent.x);
+		auto norm_pos = start / glm::vec2(size_x, size_y);
+		map_data.trade_flow_vertices.emplace_back(map::textured_line_with_width_vertex{
+			norm_pos,
+			start_normal,
+			0.f,
+			distance,
+			start_width
+		});
+		map_data.trade_flow_vertices.emplace_back(map::textured_line_with_width_vertex{
+			norm_pos,
+			-start_normal,
+			1.f,
+			distance,
+			start_width
+		});
+		add_bezier_to_buffer_variable_width(
+			map_data.trade_flow_vertices,
+			start,
+			end,
+			start_tangent,
+			end_tangent,
+			1.0f,
+			false,
+			size_x,
+			size_y,
+			40,
+			distance,
+			start_width,
+			end_width,
+			end_width
+		);
+		map_data.trade_flow_arrow_counts.push_back(
+			GLsizei(map_data.trade_flow_vertices.size() - old_size)
+		);
+	};
+
+	state.world.for_each_province([&](dcon::province_id origin) {
+		
+
+		if(trade_graph.contains(origin.index()) || previous.contains(origin.index())) {
+
+			auto total_outgoing = 0.f;
+			auto total_incoming = 0.f;
+
+			for(auto const& [index, volume] : trade_graph[origin.index()]) {
+				total_outgoing += volume;
+			}
+
+			for(auto const& [index, volume] : trade_graph_incoming[origin.index()]) {
+				total_incoming += volume;
+			}
+
+			auto left_outgoing = total_outgoing;
+			auto left_incoming = total_incoming;
+
+			//auto max_incoming = 0.f;
+			//for(auto const& [target_index, target_volume] : trade_graph[origin.index()]) {
+			//	for(auto const& [source_index, source_volume] : trade_graph_incoming[origin.index()]) {
+			//		auto target = dcon::province_id{ dcon::province_id::value_base_t(target_index) };
+			//		auto source = dcon::province_id{ dcon::province_id::value_base_t(source_index) };
+			//	}
+			//}
+
+			
+
+			for(auto const& [target_index, target_volume] : trade_graph[origin.index()]) {
+				for(auto const& [source_index, source_volume] : trade_graph_incoming[origin.index()]) {
+					glm::vec2 current_pos = get_army_location(state, origin);
+
+					auto volume_start =
+						source_volume;
+					auto volume_end =
+						volume_start
+						* map_data.particle_next_node_probability[origin.index()][target_index];
+
+					auto target = dcon::province_id{ dcon::province_id::value_base_t(target_index) };
+					glm::vec2 next_pos = put_in_local(get_army_location(state, target), current_pos, size_x);
+
+					auto source = dcon::province_id{ dcon::province_id::value_base_t(source_index) };
+					glm::vec2 prev_pos = put_in_local(get_army_location(state, source), current_pos, size_x);
+
+					if(source == target) {
+						// model of probabilistic movement is not perfect, so we have to ignore something when we attempt to move in a loop
+						left_incoming -= volume_end;
+						left_outgoing -= volume_end;
+						continue;
+					}
+
+					auto adj = state.world.get_province_adjacency_by_province_pair(source, origin);
+					auto adj2 = state.world.get_province_adjacency_by_province_pair(origin, target);
+					bool not_lake =
+						(
+							(
+								state.world.province_adjacency_get_type(adj2)
+								| state.world.province_adjacency_get_type(adj)
+							)
+							& province::border::impassible_bit
+						) == 0;
+
+
+					// by default: connect centers of the segments between midpoints of provinces and use their tangents as start and end tangents
+
+					glm::vec2 tangent_start = glm::normalize(current_pos - prev_pos);
+					glm::vec2 tangent_end = glm::normalize(next_pos - current_pos);
+					glm::vec2 start = (current_pos + prev_pos) / 2.f;
+					glm::vec2 end = (current_pos + next_pos) / 2.f;
+
+					// sea -> [port->land->port] -> sea
+					if(
+						not_lake
+						&&
+						is_sea(target)
+						&&
+						!is_sea(origin)
+						&&
+						is_sea(source)
+					) {
+						// if we are entering a port from sea and then go back to sea, use port location instead of actual center
+						current_pos = put_in_local(get_port_location(state, origin), current_pos, size_x);
+
+						// adjust tangents and start/end positions
+						tangent_start = glm::normalize(current_pos - prev_pos);
+						tangent_end = glm::normalize(next_pos - current_pos);
+						start = (current_pos + prev_pos) / 2.f;
+						end = (current_pos + next_pos) / 2.f;
+					} else if (not_lake) {
+						// ??? -> sea -> [port->land]
+						if(
+							is_sea(origin)
+							&&
+							!is_sea(target)
+						) {
+							// if we are currently at sea, but next position is a port, use port location as the end of the path
+							end = put_in_local(get_port_location(state, target), current_pos, size_x);
+							tangent_end = -get_port_direction(state, target);
+						}
+						// sea -> [port->land] -> ???
+						if(
+							!is_sea(origin)
+							&&
+							is_sea(source)
+						) {
+							// currently we are at center of the province and we want to connect start with a path which was terminated at port
+							start = put_in_local(get_port_location(state, origin), current_pos, size_x);
+							tangent_start = -get_port_direction(state, origin);
+						}
+
+						// ??? -> [land->port] -> sea
+						if(
+							!is_sea(origin)
+							&&
+							is_sea(target)
+						) {
+							// currently we are at center of the province and we want to connect end with a path which starts at port
+							end = put_in_local(get_port_location(state, origin), current_pos, size_x);
+							tangent_end = get_port_direction(state, origin);
+						}
+						// [land->port] -> sea -> ???
+						if(
+							!is_sea(source)
+							&&
+							is_sea(origin)
+						) {
+							// if we are currently at sea, but previous position is a port, use port location as the start of the path
+							start = put_in_local(get_port_location(state, source), current_pos, size_x);
+							tangent_start = get_port_direction(state, source);
+						}					
+					}
+
+					left_incoming -= volume_end;
+					left_outgoing -= volume_end;
+
+					if(volume_end == 0.f) {
+						continue;
+					}
+
+					auto start_width = volume_to_width(trade_graph_max_incoming[origin.index()][source_index]);
+					if(start_width < 50.f) {
+						continue;
+					}
+					if(volume_to_width(volume_end) < 50.f) {
+						continue;
+					}
+
+					// finally
+					float distance = distance_field[source_index];
+					build_bezier(
+						start, tangent_start, start_width, end, tangent_end, volume_to_width(volume_end), distance
+					);
+				}
+			}
+
+			
+
+
+			if(left_incoming > 0.001f) {
+				// here we treat the case when some volume in was not matched with volume out
+				// in this case we assume that the remaining volume is "consumed" in the middle of the province
+				for(auto const& [source_index, source_volume] : trade_graph_incoming[origin.index()]) {
+					auto distance = distance_field[source_index];
+					auto source = dcon::province_id{ dcon::province_id::value_base_t(source_index) };
+
+					glm::vec2 current_pos = get_army_location(state, origin);
+					glm::vec2 prev_pos = put_in_local(get_army_location(state, source), current_pos, size_x);
+
+					glm::vec2 tangent_start = glm::normalize(current_pos - prev_pos);
+					glm::vec2 tangent_end = tangent_start;
+					glm::vec2 start = (current_pos + prev_pos) / 2.f;
+					glm::vec2 end = current_pos;
+
+					//source -> origin
+
+					auto adj = state.world.get_province_adjacency_by_province_pair(source, origin);
+					bool not_lake = (state.world.province_adjacency_get_type(adj) & province::border::impassible_bit) == 0;
+
+					/*
+					if(!not_lake) {
+						continue;
+					}
+					*/
+
+					//[land->port] -> sea
+					if(
+						not_lake
+						&&
+						!is_sea(source)
+						&&
+						is_sea(origin)
+					) {
+						// just start from the (port location, port direction) and stop at (origin midpoint, direction from port to origin)
+						start = put_in_local(get_port_location(state, source), current_pos, size_x);
+						tangent_start = get_port_direction(state, source);
+					}
+
+					//sea -> [port->land]
+					if(
+						not_lake
+						&&
+						is_sea(source)
+						&&
+						!is_sea(origin)
+					) {
+						start = put_in_local(get_port_location(state, origin), current_pos, size_x);
+						tangent_start = -get_port_direction(state, origin);
+					}
+
+					auto volume_start =	source_volume * left_incoming / total_incoming;
+					auto volume_end = volume_start;
+					auto width_start = volume_to_width(volume_start);
+					auto width_end = volume_to_width(volume_end);
+					if(width_start < 50.f || width_end < 50.f) {
+						continue;
+					}
+
+					build_bezier(
+						start, tangent_start, width_start, end, tangent_end, width_end, distance
+					);
+				}
+			}
+
+			if(left_outgoing > 0.001f) {
+				for(auto const& [target_index, target_volume] : trade_graph[origin.index()]) {
+					auto distance = distance_field[origin.index()];
+					auto target = dcon::province_id{ dcon::province_id::value_base_t(target_index) };
+
+					glm::vec2 current_pos = get_army_location(state, origin);
+					glm::vec2 next_pos = put_in_local(get_army_location(state, target), current_pos, size_x);
+					glm::vec2 tangent_start = glm::normalize(next_pos - current_pos);
+					glm::vec2 tangent_end = tangent_start;
+
+					//origin -> target
+
+					auto adj = state.world.get_province_adjacency_by_province_pair(origin, target);
+					bool not_lake = (state.world.province_adjacency_get_type(adj) & province::border::impassible_bit) == 0;
+
+					/*
+					if(!not_lake) {
+						continue;
+					}
+					*/
+
+					//sea -> [port->land]
+					if(
+						not_lake
+						&&
+						!is_sea(target)
+						&&
+						is_sea(origin)
+					) {
+						next_pos = put_in_local(get_port_location(state, target), current_pos, size_x);
+						tangent_end = -get_port_direction(state, target);
+					}
+
+					//[land->port] -> sea
+					if(
+						not_lake
+						&&
+						is_sea(target)
+						&&
+						!is_sea(origin)
+					) {
+						next_pos = put_in_local(get_port_location(state, origin), current_pos, size_x);
+						tangent_end = get_port_direction(state, origin);
+					}
+
+					auto volume_start =	target_volume * left_outgoing / total_outgoing;
+					auto volume_end = volume_start;
+					auto width_start = volume_to_width(volume_start);
+					auto width_end = volume_to_width(volume_end);
+					if(width_start < 50.f || width_end < 50.f) {
+						continue;
+					}
+
+					build_bezier(
+						current_pos, tangent_start, width_start, next_pos, tangent_end, width_end, distance
+					);
+				}
+			}
+		}
+	});
+
+	if(!map_data.trade_flow_vertices.empty()) {
+		glBindBuffer(GL_ARRAY_BUFFER, map_data.vbo_array[map_data.vo_trade_flow]);
+		glBufferData(
+			GL_ARRAY_BUFFER,
+			sizeof(textured_line_with_width_vertex)
+			* map_data.trade_flow_vertices.size(),
+			map_data.trade_flow_vertices.data(),
+			GL_STATIC_DRAW
+		);
+	}
+}
+
+void clear_drawing(sys::state const& state, display_data& map_data) {
+	map_data.map_drawing_mutex.lock();
+	map_data.arbitrary_map_triangles_counts.clear();
+	map_data.arbitrary_map_triangles_starts.clear();
+	map_data.arbitrary_map_triangles.clear();
+	map_data.new_arbitrary_map_triangle = true;
+	map_data.map_drawing_mutex.unlock();
+}
+
+void draw_small_square(sys::state& state, display_data& map_data, square::point x, float size) {
+	map_data.map_drawing_mutex.lock();
+	auto current_size = map_data.arbitrary_map_triangles.size();
+	map_data.arbitrary_map_triangles_starts.push_back(GLint(current_size));
+
+	square::point top_right = { {x.data.x + size, x.data.y + size} };
+	square::point top_left = { {x.data.x - size, x.data.y + size} };
+	square::point bottom_right = { {x.data.x + size, x.data.y - size} };
+	square::point bottom_left = { {x.data.x - size, x.data.y - size} };
+
+	map_data.arbitrary_map_triangles.push_back(top_right);
+	map_data.arbitrary_map_triangles.push_back(top_left);
+	map_data.arbitrary_map_triangles.push_back(bottom_left);
+
+	map_data.arbitrary_map_triangles.push_back(top_right);
+	map_data.arbitrary_map_triangles.push_back(bottom_left);
+	map_data.arbitrary_map_triangles.push_back(bottom_right);
+
+	map_data.arbitrary_map_triangles_counts.push_back(
+		int(map_data.arbitrary_map_triangles.size() - current_size)
+	);
+
+	map_data.new_arbitrary_map_triangle = true;
+	map_data.map_drawing_mutex.unlock();
+}
+
+void update_unit_arrows(sys::state& state, display_data& map_data) {
+	map_data.unit_arrow_vertices.clear();
+	map_data.unit_arrow_counts.clear();
+	map_data.unit_arrow_starts.clear();
+
+	map_data.attack_unit_arrow_vertices.clear();
+	map_data.attack_unit_arrow_counts.clear();
+	map_data.attack_unit_arrow_starts.clear();
+
+	map_data.retreat_unit_arrow_vertices.clear();
+	map_data.retreat_unit_arrow_counts.clear();
+	map_data.retreat_unit_arrow_starts.clear();
+
+	map_data.strategy_unit_arrow_vertices.clear();
+	map_data.strategy_unit_arrow_counts.clear();
+	map_data.strategy_unit_arrow_starts.clear();
+
+	map_data.objective_unit_arrow_vertices.clear();
+	map_data.objective_unit_arrow_counts.clear();
+	map_data.objective_unit_arrow_starts.clear();
+
+	map_data.other_objective_unit_arrow_vertices.clear();
+	map_data.other_objective_unit_arrow_counts.clear();
+	map_data.other_objective_unit_arrow_starts.clear();
+
+	for(auto selected_army : state.selected_armies) {
+		if(auto ps = state.world.army_get_path(selected_army); ps.size() > 0) {
+			auto dest_controller = state.world.province_get_nation_from_province_control(ps[0]);
+			if(state.world.army_get_black_flag(selected_army) || state.world.army_get_is_retreating(selected_army)) {
+				auto old_size = map_data.retreat_unit_arrow_vertices.size();
+				map_data.retreat_unit_arrow_starts.push_back(GLint(old_size));
+				map::make_army_path(state, map_data.retreat_unit_arrow_vertices, selected_army, float(map_data.size_x), float(map_data.size_y));
+				map_data.retreat_unit_arrow_counts.push_back(GLsizei(map_data.retreat_unit_arrow_vertices.size() - old_size));
+			} else if(state.world.army_get_is_ai_controlled(selected_army)) {
+				if(state.local_player_nation && dest_controller && military::are_at_war(state, dest_controller, state.local_player_nation)) {
+					auto old_size = map_data.other_objective_unit_arrow_vertices.size();
+					map_data.other_objective_unit_arrow_starts.push_back(GLint(old_size));
+					map::make_army_path(state, map_data.other_objective_unit_arrow_vertices, selected_army, float(map_data.size_x), float(map_data.size_y));
+					map_data.other_objective_unit_arrow_counts.push_back(GLsizei(map_data.other_objective_unit_arrow_vertices.size() - old_size));
+				} else {
+					auto old_size = map_data.objective_unit_arrow_vertices.size();
+					map_data.objective_unit_arrow_starts.push_back(GLint(old_size));
+					map::make_army_path(state, map_data.objective_unit_arrow_vertices, selected_army, float(map_data.size_x), float(map_data.size_y));
+					map_data.objective_unit_arrow_counts.push_back(GLsizei(map_data.objective_unit_arrow_vertices.size() - old_size));
+				}
+			} else if(state.local_player_nation && dest_controller && military::are_at_war(state, dest_controller, state.local_player_nation)) {
+				auto old_size = map_data.attack_unit_arrow_vertices.size();
+				map_data.attack_unit_arrow_starts.push_back(GLint(old_size));
+				map::make_army_path(state, map_data.attack_unit_arrow_vertices, selected_army, float(map_data.size_x), float(map_data.size_y));
+				map_data.attack_unit_arrow_counts.push_back(GLsizei(map_data.attack_unit_arrow_vertices.size() - old_size));
+			} else {
+				auto old_size = map_data.unit_arrow_vertices.size();
+				map_data.unit_arrow_starts.push_back(GLint(old_size));
+				map::make_army_path(state, map_data.unit_arrow_vertices, selected_army, float(map_data.size_x), float(map_data.size_y));
+				map_data.unit_arrow_counts.push_back(GLsizei(map_data.unit_arrow_vertices.size() - old_size));
+			}
+		}
+	}
+	for(auto selected_navy : state.selected_navies) {
+		if(state.world.navy_get_is_retreating(selected_navy)) {
+			auto old_size = map_data.retreat_unit_arrow_vertices.size();
+			map_data.retreat_unit_arrow_starts.push_back(GLint(old_size));
+			map::make_navy_path(state, map_data.retreat_unit_arrow_vertices, selected_navy, float(map_data.size_x), float(map_data.size_y));
+			map_data.retreat_unit_arrow_counts.push_back(GLsizei(map_data.retreat_unit_arrow_vertices.size() - old_size));
+		} else {
+			auto old_size = map_data.unit_arrow_vertices.size();
+			map_data.unit_arrow_starts.push_back(GLint(old_size));
+			map::make_navy_path(state, map_data.unit_arrow_vertices, selected_navy, float(map_data.size_x), float(map_data.size_y));
+			map_data.unit_arrow_counts.push_back(GLsizei(map_data.unit_arrow_vertices.size() - old_size));
+		}
+	}
+
+	for(auto map_army : state.world.in_army) {
+		if(!state.world.army_is_valid(map_army)) {
+			return;
+		}
+		// Exclude if out of FOW
+		gamerule::fog_of_war_settings cur_gamerule_setting = gamerule::get_gamerule_setting<gamerule::fog_of_war_settings>(state, state.hardcoded_gamerules.fog_of_war);
+		if(cur_gamerule_setting == gamerule::fog_of_war_settings::enable ||
+		(state.world.nation_get_identity_from_identity_holder(state.local_player_nation) != state.national_definitions.rebel_id && cur_gamerule_setting == gamerule::fog_of_war_settings::disable_for_observer)) {
+			auto pc = map_army.get_army_location().get_location().id;
+			if(!state.map_state.visible_provinces[province::to_map_id(pc)]) {
+				continue;
+			}
+		}
+		// Exclude if in battle
+		if(map_army.get_battle_from_army_battle_participation()) {
+			continue;
+		}
+		// Exclude if selected
+		if(std::find(state.selected_armies.begin(), state.selected_armies.end(), map_army) != state.selected_armies.end()) {
+			continue;
+		}
+		// TODO: arrow for allied units
+		if(auto ps = state.world.army_get_path(map_army); ps.size() > 0) {
+			auto army_controller = state.world.army_get_controller_from_army_control(map_army);
+			if(state.local_player_nation && army_controller && military::are_at_war(state, army_controller, state.local_player_nation)) {
+				if(state.world.army_get_is_retreating(map_army)) {
+					auto old_size = map_data.retreat_unit_arrow_vertices.size();
+					map_data.retreat_unit_arrow_starts.push_back(GLint(old_size));
+					map::make_army_direction(state, map_data.retreat_unit_arrow_vertices, map_army, float(map_data.size_x), float(map_data.size_y));
+					map_data.retreat_unit_arrow_counts.push_back(GLsizei(map_data.retreat_unit_arrow_vertices.size() - old_size));
+				} else {
+					auto old_size = map_data.attack_unit_arrow_vertices.size();
+					map_data.attack_unit_arrow_starts.push_back(GLint(old_size));
+					map::make_army_direction(state, map_data.attack_unit_arrow_vertices, map_army, float(map_data.size_x), float(map_data.size_y));
+					map_data.attack_unit_arrow_counts.push_back(GLsizei(map_data.attack_unit_arrow_vertices.size() - old_size));
+				}
+			}
+			else if (state.local_player_nation == army_controller) {
+				auto old_size = map_data.unit_arrow_vertices.size();
+				map_data.unit_arrow_starts.push_back(GLint(old_size));
+				map::make_army_direction(state, map_data.unit_arrow_vertices, map_army, float(map_data.size_x), float(map_data.size_y));
+				map_data.unit_arrow_counts.push_back(GLsizei(map_data.unit_arrow_vertices.size() - old_size));
+			}
+		}
+	}
+	for(auto map_navy : state.world.in_navy) {
+		if(!state.world.navy_is_valid(map_navy)) {
+			return;
+		}
+		// Exclude if out of FOW
+		gamerule::fog_of_war_settings cur_gamerule_setting = gamerule::get_gamerule_setting<gamerule::fog_of_war_settings>(state, state.hardcoded_gamerules.fog_of_war);
+		if(cur_gamerule_setting == gamerule::fog_of_war_settings::enable ||
+		(state.world.nation_get_identity_from_identity_holder(state.local_player_nation) != state.national_definitions.rebel_id && cur_gamerule_setting == gamerule::fog_of_war_settings::disable_for_observer)) {
+			auto pc = map_navy.get_navy_location().get_location().id;
+			if(!state.map_state.visible_provinces[province::to_map_id(pc)]) {
+				continue;
+			}
+		}
+		// Exclude if in battle
+		if(map_navy.get_battle_from_navy_battle_participation()) {
+			continue;
+		}
+		// Exclude if selected
+		if(std::find(state.selected_navies.begin(), state.selected_navies.end(), map_navy) != state.selected_navies.end()) {
+			continue;
+		}
+		// TODO: arrow for allied units
+		if(auto ps = state.world.navy_get_path(map_navy); ps.size() > 0) {
+			auto navy_controller = state.world.navy_get_controller_from_navy_control(map_navy);
+			if(military::are_at_war(state, navy_controller, state.local_player_nation)) {
+				if(state.world.navy_get_is_retreating(map_navy)) {
+					auto old_size = map_data.retreat_unit_arrow_vertices.size();
+					map_data.retreat_unit_arrow_starts.push_back(GLint(old_size));
+					map::make_navy_direction(state, map_data.retreat_unit_arrow_vertices, map_navy, float(map_data.size_x), float(map_data.size_y));
+					map_data.retreat_unit_arrow_counts.push_back(GLsizei(map_data.retreat_unit_arrow_vertices.size() - old_size));
+				} else {
+					auto old_size = map_data.unit_arrow_vertices.size();
+					map_data.unit_arrow_starts.push_back(GLint(old_size));
+					map::make_navy_direction(state, map_data.unit_arrow_vertices, map_navy, float(map_data.size_x), float(map_data.size_y));
+					map_data.unit_arrow_counts.push_back(GLsizei(map_data.unit_arrow_vertices.size() - old_size));
+				}
+			} else if (state.local_player_nation == navy_controller) {
+				auto old_size = map_data.unit_arrow_vertices.size();
+				map_data.unit_arrow_starts.push_back(GLint(old_size));
+				map::make_navy_direction(state, map_data.unit_arrow_vertices, map_navy, float(map_data.size_x), float(map_data.size_y));
+				map_data.unit_arrow_counts.push_back(GLsizei(map_data.unit_arrow_vertices.size() - old_size));
+			}
+		}
+	}
+
+	if(!map_data.unit_arrow_vertices.empty()) {
+		glBindBuffer(GL_ARRAY_BUFFER, map_data.vbo_array[map_data.vo_unit_arrow]);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(curved_line_vertex) * map_data.unit_arrow_vertices.size(), map_data.unit_arrow_vertices.data(), GL_STATIC_DRAW);
+	}
+	if(!map_data.attack_unit_arrow_vertices.empty()) {
+		glBindBuffer(GL_ARRAY_BUFFER, map_data.vbo_array[map_data.vo_attack_unit_arrow]);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(curved_line_vertex) * map_data.attack_unit_arrow_vertices.size(), map_data.attack_unit_arrow_vertices.data(), GL_STATIC_DRAW);
+	}
+	if(!map_data.retreat_unit_arrow_vertices.empty()) {
+		glBindBuffer(GL_ARRAY_BUFFER, map_data.vbo_array[map_data.vo_retreat_unit_arrow]);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(curved_line_vertex) * map_data.retreat_unit_arrow_vertices.size(), map_data.retreat_unit_arrow_vertices.data(), GL_STATIC_DRAW);
+	}
+	if(!map_data.strategy_unit_arrow_vertices.empty()) {
+		glBindBuffer(GL_ARRAY_BUFFER, map_data.vbo_array[map_data.vo_strategy_unit_arrow]);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(curved_line_vertex) * map_data.strategy_unit_arrow_vertices.size(), map_data.strategy_unit_arrow_vertices.data(), GL_STATIC_DRAW);
+	}
+	if(!map_data.objective_unit_arrow_vertices.empty()) {
+		glBindBuffer(GL_ARRAY_BUFFER, map_data.vbo_array[map_data.vo_objective_unit_arrow]);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(curved_line_vertex) * map_data.objective_unit_arrow_vertices.size(), map_data.objective_unit_arrow_vertices.data(), GL_STATIC_DRAW);
+	}
+	if(!map_data.other_objective_unit_arrow_vertices.empty()) {
+		glBindBuffer(GL_ARRAY_BUFFER, map_data.vbo_array[map_data.vo_other_objective_unit_arrow]);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(curved_line_vertex) * map_data.other_objective_unit_arrow_vertices.size(), map_data.other_objective_unit_arrow_vertices.data(), GL_STATIC_DRAW);
+	}
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void update_bbox(std::array<glm::vec2, 5>& bbox, glm::vec2 p) {
+	if(p.x <= bbox[1].x) {
+		bbox[1] = p;
+	} if(p.y <= bbox[2].y) {
+		bbox[2] = p;
+	} if(p.x >= bbox[3].x) {
+		bbox[3] = p;
+	} if(p.y >= bbox[4].y) {
+		bbox[4] = p;
+	}
+}
+
+bool is_inside_bbox(std::array<glm::vec2, 5>& bbox, glm::vec2 p) {
+	if(p.x <= bbox[1].x) {
+		return false;
+	} if(p.y <= bbox[2].y) {
+		return false;
+	} if(p.x >= bbox[3].x) {
+		return false;
+	} if(p.y >= bbox[4].y) {
+		return false;
+	}
+
+	return true;
+}
+
+void update_bbox_negative(std::array<glm::vec2, 5>& bbox, glm::vec2 p) {
+	if(!is_inside_bbox(bbox, p))
+		return;
+
+	//auto mp = p.get_mid_point();
+	//if(mp.x <= bbox[0].x)
+	//	bbox[1].x = mp.x * 0.1f + bbox[1].x * 0.9f;
+	//if(mp.x >= bbox[0].x)
+	//	bbox[3].x = mp.x * 0.1f + bbox[3].x * 0.9f;
+}
+
+dcon::nation_id get_top_overlord(sys::state const& state, dcon::nation_id n) {
+	auto olr = state.world.nation_get_overlord_as_subject(n);
+	auto ol = state.world.overlord_get_ruler(olr);
+	auto ol_temp = n;
+
+	while(ol && state.world.nation_get_owned_province_count(ol) > 0) {
+		olr = state.world.nation_get_overlord_as_subject(ol);
+		ol_temp = ol;
+		ol = state.world.overlord_get_ruler(olr);
+	}
+
+	return ol_temp;
+}
+
+void load_map_text_glyphs(sys::state& state) {
+	for(auto& item: state.map_state.map_data.text_data) {		
+		unsigned int glyph_count = static_cast<unsigned int>(item.text.glyph_info.size());
+		for(unsigned int i = 0; i < glyph_count; i++) {
+			hb_codepoint_t glyphid = item.text.glyph_info[i].codepoint;
+			state.font_collection.mfont.make_glyph(glyphid);
+		}
+	}
+}
+
+void load_map_province_text_glyphs(sys::state& state) {
+	for(auto& item: state.map_state.map_data.province_text_data) {		
+		unsigned int glyph_count = static_cast<unsigned int>(item.text.glyph_info.size());
+		for(unsigned int i = 0; i < glyph_count; i++) {
+			hb_codepoint_t glyphid = item.text.glyph_info[i].codepoint;
+			state.font_collection.mfont.make_glyph(glyphid);
+		}
+	}
+}
+
+void commit_text_lines(sys::state& state, display_data& map_data) {
+	if(map_data.text_line_vertices.size() > 0) {
+		glBindBuffer(
+			GL_ARRAY_BUFFER, 
+			map_data.vbo_array[map_data.vo_text_line]
+		);
+		glBufferData(
+			GL_ARRAY_BUFFER, 
+			sizeof(text_line_vertex) 
+			* map_data.text_line_vertices.size(), 
+			&map_data.text_line_vertices[0], 
+			GL_STATIC_DRAW
+		);
+		map_data.last_size_of_text_line_vertices = (GLsizei)map_data.text_line_vertices.size();
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+}
+
+void update_text_lines(sys::state& state, display_data& map_data) {
+
+	//clear_drawing(state, state.map_state.map_data);
+
+	
+
+	// retroscipt
+	std::vector<text_line_generator_data>& text_data = map_data.text_data;
+	text_data.clear();
+	std::vector<bool> visited(65536, false);
+	std::vector<bool> visited_sea_provinces(65536, false);
+	std::vector<bool> friendly_sea_provinces(65536, false);
+	std::vector<uint16_t> group_of_regions;
+	group_of_regions.resize(state.world.province_size());
+
+	std::unordered_map<uint16_t, std::set<uint16_t>> regions_graph;
+
+	std::vector<dcon::nation_id> sea_owner;
+	std::vector<glm::vec2> sea_to_coast;
+	sea_owner.resize(state.world.province_size());
+	sea_to_coast.resize(state.world.province_size());
+
+	// generate graph of regions:
+	for(auto candidate : state.world.in_province) {
+		auto rid = candidate.get_connected_region_id();
+
+		auto nation = get_top_overlord(state, state.world.province_get_nation_from_province_ownership(candidate));
+
+		for(auto adj : candidate.get_province_adjacency()) {
+			auto indx = adj.get_connected_provinces(0) != candidate.id ? 0 : 1;
+			auto neighbor = adj.get_connected_provinces(indx);
+
+			// if sea, try to jump to the next province
+			if(neighbor.id.index() >= state.province_definitions.first_sea_province.index()) {
+				for(auto adj_of_neighbor : neighbor.get_province_adjacency()) {
+					auto indx2 = adj_of_neighbor.get_connected_provinces(0) != neighbor.id ? 0 : 1;
+					auto neighbor_of_neighbor = adj_of_neighbor.get_connected_provinces(indx2);
+
+					// check for a "cut line"
+					glm::vec2 point_candidate = candidate.get_mid_point();
+					glm::vec2 point_potential_friend = neighbor_of_neighbor.get_mid_point();
+
+					if(glm::distance(point_candidate, point_potential_friend) > map_data.size_x * 0.5f) {
+						// do nothing
+					} else if(neighbor_of_neighbor.id.index() < state.province_definitions.first_sea_province.index()) {
+						auto nation_2 = get_top_overlord(state, state.world.province_get_nation_from_province_ownership(neighbor_of_neighbor));
+						if(nation == nation_2)
+							regions_graph[rid].insert(neighbor_of_neighbor.get_connected_region_id());
+					}
+				}
+			} else {
+				auto nation_2 = get_top_overlord(state, state.world.province_get_nation_from_province_ownership(neighbor));
+				if(nation == nation_2)
+					regions_graph[rid].insert(neighbor.get_connected_region_id());
+			}
+		}
+	}
+
+	// update mapping from provinces to regions
+
+	for(auto p : state.world.in_province) {
+		auto owner = state.world.province_get_nation_from_province_ownership(p);
+		if(owner) {
+			sea_owner[p.id.index()] = owner;
+			sea_to_coast[p.id.index()] = p.get_mid_point();
+			continue;
+		}
+
+		dcon::nation_id current_owner = { };
+		glm::vec2 mp { };
+		bool sea_is_claimed = false;
+
+		for(auto neigh : p.get_province_adjacency()) {
+			auto other_idx = neigh.get_connected_provinces(0) != p.id ? 0 : 1;
+			auto other = neigh.get_connected_provinces(other_idx);
+
+			auto other_owner = other.get_nation_from_province_ownership();
+
+			if(state.province_definitions.first_sea_province.index() > other.id.index()) {
+				sea_to_coast[p.id.index()] = other.get_mid_point();
+			}
+
+			if(other_owner.id) {
+				if(!current_owner) {
+					current_owner = other_owner;
+					sea_is_claimed = true;
+					mp = other.get_mid_point();
+				} else {
+					auto top_overlord = get_top_overlord(state, other_owner);
+					if(top_overlord != current_owner) {
+						sea_is_claimed = false;
+					}
+				}
+			}
+		}
+
+		if(sea_is_claimed) {
+			sea_to_coast[p.id.index()] = mp;
+			sea_owner[p.id.index()] = current_owner;
+		} else {
+			sea_owner[p.id.index()] = { };
+		}
+	}
+
+
+	for(auto p : state.world.in_province) {
+		if(p.id.index() >= state.province_definitions.first_sea_province.index())
+			break;
+		auto rid = p.get_connected_region_id();
+		if(visited[uint16_t(rid)])
+			continue;
+		visited[uint16_t(rid)] = true;
+
+		auto capital_mp = p.get_nation_from_province_ownership().get_capital().get_mid_point();
+		auto n = p.get_nation_from_province_ownership();
+		n = get_top_overlord(state, n.id);
+
+		//flood fill regions
+		group_of_regions[rid] = rid;
+
+		std::vector<uint16_t> queue {rid};
+
+		int first_index = 0;
+		int vacant_index = 1;
+		while(first_index < vacant_index) {
+			auto current_region = queue[first_index];
+			first_index++;
+			for(auto neighbour_region : regions_graph[current_region]) {
+				if(!visited[neighbour_region]) {
+					group_of_regions[neighbour_region] = rid;
+					queue.push_back(neighbour_region);
+					visited[neighbour_region] = true;
+					vacant_index++;
+				}
+			}
+		}
+		if(!n || n.get_owned_province_count() == 0)
+			continue;
+
+		auto nation_name = text::produce_simple_string(state, text::get_name(state, n));
+		auto prefix_remove = text::produce_simple_string(state, "map_remove_prefix");
+		if(nation_name.starts_with(prefix_remove)) {
+			nation_name.erase(0, prefix_remove.size());
+		}
+		auto acronym_expand = text::produce_simple_string(state, "map_expand_acronym");
+		if(acronym_expand.size() > 0 && nation_name.starts_with(acronym_expand)) {
+			nation_name.erase(0, acronym_expand.size());
+			auto acronym_expand_to = text::produce_simple_string(state, "map_expand_acronym_to");
+			nation_name.insert(0, acronym_expand_to.data(), acronym_expand_to.size());
+		}
+
+		std::string name = nation_name;
+		bool connected_to_capital = false;
+		if(group_of_regions[n.get_capital().get_connected_region_id()] == rid) {
+			connected_to_capital = true;
+		}
+		text::substitution_map sub{};
+		text::add_to_substitution_map(sub, text::variable_type::adj, text::get_adjective(state, n));
+		text::add_to_substitution_map(sub, text::variable_type::country, std::string_view(nation_name));
+		text::add_to_substitution_map(sub, text::variable_type::province, p);
+		text::add_to_substitution_map(sub, text::variable_type::state, p.get_state_membership());
+		text::add_to_substitution_map(sub, text::variable_type::continentname, p.get_continent().get_name());
+		if(!connected_to_capital) {
+			// Adjective + " " + Continent
+			name = text::resolve_string_substitution(state, "map_label_adj_continent", sub);
+			// 66% of the provinces correspond to a single national identity
+			// then it gets named after that identity
+			ankerl::unordered_dense::map<int32_t, uint32_t> map;
+			uint32_t total_provinces = 0;
+			dcon::province_id last_province;
+			bool in_same_state = true;
+			for(auto candidate : state.world.in_province) {
+				if(group_of_regions[candidate.get_connected_region_id()] == rid) {
+					if(candidate.get_state_membership() != p.get_state_membership())
+						in_same_state = false;
+					++total_provinces;
+					for(const auto core : candidate.get_core_as_province()) {
+						uint32_t v = 1;
+						if(auto const it = map.find(core.get_identity().id.index()); it != map.end()) {
+							v += it->second;
+						}
+						map.insert_or_assign(core.get_identity().id.index(), v);
+					}
+				}
+			}
+			if(in_same_state == true) {
+				name = text::resolve_string_substitution(state, "map_label_adj_state", sub);
+			}
+			if(total_provinces <= 2) {
+				// Adjective + Province name
+				name = text::resolve_string_substitution(state, "map_label_adj_province", sub);
+			} else {
+				for(const auto& e : map) {
+					if(float(e.second) / float(total_provinces) >= 0.75f) {
+						// Adjective + " " + National identity
+						auto const nid = dcon::national_identity_id(dcon::national_identity_id::value_base_t(e.first));
+						if(auto k = state.world.national_identity_get_name(nid); state.key_is_localized(k)) {
+							if(nid == n.get_primary_culture().get_group_from_culture_group_membership().get_identity_from_cultural_union_of()
+							|| nid == n.get_identity_from_identity_holder()) {
+								if(n.get_capital().get_continent() == p.get_continent()) {
+									//cultural union tag -> use our name
+									name = text::produce_simple_string(state, text::get_name(state, n));
+									//Get cardinality
+									auto p1 = n.get_capital().get_mid_point();
+									auto p2 = p.get_mid_point();
+									auto radians = glm::atan(p1.y - p2.y, p2.x - p1.x);
+									auto degrees = std::fmod(glm::degrees(radians) + 45.f, 360.f);
+									if(degrees < 0.f) {
+										degrees = 360.f + degrees;
+									}
+									assert(degrees >= 0.f && degrees <= 360.f);
+									//fallback just in the very unlikely case
+									name = text::resolve_string_substitution(state, "map_label_adj_state", sub);
+									if(degrees >= 0.f && degrees < 90.f) {
+										name = text::resolve_string_substitution(state, "map_label_east_country", sub);
+									} else if(degrees >= 90.f && degrees < 180.f) {
+										name = text::resolve_string_substitution(state, "map_label_south_country", sub);
+									} else if(degrees >= 180.f && degrees < 270.f) {
+										name = text::resolve_string_substitution(state, "map_label_west_country", sub);
+									} else if(degrees >= 270.f && degrees < 360.f) {
+										name = text::resolve_string_substitution(state, "map_label_north_country", sub);
+									}
+									break;
+								}
+							} else {
+								text::add_to_substitution_map(sub, text::variable_type::tag, state.world.national_identity_get_name(nid));
+								name = text::resolve_string_substitution(state, "map_label_adj_tag", sub);
+							}
+						}
+					}
+				}
+			}
+		}
+		//name = "جُمْهُورِيَّة ٱلْعِرَاق";
+		//name = "在标准状况下";
+		if(name.empty())
+			continue;
+
+		// replacing 2d box with 3d box to avoid issues with projection singularities/wrap around which happen in some mods (for example, TGC Russian Empire)
+
+		float raw_bounding_box_x_min = 1.f;
+		float raw_bounding_box_y_min = 1.f;
+		float raw_bounding_box_z_min = 1.f;
+		float raw_bounding_box_x_max = -1.f;
+		float raw_bounding_box_y_max = -1.f;
+		float raw_bounding_box_z_max = -1.f;
+
+		for(auto candidate : state.world.in_province) {
+			if(group_of_regions[candidate.get_connected_region_id()] == rid) {
+				glm::vec2 mid_point = candidate.get_mid_point();
+
+				square::point sq_mp = { {mid_point.x / (float)map_data.size_x, mid_point.y / (float) map_data.size_y } };
+				sphere_R3::point sphere_mp = sphere_R3::from_square(sq_mp);
+
+				if(sphere_mp.data.x < raw_bounding_box_x_min) {
+					raw_bounding_box_x_min = sphere_mp.data.x;
+				}
+				if(sphere_mp.data.x > raw_bounding_box_x_max) {
+					raw_bounding_box_x_max = sphere_mp.data.x;
+				}
+
+				if(sphere_mp.data.y < raw_bounding_box_y_min) {
+					raw_bounding_box_y_min = sphere_mp.data.y;
+				}
+				if(sphere_mp.data.y > raw_bounding_box_y_max) {
+					raw_bounding_box_y_max = sphere_mp.data.y;
+				}
+
+				if(sphere_mp.data.z < raw_bounding_box_z_min) {
+					raw_bounding_box_z_min = sphere_mp.data.z;
+				}
+				if(sphere_mp.data.z > raw_bounding_box_z_max) {
+					raw_bounding_box_z_max = sphere_mp.data.z;
+				}
+			}
+		}
+
+		std::vector<glm::vec3> points;
+		std::vector<sphere_R3::point> points_R3;
+
+		raw_bounding_box_x_min -= 0.015f;
+		raw_bounding_box_y_min -= 0.015f;
+		raw_bounding_box_z_min -= 0.015f;
+		raw_bounding_box_x_max += 0.015f;
+		raw_bounding_box_y_max += 0.015f;
+		raw_bounding_box_z_max += 0.015f;
+		float raw_x_width = raw_bounding_box_x_max - raw_bounding_box_x_min;
+		float raw_y_width = raw_bounding_box_y_max - raw_bounding_box_y_min;
+		float raw_z_width = raw_bounding_box_z_max - raw_bounding_box_z_min;
+
+		float raw_bounding_box_radius = std::max(std::max(raw_x_width, raw_y_width), raw_z_width) / 2.f * sqrtf(2.f);
+		glm::vec3 raw_bounding_box_center {
+			raw_bounding_box_x_min + raw_bounding_box_x_max,
+			raw_bounding_box_y_min + raw_bounding_box_y_max,
+			raw_bounding_box_z_min + raw_bounding_box_z_max
+		};
+		raw_bounding_box_center /= glm::length(raw_bounding_box_center);
+
+		//int grid_steps = 9;
+		//int grid_size = grid_steps
+
+		int grid_layers = 3;
+		int grid_radius_steps = 3 + int(raw_bounding_box_radius / 0.05f);
+		int circle_splits = 20;
+		int grid_center_index = 0;
+
+		std::vector<glm::vec3> grid_centers;
+		grid_centers.push_back(raw_bounding_box_center);
+
+		//glm::vec3 local_step = glm::vec3(raw_x_width, raw_y_width, raw_z_width) / (float)grid_steps;
+
+		float best_y = 0.f;
+		//float best_y_length = 0.f;
+		float counter_from_the_bottom = 0.f;
+		float best_y_length_real = 0.f;
+		float best_y_left_x = 0.f;
+
+		auto sample_province = [&](float x, float y) {
+			x = fmod(x, (float)map_data.size_x);
+			if (x < 0.f) {
+				x += (float)map_data.size_x;
+			}
+			if(y < 0.f) return dcon::province_id{};
+			if((uint32_t)y >= map_data.size_y) return dcon::province_id{};
+			glm::vec2 candidate = { x, y };
+			auto idx = int32_t(y) * int32_t(map_data.size_x) + int32_t(x);
+			if(!(0 <= idx && size_t(idx) < map_data.province_id_map.size())) return dcon::province_id{};
+			auto pid = province::from_map_id(map_data.province_id_map[idx]);
+			return pid;
+		};
+
+		auto sample_nation = [&](float x, float y) {
+			auto pid = sample_province(x, y);
+			if(!pid) {
+				return dcon::nation_id {};
+			}
+			return state.world.province_get_nation_from_province_ownership(pid);
+		};
+
+		auto check_point = [&](float x, float y) {
+			auto pid = sample_province(x, y);
+			if(!pid) {
+				return 0.f;
+			}
+			auto owner = state.world.province_get_nation_from_province_ownership(pid);
+			if(!owner) {
+				if(sea_owner[pid.index()] == n) {
+					auto mp = sea_to_coast[pid.index()];
+					return 20.f / (20.f + glm::distance(mp, {x, y})) * (1.f / (1.f + glm::distance(capital_mp, { x, y })));
+				}
+				return 0.f;
+			}
+			if(group_of_regions[state.world.province_get_connected_region_id(pid)] == rid) {
+				return
+					10.f + state.world.province_get_demographics(pid, demographics::total)
+					/ (1.f + state.map_state.map_data.province_area_km2[province::to_map_id(pid)]);
+					//* (1.f / (1.f + glm::distance(capital_mp, {x, y })));
+			}
+			return 0.f;
+		};
+
+		auto is_in_region = [&](float x, float y) {
+			auto pid = sample_province(x, y);
+			if(!pid) {
+				return false;
+			}
+			auto owner = state.world.province_get_nation_from_province_ownership(pid);
+			if(!owner) {
+				return false;
+			}
+			if(group_of_regions[state.world.province_get_connected_region_id(pid)] == rid) {
+				return true;
+			}
+			return false;
+		};
+
+		auto avoid_point = [&](float x, float y, float tolerance) {
+			auto pid = sample_province(x, y);
+			if(!pid) {
+				return false;
+			}
+			auto owner = state.world.province_get_nation_from_province_ownership(pid);
+			if(!owner) {
+				return false;
+				/*
+				if(raw_bounding_box_radius > 0.3f && raw_bounding_box_radius * tolerance > 0.3f) {
+					return false;
+				}
+				if (!sea_owner[pid.index()]) {
+					auto mp = sea_to_coast[pid.index()];
+					return glm::distance(mp, { x, y }) > (float)map_data.size_x * raw_bounding_box_radius * 0.01f * 3.f * tolerance;
+				} else if(sea_owner[pid.index()] == n) {
+					auto mp = sea_to_coast[pid.index()];
+					return glm::distance(mp, { x, y }) > (float)map_data.size_x * raw_bounding_box_radius * 0.02f * 3.f * tolerance;
+				}
+				return true;
+				*/
+			}
+			if(group_of_regions[state.world.province_get_connected_region_id(pid)] == rid) {
+				return false;
+			}
+			return true;
+		};
+
+		auto sea_point = [&](float x, float y) {
+			auto pid = sample_province(x, y);
+			if(!pid) {
+				return false;
+			}
+			return pid.index() >= state.province_definitions.first_sea_province.index();
+		};
+
+		auto weight_decay = [&](float x, float y) {
+			auto pid = sample_province(x, y);
+			if(!pid) {
+				return 0.7f;
+			}
+			auto owner = state.world.province_get_nation_from_province_ownership(pid);
+			if(!owner) {
+				if(sea_owner[pid.index()] == n) {
+					return 0.8f;
+				}
+				return 0.7f;
+			}
+			if(group_of_regions[state.world.province_get_connected_region_id(pid)] == rid) {
+				return 0.99f;
+			}
+			return 0.f;
+		};
+
+		std::vector<glm::vec3> grid{ };
+
+		std::vector<glm::vec3> accumulated_centers { };
+
+		float base_grid_radius = raw_bounding_box_radius;
+
+		int grid_size = (5 + int(75.f * raw_bounding_box_radius));
+
+		for(int i = 0; i <= grid_size; i++) {
+			for(int j = 0; j <= grid_size; j++) {
+				float x = ((float)i / (float)(grid_size + 1) - 0.5f) * 2.f * base_grid_radius;
+				float y = ((float)j / (float)(grid_size + 1) - 0.5f) * 2.f * base_grid_radius;
+
+				auto grid_center = grid_centers[0];
+
+				glm::vec3 raw_tangent { 0.f, 0.f, 1.f };
+
+				if(grid_center.z == 1.f) {
+					raw_tangent.y = 1.f;
+				}
+
+				auto distance_from_tangent_plane = glm::dot(grid_center, raw_tangent);
+				raw_tangent -= grid_center * distance_from_tangent_plane;
+				raw_tangent /= glm::length(raw_tangent);
+
+				sphere_R3::tangent grid_direction_x { {grid_center}, {raw_tangent} };
+
+				auto grid_direction_y = sphere_R3::rotate(grid_direction_x);
+
+				sphere_R3::point current_point = { grid_center + grid_direction_x.data * x + grid_direction_y.data * y};
+				current_point.data /= glm::length(current_point.data);
+
+				square::point sq_grid = sphere_R3::to_square (current_point);
+				auto result = equirectangular::from_square (sq_grid, (float)map_data.size_x, (float)map_data.size_y).data;
+
+				float weight = check_point(result.x, result.y);
+				grid.push_back(glm::vec3{ result.x, result.y, weight });
+				//draw_small_square(state, state.map_state.map_data, { { result.x / (float)map_data.size_x, result.y / (float)map_data.size_y } }, 0.0001f);
+			}
+		}
+
+		/*
+		while(0 > 0) {
+			if(grid_centers.empty()) {
+				grid_layers--;
+				grid_centers = accumulated_centers;
+				accumulated_centers.clear();
+				base_grid_radius *= 0.25f;
+				grid_radius_steps /= 2;
+				continue;
+			}
+
+			auto grid_center = grid_centers.back();
+			grid_centers.pop_back();
+			
+			for(int i = 0; i <= grid_radius_steps; i++) {
+				float radius = (float)i / (float) grid_radius_steps * base_grid_radius;
+				for(int j = 0; j < circle_splits; j++) {
+					auto angle = 2.f * glm::pi<float>() * (float)j / circle_splits;
+
+					glm::vec3 raw_tangent { 0.f, 0.f, 1.f };
+
+					if(grid_center.z == 1.f) {
+						raw_tangent.y = 1.f;
+					}
+
+					auto distance_from_tangent_plane = glm::dot(grid_center, raw_tangent);
+					raw_tangent -= grid_center * distance_from_tangent_plane;
+					raw_tangent /= glm::length(raw_tangent);
+
+					sphere_R3::tangent grid_direction { {grid_center}, {raw_tangent} };
+
+					grid_direction = sphere_R3::rotate(grid_direction, angle);
+
+					sphere_R3::point current_point = { grid_center + grid_direction.data * radius};
+					current_point.data /= glm::length(current_point.data);
+
+					if((i > 1) && (i % 2 == 0) && (j % 5 == 0)) {
+						accumulated_centers.push_back(current_point.data);
+					}
+
+					square::point sq_grid = sphere_R3::to_square (current_point);
+					auto result = equirectangular::from_square (sq_grid, (float)map_data.size_x, (float)map_data.size_y).data;
+
+					float weight = check_point(result.x, result.y);
+					grid.push_back(glm::vec3{ result.x, result.y, weight });
+					draw_small_square(state, state.map_state.map_data, { { result.x / (float)map_data.size_x, result.y / (float)map_data.size_y } }, 0.0001f);
+				}
+			}
+		}
+		*/
+
+		glm::vec2 grid_center = { 0.f, 0.f };
+		float total_weight = 0.f;
+
+		for(size_t i = 0; i < grid.size(); i++) {
+			auto x = grid[i].x;
+			auto y = grid[i].y;
+			if(!is_in_region(x, y)) {
+				continue;
+			}
+			auto weight = grid[i].z;
+			points.push_back(grid[i]);
+			square::point point_square{ { x / (float)map_data.size_x, y / (float)map_data.size_y } };
+			points_R3.push_back(sphere_R3::from_square(point_square));
+			total_weight = total_weight + weight;
+			grid_center = grid_center + glm::vec2 ({x, y}) * weight;
+			//draw_small_square(state, state.map_state.map_data, { { x / (float)map_data.size_x, y / (float)map_data.size_y } }, 0.0001f); //* weight);
+		}
+
+
+		state.world.for_each_province([&](auto p1) {
+			if(group_of_regions[state.world.province_get_connected_region_id(p1)] != rid) {
+				return;
+			}
+
+			for(auto border_index : state.map_state.map_data.province_to_edges[p1.value]) {				
+				auto border = state.map_state.map_data.border_edges[border_index];
+				auto adj = border.adj;
+				if(!adj || border.count == 0) {
+					continue;
+				}
+				auto other = state.world.province_adjacency_get_connected_provinces(adj, 0);
+				if(other == p1) {
+					other = state.world.province_adjacency_get_connected_provinces(adj, 1);
+				}
+				if(group_of_regions[state.world.province_get_connected_region_id(other)] != rid) {
+					return;
+				}
+
+				auto vertex = state.map_state.map_data.province_border_vertices[border.offset + border.count / 2].position;
+				square::point sq { vertex };
+				auto result = equirectangular::from_square(sq, (float)map_data.size_x, (float)map_data.size_y).data;
+
+				//float weight = check_point(result.x, result.y);
+				float weight = 100.f;
+
+				grid.push_back(glm::vec3{ result.x, result.y, weight });
+				//draw_small_square(state, state.map_state.map_data, { { result.x / (float)map_data.size_x, result.y / (float)map_data.size_y } }, 0.0001f);
+
+				points.push_back(glm::vec3{ result.x, result.y, weight });
+				points_R3.push_back(sphere_R3::from_square(sq));
+
+				total_weight = total_weight + weight;
+				grid_center = grid_center + glm::vec2({ result.x, result.y }) * weight;
+			}
+		});
+
+
+		grid_center = grid_center / total_weight;
+
+
+		// print points into files
+
+		//static int file_index = 0;
+		// file_index++;
+		/*
+		std::filesystem::create_directory("shapes");
+
+		{		
+			std::string file_name = "shapes/shape_" + std::to_string(file_index);
+			auto pf = fopen(file_name.c_str(), "w");
+			fprintf(pf, "x,y\n");
+			for(auto& data : points) {
+				fprintf(pf, "%f,%f\n", data.x, data.y);
+			}
+			fflush(pf);
+			fclose(pf);
+		}
+		*/
+
+		if(points.size() < 2) {
+			continue;
+		}
+
+		// clustering points into num_of_clusters parts
+		size_t min_amount = 2;
+		if(state.user_settings.map_label == sys::map_label_mode::cubic) {
+			min_amount = 4;
+		}
+		if(state.user_settings.map_label == sys::map_label_mode::quadratic) {
+			min_amount = 3;
+		}
+
+
+		if(points.size() < min_amount) {
+			continue;
+		}
+
+		size_t num_of_clusters = 40;
+
+		std::vector<glm::vec2> centroids;
+		std::vector<float> centroid_weight;
+		std::vector<sphere_R3::point> centroids_R3;
+
+		for(size_t i = 0; i < num_of_clusters; i++) {
+			auto angle = 2.f * glm::pi<float>() / num_of_clusters * i;
+			glm::vec2 shift { cos(angle) * (float)map_data.size_x / (float)map_data.size_y, sin(angle) };
+
+			auto target_point = grid_center + shift;
+			centroids.push_back(target_point);
+
+			square::point point_square{ { target_point.x / (float)map_data.size_x, target_point.y / (float)map_data.size_y } };
+			centroids_R3.push_back(sphere_R3::from_square(point_square));
+
+			centroid_weight.push_back(0.f);
+		}
+
+		for(int step = 0; step < 4; step++) {
+			std::vector<glm::vec2> new_centroids;
+			std::vector<sphere_R3::point> new_centroids_R3;
+			std::vector<float> counters;
+			for(size_t i = 0; i < num_of_clusters; i++) {
+				new_centroids.push_back(glm::vec2(0, 0));
+				sphere_R3::point r3_cent{ {0.f, 0.f, 0.f } };
+				new_centroids_R3.push_back(r3_cent);
+				counters.push_back(0.f);
+			}
+
+			for(size_t i = 0; i < points.size(); i++) {
+				size_t closest = 0;
+				float best_dist = std::numeric_limits<float>::max();
+
+				auto point = glm::vec2{ points[i].x, points[i].y };
+				auto point_sphere = points_R3[i];
+				auto weight = points[i].z;
+
+				bool avoid = false;
+
+
+				//finding the closest centroid
+				for(size_t cluster = 0; cluster < new_centroids.size(); cluster++) {
+					float dist = glm::distance(centroids[cluster], point);
+					if(state.user_settings.map_label == sys::map_label_mode::spherical) {
+						auto centroid_sphere = centroids_R3[cluster];
+						dist = glm::distance(centroid_sphere.data, point_sphere.data);
+					}
+
+					if(best_dist > dist) {
+						closest = cluster;
+						best_dist = dist;
+					}
+				}
+
+				new_centroids[closest] += point * weight;
+				new_centroids_R3[closest].data += point_sphere.data * weight;
+				counters[closest] += weight;
+			}
+
+			for(size_t i = 0; i < new_centroids.size(); i++) {
+				if (counters[i] > 0.f) {
+					new_centroids[i] /= counters[i];
+					new_centroids_R3[i].data /= counters[i];
+				}
+				//new_centroids_R3[i].data /= glm::length(new_centroids_R3[i].data);
+			}
+
+			for(size_t i = 0; i < new_centroids.size(); i++) {
+				new_centroids_R3[i].data /= glm::length(new_centroids_R3[i].data);
+			}
+
+			for(size_t i = 0; i < new_centroids.size(); i++) {
+				centroids[i] = new_centroids[i];
+				centroids_R3[i] = new_centroids_R3[i];
+				centroid_weight[i] = counters[i];
+			}
+		}
+
+
+		glm::vec2 sum_points = { 0.f, 0.f };
+
+		auto average_weight = 0.f;
+		for(auto point : points) {
+			auto coord = glm::vec2{ point.x, point.y };
+			average_weight += point.z;
+			sum_points += coord;
+			//draw_small_square(state, state.map_state.map_data, { { point.x / (float)map_data.size_x, point.y / (float)map_data.size_y } }, 0.0001f);
+		}
+		average_weight /= (float)(points.size());
+
+		
+		//for(auto point : centroids) {
+			//draw_small_square(state, map_data, { {point.x / (float)map_data.size_x, point.y / (float)map_data.size_y} }, 0.0005f);
+		//}
+
+		std::vector<glm::vec2> next_centroids { };
+		std::vector<sphere_R3::point> next_centroids_R3{ };
+		for (size_t i = 0; i < centroids.size(); i++) {
+			if (centroid_weight[i] > 0.f) {
+				next_centroids.push_back(centroids[i]);
+				next_centroids_R3.push_back(centroids_R3[i]);
+			}
+		}
+		centroids = next_centroids;
+		centroids_R3 = next_centroids_R3;
+
+		if(!(state.user_settings.map_label == sys::map_label_mode::cubic || state.user_settings.map_label == sys::map_label_mode::quadratic)) {
+			size_t best_start = 0;
+			size_t best_end = 0;
+			float best_length = 0.f;
+			std::vector<std::tuple<size_t, size_t>> candidates;
+
+			for (size_t i = 0; i < next_centroids.size(); i++) {
+				auto start = centroids[i];
+				for (size_t j = i +  1; j < next_centroids.size(); j++) {
+					auto end = next_centroids[j];
+
+					auto diff = end - start;
+					auto dist = glm::length(diff);
+
+					auto letter_size = std::min(64.f, dist / (float)(name.length()));
+					auto letter_detection_size = dist / (float)(name.length()) * 0.75f;
+
+					glm::vec2 linear_functional_normal { diff.y, -diff.x };
+					glm::vec2 linear_functional_along = diff;
+					linear_functional_normal /= dist;
+					linear_functional_along /= dist;
+					float base_value = glm::dot(linear_functional_normal, start);
+					float base_value_start = glm::dot(linear_functional_along, start);
+					float base_value_end = glm::dot(linear_functional_along, end);
+
+					bool good_enough = true;
+
+					/*
+					for (size_t grid_index = 0; grid_index < grid.size(); grid_index += 3) {
+						auto grid_data = grid[grid_index];
+						glm::vec2 item {grid_data.x, grid_data.y};
+						bool avoid = avoid_point(item.x, item.y);
+
+						if(!avoid) {
+							continue;
+						}
+
+						auto value = abs(glm::dot(linear_functional_normal, item) - base_value);
+						auto value_along = glm::dot(linear_functional_along, item);
+
+						bool in_segment =
+							(base_value_start < value_along && value_along < base_value_end)
+							|| (base_value_start > value_along && value_along > base_value_end);
+
+						if(value < letter_detection_size && in_segment) {
+							good_enough = false;
+							break;
+						}
+					}
+					*/
+
+					if(good_enough) {
+						auto dx = diff.x;
+						auto dy = diff.y;
+						auto dist_adjusted = (dx * dx + dy * dy);
+						auto x = start.x;
+						auto y = start.y;
+
+						auto score = 0.f;
+						int segments = 16;
+
+						auto area = letter_size * dist / float(segments);
+						float local_step_x = dx / segments;
+						float local_step_y = dy / segments;
+
+						float nx = - dy / sqrtf(dx * dx + dy * dy) * letter_size / 2.f;
+						float ny = dx / sqrtf(dx * dx + dy * dy) * letter_size / 2.f;
+
+						for(int step_count = 1; step_count < segments; step_count++) {
+							float t = (float)step_count / (float)segments;
+							for (int n_step = -3; n_step < 4; n_step++) {
+								float s = (float)n_step / 3.f;
+								float tolerance = 0.1f + 10000000.f * std::max(t, 1.f - t);
+								if (avoid_point(x + nx * s, y + ny * s, tolerance)) {
+									good_enough = false;
+									break;
+								}
+							}
+							if(!good_enough) {
+								break;
+							}
+							score += area; //(1.f + check_point(x, y)) * area;
+							x += local_step_x;
+							y += local_step_y;
+						}
+
+						if(good_enough && score > best_length) {
+							best_length = score;
+							best_start = i;
+							best_end = j;
+						}
+					}
+				}
+			}
+
+			if(best_length == 0.f) {
+				continue;
+			}
+
+			auto start = next_centroids[best_start];
+			auto end = next_centroids[best_end];
+			centroids.clear();
+			centroids.push_back(start);
+			centroids.push_back(end);
+
+			auto startR3 = centroids_R3[best_start];
+			auto endR3 = centroids_R3[best_end];
+			centroids_R3.clear();
+			centroids_R3.push_back(startR3);
+			centroids_R3.push_back(endR3);
+		} else {
+			centroids = next_centroids;
+		}		
+
+		//initial center:
+		glm::vec2 center = sum_points / (float)(points.size());		
+
+		std::vector<glm::vec2> key_points;
+
+		if(state.user_settings.map_label == sys::map_label_mode::spherical) {
+			float right = 0.f;
+			float left = 0.f;
+			float top = 0.f;
+			float bottom = 0.f;
+			for(auto point : centroids) {
+				auto coord = glm::vec2{ point.x, point.y };
+				glm::vec2 current = coord - center;
+				if((current.x > right)) {
+					right = current.x;
+				}
+				if(current.y > top) {
+					top = current.y;
+				}
+				if((current.x < left)) {
+					left = current.x;
+				}
+				if(current.y < bottom) {
+					bottom = current.y;
+				}
+			}
+			key_points.push_back(center + glm::vec2(left, 0));
+			key_points.push_back(center + glm::vec2(0, bottom));
+			key_points.push_back(center + glm::vec2(right, 0));
+			key_points.push_back(center + glm::vec2(0, top));
+		} else {
+			float right = 0.f;
+			float left = 0.f;
+			float top = 0.f;
+			float bottom = 0.f;
+			for(auto point : centroids) {
+				auto coord = glm::vec2{ point.x, point.y };
+				glm::vec2 current = coord - center;
+				if((current.x > right)) {
+					right = current.x;
+				}
+				if(current.y > top) {
+					top = current.y;
+				}
+				if((current.x < left)) {
+					left = current.x;
+				}
+				if(current.y < bottom) {
+					bottom = current.y;
+				}
+			}
+
+			{
+				auto result = center + glm::vec2(left, 0);
+				key_points.push_back(result);
+			}
+
+			{
+				auto result = center + glm::vec2(0, bottom);
+				key_points.push_back(result);
+			}
+
+			{
+				auto result = center + glm::vec2(right, 0);
+				key_points.push_back(result);
+			}
+
+			{
+				auto result = center + glm::vec2(0, top);
+				key_points.push_back(result);
+			}
+		}
+
+		std::array<glm::vec2, 5> key_provs{
+			center, // center
+			center, // [1] -> left
+			center, // [2] -> bottom
+			center, // [3] -> right
+			center  // [4] -> top
+		};
+
+		for(auto key_point : key_points) {
+			update_bbox(key_provs, key_point);
+			//draw_small_square(state, map_data, { {key_point.x / (float)map_data.size_x, key_point.y / (float)map_data.size_y} }, 0.001f);
+		}
+
+		/*
+		{
+			std::string file_name = "shapes/shape_box_" + std::to_string(file_index);
+			auto pf = fopen(file_name.c_str(), "w");
+			fprintf(pf, "x,y\n");
+			for(auto& data : key_provs) {
+				fprintf(pf, "%f,%f\n", data.x, data.y);
+			}
+			fflush(pf);
+			fclose(pf);
+		}
+		*/
+
+		glm::vec2 map_size{ float(state.map_state.map_data.size_x), float(state.map_state.map_data.size_y) };
+		glm::vec2 basis{ key_provs[1].x, key_provs[2].y };
+		glm::vec2 ratio{ key_provs[3].x - key_provs[1].x, key_provs[4].y - key_provs[2].y };
+
+		//draw_small_square(state, map_data, { {key_provs[1].x / (float)map_data.size_x, key_provs[2].y / (float)map_data.size_y} }, 0.001f);
+		//draw_small_square(state, map_data, { {key_provs[3].x / (float)map_data.size_x, key_provs[4].y / (float)map_data.size_y} }, 0.001f);
+
+		if(ratio.x < 0.001f || ratio.y < 0.001f)
+			continue;
+
+		// throw out centroids at the edge of the box:
+		//points.clear();
+
+		//regularisation parameters
+		float lambda = 0.f;//0.00001f;
+
+		float l_0 = 1.f;
+		float l_1 = 1.f;
+		float l_2 = 1.f;//1 / 4.f;
+		float l_3 = 1.f;//1 / 8.f;
+
+		// Populate common dataset points
+		std::vector<float> out_y;
+		std::vector<float> out_x;
+		std::vector<float> w;
+		std::vector<std::array<float, 4>> in_x;
+		std::vector<std::array<float, 4>> in_y;
+
+		//draw_small_square(state, state.map_state.map_data, { { basis.x / (float)map_data.size_x, basis.y / (float)map_data.size_y } }, 0.005f);
+		//draw_small_square(state, state.map_state.map_data, { { (basis.x + ratio.x) / (float)map_data.size_x, (basis.y + ratio.y) / (float)map_data.size_y } }, 0.005f);
+
+		for (auto point : centroids) {
+			auto e = point;
+
+			//draw_small_square(state, state.map_state.map_data, { { point.x / (float)map_data.size_x, point.y / (float)map_data.size_y } }, 0.0005f);
+
+			if(e.x < basis.x) {
+				continue;
+			}
+			if(e.x > basis.x + ratio.x) {
+				continue;
+			}
+
+			w.push_back(1);
+
+			e -= basis;
+			e /= ratio;
+			out_y.push_back(e.y);
+			out_x.push_back(e.x);
+			//w.push_back(10 * float(map_data.province_area[province::to_map_id(p2)]));
+
+			in_x.push_back(std::array<float, 4>{ l_0 * 1.f, l_1* e.x, l_1* e.x* e.x, l_3* e.x* e.x* e.x});
+			in_y.push_back(std::array<float, 4>{ l_0 * 1.f, l_1* e.y, l_1* e.y* e.y, l_3* e.y* e.y* e.y});
+		}
+
+		if(in_x.size() < 2) {
+			continue;
+		}
+
+		text::stored_glyphs prepared_name;
+		state.font_collection.mfont.remake_map_cache(state, prepared_name, name);
+		float name_extent = state.font_collection.mfont.text_extent(state, prepared_name, 0, uint32_t(prepared_name.glyph_info.size()));
+
+		bool use_quadratic = false;
+		// We will try cubic regression first, if that results in very
+		// weird lines, for example, lines that go to the infinite
+		// we will "fallback" to using a quadratic instead
+		if(state.user_settings.map_label == sys::map_label_mode::cubic) {
+			// Columns -> n
+			// Rows -> fixed size of 4
+			// [ x0^0 x0^1 x0^2 x0^3 ]
+			// [ x1^0 x1^1 x1^2 x1^3 ]
+			// [ ...  ...  ...  ...  ]
+			// [ xn^0 xn^1 xn^2 xn^3 ]
+			// [AB]i,j = sum(n, r=1, a_(i,r) * b(r,j))
+			// [ x0^0 x0^1 x0^2 x0^3 ] * [ x0^0 x1^0 ... xn^0 ] = [ a0 a1 a2 ... an ]
+			// [ x1^0 x1^1 x1^2 x1^3 ] * [ x0^1 x1^1 ... xn^1 ] = [ b0 b1 b2 ... bn ]
+			// [ ...  ...  ...  ...  ] * [ x0^2 x1^2 ... xn^2 ] = [ c0 c1 c2 ... cn ]
+			// [ xn^0 xn^1 xn^2 xn^3 ] * [ x0^3 x1^3 ... xn^3 ] = [ d0 d1 d2 ... dn ]
+			glm::mat4x4 m0(0.f);
+			for(glm::length_t i = 0; i < m0.length(); i++)
+				for(glm::length_t j = 0; j < m0.length(); j++)
+					for(glm::length_t r = 0; r < glm::length_t(in_x.size()); r++)
+						m0[i][j] += in_x[r][j] * w[r] * in_x[r][i] / in_x.size();
+			for(glm::length_t i = 0; i < m0.length(); i++)
+				m0[i][i] += lambda;
+			m0 = glm::inverse(m0); // m0 = (T(X)*X/n + I*lambda)^-1
+			glm::vec4 m1(0.f); // m1 = T(X)*Y / n
+			for(glm::length_t i = 0; i < m1.length(); i++)
+				for(glm::length_t r = 0; r < glm::length_t(in_x.size()); r++)
+					m1[i] += in_x[r][i] * w[r] * out_y[r] / in_x.size();
+			glm::vec4 mo(0.f); // mo = m1 * m0
+			for(glm::length_t i = 0; i < mo.length(); i++)
+				for(glm::length_t j = 0; j < mo.length(); j++)
+					mo[i] += m0[i][j] * m1[j];
+			// y = a + bx + cx^2 + dx^3
+			// y = mo[0] + mo[1] * x + mo[2] * x * x + mo[3] * x * x * x
+			auto poly_fn = [&](float x) {
+				return mo[0] * l_0 + mo[1] * x * l_1 + mo[2] * x * x * l_2 + mo[3] * x * x * x * l_3;
+			};
+			auto dx_fn = [&](float x) {
+				return mo[1] * l_1 + 2.f * mo[2] * x * l_2 + 3.f * mo[3] * x * x * l_3;
+			};
+			auto error_grad = [&](float x, float y) {
+				float error_linear = poly_fn(x) - y;
+				return glm::vec4(error_linear * error_linear * error_linear * error_linear * error_linear * mo);
+			};
+
+			auto regularisation_grad = [&]() {
+				return glm::vec4(0, 0, mo[2] / 4.f, mo[3] / 6.f);
+			};
+
+			float xstep = (1.f / float(name_extent * 2.f));
+
+
+			for(float x = 0.f; x <= 1.f; x += xstep) {
+				float y = poly_fn(x);
+				if(y < 0.f || y > 1.f) {
+					use_quadratic = true;
+					break;
+				}
+
+				float s = basis.x + x * ratio.x;
+				float t = basis.y + y * ratio.y;
+
+				// Steep change in curve => use cuadratic
+				float dx = glm::abs(dx_fn(x) - dx_fn(x - xstep));
+				if(dx / xstep >= 0.45f) {
+					use_quadratic = true;
+					break;
+				}
+			}
+
+			if(!use_quadratic) {
+				xstep = 1 / 32.f;
+
+				float offset_left = 0.f;
+				//for(float x = 0.f; x <= 1.f; x += xstep) {
+				//	float y = poly_fn(x);
+				//	auto map_point = glm::vec2{x, y} * ratio + basis;
+				//	auto nation = sample_nation(map_point.x, map_point.y);
+				//	if(nation && nation != n) {
+				//		offset_left = x;
+				//	}
+				//	if(nation == n) {
+				//		break;
+				//	}
+				//}
+				float offset_right = 1.f;
+				//for(float x = 1.f; x >= 0.f; x -= xstep) {
+				//	float y = poly_fn(x);
+				//	auto map_point = glm::vec2{x, y} * ratio + basis;
+				//	auto nation = sample_nation(map_point.x, map_point.y);
+				//	if(nation && nation != n) {
+				//		offset_right = x;
+				//	}
+				//	if(nation == n) {
+				//		break;
+				//	}
+				//}
+				if(offset_left > offset_right) {
+					use_quadratic = true;
+				} else {
+					text_data.emplace_back(std::move(prepared_name), mo, basis, ratio, offset_left, offset_right);
+				}
+			}
+		}
+
+		bool use_linear = false;
+		if(state.user_settings.map_label == sys::map_label_mode::quadratic || use_quadratic) {
+			// Now lets try quadratic
+			glm::mat3x3 m0(0.f);
+			for(glm::length_t i = 0; i < m0.length(); i++)
+				for(glm::length_t j = 0; j < m0.length(); j++)
+					for(glm::length_t r = 0; r < glm::length_t(in_x.size()); r++)
+						m0[i][j] += in_x[r][j] * w[r] * in_x[r][i] / in_x.size();
+			for(glm::length_t i = 0; i < m0.length(); i++)
+				m0[i][i] += lambda;
+			m0 = glm::inverse(m0); // m0 = (T(X)*X)^-1
+			glm::vec3 m1(0.f); // m1 = T(X)*Y
+			for(glm::length_t i = 0; i < m1.length(); i++)
+				for(glm::length_t r = 0; r < glm::length_t(in_x.size()); r++)
+					m1[i] += in_x[r][i] * w[r] * out_y[r] / in_x.size();
+			glm::vec3 mo(0.f); // mo = m1 * m0
+			for(glm::length_t i = 0; i < mo.length(); i++)
+				for(glm::length_t j = 0; j < mo.length(); j++)
+					mo[i] += m0[i][j] * m1[j];
+			// y = a + bx + cx^2
+			// y = mo[0] + mo[1] * x + mo[2] * x * x
+			auto poly_fn = [&](float x) {
+				return mo[0] * l_0 + mo[1] * x * l_1 + mo[2] * x * x * l_2;
+			};
+			auto dx_fn = [&](float x) {
+				return mo[1] * l_1 + 2.f * mo[2] * x * l_2;
+			};
+			float xstep = (1.f / float(name_extent * 2.f));
+			for(float x = 0.f; x <= 1.f; x += xstep) {
+				float y = poly_fn(x);
+				if(y < 0.f || y > 1.f) {
+					use_linear = true;
+					break;
+				}
+				// Steep change in curve => use cuadratic
+				float dx = glm::abs(dx_fn(x) - dx_fn(x - xstep));
+				if(dx / xstep >= 0.45f) {
+					use_linear = true;
+					break;
+				}
+			}
+			if(!use_linear) {
+				xstep = 1 / 32.f;
+				float offset_left = 0.f;
+				//for(float x = 0.f; x <= 1.f; x += xstep) {
+				//	float y = poly_fn(x);
+				//	auto map_point = glm::vec2{x, y} * ratio + basis;
+				//	auto nation = sample_nation(map_point.x, map_point.y);
+				//	if(nation && nation != n) {
+				//		offset_left = x;
+				//	}
+				//	if(nation == n) {
+				//		break;
+				//	}
+				//}
+				float offset_right = 1.f;
+				//for(float x = 1.f; x >= 0.f; x -= xstep) {
+				//	float y = poly_fn(x);
+				//	auto map_point = glm::vec2{x, y} * ratio + basis;
+				//	auto nation = sample_nation(map_point.x, map_point.y);
+				//	if(nation && nation != n) {
+				//		offset_right = x;
+				//	}
+				//	if(nation == n) {
+				//		break;
+				//	}
+				//}
+				if(offset_left > offset_right) {
+					use_linear = true;
+				} else {
+					text_data.emplace_back(std::move(prepared_name), glm::vec4{mo.x, mo.y, mo.z, 0.f}, basis, ratio, offset_left, offset_right);
+				}
+			}
+		}
+
+
+		if(state.user_settings.map_label == sys::map_label_mode::spherical) {
+			if(in_x[0][1] < in_x[1][1]) {
+				text_data.emplace_back(std::move(prepared_name), glm::vec4(in_x[0][1], in_y[0][1], in_x[1][1], in_y[1][1]), basis, ratio, 0.f, 1.f);
+			} else {
+				text_data.emplace_back(std::move(prepared_name), glm::vec4(in_x[1][1], in_y[1][1], in_x[0][1], in_y[0][1]), basis, ratio, 0.f, 1.f);
+			}
+		}
+
+		if(state.user_settings.map_label == sys::map_label_mode::linear || use_linear) {
+			// Now lets try linear
+			glm::mat2x2 m0(0.f);
+			for(glm::length_t i = 0; i < m0.length(); i++)
+				for(glm::length_t j = 0; j < m0.length(); j++)
+					for(glm::length_t r = 0; r < glm::length_t(in_x.size()); r++)
+						m0[i][j] += in_x[r][j] * w[r] * in_x[r][i];
+			for(glm::length_t i = 0; i < m0.length(); i++)
+				m0[i][i] += lambda;
+			m0 = glm::inverse(m0); // m0 = (T(X)*X)^-1
+			glm::vec2 m1(0.f); // m1 = T(X)*Y
+			for(glm::length_t i = 0; i < m1.length(); i++)
+				for(glm::length_t r = 0; r < glm::length_t(in_x.size()); r++)
+					m1[i] += in_x[r][i] * w[r] * out_y[r];
+			glm::vec2 mo(0.f); // mo = m1 * m0
+			for(glm::length_t i = 0; i < mo.length(); i++)
+				for(glm::length_t j = 0; j < mo.length(); j++)
+					mo[i] += m0[i][j] * m1[j];
+
+			// y = a + bx
+			// y = mo[0] + mo[1] * x
+			auto poly_fn = [&](float x) {
+				return mo[0] * l_0 + mo[1] * x * l_1;
+			};
+
+			if(abs(mo[1]) <= 0.05) 
+				mo[1] = 0.f;
+
+			if(ratio.x <= map_size.x * 1.f && ratio.y <= map_size.y * 1.f) {
+				float xstep = 1.f / 32.f;
+
+				float offset_left = 0.f;
+				//for(float x = 0.f; x <= 1.f; x += xstep) {
+				//	float y = poly_fn(x);
+				//	auto map_point = glm::vec2{x, y} * ratio + basis;
+				//	auto nation = sample_nation(map_point.x, map_point.y);
+				//	if(nation && nation != n) {
+				//		offset_left = x;
+				//	}
+				//	if(nation == n) {
+				//		break;
+				//	}
+				//}
+				float offset_right = 1.f;
+				//for(float x = 1.f; x >= 0.f; x -= xstep) {
+				//	float y = poly_fn(x);
+				//	auto map_point = glm::vec2{x, y} * ratio + basis;
+				//	auto nation = sample_nation(map_point.x, map_point.y);
+				//	if(nation && nation != n) {
+				//		offset_right = x;
+				//	}
+				//	if(nation == n) {
+				//		break;
+				//	}
+				//}
+				if(offset_left < offset_right) {
+					glm::vec4 coeffs = { mo.x, mo.y, 0.f, 0.f };
+					text_data.emplace_back(std::move(prepared_name), coeffs, basis, ratio, offset_left, offset_right);
+				}
+			}
+		}
+	}
+}
+
+void map_state::update_map_labels(sys::state& state) {
+	float delay = 200.f;
+
+	while (state.quit_signaled.load(std::memory_order::acquire) == false) {
+
+		std::shared_lock lock(state.game_state_resetting_lock);
+		state.game_state_resetting_cv.wait(lock, [&] { return !state.yield_game_state_resetting_lock; });
+
+		if (state.map_state.map_labels_current_state == map::map_labels_state::generate_text) {
+			map::update_text_lines(state, state.map_state.map_data);
+			state.map_state.map_labels_current_state = map::map_labels_state::load_glyphs;
+		}
+		if (state.map_state.map_labels_current_state == map::map_labels_state::update) {
+			map_data.set_text_lines(state);
+			state.map_state.map_labels_current_state = map::map_labels_state::commit;
+		}
+		std::this_thread::sleep_for(std::chrono::milliseconds((int)delay));
+	}
+}
+
+void map_state::update_cache(sys::state& state) {	
+	float delay = 50;
+
+	while (state.quit_signaled.load(std::memory_order::acquire) == false) {
+
+		std::shared_lock lock(state.game_state_resetting_lock);
+		state.game_state_resetting_cv.wait(lock, [&] { return !state.yield_game_state_resetting_lock; });
+		/*
+		auto screen_size  = glm::vec2(state.x_size, state.y_size);
+		if (update_cache_on_map_movement) {
+			for (auto& b : map_data.border_edges) {
+				if (b.count == 0) {
+					b.skip = true;
+					continue;
+				}
+				if (b.count > 2000) {
+					b.skip = false;
+					continue;
+				}
+
+				map_space::point_normalized center_pos = {map_data.province_border_vertices[b.start_index + b.count / 2].position};
+				auto center_pos_adjusted = map_space::inverted_from_normalized(center_pos);
+
+				screen_space::point_ui center;
+				if (!state.map_state.map_to_screen(center_pos_adjusted, screen_size, state.user_settings.map_is_globe, center, { 600.0f, 600.0f }) && b.count < 2000) {
+					b.skip = true;
+				}
+				else {
+					b.skip = false;
+				}
+			}
+
+			update_cache_on_map_movement = false;
+			//request_fresh_border_index = true;
+		}
+		if (request_fresh_border_index) {
+			uint8_t updated_index = 1 - smoothing_borders_index_current;
+
+			if (smoothing_borders_index[0].size() == 0) {
+				smoothing_borders_index[0].resize(map_data.borders.size());
+				smoothing_borders_index[1].resize(map_data.borders.size());
+			}
+
+			size_t actual_index = 0;
+			for(size_t i = 0; i < map_data.borders.size(); i++) {
+				auto& b = map_data.borders[i];
+				if(b.count == 0) continue;
+				//if(b.skip) continue;
+
+				bool national = false;
+				if(
+					!b.adj 
+					|| (
+						state.world.province_adjacency_get_type(b.adj) 
+						& (
+							province::border::coastal_bit
+							| province::border::national_bit
+						)
+					)
+				) {
+					smoothing_borders_index[updated_index][actual_index] = i;
+					actual_index++;
+				}
+			}
+			smoothing_borders_count = actual_index;
+			smoothing_borders_index_current = updated_index;
+			request_fresh_border_index = false;
+		}
+		*/
+
+		std::this_thread::sleep_for(std::chrono::milliseconds((int)delay));
+	}
+
+}
+
+void map_state::update(sys::state& state) {
+	std::chrono::time_point<std::chrono::steady_clock> now = std::chrono::steady_clock::now();
+	// Set the last_update_time if it hasn't been set yet
+	if(last_update_time == std::chrono::time_point<std::chrono::steady_clock>{})
+		last_update_time = now;
+
+
+	state.map_state.map_data.map_drawing_mutex.lock();
+	if(state.map_state.map_data.new_arbitrary_map_triangle) {
+		state.map_state.map_data.new_arbitrary_map_triangle = false;
+		glBindBuffer(GL_ARRAY_BUFFER, map_data.vbo_array[map_data.vo_arbitrary_map_triangles]);
+		glBufferData(
+			GL_ARRAY_BUFFER,
+			sizeof(square::point)
+			* map_data.arbitrary_map_triangles.size(),
+			map_data.arbitrary_map_triangles.data(),
+			GL_STATIC_DRAW
+		);
+		state.map_state.map_data.buffered_arbitrary_map_triangles_starts = state.map_state.map_data.arbitrary_map_triangles_starts;
+		state.map_state.map_data.buffered_arbitrary_map_triangles_counts = state.map_state.map_data.arbitrary_map_triangles_counts;
+	}
+	state.map_state.map_data.map_drawing_mutex.unlock();
+
+	if(state.selected_trade_good && state.update_trade_flow.load(std::memory_order::acquire)) {
+		update_trade_flow_arrows(state, map_data);
+		state.update_trade_flow.store(false, std::memory_order_release);
+	}
+	update_unit_arrows(state, map_data);
+
+	// Update railroads, only if railroads are being built and we have 'em enabled
+	if(state.user_settings.railroads_enabled && state.sprawl_update_requested.load(std::memory_order::acquire)) {
+		state.map_state.map_data.update_sprawl(state);
+		state.sprawl_update_requested.store(false, std::memory_order::release);
+	}
+
+	auto microseconds_since_last_update = std::chrono::duration_cast<std::chrono::microseconds>(now - last_update_time);
+	float seconds_since_last_update = (float)(microseconds_since_last_update.count() / 1e6);
+	last_update_time = now;
+
+	time_counter += seconds_since_last_update;
+	time_counter = (float)std::fmod(time_counter, 600.f); // Reset it after every 10 minutes
+
+	if((left_arrow_key_down xor right_arrow_key_down) or (up_arrow_key_down xor down_arrow_key_down)) {
+		glm::vec2 arrow_key_velocity_vector{};
+		if (left_arrow_key_down) {
+			arrow_key_velocity_vector.x -= 1.f;
+		}
+		if (right_arrow_key_down) {
+			arrow_key_velocity_vector.x += 1.f;
+		}
+		if (up_arrow_key_down) {
+			arrow_key_velocity_vector.y -= 1.f;
+		}
+		if (down_arrow_key_down) {
+			arrow_key_velocity_vector.y += 1.f;
+		}
+		arrow_key_velocity_vector = glm::normalize(arrow_key_velocity_vector);
+		arrow_key_velocity_vector *= 0.175f;
+		if(shift_key_down)
+			arrow_key_velocity_vector *= glm::e<float>();
+		pos_velocity += arrow_key_velocity_vector;
+	}
+
+	if(state.user_settings.mouse_edge_scrolling) {
+		glm::vec2 mouse_pos_percent{ state.mouse_x_position / float(state.x_size), state.mouse_y_position / float(state.y_size) };
+		glm::vec2 cursor_velocity_vector{ 0.0f, 0.0f };
+
+		//check if mouse is at edge of screen, in order to move the map
+		if(mouse_pos_percent.x < 0.02f) {
+			cursor_velocity_vector.x -= 1.f;
+		} else if(mouse_pos_percent.x > 0.98f) {
+			cursor_velocity_vector.x += 1.f;
+		}
+		if(mouse_pos_percent.y < 0.02f) {
+			cursor_velocity_vector.y -= 1.f;
+		} else if(mouse_pos_percent.y > 0.98f) {
+			cursor_velocity_vector.y += 1.f;
+		}
+
+		// check if the vector length is not zero before normalizing
+		if(glm::length(cursor_velocity_vector) != 0.0f) {
+			cursor_velocity_vector = glm::normalize(cursor_velocity_vector);
+			cursor_velocity_vector *= 0.175f;
+			pos_velocity += cursor_velocity_vector;
+		}
+	}
+
+	pos_velocity /= 1.125;
+
+	glm::vec2 velocity = pos_velocity * (seconds_since_last_update / zoom);
+	velocity.x *= float(map_data.size_y) / float(map_data.size_x);
+	if(std::abs(velocity.x) >= 0.00001f || std::abs(velocity.y) >= 0.00001f) {
+		last_map_movement = now;
+		last_map_movement_handled = false;
+	}
+	pos.data += velocity;
+
+	pos.data.x = glm::mod(pos.data.x, 1.f);
+	pos.data.y = glm::clamp(pos.data.y, 0.f, 1.f);
+
+	screen_space::point_ui mouse_pos{ {(float)(state.mouse_x_position), (float)(state.mouse_y_position)} };
+	glm::vec2 screen_size{ state.x_size, state.y_size };
+
+	screen_space::point_ui screen_center = {{screen_size / 2.f}};
+	screen_space::point_ui screen_corner = { {0.f, 0.f} };
+
+	auto view_mode = current_view(state);
+	map_space::point_normalized_inverted_y pos_before_zoom;
+	bool valid_pos = screen_to_map(mouse_pos, screen_size, view_mode, pos_before_zoom);
+
+	auto zoom_diff = (zoom_change * seconds_since_last_update) / (1 / zoom);
+	if(std::abs(zoom_diff) >= 0.0001f) {
+		last_map_movement = now;
+		last_map_movement_handled = false;
+	}
+	zoom += zoom_diff;
+	zoom_change *= std::exp(-seconds_since_last_update * state.user_settings.zoom_speed);
+	zoom = glm::clamp(zoom, min_zoom, max_zoom);
+
+	map_space::point_normalized_inverted_y pos_after_zoom;
+	if(valid_pos && screen_to_map(mouse_pos, screen_size, view_mode, pos_after_zoom)) {
+		switch(state.user_settings.zoom_mode) {
+		case sys::map_zoom_mode::panning:
+			pos.data += pos_before_zoom.data - pos_after_zoom.data;
+			break;
+		case sys::map_zoom_mode::inverted:
+			pos.data -= pos_before_zoom.data - pos_after_zoom.data;
+			break;
+		case sys::map_zoom_mode::to_cursor:
+			if(zoom_change < 0.f) {
+				pos.data -= pos_before_zoom.data - pos_after_zoom.data;
+			} else {
+				pos.data += pos_before_zoom.data - pos_after_zoom.data;
+			}
+			break;
+		case sys::map_zoom_mode::away_from_cursor:
+			if(zoom_change < 0.f) {
+				pos.data += pos_before_zoom.data - pos_after_zoom.data;
+			} else {
+				pos.data -= pos_before_zoom.data - pos_after_zoom.data;
+			}
+			break;
+		case sys::map_zoom_mode::centered:
+			//no pos change
+			break;
+		default:
+			break;
+		}
+	}
+
+	static float keyboard_zoom_change = 0.f;
+	if(pgup_key_down) {
+		keyboard_zoom_change += 0.1f;
+	}
+	if(pgdn_key_down) {
+		keyboard_zoom_change -= 0.1f;
+	}
+
+	map_space::point_normalized_inverted_y pos_before_keyboard_zoom;
+	valid_pos = screen_to_map(screen_center, screen_size, view_mode, pos_before_keyboard_zoom);
+
+	auto keyboard_zoom_diff = (keyboard_zoom_change * seconds_since_last_update) / (1 / zoom);
+	if(std::abs(keyboard_zoom_diff) >= 0.0001f) {
+		last_map_movement = now;
+		last_map_movement_handled = false;
+	}
+	zoom += keyboard_zoom_diff;
+	keyboard_zoom_change *= std::exp(-seconds_since_last_update * state.user_settings.zoom_speed);
+	zoom = glm::clamp(zoom, min_zoom, max_zoom);
+
+	map_space::point_normalized_inverted_y pos_after_keyboard_zoom;
+	if(valid_pos && screen_to_map(screen_center, screen_size, view_mode, pos_after_keyboard_zoom)) {
+		pos.data += pos_before_keyboard_zoom.data - pos_after_keyboard_zoom.data;
+	}
+
+	glm::mat4 base_rotation(
+		{ 1.f, 0.f, 0.f,0.f },
+		{ 0.f, -1.f, 0.f,0.f },
+		{ 0.f, 0.f, 1.f,0.f },
+		{ 0.f,0.f,0.f,1.f }
+	);
+	globe_rotation = glm::rotate(base_rotation, (0.25f + pos.data.x) * 2 * glm::pi<float>(), glm::vec3(0, 1, 0));
+	// Rotation axis
+	glm::vec3 axis = glm::vec3(glm::vec4(1, 0, 0, 0) * globe_rotation);
+	axis.y = 0;
+	axis = glm::normalize(axis);
+	globe_rotation = glm::rotate(globe_rotation, (0.5f + pos.data.y) * glm::pi<float>(), axis);
+	camera_over_sphere_point = glm::vec3(0.f, 0.f, 1.f) * glm::mat3(globe_rotation);
+	camera_corner_over_sphere_point = -camera_over_sphere_point;
+
+	map_space::point_normalized_inverted_y corner_projection;
+	if(screen_to_map(screen_corner, screen_size, view_mode, corner_projection)) {
+		auto sq_corner = map_space::to_square(corner_projection);
+		auto sph_corner = sphere_R3::from_square(sq_corner);
+		camera_corner_over_sphere_point = sph_corner.data;
+	}
+	
+
+	if(unhandled_province_selection) {
+		map_mode::update_map_mode(state);
+		state.update_trade_flow.store(true, std::memory_order::release);
+
+		map_data.update_highlight(state);
+		unhandled_province_selection = false;
+	}
+}
+
+void map_state::set_province_color(std::vector<uint32_t> const& prov_color, map_mode::mode new_map_mode) {
+	if (new_map_mode != map_mode::mode::handled_from_outside)
+		active_map_mode = new_map_mode;
+	map_data.set_province_color(prov_color);
+}
+
+void map_state::set_terrain_map_mode() {
+	active_map_mode = map_mode::mode::terrain;
+}
+
+void map_state::on_key_down(sys::virtual_key keycode, sys::key_modifiers mod) {
+	switch (keycode) {
+	case sys::virtual_key::LEFT:
+		left_arrow_key_down = true;
+		break;
+	case sys::virtual_key::RIGHT:
+		right_arrow_key_down = true;
+		break;
+	case sys::virtual_key::UP:
+		up_arrow_key_down = true;
+		break;
+	case sys::virtual_key::DOWN:
+		down_arrow_key_down = true;
+		break;
+	case sys::virtual_key::PRIOR:
+		pgup_key_down = true;
+		break;
+	case sys::virtual_key::NEXT:
+		pgdn_key_down = true;
+		break;
+	case sys::virtual_key::SHIFT:
+		shift_key_down = true;
+		break;
+	default:
+		break;
+	}
+}
+
+void map_state::on_key_up(sys::virtual_key keycode, sys::key_modifiers mod) {
+	switch(keycode) {
+	case sys::virtual_key::LEFT:
+		left_arrow_key_down = false;
+		break;
+	case sys::virtual_key::RIGHT:
+		right_arrow_key_down = false;
+		break;
+	case sys::virtual_key::UP:
+		up_arrow_key_down = false;
+		break;
+	case sys::virtual_key::DOWN:
+		down_arrow_key_down = false;
+		break;
+	case sys::virtual_key::PRIOR:
+		pgup_key_down = false;
+		break;
+	case sys::virtual_key::NEXT:
+		pgdn_key_down = false;
+		break;
+	case sys::virtual_key::SHIFT:
+		shift_key_down = false;
+		break;
+	default:
+		break;
+	}
+}
+
+void map_state::set_pos(map_space::point_normalized_inverted_y new_pos) {
+	pos.data.x = glm::mod(new_pos.data.x, 1.f);
+	pos.data.y = glm::clamp(new_pos.data.y, 0.f, 1.0f);
+	assert(std::isfinite(pos.data.x));
+	assert(std::isfinite(pos.data.y));
+}
+
+void map_state::shift_pos(map_space::point_normalized_inverted_y shift, float multiplier) {
+	pos.data.x = glm::mod(pos.data.x + shift.data.x * multiplier, 1.f);
+	pos.data.y = glm::clamp(pos.data.y + shift.data.y * multiplier, 0.f, 1.0f);
+	assert(std::isfinite(pos.data.x));
+	assert(std::isfinite(pos.data.y));
+}
+
+void map_state::center_map_on_province(sys::state& state, dcon::province_id p) {
+	if(!p)
+		return;
+
+	last_map_movement = std::chrono::steady_clock::now();
+	last_map_movement_handled = false;
+
+	map_space::point map_pos = {state.world.province_get_mid_point(p)};
+	set_pos(map_space::inverted_from_point(map_pos, float(map_data.size_x), float(map_data.size_y)));
+}
+
+void map_state::on_mouse_wheel(int32_t x, int32_t y, int32_t screen_size_x, int32_t screen_size_y, sys::key_modifiers mod,
+		float amount) {
+	constexpr auto zoom_speed_factor = 15.f;
+
+	zoom_change = (amount / 5.f) * zoom_speed_factor;
+}
+
+void map_state::on_mouse_move(int32_t x, int32_t y, int32_t screen_size_x, int32_t screen_size_y, sys::key_modifiers mod) {
+	screen_space::point_ui mouse_pos = {glm::vec2(x, y)};
+	auto screen_size = glm::vec2(screen_size_x, screen_size_y);
+	if(is_dragging) { // Drag the map with middlemouse
+		map_space::point_normalized_inverted_y map_pos;
+		screen_to_map(mouse_pos, screen_size, sys::projection_mode::rectangle, map_pos);
+
+		last_map_movement = std::chrono::steady_clock::now();
+		last_map_movement_handled = false;
+		shift_pos({last_camera_drag_pos.data - map_pos.data}, 1.f);
+	}
+	glm::vec2 mouse_diff = glm::abs(last_unit_box_drag_pos - mouse_pos.data);
+	if((mouse_diff.x > std::ceil(screen_size_x * 0.0025f) || mouse_diff.y > std::ceil(screen_size_y * 0.0025f))
+		&& left_mouse_down)
+	{
+		auto pos1 = last_unit_box_drag_pos / screen_size;
+		auto pos2 = mouse_pos.data / screen_size;
+		auto pixel_size = glm::vec2(1) / screen_size;
+		map_data.set_drag_box(true, pos1, pos2, pixel_size);
+	} else {
+		map_data.set_drag_box(false, {}, {}, {});
+	}
+}
+
+bool map_state::screen_to_map(
+	const screen_space::point_ui screen_pos,
+	glm::vec2 screen_size,
+	sys::projection_mode view_mode,
+	map_space::point_normalized_inverted_y& map_pos
+) {
+	auto original_screen_pos = screen_pos;
+	auto screen_clip = screen_space::clip_space_from_ui(screen_pos, screen_size.x, screen_size.y);
+	auto aspect_ratio = screen_size.x / screen_size.y;
+	constexpr float pi = glm::pi<float>();
+
+	if(view_mode == sys::projection_mode::globe_orthographic) {
+		glm::vec3 camera = glm::vec3(screen_clip.data.x * aspect_ratio / 2.f / zoom, screen_clip.data.y / 2.f / zoom, 1.f);
+		glm::vec3 cursor_direction = glm::vec3(0, 0, -1.f);
+		glm::vec3 sphere_center = glm::vec3(0, 0, -pi);
+
+		float sphere_radius = 1.f / glm::pi<float>();
+
+		glm::vec3 intersection_pos;
+		glm::vec3 intersection_normal;
+
+		if(glm::intersectRaySphere(
+			camera,
+			cursor_direction,
+			sphere_center,
+			sphere_radius,
+			intersection_pos,
+			intersection_normal
+		)) {
+			intersection_pos -= sphere_center;
+			intersection_pos = intersection_pos * glm::mat3(globe_rotation);
+			intersection_pos = glm::normalize(intersection_pos);
+			sphere_R3::point sphere_point = { { intersection_pos.y, intersection_pos.x, intersection_pos.z } };
+			auto square_point = sphere_R3::to_square(sphere_point);
+			map_pos = map_space::inverted_from_normalized(square_point);
+			return (map_pos.data.x >= 0 && map_pos.data.y >= 0 && map_pos.data.x <= 1.f && map_pos.data.y <= 1.f);
+		}
+		return false;
+	} else if (view_mode == sys::projection_mode::globe_perspective) {
+		//perspective values
+		float near_plane = 0.1f;
+		float far_plane = 1.2f;
+		float right = near_plane * tan(pi / 6.f) / zoom * aspect_ratio;
+		float top = near_plane * tan(pi / 6.f) / zoom;
+
+		//set up data for glm::intersectRaySphere
+		glm::vec3 camera = glm::vec3(0.f, 0.f, 0.f);
+		glm::vec3 cursor_pos = glm::vec3(screen_clip.data.x * right, screen_clip.data.y * top, -near_plane);
+		glm::vec3 cursor_direction = glm::normalize(cursor_pos);
+		glm::vec3 sphere_center = glm::vec3(0.f, 0.f, -1.2f);
+		float sphere_radius = 1.f / pi;
+
+
+		glm::vec3 intersection_pos_after_rotation;
+		glm::vec3 intersection_normal;
+
+		if(glm::intersectRaySphere(
+			camera,
+			cursor_direction,
+			sphere_center,
+			sphere_radius,
+			intersection_pos_after_rotation,
+			intersection_normal
+		)) {
+			intersection_pos_after_rotation -= sphere_center;
+			intersection_pos_after_rotation = glm::normalize(intersection_pos_after_rotation);
+
+			/*
+			Inverse of rotation matrix is transpose, so we multiply it in the opposite direction
+			*/
+
+			auto intersection_pos_before_rotation = intersection_pos_after_rotation * glm::mat3(globe_rotation);
+
+			/*
+			Now we want to get back to the "Calculation sphere" from the "Display shpere".
+			The only remaining difference between them is that two axis should be swapped
+			*/
+
+			sphere_R3::point sphere_point = { { intersection_pos_before_rotation.y, intersection_pos_before_rotation.x, intersection_pos_before_rotation.z } };
+			auto square_point = sphere_R3::to_square(sphere_point);
+			map_pos = map_space::inverted_from_normalized(square_point);
+
+			return (map_pos.data.x >= 0 && map_pos.data.y >= 0 && map_pos.data.x <= 1.f && map_pos.data.y <= 1.f);
+		}
+		return false;
+	} else if (view_mode == sys::projection_mode::rectangle) {
+
+		auto map_ratio = float(map_data.size_x) / float(map_data.size_y);
+		map_space::point_normalized camera_center = map_space::normalized_from_inverted(pos);
+		auto rectangle_camera_center = equirectangular::from_square(camera_center, map_ratio, 1.f);
+		auto mouse_shift_relative_to_center = screen_clip.data / 2.f / zoom * glm::vec2(aspect_ratio, 1.f);
+		equirectangular::point shifted_center = {rectangle_camera_center.data + mouse_shift_relative_to_center};
+		auto square_point = equirectangular::to_square(shifted_center, map_ratio, 1.f);
+		map_pos = map_space::inverted_from_normalized(square_point);
+
+		return (map_pos.data.x >= 0 && map_pos.data.y >= 0 && map_pos.data.x <= 1.f && map_pos.data.y <= 1.f);
+	} else if (view_mode == sys::projection_mode::globe_stereographic) {
+
+		/*
+		auto x = 0.5f * visible_point.x / visible_point.z / aspect_ratio * zoom;
+		auto y = 0.5f * visible_point.y / visible_point.z * zoom;
+		*/
+
+		// clip space
+		auto x = screen_clip.data.x * 2.f * aspect_ratio / zoom;
+		auto y = screen_clip.data.y * 2.f / zoom;
+
+		auto r = glm::length(glm::vec2(x, y));
+		auto scale = 2.f / (1.f + r * r);
+		auto true_x = x * scale;
+		auto true_y = y * scale;
+		auto true_z = scale - 1.f;
+
+		glm::vec3 after_rotation{ true_x, true_y, true_z };
+
+		auto before_rotation = after_rotation * glm::mat3(globe_rotation);
+
+		sphere_R3::point sphere_point { { before_rotation.y, before_rotation.x, before_rotation.z } };
+		auto square_point = sphere_R3::to_square(sphere_point);
+		map_pos = map_space::inverted_from_normalized(square_point);
+
+		return (map_pos.data.x >= 0 && map_pos.data.y >= 0 && map_pos.data.x <= 1.f && map_pos.data.y <= 1.f);
+	}
+
+	return false;
+}
+
+void map_state::on_mbuttom_down(int32_t x, int32_t y, int32_t screen_size_x, int32_t screen_size_y, sys::key_modifiers mod) {
+	screen_space::point_ui mouse_pos = {glm::vec2(x, y)};
+	auto screen_size = glm::vec2(screen_size_x, screen_size_y);
+
+	map_space::point_normalized_inverted_y map_pos;
+	screen_to_map(mouse_pos, screen_size, sys::projection_mode::rectangle, map_pos);
+
+	last_camera_drag_pos = map_pos;
+	is_dragging = true;
+	pos_velocity = glm::vec2(0);
+}
+
+void map_state::on_mbuttom_up(int32_t x, int32_t y, sys::key_modifiers mod) {
+	is_dragging = false;
+}
+
+void map_state::on_lbutton_down(sys::state& state, int32_t x, int32_t y, int32_t screen_size_x, int32_t screen_size_y,
+		sys::key_modifiers mod) {
+	left_mouse_down = true;
+	map_data.set_drag_box(false, {}, {}, {});
+	last_unit_box_drag_pos = glm::vec2(x, y);
+}
+
+void map_state::on_lbutton_up(sys::state& state, int32_t x, int32_t y, int32_t screen_size_x, int32_t screen_size_y,
+		sys::key_modifiers mod) {
+	left_mouse_down = false;
+	map_data.set_drag_box(false, {}, {}, {});
+	screen_space::point_ui mouse_pos = {glm::vec2(x, y)};
+	glm::vec2 mouse_diff = glm::abs(last_unit_box_drag_pos - mouse_pos.data);
+	if(mouse_diff.x <= std::ceil(screen_size_x * 0.0025f) && mouse_diff.y <= std::ceil(screen_size_y * 0.0025f)) {
+		auto screen_size = glm::vec2(screen_size_x, screen_size_y);
+		map_space::point_normalized_inverted_y map_pos;
+		if(!screen_to_map(mouse_pos, screen_size, current_view(state), map_pos)) {
+			return;
+		}
+		auto idx = map_space::to_idx(map_pos, (float)map_data.size_x, (float)map_data.size_y);
+
+		if(0 <= idx && size_t(idx) < map_data.province_id_map.size()) {
+			sound::play_interface_sound(state, sound::get_random_province_select_sound(state),
+				state.user_settings.interface_volume * state.user_settings.master_volume);
+			auto fat_id = dcon::fatten(state.world, province::from_map_id(map_data.province_id_map[idx]));
+			if(map_data.province_id_map[idx] < province::to_map_id(state.province_definitions.first_sea_province)) {
+				state.set_selected_province(province::from_map_id(map_data.province_id_map[idx]));
+				//state.current_scene.
+			} else {
+				state.set_selected_province(dcon::province_id{});
+			}
+		} else {
+			state.set_selected_province(dcon::province_id{});
+		}
+	}
+}
+
+
+void map_state::on_rbutton_down(sys::state& state, int32_t x, int32_t y, int32_t screen_size_x, int32_t screen_size_y,
+		sys::key_modifiers mod) {
+	screen_space::point_ui mouse_pos = {glm::vec2(x, y)};
+	auto screen_size = glm::vec2(screen_size_x, screen_size_y);
+	map_space::point_normalized_inverted_y map_pos;
+	if(!screen_to_map(mouse_pos, screen_size, current_view(state), map_pos)) {
+		return;
+	}
+	auto idx = map_space::to_idx(map_pos, (float)map_data.size_x, (float)map_data.size_y);
+	if(0 <= idx && size_t(idx) < map_data.province_id_map.size()) {
+
+	} else {
+		state.set_selected_province(dcon::province_id{});
+	}
+}
+
+dcon::province_id map_state::get_province_under_mouse(const sys::state& state, int32_t x, int32_t y, int32_t screen_size_x, int32_t screen_size_y) {
+	screen_space::point_ui mouse_pos = {glm::vec2(x, y)};
+	auto screen_size = glm::vec2(screen_size_x, screen_size_y);
+	map_space::point_normalized_inverted_y map_pos;
+	if(!map_state::screen_to_map(mouse_pos, screen_size, current_view(state), map_pos)) {
+		return dcon::province_id{};
+	}
+	auto idx = map_space::to_idx(map_pos, float(map_data.size_x), float(map_data.size_y));
+
+	if(0 <= idx && size_t(idx) < map_data.province_id_map.size()) {
+		auto fat_id = dcon::fatten(state.world, province::from_map_id(map_data.province_id_map[idx]));
+		//if(map_data.province_id_map[idx] < province::to_map_id(state.province_definitions.first_sea_province)) {
+		return province::from_map_id(map_data.province_id_map[idx]);
+		/*} else {
+			return dcon::province_id{};
+		}*/
+	} else {
+		return dcon::province_id{};
+	}
+}
+
+bool validate_screen_position(const glm::vec2 screen_size, const screen_space::point_ui& screen_pos, const glm::vec2 tolerance) {
+	if(screen_pos.data.x < -tolerance.x) {
+		return false;
+	}
+	if(screen_pos.data.y < -tolerance.y) {
+		return false;
+	}
+	if(screen_pos.data.x > screen_size.x + tolerance.x) {
+		return false;
+	}
+	if(screen_pos.data.y > screen_size.y + tolerance.y) {
+		return false;
+	}
+	return true;
+}
+
+bool map_state::map_to_screen(map_space::point_normalized_inverted_y map_pos, glm::vec2 screen_size, sys::projection_mode projection_kind, screen_space::point_ui& screen_pos, glm::vec2 tolerance) {
+
+	float aspect_ratio = screen_size.x / screen_size.y;
+	square::point square_point = map_space::to_square(map_pos);
+
+	switch(projection_kind) {
+	case sys::projection_mode::globe_orthographic:
+		{
+			auto sphere_point = sphere_R3::from_square(square_point).data;
+			auto sphere_adjusted = glm::vec3 { sphere_point.y, sphere_point.x, sphere_point.z };
+
+			if(glm::dot(sphere_adjusted, camera_over_sphere_point) < 0.f) {
+				return false;
+			}
+
+			auto visible_point = glm::mat3(globe_rotation) * sphere_adjusted / glm::pi<float>();
+
+			auto x = 2. * visible_point.x / aspect_ratio * zoom;
+			auto y = 2. * visible_point.y * zoom;
+			auto z = visible_point.z - 1.f;
+
+			if(z < -1.f) {
+				return false;
+			}
+
+			screen_space::point_clip_space after_projection { { x, y } };
+			screen_pos = screen_space::ui_from_clip_space(after_projection, screen_size.x, screen_size.y);
+			return validate_screen_position(screen_size, screen_pos, tolerance);
+		}
+	case sys::projection_mode::globe_perspective:
+		{
+			auto sphere_point = sphere_R3::from_square(square_point).data;
+			auto sphere_adjusted = glm::vec3 { sphere_point.y, sphere_point.x, sphere_point.z };
+
+			if(glm::dot(sphere_adjusted, camera_over_sphere_point) < glm::dot(camera_corner_over_sphere_point, camera_over_sphere_point) - 0.1f) {
+				return false;
+			}
+
+			auto visible_point = glm::mat3(globe_rotation) * sphere_adjusted / glm::pi<float>();
+
+			// shift the globe away from camera
+			visible_point.z -= 1.2f;
+
+			float near_plane = 0.1f;
+			// optimal far plane for culling out invisible part of a planet
+			constexpr float tangent_length_square = 1.2f * 1.2f - 1.f / glm::pi<float>() / glm::pi<float>();
+			float far_plane = tangent_length_square / 1.2f;
+
+			float right = near_plane * tan(glm::pi<float>() / 6.f) / zoom * aspect_ratio;
+			float top = near_plane * tan(glm::pi<float>() / 6.f) / zoom;
+
+			visible_point.x *= near_plane / right;
+			visible_point.y *= near_plane / top;
+
+			// depth calculations just for reference
+			float w = -visible_point.z;
+			visible_point.z = -(far_plane + near_plane) / (far_plane - near_plane) * visible_point.z - 2 * far_plane * near_plane / (far_plane - near_plane);
+
+			if(visible_point.z > far_plane) {
+				return false;
+			}
+
+			screen_space::point_clip_space after_projection { { visible_point.x / w, visible_point.y / w } };
+			screen_pos = screen_space::ui_from_clip_space(after_projection, screen_size.x, screen_size.y);
+			return validate_screen_position(screen_size, screen_pos, tolerance);
+		}
+	case sys::projection_mode::rectangle:
+		{
+			float map_w = (float)map_data.size_x;
+			float map_h = (float)map_data.size_y;
+			float map_size_ratio = map_w / map_h;
+
+			auto rectangle_point = equirectangular::from_square(square_point, map_size_ratio, 1.f);
+			map_space::point_normalized offset = map_space::normalized_from_inverted(pos);
+			equirectangular::point offset_adjusted = equirectangular::from_square(offset, map_size_ratio, 1.f);
+
+			auto shifted = rectangle_point.data - offset_adjusted.data;
+
+			float cut_away = 1.05f;
+
+			shifted.x = glm::mod(shifted.x + map_size_ratio * 0.5f, map_size_ratio) - map_size_ratio * 0.5f;
+
+			auto x = 2.f * shifted.x * zoom / aspect_ratio;
+			auto y = 2.f * shifted.y * zoom;
+			auto z = abs(2.f * shifted.x) / map_size_ratio * cut_away;
+			auto w = 1.0f;
+
+			screen_pos = screen_space::ui_from_clip_space({ { x, y } }, screen_size.x, screen_size.y);
+
+			if(screen_pos.data.x >= float(std::numeric_limits<int16_t>::max() / 2))
+				return false;
+			if(screen_pos.data.x <= float(std::numeric_limits<int16_t>::min() / 2))
+				return false;
+			if(screen_pos.data.y >= float(std::numeric_limits<int16_t>::max() / 2))
+				return false;
+			if(screen_pos.data.y <= float(std::numeric_limits<int16_t>::min() / 2))
+				return false;
+
+			return validate_screen_position(screen_size, screen_pos, tolerance);
+		}
+	case sys::projection_mode::globe_stereographic:
+		{
+			auto sphere_point = sphere_R3::from_square(square_point).data;
+			auto sphere_adjusted = glm::vec3 { sphere_point.y, sphere_point.x, sphere_point.z };
+			auto visible_point = glm::mat3(globe_rotation) * sphere_adjusted;
+			visible_point.z += 1.f;
+
+			auto stereo_x = visible_point.x / visible_point.z;
+			auto stereo_y = visible_point.y / visible_point.z;
+
+			auto r_stereo = glm::length(glm::vec2(stereo_x, stereo_y));
+			auto r = glm::length(glm::vec2(visible_point.x, visible_point.y));
+
+			auto x = 0.5f * stereo_x / aspect_ratio * zoom;
+			auto y = 0.5f * stereo_y * zoom;
+			auto z = 1.01f - visible_point.z;
+
+			if(z < -1.f || z > 1.f) {
+				return false;
+			}
+
+			screen_space::point_clip_space after_projection { { x, y } };
+			screen_pos = screen_space::ui_from_clip_space(after_projection, screen_size.x, screen_size.y);
+			return validate_screen_position(screen_size, screen_pos, tolerance);
+		}
+	case sys::projection_mode::num_of_modes:
+		return false;
+	default:
+		return false;
+	}
+}
+
+map_space::point_normalized_inverted_y map_state::normalize_map_coord(glm::vec2 p) {
+	auto new_pos = p / glm::vec2{ float(map_data.size_x), float(map_data.size_y) };
+	new_pos.y = 1.f - new_pos.y;
+	return {new_pos};
+}
+
+} // namespace map

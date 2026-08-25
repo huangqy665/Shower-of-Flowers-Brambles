@@ -460,6 +460,84 @@ guiTypes = {
 			visibleWhen = "state.visible && state.active && selectedregion.id != 0"
 		}
 
+		textBoxType = {
+			name = "province_task_header"
+			font = "pixel_china"
+			fontSize = 18
+			alignment = "center"
+			color = { 0.0 0.0 0.0 }
+			textSource = "provinceTask.header"
+			localized = yes
+			position = { x = 1280 y = 340 }
+			size = { x = 320 y = 28 }
+			visibleWhen = "state.visible && state.active && selectedregion.id != 0"
+		}
+
+		listBoxType = {
+			name = "province_task_list"
+			position = { x = 1280 y = 378 }
+			size = { x = 320 y = 230 }
+			itemTemplate = "province_task_button"
+			scrollbarType = "province_task_scrollbar"
+			spacing = 8
+			visibleWhen = "state.visible && state.active && selectedregion.id != 0"
+		}
+
+		scrollbarType = {
+			name = "province_task_scrollbar"
+			position = { x = 1580 y = 378 }
+			size = { x = 8 y = 230 }
+			slider = "combat_region_scroll_thumb"
+			track = "combat_region_scroll_track"
+			visibleWhen = "state.visible && state.active && selectedregion.id != 0"
+		}
+
+		guiButtonType = {
+			name = "province_task_button"
+			quadTextureSprite = "GFX_china_war_region_task_button"
+			pressedTextureSprite = "GFX_china_war_region_task_button"
+			onClick = "execute_war_map_province_task"
+			enabledWhen = "state.visible && state.active && selectedregion.id != 0"
+			position = { x = 0 y = 0 }
+			size = { x = 320 y = 85 }
+			tooltipSource = "item.descriptionkey"
+			localizeTooltip = yes
+			tooltipSize = { x = 360 y = 120 }
+			tooltipPlacement = "left"
+			tooltipFont = "pixel_china"
+			tooltipFontSize = 15
+			tooltipTextColor = { 0.82 0.94 1.0 }
+			tooltipColor = { 0.02 0.05 0.06 0.96 }
+			tooltipPadding = 12
+			tooltipWrap = yes
+			tooltipDelay = 150
+
+			textBoxType = {
+				name = "province_task_button_text"
+				textSource = "item.textkey"
+				localized = yes
+				font = "pixel_china"
+				fontSize = 14
+				alignment = "center"
+				color = { 0.10 0.10 0.08 }
+				position = { x = 86 y = 3 }
+				size = { x = 210 y = 25 }
+			}
+		}
+
+		textBoxType = {
+			name = "province_task_status"
+			font = "pixel_china"
+			fontSize = 13
+			alignment = "center"
+			color = { 0.0 0.0 0.0 }
+			textSource = "provinceTask.statusText"
+			position = { x = 1295 y = 630 }
+			size = { x = 290 y = 70 }
+			wrap = yes
+			visibleWhen = "state.visible && state.active && selectedregion.id != 0"
+		}
+
 		listboxType = {
 			name = "combat_region_list"
 			position = { x = 54 y = 369 }

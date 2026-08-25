@@ -1,0 +1,9 @@
+new_core_add_component(
+    new_core_engine
+    SOURCES
+        engine_profile_hoi3_tfh_402.cpp
+        engine_registry.cpp
+        engine_abi_hoi3_tfh_402.h
+        engine_registry.h
+        engine_schema_hoi3_tfh_402.inc
+)

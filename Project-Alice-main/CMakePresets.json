@@ -1,0 +1,297 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 15,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "installDir": "${sourceDir}/out/install/${presetName}",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      }
+    },
+    {
+      "name": "windows-base",
+      "inherits": "base",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "cl.exe",
+        "CMAKE_CXX_COMPILER": "cl.exe"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+    {
+      "name": "windows-clang-base",
+      "inherits": "base",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/toolchain_ninja_clang-cl.cmake"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+    {
+      "name": "x64-debug-windows",
+      "displayName": "x64 Debug",
+      "inherits": "windows-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "x64-debug-win-clang",
+      "displayName": "x64 Debug (Clang)",
+      "inherits": "windows-clang-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "x64-release-windows-sse",
+      "displayName": "x64 Release (SSE)",
+      "inherits": "windows-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "VECTOR_MODE": "SSE"
+      }
+    },
+    {
+      "name": "x64-release-windows-avx2",
+      "displayName": "x64 Release (AVX2)",
+      "inherits": "windows-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "VECTOR_MODE": "AVX2"
+      }
+    },
+    {
+      "name": "x64-release-windows-avx2-jumbo",
+      "displayName": "x64 Jumbo Release (AVX2)",
+      "inherits": "windows-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "VECTOR_MODE": "AVX2",
+        "CMAKE_UNITY_BUILD": true
+      }
+    },
+    {
+      "name": "x64-release-windows-avx512",
+      "displayName": "x64 Release (AVX512)",
+      "inherits": "windows-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "VECTOR_MODE": "AVX512"
+      }
+    },
+    {
+      "name": "x64-profile-windows-sse",
+      "displayName": "x64 Release (profile SSE)",
+      "inherits": "windows-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "PROFILE_MODE": "On",
+        "VECTOR_MODE": "SSE"
+      }
+    },
+    {
+      "name": "x64-profile-windows-avx2",
+      "displayName": "x64 Release (profile AVX2)",
+      "inherits": "windows-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "PROFILE_MODE": "On",
+        "VECTOR_MODE": "AVX2"
+      }
+    },
+    {
+      "name": "x64-profile-windows-avx512",
+      "displayName": "x64 Release (profile AVX512)",
+      "inherits": "windows-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "PROFILE_MODE": "On",
+        "VECTOR_MODE": "AVX512"
+      }
+    },
+    {
+      "name": "x64-optimize-windows-sse",
+      "displayName": "x64 Release (optimize SSE)",
+      "inherits": "windows-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "OPTIMIZE_MODE": "On",
+        "VECTOR_MODE": "SSE"
+      }
+    },
+    {
+      "name": "x64-optimize-windows-avx2",
+      "displayName": "x64 Release (optimize AVX2)",
+      "inherits": "windows-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "OPTIMIZE_MODE": "On",
+        "VECTOR_MODE": "AVX2"
+      }
+    },
+    {
+      "name": "x64-optimize-windows-avx512",
+      "displayName": "x64 Release (optimize AVX512)",
+      "inherits": "windows-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "OPTIMIZE_MODE": "On",
+        "VECTOR_MODE": "AVX512"
+      }
+    },
+    {
+      "name": "x64-release-win-clang-sse",
+      "displayName": "x64 Release (Clang SSE)",
+      "inherits": "windows-clang-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "VECTOR_MODE": "SSE"
+      }
+    },
+    {
+      "name": "x64-release-win-clang-avx2",
+      "displayName": "x64 Release (Clang AVX2)",
+      "inherits": "windows-clang-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "VECTOR_MODE": "AVX2"
+      }
+    },
+    {
+      "name": "x64-release-win-clang-avx512",
+      "displayName": "x64 Release (Clang AVX512)",
+      "inherits": "windows-clang-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "VECTOR_MODE": "AVX512"
+      }
+    },
+    {
+      "name": "x64-release-win-clang-profile-sse",
+      "displayName": "x64 Release (Clang, profile SSE)",
+      "inherits": "windows-clang-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "PROFILE_MODE": "On",
+        "VECTOR_MODE": "SSE"
+      }
+    },
+    {
+      "name": "x64-release-win-clang-profile-avx2",
+      "displayName": "x64 Release (Clang, profile AVX2)",
+      "inherits": "windows-clang-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "PROFILE_MODE": "On",
+        "VECTOR_MODE": "AVX2"
+      }
+    },
+    {
+      "name": "x64-release-win-clang-profile-avx512",
+      "displayName": "x64 Release (Clang, profile AVX512)",
+      "inherits": "windows-clang-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "PROFILE_MODE": "On",
+        "VECTOR_MODE": "AVX512"
+      }
+    },
+    {
+      "name": "x64-release-win-clang-optimize-sse",
+      "displayName": "x64 Release (Clang, optimize SSE)",
+      "inherits": "windows-clang-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "OPTIMIZE_MODE": "On",
+        "VECTOR_MODE": "SSE"
+      }
+    },
+    {
+      "name": "x64-release-win-clang-optimize-avx2",
+      "displayName": "x64 Release (Clang, optimize AVX2)",
+      "inherits": "windows-clang-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "OPTIMIZE_MODE": "On",
+        "VECTOR_MODE": "AVX2"
+      }
+    },
+    {
+      "name": "x64-release-win-clang-optimize-avx512",
+      "displayName": "x64 Release (Clang, optimize AVX512)",
+      "inherits": "windows-clang-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "OPTIMIZE_MODE": "On",
+        "VECTOR_MODE": "AVX512"
+      }
+    },
+    {
+      "name": "linux-base",
+      "inherits": "base",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "clang",
+        "CMAKE_CXX_COMPILER": "clang++",
+        "CMAKE_POLICY_VERSION_MINIMUM": "3.5"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      }
+    },
+    {
+      "name": "x64-debug-linux-clang",
+      "displayName": "x64 Debug",
+      "inherits": "linux-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "x64-release-linux-clang-sse",
+      "displayName": "x64 Release SSE",
+      "inherits": "linux-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "VECTOR_MODE": "SSE"
+      }
+    },
+    {
+      "name": "x64-release-linux-clang-avx2",
+      "displayName": "x64 Release AVX2",
+      "inherits": "linux-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "VECTOR_MODE": "AVX2"
+      }
+    },
+    {
+      "name": "x64-release-linux-clang-avx512",
+      "displayName": "x64 Release AVX512",
+      "inherits": "linux-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "VECTOR_MODE": "AVX512"
+      }
+    }
+  ]
+}

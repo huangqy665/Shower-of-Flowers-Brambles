@@ -498,4 +498,13 @@ function P.GetProvinceState(regionName, provinceid)
 	return regionState.provinces[provinceid]
 end
 
+function P.GetRegionProvinceIds(regionName)
+	local region = P.Regions and P.Regions[regionName]
+	if not region then
+		return nil
+	end
+
+	return region.provinceids
+end
+
 return P

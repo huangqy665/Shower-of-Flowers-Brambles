@@ -20,13 +20,13 @@ theatre = {
 			division= {
 				name = "中国工农红军第21军"
 				location = 5733
-				regiment = { type = infantry_brigade strength = 5 experience = 25 historical_model = 0 }
+				regiment = { type = light_bergsjaeger strength = 5 experience = 25 historical_model = 0 }
 				regiment = { type = partisan_bergsjaeger strength = 5 experience = 25 historical_model = 0 }
 			}
                                                 division= {
 				name = "中国工农红军第22军"
 				location = 5744
-				regiment = { type = infantry_brigade name = "中国工农红军第36师" strength = 5 experience = 25 historical_model = 0 }
+				regiment = { type = light_bergsjaeger name = "中国工农红军第36师" strength = 5 experience = 25 historical_model = 0 }
 				regiment = { type = partisan_bergsjaeger name = "中国工农红军第34师" strength = 5 experience = 25 historical_model = 0 }
 			}
            corps = {
@@ -42,7 +42,7 @@ theatre = {
 	division= {
 		name = "中国工农红军第27军"
 		location = 7398
-		regiment = { type = partisan_bergsjaeger name = "第87师" experience = 70 strength = 15 historical_model = 0 }
+		regiment = { type = light_bergsjaeger name = "第87师" experience = 70 strength = 15 historical_model = 0 }
                    regiment = { type = partisan_bergsjaeger name = "游击部队" experience = 70 strength = 15 historical_model = 0 }
 	   } 
             division= {
@@ -59,7 +59,7 @@ theatre = {
 	division= {
 		name = "中国工农红军第2军"
 		location = 5620
-		regiment = { type = infantry_brigade name = "第4师" experience = 70 strength = 15 historical_model = 0 }
+		regiment = { type = partisan_bergsjaeger name = "第4师" experience = 70 strength = 15 historical_model = 0 }
 		regiment = { type = partisan_bergsjaeger name = "第6师" experience = 70 strength = 15 historical_model = 0 }
 	}
 	division= {

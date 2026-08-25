@@ -8,7 +8,6 @@ guiBehaviors = {
 		target = "state.windowopen"
 		value = yes
 		type = "bool"
-		persist = yes
 	}
 
 	behavior = {
@@ -20,7 +19,6 @@ guiBehaviors = {
 		target = "state.windowopen"
 		value = no
 		type = "bool"
-		persist = yes
 	}
 
 	behavior = {
@@ -82,5 +80,12 @@ guiBehaviors = {
 		fallback = "remove_list_item"
 		target = "assigned_leader_list"
 		persist = yes
+	}
+
+	behavior = {
+		name = "execute_war_map_province_task"
+		function = "execute_war_map_province_task"
+		phases = { click }
+		enabledWhen = "state.visible && state.active && selectedregion.id != 0"
 	}
 }
