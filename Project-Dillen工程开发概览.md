@@ -160,7 +160,7 @@ Script GUI 是 New Core 的第一个完整子系统。它通过 D3D9 Hook 在游
 
 - 根 `new_core/CMakeLists.txt` 已从 875 行压缩为 44 行；生产源码按 `core`、`engine`、`native`、`hoi3`、`gui`、`leader_capture`、`launcher`、`dll` 和 `tools` 分层，GUI 又拆分为 `model/data/runtime/lua/d3d9/module` 六个边界。各层通过静态组件 target 复用，不再在数十个 Probe 中反复编译同一实现文件。
 - CMake 配置强制 Windows PE32/x86，统一使用 C++17 并显式关闭 compiler extensions；MSVC 参数通过 `new_core_project_options` 按 target 传播。`BUILD_TESTING=OFF` 时不会生成任何 Probe target。
-- 当前登记 35 个 CTest Probe，`gui_lua51_native_probe` 已正式注册并使用可配置的 `NEW_CORE_LUA51_DLL`；Lua DLL 不存在时按标准跳过码退出。
+- 当前登记 50 个 CTest Probe，`gui_lua51_native_probe` 已正式注册并使用可配置的 `NEW_CORE_LUA51_DLL`；Lua DLL 不存在时按标准跳过码退出。
 - 2026-08-24 最新 Win32 Debug 全量回归为 35 项中 34 项通过、0 项失败，`gui_host_d3d9_probe` 因测试进程没有图形设备而按设计跳过；Lua 5.1 实桥探针通过。实机跨读档测试确认 `saveGeneration` 正确递增、单项 Query 与同代际 QuerySnapshot 正常、三个 Unit/Leader 稳定 ID 在原生地址全部改变后仍可重新解析。
 - 战争地图已经在 HOI3 内完成绘制、输入穿透、窗口开关、动态占领数据、主官状态持久化和省份任务实机测试。
 - 原生效果已完成分组可用性、读回、回滚及实机验证；全局 Flag、事件、决议、延迟执行、分类取消、通用取消和跨玩家存档队列清理有当前测试脚本与日志。
@@ -2168,3 +2168,602 @@ Project Alice 非常适合作为架构、加载顺序、数据容器、确定性
 New Core 已经让“独立 HOI3 重实现”从纯粹设想变成了可以采用差分工程方法推进的长期项目，但当前最有价值的成果是 **观测原版、证明对象、记录行为和隔离风险**，而不是已经重写了 HOI3 的主体。Project Alice 展示的真正门槛不是 Hook 数量或 Setter 数量，而是：拥有自己的权威世界、完整内容编译链、脚本运行时、确定性日循环、玩法模拟、存档和兼容测试。
 
 因此，未来正确方向不是废弃 New Core，也不是继续无限堆叠原生 Setter，而是让 New Core 成为原版 Oracle，同时以独立仓库子工程或独立顶层目标启动 `hoi3_content + hoi3_world + hoi3_script + hoi3_sim`。当 Headless Scenario Kernel 能稳定推进一年、保存读取一致并与原版关键快照可比较时，才算真正迈出兼容重实现的第一步。
+
+# 7. Project Dillen 内容编译与权威主世界架构
+
+Project Dillen 的独立重实现主线采用以下单向数据管线：
+
+```text
+FileCatalog / VFS
+        ↓
+Template Dispatch
+        ↓
+Shared Lexer / Token Stream
+        ↓
+Generated Parser / Handwritten Parser
+        ↓
+Unresolved Definitions
+        ↓
+Domain Analyzer Passes
+        ↓
+Definition Registry
+        ↓
+WorldBuilder
+        ↓
+Authoritative World
+        ↓
+Command / Scheduler / Systems
+```
+
+## 7.1 分层职责
+
+- **FileCatalog / VFS**：发现原版、TFH 和 Mod 文件，执行覆盖顺序、`replace_path`、来源追踪、编码识别和内容指纹计算；它只描述“有哪些输入”，不解释游戏语义。
+- **Template Dispatch**：根据虚拟路径、文件名模式、方言、优先级及必要的轻量内容 Probe 选择 `ParserId`；它解决扩展性和解析器注册问题，不执行具体字段解析。
+- **Shared Lexer / Token Stream**：统一处理源文件、编码标记、注释、引号、自由值、日期、关系运算符、块边界和精确源位置；所有领域 Parser 共用这一层，不再各自扫描字符流。
+- **Generated Parser / Handwritten Parser**：通过 Schema 生成常规文件类型的强类型字段分派代码，同时允许事件脚本、历史 Patch 等特殊方言使用手写 Parser；两者都只消费统一 Token Stream，产生尚未完成跨文件解析的 Definition 中间对象，不得直接修改运行时世界。
+- **Domain Analyzer Passes**：总 Analyzer 只统一编排 Parse/Declare/Resolve/Validate 阶段，Mod 覆盖由 FileCatalog 先行确定；重复定义、跨文件引用、类型和作用域检查由国家、省份、科技、事件等独立 Pass 完成，避免形成巨型 Analyzer。
+- **Definition Registry**：为科技类型、单位类型、建筑类型、资源类型等不可变定义分配稳定强类型 ID，保存名称到 ID 的映射和解析后的引用；它回答某个定义“是什么、ID 是多少”。
+- **WorldBuilder**：以已冻结的 Definition Registry 和剧本历史为输入，实例化国家、省份、单位、外交关系等运行时对象，建立对象关系并执行最终一致性校验；它回答定义“如何成为当前战局中的对象”。
+- **Authoritative World**：唯一拥有动态游戏状态；Tick、事件、AI、GUI、存档和校验和都不能保存第二份事实源，不以 `hoi3_tfh.exe` 的原生对象或地址作为状态来源。
+- **Command / Scheduler / Systems**：所有动态状态变更通过确定性命令和固定调度阶段进入 World；仅仅建立 World 数据结构而允许任意模块直接写字段，并不能真正解决状态所有权。
+
+标准内容构建阶段固定为：
+
+```text
+Discover → Parse → Declare → Resolve → Validate → Freeze → Instantiate World
+```
+
+核心定义必须在进入模拟前完成索引、声明、引用解析和校验；真正的延迟加载主要用于贴图、模型、音频等大型资源，而不能让国家、省份、科技等核心对象的解析结果依赖运行时访问顺序。
+
+## 7.2 GUI 文本解析器的复用边界
+
+现有 Script GUI 已经实现 `.gui/.gfx/.sgui/.sgfx` 的 Lexer、通用块解析、字段诊断、资源注册和定义模型，因此 Project Dillen 的新 Parser 主线不得再平行编写第二套 GUI 文本解释器。正确方案是复用并分层迁移，而不是整体复制 `GuiInterpreter`：
+
+1. 将无业务含义的 Clausewitz 文本前端逐步抽取到 `src/parser`，包括 Token、Lexer、通用标量/块语法节点、源位置和基础诊断。
+2. 让 `.gui/.gfx/.sgui/.sgfx` 通过 Template Dispatch 注册对应 `ParserId`，继续由 GUI 专用 Schema/Analyzer 将通用语法节点转换为 `WindowDefinition`、`WidgetDefinition`、Sprite、字体和布局资源。
+3. GUI 特有的字段规则、严格模式、资源引用、布局解析和兼容别名继续属于 GUI 语义层；窗口会话、布局求值、列表实例化、输入、渲染和 D3D9 宿主不属于通用 Parser，不迁入内容解析核心。
+4. 通用 Parser 必须是 GUI 现有语法的超集，还要支持 Trigger/Effect 所需的比较运算符、自由值、有序重复字段及其他 Clausewitz 方言；不能直接把当前仅面向 GUI 的 Lexer 当成全部游戏文本语法。
+5. 迁移期间保留现有 `GuiInterpreter` 公共接口和回归测试，先建立共享前端的行为等价适配层，再替换其内部解析实现，避免破坏已经冻结并投入实机验证的 Script GUI 注入平台。
+
+最终依赖方向应为：
+
+```text
+parser_syntax        ← GUI、历史、科技、单位、事件等共同依赖
+gui_definition       ← 只负责 GUI 语义和资源定义
+gui_runtime/render   ← 消费 GUI 定义，不参与文本解析
+world_definition     ← 消费其他领域 Definition
+world_builder        ← 消费已解析并冻结的全部 Definition Registry
+```
+
+这套边界既复用已经完成的 GUI 语法成果，也防止渲染、输入和注入宿主反向污染独立引擎的通用内容编译链。
+
+## 7.3 Parser 根目录的最新职责划分
+
+`Project-Dillen/src/parser` 只保存跨领域共享的内容编译基础设施；具体 HOI3 或 Project Dillen 业务语义进入 `parsers` 子目录。2026-08-26 已落地的根目录结构如下：
+
+| 文件或目录 | 单一职责 | 明确不负责 |
+|---|---|---|
+| `source_buffer.hpp/.cpp` | 持有稳定 `SourceId`、虚拟/物理路径、原始字节、编码分类和可切片的 `SourceSpan` | 不执行转码，不解释 Token 或业务字段 |
+| `token.hpp/.cpp` | 定义标识符、字符串、数字、日期、花括号、六种关系运算符等通用 Token 与分类辅助函数 | 不保存注册状态，不决定字段类型 |
+| `lexer.hpp/.cpp` | 从 `SourceBuffer` 生成零拷贝 Token Stream，处理 UTF-8 BOM、CRLF、`#`/`//` 注释、引号、日期和比较运算符 | 不建立通用 AST，不理解国家、事件或 GUI 语义 |
+| `diagnostic.hpp/.cpp` | 保存带严重级别、稳定错误码、消息和精确源范围的诊断，并提供统一格式化 | 不决定兼容策略，不直接输出 GUI 或日志文件 |
+| `parse_result.hpp` | 定义类型擦除的 `ParseArtifact` 与每文件 `ParseResult`，记录 Parser、Template、Source 和诊断区间 | 不拥有 Definition Registry，不允许 Parser 修改 World |
+| `file_catalog.hpp/.cpp` | 遍历来源层、标准化虚拟路径、记录编码、文件指纹、精确覆盖与 `replace_path`，并支持物理根到虚拟前缀的包含模式挂载，调用 Template Dispatch 生成确定性分类清单 | 不解析字段，不生成游戏对象，不解释某个挂载是否属于 HOI3 场景 |
+| `template.hpp` | 定义 `TemplateId`、`ParserId`、`DialectId`、`FileTemplate`、匹配结果等纯数据结构 | 不保存注册状态，不执行路径匹配 |
+| `template_registry.hpp/.cpp` | 注册、冻结和查询模板；按路径、优先级、特异度、稳定 ID 与可选轻量 Probe 返回值语义 `TemplateMatch` | 不遍历目录，不读取完整文件，不调用 Parser |
+| `parser_cursor.hpp/.cpp` | 在 Token Stream 上提供 `Peek/Consume/ReadKey/ReadScalar/ReadRelation/ReadInt64/ReadDouble/ReadBool/ReadDate/SkipBlock` | 不理解国家、科技、事件等领域含义 |
+| `parser_registry.hpp/.cpp` | 注册、冻结并调用 `ParserId → ParserDescriptor`；互斥支持共享 Token Parser 与 CSV/二进制等 Raw Source Parser，校验输入方言、输出 Definition 类型、Schema 版本、Token 文件完整消费并隔离 Parser 异常 | 不决定加载顺序，不直接持有世界状态，不强迫非 Clausewitz 输入经过错误的 Token 前端 |
+| `analyzer.hpp/.cpp` | 读取 FileCatalog 的活动分类文件、调用 Parser，并按稳定顺序编排可注册的 Declare/Resolve/Validate Pass | 不亲自实现领域引用规则，不遍历 VFS，不成为第二份运行时世界 |
+| `CMakeLists.txt` | 将上述源码组成独立 `project_dillen_parser` 静态组件，并导出 `dillen::parser` 目标 | 不反向依赖注入、D3D9、HOI3 原生地址或 GUI Runtime |
+| `parsers/hoi3` | 实现 HOI3/TFH 原生文件族的强类型 Parser、Schema 和领域 Analyzer；国家 Tag/静态定义、Province/RGB/Region、Province/Country History、UnitType、Technology、UnitModel、OOB、Launch Definition 与 Diplomacy History 十条内容切片已经落地 | 不包含 D3D9、Hook、RVA 或原版进程对象 |
+| `parsers/dillen` | 实现 Project Dillen 新增的独立文件族、模板和扩展语义 | 不复制并分叉整套 HOI3 Parser；扩展原文件时应优先使用 Schema 扩展 |
+
+共享语法前端已不再直接以字符方式扫描 `{}`。Token 引用其所属 `SourceBuffer`，定义结果必须复制需要长期保存的文本或确保 SourceBuffer 与编译工作区同寿命；当前 `AnalysisWorkspace` 会持有每个输入的 SourceBuffer，避免诊断与短期 `string_view` 在分析期间悬空。
+
+`TemplateRegistry`、`ParserRegistry` 和 Analyzer Pass Registry 已要求在执行前冻结；`TemplateRegistry::Match()` 返回稳定值对象，不暴露可能因 `std::vector` 扩容而失效的内部地址。`FileCatalog` 按虚拟路径、来源优先级和稳定 Layer ID 排序，文件系统枚举顺序不再成为语义顺序。
+
+`tests/parser_syntax_probe.cpp` 已覆盖注释、CRLF、字符串、数字、日期、比较运算符、嵌套块跳过和错误 Span；`tests/parser_pipeline_probe.cpp` 已覆盖 Template 特异度、注册表冻结、来源覆盖、`replace_path`、Token/Raw Source Parser 互斥注册与调用及 Declare/Resolve/Validate 顺序；`tests/country_tag_slice_probe.cpp` 直接复制并解析仓库当前 `common/countries.txt`，验证 142 个国家 Tag、稳定 ID、路径规范化、来源追踪、重复拒绝和 Registry 冻结；`tests/country_definition_slice_probe.cpp` 会复制当前 50 份 `common/countries/*.txt`，验证国家属性、共享文件别名、路径 Resolve、缺失基础层引用和可诊断结构恢复；`tests/province_region_slice_probe.cpp` 直接复制地图 CSV 与 Region 文件，验证 14187 个 Province、2250 个 Region、RGB 双索引、标志保留、重叠、去重及悬空引用隔离；`tests/province_history_slice_probe.cpp` 全量复制 9422 份省份历史，验证 Province Timeline 合并、日期稳定排序、Country/Province 引用、损坏输入恢复、缺失省份隔离和 Registry 冻结；`tests/country_history_slice_probe.cpp` 全量复制 102 份国家历史，验证固定字段、命名赋值、嵌套数值表、日期 Patch、Capital/CreateAlliance 引用及损坏结构恢复；`tests/unit_type_slice_probe.cpp` 全量复制 `units`，验证 UnitType 分类、陆海空类型、标量属性、数值修正块、`usable_by` Country 引用、模型文件隔离及 Registry 冻结；`tests/technology_slice_probe.cpp` 全量复制 `technologies` 并装配一份真实国家历史，验证科技计划字段、递归前置条件、研究加成、单位激活、效果树、跨 Registry 引用、国家历史科技等级绑定和局部损坏恢复；`tests/unit_model_slice_probe.cpp` 全量复制 `units/models` 并装配 Country、UnitType 与 Technology 基础定义，验证国家隔离的复合键、科技等级引用、同值重复处理和冻结规则；`tests/order_of_battle_slice_probe.cpp` 全量装配 304 份单位历史与战役 OOB，验证递归编制、陆海空元素、Province/Country/UnitType 引用、初始建造、损坏输入恢复及 CountryHistory OOB 稳定绑定；`tests/diplomacy_history_slice_probe.cpp` 全量解析 3 份外交历史，验证 107 条时间线、114 个时段、重复联盟保留、运行时去重、方向索引和结束日排除语义；`tests/war_history_slice_probe.cpp` 全量解析 6 份战争历史，验证 33 个日期补丁、101 次参战方操作、39 个战争目标、两段式日期归一化、运行时 War Graph、国家反向索引和外交关系校验。十三项 Parser Probe 均已注册 CTest，并在 Windows x86 Debug 构建中通过；`tests/world_builder_probe.cpp` 另行验证冻结屏障、Bookmark/Scenario 自动日期、同日覆盖顺序、未来 Patch 截断、CountryHistory 联盟并入关系图、OOB 替换/追加、运行时单位替换、Owner/Controller/Core 反向索引和失败事务性；`tests/scenario_launch_pipeline_probe.cpp` 验证真实 6 个 Bookmark、14 个 Scenario、全部场景目录匹配、组合 VFS 三类场景挂载，以及场景 OOB 到运行时父子树、Province 单位索引和 Country 领土索引的闭环。
+
+当前根基础设施已经可用：国家 Tag Declare 与国家静态定义 Resolve 形成第一条双文件切片，Province CSV Declare 与 Region Province 引用 Resolve 形成第二条跨方言切片，Province 与 Country History 分别形成两条 Parse/Resolve/Merge Timeline 切片，UnitType 形成带动态定义名和 Country 白名单引用的静态类型切片，Technology 形成带递归前置条件和 UnitType 效果引用的静态规则切片，UnitModel 形成按国家、单位类型和型号编号索引并引用科技等级的覆盖切片，OOB 形成按来源路径索引并保存递归编制树的静态部署切片，Launch Definition 形成 Bookmark/Scenario 元数据切片，Diplomacy History 形成带起止日期和有向/无向语义的关系时间线切片，War History 形成按日期增删参战方并累积战争目标的时间线切片；Definition Registry 已聚合 Country、CountryHistory、DiplomacyHistory、WarHistory、Province、ProvinceHistory、Region、UnitType、Technology、UnitModel、OrderOfBattle 和 Launch 十二类静态/历史定义。最小 WorldBuilder 已能根据 Bookmark 或 Scenario 自动选择日期，把冻结 Registry 回放为 Country/Province/RuntimeUnit/CountryRelation/RuntimeWar 权威快照；FileCatalog 已能组合多个来源层并挂载选定场景的 Country、Province 和 OOB 覆盖。尚未实现 Schema 到 C++ 的 Generated Parser、完整跨领域 Registry、真实安装目录的默认原版/TFH/Mod 根发现、场景事件/胜利条件编译、运行时单位与战争的动态创建销毁及持久化身份。现有 GUI Lexer 的等价迁移应在共享前端拥有足够回归样本后进行，不能在本阶段直接替换已投入实机使用的 GUI 解析器。
+
+### 7.3.1 首条纵向切片：Country Tag 与 Country Definition
+
+首条可执行内容编译链已经形成：
+
+```text
+common/countries.txt
+        ↓ TemplateId / ParserId
+CountryTagDocument
+        ↓ Country Declare Pass
+CountryTagDefinition（Tag、稳定 ID、definitionPath）
+        ↓
+common/countries/*.txt
+        ↓ Country Definition Parser
+CountryDefinitionDocument
+        ↓ Country Resolve Pass（按规范虚拟路径关联）
+shared immutable CountryDefinition
+        ↓
+DefinitionRegistry::Countries()
+```
+
+新增 `Project-Dillen/src/content` 独立静态组件 `project_dillen_content`，并导出 `dillen::content`。它不依赖 Parser、注入运行时或原版进程，当前文件职责如下：
+
+| 文件 | 已实现职责 |
+|---|---|
+| `definition_origin.hpp` | 保存 Definition 的虚拟路径、来源 Layer、行列位置，不绑定 Parser 的短期 Token 生命周期 |
+| `definition_date.hpp/.cpp` | 提供国家定义与历史 Timeline 共用的可比较年月日值类型，不负责历法推进或运行时日期状态 |
+| `country_tag_definition.hpp/.cpp` | 定义规范化三字符 `CountryTag`、强类型 `CountryDefinitionId`、声明路径、最终虚拟路径及解析后的共享 `CountryDefinition`；稳定 ID 直接由大写 Tag 三字节编码，不受文件顺序影响 |
+| `country_definition.hpp` | 定义国家颜色、图形文化、主要国家标记、选举日期/周期、默认师模板、单位名称池和部长的强类型静态模型 |
+| `country_definition_registry.hpp/.cpp` | 拒绝无效或重复 Tag，按稳定 ID 查询并把解析结果绑定到声明；冻结时排序并重建索引，冻结后禁止声明、Resolve 和清空 |
+| `definition_registry.hpp/.cpp` | 作为静态定义与历史分片的聚合根；当前持有 Country、CountryHistory、Province、ProvinceHistory、Region、UnitType、Technology、UnitModel 和 OrderOfBattle Registry，并统一执行 Clear/Freeze |
+
+`country_tag_parser.hpp/.cpp` 只负责把 `Tag = "relative/path.txt"` 编译为保序 `CountryTagDocument`；`country_tag_slice.hpp/.cpp` 集中注册稳定的 Dialect/Template/Parser/DefinitionType/AnalysisPass ID，并在 Declare 阶段把文档转换为 Registry Definition。`country_definition_parser.hpp/.cpp` 解析 `color`、`graphical_culture`、`major`、`last_election`、`duration`、`default_templates`、`unit_names` 和 `ministers`；`country_definition_slice.hpp/.cpp` 在 Resolve 阶段按规范虚拟路径查找所有引用者，并让引用同一文件的多个 Tag 共享同一个不可变 `CountryDefinition`。领域 Parser 不直接访问或修改 Registry，切片注册失败时会回滚此前的 Template/Parser 注册，防止部分注册状态泄漏。
+
+当前仓库索引包含 142 个唯一 Tag，未检测到重复或非三字符 Tag。索引中的路径按索引文件父目录解析，例如 `CHI = "countries/Nationalist China.txt"` 得到规范虚拟路径 `common/countries/nationalist china.txt`。当前工作树实际提供 50 份国家定义文件，其中 49 份被索引引用，`common/countries/EFgovernment.txt` 当前未被引用；58 个 Tag 已成功 Resolve，CHI/CSH、MEN/MEB 等共享定义文件的别名会共享同一静态对象。其余 84 个 Tag 指向当前单独 Mod 工作树中不存在的原版/TFH 文件，保留为已声明但未解析状态，等待组合 VFS 提供低优先级基础层。
+
+真实数据回归还发现并覆盖了两类输入损坏：`mengkukuo.txt` 与 `people's republic of korea.txt` 的 `light_armor_brigade` 名称池缺失右花括号，Parser 会在遇到下一 `name = { ... }` 名称池时提升为同级并报告 `hoi3.country.unit_name_pool_missing_right_brace`；`west_tujuesatan.txt` 与 `xianjiang clique.txt` 的 `Ministers` 容器缺少文件末尾右花括号，Parser 只在内部部长全部完整时使用 EOF 隐式闭合并报告 `hoi3.country.ministers_missing_right_brace`。两种恢复都不改写源文件、不静默吞错，并由 `country_definition_slice_probe` 内的独立损坏夹具强制验证，因此日后修正原始数据不会反向导致测试失败。
+
+### 7.3.2 第二条纵向切片：Province RGB 与 Region Resolve
+
+第二条可执行内容编译链已经形成：
+
+```text
+map/definition.csv
+        ↓ Raw Source CSV Parser
+ProvinceDefinitionDocument
+        ↓ Province Declare Pass
+ProvinceDefinitionRegistry（ID + packed RGB 双索引）
+        ↓
+map/region.txt
+        ↓ Clausewitz Token Parser / Region Declare Pass
+RegionDefinition（稳定名称 ID）
+        ↓ Region Resolve Pass
+已校验、去重的 ProvinceDefinitionId 集合
+```
+
+新增 `province_definition.hpp/.cpp` 与 `province_definition_registry.hpp/.cpp`：Province 原生正整数 ID 直接作为稳定强类型 ID，RGB 打包为 `0xRRGGBB` 建立第二索引；重复 ID、重复 RGB、零 ID 和冻结后写入均被拒绝。Province 名称保存源文件原始字节，不假定 UTF-8，也不在 Parser 阶段承担本地化职责。
+
+新增 `region_definition.hpp/.cpp` 与 `region_definition_registry.hpp/.cpp`：Region 名称保留原始拼写和遗留单字节字符，以 64 位 FNV-1a 生成稳定 ID，并在 Registry 中同时检查名称重复与哈希碰撞。Region 先在 Declare 阶段建立身份，再在 Resolve 阶段验证每个 Province 引用；跨 Region 重叠是合法关系，单个 Region 内重复 Province 则去重并产生 `hoi3.region.province_duplicate` 警告。`peace`、`ai_prio` 及未来 Mod 裸标志按源语义保存在 `flags`，不在基础 Registry 中硬编码业务解释。
+
+`map/definition.csv` 使用专用 Raw Source Parser，而不是伪装成 Clausewitz 文本。当前真实文件包含 14187 个有效 Province、57 个无 Province ID 的调色板行和 24 个被整行双引号包裹的兼容记录；Parser 会解包整行引号、继续按分号 CSV 规则处理字段，同时兼容只引用单个字段的标准 CSV 写法，调色板行验证 RGB 后不进入 Province Registry。当前 `map/region.txt` 解析出 2250 个 Region、21211 个原始 Province 引用和 11651 个被至少一个 Region 使用的唯一 Province；全部引用均可解析。一个 Region 名包含遗留西欧单字节字符，证明动态标识符不能用 ASCII 正则预扫描替代 Lexer。
+
+Parser Registry 因此新增互斥的 `parseSource` 入口：Clausewitz 文件继续使用 `ParserCursor` 并强制完整消费 Token，CSV 等专用前端直接消费稳定 `SourceBuffer`；同一 `ParserDescriptor` 同时提供 `parse` 与 `parseSource` 会被拒绝。该扩展为后续 Localization CSV、Raster 和二进制资产元数据导入建立了统一注册边界，而没有把格式特例塞入 Clausewitz Lexer。
+
+### 7.3.3 第三条纵向切片：Province History Timeline
+
+第三条可执行内容编译链已经形成：
+
+```text
+history/provinces/**/*.txt
+        ↓ Clausewitz Token Parser
+ProvinceHistoryDocument（初始操作 + 保序日期 Patch）
+        ↓ Province History Resolve Pass
+文件名 Province ID → ProvinceDefinitionId
+正文 Country Tag → 稳定 CountryDefinitionId
+        ↓ 按活动虚拟路径确定性合并
+ProvinceHistoryTimeline
+        ↓ Registry Freeze
+按日期、同日源序列稳定排序的 Patch 流
+```
+
+新增 `definition_date.hpp/.cpp`，把此前国家定义中的日期提升为内容层共享值类型；新增 `province_history.hpp` 与 `province_history_registry.hpp/.cpp`，分别定义字段、强类型值、操作、日期 Patch、来源和每 Province 唯一 Timeline，并由 `DefinitionRegistry` 统一持有、清空和冻结。Registry 不把历史提前应用到运行时 Province：初始操作保持活动源顺序，日期 Patch 先记录全局确定性序列，冻结时按日期和序列稳定排序，从而保留同日重复 Patch 与 Mod 覆盖顺序，供后续 WorldBuilder 按场景日期回放。
+
+`province_history_parser.hpp/.cpp` 当前覆盖 `owner/controller/add_core/remove_core`、地形、战略资源、基建、IC、胜利点、港口、机场、防空、陆海要塞、雷达、火箭试验场、人力、领导力、能源、金属、稀有材料、原油、燃料和补给。整数等级与浮点来源值分别校验为非负值，重复字段保序，不以普通字典覆盖；日期块编译为独立 Patch，不作为普通嵌套对象。`province_history_slice.hpp/.cpp` 从文件名开头解析稳定 Province ID，允许历史遗留非规范命名但产生诊断，确认 Province 已在 `map/definition.csv` 声明，再将 Country Tag 转为稳定 ID。活动 `common/countries.txt` 缺少的 Tag 仍保留稳定引用并按 Tag 聚合警告，不让当前尚未装配的原版低优先级 VFS 阻断 Mod 历史编译。
+
+当前仓库 9422 个活动省份历史源覆盖 9305 个唯一 Province，包含 115 组重复 ID、117 份额外来源、19 个非规范文件名和 20 个空历史文件；全部文件名 Province ID 均能解析到 14187 项 Province Registry。确定性合并后得到 9305 条 Timeline 和 11878 个有效日期 Patch。真实输入还包含多处 `add_core = JAPinfra = 3`、`owner = JAPcontroller = JAP` 一类缺少空白/换行的黏连赋值，以及 `697 - Kotka.txt` 的一个根级孤立右花括号；Parser 分别以 `concatenated_assignment_recovered` 和 `orphan_right_brace_ignored` 明确警告后恢复，不改写源文件。`ALG/LBY/MAD/MOR/TUN` 五个历史 Tag 当前不在活动国家索引中，保留稳定 CountryDefinitionId 并报告 `country_unresolved`，等待组合 VFS 补齐声明。
+
+### 7.3.4 第四条纵向切片：Country History Timeline
+
+第四条可执行内容编译链已经形成：
+
+```text
+history/countries/**/*.txt
+        ↓ Clausewitz Token Parser
+CountryHistoryDocument（初始操作 + 保序日期 Patch）
+        ↓ Country History Resolve Pass
+文件名 Country Tag → 稳定 CountryDefinitionId
+capital → 已声明 ProvinceDefinitionId
+create_alliance → 稳定 CountryDefinitionId
+        ↓ CountryHistoryRegistry
+每 Country 唯一 Timeline
+        ↓ Registry Freeze
+按日期、同日源序列稳定排序的 Patch 流
+```
+
+新增 `country_history.hpp` 与 `country_history_registry.hpp/.cpp`，模型复用共享 `DefinitionDate`、`DefinitionOrigin`、Country/Province 稳定 ID 和与 Province History 相同的来源合并、Patch 序列及冻结规则。固定字段只覆盖当前切片必须明确的结构：Capital、政体、意识形态、十类部长席位、阵营坐标、中立度、国家凝聚力、OOB/LoadOOB、军官比、党派支持/组织、Flag、加入/退出阵营、建立联盟、决议、威胁和设定人力。科技、理论、实践、法律及 Mod 新增标量暂存为带原始键名的保序 `NamedAssignment`，没有在 Technology/Law Registry 尚不存在时凭名称后缀猜测领域类型。
+
+`country_history_parser.hpp/.cpp` 对固定字段执行强类型解析；`alignment` 编译为二维数值，`popularity/organization` 编译为保序命名数值表，未知标量无损保存整数、浮点、布尔或字符串类型。`country_history_slice.hpp/.cpp` 只承担本切片的跨定义 Resolve：文件名提供 Timeline 所属 Country，Capital 必须引用已声明 Province，`create_alliance` 转换为 CountryDefinitionId；OOB 路径、政府、意识形态、法律、科技和决议仍保持符号或字符串，等待各自 Registry 切片建立后再 Resolve，不提前污染当前 Analyzer。
+
+当前仓库 102 个活动国家历史源形成 102 条 Timeline 和 488 个有效日期 Patch；全部 Capital 均可解析到 14187 项 Province Registry。`CHN-Hejian.txt` 是唯一非规范文件名，前三字符仍可稳定解析为 CHN；FLL 与 RCM 当前不在活动 `common/countries.txt` 中，Timeline 仍使用稳定 Tag ID 并报告聚合警告，等待组合 VFS。真实输入存在 8 个根级孤立右花括号、6 个缺失的日期 Patch 右花括号，以及苏联历史中一个被空白拆开的 Flag；Parser 只对这些可证明的局部结构进行带错误码恢复，不放宽普通字段语法，也不修改源文件。
+
+### 7.3.5 第五条纵向切片：UnitType Definition
+
+第五条可执行内容编译链已经形成：
+
+```text
+units/**/*.txt
+        ↓ Template Probe 排除 units/models
+UnitTypeDocument
+        ↓ UnitType Declare Pass
+稳定 UnitTypeDefinitionId + 基础字段 + 保序属性
+        ↓ UnitType Resolve Pass
+usable_by Country Tag → CountryDefinitionId
+        ↓ UnitTypeDefinitionRegistry Freeze
+按稳定 ID 排序的不可变单位类型表
+```
+
+新增 `unit_type_definition.hpp/.cpp` 与 `unit_type_definition_registry.hpp/.cpp`。UnitType 名称按 ASCII 小写规范化后生成 64 位稳定 ID，Registry 同时检查规范名称重复与哈希碰撞。最小强类型结构只包含陆/海/空 `UnitDomain`、Sprite、Active、Unit Group 和 `usable_by`；成本、工期、兵力、组织度、速度、补给、攻击、防御及 Mod 自定义标量以保序 `UnitScalarProperty` 保存，地形等命名数值块以保序 `UnitModifierBlock` 保存。当前层不计算战斗派生值，不建立科技修正公式，也不实例化部队。
+
+`unit_type_parser.hpp/.cpp` 支持一个文件中的动态 UnitType 根块、自由 Country Tag 列表、整数/浮点/布尔/符号标量及任意命名数值修正块。`unit_type_slice.hpp/.cpp` 在 Declare 阶段先建立全部 UnitType 身份，在 Resolve 阶段才把 `usable_by` 转为 CountryDefinitionId，保持 Parser、Declare 和 Resolve 边界。模板仍使用 `units/**/*.txt`，但通过轻量路径 Probe 排除语义不同的 `units/models/*.txt`；模型覆盖文件由独立 `UnitModelDefinition` 切片接管，不会被误编译为单位类型。
+
+当前仓库 50 个 `units` 文本中，46 个根级单位文件形成 46 个 UnitTypeDefinition：33 个陆军、8 个海军、5 个空军；4 个 `units/models` 文件由更高优先级的 UnitModel 模板独立分类。全部 `usable_by` Tag 均能解析到活动 Country Registry。真实数据包含 `camicie_nere_brigade` 的同值重复 `type = land`，以及 `alpine_artillery_brigadeB` 的 `soft_attack = 2.1=50` 数值碎片；Parser 分别报告 `domain_duplicate_ignored` 与 `numeric_fragment_recovered` 后做局部确定性恢复，不把宽松规则扩展到普通块或模型文件。
+
+UnitType Registry 现在同时作为 Technology 单位激活与效果目标的可选解析来源；未出现在当前 Mod 层的基础游戏单位继续以名称保留，等待组合 VFS 装配后重新解析，不在局部切片中误报为损坏定义。
+
+### 7.3.6 第六条纵向切片：Technology Definition
+
+第六条可执行内容编译链已经形成：
+
+```text
+technologies/**/*.txt
+        ↓ Technology Parser
+TechnologyDocument
+        ↓ Technology Declare Pass
+稳定 TechnologyDefinitionId + 计划字段 + 保序效果数据
+        ↓ Technology Resolve Pass
+allow 叶节点 → TechnologyDefinitionId（存在时）
+activate_unit / 顶层效果块 → UnitTypeDefinitionId（存在时）
+        ↓ TechnologyDefinitionRegistry Freeze
+只读 Technology Definition Registry
+```
+
+新增 `technology_definition.hpp/.cpp` 与 `technology_definition_registry.hpp/.cpp`。Technology 名称按 ASCII 小写规范化后生成 64 位稳定 ID；最小模型保存 Difficulty、Start Year、可选 Offset/Max Level、Folder、On Completion、Change、Research Bonus、激活单位/建筑、标量效果、递归效果块及 `allow` 条件树。当前层不计算研究耗时、不维护研究队列、不评估条件，也不把科技效果应用到运行时单位。
+
+`technology_parser.hpp/.cpp` 支持默认 AND、显式 AND/OR/NOT 和命名谓词块，并保留嵌套单位/地形效果树。`technology_slice.hpp/.cpp` 先声明全部科技身份，再解析能在活动 Registry 中找到的科技依赖和 UnitType 引用；当前组合层缺失的基础科技或单位保持未解析名称，等待原版/TFH/Mod 组合 VFS，不被擅自解释为错误或删除。
+
+当前仓库 8 个科技文件形成 249 个 TechnologyDefinition。真实输入包含 `_Infantry Technologies.txt` 中两处缺失的效果块右花括号，以及 `ArtilleryTechnologies.txt` 中一处效果块缺失赋值号；Parser 分别以 `effect_block_close_recovered` 和 `block_assignment_recovered` 做受限、可诊断恢复。`nuclear_weapon_development` 的 `any_owned_province` 等非科技条件按通用谓词节点保留，不在本切片引入 Trigger Evaluator。
+
+Country History 到 Technology Registry 的最小闭环已经补齐：初始历史和日期 Patch 中，只有键名能命中活动 Technology Registry 且值为整数的 `NamedAssignment` 才会升级为 `CountryHistoryField::TechnologyLevel`，并保存强类型 `TechnologyDefinitionId + level`；理论、实践、法律及当前组合层中不存在的基础科技仍保持原 `NamedAssignment`，不会依赖后缀猜测或硬编码名称表。
+
+Technology Registry 现在也是 UnitModel 科技等级引用的可选解析来源；科技研究进度、效果求值和运行时应用仍属于后续 WorldBuilder/Simulation 阶段。
+
+### 7.3.7 第七条纵向切片：UnitModel Definition
+
+第七条可执行内容编译链已经形成：
+
+```text
+units/models/**/*.txt
+        ↓ UnitModel Parser / 文件名前缀 Country Tag
+UnitModelDocument（unit_type.model_index + 科技等级表）
+        ↓ UnitModel Declare Pass
+CountryDefinitionId + UnitTypeName + ModelIndex 复合稳定 ID
+        ↓ UnitModel Resolve Pass
+UnitTypeDefinitionId（存在时）+ TechnologyDefinitionId（存在时）
+        ↓ UnitModelDefinitionRegistry Freeze
+按稳定 ID 排序的只读国家单位型号表
+```
+
+新增 `unit_model_definition.hpp/.cpp` 与 `unit_model_definition_registry.hpp/.cpp`。最小模型只保存所属国家、单位类型名称、非负型号编号、保序科技等级要求、来源和可选的已解析引用；Registry 使用 `(CountryDefinitionId, normalized UnitTypeName, ModelIndex)` 复合键，避免 JAP 与 USA 的同名型号互相覆盖。当前层不推导模型名称，不计算单位属性，不把科技等级应用到运行时部队。
+
+`unit_model_parser.hpp/.cpp` 只接受根级 `unit_type.model_index = { technology = integer }` 方言；`unit_model_slice.hpp/.cpp` 从文件名前三字符取得 Country Tag，Declare 后再分别查询 UnitType 与 Technology Registry。当前单独 Mod 层缺失的基础单位或科技继续保留规范名称和空的可选 ID，等待组合 VFS，不被误报为损坏输入。
+
+当前仓库 4 个模型文件共有 155 个根块，形成 154 个唯一 UnitModelDefinition；`JAP - Ships.txt` 中 `seaplane_carrier.1` 存在一份内容相同的重复定义，切片以 `duplicate_identical_ignored` 警告忽略。相同复合键但科技等级不同会报告冲突而不覆盖先前定义。真实数据回归同时验证 JAP/USA 的 `interceptor.2` 保持不同稳定 ID，以及能命中当前 Registry 的 UnitType 与 Technology 引用均已解析。
+
+UnitModel 现已作为 OOB 中 `historical_model` 的静态来源之一，但当前 OOB 切片只保留型号编号，不根据国家上下文提前绑定具体 UnitModel；该绑定属于 WorldBuilder 实例化阶段。
+
+### 7.3.8 第八条纵向切片：Order of Battle Definition
+
+第八条可执行内容编译链已经形成：
+
+```text
+history/units/**/*.txt + scenarios/**/*_oob.txt
+        ↓ OOB Parser
+OrderOfBattleDocument（递归编制树 + 通行权 + 初始建造）
+        ↓ OOB Declare Pass
+规范虚拟路径 → OrderOfBattleDefinitionId
+        ↓ OOB Resolve Pass
+Province / Country / UnitType 可选稳定引用
+        ↓ CountryHistory Resolve
+oob / load_oob 路径 → OrderOfBattleDefinitionId（存在时）
+        ↓ OrderOfBattleDefinitionRegistry Freeze
+按稳定 ID 排序的只读部署定义表
+```
+
+新增 `order_of_battle_definition.hpp/.cpp` 与 `order_of_battle_definition_registry.hpp/.cpp`。OOB 身份只由规范虚拟路径决定；内容以统一递归节点表达 Theatre、ArmyGroup、Army、Corps、Division、Navy、Air、Regiment、Ship 和 Wing，避免为每个层级复制一套结构。节点保存名称、位置、基地、将领原始编号、预备役、远征所有者、建造国、型号、经验、兵力、组织度及子节点；当前层不分配运行时 Unit ID，不建立指挥官对象，也不计算战斗属性。
+
+`order_of_battle_parser.hpp/.cpp` 同时覆盖单位历史和战役 OOB 方言，并单独保存根级军事通行与 `military_construction`。`order_of_battle_slice.hpp/.cpp` 在 Declare 阶段建立路径身份，在 Resolve 阶段查询 Province、Country 和 UnitType Registry；当前 Mod 层缺失的基础单位类型保持名称而不误报。CountryHistory 的 `oob/load_oob` 只有在路径命中活动 OOB Registry 时才升级为强类型 ID，缺失文件仍保留原字符串，等待组合 VFS。
+
+当前仓库 `history/units` 有 265 份文本，战役目录另有 39 份 `_OOB.txt`，合计形成 304 个 OrderOfBattleDefinition、67,791 个有效递归节点和 200 条可确定恢复的根级初始建造记录。真实数据包含缺失右花括号、孤立右花括号、空 Leader/型号值、Province ID 尾随字符、裸人物注释、拼写错误字段及黏连残片；Parser 只对可证明的局部模式执行带稳定错误码的恢复。被损坏括号吞入其他节点的建造片段不会被猜测提升为根级定义。
+
+### 7.3.9 最小 WorldBuilder 与权威日期快照
+
+新增独立静态组件 `Project-Dillen/src/worldbuilder`，导出 `dillen::worldbuilder`，只公开依赖 `dillen::content`。Parser、GUI、Hook、HOI3 进程接口和玩法模块均不会被反向链接进来。首版链路为：
+
+```text
+冻结的 DefinitionRegistry + 目标日期
+        ↓ WorldBuilder 冻结/日期校验
+声明过的 Country / Province 稳定 ID
+        ↓ 创建完整空状态集合
+CountryHistory / ProvinceHistory initialOperations
+        ↓ 按 Timeline 冻结顺序回放
+所有 patch.date <= targetDate 的日期 Patch
+        ↓ 引用与值类型复核
+AuthoritativeWorld 日期快照
+```
+
+`world_state.hpp/.cpp` 定义最小 `AuthoritativeWorld`、`CountryState`、`ProvinceState` 和 `RuntimeUnitState`。国家快照当前保存首都、政体、意识形态、部长槽、阵营坐标、中立度、凝聚力、军官比、人力、理论/实践/法律等命名赋值、科技等级、国家与全局 Flag、阵营、联盟、决议、OOB 选择、运行时单位根及拥有/控制/核心省份索引；省份快照保存 Owner、Controller、Core、地形、战略资源、全部现有数值历史字段，以及位于该省和以该省为基地的单位反向索引。世界对象按稳定 Country/Province ID 与确定性 RuntimeUnit ID 提供只读查询，不复制 Parser Token 或源文件缓冲区。
+
+`world_builder.hpp/.cpp` 要求输入 Registry 已冻结，验证公历日期，在临时候选世界中执行全部回放和引用复核，只有无错误时才替换调用者持有的旧快照。因而无效日期、悬空 Capital/Country/Technology/OOB 或错误值类型不会产生半构建世界。`create_alliance` 在实例化时建立双方对称关系；`oob` 替换当前选择，`load_oob` 保序追加。当前组合 VFS 尚未提供的 OOB 字符串会原样保留并报告警告，而不是丢失或伪造运行时单位。
+
+该层仍然只是确定性场景日期快照构建器，不推进日期、不运行 Tick，不计算经济、研究、战斗或补给。当前运行时单位只表达初始实体身份和权威关系，尚不支持动态创建、销毁、移动、重组或存档身份恢复。
+
+### 7.3.10 Bookmark、Scenario 与组合 VFS 启动管线
+
+新增 `launch_definition.hpp/.cpp` 与 `launch_definition_registry.hpp/.cpp`，把全球战役 Bookmark 和局部 Scenario 统一登记为 Launch Definition，但使用互不混淆的强类型 ID。Bookmark 当前保存名称、本地化描述键、图标、日期和推荐国家；Scenario 当前保存由文件名规范化得到的稳定 Key、名称、描述、图标、起止日期、可选国家和附加国家。相机、可见省份、Region、事件入口和胜利条件仍由 Parser 正确跳过但尚未编译为强类型字段，不在本阶段提前引入场景玩法系统。
+
+`launch_parser.hpp/.cpp` 与 `launch_slice.hpp/.cpp` 分别注册 `common/bookmarks.txt` 和根级 `scenarios/*.txt` 模板。当前仓库实际解析出 6 个活动 Bookmark 和 14 个 Scenario；空格、下划线、连字符及大小写会在 Scenario Key 中统一，例如 `WuHan battle.txt` 能稳定匹配 `scenarios/WuHan_battle`，但原始显示名称和来源路径仍被保留。
+
+组合 VFS 没有加入 HOI3 专用分支。通用 `SourceLayer` 只新增 `virtualPrefix` 与 `includePatterns`：同一物理目录可以按统一 Glob 规则挂载到另一个虚拟根，且仍参与来源优先级、文件覆盖、`replace_path`、编码和指纹流程。`scenario_overlay.hpp/.cpp` 才负责解释 HOI3 场景目录约定，并为选定场景产生至多三层高优先级挂载：
+
+```text
+scenarios/<selected>/???.txt
+        → history/countries/???.txt
+scenarios/<selected>/Provinces/**/*.txt
+        → history/provinces/**/*.txt
+scenarios/<selected>/*_OOB.txt 或 *_Army.txt
+        → history/units/*.txt
+```
+
+因此场景覆盖继续复用现有 CountryHistory、ProvinceHistory 和 OOB Parser，没有复制第二套字段解释器。History Declare Pass 现在显式按 `sourcePriority → sourceLayer → virtualPath` 排序，保证基础层先进入 Timeline、场景挂载最后进入 Timeline，同日覆盖不依赖文件系统或文件名偶然顺序。
+
+启动编译采用最小两阶段管线：第一阶段只在原版/TFH/Mod 组合来源中编译 Country Tag 与 Launch Definition，供前端列出 Bookmark/Scenario；选择 Bookmark 时直接按其日期编译普通内容，选择 Scenario 时先根据 Scenario Key 生成覆盖挂载，再使用新的 Definition Registry 完整编译基础内容和该场景覆盖。Registry 冻结后，`WorldBuilder::BuildBookmark` 或 `BuildScenario` 自动取得日期并在 `AuthoritativeWorld` 中记录启动来源。不能在已经混入某个场景覆盖的 Registry 上切换到另一个 Bookmark/Scenario；切换选择必须重新执行第二阶段内容编译，这避免未选场景状态泄漏。
+
+当前仍未编译 Scenario 的 Events、Faction Aims、Victory Conditions、可见地图范围与 Reinforcement，也没有自动探测用户机器上的原版、TFH 和多个 Mod 根目录。大型战役完整装配暂后置；当前优先继续补齐与场景无关的 Authoritative World 结构和引用规则。
+
+### 7.3.11 OOB Definition 到 Runtime Unit Tree
+
+WorldBuilder 在完成 Country/Province History 回放后，对每个国家最终保留的 `oob` 与 `load_oob` 选择执行第二阶段实例化：
+
+```text
+OrderOfBattleDefinition.roots
+        ↓ 按定义顺序进行确定性深度优先实例化
+RuntimeUnitState + RuntimeUnitId
+        ↓ 建立双向引用
+CountryState.unitRoots
+ProvinceState.locatedUnits / basedUnits
+```
+
+`RuntimeUnitState` 当前只保存本切片需要的身份和关系：来源 OOB、节点类型、名称、可选 UnitType、所属国家、远征军原所有者、位置、基地、将领、父节点和子节点。子节点未显式填写 `location` 或 `base` 时继承父节点值，因此无位置字段的 Regiment/Ship/Wing 仍能被链接到实际 Province。Country 只保存树根，全部后代通过父子 ID 遍历；Province 保存位置与基地反向索引，避免 GUI、AI 或后续 Simulation 再扫描所有单位猜测关系。
+
+RuntimeUnit ID 当前是单次世界构建中的确定性非零 ID：同一冻结 Registry、日期和加载顺序会得到相同树，但它还不是跨动态增删和跨存档的永久身份。OOB 替换先在历史回放中确定最终选择，再统一实例化，因而被日期 Patch 替换掉的旧 OOB 不会泄漏单位；无法由当前 VFS 解析的 `load_oob` 仍只保留诊断，不伪造实体。悬空 Province、UnitType、远征军国家或未完成 Resolve 的 OOB 会使候选世界整体构建失败。
+
+本切片不实例化 OOB 中的 Construction 与 Military Access，不计算 Strength、Organisation、模型、科技、指挥距离或战斗能力，也不增加运行时命令和单位生命周期系统。
+
+### 7.3.12 Province 与 Country 的领土双向关系
+
+Province History 回放后的 `ProvinceState.owner`、`controller` 和 `cores` 是领土关系的唯一事实源。WorldBuilder 不允许 Country History 或其他模块维护第二套独立所有权，而是在全部 Province Patch 应用完成后按 Province ID 顺序重建三个确定性索引：
+
+```text
+ProvinceState.owner       → CountryState.ownedProvinces
+ProvinceState.controller  → CountryState.controlledProvinces
+ProvinceState.cores       → CountryState.coreProvinces
+```
+
+索引构建完成后立即执行双向校验：每个 Province 的 Owner/Controller/Core 必须能在对应 Country 索引中找到；每个 Country 索引条目也必须指回具有相同关系的 Province。任何悬空 Country、缺失反向条目或错误正向条目都会使临时候选世界构建失败，旧的 `AuthoritativeWorld` 保持不变。
+
+这些 Country 列表是由 Province 权威状态派生的只读加速索引，而不是新的事实源。当前切片不计算领土连通性、首都补给路径、投降进度、占领政策、工业汇总或合法性，也不提供运行时领土变更命令；后续任何领土 Setter 必须先修改 Province，再原子更新并复核这些索引。
+
+### 7.3.13 Diplomacy History 与运行时国家关系图
+
+新增 `DiplomacyHistoryRegistry`，将 `history/diplomacy/*.txt` 中的 `alliance`、`guarantee` 和 `vassal` 编译为 `DiplomacyHistoryTimeline`。每个时段必须具有 `first`、`second`、`start_date` 和 `end_date`，且满足 `start_date < end_date`；Country Tag 在 Resolve 阶段绑定到 Country Registry。联盟键会把双方规范为稳定顺序，保证与附庸关系保持方向：Guarantee 的 `first` 是保证国，Vassal 的 `first` 是宗主国。
+
+当前仓库 3 个外交历史文件实际形成 114 个时段与 107 条关系时间线，其中 45 条 Alliance、36 条 Guarantee、26 条 Vassal；7 组重复联盟时段被完整保留。WorldBuilder 对目标日期采用半开区间 `[start_date, end_date)` 选择有效时间线，再与 CountryHistory 的 `create_alliance` 合并为唯一 `CountryRelationState` 边；重叠或重复时段不会产生重复运行时边。
+
+```text
+CountryRelationState(Alliance)  ↔ 双方 CountryState.alliances
+CountryRelationState(Guarantee) ↔ guarantees / guaranteedBy
+CountryRelationState(Vassal)    ↔ subjects / overlord
+```
+
+构建后立即执行边到邻接索引、邻接索引到边的双向校验；联盟必须对称，保证必须保持给出方/接受方方向，附庸只能具有一个同时有效的宗主国。悬空 Country、非对称关系或多宗主冲突会使候选世界整体失败。战争由下一节的独立 War Graph 表达；军事通行权、禁运、贸易、威胁、外交数值、停战或运行时外交命令仍不能在本阶段伪装为 Alliance/Guarantee/Vassal。
+
+### 7.3.14 War History 与运行时战争图
+
+新增 `WarHistoryRegistry`，将 `history/wars/*.txt` 编译为以规范虚拟路径生成稳定 ID 的 `WarHistoryTimeline`。时间线保存战争名称、`limited_war`、日期补丁、参战方增删操作和 `war_goal`；`actor`、`receiver` 与所有参战 Country Tag 均在 Resolve 阶段绑定到 Country Registry。仓库中的 `1949.9`、`1950.5` 两段式历史日期按该月 1 日归一化，避免为真实输入伪造缺失日序。
+
+当前 6 份战争历史形成 6 条时间线、33 个日期补丁、101 次参战方操作与 39 个战争目标。Registry Freeze 按日期和原文件顺序稳定排序；WorldBuilder 只回放不晚于目标日期的补丁，以每条时间线当前非空的攻击方与防御方集合生成 `RuntimeWarState`，尚未开始或任一方已清空的战争不会进入活动战争图。
+
+```text
+RuntimeWarState.attackers ↔ CountryState.offensiveWars
+RuntimeWarState.defenders ↔ CountryState.defensiveWars
+RuntimeWarState.warGoals  ← 已回放日期中的 WarGoalDefinition
+```
+
+构建后执行 War 到 Country、Country 到 War 的双向一致性校验，并拒绝同一国家同时位于战争两侧、悬空战争目标、对立参战方仍保持 Alliance，以及宗主国与附庸位于对立阵营。Guarantee 不被误当成同盟约束，同侧国家也不被强制要求具有外交关系。当前切片只构造开始日期的权威战争快照，不实现宣战/媾和命令、停战期、战争分数、战斗、战争领导国、参战召集、目标满足度或运行时战争持久化。
+
+## 7.4 HOI3 文本语言的通用语法语义
+
+HOI3 的多数 `.txt/.gui/.gfx` 共享 Clausewitz 风格块语法，但同一表面语法在不同文件中具有不同领域含义。通用前端至少必须无损表达以下结构：
+
+| 语法类别 | 典型形式 | Parser 要求 |
+|---|---|---|
+| 标量赋值 | `owner = CHI`、`industry = 3`、`active = no` | 保留源位置；由领域 Schema 决定 Tag、枚举、整数、浮点或布尔类型 |
+| 比较关联 | `neutrality < 50`、Trigger 中的比较条件 | Lexer 必须区分 `=`, `<`, `>`, `<=`, `>=`, `!=` 等关联符，不能全部降为普通赋值 |
+| 命名块 | `infantry_brigade = { ... }` | 键可能是固定字段，也可能是用户定义的符号名 |
+| 重复字段 | 多个 `add_core`、`country`、`option`、`modifier` | AST/Definition 不能使用会覆盖重复键的普通字典 |
+| 自由值列表 | `allowed_leader = { land sea air }`、Region 的省份 ID 列表 | 块内值不一定具有 `key = value` 形式 |
+| 动态键 | `JAP = { ... }`、`5494 = { ... }`、`1937.7.7 = { ... }` | 键可能是国家 Tag、省份 ID、日期、科技名、单位名或 Region 名 |
+| 字符串与路径 | `oob = "CHI_1936.txt"` | 保留原始编码、转义和相对路径来源，不提前假定 UTF-8 |
+| 向量与颜色 | `color = { 29 159 201 }`、`position = { x = 1 y = 2 }` | 同时支持位置列表和命名分量块，由 Schema 决定长度和范围 |
+| 注释 | `# comment`；Lua 中另有 `-- comment` | Clausewitz、Lua、CSV 必须使用各自前端，不能共用错误的注释规则 |
+| 大小写与拼写 | `OR/NOT/FROM/THIS` 与普通小写字段混用 | 固定关键字按兼容规则匹配；符号名保存原始拼写，并由领域 Registry 决定规范化规则 |
+
+上述语法只是表示层。`owner = CHI` 在省份历史中是所有权变更，在 Trigger 中可能是所有者作用域判断，在 Effect 中又可能表示状态修改，因此语义必须由文件模板、当前对象类型和当前脚本作用域共同决定。
+
+## 7.5 当前仓库中的 HOI3 语义文件族
+
+以下清单来自当前工作区的 `common/history/map/scenarios/events/decisions/units/technologies/interface/localisation/music` 实际内容。数量描述用于确定工程规模，不代表所有 HOI3 版本都完全一致。
+
+### 7.5.1 启动、国家索引与基础定义
+
+| 路径 | 根语义 | 主要产物与引用 |
+|---|---|---|
+| `common/defines.lua` | 引擎常量表；包含 country、economy、military、diplomacy、alignment、map、weather、goods cost 等分组 | `DefinesDefinition`；这是 Lua 表语法，应使用受限 Lua 数据加载器或专用兼容前端，不交给 Clausewitz Parser |
+| `common/bookmarks.txt` | 书签日期、标题、描述、图标和推荐国家 | `BookmarkDefinition`；引用国家 Tag、本地化键和 Sprite |
+| `common/countries.txt` | 国家 Tag 到国家定义文件路径的索引 | `CountryTagDefinition` 与来源路径 |
+| `common/countries/*.txt` | 国家颜色、图形文化、默认编制模板、各单位名称池 | `CountryDefinition`；引用单位类型、图形文化和本地化/显示名称 |
+| `common/graphicalculturetype.txt` | 图形文化枚举自由值列表 | `GraphicalCultureDefinition` |
+| `common/country_colors.txt`、`common/cot_colors.txt` | 国家/界面颜色组 | 颜色资源定义；重复 `color` 必须保序 |
+
+### 7.5.2 政治、政府、法律与人物规则
+
+| 路径 | 根语义 | 主要产物与引用 |
+|---|---|---|
+| `common/ideologies.txt` | 意识形态组、具体意识形态、阵营规则、阵营 Modifier、阵营坐标 | `IdeologyGroupDefinition`、`IdeologyDefinition`、`FactionDefinition` |
+| `common/governments.txt` | 政体允许的意识形态、选举规则和可更换职位 | `GovernmentDefinition`；引用意识形态和政府职位 |
+| `common/government_positions.txt` | 国家职位及其类别 | `GovernmentPositionDefinition` |
+| `common/minister_types.txt` | 部长特质及 Modifier/理论衰减效果 | `MinisterTraitDefinition`；引用 Modifier 键和理论/实践类型 |
+| `common/laws.txt` | 法律组、法律级别、`allow` Trigger、成本和 Modifier | `LawGroupDefinition`、`LawDefinition`；引用 Trigger VM、政府和意识形态 |
+| `common/occupation_policies.txt` | 占领政策、可用条件和省份/国家 Modifier | `OccupationPolicyDefinition`；当前作用域同时涉及占领者与 `FROM` |
+| `common/traits.txt` | 陆海空将领特质、允许的将领类型、地形扩展 Modifier | `LeaderTraitDefinition`；引用地形和战斗属性 |
+| `common/gainable_traits.txt` | 可获得特质、获得条件和目标特质 | `GainableTraitRuleDefinition`；引用 Trigger VM 与 Leader Trait |
+
+### 7.5.3 Modifier、建筑、资源与规则定义
+
+| 路径 | 根语义 | 主要产物与引用 |
+|---|---|---|
+| `common/static_modifiers.txt` | 难度、地形、省份状态、战争状态等由内核自动挂载的静态 Modifier | `ModifierDefinition`，部分名称是内核保留符号 |
+| `common/event_modifiers.txt` | 由事件/决议临时或永久挂载的国家 Modifier | `ModifierDefinition`；被 `add_country_modifier` 等 Effect 引用 |
+| `common/triggered_modifiers.txt` | `potential + trigger + modifier fields + icon` 的周期条件 Modifier | `TriggeredModifierDefinition`；需要 Trigger 编译器和月度求值计划 |
+| `common/buildings.txt` | 建筑成本、工期、上限、地图属性、完成实践值和功能 Modifier | `BuildingTypeDefinition`；引用实践类型和省份属性 |
+| `common/strategic_resources.txt` | 战略资源类型及其国家效果 | `StrategicResourceDefinition` |
+
+### 7.5.4 军事、科技、战争目标和情报规则
+
+| 路径 | 根语义 | 主要产物与引用 |
+|---|---|---|
+| `common/technology.txt` | 理论、实践和科技文件夹的名称目录 | 三类 Definition Registry；必须先于技术历史和技术文件完成声明 |
+| `technologies/*.txt` | 技术等级、年份曲线、难度、研究加成、允许条件、单位/属性增量、单位激活 | `TechnologyDefinition`；当前仓库有 8 个文件和约 249 组研究规则 |
+| `units/*.txt` | 陆海空单位类型、建造成本、组织度、速度、补给、战斗属性和地形 Modifier | `UnitTypeDefinition`；引用单位组、实践、Sprite 和地形 |
+| `units/models/*.txt` | 国家单位型号与所需科技等级映射 | `UnitModelDefinition`；动态键为 `unit_type.level`，引用 Technology |
+| `common/unit_upgrades.txt` | 单位类型之间的升级有向图 | `UnitUpgradeGraph`；需要环检测和传递闭包 |
+| `common/combat_events.txt` | 战斗事件及攻击方/防御方/宽度/移动修正 | `CombatEventDefinition` |
+| `common/combat_tactics.txt` | 战术 Trigger、持续时间、触发权重和对应战斗事件 | `CombatTacticDefinition`；使用战斗/参战方复合作用域 |
+| `common/cb_types.txt` | 战争目标顺序、合法性、地区限制、完成 Effect 和和平选项 | `CasusBelliDefinition`；依赖 Trigger/Effect VM、国家与 Region |
+| `common/faction_aims.txt` | 各阵营胜利目标及控制条件 | `FactionAimDefinition`；引用省份、阵营和 Trigger VM |
+| `common/covert_ops.txt` | 秘密行动成本、合法/可选条件和执行 Effect | `CovertOperationDefinition`；依赖省份作用域、Modifier 和 Effect VM |
+
+### 7.5.5 历史数据库与时间覆盖
+
+当前仓库包括约 102 个国家历史文件、9422 个省份历史文件、28 个将领文件、265 个 OOB 文件、6 个战争历史文件和 3 个外交历史文件。
+
+| 路径 | 根语义 | 主要产物与时间处理 |
+|---|---|---|
+| `history/countries/*.txt` | 首都、政体、意识形态、部长、法律、阵营坐标、中立度、凝聚力、理论/实践、科技等级、政党支持和 OOB | `CountryHistoryTimeline`；静态初值与日期块按场景开始日回放 |
+| `history/provinces/**/*.txt` | owner/controller/core、胜利点、资源、IC、人力、领导力、建筑、地形和日期变更 | `ProvinceHistoryTimeline`；文件名中的 Province ID 与正文共同校验 |
+| `history/leaders/*.txt` | 原生 Leader ID、国家、军种、技能、上限、忠诚、头像、特质及日期军衔 | `LeaderDefinition + LeaderHistoryTimeline` |
+| `history/units/*.txt` | Theatre/Army Group/Army/Corps/Division/Regiment、Navy/Ship、Air/Wing、Leader、位置、型号、经验、兵力和预备状态 | `OrderOfBattleDefinition`；形成树和单位实例，引用省份、将领与单位类型 |
+| `history/diplomacy/*.txt` | alliance、guarantee、vassal 及双方、起止日期 | `DiplomaticRelationTimeline` |
+| `history/wars/*.txt` | 战争名、有限战争、攻守参与者增删、战争目标和日期变更 | `WarHistoryTimeline`；引用 CB、国家及动态参战关系 |
+
+历史日期块不是普通子对象，而是按目标日期重放的 Patch。Parser 应保留文件顺序和日期内重复操作；Analyzer 校验引用；WorldBuilder 选择场景开始日并按确定性顺序应用初值与所有不晚于该日期的 Patch。
+
+### 7.5.6 场景与局部战役
+
+| 路径 | 根语义 | 主要产物与引用 |
+|---|---|---|
+| `scenarios/*.txt` | 场景名称、描述、图标、起止日期、相机边界、胜利条件、事件入口、可选国家和可见省份 | `ScenarioDefinition` |
+| `scenarios/<scenario>/<TAG>.txt` | 场景专用国家状态覆盖 | `CountryScenarioPatch` |
+| `scenarios/<scenario>/*OOB*.txt` | 场景专用指挥链和单位实例 | `OrderOfBattleDefinition` |
+| `scenarios/<scenario>/Provinces/*.txt` 或直接省份文件 | 场景专用省份覆盖 | `ProvinceScenarioPatch` |
+| `scenarios/<scenario>/Events.txt` | 仅该场景装载的事件集合 | Event Definition |
+| `scenarios/<scenario>/faction_aims.txt` | 场景专用胜利条件 | Faction Aim Definition |
+
+场景文件不是独立世界格式，而是“基础 Definition/History + 场景覆盖 + 场景脚本”的装配清单。Analyzer 必须记录每个最终字段来自原版、TFH、Mod、历史还是场景覆盖。
+
+### 7.5.7 地图、拓扑和空间语义
+
+| 路径 | 根语义 | 主要产物 |
+|---|---|---|
+| `map/default.map` | 最大省份、海域起点、地图资源路径及其他地图启动参数 | `MapDefinition` |
+| `map/definition.csv` | Province ID、RGB、名称和附加列 | Province 色彩索引；RGB 必须唯一映射到稳定 Province ID |
+| `map/provinces.bmp` | 每个像素所属省份 | Province Raster；通过 `definition.csv` 将 RGB 转成 Province ID |
+| `map/terrain.bmp`、`map/rivers.bmp` | 地形索引和河流像素网络 | Terrain/River Raster |
+| `map/adjacencies.csv` | from/to/type/through/comment 的特殊邻接和运河关系 | Province Graph 的显式边 |
+| `map/positions.txt` | 省份文字、单位、建筑、港口等地图锚点、旋转和缩放 | `ProvincePositionDefinition` |
+| `map/continent.txt`、`map/region.txt` | 命名大陆/Region 到 Province ID 列表 | `ContinentDefinition`、`RegionDefinition` |
+| `map/terrain.txt`、`map/trees.txt` | 地形类别及移动/战斗/气候属性；树木纹理和密度 | `TerrainDefinition`、`TreeDefinition` |
+| `map/cache/*` | 原版生成的派生缓存 | 不作为权威输入；Project Dillen 应从源地图重建自己的版本化 Cache |
+
+地图语义同时来自文本、CSV 和位图，不能由单一文本 Generated Parser 完成。`FileCatalog` 仍负责统一发现和来源追踪，但 Parser Registry 应把它们分派给 Clausewitz、CSV、Raster 和二进制资源加载器。
+
+### 7.5.8 GUI、本地化、音乐、Lua 和资产
+
+| 路径 | 根语义 | 处理边界 |
+|---|---|---|
+| `interface/*.gui` | window、button、text、icon、list、scrollbar、edit box、dialog 等界面树 | 复用现有 GUI 语法前端和 GUI Definition Analyzer |
+| `interface/*.gfx` | Sprite、九宫格、进度条、字体、Actor、Billboard、Mesh、Light、Animation 等资源声明 | 文本定义由 GUI/Graphics Parser 处理；模型和纹理由资源系统加载 |
+| `interface/messagetypes.txt` | 消息种类的日志、地图、弹窗、暂停和分类策略 | `MessageTypeDefinition` |
+| `localisation/*.csv` | 分号分隔的本地化键、多语言列、占位符和控制标记 | 专用 Paradox CSV Parser；必须保留原文件编码，不能默认转换为 UTF-8 后覆盖原文件 |
+| `music/*.txt` | Song、文件名、Chance、Modifier 和 Trigger 条件 | `MusicTrackDefinition`；复用 Trigger/Value Modifier 编译器 |
+| `script/*.lua` | AI Minister、外交评分、生产、研究、情报和 Project Dillen 桥接脚本 | 属于 Lua 5.1 兼容层，不交给 Clausewitz Parser；独立引擎需要 Lua Runtime 或兼容替代方案 |
+| `.dds/.tga/.png/.bmp/.fnt/.ttf/.otf/.mp3/.xac/.xsm/.fx` | 纹理、字体、音频、模型、动画和 Shader | 属于资产导入器；只把元数据和稳定资源 ID 注册到 Definition Registry |
+
+`.sgui/.sgfx`、`interface/gui_plugins` 与 `script_gui/data` 是 Project Dillen 已建立的扩展语义，不属于 HOI3 原版内容。它们应由 `parsers/dillen` 或 GUI 模块注册的 Parser 处理，但继续建立在共享 Clausewitz 文本前端之上。
+
+## 7.6 Events、Decisions 与共享脚本语义
+
+Events 和 Decisions 不是普通配置表，而是未来 Clausewitz Script VM 的主要输入。当前工作区实际扫描到约 840 个 `country_event` 和 582 个 `province_event`；未发现独立 `news_event` 或 `unit_event` 根类型。`decisions` 下的 63 个文件均使用 `diplomatic_decisions` 容器。
+
+### 7.6.1 Event Definition
+
+Event Parser 至少要产生以下结构：
+
+- **身份与展示**：`id`、`title`、`desc`、`picture`；标题和描述是本地化键，不是最终显示字符串。
+- **调度策略**：`is_triggered_only`、`fire_only_once`、`trigger`、`mean_time_to_happen` 及其 `modifier/factor`。
+- **选项列表**：重复的 `option`，每项包含 `name`、Effect 序列和 `ai_chance` 权重。
+- **作用域类型**：`country_event` 以国家为主作用域，`province_event` 以省份为主作用域，并携带 `THIS/FROM`、触发者、目标省份和战斗上下文等运行时槽位。
+- **事件调用**：`country_event/province_event = <id>` 或带 `days/months` 的调用必须解析为事件引用与调度命令，而不是立即递归执行。
+
+### 7.6.2 Decision Definition
+
+每个 `diplomatic_decisions` 子块应编译为：
+
+- `potential`：是否进入候选集合，决定可见性和注册范围；
+- `allow`：当前是否可执行，决定按钮启用状态；
+- `effect`：点击后按源文件顺序执行的 Effect Program；
+- `ai_will_do`：AI 基础权重与条件 Modifier；
+- 决议块名称：稳定 `DecisionId`，同时作为默认本地化键前缀。
+
+`potential` 与 `allow` 必须分别保存，不能在加载时合并；前者影响发现，后者影响实时可执行性。`effect` 也不能在 Parser 阶段直接修改 World，Parser 只负责编译程序。
+
+### 7.6.3 Trigger、Effect、Scope 与权重程序
+
+Events、Decisions、Laws、CB、Covert Ops、Triggered Modifiers、Combat Tactics、Faction Aims、Music Chance 和 `on_actions` 应共享同一套脚本编译基础设施，但使用不同的入口作用域和允许指令表：
+
+| 程序类别 | 结果类型 | 典型结构 |
+|---|---|---|
+| Trigger Program | 只读布尔值 | `AND/OR/NOT`、数值比较、Tag/Flag/关系/所有权/控制权检查 |
+| Effect Program | 有序世界命令 | 设置/清除 Flag、关系与威胁、核心与控制权、Modifier、资源、OOB、联盟/战争和后续事件 |
+| Scope Program | 临时切换当前对象 | 国家 Tag、省份 ID、Region 名、`THIS/FROM`、owner/controller、`any_*` 迭代器及 `limit` |
+| Weight Program | 非负权重或时间倍率 | `factor`、`modifier`、`ai_chance`、`ai_will_do`、MTTH 与音乐 Chance |
+| OnAction Table | 引擎 Hook 到事件分发 | Hook 名下重复的 `weight = event_id`，由确定性 RNG 选择或按规则派发 |
+
+编译时必须维护强类型作用域槽，至少区分 Country、Province、Combat/Combatant 以及无对象作用域。动态键如 `JAP = { ... }`、`5494 = { ... }` 和 `region_name = { ... }` 只有在 Analyzer 查询 Definition Registry 后才能确定是作用域切换还是普通用户定义块。未知 Trigger/Effect 应产生可定位诊断并按兼容策略禁用对应程序，不能静默变成始终为真或空 Effect。
+
+## 7.7 Definition 依赖与建议加载顺序
+
+HOI3 文件之间存在大量前向引用，因此不能按目录遍历顺序边读边创建最终对象。建议采用以下声明与解析顺序：
+
+1. 建立 VFS、编码信息、来源层和完整 FileCatalog；
+2. 声明 Province ID/RGB、Country Tag、日期范围和基础资源路径；
+3. 声明地形、图形文化、理论/实践、科技文件夹、政府职位、意识形态、政府、法律组、Modifier、建筑、资源和单位类型名称；
+4. 解析并 Resolve 单位、科技、升级图、特质、部长类型、CB、战术、秘密行动等静态 Definition；
+5. 解析国家、省份、将领、外交、战争和 OOB 历史，保存为 Timeline/Patch，不立即写入运行时世界；
+6. 编译 Event、Decision、Trigger、Effect、Weight、OnAction 和场景专用脚本；
+7. 解析场景清单及国家、省份、OOB、事件、胜利条件覆盖；
+8. 解析 GUI、Graphics、Localization、Music 和资产元数据；
+9. 执行全局 Resolve/Validate，冻结 Definition Registry；
+10. 由 WorldBuilder 根据选定场景和开始日期实例化 Authoritative World。
+
+第一阶段 Generated Parser 的推荐落地顺序为：`countries.txt → common/countries → map definition/region → history/provinces → history/countries → units → technologies → leaders/OOB → diplomacy/wars → events → decisions`。Events 与 Decisions 必须进入第一条完整纵向切片，因为它们同时验证动态键、重复字段、作用域、跨文件引用、字节码编译和运行时命令边界，不能被视为后期附属功能。

@@ -14,6 +14,12 @@ diplomatic_decisions = {
         }
         effect = {
             set_global_flag = China_CivilWar
+            CQM = { country_event = 1000314 }
+            CNM = { country_event = 1000314 }
+            CSX = { country_event = 1000314 }
+            CSY = { country_event = 1000314 }
+            CGX = { country_event = 1000314 }
+            CYN = { country_event = 1000314 }
             war = { target = CHC }
             5494 = {
                            province_event = 190035

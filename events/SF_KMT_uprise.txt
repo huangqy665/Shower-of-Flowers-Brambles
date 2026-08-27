@@ -4,10 +4,10 @@ country_event = {
 	id = 801761
 	major = yes
 	fire_only_once = yes
-	title = "LUtitle"
-	subtitle = "LUsubtitle"
-	desc = "LUecs"
-	picture = "CHI_flag"
+	title = "Komingtang_uprise_title1"
+	subtitle = "Komingtang_uprise_subtitle1"
+	desc = "Komingtang_uprise_decs1"
+	picture = "Komingtang_uprise_picture1"
 	trigger = {
 		tag = CHC
 		exists = CHC
@@ -24,7 +24,7 @@ country_event = {
 	        days = 1
     }
 	option = {
-		name = "LUCOP" 
+		name = "Komingtang_uprise_option1" 
      CHC = { inherit = CYN }
      CHC = {  load_oob = "CHC_Yunnan.txt" }
 	 SF_china_region = { remove_core = CYN }
@@ -35,10 +35,10 @@ country_event = {
 	id = 80176
 	major = yes
 	fire_only_once = yes
-	title = "LUtitle"
-	subtitle = "LUsubtitle"
-	desc = "LUecs"
-	picture = "CHI_flag"
+	title = "Komingtang_uprise_title1"
+	subtitle = "Komingtang_uprise_subtitle1"
+	desc = "Komingtang_uprise_decs1"
+	picture = "Komingtang_uprise_picture1"
 	trigger = {
 		tag = PRC
 			PRC = { 	
@@ -54,7 +54,7 @@ country_event = {
 	        days = 1
     }
 	option = {
-		name = "LUCOP" 
+		name = "Komingtang_uprise_option1" 
      PRC = { inherit = CYN }
      PRC = {  load_oob = "CHC_Yunnan.txt" }
 	 SF_china_region = { remove_core = CYN }
@@ -66,8 +66,8 @@ country_event = {
 	id = 80192
 	major = yes
 	fire_only_once = yes
-	title = "Event80192title"
-	desc = "Event80192desc"
+	title = "Komingtang_uprise_title2"
+	desc = "Komingtang_uprise_decs2"
 	picture = "CHI_flag"
 	trigger = {
 		tag = CHI
@@ -81,7 +81,7 @@ country_event = {
 	        days = 1
     }
 	option = {
-		name = "LUCOP"
+		name = "Komingtang_uprise_option2"
 		CHI = { guizhou_region = { limit = { controlled_by = CHI } secede_province = PRC change_controller = PRC } } 	
 		 PRC = { load_oob = "CHC_Guizhou.txt" }
         }
@@ -91,8 +91,8 @@ country_event = {
 	id = 80193
 	major = yes
 	fire_only_once = yes
-	title = "Event80193title"
-	desc = "Event80193desc"
+	title = "Komingtang_uprise_title3"
+	desc = "Komingtang_uprise_decs3"
 	picture = "CHC_flag"
 	trigger = {
 		tag = CHI
@@ -106,7 +106,7 @@ country_event = {
 	        days = 1
     }
 	option = {
-		name = "LUCOP"
+		name = "Komingtang_uprise_option2"
 		kill_leader = 50041
 		kill_leader = 50034
 		CHI = { hunan_region = { limit = { controlled_by = CHI } secede_province = CHC change_controller = CHI } } 		 
@@ -120,8 +120,8 @@ country_event = {
 country_event = {
 	id = 80194
 	fire_only_once = yes
-	title = "Event80194title"
-	desc = "Event80194desc"
+	title = "Komingtang_uprise_title4"
+	desc = "Komingtang_uprise_decs4"
 	picture = "CHI_flag"
 	trigger = {
 		tag = CHI
@@ -137,7 +137,7 @@ country_event = {
 	        days = 1
     }
 	option = {
-		name = "NACOP"
+		name = "Komingtang_uprise_option3"
 		CHC = { country_event = 20205 }
         }
 }
@@ -145,11 +145,11 @@ country_event = {
 	id = 20205
 	major = yes
 	is_triggered_only = yes
-	title = "Event20205title"
-	desc = "Event20205desc"
+	title = "Komingtang_uprise_title5"
+	desc = "Komingtang_uprise_decs5"
 	picture = "CHC_flag"
 	option = {
-		name = "MPOCOP"
+		name = "Komingtang_uprise_option4"
     load_oob = "CHC_nave.txt"
         }
 }
@@ -158,11 +158,11 @@ country_event = {
 	id = 8019
 	is_triggered_only = yes
 	major = yes
-	title = "Event8019title"
-	desc = "Event8019desc"
+	title = "Komingtang_uprise_title6"
+	desc = "Komingtang_uprise_decs6"
 	picture = "CHC_flag"
 	option = {
-		name = "Event8019option1"
+		name = "Komingtang_uprise_option6"
 		  load_oob = "CSY_1949.txt"
        }
 }
@@ -171,8 +171,8 @@ country_event = {
 	id = 80191
 	major = yes
 	fire_only_once = yes
-	title = "Event80191title"
-	desc = "Event80191desc"
+	title = "Komingtang_uprise_title7"
+	desc = "Komingtang_uprise_decs7"
 	picture = "CHC_flag"
 	trigger = {
 		tag = CHC
@@ -184,7 +184,7 @@ country_event = {
 	        days = 1
     }
 	option = {
-		name = "Event8019option1"
+		name = "Komingtang_uprise_option7"
 		CHC = { inherit = CSY } 
 		set_country_flag = CivilWar_suiyuan_uprise
 		 SF_china_region = { remove_core = CSY }
@@ -196,8 +196,8 @@ country_event = {
 	id = 801915
 	major = yes
 	fire_only_once = yes
-	title = "Event80196title"
-	desc = "Event80196desc"
+	title = "Komingtang_uprise_title8"
+	desc = "Komingtang_uprise_decs8"
 	picture = "CHC_flag"
 	trigger = {
 		tag = CHC
@@ -212,7 +212,7 @@ country_event = {
 	        days = 1
     }
 	option = {
-		name = "Event8019option1"
+		name = "Komingtang_uprise_option7"
 		CHC = { inherit = CNM } 
 		 SF_china_region = { remove_core = CNM }
         }

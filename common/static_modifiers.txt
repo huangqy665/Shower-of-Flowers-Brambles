@@ -1,0 +1,272 @@
+# All global modifiers are here.  They are applied from certain game-features.
+#
+# Effects are fully scriptable here.
+
+
+#these names can NOT be removed or changes, as the code uses them....
+
+##########################################################################
+# Difficulty Modifiers
+##########################################################################
+
+very_easy_player = {
+
+	global_manpower_modifier = 0.5
+	global_revolt_risk = -3
+	
+	global_ic = 0.50
+	global_resources = 0.5
+	supply_consumption = -0.25
+	
+	supply_throughput = 1.0
+	naval_base_efficiency = 1.0
+
+}
+
+easy_player = {
+	global_manpower_modifier = 0.25
+	global_revolt_risk = -1
+
+	global_ic = 0.25
+	global_resources = 0.25
+
+	supply_throughput = 0.25
+	naval_base_efficiency = 0.25
+
+}
+
+hard_player = {
+	global_ic = -0.1
+	global_resources = -0.1
+
+	
+	supply_throughput = -0.25
+	naval_base_efficiency = -0.25
+
+
+}
+
+very_hard_player = {
+	global_ic = -0.25
+	global_resources = -0.25
+
+
+
+	supply_throughput = -0.5
+	naval_base_efficiency = -0.5
+}
+
+
+
+
+very_easy_ai = {
+	global_ic = -0.25
+	global_resources = -0.25
+
+}
+
+easy_ai = {
+}
+
+hard_ai = {
+	global_ic = 0.25
+	global_resources = 0.25
+
+	supply_consumption = -0.25
+
+	supply_throughput = 0.25
+	naval_base_efficiency = 0.25
+}
+
+very_hard_ai = {
+	global_ic = 1.0
+	global_resources = 1.0
+
+	
+	supply_consumption = -0.5
+	supply_throughput = 0.5
+	naval_base_efficiency = 0.5
+
+}
+
+
+##########################################################################
+# Provincial Static Modifiers
+##########################################################################
+
+overseas = {
+	local_manpower_modifier = -0.75		#75% penalty on manpower.
+	local_leadership_modifier = -0.9	#75% on leadership.
+}
+
+coastal = {
+}
+
+non_coastal = {
+}
+
+coastal_sea = {
+}
+
+sea_zone = {
+}
+
+land_province = {
+	attrition = 1
+}
+
+
+blockaded = 
+{
+}
+
+no_adjacent_controlled = {
+}
+
+
+non_core = {
+	local_manpower_modifier = -0.75
+	local_leadership_modifier = -0.80
+	local_ic = -0.50
+	local_resources = -0.5
+}
+
+occupied = {
+	local_revolt_risk = 2			#2% revolt risk!
+}
+
+
+revolt_risk = {
+	local_ic = -0.02
+	local_manpower_modifier = -0.02
+	local_resources = -0.02
+}
+
+nationalism = {
+	local_revolt_risk = 0.3			#0.3% for each year revolt risk!
+	#minimum_revolt_risk = 0.3		#0.3% for each year revolt risk!
+}
+
+manpower = {
+}
+
+dissent = {
+	global_ic = -0.01
+
+}
+
+neutrality = {
+	drift_speed = 0.05
+}
+
+##########################################################################
+# Global Static Modifiers
+##########################################################################
+
+base_values = {
+	war_consumer_goods_demand = 0.15
+	peace_consumer_goods_demand = 0.25
+	global_manpower = 4
+	global_leadership = 3.5
+	ic = 5
+}
+
+war = {
+	max_war_exhaustion = 100			#base max at war.
+	war_exhaustion = 0.041			#about 1/24 increase each month
+}
+
+peace = {
+	max_war_exhaustion = 100			#base max at peace.
+}
+
+war_exhaustion = {
+}
+
+luck = {
+}
+
+badboy = {
+}
+
+prestige = {
+
+}
+
+land_maintenance = {
+}
+
+naval_maintenance = {
+}
+
+initial_mobilization = {
+	reinforcement_bonus = 1.0	# each reinforcement produced also produces one bonus reinforcement
+}
+
+government_in_exile = {
+
+}
+
+fractured_government = {
+	national_unity = -0.05
+}
+
+##########################################################################
+# Diplomacy Static Modifiers
+##########################################################################
+
+align_towards_axis = {
+	align_towards = 20.0
+} 
+
+align_towards_allies = {
+	align_towards = 20.0
+}
+
+align_towards_comintern = {
+	align_towards = 20.0
+}
+
+##########################################################################
+# Espionage Modifiers
+##########################################################################
+
+spy_lower_national_unity = {
+	national_unity = -0.1
+}
+
+spy_raise_national_unity = {
+	national_unity = 0.15
+}
+
+disrupt_production = {
+	unit_repair = -0.02
+}
+
+disrupt_research = {
+	research_efficiency = -0.01
+}
+
+spy_lower_neutrality = {
+	neutrality_change = -0.003
+}
+
+spy_support_resistance = {
+	partisan_efficiency = 5
+}
+
+
+#####################################
+# covert ops mission modifiers
+#####################################
+covertopsmod_sabotage = {
+	local_unit_speed = -0.2
+}
+
+covertopsmod_scout = {
+	local_unit_speed = 0.2	
+}
+
+covertopsmod_damage_resource = {
+	strategic_resource_efficiency = -0.99
+}

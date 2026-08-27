@@ -1,0 +1,64 @@
+new_core_add_component(
+    project_dillen_parser_hoi3
+    SOURCES
+        country_definition_parser.cpp
+        country_definition_parser.hpp
+        country_definition_slice.cpp
+        country_definition_slice.hpp
+        country_history_parser.cpp
+        country_history_parser.hpp
+        country_history_slice.cpp
+        country_history_slice.hpp
+        country_tag_parser.cpp
+        country_tag_parser.hpp
+        country_tag_slice.cpp
+        country_tag_slice.hpp
+        diplomacy_history_parser.cpp
+        diplomacy_history_parser.hpp
+        diplomacy_history_slice.cpp
+        diplomacy_history_slice.hpp
+        launch_parser.cpp
+        launch_parser.hpp
+        launch_slice.cpp
+        launch_slice.hpp
+        order_of_battle_parser.cpp
+        order_of_battle_parser.hpp
+        order_of_battle_slice.cpp
+        order_of_battle_slice.hpp
+        province_definition_parser.cpp
+        province_definition_parser.hpp
+        province_definition_slice.cpp
+        province_definition_slice.hpp
+        province_history_parser.cpp
+        province_history_parser.hpp
+        province_history_slice.cpp
+        province_history_slice.hpp
+        region_definition_parser.cpp
+        region_definition_parser.hpp
+        region_definition_slice.cpp
+        region_definition_slice.hpp
+        scenario_overlay.cpp
+        scenario_overlay.hpp
+        technology_parser.cpp
+        technology_parser.hpp
+        technology_slice.cpp
+        technology_slice.hpp
+        unit_model_parser.cpp
+        unit_model_parser.hpp
+        unit_model_slice.cpp
+        unit_model_slice.hpp
+        unit_type_parser.cpp
+        unit_type_parser.hpp
+        unit_type_slice.cpp
+        unit_type_slice.hpp
+        war_history_parser.cpp
+        war_history_parser.hpp
+        war_history_slice.cpp
+        war_history_slice.hpp
+    PUBLIC_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}"
+    PUBLIC_LINKS
+        dillen::content
+        dillen::parser
+)
+
+add_library(dillen::parser_hoi3 ALIAS project_dillen_parser_hoi3)

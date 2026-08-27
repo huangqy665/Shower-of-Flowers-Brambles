@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\declarative_gui_plugin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_application_bus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_builtin_plugins.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_custom_widget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_diagnostics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_indexed_map_core.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_localization.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_persistence.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_plugin_manifest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_plugin_registry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_render_queue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_tick.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_window_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_window_session.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\declarative_gui_plugin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_application_bus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_builtin_plugins.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_custom_widget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_diagnostics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_indexed_map_core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_localization.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_persistence.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_plugin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_plugin_manifest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_plugin_registry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_render_queue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_tick.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_window_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\runtime\gui_window_session.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\gui\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{72C88785-50E2-32D8-BA98-68513D27FE0F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{FE125A95-A818-37CB-978E-7EB01E65F60A}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,69 @@
+# If you add types, and use those tags, do not change them without changing everywhere they are used.
+# Uses all 'modifiers' possible thats exported as a Modifier.
+
+aluminium = {
+	air_build_speed = -0.15
+}
+rubber = {
+	amm_movement_speed = 0.15
+}
+
+heavy_water = {
+	nuke_research = 0.4
+}
+
+uranium = {
+	nuke_research = 0.4
+}
+
+tungsten = {
+	hard_attack = 0.15
+}
+
+fur = {
+	winter_effects = 0.15
+}
+
+black_soil = {
+	global_manpower_modifier = 0.10
+}
+
+cinchona = {
+	jungle_effects = 0.15
+}
+
+helium = {
+	rocket_build_speed = -0.15
+}
+
+gold = {
+	global_money = 0.33
+}
+
+horses = {
+	supply_throughput = 0.10
+}
+
+antibiotics = {
+	casualty_trickleback = 0.05
+}
+
+ballbearings = {
+	unit_repair = 0.15
+}
+
+prefab_ship_facilities = {
+	naval_base_efficiency = 0.33
+}
+
+dockyard_facilities = {
+	naval_build_speed = -0.15
+}
+
+oil_refinery = {
+	fuel_conversion = 0.5
+}
+
+automotive_industry = {
+	tank_build_speed = -0.15
+}

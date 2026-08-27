@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\core\new_core_handshake.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\core\new_core_handshake.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\core\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{72C88785-50E2-32D8-BA98-68513D27FE0F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{FE125A95-A818-37CB-978E-7EB01E65F60A}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

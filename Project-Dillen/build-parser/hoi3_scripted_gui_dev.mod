@@ -1,0 +1,7 @@
+name = "Scripted GUI Development"
+path = "D:/80th_special_version/Shower-of-Flowers-Brambles"
+user_dir = "scripted_gui_development"
+replace_path = "music"
+replace_path = "events"
+replace_path = "decisions"
+replace_path = "localisation"

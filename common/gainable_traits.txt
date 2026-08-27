@@ -1,0 +1,175 @@
+# Triggers are using the combat event scope
+# and are evaluated at the end of each combat
+# for every suitable leader.
+#
+# hours_required is the minimum amount of hours
+# spent in such combat required to gain such trait.
+#
+# Trigger province_temperature = X evaluates if the 
+# local temperature in combat is LOWER then X.
+# To check for higher temperature use NOT = { province_temperature = X }
+#
+# has_combat_modifier values are case sensitive!
+# Allowed options are:
+# BM_DISSENT BM_LEADER_BONUS BM_DIFFICULTY BM_ENCIRCLEMENT_PENALTY BM_ENVELOPMENT_PENALTY BM_DIVISION_PENALTY BM_EXPERIENCE BM_MISSION_EFFICIENCY BM_DUGIN_MODIFIER
+# BM_AMPH_PENALTY BM_FORT_MODIFIER BM_PARATROOP_PENALTY BM_RIVER_PENALTY BM_SHORE_BOMBARD BM_LACK_OF_SUPPLIES BM_MULTIPLE BM_COMBINED_ARMS BM_BASE_PROXIMITY BM_RADAR_STATION
+# BM_INTERCEPT BM_AIRCOMBAT BM_TERRAIN BM_WEATHER BM_NIGHT_MODIFIER BM_SURPRISE_PENALTY BM_SURPRISE_BONUS BM_POOR_SCREEN_PENALTY BM_TERRITORIAL_PRIDE BM_RADIO 
+#
+# Only 1 gainable_trait per specified trait type may be defined!
+#
+
+
+# LAND - Terrain traits
+gainable_trait = {
+	combat = land_combat
+	hours_required = 710
+	trait = desert_fox
+	trigger = {
+		terrain = desert
+	}
+}
+gainable_trait = {
+	combat = land_combat
+	hours_required = 1400
+	trait = swamp_fox
+	trigger = {
+		terrain = marsh
+	}
+}
+gainable_trait = {
+	combat = land_combat
+	hours_required = 730
+	trait = mountaineer
+	trigger = {
+		terrain = mountain
+	}
+}
+gainable_trait = {
+	combat = land_combat
+	hours_required = 725
+	trait = hill_fighter
+	trigger = {
+		terrain = hills
+	}
+}
+gainable_trait = {
+	combat = land_combat
+	hours_required = 715
+	trait = jungle_rat
+	trigger = {
+		terrain = jungle
+	}
+}
+gainable_trait = {
+	combat = land_combat
+	hours_required = 735
+	trait = ranger
+	trigger = {
+		OR = {
+			terrain = woods
+			terrain = forest
+		}
+	}
+}
+gainable_trait = {
+	combat = land_combat
+	hours_required = 705
+	trait = urban_assault_specialist
+	trigger = {
+		terrain = urban
+	}
+}
+
+# LAND - Winter
+gainable_trait = {
+	combat = land_combat
+	hours_required = 695
+	trait = winter_specialist
+	trigger = {
+		province_temperature = -4
+	}
+}
+
+# LAND - Combined arms
+gainable_trait = {
+	combat = land_combat
+	hours_required = 730
+	trait = panzer_leader
+	trigger = {
+		has_combined_arms = yes
+	}
+}
+
+# LAND - Attacking forts
+gainable_trait = {
+	combat = land_combat
+	hours_required = 690
+	trait = fortress_buster
+	trigger = {
+		has_combat_modifier = BM_FORT_MODIFIER
+	}
+}
+
+
+
+# NAVAL - Convoy raiding
+gainable_trait = {
+	combat = naval_combat
+	hours_required = 550
+	trait = seawolf
+	trigger = {
+		is_convoy = yes
+	}
+}
+
+# NAVAL - Winning surface battles
+gainable_trait = {
+	combat = naval_combat
+	hours_required = 580
+	trait = superior_tactician
+	trigger = {
+		is_winner = yes
+	}
+}
+
+
+
+# AIR - Ground attacks
+gainable_trait = {
+	combat = land_bombing
+	hours_required = 720
+	trait = tank_buster
+	trigger = {
+		is_attacker = yes
+	}
+}
+
+# AIR - Strategic bombing
+gainable_trait = {
+	combat = ground_bombing
+	hours_required = 725
+	trait = carpet_bomber
+	trigger = {
+		is_attacker = yes
+	}
+}
+
+# AIR - Bombing naval
+gainable_trait = {
+	combat = naval_bombing
+	hours_required = 730
+	trait = fleet_destroyer
+	trigger = {
+		is_attacker = yes
+	}
+}
+
+# AIR - Winning air battles
+gainable_trait = {
+	combat = air_combat
+	hours_required = 735
+	trait = superior_air_tactician
+	trigger = {
+		is_winner = yes
+	}
+}

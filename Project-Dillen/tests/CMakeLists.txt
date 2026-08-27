@@ -23,6 +23,49 @@ new_core_add_probe(hoi3_native_object_keys_probe new_core_hoi3)
 new_core_add_probe(hoi3_gameplay_effects_probe new_core_hoi3)
 new_core_add_probe(hoi3_native_queries_module_probe new_core_hoi3)
 new_core_add_probe(leader_capture_core_module_probe new_core_leader_capture)
+new_core_add_probe(mechanism_registry_probe dillen::kernel)
+new_core_add_probe(
+    mechanism_instance_store_probe
+    dillen::kernel
+    dillen::worldbuilder
+)
+new_core_add_probe(
+    mechanism_transaction_probe
+    dillen::kernel
+    dillen::worldbuilder
+)
+new_core_add_probe(
+    mechanism_runtime_pipeline_probe
+    dillen::kernel
+    dillen::worldbuilder
+)
+new_core_add_probe(parser_syntax_probe dillen::parser)
+new_core_add_probe(parser_pipeline_probe dillen::parser)
+new_core_add_probe(country_tag_slice_probe dillen::parser_hoi3)
+new_core_add_probe(country_definition_slice_probe dillen::parser_hoi3)
+new_core_add_probe(country_history_slice_probe dillen::parser_hoi3)
+new_core_add_probe(province_region_slice_probe dillen::parser_hoi3)
+new_core_add_probe(province_history_slice_probe dillen::parser_hoi3)
+new_core_add_probe(unit_type_slice_probe dillen::parser_hoi3)
+new_core_add_probe(technology_slice_probe dillen::parser_hoi3)
+new_core_add_probe(unit_model_slice_probe dillen::parser_hoi3)
+new_core_add_probe(order_of_battle_slice_probe dillen::parser_hoi3)
+new_core_add_probe(
+    diplomacy_history_slice_probe
+    dillen::parser_hoi3
+    dillen::worldbuilder
+)
+new_core_add_probe(
+    war_history_slice_probe
+    dillen::parser_hoi3
+    dillen::worldbuilder
+)
+new_core_add_probe(world_builder_probe dillen::worldbuilder)
+new_core_add_probe(
+    scenario_launch_pipeline_probe
+    dillen::parser_hoi3
+    dillen::worldbuilder
+)
 
 set(NEW_CORE_GUI_PROBES
     declarative_gui_plugin_probe

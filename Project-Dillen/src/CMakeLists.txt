@@ -8,6 +8,10 @@ target_include_directories(
 add_subdirectory(engine)
 add_subdirectory(core)
 add_subdirectory(native)
+add_subdirectory(kernel)
+add_subdirectory(content)
+add_subdirectory(parser)
+add_subdirectory(worldbuilder)
 
 new_core_add_component(
     new_core_reverse

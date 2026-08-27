@@ -1,0 +1,68 @@
+#pragma once
+
+#include <cstddef>
+#include <cstdint>
+#include <variant>
+#include <vector>
+
+#include "mechanism_change.hpp"
+#include "world_transaction.hpp"
+
+namespace dillen::kernel {
+
+struct WorldTransactionCommittedEvent
+{
+    std::size_t changedInstances = 0;
+};
+
+struct WorldTransactionRejectedEvent
+{
+    WorldTransactionStatus status =
+        WorldTransactionStatus::MechanismRejected;
+    MechanismTransactionStatus mechanismStatus =
+        MechanismTransactionStatus::Committed;
+    std::size_t commandIndex = 0;
+    MechanismInstanceId target;
+};
+
+using WorldEventPayload = std::variant<
+    WorldTransactionCommittedEvent,
+    WorldTransactionRejectedEvent,
+    MechanismFieldChange,
+    MechanismLifecycleChange
+>;
+
+struct WorldEvent
+{
+    std::uint64_t sequence = 0;
+    std::uint64_t tick = 0;
+    std::uint64_t transactionSequence = 0;
+    WorldEventPayload payload;
+};
+
+class WorldEventQueue
+{
+public:
+    void PublishTransactionResult(
+        std::uint64_t tick,
+        std::uint64_t transactionSequence,
+        const WorldTransactionResult& result
+    );
+    std::vector<WorldEvent> Drain();
+    void Clear();
+    bool Empty() const noexcept;
+    std::size_t Size() const noexcept;
+    const std::vector<WorldEvent>& Pending() const noexcept;
+
+private:
+    void Publish(
+        std::uint64_t tick,
+        std::uint64_t transactionSequence,
+        WorldEventPayload payload
+    );
+
+    std::vector<WorldEvent> pending_;
+    std::uint64_t nextSequence_ = 1;
+};
+
+}
