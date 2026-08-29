@@ -22,12 +22,12 @@ struct UnresolvedTechnologyDefinition
     std::string folder;
     std::string onCompletion;
     std::optional<bool> change;
-    std::optional<content::TechnologyRequirement> allow;
-    std::vector<content::TechnologyResearchBonus> researchBonuses;
-    std::vector<content::TechnologyUnitReference> activatedUnits;
+    std::optional<dillen::compatibility::hoi3::content::TechnologyRequirement> allow;
+    std::vector<dillen::compatibility::hoi3::content::TechnologyResearchBonus> researchBonuses;
+    std::vector<dillen::compatibility::hoi3::content::TechnologyUnitReference> activatedUnits;
     std::vector<std::string> activatedBuildings;
-    std::vector<content::TechnologyScalarEffect> scalarEffects;
-    std::vector<content::TechnologyEffectBlock> effectBlocks;
+    std::vector<dillen::compatibility::hoi3::content::TechnologyScalarEffect> scalarEffects;
+    std::vector<dillen::compatibility::hoi3::content::TechnologyEffectBlock> effectBlocks;
     SourceSpan span;
 };
 

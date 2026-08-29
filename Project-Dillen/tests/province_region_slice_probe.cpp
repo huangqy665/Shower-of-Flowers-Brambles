@@ -4,7 +4,7 @@
 #include <fstream>
 #include <iostream>
 
-#include "analyzer.hpp"
+#include "resolver.hpp"
 #include "definition_registry.hpp"
 #include "diagnostic.hpp"
 #include "file_catalog.hpp"
@@ -75,14 +75,14 @@ bool HasDiagnostic(
 }
 
 bool HasProvince(
-    const dillen::content::RegionDefinition& region,
+    const dillen::compatibility::hoi3::content::RegionDefinition& region,
     std::uint32_t provinceId
 )
 {
     return std::any_of(
         region.provinces.begin(),
         region.provinces.end(),
-        [provinceId](dillen::content::ProvinceDefinitionId id)
+        [provinceId](dillen::compatibility::hoi3::content::ProvinceDefinitionId id)
         {
             return id.value == provinceId;
         }
@@ -112,35 +112,31 @@ bool ValidateMissingProvinceDiagnostic()
 
     dillen::parser::TemplateRegistry templates;
     dillen::parser::ParserRegistry parsers;
-    dillen::parser::Analyzer analyzer;
-    dillen::content::DefinitionRegistry definitions;
+    dillen::parser::Resolver resolver;
+    dillen::compatibility::hoi3::content::DefinitionRegistry definitions;
     if (!dillen::parser::hoi3::RegisterProvinceDefinitionSlice(
             templates,
             parsers,
-            analyzer,
+            resolver,
             definitions)
         || !dillen::parser::hoi3::RegisterRegionDefinitionSlice(
             templates,
             parsers,
-            analyzer,
+            resolver,
             definitions))
     {
         return false;
     }
     templates.Freeze();
     parsers.Freeze();
-    analyzer.Freeze();
+    resolver.Freeze();
 
     dillen::parser::DiagnosticBag diagnostics;
     dillen::parser::FileCatalog catalog;
-    dillen::parser::AnalysisWorkspace workspace;
+    dillen::parser::ParseWorkspace workspace;
     const bool analyzed = catalog.AddLayer({1, "fixture", root, 0, {}})
         && catalog.Build(templates, diagnostics)
-        && !analyzer.Analyze(
-            catalog,
-            parsers,
-            workspace,
-            diagnostics);
+        && !(catalog.Parse(parsers, workspace, diagnostics) && resolver.Resolve(workspace, diagnostics));
     const auto* province = definitions.Provinces().Find(1);
     const bool valid = analyzed
         && HasDiagnostic(
@@ -177,17 +173,17 @@ int main()
 
     dillen::parser::TemplateRegistry templates;
     dillen::parser::ParserRegistry parsers;
-    dillen::parser::Analyzer analyzer;
-    dillen::content::DefinitionRegistry definitions;
+    dillen::parser::Resolver resolver;
+    dillen::compatibility::hoi3::content::DefinitionRegistry definitions;
     if (!dillen::parser::hoi3::RegisterProvinceDefinitionSlice(
             templates,
             parsers,
-            analyzer,
+            resolver,
             definitions)
         || !dillen::parser::hoi3::RegisterRegionDefinitionSlice(
             templates,
             parsers,
-            analyzer,
+            resolver,
             definitions))
     {
         std::cerr << "Province/Region slice registration failed\n";
@@ -195,7 +191,7 @@ int main()
     }
     templates.Freeze();
     parsers.Freeze();
-    analyzer.Freeze();
+    resolver.Freeze();
 
     dillen::parser::DiagnosticBag diagnostics;
     dillen::parser::FileCatalog catalog;
@@ -207,12 +203,8 @@ int main()
         return 3;
     }
 
-    dillen::parser::AnalysisWorkspace workspace;
-    if (!analyzer.Analyze(
-            catalog,
-            parsers,
-            workspace,
-            diagnostics))
+    dillen::parser::ParseWorkspace workspace;
+    if (!(catalog.Parse(parsers, workspace, diagnostics) && resolver.Resolve(workspace, diagnostics)))
     {
         for (const auto& diagnostic : diagnostics.All())
         {
@@ -272,7 +264,7 @@ int main()
         && definitions.Provinces().Size() == 14187
         && province1 != nullptr
         && province1->color
-            == dillen::content::ProvinceColor{42, 3, 128}
+            == dillen::compatibility::hoi3::content::ProvinceColor{42, 3, 128}
         && colorProvince == province1
         && quotedProvince != nullptr
         && quotedProvince->name == "pacific ocean"
@@ -294,14 +286,14 @@ int main()
             "hoi3.region.province_duplicate"
         )
         && definitions.Regions().Find(
-            dillen::content::StableRegionDefinitionId(
+            dillen::compatibility::hoi3::content::StableRegionDefinitionId(
                 "guangdong_region"
             )
         ) == guangdong
         && definitions.Provinces().Declare({})
-            == dillen::content::ProvinceDeclareResult::Frozen
+            == dillen::compatibility::hoi3::content::ProvinceDeclareResult::Frozen
         && definitions.Regions().Resolve({}, {}, {})
-            == dillen::content::RegionResolveResult::Frozen;
+            == dillen::compatibility::hoi3::content::RegionResolveResult::Frozen;
 
     std::error_code cleanupError;
     fs::remove_all(root, cleanupError);

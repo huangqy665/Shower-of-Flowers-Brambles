@@ -60,7 +60,7 @@ bool ExpectAssignment(
 
 bool ReadDateValue(
     ParserCursor& cursor,
-    content::DefinitionDate& output
+    dillen::compatibility::hoi3::content::DefinitionDate& output
 )
 {
     ClausewitzDate date;
@@ -106,7 +106,7 @@ bool ReadUnsignedId(
 
 bool ParseColor(
     ParserCursor& cursor,
-    content::CountryColor& output
+    dillen::compatibility::hoi3::content::CountryColor& output
 )
 {
     if (!cursor.Expect(TokenKind::LeftBrace, nullptr, "for country color"))
@@ -173,7 +173,7 @@ bool ReadFreeScalarBlock(
 
 bool ParseDefaultTemplates(
     ParserCursor& cursor,
-    std::vector<content::DivisionTemplateDefinition>& output
+    std::vector<dillen::compatibility::hoi3::content::DivisionTemplateDefinition>& output
 )
 {
     if (!cursor.Expect(
@@ -209,7 +209,7 @@ bool ParseDefaultTemplates(
             );
             return false;
         }
-        content::DivisionTemplateDefinition definition;
+        dillen::compatibility::hoi3::content::DivisionTemplateDefinition definition;
         definition.name = std::string(name.text);
         if (!ReadFreeScalarBlock(
                 cursor,
@@ -225,7 +225,7 @@ bool ParseDefaultTemplates(
 
 bool ParseUnitNames(
     ParserCursor& cursor,
-    std::vector<content::UnitNamePoolDefinition>& output
+    std::vector<dillen::compatibility::hoi3::content::UnitNamePoolDefinition>& output
 )
 {
     if (!cursor.Expect(TokenKind::LeftBrace, nullptr, "for unit_names"))
@@ -267,7 +267,7 @@ bool ParseUnitNames(
             );
             return false;
         }
-        content::UnitNamePoolDefinition pool;
+        dillen::compatibility::hoi3::content::UnitNamePoolDefinition pool;
         pool.unitType = std::string(unitType.text);
         if (!cursor.Expect(
                 TokenKind::LeftBrace,
@@ -313,7 +313,7 @@ bool ParseUnitNames(
 
 bool ParseMinister(
     ParserCursor& cursor,
-    content::MinisterDefinition& output
+    dillen::compatibility::hoi3::content::MinisterDefinition& output
 )
 {
     if (!cursor.Expect(TokenKind::LeftBrace, nullptr, "for minister"))
@@ -399,7 +399,7 @@ bool ParseMinister(
                 );
                 return false;
             }
-            content::DefinitionDate date;
+            dillen::compatibility::hoi3::content::DefinitionDate date;
             if (!ReadDateValue(cursor, date))
             {
                 return false;
@@ -437,7 +437,7 @@ bool ParseMinister(
 
 bool ParseMinisters(
     ParserCursor& cursor,
-    std::vector<content::MinisterDefinition>& output
+    std::vector<dillen::compatibility::hoi3::content::MinisterDefinition>& output
 )
 {
     if (!cursor.Expect(TokenKind::LeftBrace, nullptr, "for ministers"))
@@ -460,7 +460,7 @@ bool ParseMinisters(
             return true;
         }
         Token idToken;
-        content::MinisterDefinition definition;
+        dillen::compatibility::hoi3::content::MinisterDefinition definition;
         if (!ReadUnsignedId(cursor, idToken, definition.id)
             || !ExpectAssignment(cursor, idToken))
         {
@@ -530,7 +530,7 @@ bool ParseCountryDefinition(
 
         if (EqualsIgnoreCase(key.text, "color"))
         {
-            content::CountryColor color;
+            dillen::compatibility::hoi3::content::CountryColor color;
             if (hasColor || !ParseColor(cursor, color))
             {
                 return false;
@@ -558,7 +558,7 @@ bool ParseCountryDefinition(
         }
         else if (EqualsIgnoreCase(key.text, "last_election"))
         {
-            content::DefinitionDate date;
+            dillen::compatibility::hoi3::content::DefinitionDate date;
             if (hasLastElection || !ReadDateValue(cursor, date))
             {
                 return false;

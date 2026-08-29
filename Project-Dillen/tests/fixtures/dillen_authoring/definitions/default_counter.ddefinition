@@ -1,0 +1,12 @@
+mechanism_definition = {
+    name = dillen.demo.default_counter
+    mechanism = dillen.demo.counter
+    schema_version = 1
+    algorithm = dillen.demo.counter_algorithm
+    algorithm_version = 1
+
+    fields = {
+        value = 5
+        label = "external definition"
+    }
+}

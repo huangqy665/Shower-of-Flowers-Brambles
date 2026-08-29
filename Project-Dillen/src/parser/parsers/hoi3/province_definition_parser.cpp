@@ -301,7 +301,7 @@ bool ParseProvinceDefinitionCsv(
                     return false;
                 }
 
-                content::ProvinceColor color;
+                dillen::compatibility::hoi3::content::ProvinceColor color;
                 if (!ParseColorComponent(fields[1], color.red)
                     || !ParseColorComponent(fields[2], color.green)
                     || !ParseColorComponent(fields[3], color.blue))
@@ -360,7 +360,7 @@ bool ParseProvinceDefinitionCsv(
                         return false;
                     }
 
-                    content::ProvinceDefinition definition;
+                    dillen::compatibility::hoi3::content::ProvinceDefinition definition;
                     definition.id = {id};
                     definition.color = color;
                     definition.name = fields[4];

@@ -18,24 +18,19 @@ void WorldEventQueue::PublishTransactionResult(
             tick,
             transactionSequence,
             WorldTransactionCommittedEvent{
-                result.mechanism.changedInstances
+                result.mechanism.changedInstances,
+                result.changes.size()
             }
         );
-        for (const MechanismChange& change : result.mechanism.changes)
+        for (const WorldChange& change : result.changes)
         {
-            if (const auto* field = std::get_if<MechanismFieldChange>(
-                    &change))
-            {
-                Publish(tick, transactionSequence, *field);
-            }
-            else
-            {
-                Publish(
-                    tick,
-                    transactionSequence,
-                    std::get<MechanismLifecycleChange>(change)
-                );
-            }
+            std::visit(
+                [this, tick, transactionSequence](const auto& value)
+                {
+                    Publish(tick, transactionSequence, value);
+                },
+                change
+            );
         }
         return;
     }
@@ -45,7 +40,8 @@ void WorldEventQueue::PublishTransactionResult(
         WorldTransactionRejectedEvent{
             result.status,
             result.mechanism.status,
-            result.mechanism.commandIndex,
+            result.commandIndex,
+            result.subject,
             result.mechanism.target
         }
     );

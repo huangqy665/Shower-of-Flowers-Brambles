@@ -1,0 +1,10 @@
+algorithm_descriptor = {
+    name = dillen.demo.audit_algorithm
+    version = 1
+    backend = declarative
+    entry_points = { event }
+    deterministic = yes
+    program = {
+        event = { }
+    }
+}

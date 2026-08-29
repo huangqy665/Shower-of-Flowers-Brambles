@@ -1,9 +1,9 @@
 #pragma once
 
 #include <optional>
-#include <string>
 #include <variant>
 
+#include "algorithm_execution_policy.hpp"
 #include "mechanism_ids.hpp"
 #include "mechanism_lifecycle.hpp"
 #include "mechanism_value.hpp"
@@ -13,7 +13,7 @@ namespace dillen::kernel {
 struct MechanismFieldChange
 {
     MechanismInstanceId target;
-    std::string field;
+    MechanismFieldSlotId field;
     std::optional<MechanismValue> previousValue;
     MechanismValue currentValue;
 };
@@ -27,9 +27,31 @@ struct MechanismLifecycleChange
         MechanismLifecycleState::Created;
 };
 
+struct MechanismAlgorithmInitializedChange
+{
+    MechanismInstanceId target;
+};
+
+struct MechanismAlgorithmFaultChange
+{
+    MechanismInstanceId target;
+    AlgorithmFaultState previousState;
+    AlgorithmFaultState currentState;
+};
+
+struct MechanismDestroyedChange
+{
+    MechanismInstanceId target;
+    MechanismDefinitionId definition;
+    MechanismTypeId type;
+};
+
 using MechanismChange = std::variant<
     MechanismFieldChange,
-    MechanismLifecycleChange
+    MechanismLifecycleChange,
+    MechanismAlgorithmInitializedChange,
+    MechanismAlgorithmFaultChange,
+    MechanismDestroyedChange
 >;
 
 }

@@ -6,7 +6,7 @@
 #include <string>
 #include <variant>
 
-#include "analyzer.hpp"
+#include "resolver.hpp"
 #include "country_tag_definition.hpp"
 #include "country_tag_slice.hpp"
 #include "definition_registry.hpp"
@@ -103,15 +103,15 @@ bool HasDiagnostic(
     );
 }
 
-const dillen::content::UnitScalarProperty* FindScalar(
-    const dillen::content::UnitTypeDefinition& definition,
+const dillen::compatibility::hoi3::content::UnitScalarProperty* FindScalar(
+    const dillen::compatibility::hoi3::content::UnitTypeDefinition& definition,
     const std::string& name
 )
 {
     const auto iterator = std::find_if(
         definition.scalarProperties.begin(),
         definition.scalarProperties.end(),
-        [&name](const dillen::content::UnitScalarProperty& property)
+        [&name](const dillen::compatibility::hoi3::content::UnitScalarProperty& property)
         {
             return property.name == name;
         }
@@ -121,15 +121,15 @@ const dillen::content::UnitScalarProperty* FindScalar(
         : &*iterator;
 }
 
-const dillen::content::UnitModifierBlock* FindBlock(
-    const dillen::content::UnitTypeDefinition& definition,
+const dillen::compatibility::hoi3::content::UnitModifierBlock* FindBlock(
+    const dillen::compatibility::hoi3::content::UnitTypeDefinition& definition,
     const std::string& name
 )
 {
     const auto iterator = std::find_if(
         definition.modifierBlocks.begin(),
         definition.modifierBlocks.end(),
-        [&name](const dillen::content::UnitModifierBlock& block)
+        [&name](const dillen::compatibility::hoi3::content::UnitModifierBlock& block)
         {
             return block.name == name;
         }
@@ -140,7 +140,7 @@ const dillen::content::UnitModifierBlock* FindBlock(
 }
 
 bool BlockContains(
-    const dillen::content::UnitModifierBlock* block,
+    const dillen::compatibility::hoi3::content::UnitModifierBlock* block,
     const std::string& name,
     double expected
 )
@@ -148,7 +148,7 @@ bool BlockContains(
     return block != nullptr && std::any_of(
         block->modifiers.begin(),
         block->modifiers.end(),
-        [&name, expected](const dillen::content::UnitNumericModifier& value)
+        [&name, expected](const dillen::compatibility::hoi3::content::UnitNumericModifier& value)
         {
             return value.name == name
                 && std::abs(value.value - expected) < 0.0001;
@@ -157,11 +157,11 @@ bool BlockContains(
 }
 
 bool HasUsableCountry(
-    const dillen::content::UnitTypeDefinition& definition,
+    const dillen::compatibility::hoi3::content::UnitTypeDefinition& definition,
     const char* text
 )
 {
-    const auto tag = dillen::content::CountryTag::Parse(text);
+    const auto tag = dillen::compatibility::hoi3::content::CountryTag::Parse(text);
     return tag && std::find(
         definition.usableBy.begin(),
         definition.usableBy.end(),
@@ -170,7 +170,7 @@ bool HasUsableCountry(
 }
 
 void PrintDiagnostics(
-    const dillen::parser::AnalysisWorkspace& workspace,
+    const dillen::parser::ParseWorkspace& workspace,
     const dillen::parser::DiagnosticBag& diagnostics
 )
 {
@@ -211,17 +211,17 @@ int main()
 
     dillen::parser::TemplateRegistry templates;
     dillen::parser::ParserRegistry parsers;
-    dillen::parser::Analyzer analyzer;
-    dillen::content::DefinitionRegistry definitions;
+    dillen::parser::Resolver resolver;
+    dillen::compatibility::hoi3::content::DefinitionRegistry definitions;
     if (!dillen::parser::hoi3::RegisterCountryTagSlice(
             templates,
             parsers,
-            analyzer,
+            resolver,
             definitions)
         || !dillen::parser::hoi3::RegisterUnitTypeSlice(
             templates,
             parsers,
-            analyzer,
+            resolver,
             definitions))
     {
         std::cerr << "Unit type slice registration failed\n";
@@ -229,7 +229,7 @@ int main()
     }
     templates.Freeze();
     parsers.Freeze();
-    analyzer.Freeze();
+    resolver.Freeze();
 
     dillen::parser::DiagnosticBag diagnostics;
     dillen::parser::FileCatalog catalog;
@@ -244,8 +244,8 @@ int main()
         return 3;
     }
 
-    dillen::parser::AnalysisWorkspace workspace;
-    if (!analyzer.Analyze(catalog, parsers, workspace, diagnostics))
+    dillen::parser::ParseWorkspace workspace;
+    if (!(catalog.Parse(parsers, workspace, diagnostics) && resolver.Resolve(workspace, diagnostics)))
     {
         PrintDiagnostics(workspace, diagnostics);
         std::cerr << "Unit type analysis failed\n";
@@ -287,7 +287,7 @@ int main()
         && definitions.UnitTypes().Size() == 46
         && definitions.UnitTypes().ResolvedCount() == 46
         && infantry != nullptr
-        && infantry->domain == dillen::content::UnitDomain::Land
+        && infantry->domain == dillen::compatibility::hoi3::content::UnitDomain::Land
         && infantry->sprite
         && *infantry->sprite == "Infantry"
         && infantry->active
@@ -306,11 +306,11 @@ int main()
         && elite != nullptr
         && HasUsableCountry(*elite, "CHC")
         && carrier != nullptr
-        && carrier->domain == dillen::content::UnitDomain::Naval
+        && carrier->domain == dillen::compatibility::hoi3::content::UnitDomain::Naval
         && capitalValue != nullptr
         && *capitalValue
         && biplane != nullptr
-        && biplane->domain == dillen::content::UnitDomain::Air
+        && biplane->domain == dillen::compatibility::hoi3::content::UnitDomain::Air
         && bomberValue != nullptr
         && *bomberValue
         && foreign != nullptr
@@ -325,9 +325,9 @@ int main()
             diagnostics,
             "hoi3.unit_type.numeric_fragment_recovered")
         && definitions.UnitTypes().Declare({})
-            == dillen::content::UnitTypeDeclareResult::Frozen
+            == dillen::compatibility::hoi3::content::UnitTypeDeclareResult::Frozen
         && definitions.UnitTypes().ResolveUsableBy({}, {})
-            == dillen::content::UnitTypeResolveResult::Frozen;
+            == dillen::compatibility::hoi3::content::UnitTypeResolveResult::Frozen;
 
     std::error_code cleanupError;
     fs::remove_all(root, cleanupError);

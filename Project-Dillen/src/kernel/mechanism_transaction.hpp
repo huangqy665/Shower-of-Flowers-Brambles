@@ -11,16 +11,19 @@ namespace dillen::kernel {
 enum class MechanismTransactionStatus
 {
     Committed,
-    DefinitionRegistryNotFrozen,
-    SchemaRegistryNotFrozen,
+    RuntimeCatalogNotFrozen,
     TargetMissing,
     DefinitionMissing,
     InstanceDefinitionMismatch,
-    SchemaMissing,
+    LayoutMissing,
     UnknownField,
     FieldValueInvalid,
     TickRegression,
-    LifecycleTransitionInvalid
+    LifecycleTransitionInvalid,
+    FaultCodeInvalid,
+    DestroyRequiresTerminalState,
+    DestroyTargetReferenced,
+    TargetDestroyed
 };
 
 struct MechanismTransactionResult

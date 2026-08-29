@@ -13,23 +13,23 @@ namespace dillen::parser::hoi3 {
 
 struct UnresolvedWarParticipantOperation
 {
-    content::WarParticipantOperationKind kind =
-        content::WarParticipantOperationKind::AddAttacker;
-    content::CountryTag country;
+    dillen::compatibility::hoi3::content::WarParticipantOperationKind kind =
+        dillen::compatibility::hoi3::content::WarParticipantOperationKind::AddAttacker;
+    dillen::compatibility::hoi3::content::CountryTag country;
     SourceSpan span;
 };
 
 struct UnresolvedWarGoal
 {
     std::string casusBelli;
-    content::CountryTag actor;
-    content::CountryTag receiver;
+    dillen::compatibility::hoi3::content::CountryTag actor;
+    dillen::compatibility::hoi3::content::CountryTag receiver;
     SourceSpan span;
 };
 
 struct UnresolvedWarHistoryPatch
 {
-    content::DefinitionDate date;
+    dillen::compatibility::hoi3::content::DefinitionDate date;
     std::vector<UnresolvedWarParticipantOperation> participantOperations;
     std::vector<UnresolvedWarGoal> warGoals;
     SourceSpan span;

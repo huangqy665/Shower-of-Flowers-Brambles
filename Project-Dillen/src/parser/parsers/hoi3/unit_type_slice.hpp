@@ -1,6 +1,6 @@
 #pragma once
 
-#include "analyzer.hpp"
+#include "resolver.hpp"
 #include "definition_registry.hpp"
 #include "parser_registry.hpp"
 #include "template.hpp"
@@ -14,16 +14,16 @@ inline constexpr ParserId kUnitTypeParser =
     0x484F493300002007ULL;
 inline constexpr DefinitionTypeId kUnitTypeDocumentType =
     0x484F493300003007ULL;
-inline constexpr AnalysisPassId kUnitTypeDeclarePass =
+inline constexpr ResolutionPassId kUnitTypeDeclarePass =
     0x484F493300004008ULL;
-inline constexpr AnalysisPassId kUnitTypeResolvePass =
+inline constexpr ResolutionPassId kUnitTypeResolvePass =
     0x484F493300004009ULL;
 
 bool RegisterUnitTypeSlice(
     TemplateRegistry& templates,
     ParserRegistry& parsers,
-    Analyzer& analyzer,
-    content::DefinitionRegistry& definitions
+    Resolver& resolver,
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 );
 
 }

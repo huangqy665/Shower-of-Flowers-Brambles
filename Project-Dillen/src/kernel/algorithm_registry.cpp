@@ -6,6 +6,25 @@
 
 namespace dillen::kernel {
 
+namespace {
+
+bool ProgramFitsInstructionBudget(
+    const AlgorithmProgramDefinition& program,
+    const AlgorithmExecutionPolicy& policy
+) noexcept
+{
+    for (const auto& stage : program.stages)
+    {
+        if (stage.second.size() > policy.instructionBudget)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+}
+
 AlgorithmEntryPoint operator|(
     AlgorithmEntryPoint first,
     AlgorithmEntryPoint second
@@ -45,11 +64,25 @@ AlgorithmRegisterResult AlgorithmRegistry::Register(
     if (!descriptor.id
         || descriptor.version == 0
         || descriptor.entryPoints == AlgorithmEntryPoint::None
+        || !IsValidAlgorithmExecutionPolicy(descriptor.executionPolicy)
         || (entryPoints & ~validEntryPoints) != 0
         || !IsValidMechanismSymbol(descriptor.canonicalName)
         || descriptor.canonicalName
             != NormalizeMechanismSymbol(descriptor.canonicalName)
         || descriptor.id != StableAlgorithmId(descriptor.canonicalName))
+    {
+        return AlgorithmRegisterResult::InvalidDescriptor;
+    }
+    if ((descriptor.backend == AlgorithmBackend::Declarative
+            && !IsValidAlgorithmProgram(
+                descriptor.program,
+                descriptor.entryPoints))
+        || (descriptor.backend == AlgorithmBackend::Declarative
+            && !ProgramFitsInstructionBudget(
+                descriptor.program,
+                descriptor.executionPolicy))
+        || (descriptor.backend != AlgorithmBackend::Declarative
+            && !descriptor.program.stages.empty()))
     {
         return AlgorithmRegisterResult::InvalidDescriptor;
     }
@@ -69,12 +102,12 @@ AlgorithmRegisterResult AlgorithmRegistry::Register(
             return AlgorithmRegisterResult::IdCollision;
         }
     }
-    std::unordered_set<std::string> capabilities;
-    for (const std::string& capability : descriptor.requiredCapabilities)
+    std::unordered_set<std::uint64_t> capabilities;
+    for (const CapabilityRequirement& capability
+        : descriptor.requiredCapabilities)
     {
-        if (!IsValidMechanismSymbol(capability)
-            || capability != NormalizeMechanismSymbol(capability)
-            || !capabilities.emplace(capability).second)
+        if (!IsValidCapabilityRequirement(capability)
+            || !capabilities.emplace(capability.capability.value).second)
         {
             return AlgorithmRegisterResult::InvalidDescriptor;
         }

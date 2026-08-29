@@ -151,9 +151,29 @@ int main()
     algorithmDescriptor.entryPoints = AlgorithmEntryPoint::Create
         | AlgorithmEntryPoint::Tick
         | AlgorithmEntryPoint::Command;
+    algorithmDescriptor.program.stages[AlgorithmEntryPoint::Create] = {
+        AlgorithmInstructionDefinition::TransitionLifecycle(
+            MechanismLifecycleState::Active
+        )
+    };
+    algorithmDescriptor.program.stages[AlgorithmEntryPoint::Tick] = {
+        AlgorithmInstructionDefinition::AddField(
+            "amount",
+            MechanismValue(std::int64_t{1})
+        )
+    };
+    algorithmDescriptor.program.stages[AlgorithmEntryPoint::Command] = {};
     algorithmDescriptor.requiredCapabilities = {
-        "dillen.world.read",
-        "dillen.world.command"
+        {
+            StableCapabilityId("dillen.world.read"),
+            "dillen.world.read",
+            {1, 2}
+        },
+        {
+            StableCapabilityId("dillen.world.command"),
+            "dillen.world.command",
+            {1, 2}
+        }
     };
     AlgorithmRegistry algorithms;
     AlgorithmDescriptor invalidAlgorithm = algorithmDescriptor;

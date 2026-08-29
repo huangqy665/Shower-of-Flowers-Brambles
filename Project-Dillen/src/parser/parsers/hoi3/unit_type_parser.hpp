@@ -14,13 +14,13 @@ namespace dillen::parser::hoi3 {
 struct UnresolvedUnitTypeDefinition
 {
     std::string name;
-    content::UnitDomain domain = content::UnitDomain::Land;
+    dillen::compatibility::hoi3::content::UnitDomain domain = dillen::compatibility::hoi3::content::UnitDomain::Land;
     std::optional<std::string> sprite;
     std::optional<bool> active;
     std::optional<std::string> unitGroup;
     std::vector<std::string> usableBy;
-    std::vector<content::UnitScalarProperty> scalarProperties;
-    std::vector<content::UnitModifierBlock> modifierBlocks;
+    std::vector<dillen::compatibility::hoi3::content::UnitScalarProperty> scalarProperties;
+    std::vector<dillen::compatibility::hoi3::content::UnitModifierBlock> modifierBlocks;
     SourceSpan span;
 };
 

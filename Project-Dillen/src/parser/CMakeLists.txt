@@ -1,8 +1,6 @@
-new_core_add_component(
+dillen_add_component(
     project_dillen_parser
     SOURCES
-        analyzer.cpp
-        analyzer.hpp
         diagnostic.cpp
         diagnostic.hpp
         file_catalog.cpp
@@ -16,6 +14,8 @@ new_core_add_component(
         path_pattern.hpp
         parser_registry.cpp
         parser_registry.hpp
+        resolver.cpp
+        resolver.hpp
         source_buffer.cpp
         source_buffer.hpp
         template.hpp
@@ -27,5 +27,3 @@ new_core_add_component(
 )
 
 add_library(dillen::parser ALIAS project_dillen_parser)
-
-add_subdirectory(parsers/hoi3)

@@ -97,7 +97,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=hoi3_new_core
+CMAKE_PROJECT_NAME:STATIC=ProjectDillen
 
 //Value Computed by CMake
 CMAKE_PROJECT_VERSION:STATIC=0.1.0
@@ -201,6 +201,15 @@ CTEST_SUBMIT_RETRY_DELAY:STRING=5
 //Maximum time allowed before CTest will kill the test.
 DART_TESTING_TIMEOUT:STRING=1500
 
+//Build the HOI3 compatibility content, parser and world builder
+DILLEN_BUILD_HOI3_COMPATIBILITY:BOOL=ON
+
+//Build the New Core HOI3 research, injection and reference platform
+DILLEN_BUILD_REFERENCE_PLATFORM:BOOL=ON
+
+//Build the standalone Dillen parser, kernel, world and runtime
+DILLEN_BUILD_STANDALONE_RUNTIME:BOOL=ON
+
 //Command to build the project
 MAKECOMMAND:STRING="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" --build . --config "${CTEST_CONFIGURATION_TYPE}"
 
@@ -215,6 +224,15 @@ NEW_CORE_HOI3_ROOT:PATH=D:/80th_special_version/hoi3
 
 //Lua 5.1 DLL used by gui_lua51_native_probe
 NEW_CORE_LUA51_DLL:FILEPATH=D:/80th_special_version/hoi3/lua51.dll
+
+//Value Computed by CMake
+ProjectDillen_BINARY_DIR:STATIC=D:/80th_special_version/Shower-of-Flowers-Brambles/Project-Dillen/build-parser
+
+//Value Computed by CMake
+ProjectDillen_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+ProjectDillen_SOURCE_DIR:STATIC=D:/80th_special_version/Shower-of-Flowers-Brambles/Project-Dillen
 
 //Name of the computer/site where compile is being run
 SITE:STRING=Mogic_Tongji
@@ -303,7 +321,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MT
 CMAKE_MT-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=17
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=19
 //Platform information initialized
 CMAKE_PLATFORM_INFO_INITIALIZED:INTERNAL=1
 //noop for ranlib

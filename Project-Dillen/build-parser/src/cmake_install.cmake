@@ -34,6 +34,41 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
+  include("D:/80th_special_version/Shower-of-Flowers-Brambles/Project-Dillen/build-parser/src/kernel/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("D:/80th_special_version/Shower-of-Flowers-Brambles/Project-Dillen/build-parser/src/world/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("D:/80th_special_version/Shower-of-Flowers-Brambles/Project-Dillen/build-parser/src/runtime/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("D:/80th_special_version/Shower-of-Flowers-Brambles/Project-Dillen/build-parser/src/parser/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("D:/80th_special_version/Shower-of-Flowers-Brambles/Project-Dillen/build-parser/src/compatibility/hoi3/content/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("D:/80th_special_version/Shower-of-Flowers-Brambles/Project-Dillen/build-parser/src/parser/parsers/hoi3/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("D:/80th_special_version/Shower-of-Flowers-Brambles/Project-Dillen/build-parser/src/compatibility/hoi3/worldbuilder/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
   include("D:/80th_special_version/Shower-of-Flowers-Brambles/Project-Dillen/build-parser/src/engine/cmake_install.cmake")
 endif()
 
@@ -45,26 +80,6 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
   include("D:/80th_special_version/Shower-of-Flowers-Brambles/Project-Dillen/build-parser/src/native/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("D:/80th_special_version/Shower-of-Flowers-Brambles/Project-Dillen/build-parser/src/kernel/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("D:/80th_special_version/Shower-of-Flowers-Brambles/Project-Dillen/build-parser/src/content/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("D:/80th_special_version/Shower-of-Flowers-Brambles/Project-Dillen/build-parser/src/parser/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("D:/80th_special_version/Shower-of-Flowers-Brambles/Project-Dillen/build-parser/src/worldbuilder/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)

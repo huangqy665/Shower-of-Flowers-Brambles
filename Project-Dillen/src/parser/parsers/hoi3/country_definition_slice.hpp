@@ -1,6 +1,6 @@
 #pragma once
 
-#include "analyzer.hpp"
+#include "resolver.hpp"
 #include "definition_registry.hpp"
 #include "parser_registry.hpp"
 #include "template.hpp"
@@ -14,14 +14,14 @@ inline constexpr ParserId kCountryDefinitionParser =
     0x484F493300002002ULL;
 inline constexpr DefinitionTypeId kCountryDefinitionDocumentType =
     0x484F493300003002ULL;
-inline constexpr AnalysisPassId kCountryDefinitionResolvePass =
+inline constexpr ResolutionPassId kCountryDefinitionResolvePass =
     0x484F493300004002ULL;
 
 bool RegisterCountryDefinitionSlice(
     TemplateRegistry& templates,
     ParserRegistry& parsers,
-    Analyzer& analyzer,
-    content::DefinitionRegistry& definitions
+    Resolver& resolver,
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 );
 
 }

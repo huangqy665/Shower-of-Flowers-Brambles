@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-#include "analyzer.hpp"
+#include "resolver.hpp"
 #include "country_definition_registry.hpp"
 #include "country_tag_definition.hpp"
 #include "country_tag_slice.hpp"
@@ -36,7 +36,7 @@ bool CopyRepositoryIndex(const std::filesystem::path& destination)
 
 bool CheckRegistryRules()
 {
-    using namespace dillen::content;
+    using namespace dillen::compatibility::hoi3::content;
     const auto lower = CountryTag::Parse("chi");
     const auto upper = CountryTag::Parse("CHI");
     if (!lower
@@ -88,12 +88,12 @@ int main()
 
     dillen::parser::TemplateRegistry templates;
     dillen::parser::ParserRegistry parsers;
-    dillen::parser::Analyzer analyzer;
-    dillen::content::DefinitionRegistry definitions;
+    dillen::parser::Resolver resolver;
+    dillen::compatibility::hoi3::content::DefinitionRegistry definitions;
     if (!dillen::parser::hoi3::RegisterCountryTagSlice(
             templates,
             parsers,
-            analyzer,
+            resolver,
             definitions))
     {
         std::cerr << "Country tag slice registration failed\n";
@@ -101,7 +101,7 @@ int main()
     }
     templates.Freeze();
     parsers.Freeze();
-    analyzer.Freeze();
+    resolver.Freeze();
 
     dillen::parser::DiagnosticBag diagnostics;
     dillen::parser::FileCatalog catalog;
@@ -113,12 +113,8 @@ int main()
         return 3;
     }
 
-    dillen::parser::AnalysisWorkspace workspace;
-    if (!analyzer.Analyze(
-            catalog,
-            parsers,
-            workspace,
-            diagnostics))
+    dillen::parser::ParseWorkspace workspace;
+    if (!(catalog.Parse(parsers, workspace, diagnostics) && resolver.Resolve(workspace, diagnostics)))
     {
         for (const auto& diagnostic : diagnostics.All())
         {

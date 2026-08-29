@@ -280,8 +280,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\analyzer.cpp" />
-    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\analyzer.hpp" />
     <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\diagnostic.cpp" />
     <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\diagnostic.hpp" />
     <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\file_catalog.cpp" />
@@ -295,6 +293,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\path_pattern.hpp" />
     <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\parser_registry.cpp" />
     <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\parser_registry.hpp" />
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\resolver.cpp" />
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\resolver.hpp" />
     <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\source_buffer.cpp" />
     <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\source_buffer.hpp" />
     <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\template.hpp" />

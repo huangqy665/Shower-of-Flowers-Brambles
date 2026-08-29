@@ -8,7 +8,7 @@
 #include <variant>
 #include <vector>
 
-#include "analyzer.hpp"
+#include "resolver.hpp"
 #include "country_tag_definition.hpp"
 #include "country_tag_slice.hpp"
 #include "definition_registry.hpp"
@@ -127,27 +127,27 @@ bool HasDiagnostic(
     );
 }
 
-dillen::content::CountryDefinitionId CountryId(const char* text)
+dillen::compatibility::hoi3::content::CountryDefinitionId CountryId(const char* text)
 {
-    const auto tag = dillen::content::CountryTag::Parse(text);
-    return tag ? tag->StableId() : dillen::content::CountryDefinitionId{};
+    const auto tag = dillen::compatibility::hoi3::content::CountryTag::Parse(text);
+    return tag ? tag->StableId() : dillen::compatibility::hoi3::content::CountryDefinitionId{};
 }
 
 bool HasCountryOperation(
-    const std::vector<dillen::content::ProvinceHistoryOperation>& operations,
-    dillen::content::ProvinceHistoryField field,
+    const std::vector<dillen::compatibility::hoi3::content::ProvinceHistoryOperation>& operations,
+    dillen::compatibility::hoi3::content::ProvinceHistoryField field,
     const char* tag
 )
 {
-    const dillen::content::CountryDefinitionId expected = CountryId(tag);
+    const dillen::compatibility::hoi3::content::CountryDefinitionId expected = CountryId(tag);
     return std::any_of(
         operations.begin(),
         operations.end(),
         [field, expected](
-            const dillen::content::ProvinceHistoryOperation& operation)
+            const dillen::compatibility::hoi3::content::ProvinceHistoryOperation& operation)
         {
             const auto* value = std::get_if<
-                dillen::content::CountryDefinitionId>(&operation.value);
+                dillen::compatibility::hoi3::content::CountryDefinitionId>(&operation.value);
             return operation.field == field
                 && value != nullptr
                 && *value == expected;
@@ -156,8 +156,8 @@ bool HasCountryOperation(
 }
 
 bool HasIntegerOperation(
-    const std::vector<dillen::content::ProvinceHistoryOperation>& operations,
-    dillen::content::ProvinceHistoryField field,
+    const std::vector<dillen::compatibility::hoi3::content::ProvinceHistoryOperation>& operations,
+    dillen::compatibility::hoi3::content::ProvinceHistoryField field,
     std::int64_t expected
 )
 {
@@ -165,7 +165,7 @@ bool HasIntegerOperation(
         operations.begin(),
         operations.end(),
         [field, expected](
-            const dillen::content::ProvinceHistoryOperation& operation)
+            const dillen::compatibility::hoi3::content::ProvinceHistoryOperation& operation)
         {
             const auto* value = std::get_if<std::int64_t>(&operation.value);
             return operation.field == field
@@ -198,31 +198,31 @@ bool ValidateMissingProvinceDiagnostic()
 
     dillen::parser::TemplateRegistry templates;
     dillen::parser::ParserRegistry parsers;
-    dillen::parser::Analyzer analyzer;
-    dillen::content::DefinitionRegistry definitions;
+    dillen::parser::Resolver resolver;
+    dillen::compatibility::hoi3::content::DefinitionRegistry definitions;
     if (!dillen::parser::hoi3::RegisterProvinceDefinitionSlice(
             templates,
             parsers,
-            analyzer,
+            resolver,
             definitions)
         || !dillen::parser::hoi3::RegisterProvinceHistorySlice(
             templates,
             parsers,
-            analyzer,
+            resolver,
             definitions))
     {
         return false;
     }
     templates.Freeze();
     parsers.Freeze();
-    analyzer.Freeze();
+    resolver.Freeze();
 
     dillen::parser::DiagnosticBag diagnostics;
     dillen::parser::FileCatalog catalog;
-    dillen::parser::AnalysisWorkspace workspace;
+    dillen::parser::ParseWorkspace workspace;
     const bool valid = catalog.AddLayer({1, "fixture", root, 0, {}})
         && catalog.Build(templates, diagnostics)
-        && !analyzer.Analyze(catalog, parsers, workspace, diagnostics)
+        && !(catalog.Parse(parsers, workspace, diagnostics) && resolver.Resolve(workspace, diagnostics))
         && HasDiagnostic(
             diagnostics,
             "hoi3.province_history.province_missing")
@@ -234,7 +234,7 @@ bool ValidateMissingProvinceDiagnostic()
 }
 
 void PrintDiagnostics(
-    const dillen::parser::AnalysisWorkspace& workspace,
+    const dillen::parser::ParseWorkspace& workspace,
     const dillen::parser::DiagnosticBag& diagnostics
 )
 {
@@ -260,7 +260,7 @@ void PrintDiagnostics(
 int main()
 {
     namespace fs = std::filesystem;
-    using dillen::content::ProvinceHistoryField;
+    using dillen::compatibility::hoi3::content::ProvinceHistoryField;
     const fs::path root = fs::temp_directory_path()
         / ("project_dillen_province_history_"
             + std::to_string(
@@ -276,22 +276,22 @@ int main()
 
     dillen::parser::TemplateRegistry templates;
     dillen::parser::ParserRegistry parsers;
-    dillen::parser::Analyzer analyzer;
-    dillen::content::DefinitionRegistry definitions;
+    dillen::parser::Resolver resolver;
+    dillen::compatibility::hoi3::content::DefinitionRegistry definitions;
     if (!dillen::parser::hoi3::RegisterCountryTagSlice(
             templates,
             parsers,
-            analyzer,
+            resolver,
             definitions)
         || !dillen::parser::hoi3::RegisterProvinceDefinitionSlice(
             templates,
             parsers,
-            analyzer,
+            resolver,
             definitions)
         || !dillen::parser::hoi3::RegisterProvinceHistorySlice(
             templates,
             parsers,
-            analyzer,
+            resolver,
             definitions))
     {
         std::cerr << "Province history slice registration failed\n";
@@ -299,7 +299,7 @@ int main()
     }
     templates.Freeze();
     parsers.Freeze();
-    analyzer.Freeze();
+    resolver.Freeze();
 
     dillen::parser::DiagnosticBag diagnostics;
     dillen::parser::FileCatalog catalog;
@@ -314,8 +314,8 @@ int main()
         return 3;
     }
 
-    dillen::parser::AnalysisWorkspace workspace;
-    if (!analyzer.Analyze(catalog, parsers, workspace, diagnostics))
+    dillen::parser::ParseWorkspace workspace;
+    if (!(catalog.Parse(parsers, workspace, diagnostics) && resolver.Resolve(workspace, diagnostics)))
     {
         PrintDiagnostics(workspace, diagnostics);
         std::cerr << "Province history analysis failed\n";
@@ -349,22 +349,22 @@ int main()
             3)
         && tanghe->patches.size() == 4
         && tanghe->patches[0].date
-            == dillen::content::DefinitionDate{1944, 6, 19}
+            == dillen::compatibility::hoi3::content::DefinitionDate{1944, 6, 19}
         && HasCountryOperation(
             tanghe->patches[0].operations,
             ProvinceHistoryField::Controller,
             "JAP")
         && tanghe->patches[1].date
-            == dillen::content::DefinitionDate{1945, 9, 1}
+            == dillen::compatibility::hoi3::content::DefinitionDate{1945, 9, 1}
         && tanghe->patches[2].date
-            == dillen::content::DefinitionDate{1945, 9, 1}
+            == dillen::compatibility::hoi3::content::DefinitionDate{1945, 9, 1}
         && tanghe->patches[1].sequence < tanghe->patches[2].sequence
         && HasIntegerOperation(
             tanghe->patches[2].operations,
             ProvinceHistoryField::Infrastructure,
             4)
         && tanghe->patches[3].date
-            == dillen::content::DefinitionDate{1949, 10, 1}
+            == dillen::compatibility::hoi3::content::DefinitionDate{1949, 10, 1}
         && HasCountryOperation(
             tanghe->patches[3].operations,
             ProvinceHistoryField::Owner,
@@ -403,7 +403,7 @@ int main()
             diagnostics,
             "hoi3.province_history.country_unresolved")
         && definitions.ProvinceHistories().Append({1}, {})
-            == dillen::content::ProvinceHistoryAppendResult::Frozen;
+            == dillen::compatibility::hoi3::content::ProvinceHistoryAppendResult::Frozen;
 
     std::error_code cleanupError;
     fs::remove_all(root, cleanupError);

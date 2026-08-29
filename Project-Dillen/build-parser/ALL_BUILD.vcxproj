@@ -310,9 +310,21 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{C7A85BD1-E83F-38C3-BDDD-B553327FB7AE}</Project>
       <Name>leader_capture_core_module_probe</Name>
     </ProjectReference>
+    <ProjectReference Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\mechanism_instance_store_probe.vcxproj">
+      <Project>{2DF56A74-BF6A-3586-A953-E1AE8836828C}</Project>
+      <Name>mechanism_instance_store_probe</Name>
+    </ProjectReference>
     <ProjectReference Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\mechanism_registry_probe.vcxproj">
       <Project>{6F062C7C-6553-3DEA-BAC6-42B4764CFB1D}</Project>
       <Name>mechanism_registry_probe</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\mechanism_runtime_pipeline_probe.vcxproj">
+      <Project>{510B3682-D070-3454-9E84-4113409CB155}</Project>
+      <Name>mechanism_runtime_pipeline_probe</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\mechanism_transaction_probe.vcxproj">
+      <Project>{70687792-3C84-32C5-B705-0BC6BD8DC2A1}</Project>
+      <Name>mechanism_transaction_probe</Name>
     </ProjectReference>
     <ProjectReference Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\native_effect_bridge_probe.vcxproj">
       <Project>{18379DD5-5CA2-3A55-8238-A73B45600BF9}</Project>
@@ -414,9 +426,13 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{F47B0F5C-52BB-3F7E-A10B-0DB99A5EBB19}</Project>
       <Name>parser_syntax_probe</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\src\content\project_dillen_content.vcxproj">
-      <Project>{CD2A3E15-ED65-3EAC-901D-337E62B993A0}</Project>
-      <Name>project_dillen_content</Name>
+    <ProjectReference Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\src\compatibility\hoi3\content\project_dillen_hoi3_content.vcxproj">
+      <Project>{BCCBCC34-8701-39F7-80D9-C0B14E5ED1A3}</Project>
+      <Name>project_dillen_hoi3_content</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\src\compatibility\hoi3\worldbuilder\project_dillen_hoi3_worldbuilder.vcxproj">
+      <Project>{2D92D7BC-3964-3796-86A9-CFDF577179DA}</Project>
+      <Name>project_dillen_hoi3_worldbuilder</Name>
     </ProjectReference>
     <ProjectReference Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\src\kernel\project_dillen_kernel.vcxproj">
       <Project>{376821D7-D173-3285-AED4-43D1731DC4D6}</Project>
@@ -430,9 +446,13 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{951F30BB-39ED-3366-81C6-77463023D19C}</Project>
       <Name>project_dillen_parser_hoi3</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\src\worldbuilder\project_dillen_worldbuilder.vcxproj">
-      <Project>{1CA6DBA8-C84D-385A-BEDC-3516988A7817}</Project>
-      <Name>project_dillen_worldbuilder</Name>
+    <ProjectReference Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\src\runtime\project_dillen_runtime.vcxproj">
+      <Project>{F6DCBCE4-291E-300B-A47C-247A07DF9FDD}</Project>
+      <Name>project_dillen_runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\src\world\project_dillen_world.vcxproj">
+      <Project>{16C8BEEE-E0D6-3164-AF3E-D234B56BE3C9}</Project>
+      <Name>project_dillen_world</Name>
     </ProjectReference>
     <ProjectReference Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\province_history_slice_probe.vcxproj">
       <Project>{D50F8132-B0C7-3949-88B6-9F8C35E375AB}</Project>

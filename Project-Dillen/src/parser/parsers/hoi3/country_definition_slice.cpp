@@ -13,9 +13,9 @@ namespace dillen::parser::hoi3 {
 namespace {
 
 bool ResolveCountryDefinitions(
-    AnalysisWorkspace& workspace,
+    ParseWorkspace& workspace,
     DiagnosticBag& diagnostics,
-    content::DefinitionRegistry& definitions
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     for (ParsedFile& file : workspace.files)
@@ -44,8 +44,8 @@ bool ResolveCountryDefinitions(
         document->definition.origin.line = 1;
         document->definition.origin.column = 1;
 
-        std::vector<content::CountryDefinitionId> consumers;
-        for (const content::CountryTagDefinition& country
+        std::vector<dillen::compatibility::hoi3::content::CountryDefinitionId> consumers;
+        for (const dillen::compatibility::hoi3::content::CountryTagDefinition& country
             : definitions.Countries().All())
         {
             if (country.definitionPath == document->definition.virtualPath)
@@ -63,15 +63,15 @@ bool ResolveCountryDefinitions(
             continue;
         }
 
-        std::shared_ptr<const content::CountryDefinition> resolved =
-            std::make_shared<content::CountryDefinition>(
+        std::shared_ptr<const dillen::compatibility::hoi3::content::CountryDefinition> resolved =
+            std::make_shared<dillen::compatibility::hoi3::content::CountryDefinition>(
                 std::move(document->definition)
             );
-        for (content::CountryDefinitionId id : consumers)
+        for (dillen::compatibility::hoi3::content::CountryDefinitionId id : consumers)
         {
-            const content::CountryResolveResult result =
+            const dillen::compatibility::hoi3::content::CountryResolveResult result =
                 definitions.Countries().Resolve(id, resolved);
-            if (result != content::CountryResolveResult::Resolved)
+            if (result != dillen::compatibility::hoi3::content::CountryResolveResult::Resolved)
             {
                 diagnostics.Error(
                     "hoi3.country.resolve_failed",
@@ -88,8 +88,8 @@ bool ResolveCountryDefinitions(
 bool RegisterCountryDefinitionSlice(
     TemplateRegistry& templates,
     ParserRegistry& parsers,
-    Analyzer& analyzer,
-    content::DefinitionRegistry& definitions
+    Resolver& resolver,
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     FileTemplate fileTemplate;
@@ -117,13 +117,13 @@ bool RegisterCountryDefinitionSlice(
         return false;
     }
 
-    AnalysisPassDescriptor pass;
+    ResolutionPassDescriptor pass;
     pass.id = kCountryDefinitionResolvePass;
     pass.name = "hoi3_country_definition_resolve";
-    pass.phase = AnalysisPhase::Resolve;
+    pass.phase = ResolutionPhase::Resolve;
     pass.priority = -900;
     pass.run = [&definitions](
-        AnalysisWorkspace& workspace,
+        ParseWorkspace& workspace,
         DiagnosticBag& diagnostics)
     {
         return ResolveCountryDefinitions(
@@ -132,7 +132,7 @@ bool RegisterCountryDefinitionSlice(
             definitions
         );
     };
-    if (!analyzer.RegisterPass(std::move(pass)))
+    if (!resolver.RegisterPass(std::move(pass)))
     {
         parsers.Unregister(kCountryDefinitionParser);
         templates.Unregister(kCountryDefinitionTemplate);

@@ -1,0 +1,7 @@
+relation_schema = {
+    name = dillen.demo.link
+    version = 1
+    source_type = dillen.demo.actor
+    target_type = dillen.demo.actor
+    allow_self = no
+}

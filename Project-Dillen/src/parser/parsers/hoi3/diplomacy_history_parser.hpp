@@ -12,12 +12,12 @@ namespace dillen::parser::hoi3 {
 
 struct ParsedDiplomaticRelation
 {
-    content::DiplomaticRelationKind kind =
-        content::DiplomaticRelationKind::Alliance;
-    content::CountryTag first;
-    content::CountryTag second;
-    content::DefinitionDate startDate;
-    content::DefinitionDate endDate;
+    dillen::compatibility::hoi3::content::DiplomaticRelationKind kind =
+        dillen::compatibility::hoi3::content::DiplomaticRelationKind::Alliance;
+    dillen::compatibility::hoi3::content::CountryTag first;
+    dillen::compatibility::hoi3::content::CountryTag second;
+    dillen::compatibility::hoi3::content::DefinitionDate startDate;
+    dillen::compatibility::hoi3::content::DefinitionDate endDate;
     SourceSpan span;
 };
 

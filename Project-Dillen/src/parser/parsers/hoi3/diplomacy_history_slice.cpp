@@ -12,7 +12,7 @@ namespace dillen::parser::hoi3 {
 
 namespace {
 
-content::DefinitionOrigin MakeOrigin(
+dillen::compatibility::hoi3::content::DefinitionOrigin MakeOrigin(
     const ParsedFile& file,
     const SourceSpan& span
 )
@@ -26,9 +26,9 @@ content::DefinitionOrigin MakeOrigin(
 }
 
 bool ResolveDiplomacyHistory(
-    AnalysisWorkspace& workspace,
+    ParseWorkspace& workspace,
     DiagnosticBag& diagnostics,
-    content::DefinitionRegistry& definitions
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     std::vector<const ParsedFile*> files;
@@ -73,9 +73,9 @@ bool ResolveDiplomacyHistory(
         }
         for (const ParsedDiplomaticRelation& parsed : document->relations)
         {
-            const content::CountryDefinitionId first =
+            const dillen::compatibility::hoi3::content::CountryDefinitionId first =
                 parsed.first.StableId();
-            const content::CountryDefinitionId second =
+            const dillen::compatibility::hoi3::content::CountryDefinitionId second =
                 parsed.second.StableId();
             if (definitions.Countries().Find(first) == nullptr
                 || definitions.Countries().Find(second) == nullptr)
@@ -87,7 +87,7 @@ bool ResolveDiplomacyHistory(
                 );
                 continue;
             }
-            content::DiplomaticRelationPeriod period;
+            dillen::compatibility::hoi3::content::DiplomaticRelationPeriod period;
             period.startDate = parsed.startDate;
             period.endDate = parsed.endDate;
             period.origin = MakeOrigin(*file, parsed.span);
@@ -95,8 +95,8 @@ bool ResolveDiplomacyHistory(
                 {parsed.kind, first, second},
                 std::move(period)
             );
-            if (result == content::DiplomacyHistoryAppendResult::InvalidPeriod
-                || result == content::DiplomacyHistoryAppendResult::Frozen)
+            if (result == dillen::compatibility::hoi3::content::DiplomacyHistoryAppendResult::InvalidPeriod
+                || result == dillen::compatibility::hoi3::content::DiplomacyHistoryAppendResult::Frozen)
             {
                 diagnostics.Error(
                     "hoi3.diplomacy_history.append_failed",
@@ -114,8 +114,8 @@ bool ResolveDiplomacyHistory(
 bool RegisterDiplomacyHistorySlice(
     TemplateRegistry& templates,
     ParserRegistry& parsers,
-    Analyzer& analyzer,
-    content::DefinitionRegistry& definitions
+    Resolver& resolver,
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     FileTemplate fileTemplate;
@@ -143,13 +143,13 @@ bool RegisterDiplomacyHistorySlice(
         return false;
     }
 
-    AnalysisPassDescriptor pass;
+    ResolutionPassDescriptor pass;
     pass.id = kDiplomacyHistoryResolvePass;
     pass.name = "hoi3_diplomacy_history_resolve";
-    pass.phase = AnalysisPhase::Resolve;
+    pass.phase = ResolutionPhase::Resolve;
     pass.priority = -1600;
     pass.run = [&definitions](
-        AnalysisWorkspace& workspace,
+        ParseWorkspace& workspace,
         DiagnosticBag& diagnostics)
     {
         return ResolveDiplomacyHistory(
@@ -158,7 +158,7 @@ bool RegisterDiplomacyHistorySlice(
             definitions
         );
     };
-    if (!analyzer.RegisterPass(std::move(pass)))
+    if (!resolver.RegisterPass(std::move(pass)))
     {
         parsers.Unregister(kDiplomacyHistoryParser);
         templates.Unregister(kDiplomacyHistoryTemplate);

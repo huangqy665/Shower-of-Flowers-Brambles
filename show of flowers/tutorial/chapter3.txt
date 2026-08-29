@@ -1,0 +1,173 @@
+tutorial =
+{
+	title = "TUTORIAL_2"
+	desc = "TUTORIAL_2_DESC"
+	tutorial_window = "TUTORIAL_WINDOW_1"	# default window
+	exclusive = yes
+	country = GER
+
+	page =
+	{
+
+
+		
+		tutorial_window_position = { -250 -130 }
+		tutorial_window = "TUTORIAL_WINDOW_SMALL"
+		text1 = "tut_3a_1"
+		text2 = "tut_3a_2"
+
+		goto = 235
+		zoom = 100
+		
+		window = "tutorial_marker_ul"
+		window_position = { 414 20 }
+		window_size = {112 40}
+
+		window = "tutorial_arrow_up_ul"
+		window_position = { 454 50 }
+	}
+	
+	page =
+	{
+		domestic_panel = "industry"
+		
+		
+
+		tutorial_window_position = { -220 -100 }
+		tutorial_window = "TUTORIAL_WINDOW_1"
+		text1 = "tut_3a_3"
+		text2 = "tut_3a_4"
+
+		goto = 235
+		zoom = 100
+		
+		
+	}
+	
+	page =
+	{
+		
+		
+
+		tutorial_window_position = { -400 -280 }
+		tutorial_window = "TUTORIAL_WINDOW_IC_DIST"
+		text1 = "tut_3a_5"
+		text2 = "tut_3a_6"
+		text3 = "tut_3a_6a"
+		text4 = "tut_3a_6b"
+		text5 = "tut_3a_6c"
+		text6 = "tut_3a_6d"
+		text7 = "tut_3a_6e"
+		text8 = "tut_3a_7"
+		
+		goto = 235
+		zoom = 100
+		
+		window = "tutorial_marker_c"
+		window_position = { 250 -275 }
+		window_size = {255 330}
+
+		window = "tutorial_arrow_up_c"
+		window_position = { 350 45 }
+	}
+	
+	page =
+	{
+		
+		
+
+		tutorial_window_position = { 30 -200 }
+		tutorial_window = "TUTORIAL_WINDOW_1"
+		text1 = "tut_3a_8"
+		text2 = "tut_3a_9"
+
+		goto = 235
+		zoom = 100
+		
+		window = "tutorial_marker_c"
+		window_position = { -510 -280 }
+		window_size = {600 460}
+
+		window = "tutorial_arrow_down_c"
+		window_position = { -200 -310 }
+	}
+			
+	page =
+	{
+		domestic_panel = "div_designer"
+		
+		
+
+		tutorial_window_position = { -250 -130 }
+		tutorial_window = "TUTORIAL_WINDOW_1"
+		text1 = "tut_3a_10"
+		text2 = "tut_3a_11"
+
+		goto = 235
+		zoom = 100
+		
+	}
+	
+	page =
+	{
+		domestic_panel = "div_designer_armor"
+		
+		
+
+		tutorial_window_position = { -420 0 }
+		tutorial_window = "TUTORIAL_WINDOW_1"
+		text1 = "tut_3a_12"
+		text2 = "tut_3a_13"
+
+		window = "tutorial_marker_c"
+		window_position = { 70 -280 }
+		window_size = {445 400}
+
+		window = "tutorial_arrow_down_c"
+		window_position = { 170 -310 }
+		
+		goto = 235
+		zoom = 100
+		
+	}
+	
+	page =
+	{
+		
+
+		tutorial_window_position = { -420 0 }
+		tutorial_window = "TUTORIAL_WINDOW_2"
+		text1 = "tut_3a_14"
+		text2 = "tut_3a_15"
+
+		window = "tutorial_marker_c"
+		window_position = { 70 110 }
+		window_size = {445 270}
+
+		window = "tutorial_arrow_down_c"
+		window_position = { 170 80 }
+		
+		goto = 235
+		zoom = 100
+		
+	}
+	
+	page =
+	{
+		domestic_panel = "close_all"
+		domestic_panel = "industry"
+		
+		
+
+		tutorial_window_position = { -250 -150 }
+		tutorial_window = "TUTORIAL_WINDOW_3"
+		text1 = "tut_3a_16"
+		text2 = "tut_3a_17"
+
+		
+		goto = 235
+		zoom = 100
+		
+	}	
+	
+}

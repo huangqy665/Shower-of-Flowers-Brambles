@@ -1,0 +1,167 @@
+tutorial =
+{
+	title = "TUTORIAL_2"
+	desc = "TUTORIAL_2_DESC"
+	tutorial_window = "TUTORIAL_WINDOW_1"	# default window
+	exclusive = yes
+	country = GER
+
+	page =
+	{
+		
+
+		tutorial_window_position = { -250 -130 }
+		tutorial_window = "TUTORIAL_WINDOW_1"
+		text1 = "tut_2a_1"
+		text2 = "tut_2a_2"
+
+		goto = 235
+		zoom = 100
+		
+		window = "tutorial_marker_ul"
+		window_position = { 315 20 }
+		window_size = {112 40}
+
+		window = "tutorial_arrow_up_ul"
+		window_position = { 355 50 }
+	}
+	
+	page =
+	{
+		domestic_panel = "diplomacy"
+		
+
+		tutorial_window_position = { -205 -190 }
+		tutorial_window = "TUTORIAL_WINDOW_1"
+		text1 = "tut_2a_3"
+		text2 = "tut_2a_4"
+
+		window = "tutorial_marker_c"
+		window_position = { -510 -173 }
+		window_size = {320 395}
+
+		window = "tutorial_arrow_down_c"
+		window_position = { -322 -200 }
+		
+		goto = 235
+		zoom = 100
+	}
+	
+	page =
+	{
+		
+
+		tutorial_window_position = { -150 -70 }
+		tutorial_window = "TUTORIAL_WINDOW_FACTION"
+		text1 = "tut_2a_5"
+		text2 = "tut_2a_6"
+		text3 = "tut_2a_6a"
+		text4 = "tut_2a_6b"
+		text5 = "tut_2a_6c"
+		text6 = "tut_2a_7"
+
+		window = "tutorial_marker_c"
+		window_position = { 30 -270 }
+		window_size = {475 195}
+
+		window = "tutorial_arrow_down_c"
+		window_position = { 230 -300 }
+		
+		goto = 235
+		zoom = 100
+	}
+	
+	page =
+	{
+		
+
+		tutorial_window_position = { -430 -130 }
+		tutorial_window = "TUTORIAL_WINDOW_1"
+		text1 = "tut_2a_8"
+		text2 = "tut_2a_9"
+	
+		window = "tutorial_marker_c"
+		window_position = { 30 -70 }
+		window_size = {475 440}
+
+		window = "tutorial_arrow_down_c"
+		window_position = { 210 -100 }
+		
+		goto = 235
+		zoom = 100
+	}
+	
+	page =
+	{
+		
+
+		tutorial_window_position = { -190 -270 }
+		tutorial_window = "TUTORIAL_WINDOW_SMALL"
+		text1 = "tut_2a_10"
+		text2 = "tut_2a_11"
+	
+		window = "tutorial_marker_c"
+		window_position = { -510 -280 }
+		window_size = {325 120}
+
+		window = "tutorial_arrow_down_c"
+		window_position = { -370 -300 }
+		
+		goto = 235
+		zoom = 100
+	}
+	
+	page =
+	{
+		
+
+		tutorial_window_position = { 10 20 }
+		tutorial_window = "TUTORIAL_WINDOW_SMALL"
+		text1 = "tut_2a_12"
+		text2 = "tut_2a_13"
+	
+		window = "tutorial_marker_c"
+		window_position = { -195 30 }
+		window_size = {220 345}
+
+		window = "tutorial_arrow_down_c"
+		window_position = { -100 0 }
+		
+		goto = 235
+		zoom = 100
+	}
+	
+	page =
+	{
+		
+
+		tutorial_window_position = { -190 70 }
+		tutorial_window = "TUTORIAL_WINDOW_1"
+		text1 = "tut_2a_14"
+		text2 = "tut_2a_15"
+	
+		window = "tutorial_marker_c"
+		window_position = { -510 210 }
+		window_size = {325 160}
+
+		window = "tutorial_arrow_down_c"
+		window_position = { -390 180 }
+		
+		goto = 235
+		zoom = 100
+	}
+	
+	page =
+	{
+		
+
+		tutorial_window_position = { -250 -150 }
+		tutorial_window = "TUTORIAL_WINDOW_3"
+		text1 = ""
+		text2 = "tut_2a_16"
+	
+			
+		goto = 235
+		zoom = 100
+	}
+}

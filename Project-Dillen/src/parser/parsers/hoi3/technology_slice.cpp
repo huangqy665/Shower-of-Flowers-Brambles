@@ -10,12 +10,12 @@ namespace dillen::parser::hoi3 {
 
 namespace {
 
-content::DefinitionOrigin MakeOrigin(
+dillen::compatibility::hoi3::content::DefinitionOrigin MakeOrigin(
     const ParsedFile& file,
     const SourceSpan& span
 )
 {
-    content::DefinitionOrigin origin;
+    dillen::compatibility::hoi3::content::DefinitionOrigin origin;
     origin.virtualPath = std::string(file.source.VirtualPath());
     origin.sourceLayer = file.catalog.sourceLayerName;
     origin.line = span.IsValid() ? span.begin.line : 1;
@@ -24,9 +24,9 @@ content::DefinitionOrigin MakeOrigin(
 }
 
 bool DeclareTechnologies(
-    AnalysisWorkspace& workspace,
+    ParseWorkspace& workspace,
     DiagnosticBag& diagnostics,
-    content::DefinitionRegistry& definitions
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     for (const ParsedFile& file : workspace.files)
@@ -48,12 +48,12 @@ bool DeclareTechnologies(
         for (const UnresolvedTechnologyDefinition& unresolved
             : document->definitions)
         {
-            content::TechnologyDefinition definition;
-            definition.id = content::StableTechnologyDefinitionId(
+            dillen::compatibility::hoi3::content::TechnologyDefinition definition;
+            definition.id = dillen::compatibility::hoi3::content::StableTechnologyDefinitionId(
                 unresolved.name
             );
             definition.name = unresolved.name;
-            definition.normalizedName = content::NormalizeTechnologyName(
+            definition.normalizedName = dillen::compatibility::hoi3::content::NormalizeTechnologyName(
                 unresolved.name
             );
             definition.difficulty = unresolved.difficulty;
@@ -71,16 +71,16 @@ bool DeclareTechnologies(
             definition.scalarEffects = unresolved.scalarEffects;
             definition.effectBlocks = unresolved.effectBlocks;
             definition.origin = MakeOrigin(file, unresolved.span);
-            const content::TechnologyDeclareResult result =
+            const dillen::compatibility::hoi3::content::TechnologyDeclareResult result =
                 definitions.Technologies().Declare(std::move(definition));
-            if (result == content::TechnologyDeclareResult::Added)
+            if (result == dillen::compatibility::hoi3::content::TechnologyDeclareResult::Added)
             {
                 continue;
             }
             const std::string message = result
-                    == content::TechnologyDeclareResult::DuplicateName
+                    == dillen::compatibility::hoi3::content::TechnologyDeclareResult::DuplicateName
                 ? "duplicate Technology definition '" + unresolved.name + "'"
-                : result == content::TechnologyDeclareResult::IdCollision
+                : result == dillen::compatibility::hoi3::content::TechnologyDeclareResult::IdCollision
                     ? "Technology stable ID collision for '"
                         + unresolved.name + "'"
                     : "invalid Technology definition '"
@@ -96,13 +96,13 @@ bool DeclareTechnologies(
 }
 
 void ResolveRequirement(
-    content::TechnologyRequirement& requirement,
-    const content::TechnologyDefinitionRegistry& technologies
+    dillen::compatibility::hoi3::content::TechnologyRequirement& requirement,
+    const dillen::compatibility::hoi3::content::TechnologyDefinitionRegistry& technologies
 )
 {
-    if (requirement.kind == content::TechnologyRequirementKind::Level)
+    if (requirement.kind == dillen::compatibility::hoi3::content::TechnologyRequirementKind::Level)
     {
-        const content::TechnologyDefinition* definition =
+        const dillen::compatibility::hoi3::content::TechnologyDefinition* definition =
             technologies.Find(requirement.name);
         if (definition != nullptr)
         {
@@ -110,23 +110,23 @@ void ResolveRequirement(
         }
         return;
     }
-    for (content::TechnologyRequirement& child : requirement.children)
+    for (dillen::compatibility::hoi3::content::TechnologyRequirement& child : requirement.children)
     {
         ResolveRequirement(child, technologies);
     }
 }
 
 void ResolveEffectBlocks(
-    std::vector<content::TechnologyEffectBlock>& blocks,
-    const content::UnitTypeDefinitionRegistry& units,
+    std::vector<dillen::compatibility::hoi3::content::TechnologyEffectBlock>& blocks,
+    const dillen::compatibility::hoi3::content::UnitTypeDefinitionRegistry& units,
     bool topLevel
 )
 {
-    for (content::TechnologyEffectBlock& block : blocks)
+    for (dillen::compatibility::hoi3::content::TechnologyEffectBlock& block : blocks)
     {
         if (topLevel)
         {
-            const content::UnitTypeDefinition* unit = units.Find(block.name);
+            const dillen::compatibility::hoi3::content::UnitTypeDefinition* unit = units.Find(block.name);
             if (unit != nullptr)
             {
                 block.unitType = unit->id;
@@ -137,9 +137,9 @@ void ResolveEffectBlocks(
 }
 
 bool ResolveTechnologies(
-    AnalysisWorkspace& workspace,
+    ParseWorkspace& workspace,
     DiagnosticBag& diagnostics,
-    content::DefinitionRegistry& definitions
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     for (const ParsedFile& file : workspace.files)
@@ -157,7 +157,7 @@ bool ResolveTechnologies(
         for (const UnresolvedTechnologyDefinition& unresolved
             : document->definitions)
         {
-            std::optional<content::TechnologyRequirement> allow =
+            std::optional<dillen::compatibility::hoi3::content::TechnologyRequirement> allow =
                 unresolved.allow;
             if (allow)
             {
@@ -167,12 +167,12 @@ bool ResolveTechnologies(
                 );
             }
 
-            std::vector<content::TechnologyUnitReference> activatedUnits =
+            std::vector<dillen::compatibility::hoi3::content::TechnologyUnitReference> activatedUnits =
                 unresolved.activatedUnits;
-            for (content::TechnologyUnitReference& reference
+            for (dillen::compatibility::hoi3::content::TechnologyUnitReference& reference
                 : activatedUnits)
             {
-                const content::UnitTypeDefinition* unit =
+                const dillen::compatibility::hoi3::content::UnitTypeDefinition* unit =
                     definitions.UnitTypes().Find(reference.name);
                 if (unit != nullptr)
                 {
@@ -180,21 +180,21 @@ bool ResolveTechnologies(
                 }
             }
 
-            std::vector<content::TechnologyEffectBlock> effectBlocks =
+            std::vector<dillen::compatibility::hoi3::content::TechnologyEffectBlock> effectBlocks =
                 unresolved.effectBlocks;
             ResolveEffectBlocks(
                 effectBlocks,
                 definitions.UnitTypes(),
                 true
             );
-            const content::TechnologyResolveResult result =
+            const dillen::compatibility::hoi3::content::TechnologyResolveResult result =
                 definitions.Technologies().ResolveReferences(
-                    content::StableTechnologyDefinitionId(unresolved.name),
+                    dillen::compatibility::hoi3::content::StableTechnologyDefinitionId(unresolved.name),
                     std::move(allow),
                     std::move(activatedUnits),
                     std::move(effectBlocks)
                 );
-            if (result != content::TechnologyResolveResult::Resolved)
+            if (result != dillen::compatibility::hoi3::content::TechnologyResolveResult::Resolved)
             {
                 diagnostics.Error(
                     "hoi3.technology.resolve_failed",
@@ -212,8 +212,8 @@ bool ResolveTechnologies(
 bool RegisterTechnologySlice(
     TemplateRegistry& templates,
     ParserRegistry& parsers,
-    Analyzer& analyzer,
-    content::DefinitionRegistry& definitions
+    Resolver& resolver,
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     FileTemplate fileTemplate;
@@ -241,38 +241,38 @@ bool RegisterTechnologySlice(
         return false;
     }
 
-    AnalysisPassDescriptor declarePass;
+    ResolutionPassDescriptor declarePass;
     declarePass.id = kTechnologyDeclarePass;
     declarePass.name = "hoi3_technology_declare";
-    declarePass.phase = AnalysisPhase::Declare;
+    declarePass.phase = ResolutionPhase::Declare;
     declarePass.priority = 0;
     declarePass.run = [&definitions](
-        AnalysisWorkspace& workspace,
+        ParseWorkspace& workspace,
         DiagnosticBag& diagnostics)
     {
         return DeclareTechnologies(workspace, diagnostics, definitions);
     };
-    if (!analyzer.RegisterPass(std::move(declarePass)))
+    if (!resolver.RegisterPass(std::move(declarePass)))
     {
         parsers.Unregister(kTechnologyParser);
         templates.Unregister(kTechnologyTemplate);
         return false;
     }
 
-    AnalysisPassDescriptor resolvePass;
+    ResolutionPassDescriptor resolvePass;
     resolvePass.id = kTechnologyResolvePass;
     resolvePass.name = "hoi3_technology_resolve";
-    resolvePass.phase = AnalysisPhase::Resolve;
+    resolvePass.phase = ResolutionPhase::Resolve;
     resolvePass.priority = -1500;
     resolvePass.run = [&definitions](
-        AnalysisWorkspace& workspace,
+        ParseWorkspace& workspace,
         DiagnosticBag& diagnostics)
     {
         return ResolveTechnologies(workspace, diagnostics, definitions);
     };
-    if (!analyzer.RegisterPass(std::move(resolvePass)))
+    if (!resolver.RegisterPass(std::move(resolvePass)))
     {
-        analyzer.UnregisterPass(kTechnologyDeclarePass);
+        resolver.UnregisterPass(kTechnologyDeclarePass);
         parsers.Unregister(kTechnologyParser);
         templates.Unregister(kTechnologyTemplate);
         return false;

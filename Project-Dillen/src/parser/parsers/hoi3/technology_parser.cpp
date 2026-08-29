@@ -92,7 +92,7 @@ bool ParseDecimal(const Token& token, double& output)
 
 bool ParseScalar(
     ParserCursor& cursor,
-    content::TechnologyScalarValue& output
+    dillen::compatibility::hoi3::content::TechnologyScalarValue& output
 )
 {
     Token token;
@@ -175,26 +175,26 @@ bool ReadDecimal(
     return true;
 }
 
-content::TechnologyRequirementKind RequirementKind(
+dillen::compatibility::hoi3::content::TechnologyRequirementKind RequirementKind(
     std::string_view name
 )
 {
     const std::string lowered = LowerAscii(name);
     if (lowered == "or")
     {
-        return content::TechnologyRequirementKind::Any;
+        return dillen::compatibility::hoi3::content::TechnologyRequirementKind::Any;
     }
     if (lowered == "not")
     {
-        return content::TechnologyRequirementKind::Not;
+        return dillen::compatibility::hoi3::content::TechnologyRequirementKind::Not;
     }
-    return content::TechnologyRequirementKind::All;
+    return dillen::compatibility::hoi3::content::TechnologyRequirementKind::All;
 }
 
 bool ParseRequirementGroup(
     ParserCursor& cursor,
-    content::TechnologyRequirementKind kind,
-    content::TechnologyRequirement& output,
+    dillen::compatibility::hoi3::content::TechnologyRequirementKind kind,
+    dillen::compatibility::hoi3::content::TechnologyRequirement& output,
     std::string name = {}
 )
 {
@@ -227,7 +227,7 @@ bool ParseRequirementGroup(
         const std::string name = LowerAscii(key.text);
         if (cursor.Peek().kind == TokenKind::LeftBrace)
         {
-            content::TechnologyRequirement child;
+            dillen::compatibility::hoi3::content::TechnologyRequirement child;
             const bool logical = name == "and"
                 || name == "or"
                 || name == "not";
@@ -235,7 +235,7 @@ bool ParseRequirementGroup(
                     cursor,
                     logical
                         ? RequirementKind(name)
-                        : content::TechnologyRequirementKind::Predicate,
+                        : dillen::compatibility::hoi3::content::TechnologyRequirementKind::Predicate,
                     child,
                     logical ? std::string{} : name))
             {
@@ -244,12 +244,12 @@ bool ParseRequirementGroup(
             output.children.push_back(std::move(child));
             continue;
         }
-        if (kind == content::TechnologyRequirementKind::Predicate)
+        if (kind == dillen::compatibility::hoi3::content::TechnologyRequirementKind::Predicate)
         {
-            content::TechnologyRequirement child;
-            child.kind = content::TechnologyRequirementKind::Predicate;
+            dillen::compatibility::hoi3::content::TechnologyRequirement child;
+            child.kind = dillen::compatibility::hoi3::content::TechnologyRequirementKind::Predicate;
             child.name = name;
-            content::TechnologyScalarValue value;
+            dillen::compatibility::hoi3::content::TechnologyScalarValue value;
             if (!ParseScalar(cursor, value))
             {
                 return false;
@@ -271,8 +271,8 @@ bool ParseRequirementGroup(
                 );
                 return false;
             }
-            content::TechnologyRequirement child;
-            child.kind = content::TechnologyRequirementKind::Level;
+            dillen::compatibility::hoi3::content::TechnologyRequirement child;
+            child.kind = dillen::compatibility::hoi3::content::TechnologyRequirementKind::Level;
             child.name = name;
             child.level = level;
             output.children.push_back(std::move(child));
@@ -283,7 +283,7 @@ bool ParseRequirementGroup(
 
 bool ParseResearchBonuses(
     ParserCursor& cursor,
-    std::vector<content::TechnologyResearchBonus>& output
+    std::vector<dillen::compatibility::hoi3::content::TechnologyResearchBonus>& output
 )
 {
     if (!cursor.Expect(
@@ -328,7 +328,7 @@ bool ParseEffectBlock(
     ParserCursor& cursor,
     std::string name,
     std::size_t openingColumn,
-    content::TechnologyEffectBlock& output
+    dillen::compatibility::hoi3::content::TechnologyEffectBlock& output
 )
 {
     output.name = std::move(name);
@@ -376,7 +376,7 @@ bool ParseEffectBlock(
         const std::string keyText = LowerAscii(key.text);
         if (cursor.Peek().kind == TokenKind::LeftBrace)
         {
-            content::TechnologyEffectBlock child;
+            dillen::compatibility::hoi3::content::TechnologyEffectBlock child;
             if (!ParseEffectBlock(
                     cursor,
                     keyText,
@@ -390,7 +390,7 @@ bool ParseEffectBlock(
         }
         else
         {
-            content::TechnologyScalarEffect effect;
+            dillen::compatibility::hoi3::content::TechnologyScalarEffect effect;
             effect.name = keyText;
             if (!ParseScalar(cursor, effect.value))
             {
@@ -526,10 +526,10 @@ bool ParseTechnologyBody(
         }
         else if (keyText == "allow")
         {
-            content::TechnologyRequirement requirement;
+            dillen::compatibility::hoi3::content::TechnologyRequirement requirement;
             if (!ParseRequirementGroup(
                     cursor,
-                    content::TechnologyRequirementKind::All,
+                    dillen::compatibility::hoi3::content::TechnologyRequirementKind::All,
                     requirement))
             {
                 return false;
@@ -563,7 +563,7 @@ bool ParseTechnologyBody(
         }
         else if (cursor.Peek().kind == TokenKind::LeftBrace)
         {
-            content::TechnologyEffectBlock block;
+            dillen::compatibility::hoi3::content::TechnologyEffectBlock block;
             if (!ParseEffectBlock(
                     cursor,
                     keyText,
@@ -576,7 +576,7 @@ bool ParseTechnologyBody(
         }
         else
         {
-            content::TechnologyScalarEffect effect;
+            dillen::compatibility::hoi3::content::TechnologyScalarEffect effect;
             effect.name = keyText;
             if (!ParseScalar(cursor, effect.value))
             {

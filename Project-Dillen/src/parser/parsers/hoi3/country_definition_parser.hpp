@@ -8,7 +8,7 @@ namespace dillen::parser::hoi3 {
 
 struct CountryDefinitionDocument
 {
-    content::CountryDefinition definition;
+    dillen::compatibility::hoi3::content::CountryDefinition definition;
 };
 
 bool ParseCountryDefinition(

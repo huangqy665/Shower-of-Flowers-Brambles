@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include "analyzer.hpp"
+#include "resolver.hpp"
 #include "country_history_slice.hpp"
 #include "country_tag_slice.hpp"
 #include "definition_registry.hpp"
@@ -107,7 +107,7 @@ bool CreateFixture(
 }
 
 void PrintDiagnostics(
-    const dillen::parser::AnalysisWorkspace& workspace,
+    const dillen::parser::ParseWorkspace& workspace,
     const dillen::parser::DiagnosticBag& diagnostics
 )
 {
@@ -137,32 +137,32 @@ void PrintDiagnostics(
 bool RegisterMetadataPipeline(
     dillen::parser::TemplateRegistry& templates,
     dillen::parser::ParserRegistry& parsers,
-    dillen::parser::Analyzer& analyzer,
-    dillen::content::DefinitionRegistry& definitions
+    dillen::parser::Resolver& resolver,
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     return dillen::parser::hoi3::RegisterCountryTagSlice(
-            templates, parsers, analyzer, definitions)
+            templates, parsers, resolver, definitions)
         && dillen::parser::hoi3::RegisterLaunchDefinitionSlice(
-            templates, parsers, analyzer, definitions);
+            templates, parsers, resolver, definitions);
 }
 
 bool RegisterContentPipeline(
     dillen::parser::TemplateRegistry& templates,
     dillen::parser::ParserRegistry& parsers,
-    dillen::parser::Analyzer& analyzer,
-    dillen::content::DefinitionRegistry& definitions
+    dillen::parser::Resolver& resolver,
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
-    return RegisterMetadataPipeline(templates, parsers, analyzer, definitions)
+    return RegisterMetadataPipeline(templates, parsers, resolver, definitions)
         && dillen::parser::hoi3::RegisterProvinceDefinitionSlice(
-            templates, parsers, analyzer, definitions)
+            templates, parsers, resolver, definitions)
         && dillen::parser::hoi3::RegisterCountryHistorySlice(
-            templates, parsers, analyzer, definitions)
+            templates, parsers, resolver, definitions)
         && dillen::parser::hoi3::RegisterProvinceHistorySlice(
-            templates, parsers, analyzer, definitions)
+            templates, parsers, resolver, definitions)
         && dillen::parser::hoi3::RegisterOrderOfBattleSlice(
-            templates, parsers, analyzer, definitions);
+            templates, parsers, resolver, definitions);
 }
 
 bool AddBaseAndModLayers(
@@ -196,15 +196,15 @@ bool ValidateRepositoryLaunchMetadata()
     using namespace dillen;
     parser::TemplateRegistry templates;
     parser::ParserRegistry parsers;
-    parser::Analyzer analyzer;
-    content::DefinitionRegistry definitions;
-    if (!RegisterMetadataPipeline(templates, parsers, analyzer, definitions))
+    parser::Resolver resolver;
+    dillen::compatibility::hoi3::content::DefinitionRegistry definitions;
+    if (!RegisterMetadataPipeline(templates, parsers, resolver, definitions))
     {
         return false;
     }
     templates.Freeze();
     parsers.Freeze();
-    analyzer.Freeze();
+    resolver.Freeze();
 
     parser::SourceLayer repository;
     repository.id = 1;
@@ -217,10 +217,10 @@ bool ValidateRepositoryLaunchMetadata()
     };
     parser::DiagnosticBag diagnostics;
     parser::FileCatalog catalog;
-    parser::AnalysisWorkspace workspace;
+    parser::ParseWorkspace workspace;
     if (!catalog.AddLayer(std::move(repository))
         || !catalog.Build(templates, diagnostics)
-        || !analyzer.Analyze(catalog, parsers, workspace, diagnostics))
+        || !(catalog.Parse(parsers, workspace, diagnostics) && resolver.Resolve(workspace, diagnostics)))
     {
         PrintDiagnostics(workspace, diagnostics);
         return false;
@@ -233,7 +233,7 @@ bool ValidateRepositoryLaunchMetadata()
     }
 
     parser::SourceLayerId layerId = 100;
-    for (const content::ScenarioDefinition& scenario
+    for (const dillen::compatibility::hoi3::content::ScenarioDefinition& scenario
         : definitions.Launches().Scenarios())
     {
         parser::hoi3::ScenarioOverlayPlan overlay;
@@ -251,10 +251,10 @@ bool ValidateRepositoryLaunchMetadata()
         }
         layerId += 3;
     }
-    const content::ScenarioDefinition* dny =
+    const dillen::compatibility::hoi3::content::ScenarioDefinition* dny =
         definitions.Launches().FindScenario("DNY");
     return dny != nullptr
-        && dny->startDate == content::DefinitionDate{1942, 3, 1};
+        && dny->startDate == dillen::compatibility::hoi3::content::DefinitionDate{1942, 3, 1};
 }
 
 }
@@ -285,12 +285,12 @@ int main()
 
     parser::TemplateRegistry metadataTemplates;
     parser::ParserRegistry metadataParsers;
-    parser::Analyzer metadataAnalyzer;
-    content::DefinitionRegistry metadataDefinitions;
+    parser::Resolver metadataResolver;
+    dillen::compatibility::hoi3::content::DefinitionRegistry metadataDefinitions;
     if (!RegisterMetadataPipeline(
             metadataTemplates,
             metadataParsers,
-            metadataAnalyzer,
+            metadataResolver,
             metadataDefinitions))
     {
         std::cerr << "Scenario metadata pipeline registration failed\n";
@@ -298,33 +298,29 @@ int main()
     }
     metadataTemplates.Freeze();
     metadataParsers.Freeze();
-    metadataAnalyzer.Freeze();
+    metadataResolver.Freeze();
     parser::DiagnosticBag metadataDiagnostics;
     parser::FileCatalog metadataCatalog;
-    parser::AnalysisWorkspace metadataWorkspace;
+    parser::ParseWorkspace metadataWorkspace;
     if (!AddBaseAndModLayers(metadataCatalog, base, mod)
         || !metadataCatalog.Build(metadataTemplates, metadataDiagnostics)
-        || !metadataAnalyzer.Analyze(
-            metadataCatalog,
-            metadataParsers,
-            metadataWorkspace,
-            metadataDiagnostics))
+        || !(metadataCatalog.Parse(metadataParsers, metadataWorkspace, metadataDiagnostics) && metadataResolver.Resolve(metadataWorkspace, metadataDiagnostics)))
     {
         PrintDiagnostics(metadataWorkspace, metadataDiagnostics);
         std::cerr << "Scenario metadata compilation failed\n";
         return 3;
     }
     metadataDefinitions.Freeze();
-    const content::BookmarkDefinition* bookmark =
+    const dillen::compatibility::hoi3::content::BookmarkDefinition* bookmark =
         metadataDefinitions.Launches().FindBookmark("mod_bookmark");
-    const content::ScenarioDefinition* scenario =
+    const dillen::compatibility::hoi3::content::ScenarioDefinition* scenario =
         metadataDefinitions.Launches().FindScenario("probe scenario");
     if (metadataDefinitions.Launches().BookmarkCount() != 1
         || metadataDefinitions.Launches().ScenarioCount() != 1
         || bookmark == nullptr
-        || bookmark->date != content::DefinitionDate{1936, 1, 1}
+        || bookmark->date != dillen::compatibility::hoi3::content::DefinitionDate{1936, 1, 1}
         || scenario == nullptr
-        || scenario->startDate != content::DefinitionDate{1940, 1, 2})
+        || scenario->startDate != dillen::compatibility::hoi3::content::DefinitionDate{1940, 1, 2})
     {
         std::cerr << "Scenario metadata selection mismatch\n";
         return 4;
@@ -346,16 +342,16 @@ int main()
 
     parser::TemplateRegistry templates;
     parser::ParserRegistry parsers;
-    parser::Analyzer analyzer;
-    content::DefinitionRegistry definitions;
-    if (!RegisterContentPipeline(templates, parsers, analyzer, definitions))
+    parser::Resolver resolver;
+    dillen::compatibility::hoi3::content::DefinitionRegistry definitions;
+    if (!RegisterContentPipeline(templates, parsers, resolver, definitions))
     {
         std::cerr << "Scenario content pipeline registration failed\n";
         return 6;
     }
     templates.Freeze();
     parsers.Freeze();
-    analyzer.Freeze();
+    resolver.Freeze();
     parser::DiagnosticBag diagnostics;
     parser::FileCatalog catalog;
     if (!AddBaseAndModLayers(catalog, base, mod))
@@ -370,14 +366,14 @@ int main()
             return 7;
         }
     }
-    parser::AnalysisWorkspace workspace;
+    parser::ParseWorkspace workspace;
     if (!catalog.Build(templates, diagnostics)
         || !HasActivePath(catalog, "history/countries/chi.txt")
         || !HasActivePath(
             catalog,
             "history/provinces/1 - overlay.txt")
         || !HasActivePath(catalog, "history/units/chi_oob.txt")
-        || !analyzer.Analyze(catalog, parsers, workspace, diagnostics))
+        || !(catalog.Parse(parsers, workspace, diagnostics) && resolver.Resolve(workspace, diagnostics)))
     {
         PrintDiagnostics(workspace, diagnostics);
         std::cerr << "Scenario content compilation failed\n";
@@ -385,11 +381,11 @@ int main()
     }
     definitions.Freeze();
 
-    const content::ScenarioDefinition* compiledScenario =
+    const dillen::compatibility::hoi3::content::ScenarioDefinition* compiledScenario =
         definitions.Launches().FindScenario("probe_scenario");
-    worldbuilder::WorldBuilder builder;
-    worldbuilder::AuthoritativeWorld world;
-    worldbuilder::WorldBuildReport report;
+    compatibility::hoi3::worldbuilder::WorldBuilder builder;
+    compatibility::hoi3::worldbuilder::Hoi3WorldState world;
+    compatibility::hoi3::worldbuilder::WorldBuildReport report;
     if (compiledScenario == nullptr
         || !builder.BuildScenario(
             definitions,
@@ -405,7 +401,7 @@ int main()
     const auto* province = world.FindProvince(1);
     const auto industry = province == nullptr
         ? std::nullopt
-        : province->Numeric(content::ProvinceHistoryField::Industry);
+        : province->Numeric(dillen::compatibility::hoi3::content::ProvinceHistoryField::Industry);
     const auto* division = china == nullptr
             || china->unitRoots.size() != 1
         ? nullptr
@@ -420,32 +416,32 @@ int main()
         || world.Units().size() != 2
         || division == nullptr
         || regiment == nullptr
-        || world.Date() != content::DefinitionDate{1940, 1, 2}
+        || world.Date() != dillen::compatibility::hoi3::content::DefinitionDate{1940, 1, 2}
         || world.Scenario() != compiledScenario->id
         || world.Bookmark().has_value()
         || china->government != "scenario_government"
         || china->ordersOfBattle.size() != 1
         || !china->ordersOfBattle.front().definition
         || division->kind
-            != content::OrderOfBattleNodeKind::Division
+            != dillen::compatibility::hoi3::content::OrderOfBattleNodeKind::Division
         || division->name != "Scenario Division"
         || division->country != china->id
-        || division->location != content::ProvinceDefinitionId{1}
+        || division->location != dillen::compatibility::hoi3::content::ProvinceDefinitionId{1}
         || division->parent.has_value()
         || regiment->kind
-            != content::OrderOfBattleNodeKind::Regiment
+            != dillen::compatibility::hoi3::content::OrderOfBattleNodeKind::Regiment
         || regiment->country != china->id
-        || regiment->location != content::ProvinceDefinitionId{1}
+        || regiment->location != dillen::compatibility::hoi3::content::ProvinceDefinitionId{1}
         || regiment->parent != division->id
         || province->locatedUnits.size() != 2
         || china->ownedProvinces
-            != std::vector<content::ProvinceDefinitionId>{{1}}
+            != std::vector<dillen::compatibility::hoi3::content::ProvinceDefinitionId>{{1}}
         || china->controlledProvinces.size() != 0
         || china->coreProvinces
-            != std::vector<content::ProvinceDefinitionId>{{1}}
+            != std::vector<dillen::compatibility::hoi3::content::ProvinceDefinitionId>{{1}}
         || japan->ownedProvinces.size() != 0
         || japan->controlledProvinces
-            != std::vector<content::ProvinceDefinitionId>{{1}}
+            != std::vector<dillen::compatibility::hoi3::content::ProvinceDefinitionId>{{1}}
         || japan->coreProvinces.size() != 0
         || province->owner != china->id
         || province->controller != japan->id

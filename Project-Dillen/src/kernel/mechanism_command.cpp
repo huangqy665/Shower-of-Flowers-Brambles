@@ -6,14 +6,14 @@ namespace dillen::kernel {
 
 MechanismCommand MechanismCommand::SetField(
     MechanismInstanceId target,
-    std::string field,
+    MechanismFieldSlotId field,
     MechanismValue value
 )
 {
     return {
         target,
         MechanismSetFieldOperation{
-            std::move(field),
+            field,
             std::move(value)
         }
     };
@@ -28,6 +28,40 @@ MechanismCommand MechanismCommand::TransitionLifecycle(
         target,
         MechanismTransitionLifecycleOperation{state}
     };
+}
+
+MechanismCommand MechanismCommand::CompleteAlgorithmCreate(
+    MechanismInstanceId target
+)
+{
+    return {
+        target,
+        MechanismCompleteAlgorithmCreateOperation{}
+    };
+}
+
+MechanismCommand MechanismCommand::RecordAlgorithmFault(
+    MechanismInstanceId target,
+    AlgorithmFaultCode code,
+    AlgorithmFaultStage stage
+)
+{
+    return {
+        target,
+        MechanismRecordAlgorithmFaultOperation{code, stage}
+    };
+}
+
+MechanismCommand MechanismCommand::ClearAlgorithmFault(
+    MechanismInstanceId target
+)
+{
+    return {target, MechanismClearAlgorithmFaultOperation{}};
+}
+
+MechanismCommand MechanismCommand::Destroy(MechanismInstanceId target)
+{
+    return {target, MechanismDestroyOperation{}};
 }
 
 }

@@ -6,17 +6,21 @@
 #include <vector>
 
 #include "mechanism_command.hpp"
-#include "mechanism_definition_registry.hpp"
+#include "frozen_runtime_catalog.hpp"
 #include "mechanism_instance.hpp"
-#include "mechanism_schema_registry.hpp"
 #include "mechanism_transaction.hpp"
+
+namespace dillen::persistence {
+class RuntimePersistenceService;
+}
 
 namespace dillen::kernel {
 
 enum class MechanismInstanceCreateResult
 {
     Created,
-    DefinitionRegistryNotFrozen,
+    RuntimeCatalogNotFrozen,
+    SpawnMissing,
     DefinitionMissing,
     IdCollision
 };
@@ -28,14 +32,19 @@ public:
 
     MechanismInstanceCreateResult CreateFromDefinition(
         MechanismDefinitionId definition,
-        const MechanismDefinitionRegistry& definitions,
+        const FrozenRuntimeCatalog& catalog,
+        std::uint64_t currentTick,
+        MechanismInstanceId& outputId
+    );
+    MechanismInstanceCreateResult CreateFromSpawn(
+        MechanismSpawnDefinitionId spawn,
+        const FrozenRuntimeCatalog& catalog,
         std::uint64_t currentTick,
         MechanismInstanceId& outputId
     );
     MechanismTransactionResult ApplyTransaction(
         const std::vector<MechanismCommand>& commands,
-        const MechanismDefinitionRegistry& definitions,
-        const MechanismSchemaRegistry& schemas,
+        const FrozenRuntimeCatalog& catalog,
         std::uint64_t currentTick
     );
     void Clear();
@@ -51,6 +60,8 @@ public:
     const InstanceMap& All() const noexcept;
 
 private:
+    friend class persistence::RuntimePersistenceService;
+
     InstanceMap instances_;
     std::map<MechanismDefinitionId, std::vector<MechanismInstanceId>>
         instancesByDefinition_;

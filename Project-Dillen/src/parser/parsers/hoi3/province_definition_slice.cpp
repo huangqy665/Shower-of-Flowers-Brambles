@@ -10,9 +10,9 @@ namespace dillen::parser::hoi3 {
 namespace {
 
 bool DeclareProvinces(
-    AnalysisWorkspace& workspace,
+    ParseWorkspace& workspace,
     DiagnosticBag& diagnostics,
-    content::DefinitionRegistry& definitions
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     for (ParsedFile& file : workspace.files)
@@ -32,14 +32,14 @@ bool DeclareProvinces(
             return false;
         }
 
-        for (content::ProvinceDefinition& definition
+        for (dillen::compatibility::hoi3::content::ProvinceDefinition& definition
             : document->definitions)
         {
             definition.origin.sourceLayer =
                 file.catalog.sourceLayerName;
-            const content::ProvinceDeclareResult result =
+            const dillen::compatibility::hoi3::content::ProvinceDeclareResult result =
                 definitions.Provinces().Declare(std::move(definition));
-            if (result != content::ProvinceDeclareResult::Added)
+            if (result != dillen::compatibility::hoi3::content::ProvinceDeclareResult::Added)
             {
                 diagnostics.Error(
                     "hoi3.province.declare_failed",
@@ -56,8 +56,8 @@ bool DeclareProvinces(
 bool RegisterProvinceDefinitionSlice(
     TemplateRegistry& templates,
     ParserRegistry& parsers,
-    Analyzer& analyzer,
-    content::DefinitionRegistry& definitions
+    Resolver& resolver,
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     FileTemplate fileTemplate;
@@ -85,18 +85,18 @@ bool RegisterProvinceDefinitionSlice(
         return false;
     }
 
-    AnalysisPassDescriptor pass;
+    ResolutionPassDescriptor pass;
     pass.id = kProvinceDefinitionDeclarePass;
     pass.name = "hoi3_province_definition_declare";
-    pass.phase = AnalysisPhase::Declare;
+    pass.phase = ResolutionPhase::Declare;
     pass.priority = -2000;
     pass.run = [&definitions](
-        AnalysisWorkspace& workspace,
+        ParseWorkspace& workspace,
         DiagnosticBag& diagnostics)
     {
         return DeclareProvinces(workspace, diagnostics, definitions);
     };
-    if (!analyzer.RegisterPass(std::move(pass)))
+    if (!resolver.RegisterPass(std::move(pass)))
     {
         parsers.Unregister(kProvinceDefinitionParser);
         templates.Unregister(kProvinceDefinitionTemplate);

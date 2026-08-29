@@ -21,15 +21,15 @@ using UnresolvedProvinceHistoryValue = std::variant<
 
 struct UnresolvedProvinceHistoryOperation
 {
-    content::ProvinceHistoryField field =
-        content::ProvinceHistoryField::Owner;
+    dillen::compatibility::hoi3::content::ProvinceHistoryField field =
+        dillen::compatibility::hoi3::content::ProvinceHistoryField::Owner;
     UnresolvedProvinceHistoryValue value = std::string{};
     SourceSpan span;
 };
 
 struct UnresolvedProvinceHistoryPatch
 {
-    content::DefinitionDate date;
+    dillen::compatibility::hoi3::content::DefinitionDate date;
     std::vector<UnresolvedProvinceHistoryOperation> operations;
     SourceSpan span;
 };

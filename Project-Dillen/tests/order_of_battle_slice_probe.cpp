@@ -6,7 +6,7 @@
 #include <string>
 #include <variant>
 
-#include "analyzer.hpp"
+#include "resolver.hpp"
 #include "country_history_slice.hpp"
 #include "country_tag_slice.hpp"
 #include "definition_registry.hpp"
@@ -148,7 +148,7 @@ bool CopyRepositoryFixture(const std::filesystem::path& root)
 }
 
 void PrintDiagnostics(
-    const dillen::parser::AnalysisWorkspace& workspace,
+    const dillen::parser::ParseWorkspace& workspace,
     const dillen::parser::DiagnosticBag& diagnostics
 )
 {
@@ -174,7 +174,7 @@ void PrintDiagnostics(
     }
 }
 
-std::size_t CountNodes(const dillen::content::OrderOfBattleNode& node)
+std::size_t CountNodes(const dillen::compatibility::hoi3::content::OrderOfBattleNode& node)
 {
     std::size_t count = 1;
     for (const auto& child : node.children)
@@ -184,9 +184,9 @@ std::size_t CountNodes(const dillen::content::OrderOfBattleNode& node)
     return count;
 }
 
-const dillen::content::OrderOfBattleNode* FindNode(
-    const std::vector<dillen::content::OrderOfBattleNode>& nodes,
-    dillen::content::OrderOfBattleNodeKind kind,
+const dillen::compatibility::hoi3::content::OrderOfBattleNode* FindNode(
+    const std::vector<dillen::compatibility::hoi3::content::OrderOfBattleNode>& nodes,
+    dillen::compatibility::hoi3::content::OrderOfBattleNodeKind kind,
     const std::string& typeName = {}
 )
 {
@@ -206,15 +206,15 @@ const dillen::content::OrderOfBattleNode* FindNode(
 }
 
 bool CountryHistoryReferencesOob(
-    const dillen::content::CountryHistoryTimeline& timeline,
-    dillen::content::OrderOfBattleDefinitionId expected
+    const dillen::compatibility::hoi3::content::CountryHistoryTimeline& timeline,
+    dillen::compatibility::hoi3::content::OrderOfBattleDefinitionId expected
 )
 {
     const auto hasReference = [expected](
-        const dillen::content::CountryHistoryOperation& operation)
+        const dillen::compatibility::hoi3::content::CountryHistoryOperation& operation)
     {
         const auto* id = std::get_if<
-            dillen::content::OrderOfBattleDefinitionId>(&operation.value);
+            dillen::compatibility::hoi3::content::OrderOfBattleDefinitionId>(&operation.value);
         return id != nullptr && *id == expected;
     };
     if (std::any_of(
@@ -257,25 +257,25 @@ int main()
 
     dillen::parser::TemplateRegistry templates;
     dillen::parser::ParserRegistry parsers;
-    dillen::parser::Analyzer analyzer;
-    dillen::content::DefinitionRegistry definitions;
+    dillen::parser::Resolver resolver;
+    dillen::compatibility::hoi3::content::DefinitionRegistry definitions;
     if (!dillen::parser::hoi3::RegisterCountryTagSlice(
-            templates, parsers, analyzer, definitions)
+            templates, parsers, resolver, definitions)
         || !dillen::parser::hoi3::RegisterProvinceDefinitionSlice(
-            templates, parsers, analyzer, definitions)
+            templates, parsers, resolver, definitions)
         || !dillen::parser::hoi3::RegisterUnitTypeSlice(
-            templates, parsers, analyzer, definitions)
+            templates, parsers, resolver, definitions)
         || !dillen::parser::hoi3::RegisterCountryHistorySlice(
-            templates, parsers, analyzer, definitions)
+            templates, parsers, resolver, definitions)
         || !dillen::parser::hoi3::RegisterOrderOfBattleSlice(
-            templates, parsers, analyzer, definitions))
+            templates, parsers, resolver, definitions))
     {
         std::cerr << "OOB slice registration failed\n";
         return 2;
     }
     templates.Freeze();
     parsers.Freeze();
-    analyzer.Freeze();
+    resolver.Freeze();
 
     dillen::parser::DiagnosticBag diagnostics;
     dillen::parser::FileCatalog catalog;
@@ -290,8 +290,8 @@ int main()
         return 3;
     }
 
-    dillen::parser::AnalysisWorkspace workspace;
-    if (!analyzer.Analyze(catalog, parsers, workspace, diagnostics))
+    dillen::parser::ParseWorkspace workspace;
+    if (!(catalog.Parse(parsers, workspace, diagnostics) && resolver.Resolve(workspace, diagnostics)))
     {
         PrintDiagnostics(workspace, diagnostics);
         std::cerr << "OOB analysis failed\n";
@@ -316,7 +316,7 @@ int main()
         || china->militaryAccess.size() != 2
         || china->roots.empty()
         || china->roots.front().kind
-            != dillen::content::OrderOfBattleNodeKind::Theatre
+            != dillen::compatibility::hoi3::content::OrderOfBattleNodeKind::Theatre
         || !china->roots.front().location
         || china->roots.front().location->value != 5494
         || belgium->constructions.size() != 1)
@@ -327,21 +327,21 @@ int main()
 
     const auto* hq = FindNode(
         china->roots,
-        dillen::content::OrderOfBattleNodeKind::Regiment,
+        dillen::compatibility::hoi3::content::OrderOfBattleNodeKind::Regiment,
         "hq_brigade"
     );
     if (hq == nullptr
         || !hq->unitType
         || FindNode(
             fallBlau->roots,
-            dillen::content::OrderOfBattleNodeKind::Division)
+            dillen::compatibility::hoi3::content::OrderOfBattleNodeKind::Division)
             == nullptr)
     {
         std::cerr << "OOB node reference mismatch\n";
         return 6;
     }
 
-    const auto chinaTag = dillen::content::CountryTag::Parse("CHI");
+    const auto chinaTag = dillen::compatibility::hoi3::content::CountryTag::Parse("CHI");
     const auto* timeline = chinaTag
         ? definitions.CountryHistories().Find(chinaTag->StableId())
         : nullptr;

@@ -53,7 +53,7 @@ bool SkipValue(ParserCursor& cursor)
 
 bool ParseHistoryDate(
     std::string_view text,
-    content::DefinitionDate& output
+    dillen::compatibility::hoi3::content::DefinitionDate& output
 )
 {
     int components[3]{};
@@ -96,14 +96,14 @@ bool ParseHistoryDate(
     return true;
 }
 
-bool ReadCountry(ParserCursor& cursor, content::CountryTag& output)
+bool ReadCountry(ParserCursor& cursor, dillen::compatibility::hoi3::content::CountryTag& output)
 {
     Token token;
     if (!cursor.ReadScalar(token))
     {
         return false;
     }
-    const auto tag = content::CountryTag::Parse(token.text);
+    const auto tag = dillen::compatibility::hoi3::content::CountryTag::Parse(token.text);
     if (!tag)
     {
         cursor.Diagnostics().Error(
@@ -117,25 +117,25 @@ bool ReadCountry(ParserCursor& cursor, content::CountryTag& output)
     return true;
 }
 
-std::optional<content::WarParticipantOperationKind> ParticipantKind(
+std::optional<dillen::compatibility::hoi3::content::WarParticipantOperationKind> ParticipantKind(
     std::string_view field
 )
 {
     if (field == "add_attacker")
     {
-        return content::WarParticipantOperationKind::AddAttacker;
+        return dillen::compatibility::hoi3::content::WarParticipantOperationKind::AddAttacker;
     }
     if (field == "rem_attacker")
     {
-        return content::WarParticipantOperationKind::RemoveAttacker;
+        return dillen::compatibility::hoi3::content::WarParticipantOperationKind::RemoveAttacker;
     }
     if (field == "add_defender")
     {
-        return content::WarParticipantOperationKind::AddDefender;
+        return dillen::compatibility::hoi3::content::WarParticipantOperationKind::AddDefender;
     }
     if (field == "rem_defender")
     {
-        return content::WarParticipantOperationKind::RemoveDefender;
+        return dillen::compatibility::hoi3::content::WarParticipantOperationKind::RemoveDefender;
     }
     return std::nullopt;
 }
@@ -224,7 +224,7 @@ bool ParseWarGoal(
 
 bool ParsePatch(
     ParserCursor& cursor,
-    content::DefinitionDate date,
+    dillen::compatibility::hoi3::content::DefinitionDate date,
     const SourceSpan& span,
     UnresolvedWarHistoryPatch& output
 )
@@ -309,7 +309,7 @@ bool ParseWarHistory(
             document.span = key.span;
         }
 
-        content::DefinitionDate date;
+        dillen::compatibility::hoi3::content::DefinitionDate date;
         if (ParseHistoryDate(key.text, date))
         {
             UnresolvedWarHistoryPatch patch;

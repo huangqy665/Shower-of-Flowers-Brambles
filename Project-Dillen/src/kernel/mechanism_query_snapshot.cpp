@@ -75,6 +75,32 @@ const MechanismInstance* MechanismQuerySnapshot::Find(
     return iterator == instances_.end() ? nullptr : &iterator->second;
 }
 
+const MechanismValue* MechanismQuerySnapshot::FindField(
+    MechanismInstanceId id,
+    MechanismFieldSlotId field
+) const
+{
+    const MechanismInstance* instance = Find(id);
+    if (instance == nullptr || field.value >= instance->values.size())
+    {
+        return nullptr;
+    }
+    return &instance->values[field.value];
+}
+
+const std::vector<MechanismReference>* MechanismQuerySnapshot::FindRole(
+    MechanismInstanceId id,
+    MechanismRoleSlotId role
+) const
+{
+    const MechanismInstance* instance = Find(id);
+    if (instance == nullptr || role.value >= instance->roles.size())
+    {
+        return nullptr;
+    }
+    return &instance->roles[role.value];
+}
+
 const std::vector<MechanismInstanceId>&
 MechanismQuerySnapshot::FindByDefinition(
     MechanismDefinitionId definition

@@ -9,6 +9,8 @@
 #include <vector>
 
 #include "diagnostic.hpp"
+#include "parse_result.hpp"
+#include "parser_registry.hpp"
 #include "source_buffer.hpp"
 #include "template.hpp"
 #include "template_registry.hpp"
@@ -58,6 +60,20 @@ struct CatalogFile
     SourceLayerId displacedByLayer = 0;
 };
 
+struct ParsedFile
+{
+    CatalogFile catalog;
+    SourceBuffer source;
+    ParseResult result;
+};
+
+struct ParseWorkspace
+{
+    std::vector<ParsedFile> files;
+
+    void Clear();
+};
+
 class FileCatalog
 {
 public:
@@ -69,6 +85,11 @@ public:
         const TemplateRegistry& templates,
         DiagnosticBag& diagnostics
     );
+    bool Parse(
+        const ParserRegistry& parsers,
+        ParseWorkspace& workspace,
+        DiagnosticBag& diagnostics
+    ) const;
     bool IsBuilt() const noexcept;
     const std::vector<SourceLayer>& Layers() const noexcept;
     const std::vector<CatalogFile>& Files() const noexcept;

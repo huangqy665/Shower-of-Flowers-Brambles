@@ -12,7 +12,7 @@ namespace dillen::parser::hoi3 {
 
 namespace {
 
-content::DefinitionOrigin MakeOrigin(
+dillen::compatibility::hoi3::content::DefinitionOrigin MakeOrigin(
     const ParsedFile& file,
     const SourceSpan& span
 )
@@ -35,21 +35,21 @@ std::string ScenarioKeyFromPath(std::string_view path)
     const std::size_t end = dot == std::string_view::npos || dot < begin
         ? path.size()
         : dot;
-    return content::NormalizeScenarioKey(path.substr(begin, end - begin));
+    return dillen::compatibility::hoi3::content::NormalizeScenarioKey(path.substr(begin, end - begin));
 }
 
-std::vector<content::CountryDefinitionId> ResolveCountries(
-    const std::vector<content::CountryTag>& tags,
-    const content::DefinitionRegistry& definitions,
+std::vector<dillen::compatibility::hoi3::content::CountryDefinitionId> ResolveCountries(
+    const std::vector<dillen::compatibility::hoi3::content::CountryTag>& tags,
+    const dillen::compatibility::hoi3::content::DefinitionRegistry& definitions,
     DiagnosticBag& diagnostics,
     const SourceSpan& span
 )
 {
-    std::vector<content::CountryDefinitionId> resolved;
+    std::vector<dillen::compatibility::hoi3::content::CountryDefinitionId> resolved;
     resolved.reserve(tags.size());
-    for (const content::CountryTag& tag : tags)
+    for (const dillen::compatibility::hoi3::content::CountryTag& tag : tags)
     {
-        const content::CountryDefinitionId id = tag.StableId();
+        const dillen::compatibility::hoi3::content::CountryDefinitionId id = tag.StableId();
         if (definitions.Countries().Find(id) == nullptr)
         {
             diagnostics.Warning(
@@ -68,9 +68,9 @@ std::vector<content::CountryDefinitionId> ResolveCountries(
 }
 
 bool DeclareLaunchDefinitions(
-    AnalysisWorkspace& workspace,
+    ParseWorkspace& workspace,
     DiagnosticBag& diagnostics,
-    content::DefinitionRegistry& definitions
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     for (const ParsedFile& file : workspace.files)
@@ -89,9 +89,9 @@ bool DeclareLaunchDefinitions(
             }
             for (const ParsedBookmark& parsed : document->bookmarks)
             {
-                content::BookmarkDefinition definition;
-                definition.key = content::NormalizeBookmarkKey(parsed.name);
-                definition.id = content::StableBookmarkDefinitionId(
+                dillen::compatibility::hoi3::content::BookmarkDefinition definition;
+                definition.key = dillen::compatibility::hoi3::content::NormalizeBookmarkKey(parsed.name);
+                definition.id = dillen::compatibility::hoi3::content::StableBookmarkDefinitionId(
                     definition.key
                 );
                 definition.name = parsed.name;
@@ -106,7 +106,7 @@ bool DeclareLaunchDefinitions(
                 );
                 definition.origin = MakeOrigin(file, parsed.span);
                 if (definitions.Launches().Declare(std::move(definition))
-                    != content::LaunchDeclareResult::Added)
+                    != dillen::compatibility::hoi3::content::LaunchDeclareResult::Added)
                 {
                     diagnostics.Error(
                         "hoi3.bookmark.declare_failed",
@@ -128,9 +128,9 @@ bool DeclareLaunchDefinitions(
                 );
                 continue;
             }
-            content::ScenarioDefinition definition;
+            dillen::compatibility::hoi3::content::ScenarioDefinition definition;
             definition.key = ScenarioKeyFromPath(file.source.VirtualPath());
-            definition.id = content::StableScenarioDefinitionId(
+            definition.id = dillen::compatibility::hoi3::content::StableScenarioDefinitionId(
                 definition.key
             );
             definition.name = document->name;
@@ -152,7 +152,7 @@ bool DeclareLaunchDefinitions(
             );
             definition.origin = MakeOrigin(file, document->span);
             if (definitions.Launches().Declare(std::move(definition))
-                != content::LaunchDeclareResult::Added)
+                != dillen::compatibility::hoi3::content::LaunchDeclareResult::Added)
             {
                 diagnostics.Error(
                     "hoi3.scenario.declare_failed",
@@ -170,8 +170,8 @@ bool DeclareLaunchDefinitions(
 bool RegisterLaunchDefinitionSlice(
     TemplateRegistry& templates,
     ParserRegistry& parsers,
-    Analyzer& analyzer,
-    content::DefinitionRegistry& definitions
+    Resolver& resolver,
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     FileTemplate bookmarkTemplate;
@@ -228,18 +228,18 @@ bool RegisterLaunchDefinitionSlice(
         return false;
     }
 
-    AnalysisPassDescriptor pass;
+    ResolutionPassDescriptor pass;
     pass.id = kLaunchDefinitionDeclarePass;
     pass.name = "hoi3_launch_definition_declare";
-    pass.phase = AnalysisPhase::Declare;
+    pass.phase = ResolutionPhase::Declare;
     pass.priority = -800;
     pass.run = [&definitions](
-        AnalysisWorkspace& workspace,
+        ParseWorkspace& workspace,
         DiagnosticBag& diagnostics)
     {
         return DeclareLaunchDefinitions(workspace, diagnostics, definitions);
     };
-    if (!analyzer.RegisterPass(std::move(pass)))
+    if (!resolver.RegisterPass(std::move(pass)))
     {
         parsers.Unregister(kScenarioParser);
         parsers.Unregister(kBookmarkParser);

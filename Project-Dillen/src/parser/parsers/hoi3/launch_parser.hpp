@@ -15,8 +15,8 @@ struct ParsedBookmark
     std::string name;
     std::string description;
     std::string icon;
-    content::DefinitionDate date;
-    std::vector<content::CountryTag> countries;
+    dillen::compatibility::hoi3::content::DefinitionDate date;
+    std::vector<dillen::compatibility::hoi3::content::CountryTag> countries;
     SourceSpan span;
 };
 
@@ -30,10 +30,10 @@ struct ScenarioDocument
     std::string name;
     std::string description;
     std::string icon;
-    content::DefinitionDate startDate;
-    content::DefinitionDate endDate;
-    std::vector<content::CountryTag> selectableCountries;
-    std::vector<content::CountryTag> additionalCountries;
+    dillen::compatibility::hoi3::content::DefinitionDate startDate;
+    dillen::compatibility::hoi3::content::DefinitionDate endDate;
+    std::vector<dillen::compatibility::hoi3::content::CountryTag> selectableCountries;
+    std::vector<dillen::compatibility::hoi3::content::CountryTag> additionalCountries;
     SourceSpan span;
 };
 

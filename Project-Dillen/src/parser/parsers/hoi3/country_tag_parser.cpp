@@ -17,7 +17,7 @@ bool ParseCountryTagIndex(
         {
             return false;
         }
-        const auto tag = content::CountryTag::Parse(tagToken.text);
+        const auto tag = dillen::compatibility::hoi3::content::CountryTag::Parse(tagToken.text);
         if (!tag)
         {
             cursor.Diagnostics().Error(

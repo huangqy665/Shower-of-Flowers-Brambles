@@ -282,17 +282,37 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   <ItemGroup>
     <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\algorithm_registry.cpp" />
     <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\algorithm_registry.hpp" />
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_change.hpp" />
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_command.cpp" />
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_command.hpp" />
     <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_definition.hpp" />
     <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_definition_registry.cpp" />
     <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_definition_registry.hpp" />
     <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_ids.cpp" />
     <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_ids.hpp" />
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_instance.hpp" />
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_instance_store.cpp" />
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_instance_store.hpp" />
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_lifecycle.cpp" />
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_lifecycle.hpp" />
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_query_snapshot.cpp" />
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_query_snapshot.hpp" />
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_scheduler.cpp" />
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_scheduler.hpp" />
     <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_schema.cpp" />
     <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_schema.hpp" />
     <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_schema_registry.cpp" />
     <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_schema_registry.hpp" />
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_transaction.cpp" />
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_transaction.hpp" />
     <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_value.cpp" />
     <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_value.hpp" />
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\world_transaction.cpp" />
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\world_transaction.hpp" />
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\world_command_queue.cpp" />
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\world_command_queue.hpp" />
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\world_event.cpp" />
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\world_event.hpp" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

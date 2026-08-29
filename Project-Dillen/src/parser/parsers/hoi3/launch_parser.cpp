@@ -52,7 +52,7 @@ bool ReadText(ParserCursor& cursor, std::string& output)
 
 bool ReadDate(
     ParserCursor& cursor,
-    content::DefinitionDate& output
+    dillen::compatibility::hoi3::content::DefinitionDate& output
 )
 {
     ClausewitzDate date;
@@ -66,7 +66,7 @@ bool ReadDate(
 
 bool ReadCountry(
     ParserCursor& cursor,
-    std::vector<content::CountryTag>& output
+    std::vector<dillen::compatibility::hoi3::content::CountryTag>& output
 )
 {
     Token token;
@@ -74,7 +74,7 @@ bool ReadCountry(
     {
         return false;
     }
-    const auto tag = content::CountryTag::Parse(token.text);
+    const auto tag = dillen::compatibility::hoi3::content::CountryTag::Parse(token.text);
     if (!tag)
     {
         cursor.Diagnostics().Error(

@@ -9,8 +9,14 @@
 #include "definition_registry.hpp"
 #include "mechanism_command.hpp"
 #include "mechanism_definition_registry.hpp"
+#include "kernel_runtime.hpp"
 #include "mechanism_query_snapshot.hpp"
 #include "mechanism_schema_registry.hpp"
+#include "mechanism_spawn_definition_registry.hpp"
+#include "package_lock.hpp"
+#include "package_manifest.hpp"
+#include "ruleset.hpp"
+#include "runtime_compiler.hpp"
 #include "world_builder.hpp"
 #include "world_event.hpp"
 #include "world_transaction.hpp"
@@ -40,12 +46,74 @@ dillen::kernel::MechanismDefinition MakeDefinition(
     return definition;
 }
 
+bool CompileCatalog(
+    const dillen::kernel::MechanismSchemaRegistry& schemas,
+    const dillen::kernel::AlgorithmRegistry& algorithms,
+    const dillen::kernel::MechanismDefinitionRegistry& definitions,
+    dillen::kernel::FrozenRuntimeCatalog& catalog
+)
+{
+    using namespace dillen::kernel;
+    PackageManifestRegistry manifests;
+    manifests.Freeze();
+    RulesetDefinition ruleset;
+    ruleset.canonicalName = "dillen.test.runtime_pipeline";
+    ruleset.id = StableRulesetId(ruleset.canonicalName);
+    ruleset.version = 1;
+    PackageLock packageLock;
+    PackageLockReport lockReport;
+    RuntimeCompileReport compileReport;
+    ComponentSchemaRegistry componentSchemas;
+    EntityDefinitionRegistry entityDefinitions;
+    MechanismSpawnDefinitionRegistry spawns;
+    RuntimeCapabilityContractRegistry capabilityContracts;
+    componentSchemas.Freeze();
+    entityDefinitions.Freeze();
+    for (const MechanismDefinition& definition : definitions.All())
+    {
+        MechanismSpawnDefinition spawn;
+        spawn.canonicalName = definition.canonicalName + "_initial";
+        spawn.definition = definition.id;
+        spawn.id = StableMechanismSpawnDefinitionId(
+            spawn.definition,
+            spawn.canonicalName
+        );
+        spawn.source.sourceName = "probe";
+        if (spawns.Declare(spawn, definitions, schemas)
+            != MechanismSpawnDeclareResult::Added)
+        {
+            return false;
+        }
+    }
+    spawns.Freeze();
+    capabilityContracts.Freeze();
+    return PackageLockBuilder{}.Resolve(
+            manifests,
+            ruleset,
+            packageLock,
+            lockReport)
+        && RuntimeCompiler{}.Compile(
+            ruleset,
+            packageLock,
+            schemas,
+            componentSchemas,
+            algorithms,
+            definitions,
+            entityDefinitions,
+            spawns,
+            capabilityContracts,
+            catalog,
+            compileReport
+        );
+}
+
 }
 
 int main()
 {
     using namespace dillen;
     using namespace dillen::kernel;
+    using namespace dillen::runtime;
 
     const std::string typeName = "dillen.test.runtime_pipeline";
     const MechanismTypeId type = StableMechanismTypeId(typeName);
@@ -95,14 +163,25 @@ int main()
     }
     definitions.Freeze();
 
-    content::DefinitionRegistry contentDefinitions;
+    FrozenRuntimeCatalog catalog;
+    if (!CompileCatalog(schemas, algorithms, definitions, catalog))
+    {
+        std::cerr << "Runtime Catalog compilation failed\n";
+        return 3;
+    }
+    const MechanismFieldSlotId counterSlot =
+        *catalog.ResolveDefinitionFieldSlot(alphaDefinition, "counter");
+    const MechanismFieldSlotId labelSlot =
+        *catalog.ResolveDefinitionFieldSlot(alphaDefinition, "label");
+
+    dillen::compatibility::hoi3::content::DefinitionRegistry contentDefinitions;
     contentDefinitions.Freeze();
-    worldbuilder::WorldBuilder builder;
-    worldbuilder::WorldBuildReport buildReport;
-    worldbuilder::AuthoritativeWorld world;
+    compatibility::hoi3::worldbuilder::WorldBuilder builder;
+    compatibility::hoi3::worldbuilder::WorldBuildReport buildReport;
+    compatibility::hoi3::worldbuilder::Hoi3WorldState world;
     if (!builder.Build(
             contentDefinitions,
-            definitions,
+            catalog,
             {1936, 1, 1},
             world,
             buildReport))
@@ -110,6 +189,8 @@ int main()
         std::cerr << "Runtime pipeline world construction failed\n";
         return 3;
     }
+
+    runtime::KernelRuntime kernelRuntime(world.World(), catalog);
 
     const MechanismInstanceId alphaId = StableMechanismInstanceId(
         alphaDefinition,
@@ -120,24 +201,24 @@ int main()
         0
     );
     const MechanismQuerySnapshot initialSnapshot =
-        world.MechanismSnapshot();
+        kernelRuntime.Snapshot();
     if (!initialSnapshot.IsPublished()
         || initialSnapshot.Tick() != 0
         || initialSnapshot.Revision() != 0
         || initialSnapshot.Size() != 2
         || initialSnapshot.Find(alphaId) == nullptr
-        || initialSnapshot.Find(alphaId)->values.at("counter")
+        || initialSnapshot.Find(alphaId)->values.at(counterSlot.value)
             != MechanismValue(std::int64_t{0}))
     {
         std::cerr << "Initial Query Snapshot mismatch\n";
         return 4;
     }
 
-    const std::uint64_t firstSequence = world.EnqueueWorldTransaction(
+    const std::uint64_t firstSequence = kernelRuntime.Enqueue(
         WorldTransaction::FromMechanismCommands({
             MechanismCommand::SetField(
                 alphaId,
-                "counter",
+                counterSlot,
                 MechanismValue(std::int64_t{5})
             ),
             MechanismCommand::TransitionLifecycle(
@@ -147,21 +228,21 @@ int main()
         }),
         1
     );
-    const std::uint64_t rejectedSequence = world.EnqueueWorldTransaction(
+    const std::uint64_t rejectedSequence = kernelRuntime.Enqueue(
         WorldTransaction::FromMechanismCommands({
             MechanismCommand::SetField(
                 betaId,
-                "counter",
+                counterSlot,
                 MechanismValue("invalid")
             )
         }),
         1
     );
-    const std::uint64_t delayedSequence = world.EnqueueWorldTransaction(
+    const std::uint64_t delayedSequence = kernelRuntime.Enqueue(
         WorldTransaction::FromMechanismCommands({
             MechanismCommand::SetField(
                 betaId,
-                "counter",
+                counterSlot,
                 MechanismValue(std::int64_t{3})
             )
         }),
@@ -170,14 +251,14 @@ int main()
     if (firstSequence != 1
         || rejectedSequence != 2
         || delayedSequence != 3
-        || world.WorldCommands().Size() != 3)
+        || kernelRuntime.Commands().Size() != 3)
     {
         std::cerr << "World Command Queue sequence mismatch\n";
         return 5;
     }
 
     const MechanismSchedulerTickResult firstTick =
-        world.RunMechanismSchedulerTick(definitions, schemas, 1);
+        kernelRuntime.RunTick(1);
     if (!firstTick
         || firstTick.processedTransactions != 2
         || firstTick.committedTransactions != 1
@@ -185,16 +266,16 @@ int main()
         || firstTick.transactions.size() != 2
         || firstTick.transactions[0].sequence != firstSequence
         || firstTick.transactions[1].sequence != rejectedSequence
-        || world.Tick() != 1
-        || world.Revision() != 1
-        || world.WorldCommands().Size() != 1
-        || world.Mechanisms().Find(alphaId)->values.at("counter")
+        || world.World().Tick() != 1
+        || world.World().Revision() != 1
+        || kernelRuntime.Commands().Size() != 1
+        || world.Mechanisms().Find(alphaId)->values.at(counterSlot.value)
             != MechanismValue(std::int64_t{5})
-        || world.MechanismSnapshot().Tick() != 1
-        || world.MechanismSnapshot().Revision() != 1
-        || world.MechanismSnapshot().Find(alphaId)->values.at("counter")
+        || kernelRuntime.Snapshot().Tick() != 1
+        || kernelRuntime.Snapshot().Revision() != 1
+        || kernelRuntime.Snapshot().Find(alphaId)->values.at(counterSlot.value)
             != MechanismValue(std::int64_t{5})
-        || initialSnapshot.Find(alphaId)->values.at("counter")
+        || initialSnapshot.Find(alphaId)->values.at(counterSlot.value)
             != MechanismValue(std::int64_t{0}))
     {
         std::cerr << "First Scheduler Tick mismatch\n";
@@ -202,7 +283,7 @@ int main()
     }
 
     const std::vector<WorldEvent>& pendingEvents =
-        world.WorldEvents().Pending();
+        kernelRuntime.Events().Pending();
     if (pendingEvents.size() != 4
         || pendingEvents[0].sequence != 1
         || pendingEvents[0].transactionSequence != firstSequence
@@ -219,155 +300,161 @@ int main()
         std::cerr << "World Event publication mismatch\n";
         return 7;
     }
-    if (world.DrainWorldEvents().size() != 4
-        || !world.WorldEvents().Empty())
+    if (kernelRuntime.DrainEvents().size() != 4
+        || !kernelRuntime.Events().Empty())
     {
         std::cerr << "World Event drain mismatch\n";
         return 8;
     }
 
     const MechanismSchedulerTickResult duplicateTick =
-        world.RunMechanismSchedulerTick(definitions, schemas, 1);
+        kernelRuntime.RunTick(1);
     if (duplicateTick.status
             != MechanismSchedulerStatus::TickSequenceInvalid
-        || world.WorldCommands().Size() != 1
-        || world.Tick() != 1)
+        || kernelRuntime.Commands().Size() != 1
+        || world.World().Tick() != 1)
     {
         std::cerr << "Scheduler Tick sequence barrier mismatch\n";
         return 9;
     }
 
     const MechanismSchedulerTickResult secondTick =
-        world.RunMechanismSchedulerTick(definitions, schemas, 2);
+        kernelRuntime.RunTick(2);
     if (!secondTick
         || secondTick.processedTransactions != 1
         || secondTick.transactions.front().sequence != delayedSequence
-        || world.Revision() != 2
-        || !world.WorldCommands().Empty()
-        || world.MechanismSnapshot().Find(betaId)->values.at("counter")
+        || world.World().Revision() != 2
+        || !kernelRuntime.Commands().Empty()
+        || kernelRuntime.Snapshot().Find(betaId)->values.at(counterSlot.value)
             != MechanismValue(std::int64_t{3})
-        || world.MechanismSnapshot().FindByDefinition(betaDefinition).size()
+        || kernelRuntime.Snapshot().FindByDefinition(betaDefinition).size()
             != 1
-        || world.MechanismSnapshot().FindByType(type).size() != 2)
+        || kernelRuntime.Snapshot().FindByType(type).size() != 2)
     {
         std::cerr << "Delayed Scheduler transaction mismatch\n";
         return 10;
     }
-    world.DrainWorldEvents();
+    kernelRuntime.DrainEvents();
 
-    const WorldTransactionResult worldRejected = world.ApplyWorldTransaction(
+    const WorldTransactionResult worldRejected = kernelRuntime.ApplyImmediate(
         WorldTransaction::FromMechanismCommands({
             MechanismCommand::SetField(
                 alphaId,
-                "counter",
+                counterSlot,
                 MechanismValue(std::int64_t{6})
             ),
             MechanismCommand::SetField(
                 betaId,
-                "counter",
+                counterSlot,
                 MechanismValue("invalid")
             )
         }),
-        definitions,
-        schemas,
         2
     );
     if (worldRejected
         || worldRejected.status != WorldTransactionStatus::MechanismRejected
-        || world.Mechanisms().Find(alphaId)->values.at("counter")
+        || world.Mechanisms().Find(alphaId)->values.at(counterSlot.value)
             != MechanismValue(std::int64_t{5})
-        || world.Revision() != 2
-        || world.MechanismSnapshot().Revision() != 2)
+        || world.World().Revision() != 2
+        || kernelRuntime.Snapshot().Revision() != 2)
     {
         std::cerr << "World transaction rollback mismatch\n";
         return 11;
     }
-    world.DrainWorldEvents();
+    kernelRuntime.DrainEvents();
 
     const WorldTransactionResult worldCommitted =
-        world.ApplyWorldTransaction(
+        kernelRuntime.ApplyImmediate(
             WorldTransaction::FromMechanismCommands({
                 MechanismCommand::SetField(
                     alphaId,
-                    "label",
+                    labelSlot,
                     MechanismValue("alpha_committed")
                 ),
                 MechanismCommand::SetField(
                     betaId,
-                    "label",
+                    labelSlot,
                     MechanismValue("beta_committed")
                 )
             }),
-            definitions,
-            schemas,
             2
         );
     if (!worldCommitted
         || worldCommitted.mechanism.changedInstances != 2
-        || world.Revision() != 3
-        || world.MechanismSnapshot().Revision() != 3
-        || world.MechanismSnapshot().Find(alphaId)->values.at("label")
+        || world.World().Revision() != 3
+        || kernelRuntime.Snapshot().Revision() != 3
+        || kernelRuntime.Snapshot().Find(alphaId)->values.at(labelSlot.value)
             != MechanismValue("alpha_committed")
-        || world.MechanismSnapshot().Find(betaId)->values.at("label")
+        || kernelRuntime.Snapshot().Find(betaId)->values.at(labelSlot.value)
             != MechanismValue("beta_committed"))
     {
         std::cerr << "World transaction commit mismatch\n";
         return 12;
     }
-    world.DrainWorldEvents();
+    kernelRuntime.DrainEvents();
 
-    const WorldTransactionResult tickRejected = world.ApplyWorldTransaction(
+    const WorldTransactionResult tickRejected = kernelRuntime.ApplyImmediate(
         WorldTransaction::FromMechanismCommands({
             MechanismCommand::SetField(
                 betaId,
-                "counter",
+                counterSlot,
                 MechanismValue(std::int64_t{4})
             )
         }),
-        definitions,
-        schemas,
         1
     );
     if (tickRejected.status != WorldTransactionStatus::TickRegression
-        || world.Tick() != 2
-        || world.Revision() != 3)
+        || world.World().Tick() != 2
+        || world.World().Revision() != 3)
     {
         std::cerr << "World transaction Tick barrier mismatch\n";
         return 13;
     }
-    world.DrainWorldEvents();
+    kernelRuntime.DrainEvents();
 
-    world.EnqueueWorldTransaction(
+    FrozenRuntimeCatalog unfrozenCatalog;
+    runtime::KernelRuntime invalidRuntime(world.World(), unfrozenCatalog);
+    invalidRuntime.Enqueue(
         WorldTransaction::FromMechanismCommands({
             MechanismCommand::SetField(
                 betaId,
-                "counter",
+                counterSlot,
                 MechanismValue(std::int64_t{4})
             )
         }),
         3
     );
-    MechanismDefinitionRegistry unfrozenDefinitions;
     const MechanismSchedulerTickResult frozenBarrier =
-        world.RunMechanismSchedulerTick(unfrozenDefinitions, schemas, 3);
+        invalidRuntime.RunTick(3);
     if (frozenBarrier.status
-            != MechanismSchedulerStatus::DefinitionRegistryNotFrozen
-        || world.WorldCommands().Size() != 1
-        || world.Tick() != 2)
+            != MechanismSchedulerStatus::RuntimeCatalogNotFrozen
+        || invalidRuntime.Commands().Size() != 1
+        || world.World().Tick() != 2)
     {
         std::cerr << "Scheduler Registry barrier mismatch\n";
         return 14;
     }
 
+    kernelRuntime.Enqueue(
+        WorldTransaction::FromMechanismCommands({
+            MechanismCommand::SetField(
+                betaId,
+                counterSlot,
+                MechanismValue(std::int64_t{4})
+            )
+        }),
+        3
+    );
+
     const MechanismSchedulerTickResult thirdTick =
-        world.RunMechanismSchedulerTick(definitions, schemas, 3);
+        kernelRuntime.RunTick(3);
     if (!thirdTick
         || thirdTick.processedTransactions != 1
-        || world.Tick() != 3
-        || world.Revision() != 4
-        || world.MechanismSnapshot().Tick() != 3
-        || world.MechanismSnapshot().Revision() != 4
-        || world.MechanismSnapshot().Find(betaId)->values.at("counter")
+        || world.World().Tick() != 3
+        || world.World().Revision() != 4
+        || kernelRuntime.Snapshot().Tick() != 3
+        || kernelRuntime.Snapshot().Revision() != 4
+        || kernelRuntime.Snapshot().Find(betaId)->values.at(counterSlot.value)
             != MechanismValue(std::int64_t{4}))
     {
         std::cerr << "Final Scheduler Tick mismatch\n";
@@ -376,9 +463,9 @@ int main()
 
     std::cout
         << "Mechanism runtime pipeline: passed (tick "
-        << world.Tick()
+        << world.World().Tick()
         << ", revision "
-        << world.Revision()
+        << world.World().Revision()
         << ")\n";
     return 0;
 }

@@ -45,6 +45,52 @@ std::optional<std::size_t> ValueSize(const MechanismValue& value)
 
 }
 
+bool IsValidMechanismFieldSchema(const MechanismFieldSchema& field)
+{
+    const bool hasNumericConstraint = field.minimumNumber
+        || field.maximumNumber;
+    const bool hasSizeConstraint = field.minimumSize
+        || field.maximumSize;
+    if (!IsValidMechanismSymbol(field.name)
+        || field.name != NormalizeMechanismSymbol(field.name)
+        || (hasNumericConstraint
+            && field.kind != MechanismValueKind::Integer
+            && field.kind != MechanismValueKind::Decimal)
+        || (hasSizeConstraint
+            && field.kind != MechanismValueKind::String
+            && field.kind != MechanismValueKind::List
+            && field.kind != MechanismValueKind::Object)
+        || (field.minimumNumber
+            && !std::isfinite(*field.minimumNumber))
+        || (field.maximumNumber
+            && !std::isfinite(*field.maximumNumber))
+        || (field.minimumNumber
+            && field.maximumNumber
+            && *field.minimumNumber > *field.maximumNumber)
+        || (field.minimumSize
+            && field.maximumSize
+            && *field.minimumSize > *field.maximumSize))
+    {
+        return false;
+    }
+    if (field.listElementKind
+        && field.kind != MechanismValueKind::List)
+    {
+        return false;
+    }
+    if ((field.referenceKind || field.referenceType)
+        && field.kind != MechanismValueKind::Reference)
+    {
+        return false;
+    }
+    if (field.referenceType && *field.referenceType == 0)
+    {
+        return false;
+    }
+    return !field.defaultValue
+        || MechanismValueMatchesSchema(field, *field.defaultValue);
+}
+
 bool MechanismValueMatchesSchema(
     const MechanismFieldSchema& schema,
     const MechanismValue& value

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 
-#include "analyzer.hpp"
+#include "resolver.hpp"
 #include "country_tag_slice.hpp"
 #include "definition_registry.hpp"
 #include "diplomacy_history_slice.hpp"
@@ -65,13 +65,13 @@ bool CopyFixture(const std::filesystem::path& root)
 }
 
 bool HasRelation(
-    const dillen::worldbuilder::AuthoritativeWorld& world,
-    dillen::content::DiplomaticRelationKind kind,
-    dillen::content::CountryDefinitionId first,
-    dillen::content::CountryDefinitionId second
+    const dillen::compatibility::hoi3::worldbuilder::Hoi3WorldState& world,
+    dillen::compatibility::hoi3::content::DiplomaticRelationKind kind,
+    dillen::compatibility::hoi3::content::CountryDefinitionId first,
+    dillen::compatibility::hoi3::content::CountryDefinitionId second
 )
 {
-    const auto key = dillen::content::CanonicalDiplomacyHistoryKey(
+    const auto key = dillen::compatibility::hoi3::content::CanonicalDiplomacyHistoryKey(
         kind,
         first,
         second
@@ -109,30 +109,26 @@ int main()
 
     parser::TemplateRegistry templates;
     parser::ParserRegistry parsers;
-    parser::Analyzer analyzer;
-    content::DefinitionRegistry definitions;
+    parser::Resolver resolver;
+    dillen::compatibility::hoi3::content::DefinitionRegistry definitions;
     if (!parser::hoi3::RegisterCountryTagSlice(
-            templates, parsers, analyzer, definitions)
+            templates, parsers, resolver, definitions)
         || !parser::hoi3::RegisterDiplomacyHistorySlice(
-            templates, parsers, analyzer, definitions))
+            templates, parsers, resolver, definitions))
     {
         std::cerr << "Diplomacy pipeline registration failed\n";
         return 2;
     }
     templates.Freeze();
     parsers.Freeze();
-    analyzer.Freeze();
+    resolver.Freeze();
 
     parser::DiagnosticBag diagnostics;
     parser::FileCatalog catalog;
-    parser::AnalysisWorkspace workspace;
+    parser::ParseWorkspace workspace;
     if (!catalog.AddLayer({1, "fixture", root, 0, {}})
         || !catalog.Build(templates, diagnostics)
-        || !analyzer.Analyze(
-            catalog,
-            parsers,
-            workspace,
-            diagnostics))
+        || !(catalog.Parse(parsers, workspace, diagnostics) && resolver.Resolve(workspace, diagnostics)))
     {
         std::cerr << "Diplomacy pipeline analysis failed\n";
         return 3;
@@ -141,15 +137,15 @@ int main()
     std::size_t alliances = 0;
     std::size_t guarantees = 0;
     std::size_t vassals = 0;
-    for (const content::DiplomacyHistoryTimeline& timeline
+    for (const dillen::compatibility::hoi3::content::DiplomacyHistoryTimeline& timeline
         : definitions.DiplomacyHistories().All())
     {
-        if (timeline.key.kind == content::DiplomaticRelationKind::Alliance)
+        if (timeline.key.kind == dillen::compatibility::hoi3::content::DiplomaticRelationKind::Alliance)
         {
             ++alliances;
         }
         else if (timeline.key.kind
-            == content::DiplomaticRelationKind::Guarantee)
+            == dillen::compatibility::hoi3::content::DiplomaticRelationKind::Guarantee)
         {
             ++guarantees;
         }
@@ -169,14 +165,14 @@ int main()
     }
 
     definitions.Freeze();
-    const auto sov = content::CountryTag::Parse("SOV")->StableId();
-    const auto tan = content::CountryTag::Parse("TAN")->StableId();
-    const auto eng = content::CountryTag::Parse("ENG")->StableId();
-    const auto bel = content::CountryTag::Parse("BEL")->StableId();
-    const auto cgd = content::CountryTag::Parse("CGD")->StableId();
-    const auto cgx = content::CountryTag::Parse("CGX")->StableId();
+    const auto sov = dillen::compatibility::hoi3::content::CountryTag::Parse("SOV")->StableId();
+    const auto tan = dillen::compatibility::hoi3::content::CountryTag::Parse("TAN")->StableId();
+    const auto eng = dillen::compatibility::hoi3::content::CountryTag::Parse("ENG")->StableId();
+    const auto bel = dillen::compatibility::hoi3::content::CountryTag::Parse("BEL")->StableId();
+    const auto cgd = dillen::compatibility::hoi3::content::CountryTag::Parse("CGD")->StableId();
+    const auto cgx = dillen::compatibility::hoi3::content::CountryTag::Parse("CGX")->StableId();
     const auto* duplicateTimeline = definitions.DiplomacyHistories().Find({
-        content::DiplomaticRelationKind::Alliance,
+        dillen::compatibility::hoi3::content::DiplomaticRelationKind::Alliance,
         cgd,
         cgx
     });
@@ -187,9 +183,9 @@ int main()
         return 5;
     }
 
-    worldbuilder::WorldBuilder builder;
-    worldbuilder::AuthoritativeWorld world;
-    worldbuilder::WorldBuildReport report;
+    compatibility::hoi3::worldbuilder::WorldBuilder builder;
+    compatibility::hoi3::worldbuilder::Hoi3WorldState world;
+    compatibility::hoi3::worldbuilder::WorldBuildReport report;
     if (!builder.Build(definitions, {1936, 1, 1}, world, report))
     {
         std::cerr << "Diplomacy world construction failed\n";
@@ -200,12 +196,12 @@ int main()
     std::size_t activeVassals = 0;
     for (const auto& relation : world.Relations())
     {
-        if (relation.kind == content::DiplomaticRelationKind::Alliance)
+        if (relation.kind == dillen::compatibility::hoi3::content::DiplomaticRelationKind::Alliance)
         {
             ++activeAlliances;
         }
         else if (relation.kind
-            == content::DiplomaticRelationKind::Guarantee)
+            == dillen::compatibility::hoi3::content::DiplomaticRelationKind::Guarantee)
         {
             ++activeGuarantees;
         }
@@ -240,7 +236,7 @@ int main()
     if (!builder.Build(definitions, {1936, 9, 1}, world, report)
         || HasRelation(
             world,
-            content::DiplomaticRelationKind::Alliance,
+            dillen::compatibility::hoi3::content::DiplomaticRelationKind::Alliance,
             cgd,
             cgx))
     {

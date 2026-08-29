@@ -4,10 +4,25 @@
     <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\algorithm_registry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_command.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_definition_registry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_ids.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_instance_store.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_lifecycle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_query_snapshot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_scheduler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_schema.cpp">
@@ -16,12 +31,30 @@
     <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_schema_registry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_transaction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_value.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\world_transaction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\world_command_queue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\world_event.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\algorithm_registry.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_change.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_command.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_definition.hpp">
@@ -33,13 +66,40 @@
     <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_ids.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_instance.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_instance_store.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_lifecycle.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_query_snapshot.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_scheduler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_schema.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_schema_registry.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_transaction.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\mechanism_value.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\world_transaction.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\world_command_queue.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel\world_event.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,7 +3,7 @@
 > 建立日期：2026-08-22  
 > 当前目标版本：`hoi3_tfh.exe`，PE32/x86，时间戳 `0x50978B2F`，映像大小 `0x018B0000`  
 > 当前工程：`new_core` 进程内扩展核心  
-> 关联文档：`HOI3原生数据接口分类与逆向开发备忘录.md`、`new_core/CORE_ARCHITECTURE.md`
+> 关联文档：`HOI3原生数据接口分类与逆向开发备忘录.md`、`Project-Dillen/hoi3oracle/docs/CORE_ARCHITECTURE.md`
 
 ## 1. 结论
 

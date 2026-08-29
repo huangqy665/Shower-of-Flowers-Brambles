@@ -1,4 +1,4 @@
-new_core_add_component(
+dillen_add_component(
     project_dillen_parser_hoi3
     SOURCES
         country_definition_parser.cpp
@@ -57,8 +57,11 @@ new_core_add_component(
         war_history_slice.hpp
     PUBLIC_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}"
     PUBLIC_LINKS
-        dillen::content
+        dillen::compatibility::hoi3_content
         dillen::parser
 )
 
-add_library(dillen::parser_hoi3 ALIAS project_dillen_parser_hoi3)
+add_library(
+    dillen::compatibility::hoi3_parser
+    ALIAS project_dillen_parser_hoi3
+)

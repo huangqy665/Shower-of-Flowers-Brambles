@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-#include "analyzer.hpp"
+#include "resolver.hpp"
 #include "country_definition.hpp"
 #include "country_definition_parser.hpp"
 #include "country_definition_slice.hpp"
@@ -143,17 +143,17 @@ int main()
 
     dillen::parser::TemplateRegistry templates;
     dillen::parser::ParserRegistry parsers;
-    dillen::parser::Analyzer analyzer;
-    dillen::content::DefinitionRegistry definitions;
+    dillen::parser::Resolver resolver;
+    dillen::compatibility::hoi3::content::DefinitionRegistry definitions;
     if (!dillen::parser::hoi3::RegisterCountryTagSlice(
             templates,
             parsers,
-            analyzer,
+            resolver,
             definitions)
         || !dillen::parser::hoi3::RegisterCountryDefinitionSlice(
             templates,
             parsers,
-            analyzer,
+            resolver,
             definitions))
     {
         std::cerr << "Country definition slice registration failed\n";
@@ -161,7 +161,7 @@ int main()
     }
     templates.Freeze();
     parsers.Freeze();
-    analyzer.Freeze();
+    resolver.Freeze();
 
     dillen::parser::DiagnosticBag diagnostics;
     dillen::parser::FileCatalog catalog;
@@ -173,12 +173,8 @@ int main()
         return 3;
     }
 
-    dillen::parser::AnalysisWorkspace workspace;
-    if (!analyzer.Analyze(
-            catalog,
-            parsers,
-            workspace,
-            diagnostics))
+    dillen::parser::ParseWorkspace workspace;
+    if (!(catalog.Parse(parsers, workspace, diagnostics) && resolver.Resolve(workspace, diagnostics)))
     {
         for (const auto& diagnostic : diagnostics.All())
         {

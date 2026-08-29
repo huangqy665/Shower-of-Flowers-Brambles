@@ -16,7 +16,7 @@ namespace dillen::parser::hoi3 {
 
 namespace {
 
-std::optional<content::CountryTag> CountryTagFromPath(
+std::optional<dillen::compatibility::hoi3::content::CountryTag> CountryTagFromPath(
     std::string_view virtualPath,
     bool& canonical
 )
@@ -34,8 +34,8 @@ std::optional<content::CountryTag> CountryTagFromPath(
     {
         return std::nullopt;
     }
-    const std::optional<content::CountryTag> tag =
-        content::CountryTag::Parse(filename.substr(0, 3));
+    const std::optional<dillen::compatibility::hoi3::content::CountryTag> tag =
+        dillen::compatibility::hoi3::content::CountryTag::Parse(filename.substr(0, 3));
     if (!tag)
     {
         return std::nullopt;
@@ -64,12 +64,12 @@ SourceSpan DocumentSpan(const CountryHistoryDocument& document)
     return {};
 }
 
-content::DefinitionOrigin MakeOrigin(
+dillen::compatibility::hoi3::content::DefinitionOrigin MakeOrigin(
     const ParsedFile& file,
     const SourceSpan& span
 )
 {
-    content::DefinitionOrigin origin;
+    dillen::compatibility::hoi3::content::DefinitionOrigin origin;
     origin.virtualPath = std::string(file.source.VirtualPath());
     origin.sourceLayer = file.catalog.sourceLayerName;
     origin.line = span.IsValid() ? span.begin.line : 1;
@@ -78,10 +78,10 @@ content::DefinitionOrigin MakeOrigin(
 }
 
 void WarnMissingCountry(
-    content::CountryDefinitionId id,
-    const content::CountryTag& tag,
+    dillen::compatibility::hoi3::content::CountryDefinitionId id,
+    const dillen::compatibility::hoi3::content::CountryTag& tag,
     const SourceSpan& span,
-    content::DefinitionRegistry& definitions,
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions,
     std::unordered_set<std::uint32_t>& reportedCountries,
     DiagnosticBag& diagnostics
 )
@@ -101,18 +101,18 @@ void WarnMissingCountry(
 bool ResolveOperation(
     const ParsedFile& file,
     const UnresolvedCountryHistoryOperation& unresolved,
-    content::DefinitionRegistry& definitions,
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions,
     std::unordered_set<std::uint32_t>& reportedCountries,
     DiagnosticBag& diagnostics,
-    content::CountryHistoryOperation& output
+    dillen::compatibility::hoi3::content::CountryHistoryOperation& output
 )
 {
     output.field = unresolved.field;
     output.key = unresolved.key;
     output.origin = MakeOrigin(file, unresolved.span);
-    if (unresolved.field == content::CountryHistoryField::NamedAssignment)
+    if (unresolved.field == dillen::compatibility::hoi3::content::CountryHistoryField::NamedAssignment)
     {
-        const content::TechnologyDefinition* technology =
+        const dillen::compatibility::hoi3::content::TechnologyDefinition* technology =
             definitions.Technologies().Find(unresolved.key);
         if (technology != nullptr)
         {
@@ -130,28 +130,28 @@ bool ResolveOperation(
                 );
                 return false;
             }
-            output.field = content::CountryHistoryField::TechnologyLevel;
-            output.value = content::CountryHistoryTechnologyLevel{
+            output.field = dillen::compatibility::hoi3::content::CountryHistoryField::TechnologyLevel;
+            output.value = dillen::compatibility::hoi3::content::CountryHistoryTechnologyLevel{
                 technology->id,
                 static_cast<int>(*integer)
             };
             return true;
         }
     }
-    if (unresolved.field == content::CountryHistoryField::OrderOfBattle
+    if (unresolved.field == dillen::compatibility::hoi3::content::CountryHistoryField::OrderOfBattle
         || unresolved.field
-            == content::CountryHistoryField::LoadOrderOfBattle)
+            == dillen::compatibility::hoi3::content::CountryHistoryField::LoadOrderOfBattle)
     {
         const auto* text = std::get_if<std::string>(&unresolved.value);
         if (text != nullptr)
         {
             std::string virtualPath =
-                content::NormalizeOrderOfBattlePath(*text);
+                dillen::compatibility::hoi3::content::NormalizeOrderOfBattlePath(*text);
             if (virtualPath.find('/') == std::string::npos)
             {
                 virtualPath = "history/units/" + virtualPath;
             }
-            const content::OrderOfBattleDefinition* orderOfBattle =
+            const dillen::compatibility::hoi3::content::OrderOfBattleDefinition* orderOfBattle =
                 definitions.OrdersOfBattle().Find(virtualPath);
             if (orderOfBattle != nullptr)
             {
@@ -160,7 +160,7 @@ bool ResolveOperation(
             }
         }
     }
-    if (unresolved.field == content::CountryHistoryField::Capital)
+    if (unresolved.field == dillen::compatibility::hoi3::content::CountryHistoryField::Capital)
     {
         const auto* integer = std::get_if<std::int64_t>(&unresolved.value);
         if (integer == nullptr
@@ -174,17 +174,17 @@ bool ResolveOperation(
             );
             return false;
         }
-        output.value = content::ProvinceDefinitionId{
+        output.value = dillen::compatibility::hoi3::content::ProvinceDefinitionId{
             static_cast<std::uint32_t>(*integer)
         };
         return true;
     }
-    if (unresolved.field == content::CountryHistoryField::CreateAlliance)
+    if (unresolved.field == dillen::compatibility::hoi3::content::CountryHistoryField::CreateAlliance)
     {
         const auto* text = std::get_if<std::string>(&unresolved.value);
         const auto tag = text == nullptr
             ? std::nullopt
-            : content::CountryTag::Parse(*text);
+            : dillen::compatibility::hoi3::content::CountryTag::Parse(*text);
         if (!tag)
         {
             diagnostics.Error(
@@ -194,7 +194,7 @@ bool ResolveOperation(
             );
             return false;
         }
-        const content::CountryDefinitionId id = tag->StableId();
+        const dillen::compatibility::hoi3::content::CountryDefinitionId id = tag->StableId();
         WarnMissingCountry(
             id,
             *tag,
@@ -226,14 +226,14 @@ bool ResolveOperation(
         output.value = *text;
         return true;
     }
-    if (const auto* alignment = std::get_if<content::CountryAlignment>(
+    if (const auto* alignment = std::get_if<dillen::compatibility::hoi3::content::CountryAlignment>(
             &unresolved.value))
     {
         output.value = *alignment;
         return true;
     }
     if (const auto* map = std::get_if<
-            content::CountryHistoryNamedNumberMap>(&unresolved.value))
+            dillen::compatibility::hoi3::content::CountryHistoryNamedNumberMap>(&unresolved.value))
     {
         output.value = *map;
         return true;
@@ -247,9 +247,9 @@ bool ResolveOperation(
 }
 
 bool ResolveCountryHistories(
-    AnalysisWorkspace& workspace,
+    ParseWorkspace& workspace,
     DiagnosticBag& diagnostics,
-    content::DefinitionRegistry& definitions
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     std::unordered_set<std::uint32_t> reportedCountries;
@@ -317,7 +317,7 @@ bool ResolveCountryHistories(
                 documentSpan
             );
         }
-        const content::CountryDefinitionId country = tag->StableId();
+        const dillen::compatibility::hoi3::content::CountryDefinitionId country = tag->StableId();
         WarnMissingCountry(
             country,
             *tag,
@@ -327,14 +327,14 @@ bool ResolveCountryHistories(
             diagnostics
         );
 
-        content::CountryHistorySource source;
+        dillen::compatibility::hoi3::content::CountryHistorySource source;
         source.origin = MakeOrigin(file, documentSpan);
         bool resolved = true;
         source.initialOperations.reserve(document->initialOperations.size());
         for (const UnresolvedCountryHistoryOperation& operation
             : document->initialOperations)
         {
-            content::CountryHistoryOperation value;
+            dillen::compatibility::hoi3::content::CountryHistoryOperation value;
             const bool operationResolved = ResolveOperation(
                 file,
                 operation,
@@ -353,14 +353,14 @@ bool ResolveCountryHistories(
         for (const UnresolvedCountryHistoryPatch& unresolvedPatch
             : document->patches)
         {
-            content::CountryHistoryPatch patch;
+            dillen::compatibility::hoi3::content::CountryHistoryPatch patch;
             patch.date = unresolvedPatch.date;
             patch.origin = MakeOrigin(file, unresolvedPatch.span);
             patch.operations.reserve(unresolvedPatch.operations.size());
             for (const UnresolvedCountryHistoryOperation& operation
                 : unresolvedPatch.operations)
             {
-                content::CountryHistoryOperation value;
+                dillen::compatibility::hoi3::content::CountryHistoryOperation value;
                 const bool operationResolved = ResolveOperation(
                     file,
                     operation,
@@ -382,12 +382,12 @@ bool ResolveCountryHistories(
             continue;
         }
 
-        const content::CountryHistoryAppendResult appendResult =
+        const dillen::compatibility::hoi3::content::CountryHistoryAppendResult appendResult =
             definitions.CountryHistories().Append(
                 country,
                 std::move(source)
             );
-        if (appendResult == content::CountryHistoryAppendResult::Merged)
+        if (appendResult == dillen::compatibility::hoi3::content::CountryHistoryAppendResult::Merged)
         {
             diagnostics.Warning(
                 "hoi3.country_history.duplicate_source_merged",
@@ -397,7 +397,7 @@ bool ResolveCountryHistories(
                 documentSpan
             );
         }
-        else if (appendResult != content::CountryHistoryAppendResult::Added)
+        else if (appendResult != dillen::compatibility::hoi3::content::CountryHistoryAppendResult::Added)
         {
             diagnostics.Error(
                 "hoi3.country_history.append_failed",
@@ -414,8 +414,8 @@ bool ResolveCountryHistories(
 bool RegisterCountryHistorySlice(
     TemplateRegistry& templates,
     ParserRegistry& parsers,
-    Analyzer& analyzer,
-    content::DefinitionRegistry& definitions
+    Resolver& resolver,
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     FileTemplate fileTemplate;
@@ -443,18 +443,18 @@ bool RegisterCountryHistorySlice(
         return false;
     }
 
-    AnalysisPassDescriptor pass;
+    ResolutionPassDescriptor pass;
     pass.id = kCountryHistoryResolvePass;
     pass.name = "hoi3_country_history_resolve";
-    pass.phase = AnalysisPhase::Resolve;
+    pass.phase = ResolutionPhase::Resolve;
     pass.priority = -1700;
     pass.run = [&definitions](
-        AnalysisWorkspace& workspace,
+        ParseWorkspace& workspace,
         DiagnosticBag& diagnostics)
     {
         return ResolveCountryHistories(workspace, diagnostics, definitions);
     };
-    if (!analyzer.RegisterPass(std::move(pass)))
+    if (!resolver.RegisterPass(std::move(pass)))
     {
         parsers.Unregister(kCountryHistoryParser);
         templates.Unregister(kCountryHistoryTemplate);

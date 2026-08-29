@@ -12,7 +12,7 @@ namespace dillen::parser::hoi3 {
 
 namespace {
 
-content::DefinitionOrigin MakeOrigin(
+dillen::compatibility::hoi3::content::DefinitionOrigin MakeOrigin(
     const ParsedFile& file,
     const SourceSpan& span
 )
@@ -26,11 +26,11 @@ content::DefinitionOrigin MakeOrigin(
 }
 
 bool ResolveCountry(
-    content::CountryTag tag,
+    dillen::compatibility::hoi3::content::CountryTag tag,
     const SourceSpan& span,
-    const content::DefinitionRegistry& definitions,
+    const dillen::compatibility::hoi3::content::DefinitionRegistry& definitions,
     DiagnosticBag& diagnostics,
-    content::CountryDefinitionId& output
+    dillen::compatibility::hoi3::content::CountryDefinitionId& output
 )
 {
     output = tag.StableId();
@@ -48,9 +48,9 @@ bool ResolveCountry(
 }
 
 bool ResolveWarHistories(
-    AnalysisWorkspace& workspace,
+    ParseWorkspace& workspace,
     DiagnosticBag& diagnostics,
-    content::DefinitionRegistry& definitions
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     std::vector<const ParsedFile*> files;
@@ -94,11 +94,11 @@ bool ResolveWarHistories(
             continue;
         }
 
-        content::WarHistoryTimeline timeline;
-        timeline.virtualPath = content::NormalizeWarHistoryPath(
+        dillen::compatibility::hoi3::content::WarHistoryTimeline timeline;
+        timeline.virtualPath = dillen::compatibility::hoi3::content::NormalizeWarHistoryPath(
             file->source.VirtualPath()
         );
-        timeline.id = content::StableWarHistoryDefinitionId(
+        timeline.id = dillen::compatibility::hoi3::content::StableWarHistoryDefinitionId(
             timeline.virtualPath
         );
         timeline.name = document->name;
@@ -110,7 +110,7 @@ bool ResolveWarHistories(
         for (const UnresolvedWarHistoryPatch& parsedPatch
             : document->patches)
         {
-            content::WarHistoryPatch patch;
+            dillen::compatibility::hoi3::content::WarHistoryPatch patch;
             patch.date = parsedPatch.date;
             patch.origin = MakeOrigin(*file, parsedPatch.span);
             patch.participantOperations.reserve(
@@ -119,7 +119,7 @@ bool ResolveWarHistories(
             for (const UnresolvedWarParticipantOperation& parsedOperation
                 : parsedPatch.participantOperations)
             {
-                content::WarParticipantOperation operation;
+                dillen::compatibility::hoi3::content::WarParticipantOperation operation;
                 operation.kind = parsedOperation.kind;
                 operation.origin = MakeOrigin(*file, parsedOperation.span);
                 resolved = ResolveCountry(
@@ -134,7 +134,7 @@ bool ResolveWarHistories(
             patch.warGoals.reserve(parsedPatch.warGoals.size());
             for (const UnresolvedWarGoal& parsedGoal : parsedPatch.warGoals)
             {
-                content::WarGoalDefinition goal;
+                dillen::compatibility::hoi3::content::WarGoalDefinition goal;
                 goal.casusBelli = parsedGoal.casusBelli;
                 goal.origin = MakeOrigin(*file, parsedGoal.span);
                 const bool actorResolved = ResolveCountry(
@@ -161,7 +161,7 @@ bool ResolveWarHistories(
             continue;
         }
         if (definitions.WarHistories().Declare(std::move(timeline))
-            != content::WarHistoryDeclareResult::Added)
+            != dillen::compatibility::hoi3::content::WarHistoryDeclareResult::Added)
         {
             diagnostics.Error(
                 "hoi3.war_history.declare_failed",
@@ -178,8 +178,8 @@ bool ResolveWarHistories(
 bool RegisterWarHistorySlice(
     TemplateRegistry& templates,
     ParserRegistry& parsers,
-    Analyzer& analyzer,
-    content::DefinitionRegistry& definitions
+    Resolver& resolver,
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     FileTemplate fileTemplate;
@@ -207,18 +207,18 @@ bool RegisterWarHistorySlice(
         return false;
     }
 
-    AnalysisPassDescriptor pass;
+    ResolutionPassDescriptor pass;
     pass.id = kWarHistoryResolvePass;
     pass.name = "hoi3_war_history_resolve";
-    pass.phase = AnalysisPhase::Resolve;
+    pass.phase = ResolutionPhase::Resolve;
     pass.priority = -1500;
     pass.run = [&definitions](
-        AnalysisWorkspace& workspace,
+        ParseWorkspace& workspace,
         DiagnosticBag& diagnostics)
     {
         return ResolveWarHistories(workspace, diagnostics, definitions);
     };
-    if (!analyzer.RegisterPass(std::move(pass)))
+    if (!resolver.RegisterPass(std::move(pass)))
     {
         parsers.Unregister(kWarHistoryParser);
         templates.Unregister(kWarHistoryTemplate);

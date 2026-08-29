@@ -1,8 +1,23 @@
-new_core_add_component(
+dillen_add_component(
     project_dillen_kernel
     SOURCES
+        algorithm_execution_policy.cpp
+        algorithm_execution_policy.hpp
+        algorithm_program.cpp
+        algorithm_program.hpp
         algorithm_registry.cpp
         algorithm_registry.hpp
+        algorithm_inbox.cpp
+        algorithm_inbox.hpp
+        component_schema.cpp
+        component_schema.hpp
+        deterministic_rng.cpp
+        deterministic_rng.hpp
+        entity_definition.hpp
+        entity_definition_registry.cpp
+        entity_definition_registry.hpp
+        frozen_runtime_catalog.cpp
+        frozen_runtime_catalog.hpp
         mechanism_change.hpp
         mechanism_command.cpp
         mechanism_command.hpp
@@ -18,16 +33,40 @@ new_core_add_component(
         mechanism_lifecycle.hpp
         mechanism_query_snapshot.cpp
         mechanism_query_snapshot.hpp
-        mechanism_scheduler.cpp
-        mechanism_scheduler.hpp
         mechanism_schema.cpp
         mechanism_schema.hpp
         mechanism_schema_registry.cpp
         mechanism_schema_registry.hpp
+        mechanism_spawn_definition.hpp
+        mechanism_spawn_definition_registry.cpp
+        mechanism_spawn_definition_registry.hpp
         mechanism_transaction.cpp
         mechanism_transaction.hpp
         mechanism_value.cpp
         mechanism_value.hpp
+        package_lock.cpp
+        package_lock.hpp
+        package_manifest.cpp
+        package_manifest.hpp
+        relation_definition.hpp
+        relation_definition_registry.cpp
+        relation_definition_registry.hpp
+        relation_schema.cpp
+        relation_schema.hpp
+        ruleset.cpp
+        ruleset.hpp
+        ruleset_composition.cpp
+        ruleset_composition.hpp
+        ruleset_fingerprint.cpp
+        ruleset_fingerprint.hpp
+        ruleset_integrity.cpp
+        ruleset_integrity.hpp
+        runtime_capability_contract.cpp
+        runtime_capability_contract.hpp
+        runtime_compiler.cpp
+        runtime_compiler.hpp
+        source_lock.cpp
+        source_lock.hpp
         world_transaction.cpp
         world_transaction.hpp
         world_command_queue.cpp

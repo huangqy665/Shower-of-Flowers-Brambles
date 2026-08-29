@@ -1,5 +1,6 @@
 #include "world_command_queue.hpp"
 
+#include <algorithm>
 #include <limits>
 #include <stdexcept>
 #include <utility>
@@ -8,13 +9,15 @@ namespace dillen::kernel {
 
 std::uint64_t WorldCommandQueue::Enqueue(
     WorldTransaction transaction,
-    std::uint64_t notBeforeTick
+    std::uint64_t notBeforeTick,
+    std::int32_t priority
 )
 {
     const std::uint64_t sequence = ReserveSequence();
     pending_.push_back({
         sequence,
         notBeforeTick,
+        priority,
         std::move(transaction)
     });
     return sequence;
@@ -48,6 +51,23 @@ std::vector<QueuedWorldTransaction> WorldCommandQueue::TakeReady(
             delayed.push_back(std::move(queued));
         }
     }
+    std::stable_sort(
+        ready.begin(),
+        ready.end(),
+        [](const QueuedWorldTransaction& first,
+           const QueuedWorldTransaction& second)
+        {
+            if (first.notBeforeTick != second.notBeforeTick)
+            {
+                return first.notBeforeTick < second.notBeforeTick;
+            }
+            if (first.priority != second.priority)
+            {
+                return first.priority < second.priority;
+            }
+            return first.sequence < second.sequence;
+        }
+    );
     pending_ = std::move(delayed);
     return ready;
 }

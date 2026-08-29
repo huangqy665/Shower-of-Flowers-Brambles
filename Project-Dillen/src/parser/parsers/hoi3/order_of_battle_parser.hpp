@@ -13,8 +13,8 @@ namespace dillen::parser::hoi3 {
 
 struct UnresolvedOrderOfBattleNode
 {
-    content::OrderOfBattleNodeKind kind =
-        content::OrderOfBattleNodeKind::Division;
+    dillen::compatibility::hoi3::content::OrderOfBattleNodeKind kind =
+        dillen::compatibility::hoi3::content::OrderOfBattleNodeKind::Division;
     std::string name;
     std::string unitTypeName;
     std::optional<std::uint32_t> location;

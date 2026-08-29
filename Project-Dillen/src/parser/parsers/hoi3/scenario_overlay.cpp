@@ -19,7 +19,7 @@ std::filesystem::path FindChildDirectory(
         iterator.increment(error))
     {
         if (iterator->is_directory(error)
-            && content::NormalizeScenarioKey(
+            && dillen::compatibility::hoi3::content::NormalizeScenarioKey(
                 iterator->path().filename().u8string()) == normalizedName)
         {
             return iterator->path();
@@ -51,7 +51,7 @@ SourceLayer MakeMount(
 }
 
 bool BuildScenarioOverlayPlan(
-    const content::ScenarioDefinition& scenario,
+    const dillen::compatibility::hoi3::content::ScenarioDefinition& scenario,
     const std::filesystem::path& contentRoot,
     SourceLayerId firstLayerId,
     int priority,

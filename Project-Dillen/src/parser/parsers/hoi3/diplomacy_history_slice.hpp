@@ -1,6 +1,6 @@
 #pragma once
 
-#include "analyzer.hpp"
+#include "resolver.hpp"
 #include "definition_registry.hpp"
 #include "parser_registry.hpp"
 #include "template.hpp"
@@ -14,14 +14,14 @@ inline constexpr ParserId kDiplomacyHistoryParser =
     0x484F493300002013ULL;
 inline constexpr DefinitionTypeId kDiplomacyHistoryDocumentType =
     0x484F493300003013ULL;
-inline constexpr AnalysisPassId kDiplomacyHistoryResolvePass =
+inline constexpr ResolutionPassId kDiplomacyHistoryResolvePass =
     0x484F493300004016ULL;
 
 bool RegisterDiplomacyHistorySlice(
     TemplateRegistry& templates,
     ParserRegistry& parsers,
-    Analyzer& analyzer,
-    content::DefinitionRegistry& definitions
+    Resolver& resolver,
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 );
 
 }

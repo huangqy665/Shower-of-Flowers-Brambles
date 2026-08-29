@@ -35,7 +35,7 @@ enum class PatchParseResult
 
 struct FieldDescriptor
 {
-    content::CountryHistoryField field;
+    dillen::compatibility::hoi3::content::CountryHistoryField field;
     FieldValueKind valueKind;
 };
 
@@ -68,7 +68,7 @@ bool IsMinisterField(std::string_view key)
 
 FieldDescriptor DescribeField(std::string_view key)
 {
-    using content::CountryHistoryField;
+    using dillen::compatibility::hoi3::content::CountryHistoryField;
     if (key == "capital")
     {
         return {CountryHistoryField::Capital, FieldValueKind::Capital};
@@ -180,7 +180,7 @@ bool ExpectAssignment(ParserCursor& cursor, const SourceSpan& span)
 
 bool ParseDateToken(
     const Token& token,
-    content::DefinitionDate& output
+    dillen::compatibility::hoi3::content::DefinitionDate& output
 )
 {
     int components[3]{};
@@ -233,7 +233,7 @@ bool ParseDecimal(const Token& token, double& output)
 
 bool ParseAlignment(
     ParserCursor& cursor,
-    content::CountryAlignment& output
+    dillen::compatibility::hoi3::content::CountryAlignment& output
 )
 {
     if (!cursor.Expect(
@@ -309,7 +309,7 @@ bool ParseAlignment(
 
 bool ParseNumberMap(
     ParserCursor& cursor,
-    content::CountryHistoryNamedNumberMap& output
+    dillen::compatibility::hoi3::content::CountryHistoryNamedNumberMap& output
 )
 {
     if (!cursor.Expect(
@@ -453,7 +453,7 @@ bool ParseOperation(
     {
         Token value;
         if (!cursor.ReadScalar(value)
-            || !content::CountryTag::Parse(value.text))
+            || !dillen::compatibility::hoi3::content::CountryTag::Parse(value.text))
         {
             cursor.Diagnostics().Error(
                 "hoi3.country_history.country_invalid",
@@ -467,7 +467,7 @@ bool ParseOperation(
     }
     case FieldValueKind::Alignment:
     {
-        content::CountryAlignment alignment;
+        dillen::compatibility::hoi3::content::CountryAlignment alignment;
         if (!ParseAlignment(cursor, alignment))
         {
             return false;
@@ -477,7 +477,7 @@ bool ParseOperation(
     }
     case FieldValueKind::NumberMap:
     {
-        content::CountryHistoryNamedNumberMap map;
+        dillen::compatibility::hoi3::content::CountryHistoryNamedNumberMap map;
         if (!ParseNumberMap(cursor, map))
         {
             return false;
@@ -529,9 +529,9 @@ bool ParseOperation(
             return false;
         }
         std::string symbol(value.text);
-        if ((operation.field == content::CountryHistoryField::SetCountryFlag
+        if ((operation.field == dillen::compatibility::hoi3::content::CountryHistoryField::SetCountryFlag
                 || operation.field
-                    == content::CountryHistoryField::SetGlobalFlag)
+                    == dillen::compatibility::hoi3::content::CountryHistoryField::SetGlobalFlag)
             && cursor.Peek().kind == TokenKind::Identifier
             && !cursor.Peek().text.empty()
             && cursor.Peek().text.front() == '_'

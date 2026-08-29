@@ -1,6 +1,6 @@
 ^D:\80TH_SPECIAL_VERSION\SHOWER-OF-FLOWERS-BRAMBLES\PROJECT-DILLEN\BUILD-PARSER\CMAKEFILES\B9B2588B7BB5DC0189AB4CA8821C5C2F\GENERATE.STAMP.RULE
 setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/80th_special_version/Shower-of-Flowers-Brambles/Project-Dillen -BD:/80th_special_version/Shower-of-Flowers-Brambles/Project-Dillen/build-parser --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file D:/80th_special_version/Shower-of-Flowers-Brambles/Project-Dillen/build-parser/hoi3_new_core.sln
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/80th_special_version/Shower-of-Flowers-Brambles/Project-Dillen -BD:/80th_special_version/Shower-of-Flowers-Brambles/Project-Dillen/build-parser --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file D:/80th_special_version/Shower-of-Flowers-Brambles/Project-Dillen/build-parser/ProjectDillen.sln
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone

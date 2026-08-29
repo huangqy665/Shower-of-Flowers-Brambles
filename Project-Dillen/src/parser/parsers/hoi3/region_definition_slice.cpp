@@ -14,9 +14,9 @@ namespace dillen::parser::hoi3 {
 namespace {
 
 bool DeclareRegions(
-    AnalysisWorkspace& workspace,
+    ParseWorkspace& workspace,
     DiagnosticBag& diagnostics,
-    content::DefinitionRegistry& definitions
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     for (const ParsedFile& file : workspace.files)
@@ -39,8 +39,8 @@ bool DeclareRegions(
         for (const RegionDefinitionDeclaration& declaration
             : document->declarations)
         {
-            content::RegionDefinition definition;
-            definition.id = content::StableRegionDefinitionId(
+            dillen::compatibility::hoi3::content::RegionDefinition definition;
+            definition.id = dillen::compatibility::hoi3::content::StableRegionDefinitionId(
                 declaration.name
             );
             definition.name = declaration.name;
@@ -50,9 +50,9 @@ bool DeclareRegions(
                 file.catalog.sourceLayerName;
             definition.origin.line = declaration.nameSpan.begin.line;
             definition.origin.column = declaration.nameSpan.begin.column;
-            const content::RegionDeclareResult result =
+            const dillen::compatibility::hoi3::content::RegionDeclareResult result =
                 definitions.Regions().Declare(std::move(definition));
-            if (result != content::RegionDeclareResult::Added)
+            if (result != dillen::compatibility::hoi3::content::RegionDeclareResult::Added)
             {
                 diagnostics.Error(
                     "hoi3.region.declare_failed",
@@ -66,9 +66,9 @@ bool DeclareRegions(
 }
 
 bool ResolveRegions(
-    AnalysisWorkspace& workspace,
+    ParseWorkspace& workspace,
     DiagnosticBag& diagnostics,
-    content::DefinitionRegistry& definitions
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     for (const ParsedFile& file : workspace.files)
@@ -92,7 +92,7 @@ bool ResolveRegions(
             : document->declarations)
         {
             std::unordered_set<std::uint32_t> seenProvinces;
-            std::vector<content::ProvinceDefinitionId> provinces;
+            std::vector<dillen::compatibility::hoi3::content::ProvinceDefinitionId> provinces;
             provinces.reserve(declaration.provinces.size());
             bool missingReference = false;
             for (const RegionProvinceReference& reference
@@ -145,13 +145,13 @@ bool ResolveRegions(
                 continue;
             }
 
-            const content::RegionResolveResult result =
+            const dillen::compatibility::hoi3::content::RegionResolveResult result =
                 definitions.Regions().Resolve(
-                    content::StableRegionDefinitionId(declaration.name),
+                    dillen::compatibility::hoi3::content::StableRegionDefinitionId(declaration.name),
                     std::move(provinces),
                     std::move(flags)
                 );
-            if (result != content::RegionResolveResult::Resolved)
+            if (result != dillen::compatibility::hoi3::content::RegionResolveResult::Resolved)
             {
                 diagnostics.Error(
                     "hoi3.region.resolve_failed",
@@ -169,8 +169,8 @@ bool ResolveRegions(
 bool RegisterRegionDefinitionSlice(
     TemplateRegistry& templates,
     ParserRegistry& parsers,
-    Analyzer& analyzer,
-    content::DefinitionRegistry& definitions
+    Resolver& resolver,
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     FileTemplate fileTemplate;
@@ -198,38 +198,38 @@ bool RegisterRegionDefinitionSlice(
         return false;
     }
 
-    AnalysisPassDescriptor declarePass;
+    ResolutionPassDescriptor declarePass;
     declarePass.id = kRegionDefinitionDeclarePass;
     declarePass.name = "hoi3_region_definition_declare";
-    declarePass.phase = AnalysisPhase::Declare;
+    declarePass.phase = ResolutionPhase::Declare;
     declarePass.priority = -1900;
     declarePass.run = [&definitions](
-        AnalysisWorkspace& workspace,
+        ParseWorkspace& workspace,
         DiagnosticBag& diagnostics)
     {
         return DeclareRegions(workspace, diagnostics, definitions);
     };
-    if (!analyzer.RegisterPass(std::move(declarePass)))
+    if (!resolver.RegisterPass(std::move(declarePass)))
     {
         parsers.Unregister(kRegionDefinitionParser);
         templates.Unregister(kRegionDefinitionTemplate);
         return false;
     }
 
-    AnalysisPassDescriptor resolvePass;
+    ResolutionPassDescriptor resolvePass;
     resolvePass.id = kRegionDefinitionResolvePass;
     resolvePass.name = "hoi3_region_definition_resolve";
-    resolvePass.phase = AnalysisPhase::Resolve;
+    resolvePass.phase = ResolutionPhase::Resolve;
     resolvePass.priority = -2000;
     resolvePass.run = [&definitions](
-        AnalysisWorkspace& workspace,
+        ParseWorkspace& workspace,
         DiagnosticBag& diagnostics)
     {
         return ResolveRegions(workspace, diagnostics, definitions);
     };
-    if (!analyzer.RegisterPass(std::move(resolvePass)))
+    if (!resolver.RegisterPass(std::move(resolvePass)))
     {
-        analyzer.UnregisterPass(kRegionDefinitionDeclarePass);
+        resolver.UnregisterPass(kRegionDefinitionDeclarePass);
         parsers.Unregister(kRegionDefinitionParser);
         templates.Unregister(kRegionDefinitionTemplate);
         return false;

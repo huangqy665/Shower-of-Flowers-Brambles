@@ -14,7 +14,7 @@ struct UnresolvedUnitModelDefinition
 {
     std::string unitTypeName;
     int modelIndex = 0;
-    std::vector<content::UnitModelTechnologyLevel> technologyLevels;
+    std::vector<dillen::compatibility::hoi3::content::UnitModelTechnologyLevel> technologyLevels;
     SourceSpan span;
 };
 

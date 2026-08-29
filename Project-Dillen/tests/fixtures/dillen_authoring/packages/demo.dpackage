@@ -1,0 +1,8 @@
+package_manifest = {
+    name = dillen.demo.package
+    version_major = 1
+    version_minor = 0
+    version_patch = 0
+    content_digest = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+    load_priority = 0
+}

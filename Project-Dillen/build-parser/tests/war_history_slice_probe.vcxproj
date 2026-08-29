@@ -86,7 +86,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\parsers\hoi3;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\content;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\worldbuilder;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\parsers\hoi3;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\compatibility\hoi3\content;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\compatibility\hoi3\worldbuilder;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\world;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /utf-8 /Zc:__cplusplus</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -106,10 +106,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;WIN32_LEAN_AND_MEAN;NOMINMAX;SCRIPTED_GUI_OVERLAY_STATIC;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\parsers\hoi3;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\content;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\worldbuilder;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\parsers\hoi3;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\compatibility\hoi3\content;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\compatibility\hoi3\worldbuilder;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\world;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\parsers\hoi3;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\content;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\worldbuilder;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\parsers\hoi3;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\compatibility\hoi3\content;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\compatibility\hoi3\worldbuilder;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\world;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -117,7 +117,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>..\src\parser\parsers\hoi3\Debug\project_dillen_parser_hoi3.lib;..\src\worldbuilder\Debug\project_dillen_worldbuilder.lib;..\src\parser\Debug\project_dillen_parser.lib;..\src\content\Debug\project_dillen_content.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>..\src\parser\parsers\hoi3\Debug\project_dillen_parser_hoi3.lib;..\src\compatibility\hoi3\worldbuilder\Debug\project_dillen_hoi3_worldbuilder.lib;..\src\parser\Debug\project_dillen_parser.lib;..\src\compatibility\hoi3\content\Debug\project_dillen_hoi3_content.lib;..\src\world\Debug\project_dillen_world.lib;..\src\kernel\Debug\project_dillen_kernel.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -132,7 +132,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\parsers\hoi3;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\content;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\worldbuilder;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\parsers\hoi3;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\compatibility\hoi3\content;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\compatibility\hoi3\worldbuilder;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\world;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /utf-8 /Zc:__cplusplus</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -153,10 +153,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;WIN32_LEAN_AND_MEAN;NOMINMAX;SCRIPTED_GUI_OVERLAY_STATIC;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\parsers\hoi3;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\content;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\worldbuilder;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\parsers\hoi3;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\compatibility\hoi3\content;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\compatibility\hoi3\worldbuilder;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\world;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\parsers\hoi3;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\content;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\worldbuilder;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\parsers\hoi3;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\compatibility\hoi3\content;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\compatibility\hoi3\worldbuilder;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\world;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -164,7 +164,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>..\src\parser\parsers\hoi3\Release\project_dillen_parser_hoi3.lib;..\src\worldbuilder\Release\project_dillen_worldbuilder.lib;..\src\parser\Release\project_dillen_parser.lib;..\src\content\Release\project_dillen_content.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>..\src\parser\parsers\hoi3\Release\project_dillen_parser_hoi3.lib;..\src\compatibility\hoi3\worldbuilder\Release\project_dillen_hoi3_worldbuilder.lib;..\src\parser\Release\project_dillen_parser.lib;..\src\compatibility\hoi3\content\Release\project_dillen_hoi3_content.lib;..\src\world\Release\project_dillen_world.lib;..\src\kernel\Release\project_dillen_kernel.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -179,7 +179,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\parsers\hoi3;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\content;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\worldbuilder;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\parsers\hoi3;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\compatibility\hoi3\content;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\compatibility\hoi3\worldbuilder;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\world;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /utf-8 /Zc:__cplusplus</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -200,10 +200,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;WIN32_LEAN_AND_MEAN;NOMINMAX;SCRIPTED_GUI_OVERLAY_STATIC;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\parsers\hoi3;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\content;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\worldbuilder;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\parsers\hoi3;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\compatibility\hoi3\content;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\compatibility\hoi3\worldbuilder;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\world;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\parsers\hoi3;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\content;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\worldbuilder;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\parsers\hoi3;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\compatibility\hoi3\content;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\compatibility\hoi3\worldbuilder;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\world;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -211,7 +211,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>..\src\parser\parsers\hoi3\MinSizeRel\project_dillen_parser_hoi3.lib;..\src\worldbuilder\MinSizeRel\project_dillen_worldbuilder.lib;..\src\parser\MinSizeRel\project_dillen_parser.lib;..\src\content\MinSizeRel\project_dillen_content.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>..\src\parser\parsers\hoi3\MinSizeRel\project_dillen_parser_hoi3.lib;..\src\compatibility\hoi3\worldbuilder\MinSizeRel\project_dillen_hoi3_worldbuilder.lib;..\src\parser\MinSizeRel\project_dillen_parser.lib;..\src\compatibility\hoi3\content\MinSizeRel\project_dillen_hoi3_content.lib;..\src\world\MinSizeRel\project_dillen_world.lib;..\src\kernel\MinSizeRel\project_dillen_kernel.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -226,7 +226,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\parsers\hoi3;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\content;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\worldbuilder;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\parsers\hoi3;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\compatibility\hoi3\content;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\compatibility\hoi3\worldbuilder;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\world;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /utf-8 /Zc:__cplusplus</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -246,10 +246,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;WIN32_LEAN_AND_MEAN;NOMINMAX;SCRIPTED_GUI_OVERLAY_STATIC;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\parsers\hoi3;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\content;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\worldbuilder;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\parsers\hoi3;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\compatibility\hoi3\content;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\compatibility\hoi3\worldbuilder;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\world;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\parsers\hoi3;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\content;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\worldbuilder;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser\parsers\hoi3;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\compatibility\hoi3\content;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\parser;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\compatibility\hoi3\worldbuilder;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\kernel;D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\src\world;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -257,7 +257,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>..\src\parser\parsers\hoi3\RelWithDebInfo\project_dillen_parser_hoi3.lib;..\src\worldbuilder\RelWithDebInfo\project_dillen_worldbuilder.lib;..\src\parser\RelWithDebInfo\project_dillen_parser.lib;..\src\content\RelWithDebInfo\project_dillen_content.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>..\src\parser\parsers\hoi3\RelWithDebInfo\project_dillen_parser_hoi3.lib;..\src\compatibility\hoi3\worldbuilder\RelWithDebInfo\project_dillen_hoi3_worldbuilder.lib;..\src\parser\RelWithDebInfo\project_dillen_parser.lib;..\src\compatibility\hoi3\content\RelWithDebInfo\project_dillen_hoi3_content.lib;..\src\world\RelWithDebInfo\project_dillen_world.lib;..\src\kernel\RelWithDebInfo\project_dillen_kernel.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -338,9 +338,17 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\src\content\project_dillen_content.vcxproj">
-      <Project>{CD2A3E15-ED65-3EAC-901D-337E62B993A0}</Project>
-      <Name>project_dillen_content</Name>
+    <ProjectReference Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\src\compatibility\hoi3\content\project_dillen_hoi3_content.vcxproj">
+      <Project>{BCCBCC34-8701-39F7-80D9-C0B14E5ED1A3}</Project>
+      <Name>project_dillen_hoi3_content</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\src\compatibility\hoi3\worldbuilder\project_dillen_hoi3_worldbuilder.vcxproj">
+      <Project>{2D92D7BC-3964-3796-86A9-CFDF577179DA}</Project>
+      <Name>project_dillen_hoi3_worldbuilder</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\src\kernel\project_dillen_kernel.vcxproj">
+      <Project>{376821D7-D173-3285-AED4-43D1731DC4D6}</Project>
+      <Name>project_dillen_kernel</Name>
     </ProjectReference>
     <ProjectReference Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\src\parser\project_dillen_parser.vcxproj">
       <Project>{8A852EC5-E0EC-341B-BDFA-6211779D8843}</Project>
@@ -350,9 +358,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{951F30BB-39ED-3366-81C6-77463023D19C}</Project>
       <Name>project_dillen_parser_hoi3</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\src\worldbuilder\project_dillen_worldbuilder.vcxproj">
-      <Project>{1CA6DBA8-C84D-385A-BEDC-3516988A7817}</Project>
-      <Name>project_dillen_worldbuilder</Name>
+    <ProjectReference Include="D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\src\world\project_dillen_world.vcxproj">
+      <Project>{16C8BEEE-E0D6-3164-AF3E-D234B56BE3C9}</Project>
+      <Name>project_dillen_world</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

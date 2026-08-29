@@ -1,0 +1,62 @@
+dillen_add_component(
+    project_dillen_hoi3_content
+    SOURCES
+        country_definition.hpp
+        country_definition_registry.cpp
+        country_definition_registry.hpp
+        country_history.hpp
+        country_history_registry.cpp
+        country_history_registry.hpp
+        country_tag_definition.cpp
+        country_tag_definition.hpp
+        definition_date.cpp
+        definition_date.hpp
+        definition_origin.hpp
+        definition_registry.cpp
+        definition_registry.hpp
+        diplomacy_history.cpp
+        diplomacy_history.hpp
+        diplomacy_history_registry.cpp
+        diplomacy_history_registry.hpp
+        launch_definition.cpp
+        launch_definition.hpp
+        launch_definition_registry.cpp
+        launch_definition_registry.hpp
+        order_of_battle_definition.cpp
+        order_of_battle_definition.hpp
+        order_of_battle_definition_registry.cpp
+        order_of_battle_definition_registry.hpp
+        province_definition.cpp
+        province_definition.hpp
+        province_definition_registry.cpp
+        province_definition_registry.hpp
+        province_history.hpp
+        province_history_registry.cpp
+        province_history_registry.hpp
+        region_definition.cpp
+        region_definition.hpp
+        region_definition_registry.cpp
+        region_definition_registry.hpp
+        technology_definition.cpp
+        technology_definition.hpp
+        technology_definition_registry.cpp
+        technology_definition_registry.hpp
+        unit_model_definition.cpp
+        unit_model_definition.hpp
+        unit_model_definition_registry.cpp
+        unit_model_definition_registry.hpp
+        unit_type_definition.cpp
+        unit_type_definition.hpp
+        unit_type_definition_registry.cpp
+        unit_type_definition_registry.hpp
+        war_history.cpp
+        war_history.hpp
+        war_history_registry.cpp
+        war_history_registry.hpp
+    PUBLIC_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}"
+)
+
+add_library(
+    dillen::compatibility::hoi3_content
+    ALIAS project_dillen_hoi3_content
+)

@@ -1,0 +1,68 @@
+root_ruleset = {
+    name = dillen.demo.root
+    version = 1
+    allow_additions = { algorithm }
+
+    required_packages = {
+        requirement = {
+            name = dillen.demo.package
+            minimum_major = 1
+            minimum_minor = 0
+            minimum_patch = 0
+            maximum_major = 2
+            maximum_minor = 0
+            maximum_patch = 0
+        }
+        requirement = {
+            name = dillen.demo.extension_package
+            minimum_major = 1
+            minimum_minor = 0
+            minimum_patch = 0
+            maximum_major = 2
+            maximum_minor = 0
+            maximum_patch = 0
+        }
+    }
+
+    required_schemas = {
+        dillen.demo.counter = 1
+    }
+    required_components = {
+        dillen.demo.identity = 1
+    }
+    required_relations = {
+        dillen.demo.link = 1
+    }
+    required_algorithms = {
+        dillen.demo.counter_algorithm = 1
+    }
+    required_definitions = {
+        requirement = {
+            mechanism = dillen.demo.counter
+            name = dillen.demo.default_counter
+        }
+    }
+    required_entity_definitions = {
+        requirement = {
+            entity_type = dillen.demo.actor
+            name = dillen.demo.alpha
+        }
+        requirement = {
+            entity_type = dillen.demo.actor
+            name = dillen.demo.beta
+        }
+    }
+    required_relation_definitions = {
+        requirement = {
+            relation = dillen.demo.link
+            name = dillen.demo.alpha_beta
+        }
+    }
+    required_spawns = {
+        requirement = {
+            mechanism = dillen.demo.counter
+            definition = dillen.demo.default_counter
+            name = dillen.demo.initial_counter
+        }
+    }
+}

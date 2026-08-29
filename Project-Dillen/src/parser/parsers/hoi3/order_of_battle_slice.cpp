@@ -12,12 +12,12 @@ namespace dillen::parser::hoi3 {
 
 namespace {
 
-content::DefinitionOrigin MakeOrigin(
+dillen::compatibility::hoi3::content::DefinitionOrigin MakeOrigin(
     const ParsedFile& file,
     const SourceSpan& span
 )
 {
-    content::DefinitionOrigin origin;
+    dillen::compatibility::hoi3::content::DefinitionOrigin origin;
     origin.virtualPath = std::string(file.source.VirtualPath());
     origin.sourceLayer = file.catalog.sourceLayerName;
     origin.line = span.IsValid() ? span.begin.line : 1;
@@ -47,9 +47,9 @@ SourceSpan DocumentSpan(const OrderOfBattleDocument& document)
 }
 
 bool DeclareOrdersOfBattle(
-    AnalysisWorkspace& workspace,
+    ParseWorkspace& workspace,
     DiagnosticBag& diagnostics,
-    content::DefinitionRegistry& definitions
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     for (const ParsedFile& file : workspace.files)
@@ -68,17 +68,17 @@ bool DeclareOrdersOfBattle(
             );
             return false;
         }
-        content::OrderOfBattleDefinition definition;
-        definition.virtualPath = content::NormalizeOrderOfBattlePath(
+        dillen::compatibility::hoi3::content::OrderOfBattleDefinition definition;
+        definition.virtualPath = dillen::compatibility::hoi3::content::NormalizeOrderOfBattlePath(
             file.source.VirtualPath()
         );
-        definition.id = content::StableOrderOfBattleDefinitionId(
+        definition.id = dillen::compatibility::hoi3::content::StableOrderOfBattleDefinitionId(
             definition.virtualPath
         );
         definition.origin = MakeOrigin(file, DocumentSpan(*document));
-        const content::OrderOfBattleDeclareResult result =
+        const dillen::compatibility::hoi3::content::OrderOfBattleDeclareResult result =
             definitions.OrdersOfBattle().Declare(std::move(definition));
-        if (result != content::OrderOfBattleDeclareResult::Added)
+        if (result != dillen::compatibility::hoi3::content::OrderOfBattleDeclareResult::Added)
         {
             diagnostics.Error(
                 "hoi3.oob.declare_failed",
@@ -90,10 +90,10 @@ bool DeclareOrdersOfBattle(
     return !diagnostics.HasErrors();
 }
 
-std::optional<content::CountryDefinitionId> ResolveCountry(
+std::optional<dillen::compatibility::hoi3::content::CountryDefinitionId> ResolveCountry(
     std::string_view text,
     const SourceSpan& span,
-    content::DefinitionRegistry& definitions,
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions,
     std::unordered_set<std::uint32_t>& reportedCountries,
     DiagnosticBag& diagnostics
 )
@@ -102,8 +102,8 @@ std::optional<content::CountryDefinitionId> ResolveCountry(
     {
         return std::nullopt;
     }
-    const std::optional<content::CountryTag> tag =
-        content::CountryTag::Parse(text);
+    const std::optional<dillen::compatibility::hoi3::content::CountryTag> tag =
+        dillen::compatibility::hoi3::content::CountryTag::Parse(text);
     if (!tag)
     {
         diagnostics.Error(
@@ -113,7 +113,7 @@ std::optional<content::CountryDefinitionId> ResolveCountry(
         );
         return std::nullopt;
     }
-    const content::CountryDefinitionId id = tag->StableId();
+    const dillen::compatibility::hoi3::content::CountryDefinitionId id = tag->StableId();
     if (definitions.Countries().Find(id) == nullptr
         && reportedCountries.emplace(id.value).second)
     {
@@ -127,22 +127,22 @@ std::optional<content::CountryDefinitionId> ResolveCountry(
     return id;
 }
 
-content::OrderOfBattleNode ResolveNode(
+dillen::compatibility::hoi3::content::OrderOfBattleNode ResolveNode(
     const ParsedFile& file,
     const UnresolvedOrderOfBattleNode& unresolved,
-    content::DefinitionRegistry& definitions,
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions,
     std::unordered_set<std::uint32_t>& reportedProvinces,
     std::unordered_set<std::uint32_t>& reportedCountries,
     DiagnosticBag& diagnostics
 )
 {
-    content::OrderOfBattleNode node;
+    dillen::compatibility::hoi3::content::OrderOfBattleNode node;
     node.kind = unresolved.kind;
     node.name = unresolved.name;
     node.unitTypeName = unresolved.unitTypeName;
     if (!node.unitTypeName.empty())
     {
-        const content::UnitTypeDefinition* unitType =
+        const dillen::compatibility::hoi3::content::UnitTypeDefinition* unitType =
             definitions.UnitTypes().Find(node.unitTypeName);
         if (unitType != nullptr)
         {
@@ -151,13 +151,13 @@ content::OrderOfBattleNode ResolveNode(
     }
     const auto resolveProvince = [&](
         const std::optional<std::uint32_t>& source,
-        std::optional<content::ProvinceDefinitionId>& destination)
+        std::optional<dillen::compatibility::hoi3::content::ProvinceDefinitionId>& destination)
     {
         if (!source)
         {
             return;
         }
-        const content::ProvinceDefinition* province =
+        const dillen::compatibility::hoi3::content::ProvinceDefinition* province =
             definitions.Provinces().Find(*source);
         if (province != nullptr)
         {
@@ -213,9 +213,9 @@ content::OrderOfBattleNode ResolveNode(
 }
 
 bool ResolveOrdersOfBattle(
-    AnalysisWorkspace& workspace,
+    ParseWorkspace& workspace,
     DiagnosticBag& diagnostics,
-    content::DefinitionRegistry& definitions
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     std::unordered_set<std::uint32_t> reportedProvinces;
@@ -232,7 +232,7 @@ bool ResolveOrdersOfBattle(
         {
             return false;
         }
-        std::vector<content::OrderOfBattleNode> roots;
+        std::vector<dillen::compatibility::hoi3::content::OrderOfBattleNode> roots;
         roots.reserve(document->roots.size());
         for (const UnresolvedOrderOfBattleNode& unresolved : document->roots)
         {
@@ -246,7 +246,7 @@ bool ResolveOrdersOfBattle(
             ));
         }
 
-        std::vector<content::OrderOfBattleMilitaryAccess> access;
+        std::vector<dillen::compatibility::hoi3::content::OrderOfBattleMilitaryAccess> access;
         access.reserve(document->militaryAccess.size());
         for (const UnresolvedOrderOfBattleMilitaryAccess& unresolved
             : document->militaryAccess)
@@ -268,12 +268,12 @@ bool ResolveOrdersOfBattle(
             }
         }
 
-        std::vector<content::OrderOfBattleConstruction> constructions;
+        std::vector<dillen::compatibility::hoi3::content::OrderOfBattleConstruction> constructions;
         constructions.reserve(document->constructions.size());
         for (const UnresolvedOrderOfBattleConstruction& unresolved
             : document->constructions)
         {
-            content::OrderOfBattleConstruction construction;
+            dillen::compatibility::hoi3::content::OrderOfBattleConstruction construction;
             construction.country = ResolveCountry(
                 unresolved.country,
                 unresolved.span,
@@ -311,7 +311,7 @@ bool ResolveOrdersOfBattle(
             constructions.push_back(std::move(construction));
         }
 
-        std::vector<content::OrderOfBattleMetadata> metadata;
+        std::vector<dillen::compatibility::hoi3::content::OrderOfBattleMetadata> metadata;
         metadata.reserve(document->metadata.size());
         for (const UnresolvedOrderOfBattleMetadata& unresolved
             : document->metadata)
@@ -323,11 +323,11 @@ bool ResolveOrdersOfBattle(
             });
         }
 
-        const content::OrderOfBattleDefinitionId id =
-            content::StableOrderOfBattleDefinitionId(
+        const dillen::compatibility::hoi3::content::OrderOfBattleDefinitionId id =
+            dillen::compatibility::hoi3::content::StableOrderOfBattleDefinitionId(
                 file.source.VirtualPath()
             );
-        const content::OrderOfBattleResolveResult result =
+        const dillen::compatibility::hoi3::content::OrderOfBattleResolveResult result =
             definitions.OrdersOfBattle().ResolveReferences(
                 id,
                 std::move(roots),
@@ -335,7 +335,7 @@ bool ResolveOrdersOfBattle(
                 std::move(constructions),
                 std::move(metadata)
             );
-        if (result != content::OrderOfBattleResolveResult::Resolved)
+        if (result != dillen::compatibility::hoi3::content::OrderOfBattleResolveResult::Resolved)
         {
             diagnostics.Error(
                 "hoi3.oob.resolve_failed",
@@ -369,8 +369,8 @@ bool RegisterTemplate(
 bool RegisterOrderOfBattleSlice(
     TemplateRegistry& templates,
     ParserRegistry& parsers,
-    Analyzer& analyzer,
-    content::DefinitionRegistry& definitions
+    Resolver& resolver,
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     if (!RegisterTemplate(
@@ -410,18 +410,18 @@ bool RegisterOrderOfBattleSlice(
         return false;
     }
 
-    AnalysisPassDescriptor declarePass;
+    ResolutionPassDescriptor declarePass;
     declarePass.id = kOrderOfBattleDeclarePass;
     declarePass.name = "hoi3_order_of_battle_declare";
-    declarePass.phase = AnalysisPhase::Declare;
+    declarePass.phase = ResolutionPhase::Declare;
     declarePass.priority = 200;
     declarePass.run = [&definitions](
-        AnalysisWorkspace& workspace,
+        ParseWorkspace& workspace,
         DiagnosticBag& diagnostics)
     {
         return DeclareOrdersOfBattle(workspace, diagnostics, definitions);
     };
-    if (!analyzer.RegisterPass(std::move(declarePass)))
+    if (!resolver.RegisterPass(std::move(declarePass)))
     {
         parsers.Unregister(kOrderOfBattleParser);
         templates.Unregister(kScenarioArmyTemplate);
@@ -430,20 +430,20 @@ bool RegisterOrderOfBattleSlice(
         return false;
     }
 
-    AnalysisPassDescriptor resolvePass;
+    ResolutionPassDescriptor resolvePass;
     resolvePass.id = kOrderOfBattleResolvePass;
     resolvePass.name = "hoi3_order_of_battle_resolve";
-    resolvePass.phase = AnalysisPhase::Resolve;
+    resolvePass.phase = ResolutionPhase::Resolve;
     resolvePass.priority = -1300;
     resolvePass.run = [&definitions](
-        AnalysisWorkspace& workspace,
+        ParseWorkspace& workspace,
         DiagnosticBag& diagnostics)
     {
         return ResolveOrdersOfBattle(workspace, diagnostics, definitions);
     };
-    if (!analyzer.RegisterPass(std::move(resolvePass)))
+    if (!resolver.RegisterPass(std::move(resolvePass)))
     {
-        analyzer.UnregisterPass(kOrderOfBattleDeclarePass);
+        resolver.UnregisterPass(kOrderOfBattleDeclarePass);
         parsers.Unregister(kOrderOfBattleParser);
         templates.Unregister(kScenarioArmyTemplate);
         templates.Unregister(kScenarioOrderOfBattleTemplate);

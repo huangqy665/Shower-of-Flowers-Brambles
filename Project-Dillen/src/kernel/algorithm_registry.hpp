@@ -8,7 +8,10 @@
 #include <utility>
 #include <vector>
 
+#include "algorithm_execution_policy.hpp"
+#include "algorithm_program.hpp"
 #include "mechanism_ids.hpp"
+#include "runtime_capability_contract.hpp"
 
 namespace dillen::kernel {
 
@@ -46,7 +49,9 @@ struct AlgorithmDescriptor
     AlgorithmBackend backend = AlgorithmBackend::Declarative;
     AlgorithmEntryPoint entryPoints = AlgorithmEntryPoint::None;
     bool deterministic = true;
-    std::vector<std::string> requiredCapabilities;
+    AlgorithmExecutionPolicy executionPolicy;
+    std::vector<CapabilityRequirement> requiredCapabilities;
+    AlgorithmProgramDefinition program;
 };
 
 enum class AlgorithmRegisterResult

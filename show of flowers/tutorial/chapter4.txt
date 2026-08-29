@@ -1,0 +1,104 @@
+tutorial =
+{
+	title = "TUTORIAL_4"
+	desc = "TUTORIAL_4_DESC"
+	tutorial_window = "TUTORIAL_WINDOW_1"	# default window
+	exclusive = yes
+	country = GER
+	
+
+	page =
+	{
+		
+		
+		tutorial_window_position = { -250 -130 }
+		tutorial_window = "TUTORIAL_WINDOW_1"
+		text1 = "tut_4a_1"
+		text2 = "tut_4a_2"
+
+		goto = 235
+		zoom = 100
+		
+		window = "tutorial_marker_ul"
+		window_position = { 511 20 }
+		window_size = {112 40}
+
+		window = "tutorial_arrow_up_ul"
+		window_position = { 551 50 }
+		
+	}
+	
+	page =
+	{
+		domestic_panel = "technology"
+		
+		
+
+		tutorial_window_position = { -250 -270 }
+		tutorial_window = "TUTORIAL_WINDOW_LEADER_DIST"
+		text1 = "tut_4a_3"
+		text2 = "tut_4a_4"
+		text3 = "tut_4a_4a"
+		text4 = "tut_4a_4b"
+		text5 = "tut_4a_4c"
+		text6 = "tut_4a_4d"
+		text7 = "tut_4a_5"
+		
+		goto = 235
+		zoom = 100
+		
+		window = "tutorial_marker_c"
+		window_position = { -510 -280 }
+		window_size = {265 235}
+
+		window = "tutorial_arrow_down_c"
+		window_position = { -400 -300 }
+	}
+	
+	page =
+	{		
+		
+
+		tutorial_window_position = { -470 -200 }
+		tutorial_window = "TUTORIAL_WINDOW_PROJECT"
+		text1 = "tut_4a_6"
+		text2 = "tut_4a_7"
+		text3 = "tut_4a_8"
+		text4 = "tut_4a_9"
+		text5 = "tut_4a_9a"
+		text6 = "tut_4a_9b"
+		text7 = "tut_4a_9c"
+		
+		goto = 235
+		zoom = 100
+		
+		window = "tutorial_marker_c"
+		window_position = { 245 -247 }
+		window_size = {230 493}
+
+		window = "tutorial_arrow_down_c"
+		window_position = { 354 -275 }
+	}
+
+	page =
+	{		
+		
+
+		tutorial_window_position = { -320 -170 }
+		tutorial_window = "TUTORIAL_WINDOW_TP"
+		text1 = "tut_4a_10"
+		text2 = "tut_4a_11"
+		text3 = "tut_4a_12"
+		
+		goto = 235
+		zoom = 100
+		
+		window = "tutorial_marker_c"
+		window_position = { -510 237 }
+		window_size = {1020 150}
+
+		window = "tutorial_arrow_down_c"
+		window_position = { 0 210 }
+	}	
+	
+}

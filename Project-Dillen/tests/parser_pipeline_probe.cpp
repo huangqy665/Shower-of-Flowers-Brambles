@@ -6,7 +6,7 @@
 #include <utility>
 #include <vector>
 
-#include "analyzer.hpp"
+#include "resolver.hpp"
 #include "diagnostic.hpp"
 #include "file_catalog.hpp"
 #include "parse_result.hpp"
@@ -215,27 +215,27 @@ int main()
     bool declareRan = false;
     bool resolveRan = false;
     bool validateRan = false;
-    dillen::parser::Analyzer analyzer;
-    if (!analyzer.RegisterPass({
+    dillen::parser::Resolver resolver;
+    if (!resolver.RegisterPass({
             1,
             "declare",
-            dillen::parser::AnalysisPhase::Declare,
+            dillen::parser::ResolutionPhase::Declare,
             0,
             [&declareRan](
-                dillen::parser::AnalysisWorkspace& workspace,
+                dillen::parser::ParseWorkspace& workspace,
                 dillen::parser::DiagnosticBag&)
             {
                 declareRan = workspace.files.size() == 2;
                 return declareRan;
             }
         })
-        || !analyzer.RegisterPass({
+        || !resolver.RegisterPass({
             2,
             "resolve",
-            dillen::parser::AnalysisPhase::Resolve,
+            dillen::parser::ResolutionPhase::Resolve,
             0,
             [&resolveRan, &declareRan](
-                dillen::parser::AnalysisWorkspace& workspace,
+                dillen::parser::ParseWorkspace& workspace,
                 dillen::parser::DiagnosticBag&)
             {
                 resolveRan = declareRan;
@@ -256,13 +256,13 @@ int main()
                 return resolveRan;
             }
         })
-        || !analyzer.RegisterPass({
+        || !resolver.RegisterPass({
             3,
             "validate",
-            dillen::parser::AnalysisPhase::Validate,
+            dillen::parser::ResolutionPhase::Validate,
             0,
             [&validateRan, &resolveRan](
-                dillen::parser::AnalysisWorkspace&,
+                dillen::parser::ParseWorkspace&,
                 dillen::parser::DiagnosticBag&)
             {
                 validateRan = resolveRan;
@@ -273,14 +273,9 @@ int main()
         std::cerr << "Analysis pass registration failed\n";
         return 6;
     }
-    analyzer.Freeze();
-    dillen::parser::AnalysisWorkspace workspace;
-    const bool analyzed = analyzer.Analyze(
-        catalog,
-        parsers,
-        workspace,
-        diagnostics
-    );
+    resolver.Freeze();
+    dillen::parser::ParseWorkspace workspace;
+    const bool analyzed = (catalog.Parse(parsers, workspace, diagnostics) && resolver.Resolve(workspace, diagnostics));
 
     std::error_code cleanupError;
     fs::remove_all(root, cleanupError);

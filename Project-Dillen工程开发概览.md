@@ -1,4 +1,8 @@
-# 1. New Core 当前实现的注入机制
+# Project Dillen 历史工程概览（非权威）
+
+> **已归档。**本文只保留 New Core / HOI3 Oracle 的历史实现记录，不再指导 Project Dillen 的架构、开发顺序或 Demo 验收。唯一权威开发指导为仓库根目录 `Project Dillen工程开发备忘录.md`。
+
+## 1. New Core 当前实现的注入机制
 
 > 最后按仓库源码核对：2026-08-24。本文是 New Core 的统一工程概览、Script GUI 语法手册和 HOI3 逆向进度记录。实现状态以 `new_core/src`、`new_core/CMakeLists.txt`、`script`、`script_gui`、`interface` 中的当前文件为准；历史讨论、旧日志和 IDE 中已经删除的标签页不作为源码事实。
 

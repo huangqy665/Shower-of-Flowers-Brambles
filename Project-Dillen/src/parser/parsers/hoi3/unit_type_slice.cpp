@@ -21,12 +21,12 @@ bool IsUnitTypeSource(
     return virtualPath.rfind("units/models/", 0) != 0;
 }
 
-content::DefinitionOrigin MakeOrigin(
+dillen::compatibility::hoi3::content::DefinitionOrigin MakeOrigin(
     const ParsedFile& file,
     const SourceSpan& span
 )
 {
-    content::DefinitionOrigin origin;
+    dillen::compatibility::hoi3::content::DefinitionOrigin origin;
     origin.virtualPath = std::string(file.source.VirtualPath());
     origin.sourceLayer = file.catalog.sourceLayerName;
     origin.line = span.IsValid() ? span.begin.line : 1;
@@ -35,9 +35,9 @@ content::DefinitionOrigin MakeOrigin(
 }
 
 bool DeclareUnitTypes(
-    AnalysisWorkspace& workspace,
+    ParseWorkspace& workspace,
     DiagnosticBag& diagnostics,
-    content::DefinitionRegistry& definitions
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     for (const ParsedFile& file : workspace.files)
@@ -59,12 +59,12 @@ bool DeclareUnitTypes(
         for (const UnresolvedUnitTypeDefinition& unresolved
             : document->definitions)
         {
-            content::UnitTypeDefinition definition;
-            definition.id = content::StableUnitTypeDefinitionId(
+            dillen::compatibility::hoi3::content::UnitTypeDefinition definition;
+            definition.id = dillen::compatibility::hoi3::content::StableUnitTypeDefinitionId(
                 unresolved.name
             );
             definition.name = unresolved.name;
-            definition.normalizedName = content::NormalizeUnitTypeName(
+            definition.normalizedName = dillen::compatibility::hoi3::content::NormalizeUnitTypeName(
                 unresolved.name
             );
             definition.domain = unresolved.domain;
@@ -74,16 +74,16 @@ bool DeclareUnitTypes(
             definition.scalarProperties = unresolved.scalarProperties;
             definition.modifierBlocks = unresolved.modifierBlocks;
             definition.origin = MakeOrigin(file, unresolved.span);
-            const content::UnitTypeDeclareResult result =
+            const dillen::compatibility::hoi3::content::UnitTypeDeclareResult result =
                 definitions.UnitTypes().Declare(std::move(definition));
-            if (result == content::UnitTypeDeclareResult::Added)
+            if (result == dillen::compatibility::hoi3::content::UnitTypeDeclareResult::Added)
             {
                 continue;
             }
             const std::string message = result
-                    == content::UnitTypeDeclareResult::DuplicateName
+                    == dillen::compatibility::hoi3::content::UnitTypeDeclareResult::DuplicateName
                 ? "duplicate Unit type definition '" + unresolved.name + "'"
-                : result == content::UnitTypeDeclareResult::IdCollision
+                : result == dillen::compatibility::hoi3::content::UnitTypeDeclareResult::IdCollision
                     ? "Unit type stable ID collision for '"
                         + unresolved.name + "'"
                     : "invalid Unit type definition '"
@@ -99,9 +99,9 @@ bool DeclareUnitTypes(
 }
 
 bool ResolveUnitTypes(
-    AnalysisWorkspace& workspace,
+    ParseWorkspace& workspace,
     DiagnosticBag& diagnostics,
-    content::DefinitionRegistry& definitions
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     std::unordered_set<std::uint32_t> reportedCountries;
@@ -120,12 +120,12 @@ bool ResolveUnitTypes(
         for (const UnresolvedUnitTypeDefinition& unresolved
             : document->definitions)
         {
-            std::vector<content::CountryDefinitionId> usableBy;
+            std::vector<dillen::compatibility::hoi3::content::CountryDefinitionId> usableBy;
             std::unordered_set<std::uint32_t> seen;
             usableBy.reserve(unresolved.usableBy.size());
             for (const std::string& text : unresolved.usableBy)
             {
-                const auto tag = content::CountryTag::Parse(text);
+                const auto tag = dillen::compatibility::hoi3::content::CountryTag::Parse(text);
                 if (!tag)
                 {
                     diagnostics.Error(
@@ -135,7 +135,7 @@ bool ResolveUnitTypes(
                     );
                     continue;
                 }
-                const content::CountryDefinitionId id = tag->StableId();
+                const dillen::compatibility::hoi3::content::CountryDefinitionId id = tag->StableId();
                 if (definitions.Countries().Find(id) == nullptr
                     && reportedCountries.emplace(id.value).second)
                 {
@@ -160,12 +160,12 @@ bool ResolveUnitTypes(
                     );
                 }
             }
-            const content::UnitTypeResolveResult result =
+            const dillen::compatibility::hoi3::content::UnitTypeResolveResult result =
                 definitions.UnitTypes().ResolveUsableBy(
-                    content::StableUnitTypeDefinitionId(unresolved.name),
+                    dillen::compatibility::hoi3::content::StableUnitTypeDefinitionId(unresolved.name),
                     std::move(usableBy)
                 );
-            if (result != content::UnitTypeResolveResult::Resolved)
+            if (result != dillen::compatibility::hoi3::content::UnitTypeResolveResult::Resolved)
             {
                 diagnostics.Error(
                     "hoi3.unit_type.resolve_failed",
@@ -183,8 +183,8 @@ bool ResolveUnitTypes(
 bool RegisterUnitTypeSlice(
     TemplateRegistry& templates,
     ParserRegistry& parsers,
-    Analyzer& analyzer,
-    content::DefinitionRegistry& definitions
+    Resolver& resolver,
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     FileTemplate fileTemplate;
@@ -213,38 +213,38 @@ bool RegisterUnitTypeSlice(
         return false;
     }
 
-    AnalysisPassDescriptor declarePass;
+    ResolutionPassDescriptor declarePass;
     declarePass.id = kUnitTypeDeclarePass;
     declarePass.name = "hoi3_unit_type_declare";
-    declarePass.phase = AnalysisPhase::Declare;
+    declarePass.phase = ResolutionPhase::Declare;
     declarePass.priority = 0;
     declarePass.run = [&definitions](
-        AnalysisWorkspace& workspace,
+        ParseWorkspace& workspace,
         DiagnosticBag& diagnostics)
     {
         return DeclareUnitTypes(workspace, diagnostics, definitions);
     };
-    if (!analyzer.RegisterPass(std::move(declarePass)))
+    if (!resolver.RegisterPass(std::move(declarePass)))
     {
         parsers.Unregister(kUnitTypeParser);
         templates.Unregister(kUnitTypeTemplate);
         return false;
     }
 
-    AnalysisPassDescriptor resolvePass;
+    ResolutionPassDescriptor resolvePass;
     resolvePass.id = kUnitTypeResolvePass;
     resolvePass.name = "hoi3_unit_type_resolve";
-    resolvePass.phase = AnalysisPhase::Resolve;
+    resolvePass.phase = ResolutionPhase::Resolve;
     resolvePass.priority = -1600;
     resolvePass.run = [&definitions](
-        AnalysisWorkspace& workspace,
+        ParseWorkspace& workspace,
         DiagnosticBag& diagnostics)
     {
         return ResolveUnitTypes(workspace, diagnostics, definitions);
     };
-    if (!analyzer.RegisterPass(std::move(resolvePass)))
+    if (!resolver.RegisterPass(std::move(resolvePass)))
     {
-        analyzer.UnregisterPass(kUnitTypeDeclarePass);
+        resolver.UnregisterPass(kUnitTypeDeclarePass);
         parsers.Unregister(kUnitTypeParser);
         templates.Unregister(kUnitTypeTemplate);
         return false;

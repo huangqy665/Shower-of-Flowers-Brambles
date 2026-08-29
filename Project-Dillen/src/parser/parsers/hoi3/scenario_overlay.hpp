@@ -16,7 +16,7 @@ struct ScenarioOverlayPlan
 };
 
 bool BuildScenarioOverlayPlan(
-    const content::ScenarioDefinition& scenario,
+    const dillen::compatibility::hoi3::content::ScenarioDefinition& scenario,
     const std::filesystem::path& contentRoot,
     SourceLayerId firstLayerId,
     int priority,

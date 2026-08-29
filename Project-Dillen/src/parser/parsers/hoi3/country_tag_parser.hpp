@@ -12,7 +12,7 @@ namespace dillen::parser::hoi3 {
 
 struct CountryTagDeclaration
 {
-    content::CountryTag tag;
+    dillen::compatibility::hoi3::content::CountryTag tag;
     std::string declaredPath;
     SourceSpan tagSpan;
     SourceSpan pathSpan;

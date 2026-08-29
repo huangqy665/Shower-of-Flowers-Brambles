@@ -1,0 +1,10 @@
+mechanism_spawn = {
+    name = dillen.demo.initial_counter
+    mechanism = dillen.demo.counter
+    definition = dillen.demo.default_counter
+    count = 2
+
+    fields = {
+        value = 9
+    }
+}

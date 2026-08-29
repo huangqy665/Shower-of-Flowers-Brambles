@@ -1,525 +1,816 @@
 # Project Dillen 工程开发备忘录
 
-> 本文是 Project Dillen 当前唯一的总体架构与开发方向文档，用于取代旧的 `Project-Dillen工程开发概览.md`。旧文档只保留历史参考价值，不再作为新增系统、目录划分和验收标准的依据。
+> **权威状态：生效中。**本文是 Project Dillen 唯一的总体架构、系统边界、开发顺序与 Demo 验收指导。除源码、测试和版本化接口契约所证明的实现事实外，其他开发概览、讨论记录、逆向备忘录和历史设计文档均不具有架构裁决权。若其他文档与本文冲突，以本文为准。
 
-## 1. 项目定位和设计原则
+## 0. 文档治理
+
+### 0.1 权威范围
+
+本文负责确定：
+
+- Project Dillen 的产品定位、核心术语和不可破坏的依赖方向；
+- Dillen Kernel、Gameplay Package、Ruleset、Content Package、Importer、Mapping Profile 与 Oracle 的职责边界；
+- Authoritative World、Parser、Resolver、Runtime Compiler、Algorithm Runtime、Transaction、Persistence 等系统的实现边界；
+- 当前阶段的建设顺序、Demo 范围和验收门禁。
+
+以下资料只具有局部参考价值：
+
+- `Project-Dillen工程开发概览.md`：历史工程概览；
+- `developMemo.md`：Shower of Flowers Mod 内容开发记录；
+- HOI3 逆向与原生接口备忘录：Oracle 研究资料；
+- `Project-Alice-main`：外部架构和实现参考；
+- IDE 日志、聊天记录、临时 Probe 输出：开发过程证据。
+
+### 0.2 变更规则
+
+1. 改变 Kernel 边界、权威状态所有权、依赖方向、Ruleset 语义或外部兼容架构时，必须在同一变更中更新本文。
+2. “当前实现”只能描述已经进入仓库并通过相应测试的能力；设计目标必须明确标注为“目标”或“尚未实现”。
+3. 新系统不得仅凭未来可能需要而进入 Kernel；必须先证明缺失的是跨 Gameplay Domain、跨 Ruleset 可复用的 Runtime Primitive 或 Capability。
+4. Demo 里程碑必须通过前置门禁后才能开始下一阶段，不以堆叠功能数量代替纵向闭环。
+5. HOI3 Importer、Mapping Profile 和 Oracle 的进度不得反向改变 Dillen Kernel 的优先级。
+
+---
+
+## 1. 项目定位与设计原则
 
 ### 1.1 项目定位
 
-Project Dillen 是一个面向大战略游戏的**机制可定义、加载时编译的通用运行时与 HOI3 兼容重实现工程**。
-
-Project Dillen 的核心目标，**不是在 C++ 引擎内部持续固化和扩展特定的 Gameplay System，而是构建一个机制可定义的通用大战略运行时**。外部规则包或 Mod 可以声明机制的数据结构、运行状态、行为算法；Parser Frontend 负责发现、分类并解析这些外部定义及其实例，Dillen Kernel 则负责将其实例化到权威世界，并提供统一的状态存储、生命周期管理、算法执行、调度、事件交互和持久化能力。HOI3 的数据模型、脚本语义以及国家、战争、外交、科技、生产等既有玩法规则，**是 Project Dillen 的首套兼容目标与架构验证样本，而不是 Dillen Kernel 预先规定的封闭玩法集合**。Dillen 的长期目标是**在保持权威状态、确定性和高性能执行的前提下，使新的 Gameplay Mechanism 能够通过外部定义与注册进入运行时，而原则上无需修改 Kernel 的具体玩法代码**。
-
-Project Dillen 的最终产品由**两个架构解耦但相互组合的核心层构成：**
-
-1. **Dillen 通用运行平台（Dillen Runtime Platform）:**
-负责提供与具体 Gameplay Mechanism 业务语义无关的通用运行能力，包括机制类型与实例管理、权威世界及状态存储、算法执行、生命周期与调度、查询与命令、事件分发、引用关系管理以及持久化等基础设施。Dillen Runtime Platform 只规定机制如何被描述、实例化、存储、访问、执行、交互和持久化以及其必须遵守的通用运行时契约。在进入 Simulation 前，仅依据当前 Ruleset 声明的必需项，对 Mechanism、Schema、Algorithm、Runtime Capability 及其依赖关系执行完整性与可运行性验证。具体 Ruleset 要求哪些 Gameplay Mechanism 存在，由 Ruleset 自身声明，而不由 Kernel 预设。HOI3 的既有机制集合因此不会被固化为 Dillen Kernel 的封闭业务模型。
-2. **HOI3 兼容实现包（HOI3 Compatibility Package）：**
-负责理解并兼容 HOI3 / TFH 及其 Mod 所使用的数据格式、资源组织方式、脚本语义和游戏规则，将地图、场景历史、国家、单位、科技、事件、决议、界面资源及其他 HOI3 内容解析、转换并**将原有的HOI3游戏语义编译为 Dillen Kernel 可运行的模板、算法、定义和实例，从而在不将 HOI3 特有玩法逻辑硬编码进 Kernel 的前提下重建原版游戏行为。**该兼容层负责保存 HOI3 特有的格式知识与兼容语义；其输出可以表现为机制定义、模板、算法、静态定义、场景实例或其他 Dillen Runtime Representation。**HOI3 特有的兼容逻辑绝对不得反向侵入 Dillen Kernel。**\
-**现有基于 hoi3_tfh.exe 的进程内 Hook、Native Effect、Native Query、Script GUI、Reverse Probe 以及相关差分观测设施继续保留，作为 HOI3 Reference / Oracle Platform。该平台负责观测原版运行时状态、验证行为语义、构造针对性实验、获取兼容所需的行为契约，并为 Dillen 的实现结果提供差分验证依据。该平台属于兼容研究与验证工具链，而不是 Dillen 最终独立运行时的组成部分或运行依赖。当 Dillen 对某项 HOI3 行为语义存在不确定性时，应通过 Reference / Oracle Platform 获取可验证的原版行为结果，再将得到的兼容语义独立实现于 HOI3 Compatibility Package 或相应 Runtime Capability 中。观测平台基于研究继续保留，但不再代表最终独立引擎的总体架构。**
-
-### 1.2 Dillen Kernel 的职责
-
-Dillen Kernel 是 Parser 解析结果的通用运行平台。Kernel 不编码具体 Gameplay Mechanism 的业务语义，不需要理解“经济”“选举”“殖民”“移民”“国家计划”等机制在游戏规则层面的含义，只定义并管理机制在运行时必须遵循的统一结构与行为契约：
-
-- 机制具有稳定的类型标识、定义标识与实例身份；
-- 机制实例的数据结构必须符合已注册 Schema，并在进入运行时前完成校验与解析；
-- 机制实例可以通过稳定引用关联世界实体、定义对象或其他机制实例；
-- 机制具有明确且可调度的生命周期，包括创建、启用、Tick、暂停、恢复、结束与销毁；
-- 机制通过 Query 读取权威状态，通过 Command 请求状态变更，通过 Event 接收或发布运行时通知；
-- 机制运行状态必须能够被确定性序列化与恢复，并支持 Schema 或版本演进所要求的状态迁移；
-- 机制不得绕过 Kernel 与 Authoritative World 自行维护与权威状态冲突的第二套事实来源；
-- 机制之间原则上通过 Kernel 提供的通用运行时接口交互，而不直接依赖彼此的内部存储布局或实现细节。
-
-Kernel 负责机制“如何存在、如何保存、如何运行、如何与世界交互”，但不负责决定机制“在游戏规则上代表什么”。
-
-### 1.3 模板、算法与实例分离
-
-Project Dillen 将一个 Gameplay Mechanism 的结构描述、行为实现、静态定义和运行状态严格分离：
-
-| 层级                            | 负责内容  | 不负责内容                                                 |
-| ----------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------ |
-| **机制模板 Mechanism Template**   | 声明机制可接受的数据结构，包括字段类型、默认值、必填性、引用类型、约束、索引需求、持久化属性以及其他 Schema 元数据              | 不包含具体机制内容，不执行业务行为，不持有战局状态                                    |
-| **机制算法 Mechanism Algorithm**  | 实现机制的业务算法，包括 Tick 计算、事件处理、命令处理、业务条件判断、状态转换请求以及派生值计算；算法由 Kernel 在规定的运行阶段和执行上下文中调用，不拥有机制生命周期控制权。 | 不决定外部文件的物理组织方式，不直接定义实例存储布局，不拥有独立权威状态                         |
-| **机制定义 Mechanism Definition** | 表示经 Parser 按 Template 校验和编译后的静态机制内容，是外部 Ruleset / Mod 对某类机制的具体声明           | 不表示某次战局中的可变运行状态，不自行执行算法                                      |
-| **机制实例 Mechanism Instance**   | 表示某次战局中由 Definition 实例化产生的权威运行状态，包括实例身份、可变字段、实体或实例引用，以及由 Schema 声明的持久化算法状态 | 不重新定义 Template 或 Algorithm，不维护脱离 Authoritative World 的第二套事实源 |
-
-**Parser 根据 Mechanism Template 对外部数据进行解析、类型检查与校验，并生成 Mechanism Definition；实例化层根据 Definition 在 Authoritative World 中创建 Mechanism Instance；Dillen Kernel 负责调度算法并维护实例的完整生命周期。**
-
-### 1.4 设计原则
-
-0. **规则集完整性验证**：Dillen 在进入 Authoritative World 构建和 Simulation 之前，必须完成当前 Ruleset 的完整性、依赖闭包和运行能力验证。任何被 Ruleset.txt 声明为必需的 Mechanism、Schema、Algorithm、资源或 Runtime Capability 缺失、无效或版本不兼容时，启动流程必须在进入游戏前失败，并产生可定位诊断。必需机制集合由 Ruleset 声明，不由 Kernel 硬编码。
-1. **机制外置**：新增普通 Gameplay Mechanism 原则上只需要增加或修改 Template、Algorithm、Definition/Data、GUI 与 Localization，而不修改 Dillen Kernel 的具体 Gameplay C++ 代码。只有现有 Runtime 缺少该机制所必需的通用 Capability 时，才需要扩展 Kernel。
-2. **Parser 与运行时分离**：Parser 只生成 Definition 和诊断，不执行机制算法，也不直接修改权威世界。
-3. **数据结构与行为分离**：Mechanism Template 定义数据结构与约束；Mechanism Definition 承载静态规则内容；Mechanism Instance 承载战局中的权威运行状态；Mechanism Algorithm 定义业务行为；Dillen Kernel 掌握实例生命周期、调度与执行权。
-4. **权威世界唯一**：国家、省份、单位、机制和关系及其他可变游戏状态只能有一个权威状态来源；索引和缓存必须可由Authoritative State重建。
-5. **稳定身份**：Definition、Entity、Mechanism Instance、Algorithm 和资源均使用稳定 ID，不以进程指针或容器下标作为存档身份。
-6. **确定性优先**：同一输入、命令序列、随机种子和版本必须得到相同结果；容器遍历、事件排序和 Tick 顺序必须明确。
-7. **事务修改**：机制不能直接任意写内存，所有世界修改通过受控 Command/Transaction 完成，失败时不得留下半更新状态。
-8. **能力而非名称耦合**：Mechanism 与其他系统之间应依赖稳定、可声明、可验证的 Capability Contract，而不是依赖具体 Mechanism 名称或其内部实现，例如其他系统依赖 `hostile_relation`、`owns_location`、`consumes_resource` 等 Capability，而不是依赖某个固定机制名称。提供同一 Capability Contract 的不同机制原则上应具有可替换性。
-9. **兼容层隔离**：HOI3 特有路径、拼写、历史容错和语义映射留在 `parsers/hoi3` 与兼容包中，绝对不进入 Kernel。
-10. **可诊断失败**：未知字段、版本不匹配、悬空引用、算法缺失和迁移失败必须产生可定位诊断；对于影响权威状态正确性的错误，不能静默忽略后继续运行。
-11. **定义动态、运行静态**：外部定义可以灵活，但进入运行时前必须编译为稳定布局、索引和执行计划；最终 Tick 不应长期依赖无类型字符串字典。
-12. **原生扩展是可选加速层**：只有新增 Kernel 原语、底层渲染后端或高性能算法时才需要 C++；普通机制不以原生插件为前提。
-
-### 1.5 实现边界
-
-“引擎不理解业务含义”不等于“引擎没有规则”。以下内容必须属于 Kernel：
-
-- ID、类型、Schema、引用和版本系统；
-- 世界时钟、确定性调度和随机数流；
-- Entity 与 Mechanism Instance 的生命周期；
-- Command、Event、Query、Capability 和 Transaction 协议；
-- 权威状态存储、索引重建、存档和迁移；
-- 算法沙箱、资源预算、错误隔离和诊断；
-- 渲染、音频、输入、文件和线程等平台服务抽象。
-
-如果一个新机制只能通过增加 C++ `RuntimeXXXState`、`BuildXXXGraph()` 和专用 Setter 才能成立，说明它尚未进入通用机制体系。只有无法由现有 Kernel 原语表达的新基础能力，才允许扩展 Kernel。
-
-### 1.6 最小验收标准
-
-通用机制系统完成的最低标准是：
-
-1. 在不修改 Kernel C++ 的前提下注册一种新机制模板；
-2. Parser 能依据模板解析机制定义并完成类型、范围和引用校验；
-3. WorldBuilder 能把定义实例化到 Authoritative World；
-4. 算法能响应 Tick、事件和命令，并通过事务修改世界；
-5. GUI 能通过 Query 读取状态并通过 Command 请求操作；
-6. 机制实例能够保存、读档和执行 Schema 版本迁移；
-7. 缺少模板、算法或依赖时只隔离对应机制，不破坏整个世界；
-8. 同一内容与命令序列可以通过确定性回归测试。
-
-战争系统应成为第一套迁移到该模型的完整验收样本，而不是继续作为永久硬编码的特例。
-
-## 2. Project Dillen 的系统架构
-
-### 2.1 总体数据流
-
-```text
-Mod / HOI3 / Dillen Content Packages
-                │
-                ▼
-      VFS + FileCatalog + Source Layer
-                │
-                ▼
- Template Dispatch + Parser Registry + Lexer/Parser
-                │
-                ▼
-       Analyzer Declare / Resolve / Validate
-                │
-                ▼
- Schema Registry + Algorithm Registry + Definition Registry
-                │
-                ▼
-             WorldBuilder
-                │
-                ▼
-          Authoritative World
-   ┌────────────┼─────────────┐
-   ▼            ▼             ▼
-Scheduler   Command/Event   Query/Capability
-   │            │             │
-   └──────── Mechanism Runtime ┘
-                │
-       Persistence / Migration
-                │
-      GUI / AI / Audio / Tools
-```
-
-### 2.2 内容包层
-
-内容包是机制、数据和表现资源的发布单位。一个内容包可以包含：
+Project Dillen 是一个**面向大战略游戏的机制可定义、加载时编译、确定性运行的通用 Gameplay Runtime 与独立游戏引擎工程**。
 
-```text
-manifest
-templates/
-algorithms/
-data/
-history/
-gui/
-localisation/
-assets/
-migrations/
-tests/
-```
+Dillen 的核心产品不是某一套固定大战略规则，而是：
 
-内容包通过 Manifest 声明包 ID、版本、依赖、加载顺序、兼容范围和可选 Capability。原版 HOI3、TFH、Mod 和纯 Dillen 扩展都应被转换为同一种来源层模型，而不是在 Kernel 内写死目录优先级。
+1. 一个不知道具体 Gameplay Meaning 的通用 Kernel；
+2. 一套能够由外部 Package 声明 Gameplay Concept、Mechanism 和 Algorithm 的 Gameplay Framework；
+3. 一个通过 Ruleset 选择、组合、约束和冻结 Gameplay Package 的装配系统；
+4. 一个保存唯一权威世界、执行确定性模拟并支持持久化的 Runtime；
+5. 一组可选的平台、表现、工具和外部内容接入能力。
 
-### 2.3 输入前端层
+政治、外交、经济、科研、生产、军事和战争等概念不属于 Kernel 的内建业务类型。它们由可版本化的 Dillen Mechanism Package 表达，并由某个 Root Ruleset 选择进入一局游戏。
 
-输入前端负责把不同文件方言转换为 Definition IR：
+HOI3 / TFH 及其 Mod 对 Dillen 而言是**可选的外部 Content Corpus 与 Resource Format**，不是 Dillen 必须复刻的 Ruleset，也不是 Dillen Gameplay Model 的定义来源。Dillen 可以复用其文本、地图、图片、本地化、历史、单位和科技等资源，但这些资源进入 Dillen 后的最终 Gameplay Meaning 由目标 Dillen Ruleset 和 Mechanism Package 决定。
 
-- Clausewitz 文本、CSV、Lua 数据、位图、二进制地图和资源清单使用不同 Reader；
-- Template Dispatch 根据虚拟路径、文件类型和内容包声明选择 Parser；
-- Parser Registry 管理 Parser 实现，不让 Analyzer 依赖具体文件类型；
-- Analyzer 统一执行 Declare、Resolve、Validate；
-- Diagnostic 系统保存来源层、虚拟路径、行列、错误码和恢复策略；
-- Parser 输出不可变 Definition，不创建运行时对象。
+### 1.2 产品层与职责边界
 
-Parser 是 Dillen Kernel 的输入前端，不是机制调度器、脚本虚拟机或权威状态容器。
+#### 1.2.1 Dillen Kernel
 
-### 2.4 定义层
+Dillen Kernel 是与具体 Gameplay Semantic 无关的最小可信运行时核心，负责：
 
-定义层位于 Parser 与 Kernel 之间，至少包含：
+- Runtime Type、Stable ID、Schema 和版本契约；
+- Entity、Component、Relation、Mechanism Instance 与 Authoritative World；
+- Lifecycle、Algorithm Runtime、Deterministic Scheduler 与 RNG Stream；
+- Query、Command、Transaction、Event、Capability；
+- Runtime Freeze、引用完整性、Persistence、Migration；
+- Diagnostics、Budget、Fault Isolation 和平台服务边界。
 
-- `SchemaRegistry`：注册模板、字段、角色、约束和版本；
-- `AlgorithmRegistry`：注册算法 ID、入口点、权限、依赖和确定性声明；
-- `DefinitionRegistry`：保存已解析、已 Resolve、已冻结的实体与机制定义；
-- `CapabilityRegistry`：声明定义或算法能够提供和需要的通用能力；
-- `ResourceRegistry`：管理纹理、字体、模型、音频和本地化等稳定资源 ID；
-- `MigrationRegistry`：注册 Schema 与存档状态的版本迁移路径。
+Kernel 只理解“对象和机制如何存在、运行、交互、提交和保存”，不理解“战争、国家、外交或科技等具体机制、实例在玩法上是什么”。
 
-定义层只描述“可以创建什么”，不保存“当前战局中已经发生了什么”。
+#### 1.2.2 Dillen Mechanism Package 与 Gameplay Library
 
-### 2.5 Dillen Kernel
+Mechanism Package 定义具体 Gameplay Domain 所需的：
 
-Dillen Kernel 是独立引擎的最小可信核心，由以下服务构成：
+- Entity / Component / Relation Type；
+- Mechanism Template、Schema、Definition 与 Spawn Definition；
+- Algorithm、Capability Contract、Query Contract 与 Command Contract；
+- GUI Contract、本地化键、资源引用和 Migration。
 
-- 类型与稳定 ID 服务；
-- Entity Registry；
-- Mechanism Instance Store；
-- Lifecycle Manager；
-- Deterministic Scheduler；
-- Command Bus 与 Transaction Manager；
-- Event Bus；
-- Query Service；
-- Capability Resolver；
-- Algorithm Runtime；
-- Persistence 与 Migration；
-- Diagnostics、Budget 和 Fault Isolation。
+Project Dillen 可以提供一套 **Reference Gameplay Library** 作为官方示例和默认发行内容，但该 Library 不是 Kernel，也不是所有 Ruleset 的强制基础。删除 Reference Gameplay Library 后，Kernel 仍必须能够装载其他完全不同的 Gameplay Package。
 
-Kernel 不直接包含 WarSystem、ElectionSystem 或 MigrationSystem。它只提供足以让这些系统以外部机制存在的公共原语。
+#### 1.2.3 Root Ruleset、Extension Ruleset 与 Content Package
 
-### 2.6 权威世界层
+每次启动必须明确选择一个 **Root Ruleset**。Root Ruleset 声明本次 Simulation 的最低 Gameplay Contract、必需 Package、允许的扩展点、覆盖策略和入口场景。
 
-Authoritative World 保存当前战局唯一有效的状态：
+Root Ruleset 不是 Kernel 内部不可替换的“唯一 Core Ruleset”。发行版可以提供受保护的官方 Root Ruleset；Mod 可以在该 Root Ruleset 允许的范围内加载 Extension Ruleset。需要彻底改变玩法时，作者可以提供新的 Root Ruleset，而不是被迫修改 Kernel 或绕过一个全局不可修改的规则集。
 
-- 当前世界时间、随机数流和全局调度序列；
-- Entity 的稳定身份、类型和组件；
-- Mechanism Instance 的模板、算法、状态和参与者引用；
-- 已提交命令产生的事实状态；
-- 待处理事件、延迟任务和必要的算法状态；
-- 可重建索引与只读派生缓存。
+Content Package 提供具体世界、场景、Definition、Spawn、历史、GUI、本地化和资源。Ruleset 决定装配哪些 Package；Package 自身不拥有运行时调度权。
 
-WorldBuilder 只在加载场景、创建新战局或重建快照时把 Definition 编译为 Authoritative World。游戏运行后，世界变化由 Kernel Command 和机制算法驱动，而不是重新执行 Parser。
+#### 1.2.4 External Corpus Importer / Adapter
 
-### 2.7 算法运行层
+External Corpus Importer 是独立于 Kernel、Gameplay Package 和 Ruleset 的**来源规范化工具**。HOI3 Importer 是其中一个实现。
 
-机制算法可以具有三种实现后端：
+HOI3 Importer 只负责：
 
-1. **声明式算法/字节码**：优先用于普通规则、条件、效果和调度逻辑；
-2. **受控脚本运行时**：用于复杂但不要求原生性能的机制，可由 Lua 或未来 Dillen Script 承担；
-3. **原生算法插件**：用于路径搜索、地图运算、大规模 AI 等性能关键算法，但必须实现统一 Algorithm ABI。
+- 识别 HOI3、TFH 与 Mod 的目录、资料片、`replace_path` 和覆盖规则；
+- 解码文件编码和资源格式；
+- 解析 Clausewitz 文本、CSV、Lua 数据、地图、图片、本地化、GUI 和其他源格式；
+- 保留重复字段、源顺序、动态键、日期块、引用文本和 Source Span；
+- 将输入规范化为稳定、版本化、来源可追踪的 **Normalized HOI3 Source IR**；
+- 对源格式错误、损坏资源和无法规范化的结构产生诊断。
 
-三种后端必须使用相同的 Query、Command、Event 和 Capability 协议。原生算法不能获得绕过事务直接写 Authoritative World 的特权。
+HOI3 Importer **不得**：
 
-### 2.8 表现与交互层
+- 引用某个 Dillen Ruleset 的 Entity、Mechanism、Capability 或 Algorithm ID；
+- 决定 HOI3 字段应映射到哪种 Dillen Gameplay Concept；
+- 生成目标 Ruleset 专属的 Entity Definition、Mechanism Definition 或 Spawn Definition；
+- 定义或执行战争、外交、科技等 Gameplay Algorithm；
+- 以 `hoi3_tfh.exe` 的隐藏执行方式作为 Dillen Runtime 契约。
 
-GUI、AI 决策器、音频、调试器和外部工具都是 Kernel 客户端：
+Importer 的验收标准是来源规范化的确定性、完整性、可追踪性和尽可能无损，而不是 Gameplay 等价性。
 
-- 通过 Query 获取只读快照；
-- 通过 Command 提交玩家或 AI 意图；
-- 通过 Event 订阅变化；
-- 不直接持有世界对象裸指针；
-- 不把显示状态当作权威玩法状态。
+#### 1.2.5 Mapping Profile
 
-现有 Script GUI 可作为第一套声明式表现前端，但需要逐步把 HOI3 进程内桥接替换为 Dillen Query/Command/Event 接口。
+Mapping Profile 是 **Normalized External Source IR 与目标 Dillen Semantic Space 之间的独立声明式投影契约**。
 
-### 2.9 HOI3 兼容层
+HOI3 Mapping Profile 只负责：
 
-HOI3 兼容层负责：
+- 声明某类 Normalized HOI3 IR 节点应投影到哪些目标 Entity、Component、Relation、Mechanism Definition、Spawn、资源或历史 Patch；
+- 引用目标 Root Ruleset 已装配 Package 暴露的稳定 Gameplay Contract；
+- 声明字段转换、枚举对应、单位换算、默认值、过滤、合并和缺失语义策略；
+- 生成带来源映射的 **Dillen Projection Artifact**；
+- 对未映射、歧义、目标 Contract 缺失或版本不兼容产生明确诊断。
 
-- 识别原版、TFH 和 Mod 的 VFS 覆盖规则；
-- 解析 HOI3 文件方言和历史容错；
-- 把国家、省份、单位、科技、外交、战争、事件等语义映射为 Dillen Definition；
-- 提供与原版行为一致的机制模板和算法；
-- 使用原版进程观测平台进行 Golden Trace 与差分验证。
+Mapping Profile **不得**：
 
-兼容层可以知道 HOI3 的业务含义，Kernel 不知道。HOI3 兼容实现只是运行在 Kernel 上的一组内容、算法和适配器。
+- 重新读取或私自解析 HOI3 原始文件；
+- 把源格式容错和 VFS 覆盖规则复制进映射配置；
+- 定义目标 Gameplay Mechanism 的 Schema 或业务 Algorithm；
+- 在目标 Package 未公开 Contract 时访问其私有状态；
+- 绕过 Resolver、Ruleset Integrity Validation 或 Runtime Compiler 直接创建运行时对象。
 
-### 2.10 观测与注入层
+同一份 Normalized HOI3 Source IR 可以使用不同 Mapping Profile 投影到不同 Ruleset；同一 Mapping Profile 也必须明确声明兼容的目标 Contract 与版本范围。
 
-现有 `core/engine/native/hoi3`、Hook、Native Effect、Native Query、SaveLoaded Barrier 和 Reverse Probe Framework 继续承担：
+#### 1.2.6 HOI3 Oracle
 
-- 验证原版 HOI3 行为；
-- 定位不确定语义；
-- 生成差分样本；
-- 为兼容算法建立 Golden Trace；
-- 在独立引擎尚未覆盖某功能时提供临时实验环境。
+`hoi3oracle` 是冻结式、按需启用的研究和注入平台。它可以为 HOI3 源格式、内容作者实际依赖的可观察语义和模糊字段提供最小 Probe，但不是 Importer、Mapping Profile 或 Dillen Runtime 的运行依赖。
 
-该层原则上冻结横向扩展，只按兼容重实现中的具体问题增加 Probe。它不是 Authoritative World，也不应成为新机制的长期运行后端。
+### 1.3 Dillen Kernel 的职责
 
-## 3. 各系统的具体构成、职责与实现边界
+Kernel 至少提供以下通用能力：
 
-### 3.1 VFS 与 FileCatalog
-
-**具体构成**：Source Layer、虚拟路径、覆盖优先级、`replace_path`、文件编码、来源追踪、内容包依赖。
-
-**负责工作**：组合原版、资料片、Mod 和 Dillen 内容包；为每个活动文件确定唯一来源；向 Parser 提供稳定虚拟路径和原始字节。
-
-**实现边界**：不解析业务字段，不创建 Definition，不决定机制行为。编码转换不得无提示覆盖原文件。
-
-### 3.2 Template Dispatch 与 Parser Registry
-
-**当前基础**：`template_registry`、`parser_registry`、`lexer`、`parser_cursor`、`path_pattern` 和 SourceBuffer 已经形成可用文本前端。
-
-**负责工作**：
-
-- 根据路径和 Dialect 选择 Parser；
-- 把输入转换为类型化 Parse Artifact；
-- 保留重复字段、源顺序、动态键和 Source Span；
-- 允许 Generated Parser 与手写 Parser 共存。
-
-**实现边界**：Parser 不查询运行时世界，不执行 Effect，不调度 Tick，不保存当前战局状态。
-
-### 3.3 Analyzer
-
-**当前基础**：已有 Declare、Resolve、Validate 三阶段和可注册 Analysis Pass。
-
-**负责工作**：
-
-- Declare 稳定符号与 ID；
-- Resolve 跨文件、跨来源层和跨 Registry 引用；
-- Validate 类型、范围、互斥项、依赖和全局一致性；
-- 产生完整诊断并阻止无效 Definition 冻结。
-
-**实现边界**：Analyzer 可以构建 Definition 间引用，但不能实例化 Mechanism Instance，也不能根据当前日期运行机制。
-
-### 3.4 Mechanism Schema Registry
-
-**目标构成**：
-
-```text
-MechanismTypeId
-SchemaVersion
-FieldSchema
-RoleSchema
-ReferenceSchema
-ConstraintSchema
-IndexSchema
-PersistenceSchema
-CapabilityDeclaration
-```
-
-**负责工作**：定义机制数据结构、字段默认值、角色基数、允许引用、范围约束、索引需求和持久化规则。
-
-**实现边界**：Schema 不包含业务执行代码。复杂行为必须引用 Algorithm ID，不允许把任意 C++ 回调藏入字段验证器。
-
-**当前实现**：`src/kernel` 已建立 `MechanismTypeId`、版本化 `MechanismSchemaRegistry`、字段/角色 Schema 和递归统一值类型。统一值当前覆盖 Null、Boolean、Integer、Decimal、String、稳定 Reference、List 与 Object；Schema 注册阶段校验默认值、数值/长度范围、列表元素类型、引用类型、角色基数、重复字段和版本冲突。
-
-### 3.5 Algorithm Registry 与 Algorithm Runtime
-
-**目标构成**：Algorithm ID、后端类型、入口点、输入输出、权限、依赖 Capability、状态布局、Tick 阶段和预算。
-
-**负责工作**：加载算法、验证 ABI、建立执行计划、调用生命周期入口、限制耗时和内存、隔离失败算法。
-
-**实现边界**：算法只能使用 Kernel API；不得访问容器内部地址、渲染设备或兼容层原生指针。算法需要的新公共能力必须先抽象为 Query、Command 或 Capability。
-
-**当前实现**：已完成版本化 `AlgorithmRegistry` 和 `AlgorithmDescriptor`，登记稳定 Algorithm ID、Backend、生命周期入口点、确定性声明与所需 Capability。当前 Registry 只登记和验证算法元数据，尚未加载字节码、脚本或原生 Algorithm ABI，也尚未执行算法。
-
-### 3.6 Mechanism Definition Registry
-
-**目标对象**：
-
-```text
-MechanismDefinitionId
-MechanismTypeId
-SchemaVersion
-AlgorithmId
-DefinitionFieldValues
-StaticRoleBindings
-SourceOrigin
-DependencySet
-```
-
-**负责工作**：保存 Parser 编译后的机制定义，执行稳定排序和冻结，为 WorldBuilder 提供只读输入。
-
-**实现边界**：Definition 是共享静态数据，不保存某个存档中的进度、冷却、参与者变化或临时结果。
-
-当前 `DefinitionRegistry` 已聚合 Country、Province、Technology、OOB、DiplomacyHistory 和 WarHistory 等强类型 Registry。这些实现是建立通用 Mechanism Definition Registry 的参考切片，不应继续无限增加并列的业务 Registry。
-
-`src/kernel` 已新增通用 `MechanismDefinitionRegistry`。Definition 通过 `MechanismDefinitionId + MechanismTypeId + SchemaVersion + AlgorithmId/Version` 绑定结构与行为，字段和角色在声明阶段依据已冻结 Schema 校验，并自动物化 Schema 默认值。Registry 冻结后按稳定 ID 排序并只读查询；它尚未接入 Parser Artifact，但已可作为 WorldBuilder 创建 Mechanism Instance 的冻结输入。
-
-### 3.7 WorldBuilder
-
-**负责工作**：
-
-- 选择 Bookmark、Scenario 和开始日期；
-- 从冻结 Definition 创建 Entity 与 Mechanism Instance；
-- 回放开始日期之前的历史 Patch；
-- 建立双向引用和可重建索引；
-- 在临时候选世界完成校验后原子发布。
-
-**实现边界**：WorldBuilder 只负责初始实例化，不承担每日 Tick，不执行玩家命令，也不长期拥有业务专用 Graph Builder。
-
-当前 `CountryState`、`ProvinceState`、`RuntimeUnitState`、`CountryRelationState`、`RuntimeWarState` 和对应 `BuildXXXGraph()` 属于过渡期强类型模型。后续应把战争作为首个 `MechanismInstance` 迁移样本，再根据结果迁移外交关系和其他可机制化状态。
-
-WorldBuilder 已增加接受冻结 `MechanismDefinitionRegistry` 的构建入口。构建过程先在临时候选世界中完成既有强类型状态和全部初始机制实例，任一步失败都不会替换已发布世界；旧入口继续保留，并产生空 Mechanism Instance Store。当前最小实例化策略是每个 Mechanism Definition 在世界创建时生成一个序号为 0、创建 Tick 为 0 的实例，动态生成策略留给后续生命周期与命令系统。
-
-### 3.8 Authoritative World 与 Entity Registry
-
-**目标构成**：Entity ID、Entity Type、Component/Property Store、Mechanism Instance Store、Relation Index、World Clock、RNG Streams、Event Queue。
-
-**负责工作**：保存战局唯一事实源，提供稳定查询，维护引用完整性，并支持 Snapshot、Rollback 和存档。
-
-**实现边界**：
-
-- Entity 不因 GUI 关闭而销毁；
-- 派生索引不能反向成为事实源；
-- 外部模块不能取得可长期保存的对象地址；
-- 世界更新只能发生在事务提交点；
-- HOI3 的 Country/Province/Unit 语义应由兼容 Schema 与 Capability 表达，而不是扩散到 Kernel 公共 API。
-
-**当前实现**：`AuthoritativeWorld` 已直接拥有 `MechanismInstanceStore`、`WorldCommandQueue`、`WorldEventQueue`、`MechanismScheduler` 和最新 `MechanismQuerySnapshot`，并记录 World Tick 与 Revision。Store 随候选世界一起原子发布，不使用进程指针、GUI 状态或外部全局表作为机制事实源；运行期写入通过世界事务或 Scheduler 提交，普通查询只读取已发布快照。
-
-### 3.9 Mechanism Instance Store
-
-**目标对象**：
-
-```text
-MechanismInstanceId
-MechanismDefinitionId
-MechanismTypeId
-LifecycleState
-DynamicFieldValues
-RoleBindings
-AlgorithmState
-CreatedTick / UpdatedTick
-```
-
-**负责工作**：创建、查询、启停、结束和销毁实例；维护实例到 Entity、Definition、Algorithm 和 Capability 的索引。
-
-**实现边界**：实例动态字段必须符合 Schema；算法私有状态也必须可序列化。不得通过额外全局表保存 Kernel 不知道的权威业务状态。
-
-**当前实现**：`src/kernel/mechanism_instance.hpp` 定义了实例身份、Definition/Type/Algorithm 绑定、Schema 版本、生命周期状态、动态值、角色绑定、算法状态以及创建/更新时间；`mechanism_instance_store.hpp/.cpp` 实现了创建、清空、按实例 ID 查询、按 Definition 查询、按 Type 查询和确定性遍历。实例 ID 由 `MechanismDefinitionId + Definition 内创建序号` 稳定生成，因此新增无关 Definition 不会改变既有实例的身份序列。创建时仅接受已冻结 Definition Registry，并从已校验 Definition 复制默认值、初始字段和角色绑定。
-
-Store 已进一步接入 Lifecycle、Command 与 Transaction 基础，可在冻结 Definition/Schema 约束下原子更新动态字段和生命周期。当前仍不实现实例销毁、角色引用重绑定、算法私有状态写入、动态创建命令、存档恢复和 Schema 迁移；这些能力必须沿用同一事务边界，不能通过临时可变接口绕过权威世界。
-
-### 3.10 Scheduler、Lifecycle 与时间
-
-**负责工作**：定义 Tick 阶段、算法优先级、事件顺序、延迟任务、暂停、倍速和预算；保证同一 Tick 内的执行顺序可复现。
-
-建议的最小阶段为：
-
-```text
-Collect Commands
-→ Validate Commands
-→ Apply Transactions
-→ Dispatch Events
-→ Run Scheduled Mechanisms
-→ Rebuild Dirty Indexes
-→ Publish Read Snapshot
-→ Persistence Barrier
-```
-
-**实现边界**：机制不能自行创建线程推进权威状态；异步任务只能计算候选结果，最终提交必须回到确定性阶段。
-
-**当前实现**：`mechanism_lifecycle.hpp/.cpp` 已定义 `Created → Active/Completed/Failed`、`Active ↔ Paused` 以及 Active/Paused 到 Completed/Failed 的确定性状态转换；Completed 与 Failed 为不可恢复终态，同状态转换为合法无操作。生命周期变化只能作为 `MechanismCommand` 进入事务，不能取得可写实例后直接改值。
-
-`mechanism_scheduler.hpp/.cpp` 已建立基础 Tick 提交管线：只接受严格递增的下一 Tick，在 Definition/Schema Registry 冻结屏障通过后按队列序号处理本 Tick 可执行的 World Transaction，记录提交或拒绝结果，发布事实事件，并在 Tick 末发布一致 Query Snapshot。Registry 或 Tick 屏障失败时不会取走排队命令。当前 Scheduler 尚未执行 Algorithm Registry 的 Create/Tick/Event 入口，也未实现优先级、预算、延迟算法任务、事件订阅分发和多阶段脏索引重建。
-
-### 3.11 Command、Transaction、Event 与 Query
-
-| 服务 | 职责 | 禁止事项 |
+- **Stable Identity**：所有权威引用使用命名空间限定、版本化、可持久化的稳定 ID；
+- **Runtime Schema**：进入 Authoritative World 的结构必须符合冻结 Schema 和引用约束；
+- **Authoritative World**：所有影响 Simulation 的可变事实只有一个权威来源；
+- **Entity / Component / Relation**：提供通用对象、属性和关系的创建、修改、索引和持久化；
+- **Mechanism Instance**：保存机制实例身份、字段、角色、生命周期和算法状态；
+- **Lifecycle**：统一管理 Created、Active、Paused、Completed、Failed、Destroy 等状态和转换；
+- **Algorithm Runtime**：受控调用算法入口点，限制权限、预算和副作用；
+- **Query / Command / Transaction**：只读查询、修改意图和跨 Store 原子提交；
+- **Event / Scheduled Inbox**：区分已发生事实与未来权威行为；
+- **Deterministic Scheduler / RNG**：固定 Tick、Phase、顺序和随机流；
+- **Capability Contract**：注册、解析和绑定跨机制通用能力；
+- **Persistence / Migration**：保存权威状态并执行版本迁移；
+- **Diagnostics / Fault Isolation**：在启动期和运行期提供可定位、可分级的失败策略。
+
+Kernel 不直接解释外部 Corpus，不直接消费 HOI3 IR，也不编码任何特定 Ruleset 的 Gameplay Meaning。
+
+### 1.4 模板、算法、定义与实例分离
+
+| 层级 | 负责内容 | 不负责内容 |
 |---|---|---|
-| Command | 表达玩家、AI、脚本对世界的修改意图 | 不保证提交成功，不直接返回可写对象 |
-| Transaction | 校验并原子提交一组状态变化 | 不允许部分提交后继续运行 |
-| Event | 发布已经发生的事实与生命周期通知 | 不作为另一套隐式命令通道 |
-| Query | 读取一致的世界快照和派生数据 | 不暴露可写引用 |
-| Capability | 解耦机制间依赖，描述可提供的通用能力 | 不以具体 Mod 名或机制显示名作为协议 |
+| Mechanism Template Source | 可编辑字段、角色、引用、约束、索引和持久化声明 | 不直接成为运行时布局，不保存战局状态 |
+| Mechanism Schema | 经 Resolver 验证和版本冻结的类型契约 | 不包含 Gameplay Content，不执行行为 |
+| Mechanism Algorithm | Tick、Event、Command、条件和变更请求 | 不直接写 World，不拥有权威状态 |
+| Mechanism Definition | 针对 Schema 的共享静态参数、绑定和配置 | 不代表当前战局进度，不自行创建实例 |
+| Mechanism Spawn Definition | 场景初始实例化意图 | 不拥有运行时 Instance ID，不保存后续状态 |
+| Mechanism Instance | 当前 Simulation 中的权威动态状态 | 不重新定义 Schema、Definition 或 Algorithm |
 
-GUI、AI、机制算法和调试工具必须共享这套交互模型。
+世界对象必须按身份和生命周期分类：
 
-**当前实现**：`mechanism_command.hpp/.cpp` 已提供与业务无关的 `SetField` 和 `TransitionLifecycle` 命令；`mechanism_transaction.hpp/.cpp` 定义统一提交结果、失败命令下标、目标实例、变更实例数和字段/生命周期变更记录；`MechanismInstanceStore::ApplyTransaction()` 按命令顺序在临时实例副本上执行完整校验，全部成功后才提交变更。事务会验证 Definition/Schema Registry 冻结状态、实例与 Definition 元数据一致性、字段存在性、值类型与范围、生命周期转换和 Tick 单调性，失败时不写入任何实例。无实际变化的合法事务不会推进 `UpdatedTick`。
+- **Entity**：具有稳定身份、被多个机制长期引用的对象；
+- **Component**：附着于 Entity 的属性集合；
+- **Relation**：没有独立算法和生命周期的结构化事实关系；
+- **Mechanism Instance**：具有独立状态、算法、事件处理或生命周期的过程；
+- **Definition**：共享只读内容。
 
-`world_transaction.hpp/.cpp` 已定义可扩展的 `WorldCommand`/`WorldTransaction` 信封；当前首个命令变体是 `MechanismCommand`，一组命令作为一个世界事务原子提交。后续增加 Entity、Relation、资源或外交命令时，应扩展 WorldCommand 变体并在统一事务暂存区提交，不能再增加平行 Setter。
+### 1.5 设计原则
 
-`world_command_queue.hpp/.cpp` 以单调 Sequence 和 `notBeforeTick` 保存事务，Scheduler 只取走当前 Tick 已到期的事务，延迟事务保持原顺序。`world_event.hpp/.cpp` 为每个事务发布 Committed/Rejected 事实，并在成功后按命令顺序发布字段与生命周期变化；事件拥有独立单调 Sequence，可由消费者 Drain，但不能反向修改世界。
+1. **Kernel 业务无知**：Kernel 不得内建 Country、War、Technology 等 Gameplay Type。
+2. **机制外置**：新增普通机制原则上只增加 Package 内容，不修改 Kernel C++。
+3. **Root Ruleset 可替换**：引擎不强制唯一 Gameplay Root；保护策略只在选定 Root Ruleset 的装配范围内生效。
+4. **Importer 只规范化**：External Importer 不知道转换目标和目标 Ruleset。
+5. **Mapping 只投影**：Mapping Profile 不解析原始格式，也不定义目标机制。
+6. **Parser 与 Runtime 分离**：Parser 不执行算法，不创建权威实例。
+7. **定义动态、运行静态**：加载期动态声明必须在 Tick 前编译为稳定 Slot、Layout 和 Plan。
+8. **权威世界唯一**：缓存、索引、Snapshot 和表现状态必须可重建。
+9. **稳定身份**：禁止以进程地址和临时容器位置作为存档引用。
+10. **确定性优先**：Tick、事务、事件、遍历和 RNG 顺序必须显式定义。
+11. **事务修改**：所有权威变化通过 Command / Transaction 原子提交。
+12. **能力而非名称耦合**：跨机制依赖稳定、版本化 Capability Contract。
+13. **可诊断失败**：未知字段、悬空引用、缺失映射和版本冲突不得静默忽略。
+14. **数值语义明确**：权威数值必须声明精度、舍入、溢出和序列化规则。
+15. **原生扩展可选**：Native Extension 只提供通用能力或性能后端，不把业务重新写回 Kernel。
+16. **外部 Corpus 非规则来源**：HOI3 等 Corpus 可以提供数据和资源，但不能定义 Dillen 的最终 Gameplay Meaning。
+17. **兼容声明分级**：Importer 只能声明 Source Compatibility；只有具体 Mapping Profile 才能声明对某个目标 Ruleset 的 Mapping Compatibility；Gameplay 等价性必须另行定义和验证，不能由“成功导入”自动推出。
 
-`mechanism_query_snapshot.hpp/.cpp` 在 WorldBuilder 完成和每个 Scheduler Tick 末复制发布只读实例视图，包含 Tick、Revision、实例 ID、Definition 与 Type 索引。旧 Snapshot 在新事务提交后保持不变，GUI、AI 和算法查询应逐步改为读取 Snapshot，而不是读取可变化的运行容器。
+### 1.6 Kernel 扩展判据
 
-对于已发布世界，`AuthoritativeWorld::EnqueueWorldTransaction()`、`RunMechanismSchedulerTick()` 和受控的即时 `ApplyWorldTransaction()` 构成当前写入口；`Mechanisms()`、`WorldCommands()`、`WorldEvents()` 和 `MechanismSnapshot()` 均只公开只读视图。当前世界事务只覆盖 Mechanism Instance Store，尚未把过渡期 Country/Province/Unit/Relation/War 容器纳入同一暂存区；真正跨 Entity 与 Mechanism 的事务原子性将在 Entity Registry 建立后补齐。
+允许扩展 Kernel 的理由：
 
-### 3.12 Persistence 与 Migration
+- 当前缺少跨 Mechanism、跨 Ruleset 可复用的 Runtime Primitive；
+- 当前 Capability 无法表达一类通用、可版本化的交互；
+- 当前运行时无法满足确定性、持久化、安全性或性能底线；
+- 新平台后端需要统一抽象。
 
-**必须保存**：世界版本、内容包集合、Schema 版本、Entity、Mechanism Instance、动态字段、算法状态、世界时间、RNG、事件队列和稳定引用。
+不允许扩展 Kernel 的理由：
 
-**必须支持**：
+- 某个 HOI3 字段难以映射；
+- 某个 Mod 想绕过公开 Contract；
+- 某个机制用专用 `RuntimeXXXState` 编写更快；
+- 某个原版引擎存在隐藏执行路径；
+- 未来也许会用到某个专用 Setter。
 
-- Definition 与 Instance 分离保存；
-- 稳定 ID 重解析；
-- Schema 逐版本迁移；
-- 内容包缺失和算法缺失的明确诊断；
-- 未知机制的隔离、只读保留或拒绝加载策略；
-- 存档前后确定性校验和；
-- 不保存可重建缓存和进程地址。
+### 1.7 核心验收标准
 
-**实现边界**：任何无法序列化的算法私有状态都不能进入权威机制。兼容原版 HOI3 存档可以由独立 Importer 处理，不要求 Dillen 内部长期使用原版存档布局。
+Project Dillen 主体框架达到第一阶段验收必须满足：
 
-### 3.13 GUI 与表现系统
+1. 不修改或重新编译 Kernel，即可通过外部 Package 注册 Kernel 事先不知道的机制；
+2. Template Source 能经过 Parser、Resolver、Registry 和 Runtime Compiler 形成 Frozen Runtime Catalog；
+3. WorldBuilder 和运行期 Command 能创建稳定 Entity 与 Mechanism Instance；
+4. Algorithm 能响应 Lifecycle、Tick、Event 和 Command，只通过 Query/Command/Transaction 与世界交互；
+5. GUI 或测试客户端只通过 Query 与 Command 工作；
+6. Entity、Component、Relation、Mechanism、RNG、Inbox、Sequence 和时间能够完整 Save/Load；
+7. Schema、Definition、Algorithm 和 Ruleset 版本能够迁移或明确拒绝；
+8. 同一 Package Lock、Ruleset Fingerprint、初始状态、输入和 RNG Seed 能确定性回放；
+9. 删除全部 HOI3 Importer、Mapping Profile、HOI3 Compatibility Target 和 Oracle 后，Dillen 主体仍能独立构建、测试和运行；
+10. 更换 Root Ruleset 后，可以装配不同 Gameplay Package，而无需修改 Kernel。
 
-**当前基础**：Script GUI 已具备声明式窗口、图片、文字、按钮、列表、滚动条、进度条、自定义控件、数据绑定、动作桥和 D3D9 后端。
+HOI3 导入不属于上述核心验收的前置条件。只有核心验收通过后，才恢复 HOI3 外部接入工作。
 
-**未来职责**：把 GUI Definition 编译为表现树，通过 Query 绑定数据显示，通过 Command 绑定动作，通过 Event 刷新脏数据。
+---
 
-**实现边界**：GUI 不保存机制权威状态，不直接调用业务 Setter，不因渲染帧率改变模拟 Tick。D3D9 只属于 HOI3 注入宿主；独立引擎需要新的渲染后端，但上层 GUI Definition 和交互模型应保持后端无关。
+## 2. Project Dillen 系统架构
 
-### 3.14 HOI3 Parser 与兼容包
+### 2.1 工程架构图
 
-`parser/parsers/hoi3` 当前已经覆盖 Country Tag、Country Definition、Province、Region、Country/Province History、UnitType、Technology、UnitModel、OOB、Diplomacy History、War History 和 Scenario/Bookmark 的首批切片。
+```text
+                     Launch Descriptor
+       Root Ruleset + Extension Rulesets + Content Packages
+              + Optional External Source Bindings
+                              │
+                              ▼
+               Manifest / Dependency Resolver
+              Package Lock + External Binding Plan
+                              │
+             ┌────────────────┴────────────────┐
+             │                                 │
+             ▼                                 ▼
+  Dillen Native Package Sources       External Content Corpus
+  Template / Algorithm / Data / GUI      e.g. HOI3 / TFH / Mods
+             │                                 │
+             ▼                                 ▼
+  Dillen VFS + FileCatalog            Independent Corpus Importer
+  + Parser Workspace                  source decode + normalization
+             │                                 │
+             │                                 ▼
+             │                      Normalized External Source IR
+             │                                 │
+             │                      Mapping Profile ─────────────┐
+             │                    target Contract references     │
+             │                                 │                 │
+             │                                 ▼                 │
+             │                      Dillen Projection Artifact   │
+             │                    no Runtime object creation     │
+             └───────────────────────┬───────────────────────────┘
+                                     ▼
+                         Unified Source Workspace
+                                     │
+                                     ▼
+                       Finalize Deterministic Source Lock
+                                     │
+                                     ▼
+                 Resolver: Declare → Resolve → Validate
+                                     │
+                                     ▼
+              Schema / Algorithm / Definition / Spawn /
+                    Capability / Resource Registries
+                                     │
+                                     ▼
+                   Ruleset Composition + Integrity Gate
+                                     │
+                                     ▼
+                            Runtime Compiler
+                  Slot / Layout / Binding / Index / Schedule Plan
+                                     │
+                                     ▼
+                         Frozen Runtime Catalog
+              + Package Lock + Source Lock + Ruleset Fingerprint
+                                     │
+                                     ▼
+                                WorldBuilder
+                                     │
+                                     ▼
+┌──────────────────────────────────────────────────────────────┐
+│                         Dillen Kernel                        │
+│                                                              │
+│                    Authoritative World                       │
+│                                                              │
+│ Entity / Component / Relation / Mechanism Stores             │
+│ World Clock / RNG Streams / Scheduled Algorithm Inbox        │
+│ Lifecycle / Algorithm Runtime / Deterministic Scheduler      │
+│ Query / Command / Transaction / Event / Capability           │
+│ Persistence / Migration / Diagnostics / Fault Isolation      │
+└──────────────────────────────┬───────────────────────────────┘
+                               │
+                  Query / Command / Fact Stream
+                               │
+              ┌────────────────┼─────────────────┐
+              ▼                ▼                 ▼
+          GUI Client     Simulation AI      Tools / Debugger
+                               │
+                               ▼
+                    Runtime Platform Services
+       File System / Jobs / Renderer / Audio / Input / Window
+```
 
-这些 Parser 的长期职责是把 HOI3 方言转换为通用 Definition，而不是让每一种 HOI3 业务对象永久拥有一套独立运行时容器。HOI3 特有容错、字段拼写和历史日期规则可以保留在兼容 Parser 中，但输出应逐步迁移到通用 Schema、Mechanism Definition 和 Entity Definition。
+架构图中的关键顺序是：
 
-### 3.15 观测平台与差分验证
+1. Importer 先独立产出 Normalized Source IR；
+2. Mapping Profile 再把规范化 IR 投影到目标 Dillen Contract；
+3. Native Source 与 Projection Artifact 在 Resolver 前汇合；
+4. Source Lock 在 Importer、Mapping 与 Native Source Workspace 确定后才能最终生成；
+5. Ruleset 完整性验证先于 Runtime Compiler；
+6. WorldBuilder 只消费 Frozen Runtime Catalog，不消费 HOI3 IR；
+7. Kernel 对输入来源无感知。
 
-**当前构成**：Module Registry、Hook Registry、Lifecycle、Engine Registry、Capability Registry、Native Query、Native Effect、Object Resolver、SaveLoaded Barrier 和 Reverse Probe Framework。
+### 2.2 关键中间产物
 
-**负责工作**：针对不确定的原版行为设计最小 Probe，记录输入、原版输出和状态差异，为兼容算法提供可审计证据。
+| 产物 | 所有者 | 内容 | 禁止事项 |
+|---|---|---|---|
+| Package Lock | Package Resolver | 确定的 Package 版本、依赖和顺序 | 不保存战局状态 |
+| Source Lock | Source Pipeline | Corpus 摘要、Importer 版本、Normalized IR 摘要、Mapping Profile 版本与投影摘要 | 不包含运行期对象地址 |
+| Parse Artifact | Parser | 语法结构、动态键、顺序和 Source Span | 不执行 Gameplay 行为 |
+| Normalized External Source IR | Importer | 与目标 Ruleset 无关的规范化外部内容 | 不引用 Dillen Gameplay Target |
+| Dillen Projection Artifact | Mapping Profile | 对目标 Contract 的声明式投影结果 | 不直接创建 Runtime Instance |
+| Resolved Registry Set | Resolver / Registry | 已解析和验证的 Schema、Definition、Algorithm、Capability 与资源 | 不允许 Tick 期修改结构 |
+| Frozen Runtime Catalog | Runtime Compiler | Slot、Layout、Binding、Index 与 Schedule Plan | 不保存当前战局状态 |
+| Authoritative World | Kernel Runtime | 当前 Simulation 的唯一权威状态 | 不保存可重建表现缓存 |
 
-**实现边界**：不继续为了潜在用途横向逆向 Unit、Supply、Combat 和 AI 全套接口；只在独立实现遇到明确语义缺口时扩展。Probe 结果进入测试资料和兼容算法，不能直接成为 Kernel 的隐藏依赖。
+### 2.3 严格依赖方向
 
-### 3.16 测试与验收体系
+```text
+Runtime Host ──depends on──> Kernel / World / Runtime
+Kernel / World / Runtime ──depends on──> Platform Abstractions
 
-测试应分为五层：
+Gameplay Packages / Rulesets ──compile against──> Kernel Contracts
+Native Content ──targets──> Gameplay Package Public Contracts
 
-1. Parser 语法和错误恢复测试；
-2. Definition Resolve、Schema 和 Registry 冻结测试；
-3. WorldBuilder 初始世界与引用一致性测试；
-4. Mechanism 生命周期、命令、事件、存档和确定性测试；
-5. HOI3 Golden Trace 差分测试。
+Mapping Profile ──depends on──> Normalized Source IR Schema
+Mapping Profile ──targets──> Gameplay Package Public Contracts
+External Corpus Importer ──depends on──> Generic Source / Diagnostic Foundation
 
-每一种机制模板至少提供：合法样本、非法样本、跨文件引用样本、存档迁移样本和固定 Tick 输出样本。性能测试必须区分加载期编译成本与运行期 Tick 成本。
+HOI3 Oracle ──provides optional evidence only──> Importer Fixtures / Mapping Tests
+```
 
-### 3.17 当前目录与目标职责映射
+约束：
 
-| 当前目录 | 当前职责 | 长期定位 |
+- Kernel 不依赖 Gameplay Package、HOI3 Importer、Mapping Profile 或 Oracle；
+- Gameplay Package 不依赖 HOI3 Importer；
+- Importer 不依赖目标 Ruleset 和 Gameplay Contract；
+- Mapping Profile 同时依赖 Normalized IR Schema 和目标公开 Contract，但不拥有两者；
+- Runtime Host 可以组合具体 Package，但 Package 不得反向取得 Kernel 私有实现；
+- Oracle 不得成为任何发布版运行依赖。
+
+### 2.4 Ruleset 与外部来源装配
+
+Launch Descriptor 负责选择：
+
+- 一个 Root Ruleset；
+- 零个或多个合法 Extension Ruleset；
+- Content Package 集合；
+- 可选 External Source Binding。
+
+External Source Binding 只声明 Corpus、Importer 和 Mapping Profile 的版本化组合。其输出必须进入 Source Lock，并最终作为 Generated Projection Source 参与普通 Resolver、Integrity Gate 和 Runtime Compiler，不得形成旁路 WorldBuilder。
+
+Ruleset Fingerprint 至少包含：
+
+- Root / Extension Ruleset 身份和版本；
+- Package Lock；
+- Source Lock；
+- Schema、Definition、Algorithm 和 Capability 版本；
+- Runtime 编译策略和确定性配置。
+
+### 2.5 Runtime 执行架构
+
+运行时服务分为：
+
+- **World State**：Entity、Component、Relation、Mechanism、Clock、RNG、Scheduled Inbox；
+- **Execution Services**：Scheduler、Algorithm Runtime、Command Queue、Transaction Executor；
+- **Read Services**：Query Snapshot、Index 和只读派生数据；
+- **Output Services**：Committed Fact Stream 和 Presentation Notification；
+- **Durability Services**：Persistence、Migration、Replay 和 Checksum；
+- **Platform Services**：文件、线程、渲染、音频、输入和窗口。
+
+World 只保存权威状态；Scheduler、Query Snapshot、可 Drain 事实流和表现状态不成为第二套权威世界。
+
+---
+
+## 3. 系统构成、当前状态与实现边界
+
+### 3.1 Package、VFS、FileCatalog 与 Parser
+
+**目标职责**：装配 Dillen Package，确定虚拟路径来源，读取 SourceBuffer，根据 File Dispatch Template 选择 Parser，并形成不可变 Parse Workspace。
+
+**边界**：FileCatalog 不执行 Declare / Resolve / Validate，不创建 Runtime Instance，不解释外部 Corpus 的目标 Gameplay Meaning。
+
+**当前实现**：`src/parser` 已具有 VFS、FileCatalog、SourceBuffer、Lexer、Parser Cursor、File Dispatch Template、Parser Registry 和基础 Parse Workspace。FileCatalog 与旧 Analyzer 的文件遍历职责已经合并；Resolver 独立承担语义 Pass。独立的 `dillen::authoring` 组件已为 Package Manifest、Capability Contract、Component Schema、Entity Definition、Relation Schema、Relation Definition、Mechanism Template、Algorithm Descriptor、Mechanism Definition、Spawn、Root Ruleset 和 Extension Ruleset 注册严格文件模板与 Parser。`AuthoringSession` 可组合多个带名称、优先级、虚拟前缀和 Replace Path 的 Package Source Layer，并将胜出的实际 Source Artifact 送入统一 Declare / Resolve / Validate 管线。
+
+**下一缺口**：补齐结构化 List / Object / Reference 初值、Generated Source 的 Source Map、可扩展语法版本迁移和面向作者的诊断展示；这些扩展不得破坏基础 Parser 与 Kernel 的依赖方向。
+
+### 3.2 Resolver
+
+Resolver 固定执行：
+
+```text
+Declare stable symbols
+→ Resolve cross references
+→ Validate types, constraints and global consistency
+→ Freeze registries
+```
+
+Resolver 不遍历文件系统、不重新读取文件、不执行算法、不创建实例。Importer 和 Mapping Profile 的结果必须作为普通 Source Artifact 进入 Resolver。
+
+### 3.3 Manifest、Ruleset、Package Lock 与 Source Lock
+
+**当前实现**：已建立 `PackageManifestRegistry`、`RulesetRegistry`、`PackageLockBuilder`、`SourceLock`、`RulesetFingerprint`、`RulesetIntegrityValidator` 与版本化 `RuntimeCapabilityContractRegistry/Resolver`。Package Lock 已能执行确定性版本选择、依赖闭包、拓扑排序、冲突和循环拒绝；Source Lock 直接记录实际胜出 Source Artifact 的 Source Layer、虚拟路径、内容 Fingerprint 和字节长度，而不是由 Package 摘要伪造。`RootRulesetDefinition`、`ExtensionRulesetDefinition` 与 `RulesetComposer` 已取代全局不可替换 Core Ruleset 假设：启动方显式传入一个 Root，Extension 按 `priority → stable id → version` 确定性排序，仅能在 Root 允许的契约类别中执行加法组合；Root 已拥有契约、显式保留契约、Extension 重复契约、目标 Root/版本不匹配均会在组合阶段拒绝。组合结果、Package Lock 与 Source Lock 一并进入 Frozen Runtime Catalog、Ruleset Fingerprint 和持久化身份校验。
+
+**需要修正和补齐**：
+
+- 将 External Corpus、Importer、Mapping Profile 和 Projection Artifact 摘要纳入 Fingerprint；
+- 在纯加法 Extension 验证稳定后，再以显式操作和逐契约授权扩展 Override Policy；未获 Root 授权的替换继续默认拒绝；
+- 补齐资源要求和 Generated Source 的完整性验证。
+
+### 3.4 Schema、Definition、Spawn 与 Algorithm Registry
+
+**当前实现**：
+
+- 版本化 `MechanismSchemaRegistry`、`ComponentSchemaRegistry` 和 `RelationSchemaRegistry`；
+- `EntityDefinitionRegistry`、`RelationDefinitionRegistry`、`MechanismDefinitionRegistry`、`MechanismSpawnDefinitionRegistry`；
+- 版本化 `AlgorithmRegistry` 和 `RuntimeCapabilityContractRegistry`；
+- 递归统一值类型、字段/角色约束、默认值、引用类型和稳定排序。
+- `AuthoringSession` 已按 `Package/Capability/Schema/Algorithm → Entity/Relation/Mechanism Definition → Spawn → Ruleset Composition → Integrity → Runtime Compile` 顺序执行 Declare / Resolve / Validate，并冻结全部相关 Registry；外部 Fixture 已能直接生成包含 Package Lock、Source Lock、Root/Extension 身份、Component/Relation/Mechanism Layout、Algorithm、Entity/Relation/Mechanism Definition 和 Spawn 的 Frozen Runtime Catalog。
+
+**边界**：Registry 保存加载期定义，不保存当前战局状态；Gameplay Algorithm 不得隐藏在字段校验器中。
+
+### 3.5 Runtime Compiler 与 Frozen Runtime Catalog
+
+**当前实现**：Runtime Compiler 已将 Mechanism / Component 字段和角色编译为 32 位 Slot，将 Mechanism / Component / Relation Schema 编译为 Type Layout，将 Entity / Relation / Mechanism / Spawn Definition 编译为紧凑向量，并冻结 Algorithm、Definition 专属 Declarative Bytecode 与 Capability Binding、Package Lock、Source Lock、Root / Extension Composition 身份和 Ruleset Fingerprint。Tick 热路径不再解析 Algorithm 字段名，也不依赖顶层字段字符串 Map。
+
+**下一缺口**：
+
+- Index Plan 与 Schedule Plan；
+- Source / Projection 诊断反射映射；
+- 结构化 Object Schema 编译；
+- 编译产物格式版本和可重现构建测试。
+
+### 3.6 Entity、Component、Relation 与 Mechanism Store
+
+**当前实现**：
+
+- 通用 `EntityRegistry`；
+- Slot 化 `ComponentStore`；
+- 由 Relation Schema / Definition 约束并维护 Outgoing / Incoming 的二元 `RelationIndex`；
+- `MechanismInstanceStore` 和 Definition / Type 索引；
+- 稳定 Entity / Relation / Mechanism Instance ID；
+- 从 Frozen Definition / Spawn 确定性创建对象。
+
+**下一缺口**：Entity 删除、Component 动态附着/移除、角色重绑定、更多可配置引用删除策略和通用索引重建。Mechanism Destroy 已采用保守策略：存在外部 Mechanism Instance Role 引用时拒绝删除，并原子取消定向待处理事件。
+
+### 3.7 WorldBuilder 与 Authoritative World
+
+WorldBuilder 只消费 Frozen Runtime Catalog 和场景入口，构造临时候选 World，验证后原子发布。它不解析 HOI3 IR，不执行每日 Tick，也不保存业务专用 Graph。
+
+**当前实现**：独立 `world::AuthoritativeWorld` 已拥有 Entity、Component、Relation、Mechanism、Algorithm Inbox、RNG Stream、Tick 和 Revision；`InitialWorldBuilder` 只依据明确 Entity Definition 与 Spawn Definition 创建初始对象。
+
+任何 `CountryState`、`ProvinceState`、`RuntimeWarState` 等专用对象都只能属于外部适配原型或 Mapping 中间产物，不能进入通用 World。
+
+### 3.8 Algorithm Runtime 与 Capability
+
+**当前实现**：Algorithm Descriptor 已包含稳定 ID、版本、Backend、Create / Tick / Event / Command / Destroy 入口点、确定性声明、Execution Policy 和 Capability Requirement。Algorithm Runtime 已接通全部五个阶段；Executor 只读同代际 Snapshot、Scheduled Event 和 RNG Snapshot，只能输出 World Transaction。Declarative / Bytecode 后端支持字段设值与增量、生命周期转换、Entity / Component / Relation / Mechanism Query 数量条件、字段条件、事件类型条件、RNG 模条件，以及创建 Entity、设置 Component、增加 Relation、Spawn Mechanism、调度事件、创建和推进 RNG Stream 等通用事务指令。Runtime Compiler 在加载期解析引用并冻结为 Slot / Stable ID 字节码，内建无循环 VM 按稳定顺序执行并仅生成事务。Native 后端继续使用显式 Executor Registry。
+
+Execution Policy 提供正数确定性指令预算、非权威墙钟警告阈值和 `isolate_instance / pause_instance / fail_instance` 三种失败策略。Declarative VM 在每条字节码前消费确定性预算；Native Executor 通过 Context 中的 Tracker 协作消费预算。只有指令预算超限、契约错误、执行拒绝、异常或事务拒绝等确定性/语义故障才会丢弃输出、记录权威 Fault 并执行 Failure Policy。墙钟耗时只保存在当次 Invocation 诊断报告中，不中止算法、不影响事务提交、不进入 Authoritative World、Save、Replay Checksum 或生命周期。Fault State 包含隔离标记、次数、错误码、阶段和 Tick，可由显式事务清除。
+
+Destroy 阶段在实例进入 Completed / Failed 后执行；成功输出与实例删除同事务提交，同时清理定向 Algorithm Inbox。存在其他 Mechanism Instance Role 引用时保守拒绝删除。Native C++ 回调不会被不安全地强制终止；进程级卡死保护属于非权威 Host Watchdog，可抢占硬沙箱留给未来受控 Script / Bytecode Worker，二者都不得把墙钟结果回写为权威 Gameplay 结果。
+
+**受控 Script 评估结论**：当前只保留 `script` Backend 描述符和明确的 `ScriptBackendUnavailable` 运行结果，不立即嵌入 Lua 或其他脚本 VM。Script 后端仍必须与内存限制、Capability 白名单、存档状态和确定性 Replay 同时设计，否则会破坏 Kernel 的安全边界和可重现性。
+
+**下一缺口**：
+
+- Capability 的实际调用 ABI，而不仅是版本绑定。
+- 受控 Script 的内存配额、可抢占沙箱和持久化状态。
+
+### 3.9 Scheduler、Transaction、Event、Query 与 RNG
+
+**当前实现**：
+
+- World Transaction 已统一暂存 Entity、Component、Relation、Mechanism、Scheduled Event 和 RNG Store；
+- 任一命令失败时不留下跨 Store 半更新；
+- Command Queue 按 `notBeforeTick → priority → sequence` 稳定排序；
+- Algorithm Inbox 按 `dueTick → priority → sequence` 稳定排序；
+- Committed Fact Stream 与权威 Scheduled Inbox 已分离；
+- RNG Stream 使用稳定 ID、Seed、Draw Count 和 Expected Draw Count；
+- `WorldQuerySnapshot` 在单次发布中深拷贝 Entity、Component、Relation 与 Mechanism 四个权威 Store，并统一绑定同一 `Publication / Tick / Revision`；
+- Entity 查询支持 Stable ID、Definition 和 Type 索引；Component 查询支持 Owner / Type、字段 Slot、按类型查 Owner 和按 Entity 查 Component Type；Relation 查询支持 Stable ID、Type、Outgoing 和 Incoming 索引；Mechanism 查询支持 Stable ID、Definition、Type、字段 Slot 和角色 Slot；
+- `WorldQueryService` 通过不可变 `shared_ptr<const WorldQuerySnapshot>` 发布快照；调用方可跨后续 Tick 持有旧代际，旧快照不会被原地覆写；
+- `KernelRuntime::AcquireQuerySnapshot()` 是 GUI、AI、工具和未来 Standalone Host 的稳定查询入口，`KernelRuntime::Query()` 用于当前调用栈内即时读取；原 `Snapshot()` 暂保留为 Mechanism 子视图兼容入口；
+- Algorithm Runtime 已接收完整一致 Query Snapshot；算法可读取四类通用世界对象，但仍只能通过 Command / Transaction 修改权威世界；
+- RNG Snapshot 与 World Query Snapshot 在每次 Runtime 发布时使用相同 Tick / Revision；
+- Scheduler 的物理归属已从 Kernel 契约层迁入 `src/runtime`，由 `KernelRuntime` 持有并编排 Tick；Kernel 只保留可复用的状态、事务和编译契约；
+- 当前纯 Dillen（关闭 HOI3 Compatibility 与 Oracle）Windows x64 测试为 12 项，全部通过。启用冻结 HOI3 Compatibility 后 28 个 Target 均可构建，其中 12 个旧兼容夹具仍引用整理前的仓库 Corpus 路径；按照当前冻结策略，它们将在未来 Adapter 恢复时改为测试显式传入的实际 Corpus Root，不在 Standalone 主线中临时回接旧路径。
+
+**下一缺口**：
+
+- 脏索引、结构共享和增量快照优化；当前实现优先保证不可变性与跨 Store 一致性；
+- 阶段级预算、明确 Scheduler Phase Contract；
+- 更细粒度事务暂存，替换当前正确性优先的全 Store Copy；
+- Scheduled Event 消费审计和持久化屏障。
+
+### 3.10 Persistence、Migration 与 Replay
+
+**必须保存**：
+
+- 世界格式、Package Lock、Source Lock、Ruleset Fingerprint；
+- Entity、Component、Relation、Mechanism Instance 和算法权威状态；
+- World Clock、RNG Stream、Sequence、Command Queue、Scheduled Inbox；
+- 无法由稳定 ID 重建的权威引用。
+
+**不得保存为权威状态**：
+
+- Query Snapshot、派生索引、缓存、表现状态和进程地址；
+- 可由事务重建的 Committed Fact Stream；
+- Importer 临时 Parser 对象和未锁定 SourceBuffer。
+
+**当前实现**：`Project-Dillen/src/persistence` 已成为独立 Durability 组件，并完成以下最小闭环：
+
+- `RuntimeSaveImage` 使用显式格式版本保存 Active Ruleset、Extension 列表、Ruleset Fingerprint、完整 Package Lock，以及逐个记录 Source Layer、虚拟路径、内容 Fingerprint 和字节长度的真实 Source Lock；
+- 保存 Entity、Component、Relation、Mechanism Instance、Mechanism Algorithm State / Fault State、World Tick / Revision、Mechanism 创建序号、Scheduled Inbox、RNG Seed / Draw Count、待执行 Command Queue，以及 Command / Inbox / Fact 的下一稳定 Sequence；
+- Query Snapshot、反向索引、当前 Fact Queue、Algorithm 阶段报告和表现状态不进入 Save Image；加载成功后由 Store 和 Runtime 重新构造；
+- `RuntimeSaveCodec` 使用受限递归、长度上限、确定性字段顺序、固定小端编码和整包校验值生成 Canonical Binary Save；相同权威状态产生相同存档字节；
+- `RuntimePersistenceService` 先在候选 World 中验证 Stable ID、Catalog Layout、字段值、角色基数、权威引用和各类 Sequence，再一次性替换 World / Queue；任何失败都不会部分污染现有世界；
+- `RuntimeMigrationRegistry` 以“Save Format + 源 Ruleset Fingerprint”为唯一迁移入口，只允许冻结后的显式单路径迁移；每一步在 Save Image 副本上执行，成功后切换至声明的完整目标 Identity，禁止静默兼容；
+- `DeterministicReplayService` 从 Save Image 恢复独立 Runtime，按 `submitTick` 和日志顺序重放 Command，在每 Tick 收集 Canonical Fact Stream，并输出终态存档、Fact Stream 及两类稳定 Checksum；
+- `persistence_replay_probe` 已覆盖全部四类 Store、Package / Source Lock、Clock、RNG、Inbox、Queue、创建序号与三类 Sequence 的存档往返，验证损坏存档拒绝、不兼容 Ruleset 拒绝、旧格式 Schema Migration、派生索引重建，以及双次 Replay 的 Fact Stream 和最终状态逐字节一致。
+
+**边界**：Durability Core 只返回内存字节，不直接承担文件路径、云存储或平台对话框；Standalone Host 已在 Platform 边界实现受限文件读取与同目录临时文件原子替换，并继续通过 `RuntimePersistenceService` 完成身份、格式与候选世界验证。受控 Script Backend 的 VM 堆、协程和沙箱状态仍需在启用该 Backend 时另行定义持久化契约。
+
+### 3.11 GUI、AI 与平台宿主
+
+GUI、AI 和工具必须只通过 Query、Command 与 Fact Stream 使用世界。
+
+现有 Script GUI 是 `hoi3oracle` 中已经实机验证的注入式表现系统，可以作为声明式 GUI 模型和交互协议参考；D3D9 Hook、HOI3 Lua Bridge 与进程内宿主不是 Dillen Standalone 的发布后端。
+
+**当前实现**：`src/host` 已形成独立 `dillen::host` Platform 组件和 `project-dillen` CLI 可执行文件。`StandaloneSession` 复用 AuthoringSession、FileCatalog、Resolver、Frozen Runtime Catalog 与 InitialWorldBuilder，从一个或多个具名 Package Source Layer、显式 Root Ruleset和 Extension Ruleset 启动纯 Dillen 世界；每层可配置优先级、虚拟前缀、Include Pattern 和 Replace Path，Host 不复制 Parser、不注入机制业务语义。CLI 通过可重复的 `--source <name>@<priority>=<path>` 参数装配多层内容，同时保留单内容根兼容入口。`CliInspector` 提供 `status`、`list`、`show`、`tick`、即时 `set`、排队 `enqueue`、`save`、`load` 和 `quit`，状态读取只使用一致 Query Snapshot，修改只生成统一 World Transaction；字段输入按 Frozen Schema 类型解析，非法命令与非法值被隔离并诊断。CLI 既支持交互终端，也支持命令文件，适合作为 Demo、自动化和未来窗口宿主的最小控制平面。
+
+纯 Dillen Demo 不要求立即复刻完整 HOI3 GUI。确定性 AI 属于 Simulation Algorithm Client；表现 AI 或外部辅助工具只能提交受验证 Command。未来窗口后端应复用 `StandaloneSession` 和 Query / Command 协议，不得绕过 Host 重新持有第二套世界状态。
+
+### 3.12 HOI3 Importer
+
+**当前原型位置**：`src/parser/parsers/hoi3`、`src/compatibility/hoi3/content` 和部分 `src/compatibility/hoi3/worldbuilder`。
+
+**当前状态**：已覆盖 Country Tag、Country Definition、Province、Region、Country / Province History、UnitType、Technology、UnitModel、OOB、Diplomacy History、War History 和 Scenario / Bookmark 的首批解析切片。
+
+**架构处置**：
+
+- 从现在起冻结横向功能建设；
+- 不再把解析结果直接转换为 Dillen Runtime Representation；
+- 未来迁移为独立 `adapters/hoi3/importer` Target；
+- 输出只允许是版本化 Normalized HOI3 Source IR 与诊断；
+- Dillen Standalone 默认构建不得依赖该 Target。
+
+### 3.13 Mapping Profile
+
+**当前状态**：尚未建立正式 Mapping Profile Schema、Registry、Compiler 和 Source Lock 集成。
+
+**未来组成**：
+
+- Mapping Profile Manifest；
+- Source IR Schema Requirement；
+- Target Gameplay Contract Requirement；
+- 字段、枚举、单位、引用、资源和历史 Patch 映射；
+- Unsupported / Ignore / Default / Error 策略；
+- Projection Artifact 与 Source Map；
+- Mapping Profile 版本、摘要和兼容范围。
+
+该系统在纯 Dillen Demo 1.0 通过前不进入主线实现。
+
+### 3.14 HOI3 Oracle
+
+`hoi3oracle` 保持独立 Target，继续保存 Module / Hook / Lifecycle、Native Query / Effect、SaveLoaded Barrier、Reverse Probe Framework、Script GUI 和启动器。
+
+Oracle 原则上冻结横向逆向，仅在未来 Importer 的来源规范化或 Mapping Profile 的可观察语义存在明确歧义时增加最小 Probe。Probe 结果进入 Fixture、IR 规范或 Mapping 证据，不成为 Kernel 隐藏依赖。
+
+### 3.15 Diagnostics 与 Fault Isolation
+
+加载期至少诊断：
+
+- Package / Source / Mapping 版本冲突；
+- 未知字段、损坏编码、无法规范化的 Corpus 节点；
+- 未映射 Source Semantic；
+- Target Contract 缺失；
+- 悬空引用、Schema 不兼容、Algorithm / Capability 缺失；
+- Runtime Freeze 不可重现。
+
+运行期至少诊断：
+
+- 非法 Command 和生命周期转换；
+- 事务冲突和回滚；
+- Algorithm 超预算、异常和 Capability 调用失败；
+- 存档版本和迁移失败；
+- 确定性校验差异。
+
+### 3.16 测试分层
+
+1. Parser / Importer Source Fixture 测试；
+2. Mapping Profile Projection 测试；
+3. Manifest、Ruleset、Package Lock、Source Lock 和 Fingerprint 测试；
+4. Resolver、Schema、Definition、Runtime Compiler 与 Freeze 测试；
+5. WorldBuilder、引用完整性和 Store 测试；
+6. Lifecycle、Algorithm、Transaction、Event、RNG 和 Query 测试；
+7. Persistence、Migration 和 Replay 测试；
+8. Standalone Host、GUI Contract 与端到端 Demo 测试；
+9. Oracle Probe 回归测试。
+
+Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测试由目标 Mechanism Package 和 Ruleset 负责。三类测试不得混写成一个“HOI3 兼容成功”结论。
+
+### 3.17 当前目录与目标边界
+
+| 目录 | 当前职责 | 长期定位 |
 |---|---|---|
-| `src/kernel` | 机制强类型 ID、统一值、Schema/Algorithm/Definition Registry、Instance Store、Lifecycle、World Transaction、Command Queue、Scheduler、Event Queue 与 Query Snapshot | Dillen Kernel 的通用机制运行基础；后续承载算法执行、Capability、Entity 事务和持久化 |
-| `src/parser` | VFS 后的文本前端、Template、Parser、Analyzer | Dillen 通用输入前端 |
-| `src/parser/parsers/hoi3` | HOI3 文件语义解析 | HOI3 兼容前端 |
-| `src/content` | 强类型 Definition 与 Registry | 逐步拆分为通用 Schema/Definition 和 HOI3 Definition 适配层 |
-| `src/worldbuilder` | 强类型世界实例化和一致性校验 | Kernel WorldBuilder 与迁移期兼容 Builder |
-| `src/core` | 注入模块、Hook、生命周期和 Capability 基础 | 可复用概念迁入 Kernel；Windows 注入部分留在兼容宿主 |
-| `src/engine` | HOI3 版本、符号和类型注册 | 原版观测平台专用 |
-| `src/native` | 原生查询、效果、对象解析和存档屏障 | 原版观测与兼容验证专用 |
-| `src/hoi3` | HOI3 原生行为桥 | 原版观测平台专用 |
-| `src/gui` | Script GUI 模型、数据、运行时、Lua 和 D3D9 | 保留声明式上层，替换为 Kernel Query/Command 与独立渲染后端 |
-| `src/leader_capture` | 注入式将领俘虏机制 | 作为行为差分样本，未来重写为外部机制 |
-| `src/launcher`、`src/dll` | Windows 启动与注入 | 保留兼容/观测模式；未来启动器增加独立 Dillen 模式 |
-| `src/tools`、`tests` | 离线工具与 Probe | 扩展为内容编译器、Schema 工具和确定性测试平台 |
+| `Project-Dillen/src/kernel` | ID、Schema、Registry、Compiler、Capability、事务和运行原语 | 业务无关 Kernel 契约 |
+| `Project-Dillen/src/world` | Authoritative World、Store、WorldBuilder、跨 Store 事务 | 唯一权威状态层 |
+| `Project-Dillen/src/runtime` | Scheduler、Algorithm Runtime、Queue、Snapshot 和执行编排 | Kernel Runtime 服务 |
+| `Project-Dillen/src/persistence` | Save Image、Canonical Codec、Migration Registry、Replay 和 Checksum | 独立 Durability 服务，不保存派生 Snapshot |
+| `Project-Dillen/src/host` | 纯 Dillen Session 启动、CLI Inspector、Command 输入、状态展示与原子存档文件 I/O | Standalone Platform Host；只依赖公开 Authoring / Query / Command / Persistence 契约 |
+| `Project-Dillen/src/parser` | 通用 VFS、FileCatalog、Lexer、Parser Registry、Resolver | Dillen Native Source 前端基础设施 |
+| `Project-Dillen/src/parser/parsers/hoi3` | 当前 HOI3 Parser 原型 | 冻结并迁往独立 Importer Target |
+| `Project-Dillen/src/compatibility/hoi3` | 当前 HOI3 IR 与转换期原型 | 冻结；拆分为 Importer IR，删除 Runtime WorldBuilder 职责 |
+| `Project-Dillen/hoi3oracle` | 注入、Hook、原生访问、Probe、Script GUI | 独立研究平台，不是 Standalone 依赖 |
+| `Project-Dillen/tests` | 当前 Dillen 与部分 HOI3 原型测试 | 逐步拆分 standalone / adapter / oracle 测试边界 |
+| 计划中的 `adapters/hoi3/importer` | 无 | 独立 HOI3 Source Normalizer |
+| 计划中的 `mappings/hoi3/*` | 无 | 独立 Mapping Profile 与 Projection 测试 |
 
-### 3.18 当前阶段的迁移顺序
+顶层 CMake 默认关闭 `DILLEN_BUILD_HOI3_COMPATIBILITY` 与 `DILLEN_BUILD_HOI3_ORACLE`。`dillen-standalone-windows-x64` 是不编译 Compatibility / Oracle 的纯 Dillen Preset；兼容原型必须通过显式 `dillen-compatibility-windows-x64` Preset 启用，不得成为 Standalone 的隐式依赖。
 
-当前不应继续为每种玩法增加新的专用 `RuntimeXXXState`。建议按以下顺序建设：
+### 3.18 当前完成度
 
-1. **已完成基础版**：定义 `MechanismTypeId`、`MechanismDefinitionId`、`MechanismInstanceId`、`AlgorithmId` 和统一值类型；
-2. **已完成基础版**：建立版本化 `MechanismSchemaRegistry`、`AlgorithmRegistry` 和通用 `MechanismDefinitionRegistry`；
-3. **已完成基础版**：建立 Authoritative World 中的 `MechanismInstanceStore`，实现确定性身份、Definition/Type 索引、只读查询和 WorldBuilder 原子初始实例化；
-4. **已完成基础版**：建立最小 Lifecycle、Command、事务化字段更新、World Transaction、Command Queue、Scheduler、Event Queue 和 Query Snapshot；下一步接入 Algorithm 执行、Capability 与 Entity 级世界事务；
-5. 将 War History/Runtime War Graph 迁移为第一套模板、算法和实例；
-6. 将 Diplomacy Relation 迁移为第二套机制，验证跨机制 Capability；
-7. 接入通用存档、Schema Migration 和确定性回归；
-8. 让 Script GUI 只通过 Query/Command/Event 使用机制；
-9. 在该纵向闭环通过后，再继续解析 Event、Decision、Leader、Production 等 HOI3 语义。
+**已完成基础版**：
 
-这一顺序的验收重点不是“又支持了多少 HOI3 字段”，而是“新增一种机制是否仍需修改 Kernel C++”。只有当战争机制能够完全通过模板、算法、Definition 和 Instance 运行时，Project Dillen 才真正从 HOI3 专用重实现骨架转变为通用可机制化运行平台。
+1. 统一 Mechanism / Entity / Component / Relation ID 与值类型；
+2. Mechanism / Component / Relation Schema、Algorithm、Entity / Relation / Mechanism Definition、Spawn 和 Capability Registry；
+3. Manifest、多 Package Source Layer、Package Lock、真实 Source Lock、Ruleset Fingerprint 和基础完整性验证；
+4. Runtime Compiler、Slot 化布局和 Frozen Runtime Catalog；
+5. Authoritative World、Entity / Component / Relation / Mechanism Store；
+6. WorldBuilder 显式 Spawn；
+7. Lifecycle、Algorithm Create / Tick / Event / Command；
+8. 跨 Store World Transaction、Command Queue、Fact Stream；
+9. 权威 Scheduled Inbox、RNG Stream、稳定排序和 Snapshot；
+10. Root / Extension Ruleset 组合、保护策略和 Fingerprint；
+11. 外部 Package / Capability / Component / Entity / Relation / Mechanism / Algorithm / Definition / Spawn / Ruleset Authoring 闭环；
+12. Entity / Component / Relation / Mechanism 同代际不可变 Query Snapshot 与稳定获取接口；
+13. 外部 Declarative Program、Query / 字段 / Event / RNG 条件、通用事务指令、Definition 专属 Slot Bytecode、内建无循环 VM 与事务输出闭环；
+14. 受控 Script 后端完成前置条件评估并保持显式不可用；
+15. Destroy、确定性指令预算、非权威墙钟诊断、单实例 Fault 隔离、三种失败策略和显式恢复；
+16. 全权威状态 Canonical Save / Load、原子恢复、显式 Schema Migration、固定 Command Log Replay 与稳定 Checksum；
+17. 最小 Standalone Host、外部 Authoring Session 启动、交互/脚本化 CLI Inspector、即时与排队 Command、状态查询及原子 Save / Load 文件闭环；
+18. Windows x64 纯 Dillen 测试已增至 12 项并全部通过；启用冻结 HOI3 Compatibility 的 28 个 Target 均可构建，旧兼容夹具的 12 项路径失败已明确隔离为未来 Adapter 恢复工作，不计入当前 Standalone 主线验收。
+
+**核心缺口**：
+
+1. 受控 Script 的内存配额、可抢占沙箱和持久化状态；
+2. 具备两个外部机制包与可替换 Root Ruleset 的纯 Dillen Demo 1.0 端到端样本；
+3. External Corpus Adapter 恢复后的 Projection Artifact 身份与 Adapter Migration。
+
+**暂停项**：
+
+- HOI3 Importer 新语义切片；
+- HOI3 Mapping Profile；
+- HOI3 Runtime WorldBuilder；
+- Oracle 横向逆向扩展；
+- 以 HOI3 War / Diplomacy 作为当前主线验收样本。
+
+---
+
+## 4. 开发顺序与 Demo 计划
+
+以下日期是目标窗口，不是允许绕过验收门禁的硬截止日。前一 Demo 未通过时，后一 Demo 自动顺延；不得通过把 HOI3 兼容代码临时并入 Kernel、跳过持久化或把程序化测试定义冒充外部 Package 来维持日期。
+
+### 4.1 当前主线顺序
+
+1. **Root Ruleset 收口（已完成）**：已移除全局不可替换 Core Ruleset 假设，完成显式 Root 选择、纯加法 Extension Composition、保护策略、确定性排序和 Fingerprint；后续 Override 只能在独立授权模型完成后增量加入。
+2. **外部 Authoring 纵向管线（基础闭环已完成）**：Package Manifest、Capability Contract、Component Schema、Entity Definition、Relation Schema / Definition、Mechanism Template、Algorithm Descriptor、Mechanism Definition、Spawn、Root Ruleset 和 Extension Ruleset 已能从多个 Source Layer 进入 Registry 与 Frozen Catalog；真实 Source Lock 已进入编译、Fingerprint 与持久化身份。复杂值和面向作者的工具链作为后续增量能力补齐。
+3. **通用 Query 完整化（已完成）**：已发布 Entity / Component / Relation / Mechanism 同代际不可变快照、稳定索引和跨发布代际安全句柄；增量快照属于后续性能优化，不再阻塞 Query 核心契约。
+4. **可执行 Algorithm 后端（基础闭环已完成）**：外部 Declarative Program 已能编译 Query、字段、Scheduled Event 与 RNG 条件，以及 Entity / Component / Relation / Mechanism / Event / RNG 通用事务指令为 Definition 专属 Slot / Stable ID Bytecode，并由内建无循环 VM 在 Create / Tick / Event / Command 阶段生成 World Transaction；通用 Budget、Fault、Persistence 与 Replay 契约已经完成，但受控 Script 后端仍须先补齐脚本 VM 自身的内存配额、可抢占沙箱和 VM 状态编解码，暂不启用。
+5. **生命周期和 Fault 收口（已完成）**：Destroy、正数确定性指令预算、单实例权威 Fault 隔离、`isolate / pause / fail` 策略、显式恢复、引用保护和定向 Inbox 清理均已接入统一事务；墙钟阈值已从权威确定性结果中剥离，只产生 Invocation 诊断。Native C++ 回调不执行不安全的线程强杀，未来 Host Watchdog 或可抢占 Worker 也不得把墙钟结果回写为 Gameplay 状态。
+6. **Persistence / Migration / Replay（已完成）**：已保存四类权威 Store、算法状态、Clock、RNG、Inbox、Queue、创建序号和稳定 Sequence；完成 Canonical Binary Codec、身份/版本拒绝、候选世界原子恢复、显式 Schema Migration、派生索引重建与固定 Command Log 的双次确定性回放。
+7. **Standalone Host（已完成）**：已提供纯 Dillen `project-dillen` CLI、外部 Authoring Session 启动、Query 状态检查、即时/排队 Command、Tick 驱动、脚本化命令流和原子 Save / Load 文件闭环；窗口后端属于后续 Platform 增量，不再阻塞 Host 核心契约。
+8. **纯 Dillen Demo 1.0**：以两个外部机制包和一个可替换 Root Ruleset 完成验收。
+9. **主线冻结后再定义 External Corpus Adapter ABI**：先用合成 Corpus 验证 Importer / Mapping 分离，再恢复 HOI3 工作。
+
+### 4.2 Demo 0.2：Kernel Contract Freeze
+
+**目标日期：2026-09-30**
+
+范围：
+
+- Root Ruleset / Extension Ruleset 语义定稿；
+- Kernel、World、Runtime、Parser Target 不依赖 HOI3 Adapter；
+- World Transaction、Inbox、RNG、Scheduler 和 Snapshot 契约冻结；
+- 形成最小外部 Package Fixture；
+- 架构诊断能够阻止非法依赖和缺失 Contract。
+
+验收：
+
+- `DILLEN_BUILD_HOI3_COMPATIBILITY=OFF` 时 Standalone 构建和核心测试通过；
+- Kernel 公共头文件不包含 HOI3 类型；
+- Root Ruleset 可以被另一份测试 Root Ruleset 替换；
+- 同优先级 Command / Event 使用稳定 Sequence。
+
+### 4.3 Demo 0.5：External Mechanism Vertical Slice
+
+**目标日期：2026-11-15**
+
+范围：
+
+- 外部文本定义一个 Kernel 事先不知道的 Entity、Component、Relation 和 Mechanism；
+- 外部 Definition / Spawn 创建实例；
+- 最小 Declarative / Bytecode Algorithm 响应 Create、Tick、Event、Command；
+- 两个机制通过公开 Capability 和 Transaction 交互；
+- CLI Inspector 通过 Query 读取状态并提交 Command。
+
+验收：
+
+- 不修改 Kernel C++ 即可替换其中一个机制包；
+- 删除一个可选机制包不会破坏另一机制和 Kernel；
+- 非法 Package 在 WorldBuilder 前被拒绝；
+- 相同输入和 Seed 连续运行产生一致 Checksum。
+
+### 4.4 Demo 0.8：Persistence and Replay
+
+**目标日期：2027-01-15**
+
+范围：
+
+- Save / Load Entity、Component、Relation、Mechanism、Clock、RNG、Inbox、Queue 和 Sequence；
+- Package Lock、Ruleset Fingerprint 与 Schema / Algorithm 版本验证；
+- 至少一条 Schema Migration；
+- 固定 Command Log 的确定性 Replay。
+
+验收：
+
+- 存档前后权威 Checksum 一致；
+- 读档后所有派生索引和 Snapshot 可重建；
+- 不兼容 Ruleset 明确拒绝，不能静默读取；
+- Replay 在重复运行中产生相同 Fact Stream 和最终状态。
+
+**当前验收状态**：核心 Durability 闭环已由 `persistence_replay_probe` 达成；`standalone_host_probe` 已进一步覆盖 Platform 文件写入、同目录临时文件原子替换和恢复，文件路径仍不进入权威存档格式。
+
+### 4.5 Demo 1.0：Pure Dillen Standalone
+
+**目标日期：2027-02-28**
+
+核心目标：证明 Dillen 是不依赖 HOI3 Corpus、Importer、Mapping Profile、Oracle 或 `hoi3_tfh.exe` 的独立机制化运行平台。
+
+内容：
+
+- 一个 Root Ruleset；
+- 至少两个外部 Gameplay Mechanism Package；
+- 一个原生 Dillen Content Package 和场景；
+- 最小 Standalone Host / Inspector；
+- Query / Command GUI 或 CLI 交互；
+- Save / Load、Migration、Replay 和确定性 Checksum；
+- 故障 Package、非法 Command 和超预算 Algorithm 的隔离演示。
+
+最终门禁：
+
+- 完全关闭并删除构建产物中的 HOI3 Adapter 与 Oracle，Demo 仍可运行；
+- 新机制无 Kernel 业务特判和专用 `RuntimeXXXState`；
+- 更换 Root Ruleset 可以改变机制组合；
+- 运行期不依赖可编辑字符串结构；
+- 核心验收标准 1—10 全部通过。
+
+### 4.6 Demo 1.1：Authoring Hardening
+
+**目标窗口：2027-03 至 2027-05**
+
+范围：
+
+- 更完整的错误恢复、Source Map 和诊断；
+- Package 模板、Schema 文档生成和开发工具；
+- 增量编译、脏索引和事务暂存优化；
+- 跨平台数值固定向量和性能基线；
+- Script GUI 的 Standalone Backend 评估。
+
+### 4.7 External Corpus Demo：暂不排期
+
+只有 Demo 1.0 通过后才允许启动，顺序固定为：
+
+1. 用合成 Corpus 建立通用 Importer ABI 和 Normalized Source IR 版本契约；
+2. 用两个不同 Mapping Profile 把同一合成 IR 投影到两个不同 Root Ruleset；
+3. 验证 Importer 不引用目标 Contract、Mapping 不读取原始文件；
+4. 再迁移现有 HOI3 Parser 原型为独立 HOI3 Importer；
+5. 最后选择最小 HOI3 资源切片建立 Mapping Profile。
+
+External Corpus Demo 的成功只证明来源规范化和声明式投影闭环，不自动宣称 HOI3 Gameplay 等价。
+
+---
+
+## 5. 当前阶段明确禁止的工作
+
+- 继续堆叠 HOI3 Country、War、Diplomacy、Technology 等专用 Runtime State；
+- 继续扩展 HOI3 Importer 语义切片；
+- 在 Kernel 中增加 HOI3 专用 Query、Command、Capability 或 Setter；
+- 让 Mapping Profile 解析 HOI3 原始文件；
+- 让 Importer 引用 Dillen Gameplay Contract；
+- 用 Oracle 逐 Tick 轨迹定义 Dillen Runtime；
+- 在 Persistence 和外部 Mechanism 纵向管线完成前制作完整大战略玩法；
+- 为未来可能使用的功能提前扩大 Kernel 公共 API。
+
+当前唯一主线是：**先让纯 Dillen 的外部机制定义、装配、运行、查询、持久化和确定性回放形成完整闭环，再恢复任何外部 Corpus 兼容工作。**

@@ -1,0 +1,9 @@
+relation_definition = {
+    name = dillen.demo.alpha_beta
+    relation = dillen.demo.link
+    schema_version = 1
+    source_entity_type = dillen.demo.actor
+    source_definition = dillen.demo.alpha
+    target_entity_type = dillen.demo.actor
+    target_definition = dillen.demo.beta
+}

@@ -23,6 +23,14 @@ public:
     std::uint64_t Revision() const noexcept;
     std::size_t Size() const noexcept;
     const MechanismInstance* Find(MechanismInstanceId id) const;
+    const MechanismValue* FindField(
+        MechanismInstanceId id,
+        MechanismFieldSlotId field
+    ) const;
+    const std::vector<MechanismReference>* FindRole(
+        MechanismInstanceId id,
+        MechanismRoleSlotId role
+    ) const;
     const std::vector<MechanismInstanceId>& FindByDefinition(
         MechanismDefinitionId definition
     ) const;

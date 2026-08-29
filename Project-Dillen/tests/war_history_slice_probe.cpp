@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-#include "analyzer.hpp"
+#include "resolver.hpp"
 #include "country_tag_slice.hpp"
 #include "definition_registry.hpp"
 #include "diplomacy_history_slice.hpp"
@@ -72,12 +72,12 @@ bool CopyFixture(const std::filesystem::path& root)
             root / "history/wars");
 }
 
-void PrintBuildErrors(const dillen::worldbuilder::WorldBuildReport& report)
+void PrintBuildErrors(const dillen::compatibility::hoi3::worldbuilder::WorldBuildReport& report)
 {
     for (const auto& issue : report.All())
     {
         if (issue.severity
-            == dillen::worldbuilder::WorldBuildIssueSeverity::Error)
+            == dillen::compatibility::hoi3::worldbuilder::WorldBuildIssueSeverity::Error)
         {
             std::cerr << issue.code << ": " << issue.message << '\n';
         }
@@ -105,28 +105,28 @@ int main()
 
     parser::TemplateRegistry templates;
     parser::ParserRegistry parsers;
-    parser::Analyzer analyzer;
-    content::DefinitionRegistry definitions;
+    parser::Resolver resolver;
+    dillen::compatibility::hoi3::content::DefinitionRegistry definitions;
     if (!parser::hoi3::RegisterCountryTagSlice(
-            templates, parsers, analyzer, definitions)
+            templates, parsers, resolver, definitions)
         || !parser::hoi3::RegisterDiplomacyHistorySlice(
-            templates, parsers, analyzer, definitions)
+            templates, parsers, resolver, definitions)
         || !parser::hoi3::RegisterWarHistorySlice(
-            templates, parsers, analyzer, definitions))
+            templates, parsers, resolver, definitions))
     {
         std::cerr << "War pipeline registration failed\n";
         return 2;
     }
     templates.Freeze();
     parsers.Freeze();
-    analyzer.Freeze();
+    resolver.Freeze();
 
     parser::DiagnosticBag diagnostics;
     parser::FileCatalog catalog;
-    parser::AnalysisWorkspace workspace;
+    parser::ParseWorkspace workspace;
     if (!catalog.AddLayer({1, "fixture", root, 0, {}})
         || !catalog.Build(templates, diagnostics)
-        || !analyzer.Analyze(catalog, parsers, workspace, diagnostics))
+        || !(catalog.Parse(parsers, workspace, diagnostics) && resolver.Resolve(workspace, diagnostics)))
     {
         std::cerr << "War pipeline analysis failed\n";
         return 3;
@@ -141,10 +141,10 @@ int main()
         std::cerr << "War Registry counts mismatch\n";
         return 4;
     }
-    const content::WarHistoryTimeline* sino = wars.Find(
+    const dillen::compatibility::hoi3::content::WarHistoryTimeline* sino = wars.Find(
         "history/wars/sinojapanesewar.txt"
     );
-    const content::WarHistoryTimeline* civil = wars.Find(
+    const dillen::compatibility::hoi3::content::WarHistoryTimeline* civil = wars.Find(
         "history/wars/chinesecivilwar.txt"
     );
     if (sino == nullptr
@@ -162,16 +162,16 @@ int main()
         "history/wars/chinesecivilwar.txt"
     );
     if (civil == nullptr
-        || civil->patches[7].date != content::DefinitionDate{1949, 9, 1}
-        || civil->patches[10].date != content::DefinitionDate{1950, 5, 1})
+        || civil->patches[7].date != dillen::compatibility::hoi3::content::DefinitionDate{1949, 9, 1}
+        || civil->patches[10].date != dillen::compatibility::hoi3::content::DefinitionDate{1950, 5, 1})
     {
         std::cerr << "Partial war date normalization mismatch\n";
         return 6;
     }
 
-    worldbuilder::WorldBuilder builder;
-    worldbuilder::AuthoritativeWorld world;
-    worldbuilder::WorldBuildReport report;
+    compatibility::hoi3::worldbuilder::WorldBuilder builder;
+    compatibility::hoi3::worldbuilder::Hoi3WorldState world;
+    compatibility::hoi3::worldbuilder::WorldBuildReport report;
     if (!builder.Build(definitions, {1936, 1, 1}, world, report))
     {
         PrintBuildErrors(report);
@@ -179,21 +179,21 @@ int main()
         return 7;
     }
 
-    const auto jap = content::CountryTag::Parse("JAP")->StableId();
-    const auto man = content::CountryTag::Parse("MAN")->StableId();
-    const auto chi = content::CountryTag::Parse("CHI")->StableId();
-    const auto chc = content::CountryTag::Parse("CHC")->StableId();
-    const auto cdb = content::CountryTag::Parse("CDB")->StableId();
-    const auto sinoId = content::StableWarHistoryDefinitionId(
+    const auto jap = dillen::compatibility::hoi3::content::CountryTag::Parse("JAP")->StableId();
+    const auto man = dillen::compatibility::hoi3::content::CountryTag::Parse("MAN")->StableId();
+    const auto chi = dillen::compatibility::hoi3::content::CountryTag::Parse("CHI")->StableId();
+    const auto chc = dillen::compatibility::hoi3::content::CountryTag::Parse("CHC")->StableId();
+    const auto cdb = dillen::compatibility::hoi3::content::CountryTag::Parse("CDB")->StableId();
+    const auto sinoId = dillen::compatibility::hoi3::content::StableWarHistoryDefinitionId(
         "history/wars/sinojapanesewar.txt"
     );
-    const auto civilId = content::StableWarHistoryDefinitionId(
+    const auto civilId = dillen::compatibility::hoi3::content::StableWarHistoryDefinitionId(
         "history/wars/chinesecivilwar.txt"
     );
-    const worldbuilder::RuntimeWarState* sinoWar = world.FindWar(sinoId);
-    const worldbuilder::RuntimeWarState* civilWar = world.FindWar(civilId);
-    const worldbuilder::CountryState* japan = world.FindCountry(jap);
-    const worldbuilder::CountryState* communists = world.FindCountry(chc);
+    const compatibility::hoi3::worldbuilder::RuntimeWarState* sinoWar = world.FindWar(sinoId);
+    const compatibility::hoi3::worldbuilder::RuntimeWarState* civilWar = world.FindWar(civilId);
+    const compatibility::hoi3::worldbuilder::CountryState* japan = world.FindCountry(jap);
+    const compatibility::hoi3::worldbuilder::CountryState* communists = world.FindCountry(chc);
     if (world.Wars().size() != 2
         || sinoWar == nullptr
         || civilWar == nullptr

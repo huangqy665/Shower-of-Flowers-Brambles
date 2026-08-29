@@ -1,0 +1,12 @@
+component_schema = {
+    name = dillen.demo.identity
+    version = 1
+    fields = {
+        field = {
+            name = value
+            kind = integer
+            required = yes
+            default = 0
+        }
+    }
+}

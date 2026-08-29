@@ -65,7 +65,7 @@ bool ParseDecimal(const Token& token, double& output)
 
 bool ParseScalar(
     ParserCursor& cursor,
-    content::UnitScalarValue& output
+    dillen::compatibility::hoi3::content::UnitScalarValue& output
 )
 {
     Token token;
@@ -138,7 +138,7 @@ bool ParseScalar(
 
 bool ParseDomain(
     ParserCursor& cursor,
-    content::UnitDomain& output,
+    dillen::compatibility::hoi3::content::UnitDomain& output,
     SourceSpan& valueSpan
 )
 {
@@ -151,15 +151,15 @@ bool ParseDomain(
     const std::string lowered = LowerAscii(token.text);
     if (lowered == "land")
     {
-        output = content::UnitDomain::Land;
+        output = dillen::compatibility::hoi3::content::UnitDomain::Land;
     }
     else if (lowered == "naval")
     {
-        output = content::UnitDomain::Naval;
+        output = dillen::compatibility::hoi3::content::UnitDomain::Naval;
     }
     else if (lowered == "air")
     {
-        output = content::UnitDomain::Air;
+        output = dillen::compatibility::hoi3::content::UnitDomain::Air;
     }
     else
     {
@@ -197,7 +197,7 @@ bool ParseUsableBy(
         }
         Token token;
         if (!cursor.ReadScalar(token)
-            || !content::CountryTag::Parse(token.text))
+            || !dillen::compatibility::hoi3::content::CountryTag::Parse(token.text))
         {
             cursor.Diagnostics().Error(
                 "hoi3.unit_type.usable_by_tag_invalid",
@@ -214,7 +214,7 @@ bool ParseUsableBy(
 bool ParseModifierBlock(
     ParserCursor& cursor,
     std::string name,
-    content::UnitModifierBlock& output
+    dillen::compatibility::hoi3::content::UnitModifierBlock& output
 )
 {
     output.name = std::move(name);
@@ -293,7 +293,7 @@ bool ParseUnitBody(
 
         if (keyText == "type")
         {
-            content::UnitDomain domain;
+            dillen::compatibility::hoi3::content::UnitDomain domain;
             SourceSpan valueSpan;
             if (!ParseDomain(cursor, domain, valueSpan))
             {
@@ -355,7 +355,7 @@ bool ParseUnitBody(
         }
         else if (cursor.Peek().kind == TokenKind::LeftBrace)
         {
-            content::UnitModifierBlock block;
+            dillen::compatibility::hoi3::content::UnitModifierBlock block;
             if (!ParseModifierBlock(cursor, keyText, block))
             {
                 return false;
@@ -364,7 +364,7 @@ bool ParseUnitBody(
         }
         else
         {
-            content::UnitScalarProperty property;
+            dillen::compatibility::hoi3::content::UnitScalarProperty property;
             property.name = keyText;
             if (!ParseScalar(cursor, property.value))
             {

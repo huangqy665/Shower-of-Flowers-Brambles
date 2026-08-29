@@ -1,0 +1,11 @@
+entity_definition = {
+    name = dillen.demo.alpha
+    entity_type = dillen.demo.actor
+    components = {
+        component = {
+            type = dillen.demo.identity
+            schema_version = 1
+            fields = { value = 1 }
+        }
+    }
+}

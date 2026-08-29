@@ -7,7 +7,13 @@
 #include "definition_registry.hpp"
 #include "mechanism_command.hpp"
 #include "mechanism_definition_registry.hpp"
+#include "kernel_runtime.hpp"
 #include "mechanism_schema_registry.hpp"
+#include "mechanism_spawn_definition_registry.hpp"
+#include "package_lock.hpp"
+#include "package_manifest.hpp"
+#include "ruleset.hpp"
+#include "runtime_compiler.hpp"
 #include "world_builder.hpp"
 
 namespace {
@@ -33,6 +39,67 @@ dillen::kernel::MechanismDefinition MakeDefinition(
     definition.source.sourceName = "probe";
     definition.source.virtualPath = "tests/mechanism_commands.txt";
     return definition;
+}
+
+bool CompileCatalog(
+    const dillen::kernel::MechanismSchemaRegistry& schemas,
+    const dillen::kernel::AlgorithmRegistry& algorithms,
+    const dillen::kernel::MechanismDefinitionRegistry& definitions,
+    dillen::kernel::FrozenRuntimeCatalog& catalog
+)
+{
+    using namespace dillen::kernel;
+    PackageManifestRegistry manifests;
+    manifests.Freeze();
+    RulesetDefinition ruleset;
+    ruleset.canonicalName = "dillen.test.transaction";
+    ruleset.id = StableRulesetId(ruleset.canonicalName);
+    ruleset.version = 1;
+    PackageLock packageLock;
+    PackageLockReport lockReport;
+    RuntimeCompileReport compileReport;
+    ComponentSchemaRegistry componentSchemas;
+    EntityDefinitionRegistry entityDefinitions;
+    MechanismSpawnDefinitionRegistry spawns;
+    RuntimeCapabilityContractRegistry capabilityContracts;
+    componentSchemas.Freeze();
+    entityDefinitions.Freeze();
+    for (const MechanismDefinition& definition : definitions.All())
+    {
+        MechanismSpawnDefinition spawn;
+        spawn.canonicalName = definition.canonicalName + "_initial";
+        spawn.definition = definition.id;
+        spawn.id = StableMechanismSpawnDefinitionId(
+            spawn.definition,
+            spawn.canonicalName
+        );
+        spawn.source.sourceName = "probe";
+        if (spawns.Declare(spawn, definitions, schemas)
+            != MechanismSpawnDeclareResult::Added)
+        {
+            return false;
+        }
+    }
+    spawns.Freeze();
+    capabilityContracts.Freeze();
+    return PackageLockBuilder{}.Resolve(
+            manifests,
+            ruleset,
+            packageLock,
+            lockReport)
+        && RuntimeCompiler{}.Compile(
+            ruleset,
+            packageLock,
+            schemas,
+            componentSchemas,
+            algorithms,
+            definitions,
+            entityDefinitions,
+            spawns,
+            capabilityContracts,
+            catalog,
+            compileReport
+        );
 }
 
 }
@@ -90,14 +157,25 @@ int main()
     }
     definitions.Freeze();
 
-    content::DefinitionRegistry contentDefinitions;
+    FrozenRuntimeCatalog catalog;
+    if (!CompileCatalog(schemas, algorithms, definitions, catalog))
+    {
+        std::cerr << "Mechanism Runtime Catalog compilation failed\n";
+        return 3;
+    }
+    const MechanismFieldSlotId counterSlot =
+        *catalog.ResolveDefinitionFieldSlot(alphaDefinition, "counter");
+    const MechanismFieldSlotId labelSlot =
+        *catalog.ResolveDefinitionFieldSlot(alphaDefinition, "label");
+
+    dillen::compatibility::hoi3::content::DefinitionRegistry contentDefinitions;
     contentDefinitions.Freeze();
-    worldbuilder::WorldBuilder builder;
-    worldbuilder::WorldBuildReport report;
-    worldbuilder::AuthoritativeWorld world;
+    compatibility::hoi3::worldbuilder::WorldBuilder builder;
+    compatibility::hoi3::worldbuilder::WorldBuildReport report;
+    compatibility::hoi3::worldbuilder::Hoi3WorldState world;
     if (!builder.Build(
             contentDefinitions,
-            definitions,
+            catalog,
             {1936, 1, 1},
             world,
             report))
@@ -105,6 +183,8 @@ int main()
         std::cerr << "Mechanism transaction world construction failed\n";
         return 3;
     }
+
+    runtime::KernelRuntime kernelRuntime(world.World(), catalog);
 
     const MechanismInstanceId alphaId = StableMechanismInstanceId(
         alphaDefinition,
@@ -117,7 +197,7 @@ int main()
     const std::vector<MechanismCommand> initialCommands = {
         MechanismCommand::SetField(
             alphaId,
-            "counter",
+            counterSlot,
             MechanismValue(std::int64_t{5})
         ),
         MechanismCommand::TransitionLifecycle(
@@ -126,15 +206,13 @@ int main()
         ),
         MechanismCommand::SetField(
             betaId,
-            "label",
+            labelSlot,
             MechanismValue("beta_updated")
         )
     };
     const MechanismTransactionResult initial =
-        world.ApplyMechanismTransaction(
+        kernelRuntime.ApplyMechanismImmediate(
             initialCommands,
-            definitions,
-            schemas,
             10
         );
     const MechanismInstance* alphaState = world.Mechanisms().Find(alphaId);
@@ -145,10 +223,10 @@ int main()
         || alphaState == nullptr
         || betaState == nullptr
         || alphaState->lifecycle != MechanismLifecycleState::Active
-        || alphaState->values.at("counter")
+        || alphaState->values.at(counterSlot.value)
             != MechanismValue(std::int64_t{5})
         || alphaState->updatedTick != 10
-        || betaState->values.at("label")
+        || betaState->values.at(labelSlot.value)
             != MechanismValue("beta_updated")
         || betaState->updatedTick != 10)
     {
@@ -157,11 +235,11 @@ int main()
     }
 
     const MechanismTransactionResult noChange =
-        world.ApplyMechanismTransaction(
+        kernelRuntime.ApplyMechanismImmediate(
             {
                 MechanismCommand::SetField(
                     alphaId,
-                    "counter",
+                    counterSlot,
                     MechanismValue(std::int64_t{5})
                 ),
                 MechanismCommand::TransitionLifecycle(
@@ -169,8 +247,6 @@ int main()
                     MechanismLifecycleState::Active
                 )
             },
-            definitions,
-            schemas,
             11
         );
     if (!noChange
@@ -182,21 +258,19 @@ int main()
     }
 
     const MechanismTransactionResult rejected =
-        world.ApplyMechanismTransaction(
+        kernelRuntime.ApplyMechanismImmediate(
             {
                 MechanismCommand::SetField(
                     alphaId,
-                    "counter",
+                    counterSlot,
                     MechanismValue(std::int64_t{6})
                 ),
                 MechanismCommand::SetField(
                     betaId,
-                    "counter",
+                    counterSlot,
                     MechanismValue("invalid")
                 )
             },
-            definitions,
-            schemas,
             12
         );
     if (rejected
@@ -204,7 +278,7 @@ int main()
             != MechanismTransactionStatus::FieldValueInvalid
         || rejected.commandIndex != 1
         || rejected.target != betaId
-        || world.Mechanisms().Find(alphaId)->values.at("counter")
+        || world.Mechanisms().Find(alphaId)->values.at(counterSlot.value)
             != MechanismValue(std::int64_t{5})
         || world.Mechanisms().Find(alphaId)->updatedTick != 10)
     {
@@ -213,7 +287,7 @@ int main()
     }
 
     const MechanismTransactionResult lifecycleBatch =
-        world.ApplyMechanismTransaction(
+        kernelRuntime.ApplyMechanismImmediate(
             {
                 MechanismCommand::TransitionLifecycle(
                     alphaId,
@@ -224,8 +298,6 @@ int main()
                     MechanismLifecycleState::Active
                 )
             },
-            definitions,
-            schemas,
             12
         );
     if (!lifecycleBatch
@@ -239,21 +311,17 @@ int main()
     }
 
     const MechanismTransactionResult completed =
-        world.ApplyMechanismTransaction(
+        kernelRuntime.ApplyMechanismImmediate(
             {MechanismCommand::TransitionLifecycle(
                 alphaId,
                 MechanismLifecycleState::Completed)},
-            definitions,
-            schemas,
             13
         );
     const MechanismTransactionResult terminalRejected =
-        world.ApplyMechanismTransaction(
+        kernelRuntime.ApplyMechanismImmediate(
             {MechanismCommand::TransitionLifecycle(
                 alphaId,
                 MechanismLifecycleState::Active)},
-            definitions,
-            schemas,
             14
         );
     if (!completed
@@ -269,23 +337,19 @@ int main()
     }
 
     const MechanismTransactionResult tickRejected =
-        world.ApplyMechanismTransaction(
+        kernelRuntime.ApplyMechanismImmediate(
             {MechanismCommand::SetField(
                 betaId,
-                "counter",
+                counterSlot,
                 MechanismValue(std::int64_t{1}))},
-            definitions,
-            schemas,
             9
         );
     const MechanismTransactionResult targetRejected =
-        world.ApplyMechanismTransaction(
+        kernelRuntime.ApplyMechanismImmediate(
             {MechanismCommand::SetField(
                 MechanismInstanceId{1},
-                "counter",
+                counterSlot,
                 MechanismValue(std::int64_t{1}))},
-            definitions,
-            schemas,
             20
         );
     if (tickRejected.status != MechanismTransactionStatus::TickRegression
@@ -296,26 +360,12 @@ int main()
         return 9;
     }
 
-    MechanismDefinitionRegistry unfrozenDefinitions;
-    MechanismSchemaRegistry unfrozenSchemas;
-    const MechanismTransactionResult definitionBarrier =
-        world.ApplyMechanismTransaction(
-            {},
-            unfrozenDefinitions,
-            schemas,
-            20
-        );
-    const MechanismTransactionResult schemaBarrier =
-        world.ApplyMechanismTransaction(
-            {},
-            definitions,
-            unfrozenSchemas,
-            20
-        );
-    if (definitionBarrier.status
-            != MechanismTransactionStatus::DefinitionRegistryNotFrozen
-        || schemaBarrier.status
-            != MechanismTransactionStatus::SchemaRegistryNotFrozen)
+    FrozenRuntimeCatalog unfrozenCatalog;
+    runtime::KernelRuntime invalidRuntime(world.World(), unfrozenCatalog);
+    const MechanismTransactionResult catalogBarrier =
+        invalidRuntime.ApplyMechanismImmediate({}, 20);
+    if (catalogBarrier.status
+            != MechanismTransactionStatus::RuntimeCatalogNotFrozen)
     {
         std::cerr << "Mechanism transaction Registry barrier mismatch\n";
         return 10;

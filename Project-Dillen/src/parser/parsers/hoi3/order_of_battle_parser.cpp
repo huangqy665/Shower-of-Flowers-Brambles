@@ -45,59 +45,59 @@ bool ExpectAssignment(ParserCursor& cursor, const SourceSpan& span)
     return true;
 }
 
-std::optional<content::OrderOfBattleNodeKind> NodeKind(
+std::optional<dillen::compatibility::hoi3::content::OrderOfBattleNodeKind> NodeKind(
     std::string_view key
 )
 {
     const std::string lowered = LowerAscii(key);
     if (lowered == "theatre")
     {
-        return content::OrderOfBattleNodeKind::Theatre;
+        return dillen::compatibility::hoi3::content::OrderOfBattleNodeKind::Theatre;
     }
     if (lowered == "armygroup")
     {
-        return content::OrderOfBattleNodeKind::ArmyGroup;
+        return dillen::compatibility::hoi3::content::OrderOfBattleNodeKind::ArmyGroup;
     }
     if (lowered == "army")
     {
-        return content::OrderOfBattleNodeKind::Army;
+        return dillen::compatibility::hoi3::content::OrderOfBattleNodeKind::Army;
     }
     if (lowered == "corps")
     {
-        return content::OrderOfBattleNodeKind::Corps;
+        return dillen::compatibility::hoi3::content::OrderOfBattleNodeKind::Corps;
     }
     if (lowered == "division")
     {
-        return content::OrderOfBattleNodeKind::Division;
+        return dillen::compatibility::hoi3::content::OrderOfBattleNodeKind::Division;
     }
     if (lowered == "navy" || lowered == "naval")
     {
-        return content::OrderOfBattleNodeKind::Navy;
+        return dillen::compatibility::hoi3::content::OrderOfBattleNodeKind::Navy;
     }
     if (lowered == "air")
     {
-        return content::OrderOfBattleNodeKind::Air;
+        return dillen::compatibility::hoi3::content::OrderOfBattleNodeKind::Air;
     }
     if (lowered == "regiment" || lowered == "rregiment")
     {
-        return content::OrderOfBattleNodeKind::Regiment;
+        return dillen::compatibility::hoi3::content::OrderOfBattleNodeKind::Regiment;
     }
     if (lowered == "ship")
     {
-        return content::OrderOfBattleNodeKind::Ship;
+        return dillen::compatibility::hoi3::content::OrderOfBattleNodeKind::Ship;
     }
     if (lowered == "wing")
     {
-        return content::OrderOfBattleNodeKind::Wing;
+        return dillen::compatibility::hoi3::content::OrderOfBattleNodeKind::Wing;
     }
     return std::nullopt;
 }
 
-bool IsElementKind(content::OrderOfBattleNodeKind kind)
+bool IsElementKind(dillen::compatibility::hoi3::content::OrderOfBattleNodeKind kind)
 {
-    return kind == content::OrderOfBattleNodeKind::Regiment
-        || kind == content::OrderOfBattleNodeKind::Ship
-        || kind == content::OrderOfBattleNodeKind::Wing;
+    return kind == dillen::compatibility::hoi3::content::OrderOfBattleNodeKind::Regiment
+        || kind == dillen::compatibility::hoi3::content::OrderOfBattleNodeKind::Ship
+        || kind == dillen::compatibility::hoi3::content::OrderOfBattleNodeKind::Wing;
 }
 
 bool IsNodeFieldName(std::string_view key)
@@ -222,7 +222,7 @@ bool ParseNodeBody(
 bool ParseNode(
     ParserCursor& cursor,
     const Token& key,
-    content::OrderOfBattleNodeKind kind,
+    dillen::compatibility::hoi3::content::OrderOfBattleNodeKind kind,
     UnresolvedOrderOfBattleNode& output
 )
 {
@@ -299,7 +299,7 @@ bool ParseNodeBody(
             return false;
         }
         const std::string lowered = LowerAscii(key.text);
-        std::optional<content::OrderOfBattleNodeKind> childKind =
+        std::optional<dillen::compatibility::hoi3::content::OrderOfBattleNodeKind> childKind =
             NodeKind(lowered);
         if (childKind)
         {
@@ -332,7 +332,7 @@ bool ParseNodeBody(
             {
                 return false;
             }
-            output.unitTypeName = content::NormalizeUnitTypeName(
+            output.unitTypeName = dillen::compatibility::hoi3::content::NormalizeUnitTypeName(
                 output.unitTypeName
             );
         }
@@ -649,8 +649,8 @@ bool ParseConstruction(
         else if (cursor.Peek().kind == TokenKind::LeftBrace)
         {
             UnresolvedOrderOfBattleNode component;
-            component.kind = content::OrderOfBattleNodeKind::Regiment;
-            component.unitTypeName = content::NormalizeUnitTypeName(
+            component.kind = dillen::compatibility::hoi3::content::OrderOfBattleNodeKind::Regiment;
+            component.unitTypeName = dillen::compatibility::hoi3::content::NormalizeUnitTypeName(
                 field.text
             );
             component.span = field.span;
@@ -729,7 +729,7 @@ bool ParseOrderOfBattle(
             return false;
         }
         const std::string lowered = LowerAscii(key.text);
-        const std::optional<content::OrderOfBattleNodeKind> kind =
+        const std::optional<dillen::compatibility::hoi3::content::OrderOfBattleNodeKind> kind =
             NodeKind(lowered);
         if (kind)
         {
@@ -751,7 +751,7 @@ bool ParseOrderOfBattle(
             document.constructions.push_back(std::move(construction));
             continue;
         }
-        if (content::CountryTag::Parse(key.text)
+        if (dillen::compatibility::hoi3::content::CountryTag::Parse(key.text)
             && cursor.Peek().kind == TokenKind::LeftBrace)
         {
             UnresolvedOrderOfBattleMilitaryAccess access;

@@ -1,0 +1,52 @@
+algorithm_descriptor = {
+    name = dillen.demo.counter_algorithm
+    version = 1
+    backend = declarative
+    entry_points = { create tick event command }
+    deterministic = yes
+    execution_policy = {
+        instruction_budget = 16
+        wall_clock_warning_microseconds = 1000000
+        failure_policy = pause_instance
+    }
+    program = {
+        create = {
+            transition_lifecycle = active
+        }
+        tick = {
+            add_field = {
+                field = value
+                value = 1
+                when = {
+                    query_at_least = {
+                        kind = entity
+                        type = dillen.demo.actor
+                        count = 2
+                    }
+                    rng_modulo = {
+                        stream = dillen.demo.counter_rng
+                        modulo = 1
+                        equals = 0
+                    }
+                }
+            }
+        }
+        event = {
+            set_component_field = {
+                owner_entity_type = dillen.demo.actor
+                owner_definition = dillen.demo.alpha
+                component = dillen.demo.identity
+                field = value
+                value = 7
+            }
+            set_field = {
+                field = value
+                value = 77
+                when = {
+                    scheduled_event = dillen.demo.counter_pulse
+                }
+            }
+        }
+        command = { }
+    }
+}

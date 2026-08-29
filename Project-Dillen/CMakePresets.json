@@ -8,12 +8,51 @@
   "configurePresets": [
     {
       "name": "windows-x86",
-      "displayName": "Windows x86 (Visual Studio 2022)",
+      "displayName": "Full transition workspace (Windows x86)",
       "generator": "Visual Studio 17 2022",
       "architecture": "Win32",
       "binaryDir": "${sourceDir}/build-win",
       "cacheVariables": {
         "BUILD_TESTING": "ON"
+      }
+    },
+    {
+      "name": "hoi3-oracle-windows-x86",
+      "displayName": "HOI3 Oracle only (Windows x86)",
+      "generator": "Visual Studio 17 2022",
+      "architecture": "Win32",
+      "binaryDir": "${sourceDir}/build-hoi3-oracle",
+      "cacheVariables": {
+        "BUILD_TESTING": "ON",
+        "DILLEN_BUILD_STANDALONE_RUNTIME": "OFF",
+        "DILLEN_BUILD_HOI3_COMPATIBILITY": "OFF",
+        "DILLEN_BUILD_HOI3_ORACLE": "ON"
+      }
+    },
+    {
+      "name": "dillen-standalone-windows-x64",
+      "displayName": "Pure Dillen standalone (Windows x64)",
+      "generator": "Visual Studio 17 2022",
+      "architecture": "x64",
+      "binaryDir": "${sourceDir}/build-dillen-core",
+      "cacheVariables": {
+        "BUILD_TESTING": "ON",
+        "DILLEN_BUILD_STANDALONE_RUNTIME": "ON",
+        "DILLEN_BUILD_HOI3_COMPATIBILITY": "OFF",
+        "DILLEN_BUILD_HOI3_ORACLE": "OFF"
+      }
+    },
+    {
+      "name": "dillen-compatibility-windows-x64",
+      "displayName": "Frozen HOI3 compatibility workspace (Windows x64)",
+      "generator": "Visual Studio 17 2022",
+      "architecture": "x64",
+      "binaryDir": "${sourceDir}/build-dillen-standalone",
+      "cacheVariables": {
+        "BUILD_TESTING": "ON",
+        "DILLEN_BUILD_STANDALONE_RUNTIME": "ON",
+        "DILLEN_BUILD_HOI3_COMPATIBILITY": "ON",
+        "DILLEN_BUILD_HOI3_ORACLE": "OFF"
       }
     }
   ],
@@ -28,6 +67,24 @@
       "name": "windows-x86-release",
       "configurePreset": "windows-x86",
       "configuration": "Release",
+      "jobs": 8
+    },
+    {
+      "name": "hoi3-oracle-windows-x86-debug",
+      "configurePreset": "hoi3-oracle-windows-x86",
+      "configuration": "Debug",
+      "jobs": 8
+    },
+    {
+      "name": "dillen-standalone-windows-x64-debug",
+      "configurePreset": "dillen-standalone-windows-x64",
+      "configuration": "Debug",
+      "jobs": 8
+    },
+    {
+      "name": "dillen-compatibility-windows-x64-debug",
+      "configurePreset": "dillen-compatibility-windows-x64",
+      "configuration": "Debug",
       "jobs": 8
     }
   ],
@@ -44,6 +101,30 @@
       "name": "windows-x86-release",
       "configurePreset": "windows-x86",
       "configuration": "Release",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "hoi3-oracle-windows-x86-debug",
+      "configurePreset": "hoi3-oracle-windows-x86",
+      "configuration": "Debug",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "dillen-standalone-windows-x64-debug",
+      "configurePreset": "dillen-standalone-windows-x64",
+      "configuration": "Debug",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "dillen-compatibility-windows-x64-debug",
+      "configurePreset": "dillen-compatibility-windows-x64",
+      "configuration": "Debug",
       "output": {
         "outputOnFailure": true
       }

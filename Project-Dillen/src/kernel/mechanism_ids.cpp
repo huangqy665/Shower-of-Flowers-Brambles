@@ -82,6 +82,91 @@ AlgorithmId::operator bool() const noexcept
     return value != 0;
 }
 
+PackageId::operator bool() const noexcept
+{
+    return value != 0;
+}
+
+RulesetId::operator bool() const noexcept
+{
+    return value != 0;
+}
+
+CapabilityId::operator bool() const noexcept
+{
+    return value != 0;
+}
+
+AlgorithmEventTypeId::operator bool() const noexcept
+{
+    return value != 0;
+}
+
+RngStreamId::operator bool() const noexcept
+{
+    return value != 0;
+}
+
+EntityTypeId::operator bool() const noexcept
+{
+    return value != 0;
+}
+
+EntityDefinitionId::operator bool() const noexcept
+{
+    return value != 0;
+}
+
+EntityId::operator bool() const noexcept
+{
+    return value != 0;
+}
+
+ComponentTypeId::operator bool() const noexcept
+{
+    return value != 0;
+}
+
+RelationTypeId::operator bool() const noexcept
+{
+    return value != 0;
+}
+
+RelationDefinitionId::operator bool() const noexcept
+{
+    return value != 0;
+}
+
+RelationId::operator bool() const noexcept
+{
+    return value != 0;
+}
+
+MechanismSpawnDefinitionId::operator bool() const noexcept
+{
+    return value != 0;
+}
+
+MechanismFieldSlotId::operator bool() const noexcept
+{
+    return value != UINT32_MAX;
+}
+
+MechanismRoleSlotId::operator bool() const noexcept
+{
+    return value != UINT32_MAX;
+}
+
+ComponentFieldSlotId::operator bool() const noexcept
+{
+    return value != UINT32_MAX;
+}
+
+CapabilityBindingSlotId::operator bool() const noexcept
+{
+    return value != UINT32_MAX;
+}
+
 bool operator==(MechanismTypeId first, MechanismTypeId second) noexcept
 {
     return first.value == second.value;
@@ -156,6 +241,160 @@ bool operator!=(AlgorithmId first, AlgorithmId second) noexcept
 }
 
 bool operator<(AlgorithmId first, AlgorithmId second) noexcept
+{
+    return first.value < second.value;
+}
+
+bool operator==(PackageId first, PackageId second) noexcept
+{
+    return first.value == second.value;
+}
+
+bool operator!=(PackageId first, PackageId second) noexcept
+{
+    return !(first == second);
+}
+
+bool operator<(PackageId first, PackageId second) noexcept
+{
+    return first.value < second.value;
+}
+
+bool operator==(RulesetId first, RulesetId second) noexcept
+{
+    return first.value == second.value;
+}
+
+bool operator!=(RulesetId first, RulesetId second) noexcept
+{
+    return !(first == second);
+}
+
+bool operator<(RulesetId first, RulesetId second) noexcept
+{
+    return first.value < second.value;
+}
+
+#define DILLEN_DEFINE_ID_OPERATORS(Type) \
+bool operator==(Type first, Type second) noexcept \
+{ \
+    return first.value == second.value; \
+} \
+bool operator!=(Type first, Type second) noexcept \
+{ \
+    return !(first == second); \
+} \
+bool operator<(Type first, Type second) noexcept \
+{ \
+    return first.value < second.value; \
+}
+
+DILLEN_DEFINE_ID_OPERATORS(EntityTypeId)
+DILLEN_DEFINE_ID_OPERATORS(CapabilityId)
+DILLEN_DEFINE_ID_OPERATORS(AlgorithmEventTypeId)
+DILLEN_DEFINE_ID_OPERATORS(RngStreamId)
+DILLEN_DEFINE_ID_OPERATORS(EntityDefinitionId)
+DILLEN_DEFINE_ID_OPERATORS(EntityId)
+DILLEN_DEFINE_ID_OPERATORS(ComponentTypeId)
+DILLEN_DEFINE_ID_OPERATORS(RelationTypeId)
+DILLEN_DEFINE_ID_OPERATORS(RelationDefinitionId)
+DILLEN_DEFINE_ID_OPERATORS(RelationId)
+DILLEN_DEFINE_ID_OPERATORS(MechanismSpawnDefinitionId)
+
+#undef DILLEN_DEFINE_ID_OPERATORS
+
+bool operator==(
+    MechanismFieldSlotId first,
+    MechanismFieldSlotId second
+) noexcept
+{
+    return first.value == second.value;
+}
+
+bool operator!=(
+    MechanismFieldSlotId first,
+    MechanismFieldSlotId second
+) noexcept
+{
+    return !(first == second);
+}
+
+bool operator<(
+    MechanismFieldSlotId first,
+    MechanismFieldSlotId second
+) noexcept
+{
+    return first.value < second.value;
+}
+
+bool operator==(
+    MechanismRoleSlotId first,
+    MechanismRoleSlotId second
+) noexcept
+{
+    return first.value == second.value;
+}
+
+bool operator!=(
+    MechanismRoleSlotId first,
+    MechanismRoleSlotId second
+) noexcept
+{
+    return !(first == second);
+}
+
+bool operator<(
+    MechanismRoleSlotId first,
+    MechanismRoleSlotId second
+) noexcept
+{
+    return first.value < second.value;
+}
+
+bool operator==(
+    ComponentFieldSlotId first,
+    ComponentFieldSlotId second
+) noexcept
+{
+    return first.value == second.value;
+}
+
+bool operator!=(
+    ComponentFieldSlotId first,
+    ComponentFieldSlotId second
+) noexcept
+{
+    return !(first == second);
+}
+
+bool operator<(
+    ComponentFieldSlotId first,
+    ComponentFieldSlotId second
+) noexcept
+{
+    return first.value < second.value;
+}
+
+bool operator==(
+    CapabilityBindingSlotId first,
+    CapabilityBindingSlotId second
+) noexcept
+{
+    return first.value == second.value;
+}
+
+bool operator!=(
+    CapabilityBindingSlotId first,
+    CapabilityBindingSlotId second
+) noexcept
+{
+    return !(first == second);
+}
+
+bool operator<(
+    CapabilityBindingSlotId first,
+    CapabilityBindingSlotId second
+) noexcept
 {
     return first.value < second.value;
 }
@@ -242,6 +481,132 @@ AlgorithmId StableAlgorithmId(std::string_view canonicalName)
         "mechanism_algorithm:",
         NormalizeMechanismSymbol(canonicalName)
     )};
+}
+
+PackageId StablePackageId(std::string_view canonicalName)
+{
+    return {HashText(
+        "dillen_package:",
+        NormalizeMechanismSymbol(canonicalName)
+    )};
+}
+
+RulesetId StableRulesetId(std::string_view canonicalName)
+{
+    return {HashText(
+        "dillen_ruleset:",
+        NormalizeMechanismSymbol(canonicalName)
+    )};
+}
+
+CapabilityId StableCapabilityId(std::string_view canonicalName)
+{
+    return {HashText(
+        "runtime_capability:",
+        NormalizeMechanismSymbol(canonicalName)
+    )};
+}
+
+AlgorithmEventTypeId StableAlgorithmEventTypeId(
+    std::string_view canonicalName
+)
+{
+    return {HashText(
+        "algorithm_event_type:",
+        NormalizeMechanismSymbol(canonicalName)
+    )};
+}
+
+RngStreamId StableRngStreamId(std::string_view canonicalName)
+{
+    return {HashText(
+        "rng_stream:",
+        NormalizeMechanismSymbol(canonicalName)
+    )};
+}
+
+EntityTypeId StableEntityTypeId(std::string_view canonicalName)
+{
+    return {HashText(
+        "entity_type:",
+        NormalizeMechanismSymbol(canonicalName)
+    )};
+}
+
+EntityDefinitionId StableEntityDefinitionId(
+    EntityTypeId type,
+    std::string_view canonicalName
+)
+{
+    return {HashDefinition(
+        MechanismTypeId{type.value},
+        "entity:" + NormalizeMechanismSymbol(canonicalName)
+    )};
+}
+
+EntityId StableEntityId(
+    EntityDefinitionId definition,
+    std::uint64_t creationOrdinal
+)
+{
+    return {HashInstance(
+        MechanismDefinitionId{definition.value},
+        creationOrdinal
+    )};
+}
+
+ComponentTypeId StableComponentTypeId(std::string_view canonicalName)
+{
+    return {HashText(
+        "component_type:",
+        NormalizeMechanismSymbol(canonicalName)
+    )};
+}
+
+RelationTypeId StableRelationTypeId(std::string_view canonicalName)
+{
+    return {HashText(
+        "relation_type:",
+        NormalizeMechanismSymbol(canonicalName)
+    )};
+}
+
+RelationDefinitionId StableRelationDefinitionId(
+    RelationTypeId type,
+    std::string_view canonicalName
+)
+{
+    return {HashDefinition(
+        MechanismTypeId{type.value},
+        "relation_definition:"
+            + NormalizeMechanismSymbol(canonicalName)
+    )};
+}
+
+RelationId StableRelationId(
+    RelationTypeId type,
+    EntityId source,
+    EntityId target
+)
+{
+    std::uint64_t hash = HashText("relation:", "v1");
+    AppendUnsigned(hash, type.value);
+    AppendUnsigned(hash, source.value);
+    AppendUnsigned(hash, target.value);
+    return {hash == 0 ? 1 : hash};
+}
+
+MechanismSpawnDefinitionId StableMechanismSpawnDefinitionId(
+    MechanismDefinitionId definition,
+    std::string_view canonicalName
+)
+{
+    std::uint64_t hash = HashText(
+        "mechanism_spawn:",
+        NormalizeMechanismSymbol(canonicalName)
+    );
+    AppendUnsigned(hash, definition.value);
+    return {hash == 0 ? 1 : hash};
 }
 
 }

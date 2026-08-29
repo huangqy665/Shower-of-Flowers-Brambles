@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 
-#include "analyzer.hpp"
+#include "resolver.hpp"
 #include "country_tag_definition.hpp"
 #include "country_tag_slice.hpp"
 #include "definition_registry.hpp"
@@ -106,15 +106,15 @@ std::size_t CountDiagnostic(
     ));
 }
 
-const dillen::content::UnitModelTechnologyLevel* FindLevel(
-    const dillen::content::UnitModelDefinition& definition,
+const dillen::compatibility::hoi3::content::UnitModelTechnologyLevel* FindLevel(
+    const dillen::compatibility::hoi3::content::UnitModelDefinition& definition,
     const std::string& name
 )
 {
     const auto iterator = std::find_if(
         definition.technologyLevels.begin(),
         definition.technologyLevels.end(),
-        [&name](const dillen::content::UnitModelTechnologyLevel& level)
+        [&name](const dillen::compatibility::hoi3::content::UnitModelTechnologyLevel& level)
         {
             return level.name == name;
         }
@@ -125,7 +125,7 @@ const dillen::content::UnitModelTechnologyLevel* FindLevel(
 }
 
 void PrintDiagnostics(
-    const dillen::parser::AnalysisWorkspace& workspace,
+    const dillen::parser::ParseWorkspace& workspace,
     const dillen::parser::DiagnosticBag& diagnostics
 )
 {
@@ -166,27 +166,27 @@ int main()
 
     dillen::parser::TemplateRegistry templates;
     dillen::parser::ParserRegistry parsers;
-    dillen::parser::Analyzer analyzer;
-    dillen::content::DefinitionRegistry definitions;
+    dillen::parser::Resolver resolver;
+    dillen::compatibility::hoi3::content::DefinitionRegistry definitions;
     if (!dillen::parser::hoi3::RegisterCountryTagSlice(
             templates,
             parsers,
-            analyzer,
+            resolver,
             definitions)
         || !dillen::parser::hoi3::RegisterUnitTypeSlice(
             templates,
             parsers,
-            analyzer,
+            resolver,
             definitions)
         || !dillen::parser::hoi3::RegisterTechnologySlice(
             templates,
             parsers,
-            analyzer,
+            resolver,
             definitions)
         || !dillen::parser::hoi3::RegisterUnitModelSlice(
             templates,
             parsers,
-            analyzer,
+            resolver,
             definitions))
     {
         std::cerr << "Unit model slice registration failed\n";
@@ -194,7 +194,7 @@ int main()
     }
     templates.Freeze();
     parsers.Freeze();
-    analyzer.Freeze();
+    resolver.Freeze();
 
     dillen::parser::DiagnosticBag diagnostics;
     dillen::parser::FileCatalog catalog;
@@ -209,8 +209,8 @@ int main()
         return 3;
     }
 
-    dillen::parser::AnalysisWorkspace workspace;
-    if (!analyzer.Analyze(catalog, parsers, workspace, diagnostics))
+    dillen::parser::ParseWorkspace workspace;
+    if (!(catalog.Parse(parsers, workspace, diagnostics) && resolver.Resolve(workspace, diagnostics)))
     {
         PrintDiagnostics(workspace, diagnostics);
         std::cerr << "Unit model analysis failed\n";
@@ -218,8 +218,8 @@ int main()
     }
     definitions.Freeze();
 
-    const auto japanTag = dillen::content::CountryTag::Parse("JAP");
-    const auto usaTag = dillen::content::CountryTag::Parse("USA");
+    const auto japanTag = dillen::compatibility::hoi3::content::CountryTag::Parse("JAP");
+    const auto usaTag = dillen::compatibility::hoi3::content::CountryTag::Parse("USA");
     const auto* japanInterceptor = japanTag
         ? definitions.UnitModels().Find(
             japanTag->StableId(),
@@ -282,9 +282,9 @@ int main()
             diagnostics,
             "hoi3.unit_model.duplicate_identical_ignored") == 1
         && definitions.UnitModels().Declare({})
-            == dillen::content::UnitModelDeclareResult::Frozen
+            == dillen::compatibility::hoi3::content::UnitModelDeclareResult::Frozen
         && definitions.UnitModels().ResolveReferences({}, {}, {})
-            == dillen::content::UnitModelResolveResult::Frozen;
+            == dillen::compatibility::hoi3::content::UnitModelResolveResult::Frozen;
 
     std::error_code cleanupError;
     fs::remove_all(root, cleanupError);

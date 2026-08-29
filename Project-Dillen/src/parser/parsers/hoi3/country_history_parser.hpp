@@ -18,14 +18,14 @@ using UnresolvedCountryHistoryValue = std::variant<
     double,
     bool,
     std::string,
-    content::CountryAlignment,
-    content::CountryHistoryNamedNumberMap
+    dillen::compatibility::hoi3::content::CountryAlignment,
+    dillen::compatibility::hoi3::content::CountryHistoryNamedNumberMap
 >;
 
 struct UnresolvedCountryHistoryOperation
 {
-    content::CountryHistoryField field =
-        content::CountryHistoryField::NamedAssignment;
+    dillen::compatibility::hoi3::content::CountryHistoryField field =
+        dillen::compatibility::hoi3::content::CountryHistoryField::NamedAssignment;
     std::string key;
     UnresolvedCountryHistoryValue value = std::int64_t{0};
     SourceSpan span;
@@ -33,7 +33,7 @@ struct UnresolvedCountryHistoryOperation
 
 struct UnresolvedCountryHistoryPatch
 {
-    content::DefinitionDate date;
+    dillen::compatibility::hoi3::content::DefinitionDate date;
     std::vector<UnresolvedCountryHistoryOperation> operations;
     SourceSpan span;
 };

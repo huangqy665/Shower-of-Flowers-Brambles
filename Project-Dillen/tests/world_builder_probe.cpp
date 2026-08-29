@@ -14,22 +14,22 @@
 
 namespace {
 
-dillen::content::DefinitionOrigin Origin(std::string path)
+dillen::compatibility::hoi3::content::DefinitionOrigin Origin(std::string path)
 {
     return {std::move(path), "probe", 1, 1};
 }
 
 bool DeclareCountry(
-    dillen::content::DefinitionRegistry& definitions,
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions,
     std::string_view tag
 )
 {
-    const auto parsed = dillen::content::CountryTag::Parse(tag);
+    const auto parsed = dillen::compatibility::hoi3::content::CountryTag::Parse(tag);
     if (!parsed)
     {
         return false;
     }
-    dillen::content::CountryTagDefinition definition;
+    dillen::compatibility::hoi3::content::CountryTagDefinition definition;
     definition.id = parsed->StableId();
     definition.tag = *parsed;
     definition.declaredPath = "common/countries.txt";
@@ -37,44 +37,44 @@ bool DeclareCountry(
         + ".txt";
     definition.origin = Origin("common/countries.txt");
     return definitions.Countries().Declare(std::move(definition))
-        == dillen::content::CountryDeclareResult::Added;
+        == dillen::compatibility::hoi3::content::CountryDeclareResult::Added;
 }
 
 bool DeclareProvince(
-    dillen::content::DefinitionRegistry& definitions,
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions,
     std::uint32_t id,
-    dillen::content::ProvinceColor color
+    dillen::compatibility::hoi3::content::ProvinceColor color
 )
 {
-    dillen::content::ProvinceDefinition definition;
+    dillen::compatibility::hoi3::content::ProvinceDefinition definition;
     definition.id = {id};
     definition.color = color;
     definition.name = "province_" + std::to_string(id);
     definition.origin = Origin("map/definition.csv");
     return definitions.Provinces().Declare(std::move(definition))
-        == dillen::content::ProvinceDeclareResult::Added;
+        == dillen::compatibility::hoi3::content::ProvinceDeclareResult::Added;
 }
 
-dillen::content::OrderOfBattleDefinitionId DeclareOrderOfBattle(
-    dillen::content::DefinitionRegistry& definitions,
+dillen::compatibility::hoi3::content::OrderOfBattleDefinitionId DeclareOrderOfBattle(
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions,
     std::string path
 )
 {
-    path = dillen::content::NormalizeOrderOfBattlePath(path);
-    dillen::content::OrderOfBattleDefinition definition;
-    definition.id = dillen::content::StableOrderOfBattleDefinitionId(path);
+    path = dillen::compatibility::hoi3::content::NormalizeOrderOfBattlePath(path);
+    dillen::compatibility::hoi3::content::OrderOfBattleDefinition definition;
+    definition.id = dillen::compatibility::hoi3::content::StableOrderOfBattleDefinitionId(path);
     definition.virtualPath = path;
     definition.origin = Origin(path);
     const auto id = definition.id;
     if (definitions.OrdersOfBattle().Declare(std::move(definition))
-        != dillen::content::OrderOfBattleDeclareResult::Added)
+        != dillen::compatibility::hoi3::content::OrderOfBattleDeclareResult::Added)
     {
         return {};
     }
-    dillen::content::OrderOfBattleNode root;
-    root.kind = dillen::content::OrderOfBattleNodeKind::Division;
+    dillen::compatibility::hoi3::content::OrderOfBattleNode root;
+    root.kind = dillen::compatibility::hoi3::content::OrderOfBattleNodeKind::Division;
     root.name = path;
-    root.location = dillen::content::ProvinceDefinitionId{1};
+    root.location = dillen::compatibility::hoi3::content::ProvinceDefinitionId{1};
     root.origin = Origin(path);
     if (definitions.OrdersOfBattle().ResolveReferences(
             id,
@@ -82,16 +82,16 @@ dillen::content::OrderOfBattleDefinitionId DeclareOrderOfBattle(
             {},
             {},
             {})
-        != dillen::content::OrderOfBattleResolveResult::Resolved)
+        != dillen::compatibility::hoi3::content::OrderOfBattleResolveResult::Resolved)
     {
         return {};
     }
     return id;
 }
 
-dillen::content::CountryHistoryOperation CountryOperation(
-    dillen::content::CountryHistoryField field,
-    dillen::content::CountryHistoryValue value,
+dillen::compatibility::hoi3::content::CountryHistoryOperation CountryOperation(
+    dillen::compatibility::hoi3::content::CountryHistoryField field,
+    dillen::compatibility::hoi3::content::CountryHistoryValue value,
     std::string key = {}
 )
 {
@@ -99,9 +99,9 @@ dillen::content::CountryHistoryOperation CountryOperation(
         Origin("history/countries/CHI - China.txt")};
 }
 
-dillen::content::ProvinceHistoryOperation ProvinceOperation(
-    dillen::content::ProvinceHistoryField field,
-    dillen::content::ProvinceHistoryValue value
+dillen::compatibility::hoi3::content::ProvinceHistoryOperation ProvinceOperation(
+    dillen::compatibility::hoi3::content::ProvinceHistoryField field,
+    dillen::compatibility::hoi3::content::ProvinceHistoryValue value
 )
 {
     return {field, std::move(value),
@@ -114,7 +114,7 @@ bool Approximately(double first, double second)
 }
 
 bool HasIssue(
-    const dillen::worldbuilder::WorldBuildReport& report,
+    const dillen::compatibility::hoi3::worldbuilder::WorldBuildReport& report,
     const std::string& code
 )
 {
@@ -133,10 +133,10 @@ bool HasIssue(
 int main()
 {
     using namespace dillen;
-    using content::CountryHistoryField;
-    using content::ProvinceHistoryField;
+    using dillen::compatibility::hoi3::content::CountryHistoryField;
+    using dillen::compatibility::hoi3::content::ProvinceHistoryField;
 
-    content::DefinitionRegistry definitions;
+    dillen::compatibility::hoi3::content::DefinitionRegistry definitions;
     if (!DeclareCountry(definitions, "CHI")
         || !DeclareCountry(definitions, "JAP")
         || !DeclareProvince(definitions, 1, {1, 2, 3})
@@ -145,10 +145,10 @@ int main()
         std::cerr << "WorldBuilder fixture declarations failed\n";
         return 1;
     }
-    const auto chinaTag = content::CountryTag::Parse("CHI");
-    const auto japanTag = content::CountryTag::Parse("JAP");
-    const content::CountryDefinitionId china = chinaTag->StableId();
-    const content::CountryDefinitionId japan = japanTag->StableId();
+    const auto chinaTag = dillen::compatibility::hoi3::content::CountryTag::Parse("CHI");
+    const auto japanTag = dillen::compatibility::hoi3::content::CountryTag::Parse("JAP");
+    const dillen::compatibility::hoi3::content::CountryDefinitionId china = chinaTag->StableId();
+    const dillen::compatibility::hoi3::content::CountryDefinitionId japan = japanTag->StableId();
     const auto earlyOob = DeclareOrderOfBattle(
         definitions,
         "history/units/CHI_1936.txt"
@@ -162,35 +162,35 @@ int main()
         std::cerr << "WorldBuilder OOB fixture failed\n";
         return 2;
     }
-    content::BookmarkDefinition bookmark;
-    bookmark.key = content::NormalizeBookmarkKey("ROAD_TO_WAR_NAME");
-    bookmark.id = content::StableBookmarkDefinitionId(bookmark.key);
+    dillen::compatibility::hoi3::content::BookmarkDefinition bookmark;
+    bookmark.key = dillen::compatibility::hoi3::content::NormalizeBookmarkKey("ROAD_TO_WAR_NAME");
+    bookmark.id = dillen::compatibility::hoi3::content::StableBookmarkDefinitionId(bookmark.key);
     bookmark.name = "ROAD_TO_WAR_NAME";
     bookmark.date = {1936, 1, 1};
     bookmark.origin = Origin("common/bookmarks.txt");
     const auto bookmarkId = bookmark.id;
-    content::ScenarioDefinition scenario;
-    scenario.key = content::NormalizeScenarioKey("probe_scenario");
-    scenario.id = content::StableScenarioDefinitionId(scenario.key);
+    dillen::compatibility::hoi3::content::ScenarioDefinition scenario;
+    scenario.key = dillen::compatibility::hoi3::content::NormalizeScenarioKey("probe_scenario");
+    scenario.id = dillen::compatibility::hoi3::content::StableScenarioDefinitionId(scenario.key);
     scenario.name = "PROBE_SCENARIO_NAME";
     scenario.startDate = {1937, 7, 7};
     scenario.endDate = {1937, 12, 31};
     scenario.origin = Origin("scenarios/probe_scenario.txt");
     const auto scenarioId = scenario.id;
     if (definitions.Launches().Declare(std::move(bookmark))
-            != content::LaunchDeclareResult::Added
+            != dillen::compatibility::hoi3::content::LaunchDeclareResult::Added
         || definitions.Launches().Declare(std::move(scenario))
-            != content::LaunchDeclareResult::Added)
+            != dillen::compatibility::hoi3::content::LaunchDeclareResult::Added)
     {
         std::cerr << "WorldBuilder launch fixture failed\n";
         return 2;
     }
 
-    content::CountryHistorySource chinaHistory;
+    dillen::compatibility::hoi3::content::CountryHistorySource chinaHistory;
     chinaHistory.origin = Origin("history/countries/CHI - China.txt");
     chinaHistory.initialOperations = {
         CountryOperation(CountryHistoryField::Capital,
-            content::ProvinceDefinitionId{1}),
+            dillen::compatibility::hoi3::content::ProvinceDefinitionId{1}),
         CountryOperation(CountryHistoryField::Government,
             std::string("chinese_warlord")),
         CountryOperation(CountryHistoryField::Ideology,
@@ -204,7 +204,7 @@ int main()
             std::string("minimal_training"), "training_laws"),
         CountryOperation(CountryHistoryField::OrderOfBattle, earlyOob)
     };
-    content::CountryHistoryPatch warPatch;
+    dillen::compatibility::hoi3::content::CountryHistoryPatch warPatch;
     warPatch.date = {1937, 7, 7};
     warPatch.origin = chinaHistory.origin;
     warPatch.operations = {
@@ -218,7 +218,7 @@ int main()
         CountryOperation(CountryHistoryField::LoadOrderOfBattle,
             std::string("history/units/CHI_auxiliary.txt"))
     };
-    content::CountryHistoryPatch futurePatch;
+    dillen::compatibility::hoi3::content::CountryHistoryPatch futurePatch;
     futurePatch.date = {1938, 1, 1};
     futurePatch.origin = chinaHistory.origin;
     futurePatch.operations = {
@@ -229,17 +229,17 @@ int main()
     if (definitions.CountryHistories().Append(
             china,
             std::move(chinaHistory))
-        != content::CountryHistoryAppendResult::Added)
+        != dillen::compatibility::hoi3::content::CountryHistoryAppendResult::Added)
     {
         std::cerr << "WorldBuilder Country history fixture failed\n";
         return 3;
     }
 
-    content::CountryHistorySource sameDayOverride;
+    dillen::compatibility::hoi3::content::CountryHistorySource sameDayOverride;
     sameDayOverride.origin = Origin(
         "scenarios/probe/CHI - Same Day Override.txt"
     );
-    content::CountryHistoryPatch overridePatch;
+    dillen::compatibility::hoi3::content::CountryHistoryPatch overridePatch;
     overridePatch.date = {1937, 7, 7};
     overridePatch.origin = sameDayOverride.origin;
     overridePatch.operations = {
@@ -250,13 +250,13 @@ int main()
     if (definitions.CountryHistories().Append(
             china,
             std::move(sameDayOverride))
-        != content::CountryHistoryAppendResult::Merged)
+        != dillen::compatibility::hoi3::content::CountryHistoryAppendResult::Merged)
     {
         std::cerr << "WorldBuilder same-day fixture failed\n";
         return 4;
     }
 
-    content::ProvinceHistorySource provinceHistory;
+    dillen::compatibility::hoi3::content::ProvinceHistorySource provinceHistory;
     provinceHistory.origin = Origin("history/provinces/china/1 - Test.txt");
     provinceHistory.initialOperations = {
         ProvinceOperation(ProvinceHistoryField::Owner, china),
@@ -265,7 +265,7 @@ int main()
         ProvinceOperation(ProvinceHistoryField::Infrastructure,
             std::int64_t{5})
     };
-    content::ProvinceHistoryPatch occupationPatch;
+    dillen::compatibility::hoi3::content::ProvinceHistoryPatch occupationPatch;
     occupationPatch.date = {1937, 7, 7};
     occupationPatch.origin = provinceHistory.origin;
     occupationPatch.operations = {
@@ -274,7 +274,7 @@ int main()
         ProvinceOperation(ProvinceHistoryField::Industry,
             std::int64_t{4})
     };
-    content::ProvinceHistoryPatch ownerPatch;
+    dillen::compatibility::hoi3::content::ProvinceHistoryPatch ownerPatch;
     ownerPatch.date = {1938, 1, 1};
     ownerPatch.origin = provinceHistory.origin;
     ownerPatch.operations = {
@@ -285,17 +285,17 @@ int main()
         std::move(ownerPatch)
     };
     if (definitions.ProvinceHistories().Append(
-            content::ProvinceDefinitionId{1},
+            dillen::compatibility::hoi3::content::ProvinceDefinitionId{1},
             std::move(provinceHistory))
-        != content::ProvinceHistoryAppendResult::Added)
+        != dillen::compatibility::hoi3::content::ProvinceHistoryAppendResult::Added)
     {
         std::cerr << "WorldBuilder Province history fixture failed\n";
         return 5;
     }
 
-    worldbuilder::WorldBuilder builder;
-    worldbuilder::AuthoritativeWorld world;
-    worldbuilder::WorldBuildReport report;
+    compatibility::hoi3::worldbuilder::WorldBuilder builder;
+    compatibility::hoi3::worldbuilder::Hoi3WorldState world;
+    compatibility::hoi3::worldbuilder::WorldBuildReport report;
     if (builder.Build(definitions, {1936, 1, 1}, world, report)
         || !HasIssue(report, "worldbuilder.registry_not_frozen"))
     {
@@ -332,16 +332,16 @@ int main()
         || earlyChina->ordersOfBattle.front().definition != earlyOob
         || earlyUnit->source != earlyOob
         || earlyUnit->country != china
-        || earlyUnit->location != content::ProvinceDefinitionId{1}
+        || earlyUnit->location != dillen::compatibility::hoi3::content::ProvinceDefinitionId{1}
         || earlyUnit->parent.has_value()
         || earlyProvince->locatedUnits.size() != 1
         || earlyProvince->locatedUnits.front() != earlyUnit->id
         || earlyChina->ownedProvinces
-            != std::vector<content::ProvinceDefinitionId>{{1}}
+            != std::vector<dillen::compatibility::hoi3::content::ProvinceDefinitionId>{{1}}
         || earlyChina->controlledProvinces
-            != std::vector<content::ProvinceDefinitionId>{{1}}
+            != std::vector<dillen::compatibility::hoi3::content::ProvinceDefinitionId>{{1}}
         || earlyChina->coreProvinces
-            != std::vector<content::ProvinceDefinitionId>{{1}}
+            != std::vector<dillen::compatibility::hoi3::content::ProvinceDefinitionId>{{1}}
         || !earlyJapan->ownedProvinces.empty()
         || !earlyJapan->controlledProvinces.empty()
         || !earlyJapan->coreProvinces.empty()
@@ -374,9 +374,9 @@ int main()
             || warChina->unitRoots.size() != 1
         ? nullptr
         : world.FindUnit(warChina->unitRoots.front());
-    const content::DiplomacyHistoryKey allianceKey =
-        content::CanonicalDiplomacyHistoryKey(
-            content::DiplomaticRelationKind::Alliance,
+    const dillen::compatibility::hoi3::content::DiplomacyHistoryKey allianceKey =
+        dillen::compatibility::hoi3::content::CanonicalDiplomacyHistoryKey(
+            dillen::compatibility::hoi3::content::DiplomaticRelationKind::Alliance,
             china,
             japan
         );
@@ -401,16 +401,16 @@ int main()
             != "history/units/CHI_auxiliary.txt"
         || warUnit->source != warOob
         || warUnit->country != china
-        || warUnit->location != content::ProvinceDefinitionId{1}
+        || warUnit->location != dillen::compatibility::hoi3::content::ProvinceDefinitionId{1}
         || occupiedProvince->locatedUnits.size() != 1
         || occupiedProvince->locatedUnits.front() != warUnit->id
         || warChina->ownedProvinces
-            != std::vector<content::ProvinceDefinitionId>{{1}}
+            != std::vector<dillen::compatibility::hoi3::content::ProvinceDefinitionId>{{1}}
         || !warChina->controlledProvinces.empty()
         || !warChina->coreProvinces.empty()
         || !warJapan->ownedProvinces.empty()
         || warJapan->controlledProvinces
-            != std::vector<content::ProvinceDefinitionId>{{1}}
+            != std::vector<dillen::compatibility::hoi3::content::ProvinceDefinitionId>{{1}}
         || !warJapan->coreProvinces.empty()
         || world.GlobalFlags().count("china_war_started") != 1
         || occupiedProvince->owner != china
@@ -429,7 +429,7 @@ int main()
 
     if (builder.Build(definitions, {1937, 2, 29}, world, report)
         || !HasIssue(report, "worldbuilder.date_invalid")
-        || world.Date() != content::DefinitionDate{1937, 7, 7})
+        || world.Date() != dillen::compatibility::hoi3::content::DefinitionDate{1937, 7, 7})
     {
         std::cerr << "WorldBuilder transactional failure mismatch\n";
         return 11;

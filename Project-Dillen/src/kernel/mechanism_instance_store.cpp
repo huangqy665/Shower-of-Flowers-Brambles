@@ -1,8 +1,8 @@
 #include "mechanism_instance_store.hpp"
 
 #include <algorithm>
+#include <limits>
 #include <set>
-#include <string_view>
 #include <utility>
 
 namespace dillen::kernel {
@@ -13,22 +13,6 @@ const std::vector<MechanismInstanceId>& EmptyInstanceIds()
 {
     static const std::vector<MechanismInstanceId> empty;
     return empty;
-}
-
-const MechanismFieldSchema* FindFieldSchema(
-    const MechanismSchema& schema,
-    std::string_view name
-)
-{
-    const auto iterator = std::find_if(
-        schema.fields.begin(),
-        schema.fields.end(),
-        [name](const MechanismFieldSchema& field)
-        {
-            return field.name == name;
-        }
-    );
-    return iterator == schema.fields.end() ? nullptr : &*iterator;
 }
 
 MechanismTransactionResult TransactionFailure(
@@ -44,17 +28,18 @@ MechanismTransactionResult TransactionFailure(
 
 MechanismInstanceCreateResult MechanismInstanceStore::CreateFromDefinition(
     MechanismDefinitionId definitionId,
-    const MechanismDefinitionRegistry& definitions,
+    const FrozenRuntimeCatalog& catalog,
     std::uint64_t currentTick,
     MechanismInstanceId& outputId
 )
 {
     outputId = {};
-    if (!definitions.IsFrozen())
+    if (!catalog.IsFrozen())
     {
-        return MechanismInstanceCreateResult::DefinitionRegistryNotFrozen;
+        return MechanismInstanceCreateResult::RuntimeCatalogNotFrozen;
     }
-    const MechanismDefinition* definition = definitions.Find(definitionId);
+    const CompiledMechanismDefinition* definition =
+        catalog.FindDefinition(definitionId);
     if (definition == nullptr)
     {
         return MechanismInstanceCreateResult::DefinitionMissing;
@@ -79,8 +64,18 @@ MechanismInstanceCreateResult MechanismInstanceStore::CreateFromDefinition(
     instance.algorithm = definition->algorithm;
     instance.algorithmVersion = definition->algorithmVersion;
     instance.creationOrdinal = creationOrdinal;
-    instance.values = definition->fields;
-    instance.roles = definition->roles;
+    instance.values = definition->initialValues;
+    instance.roles = definition->initialRoles;
+    const AlgorithmDescriptor* algorithm = definition->algorithm
+        ? catalog.FindAlgorithm(
+            definition->algorithm,
+            definition->algorithmVersion)
+        : nullptr;
+    instance.algorithmInitialized = algorithm == nullptr
+        || !HasAlgorithmEntryPoint(
+            algorithm->entryPoints,
+            AlgorithmEntryPoint::Create
+        );
     instance.createdTick = currentTick;
     instance.updatedTick = currentTick;
 
@@ -92,25 +87,83 @@ MechanismInstanceCreateResult MechanismInstanceStore::CreateFromDefinition(
     return MechanismInstanceCreateResult::Created;
 }
 
+MechanismInstanceCreateResult MechanismInstanceStore::CreateFromSpawn(
+    MechanismSpawnDefinitionId spawnId,
+    const FrozenRuntimeCatalog& catalog,
+    std::uint64_t currentTick,
+    MechanismInstanceId& outputId
+)
+{
+    outputId = {};
+    if (!catalog.IsFrozen())
+    {
+        return MechanismInstanceCreateResult::RuntimeCatalogNotFrozen;
+    }
+    const CompiledMechanismSpawnDefinition* spawn =
+        catalog.FindSpawnDefinition(spawnId);
+    if (spawn == nullptr)
+    {
+        return MechanismInstanceCreateResult::SpawnMissing;
+    }
+    const CompiledMechanismDefinition* definition =
+        catalog.FindDefinition(spawn->definition);
+    if (definition == nullptr)
+    {
+        return MechanismInstanceCreateResult::DefinitionMissing;
+    }
+
+    const std::uint64_t creationOrdinal =
+        nextOrdinalByDefinition_[spawn->definition];
+    const MechanismInstanceId instanceId = StableMechanismInstanceId(
+        spawn->definition,
+        creationOrdinal
+    );
+    if (instances_.find(instanceId) != instances_.end())
+    {
+        return MechanismInstanceCreateResult::IdCollision;
+    }
+
+    MechanismInstance instance;
+    instance.id = instanceId;
+    instance.definition = spawn->definition;
+    instance.type = definition->type;
+    instance.schemaVersion = definition->schemaVersion;
+    instance.algorithm = definition->algorithm;
+    instance.algorithmVersion = definition->algorithmVersion;
+    instance.creationOrdinal = creationOrdinal;
+    instance.values = spawn->initialValues;
+    instance.roles = spawn->initialRoles;
+    const AlgorithmDescriptor* algorithm = definition->algorithm
+        ? catalog.FindAlgorithm(
+            definition->algorithm,
+            definition->algorithmVersion)
+        : nullptr;
+    instance.algorithmInitialized = algorithm == nullptr
+        || !HasAlgorithmEntryPoint(
+            algorithm->entryPoints,
+            AlgorithmEntryPoint::Create
+        );
+    instance.createdTick = currentTick;
+    instance.updatedTick = currentTick;
+
+    instances_.emplace(instanceId, std::move(instance));
+    instancesByDefinition_[spawn->definition].push_back(instanceId);
+    instancesByType_[definition->type].push_back(instanceId);
+    nextOrdinalByDefinition_[spawn->definition] = creationOrdinal + 1;
+    outputId = instanceId;
+    return MechanismInstanceCreateResult::Created;
+}
+
 MechanismTransactionResult MechanismInstanceStore::ApplyTransaction(
     const std::vector<MechanismCommand>& commands,
-    const MechanismDefinitionRegistry& definitions,
-    const MechanismSchemaRegistry& schemas,
+    const FrozenRuntimeCatalog& catalog,
     std::uint64_t currentTick
 )
 {
-    if (!definitions.IsFrozen())
+    if (!catalog.IsFrozen())
     {
         return TransactionFailure(
-            MechanismTransactionStatus::DefinitionRegistryNotFrozen,
-            0,
-            {}
-        );
-    }
-    if (!schemas.IsFrozen())
-    {
-        return TransactionFailure(
-            MechanismTransactionStatus::SchemaRegistryNotFrozen,
+            MechanismTransactionStatus::RuntimeCatalogNotFrozen,
             0,
             {}
         );
@@ -118,10 +171,19 @@ MechanismTransactionResult MechanismInstanceStore::ApplyTransaction(
 
     std::map<MechanismInstanceId, MechanismInstance> staged;
     std::set<MechanismInstanceId> changed;
+    std::set<MechanismInstanceId> destroyed;
     std::vector<MechanismChange> changes;
     for (std::size_t index = 0; index < commands.size(); ++index)
     {
         const MechanismCommand& command = commands[index];
+        if (destroyed.find(command.target) != destroyed.end())
+        {
+            return TransactionFailure(
+                MechanismTransactionStatus::TargetDestroyed,
+                index,
+                command.target
+            );
+        }
         auto stagedIterator = staged.find(command.target);
         if (stagedIterator == staged.end())
         {
@@ -149,9 +211,8 @@ MechanismTransactionResult MechanismInstanceStore::ApplyTransaction(
                 command.target
             );
         }
-        const MechanismDefinition* definition = definitions.Find(
-            instance.definition
-        );
+        const CompiledMechanismDefinition* definition =
+            catalog.FindDefinition(instance.definition);
         if (definition == nullptr)
         {
             return TransactionFailure(
@@ -171,14 +232,14 @@ MechanismTransactionResult MechanismInstanceStore::ApplyTransaction(
                 command.target
             );
         }
-        const MechanismSchema* schema = schemas.Find(
+        const CompiledMechanismLayout* layout = catalog.FindLayout(
             instance.type,
             instance.schemaVersion
         );
-        if (schema == nullptr)
+        if (layout == nullptr)
         {
             return TransactionFailure(
-                MechanismTransactionStatus::SchemaMissing,
+                MechanismTransactionStatus::LayoutMissing,
                 index,
                 command.target
             );
@@ -187,11 +248,9 @@ MechanismTransactionResult MechanismInstanceStore::ApplyTransaction(
         if (const auto* operation =
             std::get_if<MechanismSetFieldOperation>(&command.operation))
         {
-            const MechanismFieldSchema* field = FindFieldSchema(
-                *schema,
-                operation->field
-            );
-            if (field == nullptr)
+            if (!operation->field
+                || operation->field.value >= layout->fields.size()
+                || operation->field.value >= instance.values.size())
             {
                 return TransactionFailure(
                     MechanismTransactionStatus::UnknownField,
@@ -199,7 +258,9 @@ MechanismTransactionResult MechanismInstanceStore::ApplyTransaction(
                     command.target
                 );
             }
-            if (!MechanismValueMatchesSchema(*field, operation->value))
+            const MechanismFieldSchema& field =
+                layout->fields[operation->field.value];
+            if (!MechanismValueMatchesSchema(field, operation->value))
             {
                 return TransactionFailure(
                     MechanismTransactionStatus::FieldValueInvalid,
@@ -207,33 +268,111 @@ MechanismTransactionResult MechanismInstanceStore::ApplyTransaction(
                     command.target
                 );
             }
-            const auto valueIterator = instance.values.find(
-                operation->field
-            );
-            if (valueIterator == instance.values.end()
-                || valueIterator->second != operation->value)
+            MechanismValue& storedValue =
+                instance.values[operation->field.value];
+            if (storedValue != operation->value)
             {
-                std::optional<MechanismValue> previousValue;
-                if (valueIterator != instance.values.end())
-                {
-                    previousValue = valueIterator->second;
-                }
                 changes.emplace_back(MechanismFieldChange{
                     command.target,
                     operation->field,
-                    std::move(previousValue),
+                    storedValue,
                     operation->value
                 });
-                instance.values[operation->field] = operation->value;
+                storedValue = operation->value;
                 changed.insert(command.target);
             }
             continue;
         }
 
-        const auto& operation =
-            std::get<MechanismTransitionLifecycleOperation>(
-                command.operation
-            );
+        if (std::holds_alternative<
+                MechanismCompleteAlgorithmCreateOperation>(
+                command.operation))
+        {
+            if (!instance.algorithmInitialized)
+            {
+                instance.algorithmInitialized = true;
+                changes.emplace_back(
+                    MechanismAlgorithmInitializedChange{command.target}
+                );
+                changed.insert(command.target);
+            }
+            continue;
+        }
+
+        if (const auto* operation = std::get_if<
+                MechanismRecordAlgorithmFaultOperation>(
+                &command.operation))
+        {
+            if (!IsAuthoritativeAlgorithmFaultCode(operation->code))
+            {
+                return TransactionFailure(
+                    MechanismTransactionStatus::FaultCodeInvalid,
+                    index,
+                    command.target
+                );
+            }
+            const AlgorithmFaultState previous = instance.algorithmFault;
+            instance.algorithmFault.isolated = true;
+            if (instance.algorithmFault.failureCount
+                != std::numeric_limits<std::uint32_t>::max())
+            {
+                ++instance.algorithmFault.failureCount;
+            }
+            instance.algorithmFault.code = operation->code;
+            instance.algorithmFault.stage = operation->stage;
+            instance.algorithmFault.tick = currentTick;
+            if (instance.algorithmFault != previous)
+            {
+                changes.emplace_back(MechanismAlgorithmFaultChange{
+                    command.target,
+                    previous,
+                    instance.algorithmFault
+                });
+                changed.insert(command.target);
+            }
+            continue;
+        }
+
+        if (std::holds_alternative<MechanismClearAlgorithmFaultOperation>(
+                command.operation))
+        {
+            const AlgorithmFaultState previous = instance.algorithmFault;
+            instance.algorithmFault = {};
+            if (instance.algorithmFault != previous)
+            {
+                changes.emplace_back(MechanismAlgorithmFaultChange{
+                    command.target,
+                    previous,
+                    instance.algorithmFault
+                });
+                changed.insert(command.target);
+            }
+            continue;
+        }
+
+        if (std::holds_alternative<MechanismDestroyOperation>(
+                command.operation))
+        {
+            if (!IsTerminalMechanismLifecycleState(instance.lifecycle))
+            {
+                return TransactionFailure(
+                    MechanismTransactionStatus::DestroyRequiresTerminalState,
+                    index,
+                    command.target
+                );
+            }
+            changes.emplace_back(MechanismDestroyedChange{
+                command.target,
+                instance.definition,
+                instance.type
+            });
+            changed.insert(command.target);
+            destroyed.insert(command.target);
+            continue;
+        }
+
+        const auto& operation = std::get<
+            MechanismTransitionLifecycleOperation>(command.operation);
         if (!CanTransitionMechanismLifecycle(
                 instance.lifecycle,
                 operation.target))
@@ -259,6 +398,23 @@ MechanismTransactionResult MechanismInstanceStore::ApplyTransaction(
     for (MechanismInstanceId id : changed)
     {
         MechanismInstance& instance = staged.at(id);
+        if (destroyed.find(id) != destroyed.end())
+        {
+            auto& byDefinition = instancesByDefinition_.at(
+                instance.definition
+            );
+            byDefinition.erase(
+                std::remove(byDefinition.begin(), byDefinition.end(), id),
+                byDefinition.end()
+            );
+            auto& byType = instancesByType_.at(instance.type);
+            byType.erase(
+                std::remove(byType.begin(), byType.end(), id),
+                byType.end()
+            );
+            instances_.erase(id);
+            continue;
+        }
         instance.updatedTick = currentTick;
         instances_.at(id) = std::move(instance);
     }

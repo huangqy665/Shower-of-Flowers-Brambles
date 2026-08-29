@@ -7,6 +7,11 @@
 #include "mechanism_definition_registry.hpp"
 #include "mechanism_instance_store.hpp"
 #include "mechanism_schema_registry.hpp"
+#include "mechanism_spawn_definition_registry.hpp"
+#include "package_lock.hpp"
+#include "package_manifest.hpp"
+#include "ruleset.hpp"
+#include "runtime_compiler.hpp"
 #include "world_builder.hpp"
 
 namespace {
@@ -39,6 +44,67 @@ dillen::kernel::MechanismDefinition MakeDefinition(
     definition.source.sourceName = "probe";
     definition.source.virtualPath = "tests/mechanism_instances.txt";
     return definition;
+}
+
+bool CompileCatalog(
+    const dillen::kernel::MechanismSchemaRegistry& schemas,
+    const dillen::kernel::AlgorithmRegistry& algorithms,
+    const dillen::kernel::MechanismDefinitionRegistry& definitions,
+    dillen::kernel::FrozenRuntimeCatalog& catalog
+)
+{
+    using namespace dillen::kernel;
+    PackageManifestRegistry manifests;
+    manifests.Freeze();
+    RulesetDefinition ruleset;
+    ruleset.canonicalName = "dillen.test.instance_store";
+    ruleset.id = StableRulesetId(ruleset.canonicalName);
+    ruleset.version = 1;
+    PackageLock packageLock;
+    PackageLockReport lockReport;
+    RuntimeCompileReport compileReport;
+    ComponentSchemaRegistry componentSchemas;
+    EntityDefinitionRegistry entityDefinitions;
+    MechanismSpawnDefinitionRegistry spawns;
+    RuntimeCapabilityContractRegistry capabilityContracts;
+    componentSchemas.Freeze();
+    entityDefinitions.Freeze();
+    for (const MechanismDefinition& definition : definitions.All())
+    {
+        MechanismSpawnDefinition spawn;
+        spawn.canonicalName = definition.canonicalName + "_initial";
+        spawn.definition = definition.id;
+        spawn.id = StableMechanismSpawnDefinitionId(
+            spawn.definition,
+            spawn.canonicalName
+        );
+        spawn.source.sourceName = "probe";
+        if (spawns.Declare(spawn, definitions, schemas)
+            != MechanismSpawnDeclareResult::Added)
+        {
+            return false;
+        }
+    }
+    spawns.Freeze();
+    capabilityContracts.Freeze();
+    return PackageLockBuilder{}.Resolve(
+            manifests,
+            ruleset,
+            packageLock,
+            lockReport)
+        && RuntimeCompiler{}.Compile(
+            ruleset,
+            packageLock,
+            schemas,
+            componentSchemas,
+            algorithms,
+            definitions,
+            entityDefinitions,
+            spawns,
+            capabilityContracts,
+            catalog,
+            compileReport
+        );
 }
 
 }
@@ -104,23 +170,34 @@ int main()
     }
     definitions.Freeze();
 
+    FrozenRuntimeCatalog catalog;
+    if (!CompileCatalog(schemas, algorithms, definitions, catalog))
+    {
+        std::cerr << "Mechanism Runtime Catalog compilation failed\n";
+        return 3;
+    }
+    const MechanismFieldSlotId counterSlot =
+        *catalog.ResolveDefinitionFieldSlot(alphaDefinition, "counter");
+    const MechanismRoleSlotId ownerSlot =
+        *catalog.ResolveRoleSlot(type, 1, "owner");
+
     MechanismInstanceStore store;
     MechanismInstanceId alphaFirst;
     MechanismInstanceId betaFirst;
     MechanismInstanceId alphaSecond;
     if (store.CreateFromDefinition(
             alphaDefinition,
-            definitions,
+            catalog,
             7,
             alphaFirst) != MechanismInstanceCreateResult::Created
         || store.CreateFromDefinition(
             betaDefinition,
-            definitions,
+            catalog,
             8,
             betaFirst) != MechanismInstanceCreateResult::Created
         || store.CreateFromDefinition(
             alphaDefinition,
-            definitions,
+            catalog,
             9,
             alphaSecond) != MechanismInstanceCreateResult::Created)
     {
@@ -137,9 +214,9 @@ int main()
         || first->lifecycle != MechanismLifecycleState::Created
         || first->createdTick != 7
         || first->updatedTick != 7
-        || first->values.at("counter")
+        || first->values.at(counterSlot.value)
             != MechanismValue(std::int64_t{0})
-        || first->roles.at("owner").front().value != 1
+        || first->roles.at(ownerSlot.value).front().value != 1
         || alphaFirst != StableMechanismInstanceId(alphaDefinition, 0)
         || alphaSecond != StableMechanismInstanceId(alphaDefinition, 1)
         || betaFirst != StableMechanismInstanceId(betaDefinition, 0)
@@ -152,17 +229,17 @@ int main()
     }
 
     MechanismInstanceId rejected;
-    MechanismDefinitionRegistry unfrozenDefinitions;
+    FrozenRuntimeCatalog unfrozenCatalog;
     if (store.CreateFromDefinition(
             alphaDefinition,
-            unfrozenDefinitions,
+            unfrozenCatalog,
             10,
             rejected)
-            != MechanismInstanceCreateResult::DefinitionRegistryNotFrozen
+            != MechanismInstanceCreateResult::RuntimeCatalogNotFrozen
         || rejected
         || store.CreateFromDefinition(
             StableMechanismDefinitionId(type, "missing"),
-            definitions,
+            catalog,
             10,
             rejected) != MechanismInstanceCreateResult::DefinitionMissing)
     {
@@ -175,7 +252,7 @@ int main()
     if (!store.Empty()
         || store.CreateFromDefinition(
             alphaDefinition,
-            definitions,
+            catalog,
             11,
             recreated) != MechanismInstanceCreateResult::Created
         || recreated != alphaFirst)
@@ -184,19 +261,19 @@ int main()
         return 6;
     }
 
-    content::DefinitionRegistry contentDefinitions;
+    dillen::compatibility::hoi3::content::DefinitionRegistry contentDefinitions;
     contentDefinitions.Freeze();
-    worldbuilder::WorldBuilder builder;
-    worldbuilder::WorldBuildReport report;
-    worldbuilder::AuthoritativeWorld world;
+    compatibility::hoi3::worldbuilder::WorldBuilder builder;
+    compatibility::hoi3::worldbuilder::WorldBuildReport report;
+    compatibility::hoi3::worldbuilder::Hoi3WorldState world;
     if (!builder.Build(
             contentDefinitions,
-            definitions,
+            catalog,
             {1936, 1, 1},
             world,
             report)
         || report.HasErrors()
-        || world.Mechanisms().Size() != definitions.Size()
+        || world.Mechanisms().Size() != catalog.SpawnDefinitionCount()
         || world.Mechanisms().FindByDefinition(alphaDefinition).size() != 1
         || world.Mechanisms().FindByDefinition(betaDefinition).size() != 1)
     {
@@ -207,7 +284,7 @@ int main()
     const std::size_t committedSize = world.Mechanisms().Size();
     if (builder.Build(
             contentDefinitions,
-            unfrozenDefinitions,
+            unfrozenCatalog,
             {1936, 1, 2},
             world,
             report)
@@ -218,7 +295,7 @@ int main()
         return 8;
     }
 
-    worldbuilder::AuthoritativeWorld compatibilityWorld;
+    compatibility::hoi3::worldbuilder::Hoi3WorldState compatibilityWorld;
     if (!builder.Build(
             contentDefinitions,
             {1936, 1, 1},

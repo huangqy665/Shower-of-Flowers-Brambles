@@ -1,0 +1,12 @@
+extension_ruleset = {
+    name = dillen.demo.audit_extension
+    version = 1
+    priority = 20
+    target_root = dillen.demo.root
+    target_minimum_version = 1
+    target_maximum_version = 2
+
+    required_algorithms = {
+        dillen.demo.audit_algorithm = 1
+    }
+}

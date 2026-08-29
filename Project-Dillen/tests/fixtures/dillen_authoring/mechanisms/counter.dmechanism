@@ -1,0 +1,19 @@
+mechanism_template = {
+    name = dillen.demo.counter
+    version = 1
+
+    fields = {
+        field = {
+            name = value
+            kind = integer
+            required = yes
+            default = 1
+            minimum_number = 0
+        }
+        field = {
+            name = label
+            kind = string
+            default = "counter"
+        }
+    }
+}

@@ -22,22 +22,22 @@ std::string LowerAscii(std::string_view value)
     return lowered;
 }
 
-std::optional<content::DiplomaticRelationKind> RelationKind(
+std::optional<dillen::compatibility::hoi3::content::DiplomaticRelationKind> RelationKind(
     std::string_view value
 )
 {
     const std::string lowered = LowerAscii(value);
     if (lowered == "alliance")
     {
-        return content::DiplomaticRelationKind::Alliance;
+        return dillen::compatibility::hoi3::content::DiplomaticRelationKind::Alliance;
     }
     if (lowered == "guarantee")
     {
-        return content::DiplomaticRelationKind::Guarantee;
+        return dillen::compatibility::hoi3::content::DiplomaticRelationKind::Guarantee;
     }
     if (lowered == "vassal")
     {
-        return content::DiplomaticRelationKind::Vassal;
+        return dillen::compatibility::hoi3::content::DiplomaticRelationKind::Vassal;
     }
     return std::nullopt;
 }
@@ -63,7 +63,7 @@ bool ExpectAssignment(ParserCursor& cursor, const SourceSpan& span)
 
 bool ReadCountry(
     ParserCursor& cursor,
-    content::CountryTag& output
+    dillen::compatibility::hoi3::content::CountryTag& output
 )
 {
     Token token;
@@ -71,7 +71,7 @@ bool ReadCountry(
     {
         return false;
     }
-    const auto tag = content::CountryTag::Parse(token.text);
+    const auto tag = dillen::compatibility::hoi3::content::CountryTag::Parse(token.text);
     if (!tag)
     {
         cursor.Diagnostics().Error(
@@ -87,7 +87,7 @@ bool ReadCountry(
 
 bool ReadDate(
     ParserCursor& cursor,
-    content::DefinitionDate& output
+    dillen::compatibility::hoi3::content::DefinitionDate& output
 )
 {
     ClausewitzDate date;
@@ -111,7 +111,7 @@ bool SkipValue(ParserCursor& cursor)
 
 bool ParseRelationBlock(
     ParserCursor& cursor,
-    content::DiplomaticRelationKind kind,
+    dillen::compatibility::hoi3::content::DiplomaticRelationKind kind,
     const SourceSpan& span,
     ParsedDiplomaticRelation& output
 )

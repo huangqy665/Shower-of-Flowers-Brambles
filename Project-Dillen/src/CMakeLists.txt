@@ -1,53 +1,49 @@
-add_library(new_core_api INTERFACE)
-add_library(new_core::api ALIAS new_core_api)
-target_include_directories(
-    new_core_api
-    INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/dll"
-)
+if(DILLEN_BUILD_HOI3_COMPATIBILITY
+   AND NOT DILLEN_BUILD_STANDALONE_RUNTIME)
+    message(FATAL_ERROR
+        "DILLEN_BUILD_HOI3_COMPATIBILITY requires the standalone runtime"
+    )
+endif()
 
-add_subdirectory(engine)
-add_subdirectory(core)
-add_subdirectory(native)
-add_subdirectory(kernel)
-add_subdirectory(content)
-add_subdirectory(parser)
-add_subdirectory(worldbuilder)
+if(DILLEN_BUILD_STANDALONE_RUNTIME)
+    add_subdirectory(kernel)
+    add_subdirectory(world)
+    add_subdirectory(runtime)
+    add_subdirectory(persistence)
+    add_subdirectory(parser)
+    add_subdirectory(parser/parsers/dillen)
+    add_subdirectory(host)
 
-new_core_add_component(
-    new_core_reverse
-    SOURCES
-        core/reverse_probe_framework.cpp
-        core/reverse_probe_framework.h
-    PUBLIC_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/core"
-    PUBLIC_LINKS
-        new_core_core
-        new_core_capabilities
-        new_core_engine
-        new_core_native
-)
+    add_library(project_dillen_standalone INTERFACE)
+    add_library(dillen::standalone ALIAS project_dillen_standalone)
+    target_link_libraries(
+        project_dillen_standalone
+        INTERFACE
+            dillen::kernel
+            dillen::world
+            dillen::runtime
+            dillen::persistence
+            dillen::parser
+            dillen::authoring
+    )
 
-add_subdirectory(hoi3)
-add_subdirectory(leader_capture)
-add_subdirectory(gui)
+    if(DILLEN_BUILD_HOI3_COMPATIBILITY)
+        add_subdirectory(compatibility/hoi3/content)
+        add_subdirectory(parser/parsers/hoi3)
+        add_subdirectory(compatibility/hoi3/worldbuilder)
 
-new_core_add_component(
-    new_core_runtime
-    SOURCES
-        core/core_runtime.cpp
-        core/core_runtime.h
-    PUBLIC_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/core"
-    PUBLIC_LINKS
-        new_core::api
-        new_core_core
-        new_core_capabilities
-        new_core_engine
-        new_core_native
-        new_core_reverse
-        new_core_hoi3
-        new_core_leader_capture
-        new_core_script_gui
-)
-
-add_subdirectory(dll)
-add_subdirectory(launcher)
-add_subdirectory(tools)
+        add_library(project_dillen_hoi3_compatibility INTERFACE)
+        add_library(
+            dillen::compatibility::hoi3
+            ALIAS project_dillen_hoi3_compatibility
+        )
+        target_link_libraries(
+            project_dillen_hoi3_compatibility
+            INTERFACE
+                dillen::standalone
+                dillen::compatibility::hoi3_content
+                dillen::compatibility::hoi3_parser
+                dillen::compatibility::hoi3_worldbuilder
+        )
+    endif()
+endif()

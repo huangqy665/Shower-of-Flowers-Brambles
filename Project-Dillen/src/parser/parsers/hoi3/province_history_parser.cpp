@@ -25,7 +25,7 @@ enum class FieldValueKind
 
 struct FieldDescriptor
 {
-    content::ProvinceHistoryField field;
+    dillen::compatibility::hoi3::content::ProvinceHistoryField field;
     FieldValueKind valueKind;
 };
 
@@ -66,7 +66,7 @@ bool EqualsAsciiIgnoreCase(
 
 std::optional<FieldDescriptor> DescribeField(std::string_view key)
 {
-    using content::ProvinceHistoryField;
+    using dillen::compatibility::hoi3::content::ProvinceHistoryField;
     if (EqualsAsciiIgnoreCase(key, "owner"))
     {
         return FieldDescriptor{ProvinceHistoryField::Owner,
@@ -214,7 +214,7 @@ bool ExpectAssignment(
 
 bool ParseDateToken(
     const Token& token,
-    content::DefinitionDate& output
+    dillen::compatibility::hoi3::content::DefinitionDate& output
 )
 {
     int components[3]{};
@@ -298,7 +298,7 @@ bool TryRecoverConcatenatedCountryAssignment(
     }
     const std::string_view tagText = value.text.substr(0, 3);
     const std::string_view suffix = value.text.substr(3);
-    if (!content::CountryTag::Parse(tagText)
+    if (!dillen::compatibility::hoi3::content::CountryTag::Parse(tagText)
         || !DescribeField(suffix))
     {
         return false;
@@ -386,7 +386,7 @@ bool ParseOperation(
                 country,
                 pending))
         {
-            const auto parsed = content::CountryTag::Parse(value.text);
+            const auto parsed = dillen::compatibility::hoi3::content::CountryTag::Parse(value.text);
             if (!parsed)
             {
                 cursor.Diagnostics().Error(

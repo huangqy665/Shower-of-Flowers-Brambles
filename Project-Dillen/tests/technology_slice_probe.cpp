@@ -6,7 +6,7 @@
 #include <string>
 #include <variant>
 
-#include "analyzer.hpp"
+#include "resolver.hpp"
 #include "country_history.hpp"
 #include "country_history_slice.hpp"
 #include "country_tag_slice.hpp"
@@ -115,15 +115,15 @@ std::size_t CountDiagnostic(
     ));
 }
 
-const dillen::content::TechnologyResearchBonus* FindResearchBonus(
-    const dillen::content::TechnologyDefinition& definition,
+const dillen::compatibility::hoi3::content::TechnologyResearchBonus* FindResearchBonus(
+    const dillen::compatibility::hoi3::content::TechnologyDefinition& definition,
     const std::string& name
 )
 {
     const auto iterator = std::find_if(
         definition.researchBonuses.begin(),
         definition.researchBonuses.end(),
-        [&name](const dillen::content::TechnologyResearchBonus& bonus)
+        [&name](const dillen::compatibility::hoi3::content::TechnologyResearchBonus& bonus)
         {
             return bonus.source == name;
         }
@@ -133,15 +133,15 @@ const dillen::content::TechnologyResearchBonus* FindResearchBonus(
         : &*iterator;
 }
 
-const dillen::content::TechnologyEffectBlock* FindEffectBlock(
-    const dillen::content::TechnologyDefinition& definition,
+const dillen::compatibility::hoi3::content::TechnologyEffectBlock* FindEffectBlock(
+    const dillen::compatibility::hoi3::content::TechnologyDefinition& definition,
     const std::string& name
 )
 {
     const auto iterator = std::find_if(
         definition.effectBlocks.begin(),
         definition.effectBlocks.end(),
-        [&name](const dillen::content::TechnologyEffectBlock& block)
+        [&name](const dillen::compatibility::hoi3::content::TechnologyEffectBlock& block)
         {
             return block.name == name;
         }
@@ -151,15 +151,15 @@ const dillen::content::TechnologyEffectBlock* FindEffectBlock(
         : &*iterator;
 }
 
-const dillen::content::TechnologyScalarEffect* FindEffect(
-    const dillen::content::TechnologyEffectBlock& block,
+const dillen::compatibility::hoi3::content::TechnologyScalarEffect* FindEffect(
+    const dillen::compatibility::hoi3::content::TechnologyEffectBlock& block,
     const std::string& name
 )
 {
     const auto iterator = std::find_if(
         block.effects.begin(),
         block.effects.end(),
-        [&name](const dillen::content::TechnologyScalarEffect& effect)
+        [&name](const dillen::compatibility::hoi3::content::TechnologyScalarEffect& effect)
         {
             return effect.name == name;
         }
@@ -167,13 +167,13 @@ const dillen::content::TechnologyScalarEffect* FindEffect(
     return iterator == block.effects.end() ? nullptr : &*iterator;
 }
 
-const dillen::content::TechnologyRequirement* FindRequirement(
-    const dillen::content::TechnologyRequirement& requirement,
+const dillen::compatibility::hoi3::content::TechnologyRequirement* FindRequirement(
+    const dillen::compatibility::hoi3::content::TechnologyRequirement& requirement,
     const std::string& name
 )
 {
     if (requirement.kind
-            == dillen::content::TechnologyRequirementKind::Level
+            == dillen::compatibility::hoi3::content::TechnologyRequirementKind::Level
         && requirement.name == name)
     {
         return &requirement;
@@ -190,7 +190,7 @@ const dillen::content::TechnologyRequirement* FindRequirement(
 }
 
 bool HasActivatedUnit(
-    const dillen::content::TechnologyDefinition& definition,
+    const dillen::compatibility::hoi3::content::TechnologyDefinition& definition,
     const std::string& name,
     bool resolved
 )
@@ -199,7 +199,7 @@ bool HasActivatedUnit(
         definition.activatedUnits.begin(),
         definition.activatedUnits.end(),
         [&name, resolved](
-            const dillen::content::TechnologyUnitReference& reference)
+            const dillen::compatibility::hoi3::content::TechnologyUnitReference& reference)
         {
             return reference.name == name
                 && reference.unitType.has_value() == resolved;
@@ -207,9 +207,9 @@ bool HasActivatedUnit(
     );
 }
 
-const dillen::content::CountryHistoryOperation* FindHistoryOperation(
-    const std::vector<dillen::content::CountryHistoryOperation>& operations,
-    dillen::content::CountryHistoryField field,
+const dillen::compatibility::hoi3::content::CountryHistoryOperation* FindHistoryOperation(
+    const std::vector<dillen::compatibility::hoi3::content::CountryHistoryOperation>& operations,
+    dillen::compatibility::hoi3::content::CountryHistoryField field,
     const std::string& key
 )
 {
@@ -217,7 +217,7 @@ const dillen::content::CountryHistoryOperation* FindHistoryOperation(
         operations.begin(),
         operations.end(),
         [field, &key](
-            const dillen::content::CountryHistoryOperation& operation)
+            const dillen::compatibility::hoi3::content::CountryHistoryOperation& operation)
         {
             return operation.field == field && operation.key == key;
         }
@@ -226,7 +226,7 @@ const dillen::content::CountryHistoryOperation* FindHistoryOperation(
 }
 
 void PrintDiagnostics(
-    const dillen::parser::AnalysisWorkspace& workspace,
+    const dillen::parser::ParseWorkspace& workspace,
     const dillen::parser::DiagnosticBag& diagnostics
 )
 {
@@ -267,32 +267,32 @@ int main()
 
     dillen::parser::TemplateRegistry templates;
     dillen::parser::ParserRegistry parsers;
-    dillen::parser::Analyzer analyzer;
-    dillen::content::DefinitionRegistry definitions;
+    dillen::parser::Resolver resolver;
+    dillen::compatibility::hoi3::content::DefinitionRegistry definitions;
     if (!dillen::parser::hoi3::RegisterCountryTagSlice(
             templates,
             parsers,
-            analyzer,
+            resolver,
             definitions)
         || !dillen::parser::hoi3::RegisterUnitTypeSlice(
             templates,
             parsers,
-            analyzer,
+            resolver,
             definitions)
         || !dillen::parser::hoi3::RegisterProvinceDefinitionSlice(
             templates,
             parsers,
-            analyzer,
+            resolver,
             definitions)
         || !dillen::parser::hoi3::RegisterTechnologySlice(
             templates,
             parsers,
-            analyzer,
+            resolver,
             definitions)
         || !dillen::parser::hoi3::RegisterCountryHistorySlice(
             templates,
             parsers,
-            analyzer,
+            resolver,
             definitions))
     {
         std::cerr << "Technology slice registration failed\n";
@@ -300,7 +300,7 @@ int main()
     }
     templates.Freeze();
     parsers.Freeze();
-    analyzer.Freeze();
+    resolver.Freeze();
 
     dillen::parser::DiagnosticBag diagnostics;
     dillen::parser::FileCatalog catalog;
@@ -315,8 +315,8 @@ int main()
         return 3;
     }
 
-    dillen::parser::AnalysisWorkspace workspace;
-    if (!analyzer.Analyze(catalog, parsers, workspace, diagnostics))
+    dillen::parser::ParseWorkspace workspace;
+    if (!(catalog.Parse(parsers, workspace, diagnostics) && resolver.Resolve(workspace, diagnostics)))
     {
         PrintDiagnostics(workspace, diagnostics);
         std::cerr << "Technology analysis failed\n";
@@ -368,19 +368,19 @@ int main()
         ? nullptr
         : FindHistoryOperation(
             chile->initialOperations,
-            dillen::content::CountryHistoryField::TechnologyLevel,
+            dillen::compatibility::hoi3::content::CountryHistoryField::TechnologyLevel,
             "smallarms_technology"
         );
     const auto* infantryTheoryHistory = chile == nullptr
         ? nullptr
         : FindHistoryOperation(
             chile->initialOperations,
-            dillen::content::CountryHistoryField::NamedAssignment,
+            dillen::compatibility::hoi3::content::CountryHistoryField::NamedAssignment,
             "infantry_theory"
         );
     const auto* smallArmsLevel = smallArmsHistory == nullptr
         ? nullptr
-        : std::get_if<dillen::content::CountryHistoryTechnologyLevel>(
+        : std::get_if<dillen::compatibility::hoi3::content::CountryHistoryTechnologyLevel>(
             &smallArmsHistory->value
         );
     const bool valid = definitions.Countries().Size() == 142
@@ -413,10 +413,10 @@ int main()
         && std::any_of(
             aeroengine->allow->children.begin(),
             aeroengine->allow->children.end(),
-            [](const dillen::content::TechnologyRequirement& requirement)
+            [](const dillen::compatibility::hoi3::content::TechnologyRequirement& requirement)
             {
                 return requirement.kind
-                    == dillen::content::TechnologyRequirementKind::Any;
+                    == dillen::compatibility::hoi3::content::TechnologyRequirementKind::Any;
             })
         && singleEngineRequirement != nullptr
         && singleEngineRequirement->technology.has_value()
@@ -424,7 +424,7 @@ int main()
         && smallArmsLevel != nullptr
         && smallArmsLevel->level == 1
         && smallArmsLevel->technology
-            == dillen::content::StableTechnologyDefinitionId(
+            == dillen::compatibility::hoi3::content::StableTechnologyDefinitionId(
                 "smallarms_technology")
         && infantryTheoryHistory != nullptr
         && night != nullptr
@@ -441,9 +441,9 @@ int main()
             "hoi3.technology.block_assignment_recovered") == 1
         && definitions.Technologies().Find("NIGHT_GOGGLES") == night
         && definitions.Technologies().Declare({})
-            == dillen::content::TechnologyDeclareResult::Frozen
+            == dillen::compatibility::hoi3::content::TechnologyDeclareResult::Frozen
         && definitions.Technologies().ResolveReferences({}, {}, {}, {})
-            == dillen::content::TechnologyResolveResult::Frozen;
+            == dillen::compatibility::hoi3::content::TechnologyResolveResult::Frozen;
 
     std::error_code cleanupError;
     fs::remove_all(root, cleanupError);

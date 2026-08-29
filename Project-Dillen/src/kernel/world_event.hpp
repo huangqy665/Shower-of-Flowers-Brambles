@@ -8,11 +8,16 @@
 #include "mechanism_change.hpp"
 #include "world_transaction.hpp"
 
+namespace dillen::persistence {
+class RuntimePersistenceService;
+}
+
 namespace dillen::kernel {
 
 struct WorldTransactionCommittedEvent
 {
     std::size_t changedInstances = 0;
+    std::size_t changedObjects = 0;
 };
 
 struct WorldTransactionRejectedEvent
@@ -22,14 +27,28 @@ struct WorldTransactionRejectedEvent
     MechanismTransactionStatus mechanismStatus =
         MechanismTransactionStatus::Committed;
     std::size_t commandIndex = 0;
+    std::uint64_t subject = 0;
     MechanismInstanceId target;
 };
 
 using WorldEventPayload = std::variant<
     WorldTransactionCommittedEvent,
     WorldTransactionRejectedEvent,
+    EntityCreatedChange,
+    ComponentAttachedChange,
+    ComponentFieldChange,
+    RelationAddedChange,
+    RelationRemovedChange,
+    MechanismSpawnedChange,
     MechanismFieldChange,
-    MechanismLifecycleChange
+    MechanismLifecycleChange,
+    MechanismAlgorithmInitializedChange,
+    MechanismAlgorithmFaultChange,
+    MechanismDestroyedChange,
+    ScheduledEventAddedChange,
+    ScheduledEventCancelledChange,
+    RngStreamCreatedChange,
+    RngStreamAdvancedChange
 >;
 
 struct WorldEvent
@@ -55,6 +74,8 @@ public:
     const std::vector<WorldEvent>& Pending() const noexcept;
 
 private:
+    friend class persistence::RuntimePersistenceService;
+
     void Publish(
         std::uint64_t tick,
         std::uint64_t transactionSequence,

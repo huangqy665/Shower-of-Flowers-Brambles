@@ -1,0 +1,40 @@
+#Decay applied after technology stage (use it for balancing theory/practice gain simulation)
+theory_decay_months = 22
+practice_decay_months = 28
+extra_practice_decay =
+{
+	# Extra decay per technology category. It's a multiplier for practice_decay_months
+	construction_practical = 1.8
+}
+
+
+#Scale each unit IC*Days cost in custom game mode.
+unit_cost_mult =
+{
+	hq_brigade = 0.25
+}
+
+#Officers ratio that one will get after the end of CGM setup.
+#Also extra officers are added from deployment templates.
+officers_ratio = 1.0
+
+#Setup buildings that are allowed to decrease the level 
+#to lower then default.
+destroyable_buildings =
+{
+	air_base = yes
+	naval_base = yes
+	coastal_fort = yes
+	land_fort = yes
+	anti_air = yes
+	radar_station = yes
+	underground = yes
+	nuclear_reactor = yes
+	rocket_test = yes
+	industry = yes
+
+	#It's so many infra at startup, that it's an exploit
+	#allowing to destroy all infra in the country and get
+	#insane amount of points for that.
+	infra = no
+}

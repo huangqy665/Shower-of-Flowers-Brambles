@@ -1,0 +1,144 @@
+tutorial =
+{
+	title = "TUTORIAL_6"
+	desc = "TUTORIAL_6_DESC"
+	tutorial_window = "TUTORIAL_WINDOW_1"	# default window
+	exclusive = yes
+	country = GER
+	
+	page =
+	{
+		
+		
+		tutorial_window_position = { -250 -130 }
+		tutorial_window = "TUTORIAL_WINDOW_1"
+		text1 = "tut_6a_1"
+		text2 = "tut_6a_2"
+
+		goto = 235
+		zoom = 100
+		
+		window = "tutorial_marker_ul"
+		window_position = { 707 20 }
+		window_size = {112 40}
+
+		window = "tutorial_arrow_up_ul"
+		window_position = { 747 50 }	
+	}
+	
+	page =
+	{
+		domestic_panel = "intel"
+		
+		
+		tutorial_window_position = { -180 -260 }
+		tutorial_window = "TUTORIAL_WINDOW_2"
+		text1 = "tut_6a_3"
+		text2 = "tut_6a_4"
+
+		goto = 235
+		zoom = 100
+		
+		window = "tutorial_marker_c"
+		window_position = { -510 -280 }
+		window_size = {320 284}	
+
+		window = "tutorial_arrow_down_c"
+		window_position = { -300 -310 }	
+	}
+	
+	page =
+	{
+		
+		
+		tutorial_window_position = { -180 -100 }
+		tutorial_window = "TUTORIAL_WINDOW_2"
+		text1 = "tut_6a_5"
+		text2 = "tut_6a_6"
+
+		goto = 235
+		zoom = 100
+		
+		window = "tutorial_marker_c"
+		window_position = { -510 -6 }
+		window_size = {325 380 }
+
+		window = "tutorial_arrow_down_c"
+		window_position = { -300 -120 }	
+	}
+	
+	page =
+	{
+		
+		
+		tutorial_window_position = { -480 -130 }
+		tutorial_window = "TUTORIAL_WINDOW_1"
+		text1 = "tut_6a_7"
+		text2 = "tut_6a_8"
+
+		goto = 235
+		zoom = 100
+		
+		window = "tutorial_marker_c"
+		window_position = { 8 -270 }
+		window_size = {500 650}
+
+		window = "tutorial_arrow_down_c"
+		window_position = { 200 -300 }		
+	}
+	
+	page =
+	{
+		
+		
+		tutorial_window_position = { 10 -230 }
+		tutorial_window = "TUTORIAL_WINDOW_1"
+		text1 = "tut_6a_9"
+		text2 = "tut_6a_10"
+
+		goto = 235
+		zoom = 100
+		
+		window = "tutorial_marker_c"
+		window_position = { -190 -280 }
+		window_size = {210 290}
+
+		window = "tutorial_arrow_down_c"
+		window_position = { -100 -310 }	
+	}
+	
+	page =
+	{
+		
+		
+		tutorial_window_position = { 10 0 }
+		tutorial_window = "TUTORIAL_WINDOW_1"
+		text1 = "tut_6a_11"
+		text2 = "tut_6a_12"
+
+		goto = 235
+		zoom = 100
+		
+		window = "tutorial_marker_c"
+		window_position = { -190 0 }
+		window_size = {210 370}
+
+		window = "tutorial_arrow_down_c"
+		window_position = { -100 -30 }	
+	}
+	
+	page =
+	{
+		
+		
+		tutorial_window_position = { -250 -130 }
+		tutorial_window = "TUTORIAL_WINDOW_1"
+		text1 = "tut_6a_13"
+		text2 = "tut_6a_14"
+
+		goto = 235
+		zoom = 100
+		
+	}
+	
+}

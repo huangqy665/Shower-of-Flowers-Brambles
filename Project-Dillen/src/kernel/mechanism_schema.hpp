@@ -49,5 +49,6 @@ bool MechanismValueMatchesSchema(
     const MechanismFieldSchema& schema,
     const MechanismValue& value
 );
+bool IsValidMechanismFieldSchema(const MechanismFieldSchema& field);
 
 }

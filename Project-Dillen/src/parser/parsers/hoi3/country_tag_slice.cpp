@@ -33,9 +33,9 @@ std::string ResolveDefinitionPath(
 }
 
 bool DeclareCountryTags(
-    AnalysisWorkspace& workspace,
+    ParseWorkspace& workspace,
     DiagnosticBag& diagnostics,
-    content::DefinitionRegistry& definitions
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     for (const ParsedFile& file : workspace.files)
@@ -59,7 +59,7 @@ bool DeclareCountryTags(
         for (const CountryTagDeclaration& declaration
             : document->declarations)
         {
-            const content::CountryTagDefinition* previous =
+            const dillen::compatibility::hoi3::content::CountryTagDefinition* previous =
                 definitions.Countries().Find(declaration.tag);
             if (previous != nullptr)
             {
@@ -76,7 +76,7 @@ bool DeclareCountryTags(
                 continue;
             }
 
-            content::CountryTagDefinition definition;
+            dillen::compatibility::hoi3::content::CountryTagDefinition definition;
             definition.tag = declaration.tag;
             definition.id = declaration.tag.StableId();
             definition.declaredPath = declaration.declaredPath;
@@ -90,9 +90,9 @@ bool DeclareCountryTags(
             definition.origin.line = declaration.tagSpan.begin.line;
             definition.origin.column = declaration.tagSpan.begin.column;
 
-            const content::CountryDeclareResult result =
+            const dillen::compatibility::hoi3::content::CountryDeclareResult result =
                 definitions.Countries().Declare(std::move(definition));
-            if (result != content::CountryDeclareResult::Added)
+            if (result != dillen::compatibility::hoi3::content::CountryDeclareResult::Added)
             {
                 diagnostics.Error(
                     "hoi3.country_tag.declare_failed",
@@ -110,8 +110,8 @@ bool DeclareCountryTags(
 bool RegisterCountryTagSlice(
     TemplateRegistry& templates,
     ParserRegistry& parsers,
-    Analyzer& analyzer,
-    content::DefinitionRegistry& definitions
+    Resolver& resolver,
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     FileTemplate fileTemplate;
@@ -139,18 +139,18 @@ bool RegisterCountryTagSlice(
         return false;
     }
 
-    AnalysisPassDescriptor pass;
+    ResolutionPassDescriptor pass;
     pass.id = kCountryTagDeclarePass;
     pass.name = "hoi3_country_tag_declare";
-    pass.phase = AnalysisPhase::Declare;
+    pass.phase = ResolutionPhase::Declare;
     pass.priority = -1000;
     pass.run = [&definitions](
-        AnalysisWorkspace& workspace,
+        ParseWorkspace& workspace,
         DiagnosticBag& diagnostics)
     {
         return DeclareCountryTags(workspace, diagnostics, definitions);
     };
-    if (!analyzer.RegisterPass(std::move(pass)))
+    if (!resolver.RegisterPass(std::move(pass)))
     {
         parsers.Unregister(kCountryTagParser);
         templates.Unregister(kCountryTagTemplate);

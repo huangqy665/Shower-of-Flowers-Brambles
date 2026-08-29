@@ -14,10 +14,16 @@
       <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\Debug\country_definition_slice_probe.exe</FullPath>
     </ProjectOutput>
     <ProjectOutput>
+      <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\Debug\country_history_slice_probe.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
       <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\Debug\country_tag_slice_probe.exe</FullPath>
     </ProjectOutput>
     <ProjectOutput>
       <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\Debug\declarative_gui_plugin_probe.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\Debug\diplomacy_history_slice_probe.exe</FullPath>
     </ProjectOutput>
     <ProjectOutput>
       <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\Debug\engine_registry_probe.exe</FullPath>
@@ -101,6 +107,18 @@
       <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\Debug\leader_capture_core_module_probe.exe</FullPath>
     </ProjectOutput>
     <ProjectOutput>
+      <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\Debug\mechanism_instance_store_probe.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\Debug\mechanism_registry_probe.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\Debug\mechanism_runtime_pipeline_probe.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\Debug\mechanism_transaction_probe.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
       <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\Debug\native_effect_bridge_probe.exe</FullPath>
     </ProjectOutput>
     <ProjectOutput>
@@ -119,19 +137,46 @@
       <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\Debug\new_core_launcher_probe.exe</FullPath>
     </ProjectOutput>
     <ProjectOutput>
+      <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\Debug\order_of_battle_slice_probe.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
       <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\Debug\parser_pipeline_probe.exe</FullPath>
     </ProjectOutput>
     <ProjectOutput>
       <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\Debug\parser_syntax_probe.exe</FullPath>
     </ProjectOutput>
     <ProjectOutput>
+      <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\Debug\province_history_slice_probe.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\Debug\province_region_slice_probe.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
       <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\Debug\reverse_probe_framework_probe.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\Debug\scenario_launch_pipeline_probe.exe</FullPath>
     </ProjectOutput>
     <ProjectOutput>
       <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\src\launcher\Debug\scripted_gui_injector.exe</FullPath>
     </ProjectOutput>
     <ProjectOutput>
       <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\src\dll\Debug\hoi3_new_core.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\Debug\technology_slice_probe.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\Debug\unit_model_slice_probe.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\Debug\unit_type_slice_probe.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\Debug\war_history_slice_probe.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\tests\Debug\world_builder_probe.exe</FullPath>
     </ProjectOutput>
     <ProjectOutput>
       <FullPath>D:\80th_special_version\Shower-of-Flowers-Brambles\Project-Dillen\build-parser\Debug\ALL_BUILD</FullPath>

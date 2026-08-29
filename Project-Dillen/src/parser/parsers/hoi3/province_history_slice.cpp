@@ -76,12 +76,12 @@ SourceSpan DocumentSpan(const ProvinceHistoryDocument& document)
     return {};
 }
 
-content::DefinitionOrigin MakeOrigin(
+dillen::compatibility::hoi3::content::DefinitionOrigin MakeOrigin(
     const ParsedFile& file,
     const SourceSpan& span
 )
 {
-    content::DefinitionOrigin origin;
+    dillen::compatibility::hoi3::content::DefinitionOrigin origin;
     origin.virtualPath = std::string(file.source.VirtualPath());
     origin.sourceLayer = file.catalog.sourceLayerName;
     origin.line = span.IsValid() ? span.begin.line : 1;
@@ -89,9 +89,9 @@ content::DefinitionOrigin MakeOrigin(
     return origin;
 }
 
-bool IsCountryField(content::ProvinceHistoryField field)
+bool IsCountryField(dillen::compatibility::hoi3::content::ProvinceHistoryField field)
 {
-    using content::ProvinceHistoryField;
+    using dillen::compatibility::hoi3::content::ProvinceHistoryField;
     return field == ProvinceHistoryField::Owner
         || field == ProvinceHistoryField::Controller
         || field == ProvinceHistoryField::AddCore
@@ -101,10 +101,10 @@ bool IsCountryField(content::ProvinceHistoryField field)
 bool ResolveOperation(
     const ParsedFile& file,
     const UnresolvedProvinceHistoryOperation& unresolved,
-    content::DefinitionRegistry& definitions,
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions,
     std::unordered_set<std::uint32_t>& reportedCountryTags,
     DiagnosticBag& diagnostics,
-    content::ProvinceHistoryOperation& output
+    dillen::compatibility::hoi3::content::ProvinceHistoryOperation& output
 )
 {
     output.field = unresolved.field;
@@ -116,7 +116,7 @@ bool ResolveOperation(
         );
         const auto tag = text == nullptr
             ? std::nullopt
-            : content::CountryTag::Parse(*text);
+            : dillen::compatibility::hoi3::content::CountryTag::Parse(*text);
         if (!tag)
         {
             diagnostics.Error(
@@ -126,7 +126,7 @@ bool ResolveOperation(
             );
             return false;
         }
-        const content::CountryDefinitionId id = tag->StableId();
+        const dillen::compatibility::hoi3::content::CountryDefinitionId id = tag->StableId();
         if (definitions.Countries().Find(id) == nullptr
             && reportedCountryTags.emplace(id.value).second)
         {
@@ -166,9 +166,9 @@ bool ResolveOperation(
 }
 
 bool ResolveProvinceHistories(
-    AnalysisWorkspace& workspace,
+    ParseWorkspace& workspace,
     DiagnosticBag& diagnostics,
-    content::DefinitionRegistry& definitions
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     std::unordered_set<std::uint32_t> reportedCountryTags;
@@ -248,7 +248,7 @@ bool ResolveProvinceHistories(
             continue;
         }
 
-        content::ProvinceHistorySource source;
+        dillen::compatibility::hoi3::content::ProvinceHistorySource source;
         source.origin = MakeOrigin(file, documentSpan);
         bool resolved = true;
         source.initialOperations.reserve(
@@ -257,7 +257,7 @@ bool ResolveProvinceHistories(
         for (const UnresolvedProvinceHistoryOperation& operation
             : document->initialOperations)
         {
-            content::ProvinceHistoryOperation value;
+            dillen::compatibility::hoi3::content::ProvinceHistoryOperation value;
             resolved = ResolveOperation(
                 file,
                 operation,
@@ -272,14 +272,14 @@ bool ResolveProvinceHistories(
         for (const UnresolvedProvinceHistoryPatch& unresolvedPatch
             : document->patches)
         {
-            content::ProvinceHistoryPatch patch;
+            dillen::compatibility::hoi3::content::ProvinceHistoryPatch patch;
             patch.date = unresolvedPatch.date;
             patch.origin = MakeOrigin(file, unresolvedPatch.span);
             patch.operations.reserve(unresolvedPatch.operations.size());
             for (const UnresolvedProvinceHistoryOperation& operation
                 : unresolvedPatch.operations)
             {
-                content::ProvinceHistoryOperation value;
+                dillen::compatibility::hoi3::content::ProvinceHistoryOperation value;
                 resolved = ResolveOperation(
                     file,
                     operation,
@@ -297,12 +297,12 @@ bool ResolveProvinceHistories(
             continue;
         }
 
-        const content::ProvinceHistoryAppendResult appendResult =
+        const dillen::compatibility::hoi3::content::ProvinceHistoryAppendResult appendResult =
             definitions.ProvinceHistories().Append(
                 {*provinceId},
                 std::move(source)
             );
-        if (appendResult == content::ProvinceHistoryAppendResult::Merged)
+        if (appendResult == dillen::compatibility::hoi3::content::ProvinceHistoryAppendResult::Merged)
         {
             diagnostics.Warning(
                 "hoi3.province_history.duplicate_source_merged",
@@ -313,7 +313,7 @@ bool ResolveProvinceHistories(
             );
         }
         else if (appendResult
-            != content::ProvinceHistoryAppendResult::Added)
+            != dillen::compatibility::hoi3::content::ProvinceHistoryAppendResult::Added)
         {
             diagnostics.Error(
                 "hoi3.province_history.append_failed",
@@ -330,8 +330,8 @@ bool ResolveProvinceHistories(
 bool RegisterProvinceHistorySlice(
     TemplateRegistry& templates,
     ParserRegistry& parsers,
-    Analyzer& analyzer,
-    content::DefinitionRegistry& definitions
+    Resolver& resolver,
+    dillen::compatibility::hoi3::content::DefinitionRegistry& definitions
 )
 {
     FileTemplate fileTemplate;
@@ -359,13 +359,13 @@ bool RegisterProvinceHistorySlice(
         return false;
     }
 
-    AnalysisPassDescriptor pass;
+    ResolutionPassDescriptor pass;
     pass.id = kProvinceHistoryResolvePass;
     pass.name = "hoi3_province_history_resolve";
-    pass.phase = AnalysisPhase::Resolve;
+    pass.phase = ResolutionPhase::Resolve;
     pass.priority = -1800;
     pass.run = [&definitions](
-        AnalysisWorkspace& workspace,
+        ParseWorkspace& workspace,
         DiagnosticBag& diagnostics)
     {
         return ResolveProvinceHistories(
@@ -374,7 +374,7 @@ bool RegisterProvinceHistorySlice(
             definitions
         );
     };
-    if (!analyzer.RegisterPass(std::move(pass)))
+    if (!resolver.RegisterPass(std::move(pass)))
     {
         parsers.Unregister(kProvinceHistoryParser);
         templates.Unregister(kProvinceHistoryTemplate);

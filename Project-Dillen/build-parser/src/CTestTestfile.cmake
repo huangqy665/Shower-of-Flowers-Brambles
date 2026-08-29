@@ -4,13 +4,16 @@
 # 
 # This file includes the relevant testing commands required for 
 # testing this directory and lists subdirectories to be tested as well.
+subdirs("kernel")
+subdirs("world")
+subdirs("runtime")
+subdirs("parser")
+subdirs("compatibility/hoi3/content")
+subdirs("parser/parsers/hoi3")
+subdirs("compatibility/hoi3/worldbuilder")
 subdirs("engine")
 subdirs("core")
 subdirs("native")
-subdirs("kernel")
-subdirs("content")
-subdirs("parser")
-subdirs("worldbuilder")
 subdirs("hoi3")
 subdirs("leader_capture")
 subdirs("gui")

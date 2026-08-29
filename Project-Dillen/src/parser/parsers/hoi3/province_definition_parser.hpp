@@ -12,7 +12,7 @@ namespace dillen::parser::hoi3 {
 
 struct ProvinceDefinitionDocument
 {
-    std::vector<content::ProvinceDefinition> definitions;
+    std::vector<dillen::compatibility::hoi3::content::ProvinceDefinition> definitions;
     std::size_t paletteRowCount = 0;
     std::size_t compatibilityWrappedRowCount = 0;
 };

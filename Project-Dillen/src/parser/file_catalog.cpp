@@ -62,6 +62,32 @@ bool ReadFileBytes(
     return stream.good() || stream.eof();
 }
 
+bool ReadSource(
+    const CatalogFile& file,
+    SourceId sourceId,
+    SourceBuffer& output,
+    DiagnosticBag& diagnostics
+)
+{
+    std::string bytes;
+    if (!ReadFileBytes(file.physicalPath, bytes))
+    {
+        diagnostics.Error(
+            "file_catalog.source_read_failed",
+            "could not read " + file.physicalPath.u8string()
+        );
+        return false;
+    }
+    output = SourceBuffer(
+        sourceId,
+        file.virtualPath,
+        file.physicalPath.u8string(),
+        std::move(bytes),
+        file.encoding
+    );
+    return true;
+}
+
 bool IncludedByLayer(
     const SourceLayer& layer,
     std::string_view relativePath
@@ -114,6 +140,11 @@ const SourceLayer* FindLayer(
 FileCatalog::FileCatalog(CatalogOptions options)
     : options_(options)
 {
+}
+
+void ParseWorkspace::Clear()
+{
+    files.clear();
 }
 
 bool FileCatalog::AddLayer(SourceLayer layer)
@@ -382,6 +413,59 @@ bool FileCatalog::Build(
 
     built_ = true;
     return !diagnostics.HasErrors();
+}
+
+bool FileCatalog::Parse(
+    const ParserRegistry& parsers,
+    ParseWorkspace& workspace,
+    DiagnosticBag& diagnostics
+) const
+{
+    workspace.Clear();
+    if (!built_)
+    {
+        diagnostics.Fatal(
+            "file_catalog.not_built",
+            "file catalog must be built before parsing"
+        );
+        return false;
+    }
+    if (!parsers.IsFrozen())
+    {
+        diagnostics.Fatal(
+            "file_catalog.parsers_not_frozen",
+            "parser registry must be frozen before parsing"
+        );
+        return false;
+    }
+
+    workspace.files.reserve(ActiveClassifiedFileCount());
+    SourceId nextSource = 1;
+    bool succeeded = true;
+    for (const CatalogFile& file : files_)
+    {
+        if (file.disposition != CatalogDisposition::Active || !file.match)
+        {
+            continue;
+        }
+
+        ParsedFile parsed;
+        parsed.catalog = file;
+        if (!ReadSource(file, nextSource++, parsed.source, diagnostics))
+        {
+            succeeded = false;
+            continue;
+        }
+        workspace.files.push_back(std::move(parsed));
+        ParsedFile& stored = workspace.files.back();
+        stored.result = parsers.Parse(
+            stored.source,
+            *stored.catalog.match,
+            diagnostics
+        );
+        succeeded = stored.result.success && succeeded;
+    }
+    return succeeded && !diagnostics.HasErrors();
 }
 
 bool FileCatalog::IsBuilt() const noexcept
