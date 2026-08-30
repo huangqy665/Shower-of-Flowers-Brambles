@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  standalone-windows-x64:
+    name: Pure Dillen standalone (Windows, MSVC x64)
+    runs-on: windows-2022
+    defaults:
+      run:
+        working-directory: Project-Dillen
+    steps:
+      - name: Checkout (engine tree only)
+        uses: actions/checkout@v4
+        with:
+          # Skip the large reference repo and mod-content directories.
+          sparse-checkout: Project-Dillen
+
+      - name: Configure
+        run: cmake --preset dillen-standalone-windows-x64
+
+      - name: Build
+        run: cmake --build --preset dillen-standalone-windows-x64-debug
+
+      - name: Test
+        run: ctest --preset dillen-standalone-windows-x64-debug --output-on-failure
+
+  standalone-linux:
+    name: Pure Dillen standalone (Linux, ${{ matrix.cc }})
+    runs-on: ubuntu-24.04
+    # Cross-platform support is not finished (memo section 4.6). This job is
+    # expected to fail until the non-MSVC port lands; it runs so the gap stays
+    # visible on every push without blocking the merge.
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - cc: gcc
+            cxx: g++
+          - cc: clang
+            cxx: clang++
+    defaults:
+      run:
+        working-directory: Project-Dillen
+    steps:
+      - name: Checkout (engine tree only)
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: Project-Dillen
+
+      - name: Install Ninja
+        run: sudo apt-get update && sudo apt-get install -y ninja-build
+
+      - name: Configure
+        env:
+          CC: ${{ matrix.cc }}
+          CXX: ${{ matrix.cxx }}
+        run: >
+          cmake -S . -B build-linux -G Ninja
+          -D CMAKE_BUILD_TYPE=Debug
+          -D BUILD_TESTING=ON
+          -D DILLEN_BUILD_STANDALONE_RUNTIME=ON
+          -D DILLEN_BUILD_HOI3_COMPATIBILITY=OFF
+          -D DILLEN_BUILD_HOI3_ORACLE=OFF
+
+      - name: Build
+        run: cmake --build build-linux
+
+      - name: Test
+        run: ctest --test-dir build-linux --output-on-failure
