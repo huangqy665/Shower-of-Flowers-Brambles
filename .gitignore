@@ -23,6 +23,13 @@ CMakeUserPresets.json
 .idea/
 
 # ─────────────────────────────────────────────────────────────
+# Per-developer agent/tool settings (the shared .claude/ config, if any,
+# is committed; the *.local.json overlay never is)
+# ─────────────────────────────────────────────────────────────
+.claude/settings.local.json
+.claude/*.local.json
+
+# ─────────────────────────────────────────────────────────────
 # OS cruft
 # ─────────────────────────────────────────────────────────────
 .DS_Store

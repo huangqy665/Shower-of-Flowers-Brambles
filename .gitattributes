@@ -1,0 +1,70 @@
+# Normalize to LF inside the repository; let Git decide the working-tree form
+# for ordinary text. Anything below that overrides this does so deliberately.
+* text=auto
+
+# ─────────────────────────────────────────────────────────────
+# Dillen authoring sources -- ALWAYS LF in the working tree.
+#
+# This is a correctness requirement, not style. A Package's `content_digest`
+# is a SHA-256 over the raw bytes of its source files
+# (kernel/package_content_digest.cpp). If a checkout on one platform produced
+# CRLF and another LF, the same commit would compute two different digests and
+# the Package would be rejected as tampered on one of them. Pinning eol=lf
+# makes the digest, the Source Lock fingerprint and the Ruleset Fingerprint
+# identical on every platform.
+# ─────────────────────────────────────────────────────────────
+*.dpackage    text eol=lf
+*.dcapability text eol=lf
+*.dcomponent  text eol=lf
+*.dentity     text eol=lf
+*.drelation   text eol=lf
+*.dmechanism  text eol=lf
+*.dalgorithm  text eol=lf
+*.ddefinition text eol=lf
+*.dspawn      text eol=lf
+*.druleset    text eol=lf
+
+# Command streams are read by the CLI and compared in probes.
+*.txt         text eol=lf
+
+# ─────────────────────────────────────────────────────────────
+# Source and project files
+# ─────────────────────────────────────────────────────────────
+*.c      text
+*.cc     text
+*.cpp    text
+*.h      text
+*.hpp    text
+*.cmake  text
+*.md     text
+*.yml    text
+*.yaml   text
+*.json   text
+CMakeLists.txt text
+CMakePresets.json text
+
+# Shell scripts must stay LF or they will not execute.
+*.sh     text eol=lf
+
+# Windows-only scripts stay CRLF.
+*.bat    text eol=crlf
+*.cmd    text eol=crlf
+*.ps1    text eol=crlf
+
+# ─────────────────────────────────────────────────────────────
+# Binary -- never convert, never diff
+# ─────────────────────────────────────────────────────────────
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.gif    binary
+*.ico    binary
+*.pdf    binary
+*.zip    binary
+*.7z     binary
+*.dll    binary
+*.exe    binary
+*.lib    binary
+*.pdb    binary
+*.bin    binary
+*.dat    binary

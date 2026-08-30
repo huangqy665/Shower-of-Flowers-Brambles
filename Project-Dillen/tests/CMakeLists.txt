@@ -10,6 +10,7 @@ function(dillen_add_probe target)
 endfunction()
 
 if(DILLEN_BUILD_STANDALONE_RUNTIME)
+    dillen_add_probe(architecture_guard_probe)
     dillen_add_probe(mechanism_ids_probe dillen::kernel)
     dillen_add_probe(mechanism_registry_probe dillen::kernel)
     dillen_add_probe(ruleset_composition_probe dillen::kernel)

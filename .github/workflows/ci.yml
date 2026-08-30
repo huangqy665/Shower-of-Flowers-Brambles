@@ -35,10 +35,11 @@ jobs:
   standalone-linux:
     name: Pure Dillen standalone (Linux, ${{ matrix.cc }})
     runs-on: ubuntu-24.04
-    # Cross-platform support is not finished (memo section 4.6). This job is
-    # expected to fail until the non-MSVC port lands; it runs so the gap stays
-    # visible on every push without blocking the merge.
-    continue-on-error: true
+    # Blocking gate as of 2026-08-30. Verified locally under WSL Ubuntu 24.04
+    # with the same toolchain versions this image ships (GCC 13.3, Clang 18.1,
+    # CMake 3.28, Ninja 1.11): both compilers build clean and all 19 probes
+    # pass. Keeping this blocking is what stops the Package `content_digest`
+    # from silently diverging between platforms again -- see .gitattributes.
     strategy:
       fail-fast: false
       matrix:
