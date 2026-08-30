@@ -1,6 +1,7 @@
 #include "kernel_runtime.hpp"
 
 #include <iterator>
+#include <optional>
 #include <utility>
 
 #include "world_transaction_executor.hpp"
@@ -393,12 +394,115 @@ std::vector<kernel::WorldEvent> KernelRuntime::DrainEvents()
     return events_.Drain();
 }
 
+bool KernelRuntime::TryApplyAlgorithmReportBatched(
+    AlgorithmStageReport& report,
+    std::uint64_t currentTick,
+    AlgorithmCommitMode mode
+)
+{
+    // Any failed invocation needs ApplyAlgorithmFault, which commits its own
+    // transaction and reads the republished snapshot. Leave the whole stage to
+    // the per-transaction path rather than model that here.
+    for (const AlgorithmInvocationResult& invocation : report.invocations)
+    {
+        if (!invocation)
+        {
+            return false;
+        }
+    }
+
+    // The batch is created lazily, on the first invocation that actually has
+    // commands to apply. A stage whose invocations all produce empty
+    // transactions must stay a complete no-op -- no store copy, no sequence,
+    // no snapshot publication -- exactly as the per-transaction path is.
+    std::optional<world::WorldTransactionBatch> batch;
+    std::vector<kernel::WorldTransactionResult> committed;
+    committed.reserve(report.invocations.size());
+    for (const AlgorithmInvocationResult& invocation : report.invocations)
+    {
+        // Availability and isolation are read from the batch's working copies
+        // once it exists, since those already reflect every transaction
+        // applied earlier in this stage -- which is what the per-transaction
+        // path gets from republishing the Query Snapshot after each commit.
+        // Before the first Apply the published snapshot is still in sync with
+        // the authoritative world, so it answers the same question.
+        const kernel::MechanismInstance* current = batch
+            ? batch->Mechanisms().Find(invocation.target)
+            : querySnapshot_->Mechanisms().Find(invocation.target);
+        if (current == nullptr || current->algorithmFault.isolated)
+        {
+            return false;
+        }
+        kernel::WorldTransaction transaction = invocation.transaction;
+        if (mode == AlgorithmCommitMode::CompleteCreate
+            && invocation.status == AlgorithmInvocationStatus::Completed)
+        {
+            transaction.commands.push_back(kernel::WorldCommand::Mechanism(
+                kernel::MechanismCommand::CompleteAlgorithmCreate(
+                    invocation.target
+                )
+            ));
+        }
+        else if (mode == AlgorithmCommitMode::DestroyInstance
+            && invocation.status == AlgorithmInvocationStatus::Completed)
+        {
+            transaction.commands.push_back(kernel::WorldCommand::Mechanism(
+                kernel::MechanismCommand::Destroy(invocation.target)
+            ));
+        }
+        if (transaction.commands.empty())
+        {
+            continue;
+        }
+        if (!batch)
+        {
+            batch.emplace(world_, catalog_, currentTick);
+            if (!batch->IsOpen())
+            {
+                return false;
+            }
+        }
+        kernel::WorldTransactionResult result = batch->Apply(transaction);
+        if (!result)
+        {
+            return false;
+        }
+        committed.push_back(std::move(result));
+    }
+
+    if (committed.empty())
+    {
+        return true;
+    }
+    batch->Commit();
+    // Sequence reservation and result publication are deferred to here so a
+    // discarded batch consumes no sequence numbers: the values handed out are
+    // the same ones, in the same order, the per-transaction path would use.
+    for (const kernel::WorldTransactionResult& result : committed)
+    {
+        const std::uint64_t sequence = commands_.ReserveSequence();
+        events_.PublishTransactionResult(currentTick, sequence, result);
+        if (result.Changed())
+        {
+            ++world_.revision_;
+        }
+    }
+    CaptureAlgorithmEvents();
+    world_.tick_ = currentTick;
+    PublishSnapshots();
+    return true;
+}
+
 void KernelRuntime::ApplyAlgorithmReport(
     AlgorithmStageReport& report,
     std::uint64_t currentTick,
     AlgorithmCommitMode mode
 )
 {
+    if (TryApplyAlgorithmReportBatched(report, currentTick, mode))
+    {
+        return;
+    }
     for (AlgorithmInvocationResult& invocation : report.invocations)
     {
         const kernel::MechanismInstance* current =

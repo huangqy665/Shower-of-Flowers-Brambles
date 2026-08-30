@@ -79,6 +79,20 @@ private:
         std::uint64_t currentTick,
         AlgorithmCommitMode mode
     );
+    // Optimistic phase-batched commit: applies every invocation's transaction
+    // to a single working copy of the world and publishes one snapshot for the
+    // whole stage, instead of one copy + one snapshot per invocation.
+    // Returns false without touching the world, the command sequence, the
+    // event queue or any invocation record when anything in the stage is not
+    // on the clean path (a failed invocation, a target destroyed or isolated
+    // mid-stage, a rejected transaction). The caller then runs the
+    // per-transaction path for the whole stage, so observable behaviour in
+    // those cases is exactly what it was before batching existed.
+    bool TryApplyAlgorithmReportBatched(
+        AlgorithmStageReport& report,
+        std::uint64_t currentTick,
+        AlgorithmCommitMode mode
+    );
     void ApplyAlgorithmFault(
         AlgorithmInvocationResult& invocation,
         std::uint64_t currentTick

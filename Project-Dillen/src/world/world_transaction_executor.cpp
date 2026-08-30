@@ -99,39 +99,26 @@ bool IsMechanismInstanceReferenced(
     return false;
 }
 
-}
-
-kernel::WorldTransactionResult WorldTransactionExecutor::Apply(
-    AuthoritativeWorld& world,
+// The whole per-command engine, operating on caller-owned working copies of the
+// six authoritative stores. On success the copies hold the new state; on any
+// failure they are left in a partially-mutated state that the caller must
+// discard rather than publish. Both the single-transaction executor (which owns
+// fresh copies per call) and WorldTransactionBatch (which owns one set for many
+// transactions) route through here, so there is exactly one implementation of
+// transaction semantics.
+kernel::WorldTransactionResult ApplyToStores(
+    EntityRegistry& entities,
+    ComponentStore& components,
+    RelationIndex& relations,
+    kernel::MechanismInstanceStore& mechanisms,
+    kernel::AlgorithmInbox& algorithmInbox,
+    kernel::DeterministicRngRegistry& rngStreams,
     const kernel::WorldTransaction& transaction,
     const kernel::FrozenRuntimeCatalog& catalog,
     std::uint64_t currentTick
-) const
+)
 {
     using namespace kernel;
-    if (!catalog.IsFrozen())
-    {
-        return Failure(
-            WorldTransactionStatus::RuntimeCatalogNotFrozen,
-            0,
-            0
-        );
-    }
-    if (currentTick < world.tick_)
-    {
-        return Failure(
-            WorldTransactionStatus::TickRegression,
-            0,
-            0
-        );
-    }
-
-    EntityRegistry entities = world.entities_;
-    ComponentStore components = world.components_;
-    RelationIndex relations = world.relations_;
-    MechanismInstanceStore mechanisms = world.mechanisms_;
-    AlgorithmInbox algorithmInbox = world.algorithmInbox_;
-    DeterministicRngRegistry rngStreams = world.rngStreams_;
     WorldTransactionResult result;
     result.mechanism.status = MechanismTransactionStatus::Committed;
     std::set<MechanismInstanceId> changedMechanisms;
@@ -579,6 +566,52 @@ kernel::WorldTransactionResult WorldTransactionExecutor::Apply(
     result.commandIndex = transaction.commands.size();
     result.mechanism.commandIndex = transaction.commands.size();
     result.mechanism.changedInstances = changedMechanisms.size();
+    return result;
+}
+
+}
+
+kernel::WorldTransactionResult WorldTransactionExecutor::Apply(
+    AuthoritativeWorld& world,
+    const kernel::WorldTransaction& transaction,
+    const kernel::FrozenRuntimeCatalog& catalog,
+    std::uint64_t currentTick
+) const
+{
+    using namespace kernel;
+    if (!catalog.IsFrozen())
+    {
+        return Failure(WorldTransactionStatus::RuntimeCatalogNotFrozen, 0, 0);
+    }
+    if (currentTick < world.tick_)
+    {
+        return Failure(WorldTransactionStatus::TickRegression, 0, 0);
+    }
+
+    EntityRegistry entities = world.entities_;
+    ComponentStore components = world.components_;
+    RelationIndex relations = world.relations_;
+    MechanismInstanceStore mechanisms = world.mechanisms_;
+    AlgorithmInbox algorithmInbox = world.algorithmInbox_;
+    DeterministicRngRegistry rngStreams = world.rngStreams_;
+
+    WorldTransactionResult result = ApplyToStores(
+        entities,
+        components,
+        relations,
+        mechanisms,
+        algorithmInbox,
+        rngStreams,
+        transaction,
+        catalog,
+        currentTick
+    );
+    if (!result)
+    {
+        // The working copies may be half-updated; drop them so the world keeps
+        // its pre-transaction state.
+        return result;
+    }
     world.entities_ = std::move(entities);
     world.components_ = std::move(components);
     world.relations_ = std::move(relations);
@@ -586,6 +619,87 @@ kernel::WorldTransactionResult WorldTransactionExecutor::Apply(
     world.algorithmInbox_ = std::move(algorithmInbox);
     world.rngStreams_ = std::move(rngStreams);
     return result;
+}
+
+WorldTransactionBatch::WorldTransactionBatch(
+    AuthoritativeWorld& world,
+    const kernel::FrozenRuntimeCatalog& catalog,
+    std::uint64_t currentTick
+)
+    : world_(world),
+      catalog_(catalog),
+      currentTick_(currentTick),
+      open_(catalog.IsFrozen() && currentTick >= world.tick_)
+{
+    if (!open_)
+    {
+        return;
+    }
+    entities_ = world.entities_;
+    components_ = world.components_;
+    relations_ = world.relations_;
+    mechanisms_ = world.mechanisms_;
+    algorithmInbox_ = world.algorithmInbox_;
+    rngStreams_ = world.rngStreams_;
+}
+
+bool WorldTransactionBatch::IsOpen() const noexcept
+{
+    return open_;
+}
+
+const kernel::MechanismInstanceStore&
+WorldTransactionBatch::Mechanisms() const noexcept
+{
+    return mechanisms_;
+}
+
+kernel::WorldTransactionResult WorldTransactionBatch::Apply(
+    const kernel::WorldTransaction& transaction
+)
+{
+    using namespace kernel;
+    if (!open_)
+    {
+        return Failure(WorldTransactionStatus::RuntimeCatalogNotFrozen, 0, 0);
+    }
+    // Applied straight to the working copies -- no per-transaction copy, which
+    // is the entire point of a batch. A rejected transaction may leave those
+    // copies half-updated, so the batch closes itself: no further transaction
+    // may be applied and Commit() becomes a no-op, leaving the authoritative
+    // world untouched by every transaction in the batch. The caller must then
+    // replay the phase through the per-transaction path.
+    WorldTransactionResult result = ApplyToStores(
+        entities_,
+        components_,
+        relations_,
+        mechanisms_,
+        algorithmInbox_,
+        rngStreams_,
+        transaction,
+        catalog_,
+        currentTick_
+    );
+    if (!result)
+    {
+        open_ = false;
+    }
+    return result;
+}
+
+void WorldTransactionBatch::Commit()
+{
+    if (!open_)
+    {
+        return;
+    }
+    world_.entities_ = std::move(entities_);
+    world_.components_ = std::move(components_);
+    world_.relations_ = std::move(relations_);
+    world_.mechanisms_ = std::move(mechanisms_);
+    world_.algorithmInbox_ = std::move(algorithmInbox_);
+    world_.rngStreams_ = std::move(rngStreams_);
+    open_ = false;
 }
 
 }

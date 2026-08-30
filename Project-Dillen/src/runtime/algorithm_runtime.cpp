@@ -269,40 +269,70 @@ AlgorithmStageReport AlgorithmRuntime::DispatchEvent(
 {
     AlgorithmStageReport report;
     const kernel::MechanismQuerySnapshot& snapshot = query.Mechanisms();
-    const auto dispatch = [this, &report, &query, &rng, tick](
-        const kernel::MechanismInstance& instance,
-        const kernel::WorldEvent* event,
-        const kernel::ScheduledAlgorithmEvent* scheduledEvent)
+    const auto eligible = [this](const kernel::MechanismInstance& instance)
     {
         if (!IsActiveAlgorithmInstance(instance)
             || HasContinuation(
                 instance,
                 kernel::AlgorithmEntryPoint::Event))
         {
-            return;
+            return false;
         }
         const kernel::AlgorithmDescriptor* descriptor =
             catalog_.FindAlgorithm(
                 instance.algorithm,
                 instance.algorithmVersion
             );
-        if (descriptor != nullptr
+        return descriptor != nullptr
             && kernel::HasAlgorithmEntryPoint(
                 descriptor->entryPoints,
-                kernel::AlgorithmEntryPoint::Event))
-        {
-            report.invocations.push_back(Invoke(
-                AlgorithmRuntimeStage::Event,
-                tick,
-                instance,
-                query,
-                rng,
-                event,
-                scheduledEvent,
-                nullptr
-            ));
-        }
+                kernel::AlgorithmEntryPoint::Event);
     };
+    const auto dispatch = [this, &report, &query, &rng, tick](
+        const kernel::MechanismInstance& instance,
+        const kernel::WorldEvent* event,
+        const kernel::ScheduledAlgorithmEvent* scheduledEvent)
+    {
+        report.invocations.push_back(Invoke(
+            AlgorithmRuntimeStage::Event,
+            tick,
+            instance,
+            query,
+            rng,
+            event,
+            scheduledEvent,
+            nullptr
+        ));
+    };
+
+    // Eligibility depends only on the immutable snapshot and the frozen
+    // catalog, so it is decided once instead of once per (event, instance)
+    // pair. Both broadcast loops below are O(events x instances); leaving the
+    // per-instance algorithm lookup inside them made a world with no Event
+    // stage at all still pay N^2 catalog probes per tick, which dominated the
+    // tick at four digits of instances (memo section 3.20). Snapshot order is
+    // preserved, so the invocation order is byte-identical to the per-pair
+    // filtering this replaces.
+    std::vector<const kernel::MechanismInstance*> broadcastTargets;
+    if (!events.empty()
+        || std::any_of(
+            scheduledEvents.begin(),
+            scheduledEvents.end(),
+            [](const kernel::ScheduledAlgorithmEvent& scheduled)
+            {
+                return !scheduled.target;
+            }))
+    {
+        broadcastTargets.reserve(snapshot.All().size());
+        for (const auto& entry : snapshot.All())
+        {
+            if (eligible(entry.second))
+            {
+                broadcastTargets.push_back(&entry.second);
+            }
+        }
+    }
+
     for (const kernel::ScheduledAlgorithmEvent& scheduled
         : scheduledEvents)
     {
@@ -311,22 +341,22 @@ AlgorithmStageReport AlgorithmRuntime::DispatchEvent(
             const kernel::MechanismInstance* target = snapshot.Find(
                 scheduled.target
             );
-            if (target != nullptr)
+            if (target != nullptr && eligible(*target))
             {
                 dispatch(*target, nullptr, &scheduled);
             }
             continue;
         }
-        for (const auto& entry : snapshot.All())
+        for (const kernel::MechanismInstance* instance : broadcastTargets)
         {
-            dispatch(entry.second, nullptr, &scheduled);
+            dispatch(*instance, nullptr, &scheduled);
         }
     }
     for (const kernel::WorldEvent& event : events)
     {
-        for (const auto& entry : snapshot.All())
+        for (const kernel::MechanismInstance* instance : broadcastTargets)
         {
-            dispatch(entry.second, &event, nullptr);
+            dispatch(*instance, &event, nullptr);
         }
     }
     return report;

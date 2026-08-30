@@ -20,6 +20,7 @@ class RuntimePersistenceService;
 namespace dillen::world {
 
 class WorldTransactionExecutor;
+class WorldTransactionBatch;
 
 class AuthoritativeWorld
 {
@@ -50,6 +51,7 @@ private:
     friend class runtime::KernelRuntime;
     friend class persistence::RuntimePersistenceService;
     friend class WorldTransactionExecutor;
+    friend class WorldTransactionBatch;
 
     EntityRegistry entities_;
     ComponentStore components_;
