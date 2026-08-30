@@ -1,0 +1,41 @@
+# ─────────────────────────────────────────────────────────────
+# Build output (CMake presets write build-*/ next to the source)
+# ─────────────────────────────────────────────────────────────
+build/
+build-*/
+cmake-build-*/
+out/
+CMakeUserPresets.json
+
+# ─────────────────────────────────────────────────────────────
+# Visual Studio / VS Code / JetBrains
+# ─────────────────────────────────────────────────────────────
+.vs/
+.vscode/*
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/settings.json
+*.user
+*.suo
+*.wsuo
+*.vsidx
+.idea/
+
+# ─────────────────────────────────────────────────────────────
+# OS cruft
+# ─────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─────────────────────────────────────────────────────────────
+# Local run / probe artifacts (regenerated, never build inputs)
+# ─────────────────────────────────────────────────────────────
+*.log
+/Project-Dillen/*.jsonl
+/Project-Dillen/reverse_probe_runtime.*
+/Project-Dillen/native_effect_live_probe.*
+/Project-Dillen/scripted_gui_overlay.*
+/Project-Dillen/new_core_runtime.*
+/Project-Dillen/-File
