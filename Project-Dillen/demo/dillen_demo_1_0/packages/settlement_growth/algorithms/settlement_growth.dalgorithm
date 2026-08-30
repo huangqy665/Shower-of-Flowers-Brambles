@@ -2,7 +2,7 @@ algorithm_descriptor = {
     name = dillen.demo1.settlement_growth_algorithm
     version = 1
     backend = declarative
-    entry_points = { create tick }
+    entry_points = { create tick event }
     deterministic = yes
     execution_policy = {
         instruction_budget = 16
@@ -15,25 +15,16 @@ algorithm_descriptor = {
         }
         tick = {
             add_field = {
-                field = population
-                value = 3
-                when = {
-                    query_at_least = {
-                        kind = mechanism
-                        type = dillen.demo1.trade_cycle
-                        count = 1
-                    }
-                }
-            }
-            add_field = {
                 field = food_stock
                 value = 2
+            }
+        }
+        event = {
+            add_field = {
+                field = population
+                from_payload = yes
                 when = {
-                    query_at_least = {
-                        kind = mechanism
-                        type = dillen.demo1.trade_cycle
-                        count = 1
-                    }
+                    capability_invoked = dillen.demo1.market_pressure
                 }
             }
         }

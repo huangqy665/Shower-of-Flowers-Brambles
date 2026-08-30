@@ -180,6 +180,16 @@ AlgorithmEventTypeId StableAlgorithmEventTypeId(
     )};
 }
 
+AlgorithmEventTypeId CapabilityDeliveryEventType(
+    std::string_view capabilityCanonicalName
+)
+{
+    return {HashText(
+        "capability_delivery:",
+        NormalizeMechanismSymbol(capabilityCanonicalName)
+    )};
+}
+
 RngStreamId StableRngStreamId(std::string_view canonicalName)
 {
     return {HashText(

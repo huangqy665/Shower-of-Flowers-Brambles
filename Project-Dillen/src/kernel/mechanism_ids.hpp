@@ -145,6 +145,12 @@ CapabilityId StableCapabilityId(std::string_view canonicalName);
 AlgorithmEventTypeId StableAlgorithmEventTypeId(
     std::string_view canonicalName
 );
+// Deterministic Algorithm Inbox event type used to deliver a Capability
+// invocation to its providers. Lives in its own hash domain so it can never
+// collide with an authored `algorithm_event_type`.
+AlgorithmEventTypeId CapabilityDeliveryEventType(
+    std::string_view capabilityCanonicalName
+);
 RngStreamId StableRngStreamId(std::string_view canonicalName);
 EntityTypeId StableEntityTypeId(std::string_view canonicalName);
 EntityDefinitionId StableEntityDefinitionId(

@@ -170,6 +170,10 @@ bool IsValidControlledScriptProgram(
                     return false;
                 }
                 break;
+            case ControlledScriptInstructionKind::Transact:
+                if (!IsValidAlgorithmInstruction(instruction.action))
+                    return false;
+                break;
             }
         }
     }

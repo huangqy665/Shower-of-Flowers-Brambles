@@ -1135,25 +1135,37 @@ bool ParseAlgorithmFieldInstruction(
     if (!node.block
         || !RejectUnknown(
             node,
-            {"field", "value", "when"},
+            {"field", "value", "from_payload", "when"},
             cursor,
             "algorithm field instruction"))
     {
         return false;
     }
     std::string field;
-    const SyntaxNode* valueNode = FindUnique(
-        node,
-        "value",
-        cursor,
-        true
-    );
-    Token valueToken;
-    kernel::MechanismValue value;
+    bool fromPayload = false;
     if (!ReadStringProperty(node, "field", cursor, field)
-        || !RequireScalar(valueNode, cursor, "value", valueToken)
-        || !InferScalarValue(valueToken, value, cursor))
+        || !ReadBoolProperty(node, "from_payload", cursor, fromPayload, false))
     {
+        return false;
+    }
+    kernel::MechanismValue value;
+    if (!fromPayload)
+    {
+        const SyntaxNode* valueNode = FindUnique(node, "value", cursor, true);
+        Token valueToken;
+        if (!RequireScalar(valueNode, cursor, "value", valueToken)
+            || !InferScalarValue(valueToken, value, cursor))
+        {
+            return false;
+        }
+    }
+    else if (FindUnique(node, "value", cursor, false) != nullptr)
+    {
+        cursor.Diagnostics().Error(
+            "dillen.authoring.field_instruction_payload_conflict",
+            "field instruction cannot set both value and from_payload",
+            node.span
+        );
         return false;
     }
     output = kind == kernel::AlgorithmInstructionKind::SetField
@@ -1165,6 +1177,7 @@ bool ParseAlgorithmFieldInstruction(
             std::move(field),
             std::move(value)
         );
+    output.operandFromPayload = fromPayload;
     const SyntaxNode* when = FindUnique(node, "when", cursor, false);
     if (when != nullptr)
     {
@@ -1298,6 +1311,25 @@ bool ParseAlgorithmFieldInstruction(
                 condition.kind = kernel::AlgorithmConditionKind::
                     ScheduledEventTypeEquals;
                 condition.eventType = kernel::StableAlgorithmEventTypeId(
+                    token.text
+                );
+            }
+            else if (name.text == "capability_invoked")
+            {
+                Token token;
+                if (!RequireScalar(
+                        &conditionNode,
+                        cursor,
+                        "capability_invoked",
+                        token))
+                {
+                    return false;
+                }
+                // Sugar over ScheduledEventTypeEquals: a Capability invocation
+                // is delivered on its own derived inbox event type.
+                condition.kind = kernel::AlgorithmConditionKind::
+                    ScheduledEventTypeEquals;
+                condition.eventType = kernel::CapabilityDeliveryEventType(
                     token.text
                 );
             }
@@ -1559,6 +1591,51 @@ bool ParseGenericAlgorithmInstruction(
         output.dueTickOffset = delay;
         return true;
     }
+    if (name == "invoke_capability")
+    {
+        if (!RejectUnknown(
+                node,
+                {"capability", "delay", "priority", "payload",
+                 "target_role", "version"},
+                cursor,
+                "invoke capability instruction")) return false;
+        std::uint32_t delay = 0;
+        output.kind = kernel::AlgorithmInstructionKind::InvokeCapability;
+        if (!ReadStringProperty(
+                node, "capability", cursor, output.capabilityName)
+            || !ReadUInt32Property(node, "delay", cursor, delay)
+            || !scalarValue("payload", output.payload)) return false;
+        if (FindUnique(node, "priority", cursor, false) != nullptr
+            && !ReadInt32Property(
+                node,
+                "priority",
+                cursor,
+                output.priority)) return false;
+        if (FindUnique(node, "target_role", cursor, false) != nullptr
+            && !ReadStringProperty(
+                node,
+                "target_role",
+                cursor,
+                output.targetRoleName)) return false;
+        if (FindUnique(node, "version", cursor, false) != nullptr)
+        {
+            std::uint32_t version = 0;
+            if (!ReadUInt32Property(node, "version", cursor, version)
+                || version == 0)
+            {
+                cursor.Diagnostics().Error(
+                    "dillen.authoring.invoke_capability_version_invalid",
+                    "invoke_capability version must be a positive integer",
+                    node.span
+                );
+                return false;
+            }
+            output.capabilityVersions.minimumInclusive = version;
+            output.capabilityVersions.maximumExclusive = version + 1;
+        }
+        output.dueTickOffset = delay;
+        return true;
+    }
     if (name == "create_rng" || name == "advance_rng")
     {
         const bool create = name == "create_rng";
@@ -1687,6 +1764,7 @@ bool ParseAlgorithmProgram(
                 || instructionName.text == "add_relation"
                 || instructionName.text == "spawn_mechanism"
                 || instructionName.text == "schedule_event"
+                || instructionName.text == "invoke_capability"
                 || instructionName.text == "create_rng"
                 || instructionName.text == "advance_rng")
             {
@@ -1760,6 +1838,26 @@ bool ParseControlledScriptInstruction(
     }
     if (name == "set_field" || name == "add_field")
     {
+        const kernel::AlgorithmInstructionKind fieldKind =
+            name == "set_field"
+                ? kernel::AlgorithmInstructionKind::SetField
+                : kernel::AlgorithmInstructionKind::AddField;
+        // A `when` block (or `from_payload`) means the controlled script needs
+        // the same conditional field mutation the declarative backend has, so
+        // route it through the shared declarative lowering as a Transact.
+        if (FindUnique(node, "when", cursor, false) != nullptr
+            || FindUnique(node, "from_payload", cursor, false) != nullptr)
+        {
+            kernel::AlgorithmInstructionDefinition action;
+            if (!ParseAlgorithmFieldInstruction(
+                    node, fieldKind, action, cursor))
+            {
+                return false;
+            }
+            output.kind = kernel::ControlledScriptInstructionKind::Transact;
+            output.action = std::move(action);
+            return true;
+        }
         if (!RejectUnknown(node, {"field", "value"}, cursor, name))
             return false;
         output.kind = name == "set_field"
@@ -1832,6 +1930,17 @@ bool ParseControlledScriptInstruction(
         output.kind = name == "yield"
             ? kernel::ControlledScriptInstructionKind::Yield
             : kernel::ControlledScriptInstructionKind::Halt;
+        return true;
+    }
+    // Any other name: a declarative transaction instruction (entity /
+    // component / relation / spawn / schedule_event / cancel_event / rng /
+    // invoke_capability). Parse it with the declarative grammar and wrap it as
+    // a Transact so it lowers and executes through the shared code path.
+    kernel::AlgorithmInstructionDefinition action;
+    if (ParseGenericAlgorithmInstruction(name, node, action, cursor))
+    {
+        output.kind = kernel::ControlledScriptInstructionKind::Transact;
+        output.action = std::move(action);
         return true;
     }
     return false;
@@ -3428,7 +3537,7 @@ bool ParseMechanismDefinition(
             root.body,
             {
                 "name", "mechanism", "schema_version", "algorithm",
-                "algorithm_version", "fields"
+                "algorithm_version", "fields", "provides_capabilities"
             },
             cursor,
             "mechanism definition"))
@@ -3512,6 +3621,80 @@ bool ParseMechanismDefinition(
             cursor))
     {
         return false;
+    }
+    const SyntaxNode* provides = FindUnique(
+        root.body,
+        "provides_capabilities",
+        cursor,
+        false
+    );
+    if (provides != nullptr)
+    {
+        if (!provides->block)
+        {
+            cursor.Diagnostics().Error(
+                "dillen.authoring.provides_capabilities_invalid",
+                "provides_capabilities must be a list of Capability names "
+                "and/or 'requirement' blocks",
+                provides->span
+            );
+            return false;
+        }
+        for (const Token& item : provides->items)
+        {
+            kernel::CapabilityProvisionDeclaration declaration;
+            declaration.capabilityName = item.text;
+            document.value.providedCapabilities.push_back(
+                std::move(declaration)
+            );
+        }
+        for (std::size_t index : FindAll(*provides, "requirement"))
+        {
+            const SyntaxNode& requirement = provides->values[index];
+            if (!requirement.block
+                || !RejectUnknown(
+                    requirement,
+                    {"name", "minimum_version", "maximum_version"},
+                    cursor,
+                    "provided capability requirement"))
+            {
+                return false;
+            }
+            kernel::CapabilityProvisionDeclaration declaration;
+            if (!ReadStringProperty(
+                    requirement, "name", cursor, declaration.capabilityName)
+                || !ReadUInt32Property(
+                    requirement,
+                    "minimum_version",
+                    cursor,
+                    declaration.versions.minimumInclusive))
+            {
+                return false;
+            }
+            if (FindUnique(
+                    requirement, "maximum_version", cursor, false) != nullptr)
+            {
+                std::uint32_t maximum = 0;
+                if (!ReadUInt32Property(
+                        requirement, "maximum_version", cursor, maximum))
+                {
+                    return false;
+                }
+                declaration.versions.maximumExclusive = maximum;
+            }
+            document.value.providedCapabilities.push_back(
+                std::move(declaration)
+            );
+        }
+        if (FindAll(*provides, "requirement").size() != provides->keys.size())
+        {
+            cursor.Diagnostics().Error(
+                "dillen.authoring.provides_capabilities_invalid",
+                "provides_capabilities blocks only accept 'requirement' keys",
+                provides->span
+            );
+            return false;
+        }
     }
     artifact.value = std::move(document);
     return true;

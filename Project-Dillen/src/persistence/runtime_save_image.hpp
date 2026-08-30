@@ -13,7 +13,9 @@
 
 namespace dillen::persistence {
 
-inline constexpr std::uint32_t kCurrentRuntimeSaveFormatVersion = 4;
+// v5: InvokeCapabilityCommand (command tag 10) gained targetInstance (single-
+// provider targeting) and capabilityVersion (explicit contract negotiation).
+inline constexpr std::uint32_t kCurrentRuntimeSaveFormatVersion = 5;
 
 using RuntimeSourceLockEntry = kernel::SourceLockEntry;
 

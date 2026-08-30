@@ -1,0 +1,14 @@
+package_manifest = {
+    name = dillen.demo1.contracts_package
+    version_major = 1
+    version_minor = 0
+    version_patch = 0
+    content_digest = "780b48e5cbea1e5e670a110db19486b4c6d2b99095c6093f11f45fb401e885b4"
+    load_priority = 0
+    provides = {
+        capability = {
+            name = dillen.demo1.market_pressure
+            version = 1
+        }
+    }
+}

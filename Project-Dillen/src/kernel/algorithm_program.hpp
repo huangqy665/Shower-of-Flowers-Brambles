@@ -8,6 +8,7 @@
 #include "mechanism_ids.hpp"
 #include "mechanism_lifecycle.hpp"
 #include "mechanism_value.hpp"
+#include "runtime_capability_contract.hpp"
 
 namespace dillen::kernel {
 
@@ -43,7 +44,8 @@ enum class AlgorithmInstructionKind
     ScheduleEvent,
     CancelEvent,
     CreateRngStream,
-    AdvanceRngStream
+    AdvanceRngStream,
+    InvokeCapability
 };
 
 enum class AlgorithmQueryKind
@@ -101,6 +103,14 @@ struct AlgorithmInstructionDefinition
     RngStreamId rngStream;
     std::uint64_t rngSeed = 0;
     std::uint64_t rngCount = 0;
+    std::string capabilityName;
+    bool operandFromPayload = false;
+    // invoke_capability: empty targetRoleName = broadcast to every provider;
+    // a role name = deliver only to the instance bound to that role slot on
+    // the invoking mechanism. capabilityVersions is the requested contract
+    // version range ({1, open} when the author omits `version`).
+    std::string targetRoleName;
+    CapabilityVersionRange capabilityVersions;
 
     static AlgorithmInstructionDefinition SetField(
         std::string field,
@@ -137,7 +147,8 @@ enum class AlgorithmBytecodeOpcode
     ScheduleEvent,
     CancelEvent,
     CreateRngStream,
-    AdvanceRngStream
+    AdvanceRngStream,
+    InvokeCapability
 };
 
 struct CompiledAlgorithmCondition
@@ -180,6 +191,14 @@ struct AlgorithmBytecodeInstruction
     RngStreamId rngStream;
     std::uint64_t rngSeed = 0;
     std::uint64_t rngCount = 0;
+    CapabilityId capability;
+    AlgorithmEventTypeId capabilityDeliveryType;
+    bool operandFromPayload = false;
+    // invoke_capability: empty targetRoleSlot = broadcast; a resolved role slot
+    // = deliver only to the instance in that slot on the invoking mechanism.
+    // capabilityVersion is the concrete contract version the compiler resolved.
+    MechanismRoleSlotId targetRoleSlot;
+    std::uint32_t capabilityVersion = 0;
 };
 
 struct CompiledAlgorithmProgram
@@ -196,6 +215,13 @@ struct CompiledAlgorithmProgram
         AlgorithmEntryPoint entryPoint
     ) const;
 };
+
+// Per-instruction shape check (field/operand/id presence, condition operands).
+// Does not resolve names against a catalog -- that is the Runtime Compiler's
+// job. Shared by IsValidAlgorithmProgram and the controlled-script validator.
+bool IsValidAlgorithmInstruction(
+    const AlgorithmInstructionDefinition& instruction
+) noexcept;
 
 bool IsValidAlgorithmProgram(
     const AlgorithmProgramDefinition& program,

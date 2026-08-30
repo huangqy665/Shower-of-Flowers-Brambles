@@ -22,7 +22,12 @@ enum class ControlledScriptInstructionKind
     Jump,
     JumpIfStateEquals,
     Yield,
-    Halt
+    Halt,
+    // Wraps a declarative transaction instruction (entity / component /
+    // relation / spawn / scheduled event / RNG / capability / field mutation,
+    // with optional `when` conditions). Lowered and executed through the same
+    // shared code path the declarative VM uses -- see `action`.
+    Transact
 };
 
 struct ControlledScriptStateDefinition
@@ -41,6 +46,8 @@ struct ControlledScriptInstructionDefinition
     MechanismLifecycleState lifecycle =
         MechanismLifecycleState::Created;
     std::uint32_t targetInstruction = 0;
+    // Only used when kind == Transact.
+    AlgorithmInstructionDefinition action;
 };
 
 struct ControlledScriptProgramDefinition
@@ -64,7 +71,8 @@ enum class ControlledScriptOpcode
     Jump,
     JumpIfStateEquals,
     Yield,
-    Halt
+    Halt,
+    Transact
 };
 
 struct ControlledScriptInstruction
@@ -76,6 +84,9 @@ struct ControlledScriptInstruction
     MechanismLifecycleState lifecycle =
         MechanismLifecycleState::Created;
     std::uint32_t targetInstruction = 0;
+    // Only used when opcode == Transact: the fully lowered declarative
+    // bytecode instruction, run through the shared transaction emitter.
+    AlgorithmBytecodeInstruction transact;
 };
 
 struct CompiledControlledScriptProgram

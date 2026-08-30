@@ -3,6 +3,18 @@ package_manifest = {
     version_major = 1
     version_minor = 0
     version_patch = 0
-    content_digest = "dd3fe659267b18293cb360917189967f6d795de1515a37b9d3ddb8a70d4771f2"
-    load_priority = 0
+    content_digest = "de64174bf7d049ec1491a3bab4b5b1eda6c00a4013be12f5329bedc4a9db142f"
+    load_priority = 10
+    dependencies = {
+        dependency = {
+            name = dillen.demo1.contracts_package
+            minimum_major = 1
+            minimum_minor = 0
+            minimum_patch = 0
+            maximum_major = 2
+            maximum_minor = 0
+            maximum_patch = 0
+            required = yes
+        }
+    }
 }

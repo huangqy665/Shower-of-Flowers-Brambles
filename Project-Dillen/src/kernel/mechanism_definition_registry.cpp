@@ -192,6 +192,17 @@ MechanismDefinitionDeclareResult MechanismDefinitionRegistry::Declare(
         }
     }
 
+    std::set<std::string> providedCapabilities;
+    for (const CapabilityProvisionDeclaration& declaration
+        : definition.providedCapabilities)
+    {
+        if (!IsValidCapabilityProvisionDeclaration(declaration)
+            || !providedCapabilities.emplace(declaration.capabilityName).second)
+        {
+            return MechanismDefinitionDeclareResult::InvalidDefinition;
+        }
+    }
+
     const auto existing = indexById_.find(definition.id.value);
     if (existing != indexById_.end())
     {

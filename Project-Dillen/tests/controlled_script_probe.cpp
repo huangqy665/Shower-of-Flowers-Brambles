@@ -31,7 +31,7 @@ struct Fixture
     dillen::kernel::MechanismFieldSlotId counter;
 };
 
-bool BuildFixture(Fixture& output)
+bool BuildFixture(Fixture& output, bool transactTick = false)
 {
     using namespace dillen::kernel;
     const std::string typeName = "dillen.test.controlled_script";
@@ -94,13 +94,37 @@ bool BuildFixture(Fixture& output)
     loop.targetInstruction = 0;
     ControlledScriptInstructionDefinition halt;
     halt.kind = ControlledScriptInstructionKind::Halt;
-    algorithm.script.stages[AlgorithmEntryPoint::Tick] = {
-        addState,
-        addField,
-        branch,
-        loop,
-        halt
-    };
+    if (transactTick)
+    {
+        // A Transact instruction: conditional field mutation lowered and run
+        // through the shared declarative code path. counter starts at 0, so
+        // the `field_equals counter == 0` guard holds on the first tick only.
+        ControlledScriptInstructionDefinition guardedAdd;
+        guardedAdd.kind = ControlledScriptInstructionKind::Transact;
+        guardedAdd.action = AlgorithmInstructionDefinition::AddField(
+            "counter",
+            MechanismValue(std::int64_t{5})
+        );
+        AlgorithmConditionDefinition guard;
+        guard.kind = AlgorithmConditionKind::SelfFieldEquals;
+        guard.field = "counter";
+        guard.value = MechanismValue(std::int64_t{0});
+        guardedAdd.action.conditions.push_back(guard);
+        algorithm.script.stages[AlgorithmEntryPoint::Tick] = {
+            guardedAdd,
+            halt
+        };
+    }
+    else
+    {
+        algorithm.script.stages[AlgorithmEntryPoint::Tick] = {
+            addState,
+            addField,
+            branch,
+            loop,
+            halt
+        };
+    }
     AlgorithmRegistry algorithms;
     if (algorithms.Register(std::move(algorithm))
         != AlgorithmRegisterResult::Added) return false;
@@ -229,6 +253,71 @@ algorithm_descriptor = {
         && document->value.script.stages.size() == 1;
 }
 
+// A controlled script that uses a declarative transaction instruction
+// (schedule_event) and a conditional field mutation must parse into Transact
+// instructions -- the shared path that gives it full parity with the
+// declarative backend.
+bool ParseScriptTransact()
+{
+    const std::string bytes = R"(
+algorithm_descriptor = {
+    name = dillen.test.transact_script
+    version = 1
+    backend = script
+    entry_points = { tick }
+    execution_policy = {
+        instruction_budget = 8
+        script_slice_instruction_budget = 4
+        script_memory_limit_bytes = 128
+    }
+    script = {
+        state = { counter = 0 }
+        tick = {
+            add_field = {
+                field = counter
+                value = 1
+                when = { field_equals = { field = counter value = 0 } }
+            }
+            schedule_event = {
+                type = dillen.test.reminder
+                delay = 1
+                priority = 0
+                payload = 0
+            }
+            halt = yes
+        }
+    }
+}
+)";
+    dillen::parser::SourceBuffer source(
+        1,
+        "algorithms/transact_script.dalgorithm",
+        {},
+        bytes,
+        dillen::parser::SourceEncoding::Utf8
+    );
+    dillen::parser::DiagnosticBag diagnostics;
+    dillen::parser::ParserCursor cursor(source, diagnostics);
+    dillen::parser::ParseArtifact artifact;
+    if (!dillen::authoring::ParseAlgorithmDescriptor(cursor, artifact)
+        || diagnostics.HasErrors()) return false;
+    const auto* document = artifact.As<
+        dillen::authoring::AlgorithmDescriptorDocument>();
+    if (document == nullptr) return false;
+    const auto stage = document->value.script.stages.find(
+        dillen::kernel::AlgorithmEntryPoint::Tick
+    );
+    if (stage == document->value.script.stages.end()
+        || stage->second.size() != 3) return false;
+    using Kind = dillen::kernel::ControlledScriptInstructionKind;
+    return stage->second[0].kind == Kind::Transact
+        && stage->second[0].action.conditions.size() == 1
+        && stage->second[1].kind == Kind::Transact
+        && stage->second[1].action.kind
+            == dillen::kernel::AlgorithmInstructionKind::ScheduleEvent
+        && stage->second[2].kind == Kind::Halt;
+}
+
 bool HasTickContinuation(const dillen::kernel::MechanismInstance& instance)
 {
     for (const auto& continuation : instance.algorithmContinuations)
@@ -251,6 +340,49 @@ int main()
         std::cerr << "Controlled Script external authoring parse failed\n";
         return 1;
     }
+    if (!ParseScriptTransact())
+    {
+        std::cerr << "Controlled Script Transact authoring parse failed\n";
+        return 1;
+    }
+
+    // Execute a controlled script whose tick stage is a single guarded
+    // Transact: it must lower and run through the shared declarative emitter,
+    // so the counter grows by exactly 5 on the first tick (guard holds) and
+    // never again (guard fails once counter != 0).
+    {
+        Fixture transactFixture;
+        if (!BuildFixture(transactFixture, /*transactTick*/ true))
+        {
+            std::cerr << "Controlled Script Transact fixture failed\n";
+            return 1;
+        }
+        world::AuthoritativeWorld transactWorld;
+        world::InitialWorldBuildReport transactBuild;
+        if (!world::InitialWorldBuilder{}.Build(
+                transactFixture.catalog, transactWorld, transactBuild))
+        {
+            return 1;
+        }
+        runtime::KernelRuntime transactRuntime(
+            transactWorld, transactFixture.catalog);
+        if (!transactRuntime.RunTick(1) || !transactRuntime.RunTick(2))
+        {
+            return 1;
+        }
+        const MechanismInstance* after = transactRuntime.Snapshot().Find(
+            transactFixture.instance
+        );
+        if (after == nullptr
+            || transactRuntime.LastTickAlgorithms().FailedCount() != 0
+            || after->values[transactFixture.counter.value]
+                != MechanismValue(std::int64_t{5}))
+        {
+            std::cerr << "Controlled Script Transact execution mismatch\n";
+            return 1;
+        }
+    }
+
     if (!BuildFixture(fixture))
     {
         std::cerr << "Controlled Script fixture construction failed\n";

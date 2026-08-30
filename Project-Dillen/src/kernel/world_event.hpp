@@ -31,6 +31,11 @@ struct WorldTransactionRejectedEvent
     MechanismInstanceId target;
 };
 
+// FROZEN ORDER (Demo 0.2). Each alternative's position is written straight out
+// as the Fact Stream payload tag, which the deterministic replay checksum is
+// taken over -- so reordering or inserting anywhere but the END shifts every
+// replay checksum even though these bytes are never read back.
+// runtime_save_codec.cpp pins every position with a static_assert.
 using WorldEventPayload = std::variant<
     WorldTransactionCommittedEvent,
     WorldTransactionRejectedEvent,

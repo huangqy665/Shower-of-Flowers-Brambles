@@ -16,6 +16,15 @@ root_ruleset = {
             maximum_patch = 0
         }
         requirement = {
+            name = dillen.demo1.contracts_package
+            minimum_major = 1
+            minimum_minor = 0
+            minimum_patch = 0
+            maximum_major = 2
+            maximum_minor = 0
+            maximum_patch = 0
+        }
+        requirement = {
             name = dillen.demo1.settlement_growth_package
             minimum_major = 1
             minimum_minor = 0

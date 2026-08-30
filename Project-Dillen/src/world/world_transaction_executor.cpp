@@ -435,6 +435,108 @@ kernel::WorldTransactionResult WorldTransactionExecutor::Apply(
             continue;
         }
         if (const auto* operation =
+            std::get_if<InvokeCapabilityCommand>(&command.payload))
+        {
+            if (operation->dueTick <= currentTick)
+            {
+                return Failure(
+                    WorldTransactionStatus::ScheduledEventRejected,
+                    index,
+                    operation->capability.value
+                );
+            }
+            const auto provides =
+                [operation](const CompiledMechanismDefinition* definition)
+            {
+                return definition != nullptr
+                    && std::any_of(
+                        definition->providedCapabilities.begin(),
+                        definition->providedCapabilities.end(),
+                        [operation](const CapabilityProvision& provision)
+                        {
+                            return provision.capability
+                                    == operation->capability
+                                && provision.version
+                                    == operation->capabilityVersion;
+                        });
+            };
+            bool delivered = true;
+            const auto deliverTo =
+                [&](MechanismInstanceId providerId)
+            {
+                std::uint64_t sequence = 0;
+                if (algorithmInbox.Schedule(
+                        operation->deliveryType,
+                        providerId,
+                        operation->dueTick,
+                        operation->priority,
+                        operation->payload,
+                        sequence) != AlgorithmInboxScheduleResult::Scheduled)
+                {
+                    delivered = false;
+                    return;
+                }
+                const auto scheduled = std::find_if(
+                    algorithmInbox.Pending().begin(),
+                    algorithmInbox.Pending().end(),
+                    [sequence](const ScheduledAlgorithmEvent& event)
+                    {
+                        return event.sequence == sequence;
+                    }
+                );
+                if (scheduled == algorithmInbox.Pending().end())
+                {
+                    delivered = false;
+                    return;
+                }
+                result.changes.emplace_back(
+                    ScheduledEventAddedChange{*scheduled}
+                );
+            };
+
+            if (operation->targetInstance)
+            {
+                const MechanismInstance* provider =
+                    mechanisms.Find(operation->targetInstance);
+                if (provider == nullptr
+                    || !provides(catalog.FindDefinition(provider->definition)))
+                {
+                    return Failure(
+                        WorldTransactionStatus::ScheduledEventRejected,
+                        index,
+                        operation->capability.value
+                    );
+                }
+                deliverTo(provider->id);
+            }
+            else
+            {
+                for (const auto& entry : mechanisms.All())
+                {
+                    const MechanismInstance& provider = entry.second;
+                    if (!provides(
+                            catalog.FindDefinition(provider.definition)))
+                    {
+                        continue;
+                    }
+                    deliverTo(provider.id);
+                    if (!delivered)
+                    {
+                        break;
+                    }
+                }
+            }
+            if (!delivered)
+            {
+                return Failure(
+                    WorldTransactionStatus::ScheduledEventRejected,
+                    index,
+                    operation->capability.value
+                );
+            }
+            continue;
+        }
+        if (const auto* operation =
             std::get_if<RngStreamCreateCommand>(&command.payload))
         {
             if (rngStreams.Create(operation->stream, operation->seed)

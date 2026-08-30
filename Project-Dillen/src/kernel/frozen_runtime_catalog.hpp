@@ -43,6 +43,9 @@ struct CompiledMechanismDefinition
     std::uint32_t algorithmVersion = 0;
     std::vector<MechanismValue> initialValues;
     std::vector<std::vector<MechanismReference>> initialRoles;
+    // Resolved Capability Contracts this Definition's instances provide,
+    // in stable (id, version) order.
+    std::vector<CapabilityProvision> providedCapabilities;
 };
 
 struct CompiledComponentLayout

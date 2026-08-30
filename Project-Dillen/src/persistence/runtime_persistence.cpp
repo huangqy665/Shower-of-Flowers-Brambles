@@ -240,9 +240,18 @@ bool ValidCommand(const kernel::WorldCommand& command)
             {
                 return static_cast<bool>(operation.stream);
             }
-            else
+            else if constexpr (std::is_same_v<
+                    Operation,
+                    kernel::RngStreamAdvanceCommand>)
             {
                 return operation.stream && operation.count != 0;
+            }
+            else
+            {
+                return operation.capability
+                    && operation.deliveryType
+                    && operation.dueTick != 0
+                    && operation.capabilityVersion != 0;
             }
         },
         command.payload

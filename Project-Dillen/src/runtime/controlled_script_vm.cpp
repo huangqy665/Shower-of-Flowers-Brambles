@@ -1,9 +1,12 @@
 #include "controlled_script_vm.hpp"
 
+#include "bytecode_transaction.hpp"
+
 #include <algorithm>
 #include <cmath>
 #include <limits>
 #include <utility>
+#include <vector>
 
 namespace dillen::runtime {
 
@@ -161,6 +164,7 @@ ControlledScriptResult ControlledScriptVm::Execute(
     std::vector<kernel::MechanismValue> state =
         context.instance.algorithmState;
     std::vector<kernel::MechanismValue> fields = context.instance.values;
+    kernel::MechanismLifecycleState lifecycle = context.instance.lifecycle;
     std::vector<kernel::ControlledScriptContinuation> continuations =
         context.instance.algorithmContinuations;
     const auto continuation = FindContinuation(continuations, entryPoint);
@@ -316,6 +320,32 @@ ControlledScriptResult ControlledScriptVm::Execute(
                 std::move(continuations)
             );
             return result;
+        case kernel::ControlledScriptOpcode::Transact:
+            if (EvaluateBytecodeConditions(
+                    instruction.transact,
+                    context,
+                    fields))
+            {
+                BytecodeTransactionOutcome outcome = EmitBytecodeTransaction(
+                    instruction.transact,
+                    context,
+                    context.instance,
+                    fields,
+                    lifecycle
+                );
+                if (!outcome)
+                {
+                    return Failure(
+                        ControlledScriptStatus::ExecutionRejected,
+                        std::move(outcome.message)
+                    );
+                }
+                for (kernel::WorldCommand& command : outcome.commands)
+                {
+                    result.transaction.commands.push_back(std::move(command));
+                }
+            }
+            break;
         }
 
         if (kernel::ControlledScriptStateFootprint(state)

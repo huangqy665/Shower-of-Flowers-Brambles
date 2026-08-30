@@ -45,6 +45,11 @@ struct MechanismReplaceAlgorithmStateOperation
     std::vector<ControlledScriptContinuation> continuations;
 };
 
+// FROZEN ORDER (Demo 0.2). Each alternative's position is written straight out
+// as the on-disk operation tag by the save codec, so reordering or inserting
+// anywhere but the END is a save-format break. runtime_save_codec.cpp pins
+// every position with a static_assert -- get it wrong and the build stops
+// there, not at a corrupted save.
 using MechanismCommandOperation = std::variant<
     MechanismSetFieldOperation,
     MechanismTransitionLifecycleOperation,

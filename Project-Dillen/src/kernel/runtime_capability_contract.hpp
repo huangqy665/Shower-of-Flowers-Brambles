@@ -38,10 +38,24 @@ struct CapabilityProvision
     std::uint32_t version = 0;
 };
 
+// Authoring-time declaration on a Mechanism Definition: the capability name plus
+// the contract version range this definition is willing to provide. The Runtime
+// Compiler resolves it to exactly one CapabilityProvision (a concrete version)
+// against the composed Ruleset. A bare `provides_capabilities = { name }` entry
+// parses to `{ name, {1, open} }` -- provide whatever version the Ruleset pins.
+struct CapabilityProvisionDeclaration
+{
+    std::string capabilityName;
+    CapabilityVersionRange versions;
+};
+
 bool IsValidCapabilityRequirement(
     const CapabilityRequirement& requirement
 );
 bool IsValidCapabilityProvision(const CapabilityProvision& provision);
+bool IsValidCapabilityProvisionDeclaration(
+    const CapabilityProvisionDeclaration& declaration
+);
 
 struct RuntimeCapabilityContract
 {

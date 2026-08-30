@@ -46,6 +46,16 @@ bool IsValidCapabilityProvision(const CapabilityProvision& provision)
             == StableCapabilityId(provision.canonicalName);
 }
 
+bool IsValidCapabilityProvisionDeclaration(
+    const CapabilityProvisionDeclaration& declaration
+)
+{
+    return declaration.versions.IsValid()
+        && IsValidMechanismSymbol(declaration.capabilityName)
+        && declaration.capabilityName
+            == NormalizeMechanismSymbol(declaration.capabilityName);
+}
+
 CapabilityContractRegisterResult
 RuntimeCapabilityContractRegistry::Register(
     RuntimeCapabilityContract contract

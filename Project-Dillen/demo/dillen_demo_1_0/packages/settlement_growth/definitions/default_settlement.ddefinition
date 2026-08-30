@@ -5,6 +5,8 @@ mechanism_definition = {
     algorithm = dillen.demo1.settlement_growth_algorithm
     algorithm_version = 1
 
+    provides_capabilities = { dillen.demo1.market_pressure }
+
     fields = {
         population = 100
         food_stock = 40

@@ -69,6 +69,21 @@ struct RngStreamAdvanceCommand
     std::uint64_t count = 0;
 };
 
+struct InvokeCapabilityCommand
+{
+    CapabilityId capability;
+    AlgorithmEventTypeId deliveryType;
+    std::uint64_t dueTick = 0;
+    std::int32_t priority = 0;
+    MechanismValue payload;
+    // Empty targetInstance = broadcast to every provider of `capability` whose
+    // provided version equals `capabilityVersion`. A set targetInstance =
+    // deliver only to that instance, which must exist and provide the matching
+    // version (a targeted miss is an authoring fault, unlike a broadcast miss).
+    MechanismInstanceId targetInstance;
+    std::uint32_t capabilityVersion = 0;
+};
+
 using WorldCommandPayload = std::variant<
     EntityCreateCommand,
     ComponentSetFieldCommand,
@@ -79,7 +94,8 @@ using WorldCommandPayload = std::variant<
     ScheduledEventScheduleCommand,
     ScheduledEventCancelCommand,
     RngStreamCreateCommand,
-    RngStreamAdvanceCommand
+    RngStreamAdvanceCommand,
+    InvokeCapabilityCommand
 >;
 
 struct WorldCommand
@@ -119,6 +135,15 @@ struct WorldCommand
         RngStreamId stream,
         std::uint64_t expectedDrawCount,
         std::uint64_t count
+    );
+    static WorldCommand InvokeCapability(
+        CapabilityId capability,
+        AlgorithmEventTypeId deliveryType,
+        std::uint64_t dueTick,
+        std::int32_t priority,
+        MechanismValue payload,
+        MechanismInstanceId targetInstance,
+        std::uint32_t capabilityVersion
     );
 };
 

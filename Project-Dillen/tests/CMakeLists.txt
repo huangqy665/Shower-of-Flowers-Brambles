@@ -31,6 +31,19 @@ if(DILLEN_BUILD_STANDALONE_RUNTIME)
     )
     dillen_add_probe(declarative_algorithm_vm_probe dillen::runtime)
     dillen_add_probe(
+        capability_invocation_probe
+        dillen::kernel
+        dillen::world
+        dillen::runtime
+        dillen::persistence
+    )
+    dillen_add_probe(
+        scale_probe
+        dillen::kernel
+        dillen::world
+        dillen::runtime
+    )
+    dillen_add_probe(
         controlled_script_probe
         dillen::runtime
         dillen::persistence

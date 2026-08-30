@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <limits>
+#include <map>
 #include <set>
 #include <utility>
 
@@ -22,6 +23,44 @@ struct RuntimeCompileSelection
     std::set<std::pair<CapabilityId, std::uint32_t>> capabilities;
 };
 
+// Picks the highest contract version of `capability` that falls inside `range`
+// AND is declared as provided by a package in the resolved Package Lock.
+// Returns nullptr otherwise. Scoping to the Package Lock (not the whole
+// registry) keeps the Kernel compile self-sealing: an `invoke_capability` or
+// `provides_capabilities` can only bind to a contract version the locked
+// package set actually owns. Mirrors RuntimeCapabilityResolver::Resolve.
+const RuntimeCapabilityContract* ResolveCapabilityVersion(
+    const RuntimeCapabilityContractRegistry& contracts,
+    const PackageLock& packageLock,
+    CapabilityId capability,
+    const CapabilityVersionRange& range
+)
+{
+    const RuntimeCapabilityContract* best = nullptr;
+    for (const PackageLockEntry& package : packageLock.Entries())
+    {
+        for (const CapabilityProvision& provision
+            : package.providedCapabilities)
+        {
+            if (provision.capability != capability
+                || !range.Contains(provision.version))
+            {
+                continue;
+            }
+            const RuntimeCapabilityContract* contract = contracts.Find(
+                provision.capability,
+                provision.version
+            );
+            if (contract != nullptr
+                && (best == nullptr || contract->version > best->version))
+            {
+                best = contract;
+            }
+        }
+    }
+    return best;
+}
+
 void AddIssue(
     RuntimeCompileReport& report,
     RuntimeCompileIssueCode code,
@@ -34,6 +73,49 @@ void AddIssue(
         std::move(subject),
         std::move(message)
     });
+}
+
+// A Capability Contract identity may be provided by at most ONE package in a
+// composed Ruleset. Two packages both declaring `provides` for the same
+// contract is a conflict, not a choice: nothing in the Kernel can say which one
+// a given Definition or Algorithm meant, because MechanismDefinitionSource
+// carries only a source-layer name and AlgorithmDescriptor carries no origin at
+// all. Rejecting the ambiguity keeps version selection well defined without
+// inventing an ownership chain. (Deliberately strict before the Demo 0.2
+// contract freeze -- a later multi-provider model can relax this; it could not
+// tighten it.)
+bool RejectAmbiguousCapabilityProviders(
+    const PackageLock& packageLock,
+    RuntimeCompileReport& report
+)
+{
+    std::map<std::uint64_t, const PackageLockEntry*> owners;
+    for (const PackageLockEntry& package : packageLock.Entries())
+    {
+        for (const CapabilityProvision& provision
+            : package.providedCapabilities)
+        {
+            const auto existing = owners.emplace(
+                provision.capability.value,
+                &package
+            );
+            if (!existing.second
+                && existing.first->second->package != package.package)
+            {
+                AddIssue(
+                    report,
+                    RuntimeCompileIssueCode::IntegrityValidationFailed,
+                    provision.canonicalName,
+                    "Capability Contract is provided by more than one locked "
+                    "Package ('" + existing.first->second->canonicalName
+                        + "' and '" + package.canonicalName
+                        + "'); a contract identity must have a single owner"
+                );
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 bool BuildCompileSelection(
@@ -122,6 +204,23 @@ bool BuildCompileSelection(
                     definition->algorithm,
                     definition->algorithmVersion).second || changed;
             }
+            for (const CapabilityProvisionDeclaration& declaration
+                : definition->providedCapabilities)
+            {
+                const RuntimeCapabilityContract* contract =
+                    ResolveCapabilityVersion(
+                        capabilityContracts,
+                        packageLock,
+                        StableCapabilityId(declaration.capabilityName),
+                        declaration.versions
+                    );
+                if (contract != nullptr)
+                {
+                    changed = output.capabilities.emplace(
+                        contract->id,
+                        contract->version).second || changed;
+                }
+            }
         }
         for (RelationDefinitionId id
             : std::vector<RelationDefinitionId>(
@@ -172,14 +271,12 @@ bool BuildCompileSelection(
             {
                 continue;
             }
-            for (const auto& stage : algorithm->program.stages)
+            const auto closeOverInstruction =
+                [&](const AlgorithmInstructionDefinition& instruction) -> bool
             {
-                for (const AlgorithmInstructionDefinition& instruction
-                    : stage.second)
+                if (instruction.kind
+                    == AlgorithmInstructionKind::CreateEntity)
                 {
-                    if (instruction.kind
-                        == AlgorithmInstructionKind::CreateEntity)
-                    {
                         if (entityDefinitions.Find(
                                 instruction.entityDefinition) == nullptr)
                         {
@@ -240,6 +337,61 @@ bool BuildCompileSelection(
                         }
                         changed = output.spawns.emplace(
                             instruction.spawn).second || changed;
+                    }
+                    else if (instruction.kind
+                        == AlgorithmInstructionKind::InvokeCapability)
+                    {
+                        const RuntimeCapabilityContract* contract =
+                            ResolveCapabilityVersion(
+                                capabilityContracts,
+                                packageLock,
+                                StableCapabilityId(
+                                    instruction.capabilityName
+                                ),
+                                instruction.capabilityVersions
+                            );
+                        if (contract == nullptr)
+                        {
+                            AddIssue(
+                                report,
+                                RuntimeCompileIssueCode::
+                                    AlgorithmProgramOperandInvalid,
+                                algorithm->canonicalName,
+                                "invoke_capability names a Capability Contract "
+                                "with no version compatible with the request"
+                            );
+                            return false;
+                        }
+                        changed = output.capabilities.emplace(
+                            contract->id,
+                            contract->version).second || changed;
+                    }
+                return true;
+            };
+            for (const auto& stage : algorithm->program.stages)
+            {
+                for (const AlgorithmInstructionDefinition& instruction
+                    : stage.second)
+                {
+                    if (!closeOverInstruction(instruction))
+                    {
+                        return false;
+                    }
+                }
+            }
+            // Script backend: Transact instructions carry a declarative action
+            // whose Entity / Spawn / Capability references must enter the
+            // compile closure exactly like a declarative instruction's.
+            for (const auto& scriptStage : algorithm->script.stages)
+            {
+                for (const ControlledScriptInstructionDefinition& source
+                    : scriptStage.second)
+                {
+                    if (source.kind
+                            == ControlledScriptInstructionKind::Transact
+                        && !closeOverInstruction(source.action))
+                    {
+                        return false;
                     }
                 }
             }
@@ -418,6 +570,11 @@ bool RuntimeCompiler::Compile(
             ruleset.canonicalName,
             "Ruleset integrity validation failed"
         );
+        return false;
+    }
+
+    if (!RejectAmbiguousCapabilityProviders(packageLock, report))
+    {
         return false;
     }
 
@@ -635,6 +792,46 @@ bool RuntimeCompiler::Compile(
         compiled.algorithmVersion = definition.algorithmVersion;
         compiled.initialValues.resize(layout->fields.size());
         compiled.initialRoles.resize(layout->roles.size());
+        for (const CapabilityProvisionDeclaration& declaration
+            : definition.providedCapabilities)
+        {
+            const RuntimeCapabilityContract* contract =
+                ResolveCapabilityVersion(
+                    capabilityContracts,
+                    packageLock,
+                    StableCapabilityId(declaration.capabilityName),
+                    declaration.versions
+                );
+            if (contract == nullptr)
+            {
+                AddIssue(
+                    report,
+                    RuntimeCompileIssueCode::IntegrityValidationFailed,
+                    definition.canonicalName,
+                    "provides_capabilities names a Capability Contract with "
+                    "no version inside the declared range"
+                );
+                return false;
+            }
+            compiled.providedCapabilities.push_back({
+                contract->id,
+                contract->canonicalName,
+                contract->version
+            });
+        }
+        std::sort(
+            compiled.providedCapabilities.begin(),
+            compiled.providedCapabilities.end(),
+            [](const CapabilityProvision& first,
+               const CapabilityProvision& second)
+            {
+                if (first.capability != second.capability)
+                {
+                    return first.capability < second.capability;
+                }
+                return first.version < second.version;
+            }
+        );
         for (const auto& field : definition.fields)
         {
             const auto slot = layout->fieldSlotsByName.find(field.first);
@@ -1016,6 +1213,387 @@ bool RuntimeCompiler::Compile(
                 return false;
             }
 
+            // Lowers one Controlled Script `Transact` action to a declarative
+            // bytecode instruction. Mirrors the declarative lowering below;
+            // the RUNTIME half is genuinely shared -- both VMs execute the
+            // result through runtime::EmitBytecodeTransaction -- so the two
+            // backends cannot drift in behaviour, only (harmlessly) in which
+            // compile diagnostic fires first.
+            const auto lowerTransact =
+                [&](const AlgorithmInstructionDefinition& src,
+                    AlgorithmBytecodeInstruction& out) -> bool
+            {
+                for (const AlgorithmConditionDefinition& sourceCondition
+                    : src.conditions)
+                {
+                    CompiledAlgorithmCondition condition;
+                    condition.kind = sourceCondition.kind;
+                    condition.value = sourceCondition.value;
+                    condition.queryKind = sourceCondition.queryKind;
+                    condition.queryType = sourceCondition.queryType;
+                    condition.minimumCount = sourceCondition.minimumCount;
+                    condition.eventType = sourceCondition.eventType;
+                    condition.rngStream = sourceCondition.rngStream;
+                    condition.rngOffset = sourceCondition.rngOffset;
+                    condition.rngModulo = sourceCondition.rngModulo;
+                    condition.rngEquals = sourceCondition.rngEquals;
+                    if (sourceCondition.kind
+                        == AlgorithmConditionKind::SelfFieldEquals)
+                    {
+                        const auto conditionField =
+                            layout->fieldSlotsByName.find(sourceCondition.field);
+                        if (conditionField == layout->fieldSlotsByName.end()
+                            || !MechanismValueMatchesSchema(
+                                layout->fields[conditionField->second.value],
+                                sourceCondition.value))
+                        {
+                            AddIssue(
+                                report,
+                                RuntimeCompileIssueCode::
+                                    AlgorithmProgramOperandInvalid,
+                                algorithm->canonicalName,
+                                "controlled script condition references an "
+                                "invalid field"
+                            );
+                            return false;
+                        }
+                        condition.field = conditionField->second;
+                    }
+                    out.conditions.push_back(std::move(condition));
+                }
+                switch (src.kind)
+                {
+                case AlgorithmInstructionKind::TransitionLifecycle:
+                    out.opcode = AlgorithmBytecodeOpcode::TransitionLifecycle;
+                    out.lifecycle = src.lifecycle;
+                    return true;
+                case AlgorithmInstructionKind::CreateEntity:
+                    if (candidate.FindEntityDefinition(src.entityDefinition)
+                        == nullptr)
+                    {
+                        AddIssue(
+                            report,
+                            RuntimeCompileIssueCode::
+                                AlgorithmProgramOperandInvalid,
+                            algorithm->canonicalName,
+                            "create_entity references an unknown definition"
+                        );
+                        return false;
+                    }
+                    out.opcode = AlgorithmBytecodeOpcode::CreateEntity;
+                    out.entityDefinition = src.entityDefinition;
+                    return true;
+                case AlgorithmInstructionKind::AddRelation:
+                {
+                    const bool relationKnown = std::any_of(
+                        candidate.relationLayouts_.begin(),
+                        candidate.relationLayouts_.end(),
+                        [&src](const CompiledRelationLayout& relation)
+                        {
+                            return relation.type == src.relationType;
+                        }
+                    );
+                    if (!relationKnown)
+                    {
+                        AddIssue(
+                            report,
+                            RuntimeCompileIssueCode::
+                                AlgorithmProgramOperandInvalid,
+                            algorithm->canonicalName,
+                            "add_relation references an unknown schema"
+                        );
+                        return false;
+                    }
+                    out.opcode = AlgorithmBytecodeOpcode::AddRelation;
+                    out.relationType = src.relationType;
+                    out.sourceEntity = src.sourceEntity;
+                    out.targetEntity = src.targetEntity;
+                    return true;
+                }
+                case AlgorithmInstructionKind::RemoveRelation:
+                    out.opcode = AlgorithmBytecodeOpcode::RemoveRelation;
+                    out.relation = src.relation;
+                    return true;
+                case AlgorithmInstructionKind::SpawnMechanism:
+                    if (candidate.FindSpawnDefinition(src.spawn) == nullptr)
+                    {
+                        AddIssue(
+                            report,
+                            RuntimeCompileIssueCode::
+                                AlgorithmProgramOperandInvalid,
+                            algorithm->canonicalName,
+                            "spawn_mechanism references an unknown spawn"
+                        );
+                        return false;
+                    }
+                    out.opcode = AlgorithmBytecodeOpcode::SpawnMechanism;
+                    out.spawn = src.spawn;
+                    return true;
+                case AlgorithmInstructionKind::ScheduleEvent:
+                    if (src.dueTickOffset == 0)
+                    {
+                        AddIssue(
+                            report,
+                            RuntimeCompileIssueCode::
+                                AlgorithmProgramOperandInvalid,
+                            algorithm->canonicalName,
+                            "schedule_event requires a positive tick delay"
+                        );
+                        return false;
+                    }
+                    out.opcode = AlgorithmBytecodeOpcode::ScheduleEvent;
+                    out.eventType = src.eventType;
+                    out.dueTickOffset = src.dueTickOffset;
+                    out.priority = src.priority;
+                    out.payload = src.payload;
+                    return true;
+                case AlgorithmInstructionKind::CancelEvent:
+                    out.opcode = AlgorithmBytecodeOpcode::CancelEvent;
+                    out.eventSequence = src.eventSequence;
+                    return true;
+                case AlgorithmInstructionKind::CreateRngStream:
+                    out.opcode = AlgorithmBytecodeOpcode::CreateRngStream;
+                    out.rngStream = src.rngStream;
+                    out.rngSeed = src.rngSeed;
+                    return true;
+                case AlgorithmInstructionKind::AdvanceRngStream:
+                    out.opcode = AlgorithmBytecodeOpcode::AdvanceRngStream;
+                    out.rngStream = src.rngStream;
+                    out.rngCount = src.rngCount;
+                    return true;
+                case AlgorithmInstructionKind::SetComponentField:
+                {
+                    const CompiledEntityDefinition* ownerDefinition = nullptr;
+                    for (const CompiledEntityDefinition& entity
+                        : candidate.entityDefinitions_)
+                    {
+                        if (StableEntityId(entity.id) == src.entity)
+                        {
+                            ownerDefinition = &entity;
+                            break;
+                        }
+                    }
+                    const CompiledEntityComponentDefinition* component = nullptr;
+                    if (ownerDefinition != nullptr)
+                    {
+                        for (const CompiledEntityComponentDefinition& entry
+                            : ownerDefinition->components)
+                        {
+                            if (entry.type == src.component)
+                            {
+                                component = &entry;
+                                break;
+                            }
+                        }
+                    }
+                    const CompiledComponentLayout* componentLayout =
+                        component == nullptr
+                        ? nullptr
+                        : candidate.FindComponentLayout(
+                            component->type,
+                            component->schemaVersion
+                        );
+                    const auto componentField = componentLayout == nullptr
+                        ? std::map<std::string, ComponentFieldSlotId>::
+                            const_iterator{}
+                        : componentLayout->fieldSlotsByName.find(
+                            src.componentField
+                        );
+                    if (componentLayout == nullptr
+                        || componentField
+                            == componentLayout->fieldSlotsByName.end()
+                        || !MechanismValueMatchesSchema(
+                            componentLayout->fields[
+                                componentField->second.value],
+                            src.operand))
+                    {
+                        AddIssue(
+                            report,
+                            RuntimeCompileIssueCode::
+                                AlgorithmProgramOperandInvalid,
+                            algorithm->canonicalName,
+                            "set_component_field references an invalid target"
+                        );
+                        return false;
+                    }
+                    out.opcode =
+                        AlgorithmBytecodeOpcode::SetComponentFieldConstant;
+                    out.entity = src.entity;
+                    out.component = src.component;
+                    out.componentField = componentField->second;
+                    out.operand = src.operand;
+                    return true;
+                }
+                case AlgorithmInstructionKind::InvokeCapability:
+                {
+                    if (src.dueTickOffset == 0)
+                    {
+                        AddIssue(
+                            report,
+                            RuntimeCompileIssueCode::
+                                AlgorithmProgramOperandInvalid,
+                            algorithm->canonicalName,
+                            "invoke_capability requires a positive tick delay"
+                        );
+                        return false;
+                    }
+                    const CapabilityId capabilityId = StableCapabilityId(
+                        src.capabilityName
+                    );
+                    const RuntimeCapabilityContract* resolved = nullptr;
+                    for (const RuntimeCapabilityContract& contract
+                        : candidate.capabilities_)
+                    {
+                        if (contract.id != capabilityId
+                            || !src.capabilityVersions.Contains(
+                                contract.version))
+                        {
+                            continue;
+                        }
+                        if (resolved == nullptr
+                            || contract.version > resolved->version)
+                        {
+                            resolved = &contract;
+                        }
+                    }
+                    if (resolved == nullptr)
+                    {
+                        AddIssue(
+                            report,
+                            RuntimeCompileIssueCode::
+                                AlgorithmProgramOperandInvalid,
+                            algorithm->canonicalName,
+                            "invoke_capability references a Capability version "
+                            "that is not part of the composed Ruleset"
+                        );
+                        return false;
+                    }
+                    MechanismRoleSlotId targetRoleSlot;
+                    if (!src.targetRoleName.empty())
+                    {
+                        const auto roleSlot = layout->roleSlotsByName.find(
+                            src.targetRoleName
+                        );
+                        if (roleSlot == layout->roleSlotsByName.end())
+                        {
+                            AddIssue(
+                                report,
+                                RuntimeCompileIssueCode::
+                                    AlgorithmProgramOperandInvalid,
+                                algorithm->canonicalName,
+                                "invoke_capability target_role has no compiled "
+                                "role slot on the invoking Definition: "
+                                    + src.targetRoleName
+                            );
+                            return false;
+                        }
+                        targetRoleSlot = roleSlot->second;
+                    }
+                    out.opcode = AlgorithmBytecodeOpcode::InvokeCapability;
+                    out.capability = capabilityId;
+                    out.capabilityVersion = resolved->version;
+                    out.targetRoleSlot = targetRoleSlot;
+                    out.capabilityDeliveryType =
+                        CapabilityDeliveryEventType(src.capabilityName);
+                    out.dueTickOffset = src.dueTickOffset;
+                    out.priority = src.priority;
+                    out.payload = src.payload;
+                    return true;
+                }
+                case AlgorithmInstructionKind::SetField:
+                case AlgorithmInstructionKind::AddField:
+                    break;
+                }
+
+                const auto actionField = layout->fieldSlotsByName.find(
+                    src.field
+                );
+                if (actionField == layout->fieldSlotsByName.end())
+                {
+                    AddIssue(
+                        report,
+                        RuntimeCompileIssueCode::AlgorithmProgramFieldMissing,
+                        algorithm->canonicalName,
+                        "controlled script field has no compiled Runtime Slot: "
+                            + src.field
+                    );
+                    return false;
+                }
+                out.field = actionField->second;
+                out.operand = src.operand;
+                out.operandFromPayload = src.operandFromPayload;
+                const MechanismFieldSchema& actionSchema =
+                    layout->fields[actionField->second.value];
+                if (src.kind == AlgorithmInstructionKind::SetField)
+                {
+                    if (!out.operandFromPayload
+                        && !MechanismValueMatchesSchema(
+                            actionSchema,
+                            out.operand))
+                    {
+                        AddIssue(
+                            report,
+                            RuntimeCompileIssueCode::
+                                AlgorithmProgramOperandInvalid,
+                            algorithm->canonicalName,
+                            "set_field value violates the target field schema"
+                        );
+                        return false;
+                    }
+                    out.opcode = AlgorithmBytecodeOpcode::SetFieldConstant;
+                    return true;
+                }
+                if (out.operandFromPayload)
+                {
+                    if (actionSchema.kind == MechanismValueKind::Integer)
+                    {
+                        out.opcode =
+                            AlgorithmBytecodeOpcode::AddIntegerConstant;
+                        return true;
+                    }
+                    if (actionSchema.kind == MechanismValueKind::Decimal)
+                    {
+                        out.opcode =
+                            AlgorithmBytecodeOpcode::AddDecimalConstant;
+                        return true;
+                    }
+                    AddIssue(
+                        report,
+                        RuntimeCompileIssueCode::AlgorithmProgramOperandInvalid,
+                        algorithm->canonicalName,
+                        "add_field from_payload requires a numeric field"
+                    );
+                    return false;
+                }
+                if (actionSchema.kind == MechanismValueKind::Integer
+                    && out.operand.Kind() == MechanismValueKind::Integer)
+                {
+                    out.opcode = AlgorithmBytecodeOpcode::AddIntegerConstant;
+                    return true;
+                }
+                if (actionSchema.kind == MechanismValueKind::Decimal
+                    && (out.operand.Kind() == MechanismValueKind::Decimal
+                        || out.operand.Kind() == MechanismValueKind::Integer))
+                {
+                    if (out.operand.Kind() == MechanismValueKind::Integer)
+                    {
+                        out.operand = MechanismValue(
+                            static_cast<double>(
+                                std::get<std::int64_t>(out.operand.data))
+                        );
+                    }
+                    out.opcode = AlgorithmBytecodeOpcode::AddDecimalConstant;
+                    return true;
+                }
+                AddIssue(
+                    report,
+                    RuntimeCompileIssueCode::AlgorithmProgramOperandInvalid,
+                    algorithm->canonicalName,
+                    "add_field requires a compatible numeric field"
+                );
+                return false;
+            };
+
             for (const auto& sourceStage : algorithm->script.stages)
             {
                 std::vector<ControlledScriptInstruction> bytecode;
@@ -1035,6 +1613,13 @@ bool RuntimeCompiler::Compile(
                     );
                     switch (source.kind)
                     {
+                    case ControlledScriptInstructionKind::Transact:
+                        if (!lowerTransact(source.action, instruction.transact))
+                        {
+                            return false;
+                        }
+                        instruction.opcode = ControlledScriptOpcode::Transact;
+                        break;
                     case ControlledScriptInstructionKind::SetState:
                         if (state == program.stateSlotsByName.end()
                             || source.operand.Kind()
@@ -1512,6 +2097,88 @@ bool RuntimeCompiler::Compile(
                     bytecode.push_back(std::move(instruction));
                     continue;
                 }
+                if (sourceInstruction.kind
+                    == AlgorithmInstructionKind::InvokeCapability)
+                {
+                    if (sourceInstruction.dueTickOffset == 0)
+                    {
+                        AddIssue(
+                            report,
+                            RuntimeCompileIssueCode::
+                                AlgorithmProgramOperandInvalid,
+                            algorithm->canonicalName,
+                            "invoke_capability requires a positive tick delay"
+                        );
+                        return false;
+                    }
+                    const CapabilityId capabilityId = StableCapabilityId(
+                        sourceInstruction.capabilityName
+                    );
+                    const RuntimeCapabilityContract* resolved = nullptr;
+                    for (const RuntimeCapabilityContract& contract
+                        : candidate.capabilities_)
+                    {
+                        if (contract.id != capabilityId
+                            || !sourceInstruction.capabilityVersions.Contains(
+                                contract.version))
+                        {
+                            continue;
+                        }
+                        if (resolved == nullptr
+                            || contract.version > resolved->version)
+                        {
+                            resolved = &contract;
+                        }
+                    }
+                    if (resolved == nullptr)
+                    {
+                        AddIssue(
+                            report,
+                            RuntimeCompileIssueCode::
+                                AlgorithmProgramOperandInvalid,
+                            algorithm->canonicalName,
+                            "invoke_capability references a Capability version "
+                            "that is not part of the composed Ruleset"
+                        );
+                        return false;
+                    }
+                    MechanismRoleSlotId targetRoleSlot;
+                    if (!sourceInstruction.targetRoleName.empty())
+                    {
+                        const auto roleSlot = layout->roleSlotsByName.find(
+                            sourceInstruction.targetRoleName
+                        );
+                        if (roleSlot == layout->roleSlotsByName.end())
+                        {
+                            AddIssue(
+                                report,
+                                RuntimeCompileIssueCode::
+                                    AlgorithmProgramOperandInvalid,
+                                algorithm->canonicalName,
+                                "invoke_capability target_role has no compiled "
+                                "role slot on the invoking Definition: "
+                                    + sourceInstruction.targetRoleName
+                            );
+                            return false;
+                        }
+                        targetRoleSlot = roleSlot->second;
+                    }
+                    instruction.opcode =
+                        AlgorithmBytecodeOpcode::InvokeCapability;
+                    instruction.capability = capabilityId;
+                    instruction.capabilityVersion = resolved->version;
+                    instruction.targetRoleSlot = targetRoleSlot;
+                    instruction.capabilityDeliveryType =
+                        CapabilityDeliveryEventType(
+                            sourceInstruction.capabilityName
+                        );
+                    instruction.dueTickOffset =
+                        sourceInstruction.dueTickOffset;
+                    instruction.priority = sourceInstruction.priority;
+                    instruction.payload = sourceInstruction.payload;
+                    bytecode.push_back(std::move(instruction));
+                    continue;
+                }
 
                 const auto field = layout->fieldSlotsByName.find(
                     sourceInstruction.field
@@ -1529,12 +2196,15 @@ bool RuntimeCompiler::Compile(
                 }
                 instruction.field = field->second;
                 instruction.operand = sourceInstruction.operand;
+                instruction.operandFromPayload =
+                    sourceInstruction.operandFromPayload;
                 const MechanismFieldSchema& fieldSchema =
                     layout->fields[field->second.value];
                 if (sourceInstruction.kind
                     == AlgorithmInstructionKind::SetField)
                 {
-                    if (!MechanismValueMatchesSchema(
+                    if (!instruction.operandFromPayload
+                        && !MechanismValueMatchesSchema(
                             fieldSchema,
                             instruction.operand))
                     {
@@ -1549,6 +2219,30 @@ bool RuntimeCompiler::Compile(
                     }
                     instruction.opcode =
                         AlgorithmBytecodeOpcode::SetFieldConstant;
+                }
+                else if (instruction.operandFromPayload)
+                {
+                    if (fieldSchema.kind == MechanismValueKind::Integer)
+                    {
+                        instruction.opcode =
+                            AlgorithmBytecodeOpcode::AddIntegerConstant;
+                    }
+                    else if (fieldSchema.kind == MechanismValueKind::Decimal)
+                    {
+                        instruction.opcode =
+                            AlgorithmBytecodeOpcode::AddDecimalConstant;
+                    }
+                    else
+                    {
+                        AddIssue(
+                            report,
+                            RuntimeCompileIssueCode::
+                                AlgorithmProgramOperandInvalid,
+                            algorithm->canonicalName,
+                            "add_field from_payload requires a numeric field"
+                        );
+                        return false;
+                    }
                 }
                 else if (fieldSchema.kind == MechanismValueKind::Integer
                     && instruction.operand.Kind()

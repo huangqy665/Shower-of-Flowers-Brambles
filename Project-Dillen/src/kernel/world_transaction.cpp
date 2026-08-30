@@ -93,6 +93,27 @@ WorldCommand WorldCommand::AdvanceRngStream(
     }};
 }
 
+WorldCommand WorldCommand::InvokeCapability(
+    CapabilityId capability,
+    AlgorithmEventTypeId deliveryType,
+    std::uint64_t dueTick,
+    std::int32_t priority,
+    MechanismValue payload,
+    MechanismInstanceId targetInstance,
+    std::uint32_t capabilityVersion
+)
+{
+    return {InvokeCapabilityCommand{
+        capability,
+        deliveryType,
+        dueTick,
+        priority,
+        std::move(payload),
+        targetInstance,
+        capabilityVersion
+    }};
+}
+
 WorldTransaction WorldTransaction::FromMechanismCommands(
     std::vector<MechanismCommand> commands
 )

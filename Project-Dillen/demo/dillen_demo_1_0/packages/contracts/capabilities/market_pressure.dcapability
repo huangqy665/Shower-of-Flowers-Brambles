@@ -1,0 +1,5 @@
+capability_contract = {
+    name = dillen.demo1.market_pressure
+    version = 1
+    deterministic = yes
+}

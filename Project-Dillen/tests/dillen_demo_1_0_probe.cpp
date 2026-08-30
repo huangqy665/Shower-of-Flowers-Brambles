@@ -69,9 +69,17 @@ bool RejectTamperedPackageSource()
 
     dillen::host::StandaloneSessionConfig config;
     config.sources.push_back({
+        "demo1_contracts",
+        "Project-Dillen/demo/dillen_demo_1_0/packages/contracts",
+        0,
+        {},
+        {},
+        {}
+    });
+    config.sources.push_back({
         "demo1_settlement",
         temporary,
-        0,
+        10,
         {},
         {},
         {}
@@ -79,7 +87,7 @@ bool RejectTamperedPackageSource()
     config.sources.push_back({
         "demo1_trade",
         "Project-Dillen/demo/dillen_demo_1_0/packages/trade_cycle",
-        10,
+        20,
         {},
         {},
         {}
@@ -125,6 +133,7 @@ bool RunVariant(
     std::size_t expectedSettlementCount,
     std::int64_t initialPopulation,
     std::int64_t initialFood,
+    std::int64_t initialMarket,
     DemoVariantResult& output,
     const std::vector<std::uint8_t>* foreignRootSave = nullptr
 )
@@ -132,9 +141,17 @@ bool RunVariant(
     using namespace dillen;
     host::StandaloneSessionConfig config;
     config.sources.push_back({
+        "demo1_contracts",
+        "Project-Dillen/demo/dillen_demo_1_0/packages/contracts",
+        0,
+        {},
+        {},
+        {}
+    });
+    config.sources.push_back({
         "demo1_settlement",
         "Project-Dillen/demo/dillen_demo_1_0/packages/settlement_growth",
-        0,
+        10,
         {},
         {},
         {}
@@ -142,7 +159,7 @@ bool RunVariant(
     config.sources.push_back({
         "demo1_trade",
         "Project-Dillen/demo/dillen_demo_1_0/packages/trade_cycle",
-        10,
+        20,
         {},
         {},
         {}
@@ -165,8 +182,8 @@ bool RunVariant(
         || !session.IsReady()
         || session.Catalog().ActiveRuleset()
             != kernel::StableRulesetId(rootName)
-        || session.Catalog().LockedPackages().Size() != 3
-        || session.Catalog().LockedSources().Size() != 16
+        || session.Catalog().LockedPackages().Size() != 4
+        || session.Catalog().LockedSources().Size() != 18
         || session.Catalog().LayoutCount() != 2
         || session.Catalog().AlgorithmCount() != 2
         || session.Catalog().DefinitionCount() != 2
@@ -295,7 +312,7 @@ bool RunVariant(
                 != kernel::MechanismLifecycleState::Active
             || population == nullptr || food == nullptr
             || *population
-                != kernel::MechanismValue(initialPopulation + 9)
+                != kernel::MechanismValue(initialPopulation + 6)
             || *food != kernel::MechanismValue(initialFood + 6))
         {
             std::cerr << "Demo 1.0 settlement growth failed\n";
@@ -321,7 +338,8 @@ bool RunVariant(
             kernel::StableRngStreamId("dillen.demo1.trade_rng")
         );
     if (marketIndex == nullptr || completedCycles == nullptr || rng == nullptr
-        || *marketIndex != kernel::MechanismValue(std::int64_t{58})
+        || *marketIndex
+            != kernel::MechanismValue(std::int64_t{initialMarket + 12})
         || *completedCycles != kernel::MechanismValue(std::int64_t{3})
         || rng->seed != 20260829
         || rng->drawCount != 3)
@@ -367,7 +385,7 @@ bool RunVariant(
     std::vector<std::uint8_t> restoredBytes;
     if (restoredPopulation == nullptr
         || *restoredPopulation
-            != kernel::MechanismValue(initialPopulation + 9)
+            != kernel::MechanismValue(initialPopulation + 6)
         || !persistence.Save(session.Runtime(), restoredBytes)
         || restoredBytes != output.saveBytes)
     {
@@ -452,6 +470,7 @@ int main()
             2,
             100,
             40,
+            10,
             balanced)
         || !RunVariant(
             "Project-Dillen/demo/dillen_demo_1_0/rulesets/accelerated",
@@ -459,6 +478,7 @@ int main()
             3,
             250,
             90,
+            30,
             accelerated,
             &balanced.saveBytes)
         || balanced.fingerprint == accelerated.fingerprint

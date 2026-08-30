@@ -20,6 +20,7 @@ constexpr std::uint32_t kMaximumContainerItems = 16U * 1024U * 1024U;
 constexpr std::uint32_t kMaximumStringBytes = 16U * 1024U * 1024U;
 constexpr std::size_t kMaximumValueDepth = 64;
 
+
 std::uint64_t Checksum(
     const std::uint8_t* bytes,
     std::size_t size
@@ -823,11 +824,23 @@ bool WriteWorldCommand(Writer& writer, const kernel::WorldCommand& command)
                 WriteId(writer, operation.stream);
                 writer.U64(operation.seed);
             }
-            else
+            else if constexpr (std::is_same_v<
+                    Operation,
+                    kernel::RngStreamAdvanceCommand>)
             {
                 WriteId(writer, operation.stream);
                 writer.U64(operation.expectedDrawCount);
                 writer.U64(operation.count);
+            }
+            else
+            {
+                WriteId(writer, operation.capability);
+                WriteId(writer, operation.deliveryType);
+                writer.U64(operation.dueTick);
+                writer.I32(operation.priority);
+                if (!WriteValue(writer, operation.payload)) return false;
+                WriteId(writer, operation.targetInstance);
+                writer.U32(operation.capabilityVersion);
             }
             return true;
         },
@@ -924,6 +937,19 @@ bool ReadWorldCommand(Reader& reader, kernel::WorldCommand& command)
             || !reader.U64(value.expectedDrawCount)
             || !reader.U64(value.count)) return false;
         command.payload = value;
+        return true;
+    }
+    case 10:
+    {
+        kernel::InvokeCapabilityCommand value;
+        if (!ReadId(reader, value.capability)
+            || !ReadId(reader, value.deliveryType)
+            || !reader.U64(value.dueTick)
+            || !reader.I32(value.priority)
+            || !ReadValue(reader, value.payload)
+            || !ReadId(reader, value.targetInstance)
+            || !reader.U32(value.capabilityVersion)) return false;
+        command.payload = std::move(value);
         return true;
     }
     default:
