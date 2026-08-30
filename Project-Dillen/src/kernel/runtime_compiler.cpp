@@ -9,6 +9,19 @@ namespace dillen::kernel {
 
 namespace {
 
+struct RuntimeCompileSelection
+{
+    std::set<std::pair<MechanismTypeId, std::uint32_t>> schemas;
+    std::set<std::pair<ComponentTypeId, std::uint32_t>> components;
+    std::set<std::pair<RelationTypeId, std::uint32_t>> relations;
+    std::set<MechanismDefinitionId> definitions;
+    std::set<EntityDefinitionId> entityDefinitions;
+    std::set<RelationDefinitionId> relationDefinitions;
+    std::set<MechanismSpawnDefinitionId> spawns;
+    std::set<std::pair<AlgorithmId, std::uint32_t>> algorithms;
+    std::set<std::pair<CapabilityId, std::uint32_t>> capabilities;
+};
+
 void AddIssue(
     RuntimeCompileReport& report,
     RuntimeCompileIssueCode code,
@@ -21,6 +34,259 @@ void AddIssue(
         std::move(subject),
         std::move(message)
     });
+}
+
+bool BuildCompileSelection(
+    const RulesetDefinition& ruleset,
+    const PackageLock& packageLock,
+    const AlgorithmRegistry& algorithms,
+    const MechanismDefinitionRegistry& definitions,
+    const EntityDefinitionRegistry& entityDefinitions,
+    const RelationDefinitionRegistry& relationDefinitions,
+    const MechanismSpawnDefinitionRegistry& mechanismSpawns,
+    const RuntimeCapabilityContractRegistry& capabilityContracts,
+    RuntimeCompileSelection& output,
+    RuntimeCompileReport& report
+)
+{
+    for (const RulesetSchemaRequirement& requirement
+        : ruleset.requiredSchemas)
+    {
+        output.schemas.emplace(requirement.type, requirement.version);
+    }
+    for (const RulesetComponentRequirement& requirement
+        : ruleset.requiredComponents)
+    {
+        output.components.emplace(requirement.type, requirement.version);
+    }
+    for (const RulesetRelationRequirement& requirement
+        : ruleset.requiredRelations)
+    {
+        output.relations.emplace(requirement.type, requirement.version);
+    }
+    output.definitions.insert(
+        ruleset.requiredDefinitions.begin(),
+        ruleset.requiredDefinitions.end()
+    );
+    output.entityDefinitions.insert(
+        ruleset.requiredEntityDefinitions.begin(),
+        ruleset.requiredEntityDefinitions.end()
+    );
+    output.relationDefinitions.insert(
+        ruleset.requiredRelationDefinitions.begin(),
+        ruleset.requiredRelationDefinitions.end()
+    );
+    output.spawns.insert(
+        ruleset.requiredMechanismSpawns.begin(),
+        ruleset.requiredMechanismSpawns.end()
+    );
+    for (const RulesetAlgorithmRequirement& requirement
+        : ruleset.requiredAlgorithms)
+    {
+        output.algorithms.emplace(
+            requirement.algorithm,
+            requirement.version
+        );
+    }
+
+    bool changed = true;
+    while (changed)
+    {
+        changed = false;
+        for (MechanismSpawnDefinitionId id
+            : std::vector<MechanismSpawnDefinitionId>(
+                output.spawns.begin(), output.spawns.end()))
+        {
+            const MechanismSpawnDefinition* spawn = mechanismSpawns.Find(id);
+            if (spawn != nullptr)
+            {
+                changed = output.definitions.emplace(
+                    spawn->definition).second || changed;
+            }
+        }
+        for (MechanismDefinitionId id
+            : std::vector<MechanismDefinitionId>(
+                output.definitions.begin(), output.definitions.end()))
+        {
+            const MechanismDefinition* definition = definitions.Find(id);
+            if (definition == nullptr)
+            {
+                continue;
+            }
+            changed = output.schemas.emplace(
+                definition->type,
+                definition->schemaVersion).second || changed;
+            if (definition->algorithm)
+            {
+                changed = output.algorithms.emplace(
+                    definition->algorithm,
+                    definition->algorithmVersion).second || changed;
+            }
+        }
+        for (RelationDefinitionId id
+            : std::vector<RelationDefinitionId>(
+                output.relationDefinitions.begin(),
+                output.relationDefinitions.end()))
+        {
+            const RelationDefinition* definition =
+                relationDefinitions.Find(id);
+            if (definition == nullptr)
+            {
+                continue;
+            }
+            changed = output.relations.emplace(
+                definition->type,
+                definition->schemaVersion).second || changed;
+            changed = output.entityDefinitions.emplace(
+                definition->source).second || changed;
+            changed = output.entityDefinitions.emplace(
+                definition->target).second || changed;
+        }
+        for (EntityDefinitionId id
+            : std::vector<EntityDefinitionId>(
+                output.entityDefinitions.begin(),
+                output.entityDefinitions.end()))
+        {
+            const EntityDefinition* definition = entityDefinitions.Find(id);
+            if (definition == nullptr)
+            {
+                continue;
+            }
+            for (const EntityComponentDefinition& component
+                : definition->components)
+            {
+                changed = output.components.emplace(
+                    component.type,
+                    component.schemaVersion).second || changed;
+            }
+        }
+        for (const auto& selectedAlgorithm
+            : std::vector<std::pair<AlgorithmId, std::uint32_t>>(
+                output.algorithms.begin(), output.algorithms.end()))
+        {
+            const AlgorithmDescriptor* algorithm = algorithms.Find(
+                selectedAlgorithm.first,
+                selectedAlgorithm.second
+            );
+            if (algorithm == nullptr)
+            {
+                continue;
+            }
+            for (const auto& stage : algorithm->program.stages)
+            {
+                for (const AlgorithmInstructionDefinition& instruction
+                    : stage.second)
+                {
+                    if (instruction.kind
+                        == AlgorithmInstructionKind::CreateEntity)
+                    {
+                        if (entityDefinitions.Find(
+                                instruction.entityDefinition) == nullptr)
+                        {
+                            AddIssue(
+                                report,
+                                RuntimeCompileIssueCode::
+                                    AlgorithmProgramOperandInvalid,
+                                algorithm->canonicalName,
+                                "selected create_entity target is missing"
+                            );
+                            return false;
+                        }
+                        changed = output.entityDefinitions.emplace(
+                            instruction.entityDefinition).second || changed;
+                    }
+                    else if (instruction.kind
+                        == AlgorithmInstructionKind::SetComponentField)
+                    {
+                        bool found = false;
+                        for (const EntityDefinition& entity
+                            : entityDefinitions.All())
+                        {
+                            if (StableEntityId(entity.id)
+                                == instruction.entity)
+                            {
+                                changed = output.entityDefinitions.emplace(
+                                    entity.id).second || changed;
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found)
+                        {
+                            AddIssue(
+                                report,
+                                RuntimeCompileIssueCode::
+                                    AlgorithmProgramOperandInvalid,
+                                algorithm->canonicalName,
+                                "selected set_component_field target is missing"
+                            );
+                            return false;
+                        }
+                    }
+                    else if (instruction.kind
+                        == AlgorithmInstructionKind::SpawnMechanism)
+                    {
+                        if (mechanismSpawns.Find(
+                                instruction.spawn) == nullptr)
+                        {
+                            AddIssue(
+                                report,
+                                RuntimeCompileIssueCode::
+                                    AlgorithmProgramOperandInvalid,
+                                algorithm->canonicalName,
+                                "selected spawn_mechanism target is missing"
+                            );
+                            return false;
+                        }
+                        changed = output.spawns.emplace(
+                            instruction.spawn).second || changed;
+                    }
+                }
+            }
+        }
+    }
+
+    RuntimeCapabilityResolver capabilityResolver;
+    std::vector<CapabilityRequirement> capabilityRequirements =
+        ruleset.requiredCapabilities;
+    for (const auto& selectedAlgorithm : output.algorithms)
+    {
+        const AlgorithmDescriptor* algorithm = algorithms.Find(
+            selectedAlgorithm.first,
+            selectedAlgorithm.second
+        );
+        if (algorithm != nullptr)
+        {
+            capabilityRequirements.insert(
+                capabilityRequirements.end(),
+                algorithm->requiredCapabilities.begin(),
+                algorithm->requiredCapabilities.end()
+            );
+        }
+    }
+    for (const CapabilityRequirement& requirement : capabilityRequirements)
+    {
+        ResolvedCapabilityContract resolved;
+        if (capabilityResolver.Resolve(
+                requirement,
+                capabilityContracts,
+                packageLock,
+                resolved) != CapabilityResolveResult::Resolved)
+        {
+            AddIssue(
+                report,
+                RuntimeCompileIssueCode::IntegrityValidationFailed,
+                requirement.canonicalName,
+                "selected Runtime Capability could not be resolved"
+            );
+            return false;
+        }
+        output.capabilities.emplace(
+            resolved.capability,
+            resolved.version
+        );
+    }
+    return true;
 }
 
 }
@@ -155,6 +421,22 @@ bool RuntimeCompiler::Compile(
         return false;
     }
 
+    RuntimeCompileSelection selection;
+    if (!BuildCompileSelection(
+            ruleset,
+            packageLock,
+            algorithms,
+            definitions,
+            entityDefinitions,
+            relationDefinitions,
+            mechanismSpawns,
+            capabilityContracts,
+            selection,
+            report))
+    {
+        return false;
+    }
+
     FrozenRuntimeCatalog candidate;
     candidate.ruleset_ = ruleset.id;
     candidate.rulesetVersion_ = ruleset.version;
@@ -167,9 +449,13 @@ bool RuntimeCompiler::Compile(
         sourceLock
     );
 
-    candidate.layouts_.reserve(schemas.Size());
-    for (const MechanismSchema& schema : schemas.All())
+    candidate.layouts_.reserve(selection.schemas.size());
+    for (const auto& selectedSchema : selection.schemas)
     {
+        const MechanismSchema& schema = *schemas.Find(
+            selectedSchema.first,
+            selectedSchema.second
+        );
         if (schema.fields.size()
                 > std::numeric_limits<std::uint32_t>::max()
             || schema.roles.size()
@@ -238,9 +524,13 @@ bool RuntimeCompiler::Compile(
     );
     candidate.RebuildIndexes();
 
-    candidate.relationLayouts_.reserve(relationSchemas.Size());
-    for (const RelationSchema& schema : relationSchemas.All())
+    candidate.relationLayouts_.reserve(selection.relations.size());
+    for (const auto& selectedRelation : selection.relations)
     {
+        const RelationSchema& schema = *relationSchemas.Find(
+            selectedRelation.first,
+            selectedRelation.second
+        );
         candidate.relationLayouts_.push_back({
             schema.type,
             schema.version,
@@ -262,9 +552,13 @@ bool RuntimeCompiler::Compile(
     );
     candidate.RebuildIndexes();
 
-    candidate.componentLayouts_.reserve(componentSchemas.Size());
-    for (const ComponentSchema& schema : componentSchemas.All())
+    candidate.componentLayouts_.reserve(selection.components.size());
+    for (const auto& selectedComponent : selection.components)
     {
+        const ComponentSchema& schema = *componentSchemas.Find(
+            selectedComponent.first,
+            selectedComponent.second
+        );
         if (schema.fields.size()
             > std::numeric_limits<std::uint32_t>::max())
         {
@@ -313,9 +607,11 @@ bool RuntimeCompiler::Compile(
     );
     candidate.RebuildIndexes();
 
-    candidate.definitions_.reserve(definitions.Size());
-    for (const MechanismDefinition& definition : definitions.All())
+    candidate.definitions_.reserve(selection.definitions.size());
+    for (MechanismDefinitionId selectedDefinition : selection.definitions)
     {
+        const MechanismDefinition& definition =
+            *definitions.Find(selectedDefinition);
         const CompiledMechanismLayout* layout = candidate.FindLayout(
             definition.type,
             definition.schemaVersion
@@ -381,9 +677,12 @@ bool RuntimeCompiler::Compile(
         }
     );
 
-    candidate.entityDefinitions_.reserve(entityDefinitions.Size());
-    for (const EntityDefinition& definition : entityDefinitions.All())
+    candidate.entityDefinitions_.reserve(selection.entityDefinitions.size());
+    for (EntityDefinitionId selectedDefinition
+        : selection.entityDefinitions)
     {
+        const EntityDefinition& definition =
+            *entityDefinitions.Find(selectedDefinition);
         CompiledEntityDefinition compiled;
         compiled.id = definition.id;
         compiled.type = definition.type;
@@ -441,10 +740,14 @@ bool RuntimeCompiler::Compile(
     );
     candidate.RebuildIndexes();
 
-    candidate.relationDefinitions_.reserve(relationDefinitions.Size());
-    for (const RelationDefinition& definition
-        : relationDefinitions.All())
+    candidate.relationDefinitions_.reserve(
+        selection.relationDefinitions.size()
+    );
+    for (RelationDefinitionId selectedDefinition
+        : selection.relationDefinitions)
     {
+        const RelationDefinition& definition =
+            *relationDefinitions.Find(selectedDefinition);
         if (candidate.FindRelationLayout(
                 definition.type,
                 definition.schemaVersion) == nullptr
@@ -478,9 +781,11 @@ bool RuntimeCompiler::Compile(
     );
     candidate.RebuildIndexes();
 
-    candidate.spawnDefinitions_.reserve(mechanismSpawns.Size());
-    for (const MechanismSpawnDefinition& spawn : mechanismSpawns.All())
+    candidate.spawnDefinitions_.reserve(selection.spawns.size());
+    for (MechanismSpawnDefinitionId selectedSpawn : selection.spawns)
     {
+        const MechanismSpawnDefinition& spawn =
+            *mechanismSpawns.Find(selectedSpawn);
         const MechanismDefinition* sourceDefinition = definitions.Find(
             spawn.definition
         );
@@ -500,6 +805,16 @@ bool RuntimeCompiler::Compile(
             sourceDefinition->type,
             sourceDefinition->schemaVersion
         );
+        if (layout == nullptr)
+        {
+            AddIssue(
+                report,
+                RuntimeCompileIssueCode::SpawnDefinitionMissing,
+                spawn.canonicalName,
+                "Spawn has no compiled Mechanism Layout"
+            );
+            return false;
+        }
         CompiledMechanismSpawnDefinition compiled;
         compiled.id = spawn.id;
         compiled.definition = spawn.definition;
@@ -547,25 +862,12 @@ bool RuntimeCompiler::Compile(
             return first.id < second.id;
         }
     );
-    std::set<std::pair<std::uint64_t, std::uint32_t>> compiledCapabilities;
-    for (const PackageLockEntry& package : packageLock.Entries())
+    for (const auto& selectedCapability : selection.capabilities)
     {
-        for (const CapabilityProvision& provision
-            : package.providedCapabilities)
-        {
-            const RuntimeCapabilityContract* contract =
-                capabilityContracts.Find(
-                    provision.capability,
-                    provision.version
-                );
-            if (contract != nullptr
-                && compiledCapabilities.emplace(
-                    contract->id.value,
-                    contract->version).second)
-            {
-                candidate.capabilities_.push_back(*contract);
-            }
-        }
+        candidate.capabilities_.push_back(*capabilityContracts.Find(
+            selectedCapability.first,
+            selectedCapability.second
+        ));
     }
     std::sort(
         candidate.capabilities_.begin(),
@@ -582,9 +884,16 @@ bool RuntimeCompiler::Compile(
     );
     candidate.RebuildIndexes();
     RuntimeCapabilityResolver capabilityResolver;
-    candidate.algorithmCapabilityBindings_.reserve(algorithms.Size());
-    for (const AlgorithmDescriptor& algorithm : algorithms.All())
+    candidate.algorithmCapabilityBindings_.reserve(
+        selection.algorithms.size()
+    );
+    candidate.algorithms_.reserve(selection.algorithms.size());
+    for (const auto& selectedAlgorithm : selection.algorithms)
     {
+        const AlgorithmDescriptor& algorithm = *algorithms.Find(
+            selectedAlgorithm.first,
+            selectedAlgorithm.second
+        );
         CompiledAlgorithmCapabilityBinding binding;
         binding.algorithm = algorithm.id;
         binding.algorithmVersion = algorithm.version;
@@ -628,8 +937,19 @@ bool RuntimeCompiler::Compile(
         candidate.algorithmCapabilityBindings_.push_back(
             std::move(binding)
         );
+        candidate.algorithms_.push_back(algorithm);
     }
-    candidate.algorithms_ = algorithms.All();
+    std::sort(
+        candidate.algorithms_.begin(),
+        candidate.algorithms_.end(),
+        [](const AlgorithmDescriptor& first,
+           const AlgorithmDescriptor& second)
+        {
+            return first.id != second.id
+                ? first.id < second.id
+                : first.version < second.version;
+        }
+    );
     candidate.RebuildIndexes();
     for (const CompiledMechanismDefinition& definition
         : candidate.definitions_)
@@ -643,7 +963,8 @@ bool RuntimeCompiler::Compile(
             definition.algorithmVersion
         );
         if (algorithm == nullptr
-            || algorithm->backend != AlgorithmBackend::Declarative)
+            || (algorithm->backend != AlgorithmBackend::Declarative
+                && algorithm->backend != AlgorithmBackend::Script))
         {
             continue;
         }
@@ -651,6 +972,255 @@ bool RuntimeCompiler::Compile(
             definition.type,
             definition.schemaVersion
         );
+        if (algorithm->backend == AlgorithmBackend::Script)
+        {
+            if (layout == nullptr
+                || !IsValidControlledScriptProgram(
+                    algorithm->script,
+                    algorithm->entryPoints))
+            {
+                AddIssue(
+                    report,
+                    RuntimeCompileIssueCode::AlgorithmProgramMissing,
+                    algorithm->canonicalName,
+                    "Controlled Script has no valid source program"
+                );
+                return false;
+            }
+
+            CompiledControlledScriptProgram program;
+            program.definition = definition.id;
+            program.algorithm = definition.algorithm;
+            program.algorithmVersion = definition.algorithmVersion;
+            for (std::size_t stateIndex = 0;
+                stateIndex < algorithm->script.state.size();
+                ++stateIndex)
+            {
+                const ControlledScriptStateDefinition& sourceState =
+                    algorithm->script.state[stateIndex];
+                program.stateSlotsByName.emplace(
+                    sourceState.name,
+                    static_cast<std::uint32_t>(stateIndex)
+                );
+                program.initialState.push_back(sourceState.initialValue);
+            }
+            if (ControlledScriptStateFootprint(program.initialState)
+                > algorithm->executionPolicy.scriptMemoryLimitBytes)
+            {
+                AddIssue(
+                    report,
+                    RuntimeCompileIssueCode::AlgorithmProgramBudgetExceeded,
+                    algorithm->canonicalName,
+                    "Controlled Script initial state exceeds its memory quota"
+                );
+                return false;
+            }
+
+            for (const auto& sourceStage : algorithm->script.stages)
+            {
+                std::vector<ControlledScriptInstruction> bytecode;
+                bytecode.reserve(sourceStage.second.size());
+                for (const ControlledScriptInstructionDefinition& source
+                    : sourceStage.second)
+                {
+                    ControlledScriptInstruction instruction;
+                    instruction.operand = source.operand;
+                    instruction.lifecycle = source.lifecycle;
+                    instruction.targetInstruction = source.targetInstruction;
+                    const auto state = program.stateSlotsByName.find(
+                        source.state
+                    );
+                    const auto field = layout->fieldSlotsByName.find(
+                        source.field
+                    );
+                    switch (source.kind)
+                    {
+                    case ControlledScriptInstructionKind::SetState:
+                        if (state == program.stateSlotsByName.end()
+                            || source.operand.Kind()
+                                != program.initialState[state->second].Kind())
+                        {
+                            AddIssue(
+                                report,
+                                RuntimeCompileIssueCode::
+                                    AlgorithmProgramOperandInvalid,
+                                algorithm->canonicalName,
+                                "set_state violates its persistent state type"
+                            );
+                            return false;
+                        }
+                        instruction.opcode =
+                            ControlledScriptOpcode::SetStateConstant;
+                        instruction.stateSlot = state->second;
+                        break;
+                    case ControlledScriptInstructionKind::AddState:
+                        if (state == program.stateSlotsByName.end())
+                        {
+                            AddIssue(
+                                report,
+                                RuntimeCompileIssueCode::
+                                    AlgorithmProgramOperandInvalid,
+                                algorithm->canonicalName,
+                                "add_state references an unknown state slot"
+                            );
+                            return false;
+                        }
+                        instruction.stateSlot = state->second;
+                        if (program.initialState[state->second].Kind()
+                                == MechanismValueKind::Integer
+                            && source.operand.Kind()
+                                == MechanismValueKind::Integer)
+                        {
+                            instruction.opcode = ControlledScriptOpcode::
+                                AddStateIntegerConstant;
+                        }
+                        else if (program.initialState[state->second].Kind()
+                                == MechanismValueKind::Decimal
+                            && (source.operand.Kind()
+                                    == MechanismValueKind::Decimal
+                                || source.operand.Kind()
+                                    == MechanismValueKind::Integer))
+                        {
+                            if (instruction.operand.Kind()
+                                == MechanismValueKind::Integer)
+                            {
+                                instruction.operand = MechanismValue(
+                                    static_cast<double>(std::get<std::int64_t>(
+                                        instruction.operand.data
+                                    ))
+                                );
+                            }
+                            instruction.opcode = ControlledScriptOpcode::
+                                AddStateDecimalConstant;
+                        }
+                        else
+                        {
+                            AddIssue(
+                                report,
+                                RuntimeCompileIssueCode::
+                                    AlgorithmProgramOperandInvalid,
+                                algorithm->canonicalName,
+                                "add_state requires a compatible numeric state"
+                            );
+                            return false;
+                        }
+                        break;
+                    case ControlledScriptInstructionKind::SetField:
+                    case ControlledScriptInstructionKind::AddField:
+                        if (field == layout->fieldSlotsByName.end())
+                        {
+                            AddIssue(
+                                report,
+                                RuntimeCompileIssueCode::
+                                    AlgorithmProgramFieldMissing,
+                                algorithm->canonicalName,
+                                "Controlled Script references an unknown field"
+                            );
+                            return false;
+                        }
+                        instruction.field = field->second;
+                        if (source.kind
+                            == ControlledScriptInstructionKind::SetField)
+                        {
+                            if (!MechanismValueMatchesSchema(
+                                    layout->fields[field->second.value],
+                                    source.operand))
+                            {
+                                AddIssue(
+                                    report,
+                                    RuntimeCompileIssueCode::
+                                        AlgorithmProgramOperandInvalid,
+                                    algorithm->canonicalName,
+                                    "set_field violates the target field schema"
+                                );
+                                return false;
+                            }
+                            instruction.opcode = ControlledScriptOpcode::
+                                SetFieldConstant;
+                        }
+                        else if (layout->fields[field->second.value].kind
+                                == MechanismValueKind::Integer
+                            && source.operand.Kind()
+                                == MechanismValueKind::Integer)
+                        {
+                            instruction.opcode = ControlledScriptOpcode::
+                                AddFieldIntegerConstant;
+                        }
+                        else if (layout->fields[field->second.value].kind
+                                == MechanismValueKind::Decimal
+                            && (source.operand.Kind()
+                                    == MechanismValueKind::Decimal
+                                || source.operand.Kind()
+                                    == MechanismValueKind::Integer))
+                        {
+                            if (instruction.operand.Kind()
+                                == MechanismValueKind::Integer)
+                            {
+                                instruction.operand = MechanismValue(
+                                    static_cast<double>(std::get<std::int64_t>(
+                                        instruction.operand.data
+                                    ))
+                                );
+                            }
+                            instruction.opcode = ControlledScriptOpcode::
+                                AddFieldDecimalConstant;
+                        }
+                        else
+                        {
+                            AddIssue(
+                                report,
+                                RuntimeCompileIssueCode::
+                                    AlgorithmProgramOperandInvalid,
+                                algorithm->canonicalName,
+                                "add_field requires a compatible numeric field"
+                            );
+                            return false;
+                        }
+                        break;
+                    case ControlledScriptInstructionKind::TransitionLifecycle:
+                        instruction.opcode = ControlledScriptOpcode::
+                            TransitionLifecycle;
+                        break;
+                    case ControlledScriptInstructionKind::Jump:
+                        instruction.opcode = ControlledScriptOpcode::Jump;
+                        break;
+                    case ControlledScriptInstructionKind::JumpIfStateEquals:
+                        if (state == program.stateSlotsByName.end()
+                            || source.operand.Kind()
+                                != program.initialState[state->second].Kind())
+                        {
+                            AddIssue(
+                                report,
+                                RuntimeCompileIssueCode::
+                                    AlgorithmProgramOperandInvalid,
+                                algorithm->canonicalName,
+                                "jump_if_state_equals violates its state type"
+                            );
+                            return false;
+                        }
+                        instruction.opcode = ControlledScriptOpcode::
+                            JumpIfStateEquals;
+                        instruction.stateSlot = state->second;
+                        break;
+                    case ControlledScriptInstructionKind::Yield:
+                        instruction.opcode = ControlledScriptOpcode::Yield;
+                        break;
+                    case ControlledScriptInstructionKind::Halt:
+                        instruction.opcode = ControlledScriptOpcode::Halt;
+                        break;
+                    }
+                    bytecode.push_back(std::move(instruction));
+                }
+                program.stages.emplace(
+                    sourceStage.first,
+                    std::move(bytecode)
+                );
+            }
+            candidate.controlledScriptPrograms_.push_back(
+                std::move(program)
+            );
+            continue;
+        }
         if (layout == nullptr
             || !IsValidAlgorithmProgram(
                 algorithm->program,
@@ -891,6 +1461,17 @@ bool RuntimeCompiler::Compile(
                 if (sourceInstruction.kind
                     == AlgorithmInstructionKind::ScheduleEvent)
                 {
+                    if (sourceInstruction.dueTickOffset == 0)
+                    {
+                        AddIssue(
+                            report,
+                            RuntimeCompileIssueCode::
+                                AlgorithmProgramOperandInvalid,
+                            algorithm->canonicalName,
+                            "schedule_event requires a positive tick delay"
+                        );
+                        return false;
+                    }
                     instruction.opcode =
                         AlgorithmBytecodeOpcode::ScheduleEvent;
                     instruction.eventType = sourceInstruction.eventType;
@@ -1019,6 +1600,15 @@ bool RuntimeCompiler::Compile(
         candidate.algorithmPrograms_.end(),
         [](const CompiledAlgorithmProgram& first,
            const CompiledAlgorithmProgram& second)
+        {
+            return first.definition < second.definition;
+        }
+    );
+    std::sort(
+        candidate.controlledScriptPrograms_.begin(),
+        candidate.controlledScriptPrograms_.end(),
+        [](const CompiledControlledScriptProgram& first,
+           const CompiledControlledScriptProgram& second)
         {
             return first.definition < second.definition;
         }

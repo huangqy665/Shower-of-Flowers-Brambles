@@ -5,6 +5,8 @@ dillen_add_component(
         algorithm_execution_budget.hpp
         algorithm_runtime.cpp
         algorithm_runtime.hpp
+        controlled_script_vm.cpp
+        controlled_script_vm.hpp
         declarative_algorithm_vm.cpp
         declarative_algorithm_vm.hpp
         kernel_runtime.cpp

@@ -19,7 +19,31 @@ function(dillen_define_project_options)
     if(MSVC)
         target_compile_options(
             dillen_project_options
-            INTERFACE /utf-8 /Zc:__cplusplus /EHsc
+            INTERFACE
+                /utf-8
+                /Zc:__cplusplus
+                /EHsc
+                /W4
+                /permissive-
+                # C4702 (unreachable code): MSVC /W4 flags the trailing
+                # `return` of std::visit + `if constexpr` visitor lambdas as
+                # unreachable for the alternatives whose branch always returns,
+                # while it is still required for the alternatives that fall
+                # through. GCC/Clang do not warn here. Disabled deliberately.
+                /wd4702
+        )
+    else()
+        # GCC / Clang. UTF-8 source, correct __cplusplus and the default
+        # exception model are already the defaults, so only warnings are set.
+        # Cross-platform support is still in progress (memo section 4.6):
+        # this branch exists so the Linux CI job can surface conformance and
+        # portability gaps early.
+        target_compile_options(
+            dillen_project_options
+            INTERFACE
+                -Wall
+                -Wextra
+                -Wpedantic
         )
     endif()
 endfunction()

@@ -1,0 +1,12 @@
+mechanism_spawn = {
+    name = dillen.demo1.initial_trade_cycle
+    mechanism = dillen.demo1.trade_cycle
+    definition = dillen.demo1.default_trade_cycle
+    count = 1
+
+    fields = {
+        market_index = 30
+        completed_cycles = 0
+        label = "accelerated market"
+    }
+}

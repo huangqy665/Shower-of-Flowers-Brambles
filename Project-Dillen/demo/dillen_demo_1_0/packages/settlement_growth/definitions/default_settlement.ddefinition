@@ -1,0 +1,13 @@
+mechanism_definition = {
+    name = dillen.demo1.default_settlement
+    mechanism = dillen.demo1.settlement_growth
+    schema_version = 1
+    algorithm = dillen.demo1.settlement_growth_algorithm
+    algorithm_version = 1
+
+    fields = {
+        population = 100
+        food_stock = 40
+        label = "default settlement"
+    }
+}

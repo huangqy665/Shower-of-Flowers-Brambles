@@ -11,7 +11,9 @@ bool operator==(
     const SourceLockEntry& second
 ) noexcept
 {
-    return first.sourceLayer == second.sourceLayer
+    return first.package == second.package
+        && first.packageVersion == second.packageVersion
+        && first.sourceLayer == second.sourceLayer
         && first.virtualPath == second.virtualPath
         && first.fingerprint == second.fingerprint
         && first.size == second.size;
@@ -51,7 +53,9 @@ bool SourceLockBuilder::Build(
     std::set<std::pair<std::string, std::string>> identities;
     for (const SourceLockEntry& entry : entries)
     {
-        if (entry.sourceLayer.empty()
+        if (!entry.package
+            || entry.packageVersion == PackageVersion{}
+            || entry.sourceLayer.empty()
             || entry.virtualPath.empty()
             || entry.fingerprint == 0
             || !identities.emplace(
@@ -67,6 +71,14 @@ bool SourceLockBuilder::Build(
         entries.end(),
         [](const SourceLockEntry& first, const SourceLockEntry& second)
         {
+            if (first.package != second.package)
+            {
+                return first.package < second.package;
+            }
+            if (first.packageVersion != second.packageVersion)
+            {
+                return first.packageVersion < second.packageVersion;
+            }
             if (first.sourceLayer != second.sourceLayer)
             {
                 return first.sourceLayer < second.sourceLayer;

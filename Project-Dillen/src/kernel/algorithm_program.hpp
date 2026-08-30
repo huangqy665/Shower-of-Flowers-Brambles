@@ -11,7 +11,24 @@
 
 namespace dillen::kernel {
 
-enum class AlgorithmEntryPoint : std::uint32_t;
+enum class AlgorithmEntryPoint : std::uint32_t
+{
+    None = 0,
+    Create = 1U << 0U,
+    Tick = 1U << 1U,
+    Event = 1U << 2U,
+    Command = 1U << 3U,
+    Destroy = 1U << 4U
+};
+
+AlgorithmEntryPoint operator|(
+    AlgorithmEntryPoint first,
+    AlgorithmEntryPoint second
+) noexcept;
+bool HasAlgorithmEntryPoint(
+    AlgorithmEntryPoint value,
+    AlgorithmEntryPoint flag
+) noexcept;
 
 enum class AlgorithmInstructionKind
 {

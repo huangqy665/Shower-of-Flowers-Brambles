@@ -113,7 +113,7 @@ RulesetFingerprint ComputeRulesetFingerprint(
         return {};
     }
     FingerprintWriter writer;
-    writer.Text("dillen.ruleset.fingerprint.v3");
+    writer.Text("dillen.ruleset.fingerprint.v4");
     writer.Unsigned(ruleset.id.value);
     writer.Unsigned(ruleset.version);
 
@@ -202,6 +202,10 @@ RulesetFingerprint ComputeRulesetFingerprint(
 
     for (const SourceLockEntry& entry : sourceLock.Entries())
     {
+        writer.Unsigned(entry.package.value);
+        writer.Unsigned(entry.packageVersion.major);
+        writer.Unsigned(entry.packageVersion.minor);
+        writer.Unsigned(entry.packageVersion.patch);
         writer.Text(entry.sourceLayer);
         writer.Text(entry.virtualPath);
         writer.Unsigned(entry.fingerprint);

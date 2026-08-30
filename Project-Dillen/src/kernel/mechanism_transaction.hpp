@@ -21,6 +21,7 @@ enum class MechanismTransactionStatus
     TickRegression,
     LifecycleTransitionInvalid,
     FaultCodeInvalid,
+    AlgorithmStateInvalid,
     DestroyRequiresTerminalState,
     DestroyTargetReferenced,
     TargetDestroyed

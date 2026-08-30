@@ -105,7 +105,9 @@ enum class AlgorithmInvocationStatus
     InstanceIsolated,
     DeclarativeProgramMissing,
     DeclarativeExecutionFailed,
-    ScriptBackendUnavailable,
+    ScriptExecutionFailed,
+    ScriptMemoryQuotaExceeded,
+    Preempted,
     ExecutorMissing,
     BackendMismatch,
     CapabilityBindingMissing,
@@ -173,6 +175,11 @@ public:
         const kernel::WorldTransaction& command
     ) const;
     AlgorithmStageReport DispatchDestroy(
+        const WorldQuerySnapshot& query,
+        const kernel::DeterministicRngSnapshot& rng,
+        std::uint64_t tick
+    ) const;
+    AlgorithmStageReport DispatchDeferred(
         const WorldQuerySnapshot& query,
         const kernel::DeterministicRngSnapshot& rng,
         std::uint64_t tick

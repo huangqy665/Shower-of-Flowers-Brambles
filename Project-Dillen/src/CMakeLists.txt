@@ -12,6 +12,7 @@ if(DILLEN_BUILD_STANDALONE_RUNTIME)
     add_subdirectory(persistence)
     add_subdirectory(parser)
     add_subdirectory(parser/parsers/dillen)
+    add_subdirectory(adapter)
     add_subdirectory(host)
 
     add_library(project_dillen_standalone INTERFACE)
@@ -25,6 +26,7 @@ if(DILLEN_BUILD_STANDALONE_RUNTIME)
             dillen::persistence
             dillen::parser
             dillen::authoring
+            dillen::adapter
     )
 
     if(DILLEN_BUILD_HOI3_COMPATIBILITY)

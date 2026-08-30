@@ -1,0 +1,8 @@
+package_manifest = {
+    name = dillen.demo1.settlement_growth_package
+    version_major = 1
+    version_minor = 0
+    version_patch = 0
+    content_digest = "dd3fe659267b18293cb360917189967f6d795de1515a37b9d3ddb8a70d4771f2"
+    load_priority = 0
+}

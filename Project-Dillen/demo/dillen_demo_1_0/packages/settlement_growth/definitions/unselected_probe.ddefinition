@@ -1,0 +1,7 @@
+mechanism_definition = {
+    name = dillen.demo1.unselected_probe_definition
+    mechanism = dillen.demo1.unselected_probe
+    schema_version = 1
+    algorithm = dillen.demo1.unselected_probe_algorithm
+    algorithm_version = 1
+}

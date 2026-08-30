@@ -6,6 +6,12 @@
 
 | 虚拟目录 | 扩展名 | 根语句 | 输出 |
 | --- | --- | --- | --- |
+| `packages/**` | `.dpackage` | `package_manifest` | `PackageManifestRegistry` |
+| `capabilities/**` | `.dcapability` | `capability_contract` | `RuntimeCapabilityContractRegistry` |
+| `components/**` | `.dcomponent` | `component_schema` | `ComponentSchemaRegistry` |
+| `entities/**` | `.dentity` | `entity_definition` | `EntityDefinitionRegistry` |
+| `relations/schemas/**` | `.drelation` | `relation_schema` | `RelationSchemaRegistry` |
+| `relations/definitions/**` | `.drelationdef` | `relation_definition` | `RelationDefinitionRegistry` |
 | `mechanisms/**` | `.dmechanism` | `mechanism_template` | `MechanismSchemaRegistry` |
 | `algorithms/**` | `.dalgorithm` | `algorithm_descriptor` | `AlgorithmRegistry` |
 | `definitions/**` | `.ddefinition` | `mechanism_definition` | `MechanismDefinitionRegistry` |
@@ -13,6 +19,14 @@
 | `rulesets/**` | `.druleset` | `root_ruleset` / `extension_ruleset` | `RulesetComposer`、`RulesetRegistry` |
 
 路径可以继续包含子目录。文件类型由虚拟路径和扩展名确定，根语句与文件类型不匹配会产生错误。
+
+### 1.1 Package 与 Source Layer 身份
+
+每个参与 Authoring 的 Source Layer 必须包含且只能包含一个有效的 `.dpackage`。该 Manifest 是该层全部有效 Source Artifact 的唯一 Package Owner；同一层缺少 Manifest、存在多个 Manifest，或该 Package 未进入当前 Root 的 Package Lock，都会在 Runtime Compile 前被拒绝。
+
+`content_digest` 不是任意占位字符串。Authoring Pipeline 会按虚拟路径稳定排序该层除 `.dpackage` 自身以外的全部有效 Source Artifact，以 `dillen.package.content.v1` 帧格式计算 SHA-256，并要求结果与 Manifest 中的 64 位小写十六进制摘要完全一致。Manifest 自身不进入 Package 摘要，以避免自引用；但 Manifest 文件仍进入 Source Lock，因此修改 Manifest 也会改变 Ruleset Fingerprint。
+
+Source Lock 的每一项同时保存 `PackageId + PackageVersion + Source Layer + Virtual Path + Fingerprint + Size`。因此一个文件不仅被锁定内容，也被锁定到明确的 Package 版本。Root Ruleset 所在 Source Layer 同样必须拥有自己的 Package Manifest，并把该 Root Package 列入 `required_packages`。
 
 ## 2. Mechanism Template
 
@@ -53,6 +67,8 @@ algorithm_descriptor = {
     deterministic = yes
     execution_policy = {
         instruction_budget = 4096
+        script_slice_instruction_budget = 256
+        script_memory_limit_bytes = 65536
         wall_clock_warning_microseconds = 50000
         failure_policy = fail_instance
     }
@@ -76,13 +92,22 @@ algorithm_descriptor = {
 }
 ```
 
-`backend` 可声明为 `declarative`、`script` 或 `native`。`declarative` 必须提供 `program`，且 `program` 的阶段必须与 `entry_points` 完全一致。当前最小指令集如下：
+`backend` 可声明为 `declarative`、`script` 或 `native`。`declarative` 必须提供 `program`，`script` 必须提供 `script`，且对应程序的阶段必须与 `entry_points` 完全一致。当前 Declarative 最小指令集如下：
 
 | 指令 | 作用 | 约束 |
 | --- | --- | --- |
 | `set_field` | 把标量常量写入当前 Mechanism Instance 字段 | 值必须满足目标字段 Schema |
 | `add_field` | 对当前整数或小数字段加常量 | 只允许数值字段；整数溢出和非有限小数会失败 |
 | `transition_lifecycle` | 提交生命周期转换 | 必须满足 Kernel 生命周期转换规则 |
+| `create_entity` | 按 Entity Definition 创建 Entity | Definition 必须已冻结 |
+| `set_component_field` | 写入指定 Entity 的 Component 字段 | Entity、Component 与字段必须存在且类型匹配 |
+| `add_relation` | 在两个稳定 Entity 之间增加 Relation | 必须满足 Relation Schema |
+| `spawn_mechanism` | 按 Spawn Definition 创建机制实例 | Spawn 必须进入 Frozen Catalog |
+| `schedule_event` | 向 Algorithm Inbox 调度确定性事件 | 使用 Tick 偏移、优先级和标量 Payload |
+| `create_rng` | 创建稳定 RNG Stream | Stream ID 必须有效且不能重复 |
+| `advance_rng` | 按期望 Draw Count 推进 RNG Stream | Draw Count 不一致时事务拒绝 |
+
+`set_field` 与 `add_field` 可附加 `when`，当前支持 `field_equals`、`query_at_least`、`scheduled_event` 和 `rng_modulo`。Query 可统计 Entity、Component、Relation 或 Mechanism Type；Event 与 RNG 条件只读取同代际 Snapshot。
 
 加载期由 Runtime Compiler 把字段名解析为 Definition 专属的 32 位 Slot，并生成无字符串、无循环的冻结字节码；运行期内建 VM 只读取当前 Instance，按顺序生成 `WorldTransaction`，不直接修改权威世界。空阶段合法，可用于声明当前阶段暂时无操作。
 
@@ -98,7 +123,41 @@ algorithm_descriptor = {
 
 若 Descriptor 声明 `destroy`，进入 Completed 或 Failed 的非隔离实例会执行 Destroy 阶段；Destroy 输出与实例删除在同一事务提交。仍被其他 Mechanism Role 引用的实例不会删除，定向到已删除实例的待处理 Algorithm Event 会被原子取消。
 
-`native` 继续通过宿主显式注册的 Executor 执行。Declarative VM 可在指令边界依据确定性指令预算主动终止；Native Executor 获得协作式 Budget Tracker。墙钟耗时只写入当次 `AlgorithmInvocationResult` 诊断报告，不进入 Authoritative World、Save、Replay Checksum 或 Failure Policy。Kernel 不会不安全地强杀任意 C++ 回调；真正的进程级卡死保护必须由非权威 Host Watchdog 或未来可抢占 Worker 提供。`script` 只保留描述符兼容入口，当前会返回 `ScriptBackendUnavailable`；受控 Script 后端仍需等待持久化、Replay、内存配额和确定性沙箱契约。
+受控 Script 使用 Dillen 自有的确定性字节码，不嵌入宿主 Lua。示例：
+
+```text
+algorithm_descriptor = {
+    name = dillen.demo.controlled_script
+    version = 1
+    backend = script
+    entry_points = { tick }
+    execution_policy = {
+        instruction_budget = 64
+        script_slice_instruction_budget = 8
+        script_memory_limit_bytes = 4096
+    }
+    script = {
+        state = {
+            iteration = 0
+        }
+        tick = {
+            add_state = { state = iteration value = 1 }
+            add_field = { field = value value = 1 }
+            jump_if_state_equals = {
+                state = iteration
+                value = 10
+                target_instruction = 4
+            }
+            yield = yes
+            halt = yes
+        }
+    }
+}
+```
+
+Script v1 支持 `set_state`、`add_state`、`set_field`、`add_field`、`transition_lifecycle`、`jump`、`jump_if_state_equals`、`yield` 和 `halt`。跳转目标是当前阶段的零基指令下标，也可等于阶段长度表示完成。状态类型由初值固定；`script_memory_limit_bytes` 约束全部持久状态的确定性结构化占用。达到 `script_slice_instruction_budget` 或执行 `yield` 时，VM 在指令边界抢占，把状态与 Program Counter 通过同一 World Transaction 提交；二者进入 Save v4 和 Replay。内存越界会丢弃整次输出并按 Failure Policy 记录权威 Fault。
+
+`native` 继续通过宿主显式注册的 Executor 执行。Declarative VM 与 Controlled Script VM 都在指令边界消费确定性预算；Native Executor 获得协作式 Budget Tracker。墙钟耗时只写入当次 `AlgorithmInvocationResult` 诊断报告，不进入 Authoritative World、Save、Replay Checksum 或 Failure Policy。Kernel 不会不安全地强杀任意 C++ 回调；真正的进程级卡死保护必须由非权威 Host Watchdog 提供。
 
 ## 4. Mechanism Definition
 
@@ -162,7 +221,7 @@ root_ruleset = {
 }
 ```
 
-`allow_additions` 使用 `package`、`mechanism_schema`、`component_schema`、`mechanism_definition`、`entity_definition`、`mechanism_spawn`、`algorithm` 或 `capability`。
+`allow_additions` 使用 `package`、`mechanism_schema`、`component_schema`、`relation_schema`、`mechanism_definition`、`entity_definition`、`relation_definition`、`mechanism_spawn`、`algorithm` 或 `capability`。
 
 ## 7. Extension Ruleset
 
@@ -184,10 +243,13 @@ extension_ruleset = {
 
 ## 8. 当前边界
 
-- 已完成五类文件进入 Registry 与 Frozen Runtime Catalog 的完整纵向闭环。
+- 已完成 Package、Capability、Component、Entity、Relation、Mechanism、Algorithm、Definition、Spawn 与 Ruleset 进入 Registry 和 Frozen Runtime Catalog 的纵向闭环。
 - 已支持 Root / Extension 外部定义、显式选择、确定性组合和 Fingerprint。
 - Definition 与 Spawn 的外部初值当前只支持标量；结构化 List / Object / Reference 初值尚未接入。
-- Package Manifest、Capability Contract、Component Schema 和 Entity Definition 的外部格式不属于本次五类纵向切片。
-- Declarative Algorithm 已完成 `外部程序 → 字段 Slot 编译 → Frozen Bytecode → 内建 VM → WorldTransaction` 的最小可执行闭环；当前指令集刻意保持无分支、无循环。
+- 多 Package Source Layer、Package Lock 与逐 Source Artifact 的真实 Source Lock 已进入 Frozen Catalog、Fingerprint 和 Persistence Identity。
+- Runtime Compiler 只冻结 Root / Extension 组合所选择的依赖闭包；未选择的 Schema、Algorithm、Definition、Spawn 及其无关依赖可以存在于已加载 Registry，但不会进入 Frozen Catalog 或初始权威世界。
+- Declarative Algorithm 已完成 `外部程序 → Query/Condition/通用事务解析 → Slot/Stable ID 编译 → Frozen Bytecode → 内建 VM → WorldTransaction` 的可执行闭环；当前指令集刻意保持无循环。
 - Destroy、确定性指令预算、单实例 Fault 隔离、三种失败策略和显式恢复已接入权威事务与 Query Snapshot；墙钟阈值只产生非权威诊断。
-- 受控 Script 后端已完成边界评估但尚未启用，剩余前置条件归入 Persistence、Replay、内存配额和确定性沙箱主线。
+- 受控 Script 已完成 `外部语法 → Slot 编译 → 确定性 VM → 指令边界抢占 → 权威状态/Continuation 事务 → Save/Replay` 基础闭环；Query、Event/Command 上下文和 Capability 访问仍待按可持久化 Frame 契约扩展。
+
+纯 Dillen Demo 1.0 位于 `demo/dillen_demo_1_0`，展示两个独立机制包、真实包依赖和可替换 Root Ruleset。

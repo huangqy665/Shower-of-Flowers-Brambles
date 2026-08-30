@@ -124,7 +124,8 @@ int main()
         ).success)
     {
         std::filesystem::remove(savePath, fileError);
-        std::cerr << "Standalone Host file persistence failed\n";
+        std::cerr << "Standalone Host file persistence failed: "
+                  << errors.str() << output.str() << '\n';
         return 5;
     }
     std::filesystem::remove(savePath, fileError);

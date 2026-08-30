@@ -270,6 +270,27 @@ MechanismSchedulerTickResult KernelRuntime::RunTick(
         AlgorithmCommitMode::CompleteCreate
     );
 
+    AlgorithmStageReport deferredAlgorithms =
+        algorithmRuntime_.DispatchDeferred(
+            *querySnapshot_,
+            rngSnapshot_,
+            nextTick
+        );
+    ApplyAlgorithmReport(
+        deferredAlgorithms,
+        nextTick,
+        AlgorithmCommitMode::Standard
+    );
+    for (AlgorithmInvocationResult& invocation
+        : deferredAlgorithms.invocations)
+    {
+        AlgorithmStageReport& destination = invocation.stage
+                == AlgorithmRuntimeStage::Event
+            ? lastEventAlgorithms_
+            : lastCommandAlgorithms_;
+        destination.invocations.push_back(std::move(invocation));
+    }
+
     std::vector<kernel::ScheduledAlgorithmEvent> scheduledEvents =
         world_.algorithmInbox_.TakeReady(nextTick);
     if (!scheduledEvents.empty())
@@ -405,7 +426,8 @@ void KernelRuntime::ApplyAlgorithmReport(
             continue;
         }
         kernel::WorldTransaction transaction = invocation.transaction;
-        if (mode == AlgorithmCommitMode::CompleteCreate)
+        if (mode == AlgorithmCommitMode::CompleteCreate
+            && invocation.status == AlgorithmInvocationStatus::Completed)
         {
             transaction.commands.push_back(kernel::WorldCommand::Mechanism(
                 kernel::MechanismCommand::CompleteAlgorithmCreate(
@@ -413,7 +435,8 @@ void KernelRuntime::ApplyAlgorithmReport(
                 )
             ));
         }
-        else if (mode == AlgorithmCommitMode::DestroyInstance)
+        else if (mode == AlgorithmCommitMode::DestroyInstance
+            && invocation.status == AlgorithmInvocationStatus::Completed)
         {
             transaction.commands.push_back(kernel::WorldCommand::Mechanism(
                 kernel::MechanismCommand::Destroy(invocation.target)

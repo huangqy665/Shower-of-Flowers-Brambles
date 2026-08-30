@@ -29,7 +29,8 @@ enum class AlgorithmFaultCode
     BackendUnavailable = 4,
     ExecutionRejected = 5,
     ExecutorException = 6,
-    TransactionRejected = 7
+    TransactionRejected = 7,
+    ScriptMemoryQuotaExceeded = 8
 };
 
 struct AlgorithmExecutionPolicy
@@ -38,6 +39,8 @@ struct AlgorithmExecutionPolicy
     std::uint32_t wallClockWarningMicroseconds = 50000;
     AlgorithmFailurePolicy failurePolicy =
         AlgorithmFailurePolicy::FailInstance;
+    std::uint32_t scriptSliceInstructionBudget = 256;
+    std::uint32_t scriptMemoryLimitBytes = 65536;
 };
 
 struct AlgorithmFaultState

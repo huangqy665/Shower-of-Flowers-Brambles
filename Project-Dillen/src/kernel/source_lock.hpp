@@ -5,10 +5,14 @@
 #include <string>
 #include <vector>
 
+#include "package_manifest.hpp"
+
 namespace dillen::kernel {
 
 struct SourceLockEntry
 {
+    PackageId package;
+    PackageVersion packageVersion;
     std::string sourceLayer;
     std::string virtualPath;
     std::uint64_t fingerprint = 0;

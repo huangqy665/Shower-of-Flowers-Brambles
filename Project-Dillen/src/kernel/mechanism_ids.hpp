@@ -1,311 +1,131 @@
 #pragma once
 
+#include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <string>
 #include <string_view>
+#include <type_traits>
 
 namespace dillen::kernel {
 
-struct MechanismTypeId
+// A zero-cost strong identity. `Tag` makes each alias a distinct type,
+// `Underlying` is the stored representation and `Empty` is the sentinel that
+// `operator bool` treats as "unset". The type stays an aggregate, so
+// `Id{}`, `Id{rawValue}` and `return {rawValue};` all keep working, and
+// `value` stays a public mutable member for the persistence codec.
+template <class Tag, class Underlying, Underlying Empty>
+struct StrongId
 {
-    std::uint64_t value = 0;
+    Underlying value = Empty;
 
-    explicit operator bool() const noexcept;
+    constexpr explicit operator bool() const noexcept
+    {
+        return value != Empty;
+    }
+
+    friend constexpr bool operator==(
+        StrongId first,
+        StrongId second
+    ) noexcept
+    {
+        return first.value == second.value;
+    }
+    friend constexpr bool operator!=(
+        StrongId first,
+        StrongId second
+    ) noexcept
+    {
+        return first.value != second.value;
+    }
+    friend constexpr bool operator<(
+        StrongId first,
+        StrongId second
+    ) noexcept
+    {
+        return first.value < second.value;
+    }
 };
 
-struct MechanismDefinitionId
-{
-    std::uint64_t value = 0;
+// 64-bit stable identities: namespace-qualified symbol hashes; empty == 0.
+using MechanismTypeId =
+    StrongId<struct MechanismTypeIdTag, std::uint64_t, 0>;
+using MechanismDefinitionId =
+    StrongId<struct MechanismDefinitionIdTag, std::uint64_t, 0>;
+using MechanismInstanceId =
+    StrongId<struct MechanismInstanceIdTag, std::uint64_t, 0>;
+using MechanismSpawnDefinitionId =
+    StrongId<struct MechanismSpawnDefinitionIdTag, std::uint64_t, 0>;
+using AlgorithmId =
+    StrongId<struct AlgorithmIdTag, std::uint64_t, 0>;
+using PackageId =
+    StrongId<struct PackageIdTag, std::uint64_t, 0>;
+using RulesetId =
+    StrongId<struct RulesetIdTag, std::uint64_t, 0>;
+using CapabilityId =
+    StrongId<struct CapabilityIdTag, std::uint64_t, 0>;
+using AlgorithmEventTypeId =
+    StrongId<struct AlgorithmEventTypeIdTag, std::uint64_t, 0>;
+using RngStreamId =
+    StrongId<struct RngStreamIdTag, std::uint64_t, 0>;
+using EntityTypeId =
+    StrongId<struct EntityTypeIdTag, std::uint64_t, 0>;
+using EntityDefinitionId =
+    StrongId<struct EntityDefinitionIdTag, std::uint64_t, 0>;
+using EntityId =
+    StrongId<struct EntityIdTag, std::uint64_t, 0>;
+using ComponentTypeId =
+    StrongId<struct ComponentTypeIdTag, std::uint64_t, 0>;
+using RelationTypeId =
+    StrongId<struct RelationTypeIdTag, std::uint64_t, 0>;
+using RelationDefinitionId =
+    StrongId<struct RelationDefinitionIdTag, std::uint64_t, 0>;
+using RelationId =
+    StrongId<struct RelationIdTag, std::uint64_t, 0>;
 
-    explicit operator bool() const noexcept;
-};
+// 32-bit runtime slots: dense indices into a Frozen Runtime Catalog layout;
+// empty == UINT32_MAX.
+using MechanismFieldSlotId =
+    StrongId<struct MechanismFieldSlotIdTag, std::uint32_t, UINT32_MAX>;
+using MechanismRoleSlotId =
+    StrongId<struct MechanismRoleSlotIdTag, std::uint32_t, UINT32_MAX>;
+using ComponentFieldSlotId =
+    StrongId<struct ComponentFieldSlotIdTag, std::uint32_t, UINT32_MAX>;
+using CapabilityBindingSlotId =
+    StrongId<struct CapabilityBindingSlotIdTag, std::uint32_t, UINT32_MAX>;
 
-struct MechanismInstanceId
-{
-    std::uint64_t value = 0;
+namespace detail {
 
-    explicit operator bool() const noexcept;
-};
+template <class Id, class Underlying>
+inline constexpr bool kIdLayoutMatches =
+    sizeof(Id) == sizeof(Underlying)
+    && alignof(Id) == alignof(Underlying)
+    && std::is_trivially_copyable_v<Id>
+    && std::is_standard_layout_v<Id>;
 
-struct AlgorithmId
-{
-    std::uint64_t value = 0;
+static_assert(kIdLayoutMatches<MechanismTypeId, std::uint64_t>);
+static_assert(kIdLayoutMatches<MechanismDefinitionId, std::uint64_t>);
+static_assert(kIdLayoutMatches<MechanismInstanceId, std::uint64_t>);
+static_assert(kIdLayoutMatches<MechanismSpawnDefinitionId, std::uint64_t>);
+static_assert(kIdLayoutMatches<AlgorithmId, std::uint64_t>);
+static_assert(kIdLayoutMatches<PackageId, std::uint64_t>);
+static_assert(kIdLayoutMatches<RulesetId, std::uint64_t>);
+static_assert(kIdLayoutMatches<CapabilityId, std::uint64_t>);
+static_assert(kIdLayoutMatches<AlgorithmEventTypeId, std::uint64_t>);
+static_assert(kIdLayoutMatches<RngStreamId, std::uint64_t>);
+static_assert(kIdLayoutMatches<EntityTypeId, std::uint64_t>);
+static_assert(kIdLayoutMatches<EntityDefinitionId, std::uint64_t>);
+static_assert(kIdLayoutMatches<EntityId, std::uint64_t>);
+static_assert(kIdLayoutMatches<ComponentTypeId, std::uint64_t>);
+static_assert(kIdLayoutMatches<RelationTypeId, std::uint64_t>);
+static_assert(kIdLayoutMatches<RelationDefinitionId, std::uint64_t>);
+static_assert(kIdLayoutMatches<RelationId, std::uint64_t>);
+static_assert(kIdLayoutMatches<MechanismFieldSlotId, std::uint32_t>);
+static_assert(kIdLayoutMatches<MechanismRoleSlotId, std::uint32_t>);
+static_assert(kIdLayoutMatches<ComponentFieldSlotId, std::uint32_t>);
+static_assert(kIdLayoutMatches<CapabilityBindingSlotId, std::uint32_t>);
 
-    explicit operator bool() const noexcept;
-};
-
-struct PackageId
-{
-    std::uint64_t value = 0;
-
-    explicit operator bool() const noexcept;
-};
-
-struct RulesetId
-{
-    std::uint64_t value = 0;
-
-    explicit operator bool() const noexcept;
-};
-
-struct CapabilityId
-{
-    std::uint64_t value = 0;
-
-    explicit operator bool() const noexcept;
-};
-
-struct AlgorithmEventTypeId
-{
-    std::uint64_t value = 0;
-
-    explicit operator bool() const noexcept;
-};
-
-struct RngStreamId
-{
-    std::uint64_t value = 0;
-
-    explicit operator bool() const noexcept;
-};
-
-struct EntityTypeId
-{
-    std::uint64_t value = 0;
-
-    explicit operator bool() const noexcept;
-};
-
-struct EntityDefinitionId
-{
-    std::uint64_t value = 0;
-
-    explicit operator bool() const noexcept;
-};
-
-struct EntityId
-{
-    std::uint64_t value = 0;
-
-    explicit operator bool() const noexcept;
-};
-
-struct ComponentTypeId
-{
-    std::uint64_t value = 0;
-
-    explicit operator bool() const noexcept;
-};
-
-struct RelationTypeId
-{
-    std::uint64_t value = 0;
-
-    explicit operator bool() const noexcept;
-};
-
-struct RelationDefinitionId
-{
-    std::uint64_t value = 0;
-
-    explicit operator bool() const noexcept;
-};
-
-struct RelationId
-{
-    std::uint64_t value = 0;
-
-    explicit operator bool() const noexcept;
-};
-
-struct MechanismSpawnDefinitionId
-{
-    std::uint64_t value = 0;
-
-    explicit operator bool() const noexcept;
-};
-
-struct MechanismFieldSlotId
-{
-    std::uint32_t value = UINT32_MAX;
-
-    explicit operator bool() const noexcept;
-};
-
-struct MechanismRoleSlotId
-{
-    std::uint32_t value = UINT32_MAX;
-
-    explicit operator bool() const noexcept;
-};
-
-struct ComponentFieldSlotId
-{
-    std::uint32_t value = UINT32_MAX;
-
-    explicit operator bool() const noexcept;
-};
-
-struct CapabilityBindingSlotId
-{
-    std::uint32_t value = UINT32_MAX;
-
-    explicit operator bool() const noexcept;
-};
-
-bool operator==(MechanismTypeId first, MechanismTypeId second) noexcept;
-bool operator!=(MechanismTypeId first, MechanismTypeId second) noexcept;
-bool operator<(MechanismTypeId first, MechanismTypeId second) noexcept;
-bool operator==(
-    MechanismDefinitionId first,
-    MechanismDefinitionId second
-) noexcept;
-bool operator!=(
-    MechanismDefinitionId first,
-    MechanismDefinitionId second
-) noexcept;
-bool operator<(
-    MechanismDefinitionId first,
-    MechanismDefinitionId second
-) noexcept;
-bool operator==(
-    MechanismInstanceId first,
-    MechanismInstanceId second
-) noexcept;
-bool operator!=(
-    MechanismInstanceId first,
-    MechanismInstanceId second
-) noexcept;
-bool operator<(
-    MechanismInstanceId first,
-    MechanismInstanceId second
-) noexcept;
-bool operator==(AlgorithmId first, AlgorithmId second) noexcept;
-bool operator!=(AlgorithmId first, AlgorithmId second) noexcept;
-bool operator<(AlgorithmId first, AlgorithmId second) noexcept;
-bool operator==(PackageId first, PackageId second) noexcept;
-bool operator!=(PackageId first, PackageId second) noexcept;
-bool operator<(PackageId first, PackageId second) noexcept;
-bool operator==(RulesetId first, RulesetId second) noexcept;
-bool operator!=(RulesetId first, RulesetId second) noexcept;
-bool operator<(RulesetId first, RulesetId second) noexcept;
-bool operator==(CapabilityId first, CapabilityId second) noexcept;
-bool operator!=(CapabilityId first, CapabilityId second) noexcept;
-bool operator<(CapabilityId first, CapabilityId second) noexcept;
-bool operator==(
-    AlgorithmEventTypeId first,
-    AlgorithmEventTypeId second
-) noexcept;
-bool operator!=(
-    AlgorithmEventTypeId first,
-    AlgorithmEventTypeId second
-) noexcept;
-bool operator<(
-    AlgorithmEventTypeId first,
-    AlgorithmEventTypeId second
-) noexcept;
-bool operator==(RngStreamId first, RngStreamId second) noexcept;
-bool operator!=(RngStreamId first, RngStreamId second) noexcept;
-bool operator<(RngStreamId first, RngStreamId second) noexcept;
-bool operator==(EntityTypeId first, EntityTypeId second) noexcept;
-bool operator!=(EntityTypeId first, EntityTypeId second) noexcept;
-bool operator<(EntityTypeId first, EntityTypeId second) noexcept;
-bool operator==(
-    EntityDefinitionId first,
-    EntityDefinitionId second
-) noexcept;
-bool operator!=(
-    EntityDefinitionId first,
-    EntityDefinitionId second
-) noexcept;
-bool operator<(
-    EntityDefinitionId first,
-    EntityDefinitionId second
-) noexcept;
-bool operator==(EntityId first, EntityId second) noexcept;
-bool operator!=(EntityId first, EntityId second) noexcept;
-bool operator<(EntityId first, EntityId second) noexcept;
-bool operator==(ComponentTypeId first, ComponentTypeId second) noexcept;
-bool operator!=(ComponentTypeId first, ComponentTypeId second) noexcept;
-bool operator<(ComponentTypeId first, ComponentTypeId second) noexcept;
-bool operator==(RelationTypeId first, RelationTypeId second) noexcept;
-bool operator!=(RelationTypeId first, RelationTypeId second) noexcept;
-bool operator<(RelationTypeId first, RelationTypeId second) noexcept;
-bool operator==(
-    RelationDefinitionId first,
-    RelationDefinitionId second
-) noexcept;
-bool operator!=(
-    RelationDefinitionId first,
-    RelationDefinitionId second
-) noexcept;
-bool operator<(
-    RelationDefinitionId first,
-    RelationDefinitionId second
-) noexcept;
-bool operator==(RelationId first, RelationId second) noexcept;
-bool operator!=(RelationId first, RelationId second) noexcept;
-bool operator<(RelationId first, RelationId second) noexcept;
-bool operator==(
-    MechanismSpawnDefinitionId first,
-    MechanismSpawnDefinitionId second
-) noexcept;
-bool operator!=(
-    MechanismSpawnDefinitionId first,
-    MechanismSpawnDefinitionId second
-) noexcept;
-bool operator<(
-    MechanismSpawnDefinitionId first,
-    MechanismSpawnDefinitionId second
-) noexcept;
-bool operator==(
-    MechanismFieldSlotId first,
-    MechanismFieldSlotId second
-) noexcept;
-bool operator!=(
-    MechanismFieldSlotId first,
-    MechanismFieldSlotId second
-) noexcept;
-bool operator<(
-    MechanismFieldSlotId first,
-    MechanismFieldSlotId second
-) noexcept;
-bool operator==(
-    MechanismRoleSlotId first,
-    MechanismRoleSlotId second
-) noexcept;
-bool operator!=(
-    MechanismRoleSlotId first,
-    MechanismRoleSlotId second
-) noexcept;
-bool operator<(
-    MechanismRoleSlotId first,
-    MechanismRoleSlotId second
-) noexcept;
-bool operator==(
-    ComponentFieldSlotId first,
-    ComponentFieldSlotId second
-) noexcept;
-bool operator!=(
-    ComponentFieldSlotId first,
-    ComponentFieldSlotId second
-) noexcept;
-bool operator<(
-    ComponentFieldSlotId first,
-    ComponentFieldSlotId second
-) noexcept;
-bool operator==(
-    CapabilityBindingSlotId first,
-    CapabilityBindingSlotId second
-) noexcept;
-bool operator!=(
-    CapabilityBindingSlotId first,
-    CapabilityBindingSlotId second
-) noexcept;
-bool operator<(
-    CapabilityBindingSlotId first,
-    CapabilityBindingSlotId second
-) noexcept;
+}
 
 std::string NormalizeMechanismSymbol(std::string_view symbol);
 bool IsValidMechanismSymbol(std::string_view symbol) noexcept;
@@ -350,5 +170,24 @@ MechanismSpawnDefinitionId StableMechanismSpawnDefinitionId(
     MechanismDefinitionId definition,
     std::string_view canonicalName
 );
+
+}
+
+// Enables std::unordered_map / std::unordered_set keyed by any StrongId.
+// No container in the tree uses this yet; it only removes the barrier for
+// swapping hot ordered lookups to hashed ones later. The stored value is
+// already a namespace-qualified symbol hash, so identity hashing is fine.
+namespace std {
+
+template <class Tag, class Underlying, Underlying Empty>
+struct hash<::dillen::kernel::StrongId<Tag, Underlying, Empty>>
+{
+    std::size_t operator()(
+        ::dillen::kernel::StrongId<Tag, Underlying, Empty> id
+    ) const noexcept
+    {
+        return std::hash<Underlying>{}(id.value);
+    }
+};
 
 }

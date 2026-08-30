@@ -13,7 +13,7 @@
 
 namespace dillen::persistence {
 
-inline constexpr std::uint32_t kCurrentRuntimeSaveFormatVersion = 2;
+inline constexpr std::uint32_t kCurrentRuntimeSaveFormatVersion = 4;
 
 using RuntimeSourceLockEntry = kernel::SourceLockEntry;
 

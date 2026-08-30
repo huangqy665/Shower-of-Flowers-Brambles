@@ -88,6 +88,11 @@ std::size_t FrozenRuntimeCatalog::AlgorithmProgramCount() const noexcept
     return algorithmPrograms_.size();
 }
 
+std::size_t FrozenRuntimeCatalog::ControlledScriptProgramCount() const noexcept
+{
+    return controlledScriptPrograms_.size();
+}
+
 const std::vector<CompiledMechanismDefinition>&
 FrozenRuntimeCatalog::Definitions() const noexcept
 {
@@ -152,6 +157,19 @@ const CompiledAlgorithmProgram* FrozenRuntimeCatalog::FindAlgorithmProgram(
     return iterator == algorithmProgramIndex_.end()
         ? nullptr
         : &algorithmPrograms_[iterator->second];
+}
+
+const CompiledControlledScriptProgram*
+FrozenRuntimeCatalog::FindControlledScriptProgram(
+    MechanismDefinitionId definition
+) const
+{
+    const auto iterator = controlledScriptProgramIndex_.find(
+        definition.value
+    );
+    return iterator == controlledScriptProgramIndex_.end()
+        ? nullptr
+        : &controlledScriptPrograms_[iterator->second];
 }
 
 const RuntimeCapabilityContract* FrozenRuntimeCatalog::FindCapability(
@@ -370,6 +388,7 @@ void FrozenRuntimeCatalog::RebuildIndexes()
     spawnDefinitionIndex_.clear();
     algorithmIndex_.clear();
     algorithmProgramIndex_.clear();
+    controlledScriptProgramIndex_.clear();
     capabilityIndex_.clear();
     algorithmCapabilityIndex_.clear();
     for (std::size_t index = 0; index < layouts_.size(); ++index)
@@ -425,6 +444,15 @@ void FrozenRuntimeCatalog::RebuildIndexes()
         algorithmProgramIndex_[
             algorithmPrograms_[index].definition.value
         ] = index;
+    }
+    for (std::size_t index = 0;
+        index < controlledScriptPrograms_.size();
+        ++index)
+    {
+        controlledScriptProgramIndex_.emplace(
+            controlledScriptPrograms_[index].definition.value,
+            index
+        );
     }
     for (std::size_t index = 0; index < capabilities_.size(); ++index)
     {

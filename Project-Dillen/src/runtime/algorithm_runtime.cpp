@@ -5,6 +5,7 @@
 #include <utility>
 
 #include "declarative_algorithm_vm.hpp"
+#include "controlled_script_vm.hpp"
 
 namespace dillen::runtime {
 
@@ -34,6 +35,21 @@ bool IsActiveAlgorithmInstance(const kernel::MechanismInstance& instance)
         && instance.lifecycle == kernel::MechanismLifecycleState::Active
         && !instance.algorithmFault.isolated
         && instance.algorithm;
+}
+
+bool HasContinuation(
+    const kernel::MechanismInstance& instance,
+    kernel::AlgorithmEntryPoint entryPoint
+)
+{
+    return std::any_of(
+        instance.algorithmContinuations.begin(),
+        instance.algorithmContinuations.end(),
+        [entryPoint](const kernel::ControlledScriptContinuation& value)
+        {
+            return value.entryPoint == entryPoint;
+        }
+    );
 }
 
 void SetFailure(
@@ -131,7 +147,8 @@ const AlgorithmExecutorBinding* AlgorithmExecutorRegistry::Find(
 
 AlgorithmInvocationResult::operator bool() const noexcept
 {
-    return status == AlgorithmInvocationStatus::Completed;
+    return status == AlgorithmInvocationStatus::Completed
+        || status == AlgorithmInvocationStatus::Preempted;
 }
 
 bool AlgorithmStageReport::Success() const noexcept
@@ -257,7 +274,10 @@ AlgorithmStageReport AlgorithmRuntime::DispatchEvent(
         const kernel::WorldEvent* event,
         const kernel::ScheduledAlgorithmEvent* scheduledEvent)
     {
-        if (!IsActiveAlgorithmInstance(instance))
+        if (!IsActiveAlgorithmInstance(instance)
+            || HasContinuation(
+                instance,
+                kernel::AlgorithmEntryPoint::Event))
         {
             return;
         }
@@ -324,7 +344,10 @@ AlgorithmStageReport AlgorithmRuntime::DispatchCommand(
     for (const auto& entry : snapshot.All())
     {
         const kernel::MechanismInstance& instance = entry.second;
-        if (!IsActiveAlgorithmInstance(instance))
+        if (!IsActiveAlgorithmInstance(instance)
+            || HasContinuation(
+                instance,
+                kernel::AlgorithmEntryPoint::Command))
         {
             continue;
         }
@@ -347,6 +370,49 @@ AlgorithmStageReport AlgorithmRuntime::DispatchCommand(
                 nullptr,
                 nullptr,
                 &command
+            ));
+        }
+    }
+    return report;
+}
+
+AlgorithmStageReport AlgorithmRuntime::DispatchDeferred(
+    const WorldQuerySnapshot& query,
+    const kernel::DeterministicRngSnapshot& rng,
+    std::uint64_t tick
+) const
+{
+    AlgorithmStageReport report;
+    for (const auto& entry : query.Mechanisms().All())
+    {
+        const kernel::MechanismInstance& instance = entry.second;
+        if (!IsActiveAlgorithmInstance(instance)) continue;
+        for (const kernel::ControlledScriptContinuation& continuation
+            : instance.algorithmContinuations)
+        {
+            AlgorithmRuntimeStage stage;
+            if (continuation.entryPoint == kernel::AlgorithmEntryPoint::Event)
+            {
+                stage = AlgorithmRuntimeStage::Event;
+            }
+            else if (continuation.entryPoint
+                == kernel::AlgorithmEntryPoint::Command)
+            {
+                stage = AlgorithmRuntimeStage::Command;
+            }
+            else
+            {
+                continue;
+            }
+            report.invocations.push_back(Invoke(
+                stage,
+                tick,
+                instance,
+                query,
+                rng,
+                nullptr,
+                nullptr,
+                nullptr
             ));
         }
     }
@@ -543,12 +609,83 @@ AlgorithmInvocationResult AlgorithmRuntime::Invoke(
     }
     if (descriptor->backend == kernel::AlgorithmBackend::Script)
     {
-        SetFailure(
-            result,
-            AlgorithmInvocationStatus::ScriptBackendUnavailable,
-            kernel::AlgorithmFaultCode::BackendUnavailable,
-            "Controlled Script Algorithm backend is not enabled"
-        );
+        const kernel::CompiledControlledScriptProgram* program =
+            catalog_.FindControlledScriptProgram(instance.definition);
+        if (program == nullptr)
+        {
+            SetFailure(
+                result,
+                AlgorithmInvocationStatus::DeclarativeProgramMissing,
+                kernel::AlgorithmFaultCode::ContractUnavailable,
+                "Compiled Controlled Script program is missing"
+            );
+            return result;
+        }
+        try
+        {
+            ControlledScriptResult execution = ControlledScriptVm{}.Execute(
+                *program,
+                EntryPointForStage(stage),
+                context,
+                descriptor->executionPolicy
+            );
+            result.budget = budget.Report();
+            if (!execution)
+            {
+                if (execution.status
+                    == ControlledScriptStatus::InstructionBudgetExceeded)
+                {
+                    SetBudgetFailure(result, budget);
+                }
+                else if (execution.status
+                    == ControlledScriptStatus::MemoryQuotaExceeded)
+                {
+                    SetFailure(
+                        result,
+                        AlgorithmInvocationStatus::ScriptMemoryQuotaExceeded,
+                        kernel::AlgorithmFaultCode::
+                            ScriptMemoryQuotaExceeded,
+                        std::move(execution.message)
+                    );
+                }
+                else
+                {
+                    SetFailure(
+                        result,
+                        AlgorithmInvocationStatus::ScriptExecutionFailed,
+                        kernel::AlgorithmFaultCode::ExecutionRejected,
+                        std::move(execution.message)
+                    );
+                }
+                return result;
+            }
+            result.transaction = std::move(execution.transaction);
+            result.status = execution.status
+                    == ControlledScriptStatus::Preempted
+                ? AlgorithmInvocationStatus::Preempted
+                : AlgorithmInvocationStatus::Completed;
+            return result;
+        }
+        catch (const std::exception& error)
+        {
+            result.budget = budget.Report();
+            SetFailure(
+                result,
+                AlgorithmInvocationStatus::ExecutorException,
+                kernel::AlgorithmFaultCode::ExecutorException,
+                error.what()
+            );
+        }
+        catch (...)
+        {
+            result.budget = budget.Report();
+            SetFailure(
+                result,
+                AlgorithmInvocationStatus::ExecutorException,
+                kernel::AlgorithmFaultCode::ExecutorException,
+                "Controlled Script raised an unknown exception"
+            );
+        }
         return result;
     }
     if (!executors_.IsFrozen())

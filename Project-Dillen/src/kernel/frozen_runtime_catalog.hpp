@@ -122,6 +122,7 @@ public:
     std::size_t SpawnDefinitionCount() const noexcept;
     std::size_t CapabilityCount() const noexcept;
     std::size_t AlgorithmProgramCount() const noexcept;
+    std::size_t ControlledScriptProgramCount() const noexcept;
     const std::vector<CompiledMechanismDefinition>& Definitions()
         const noexcept;
     const std::vector<CompiledEntityDefinition>& EntityDefinitions()
@@ -143,6 +144,9 @@ public:
         std::uint32_t version
     ) const;
     const CompiledAlgorithmProgram* FindAlgorithmProgram(
+        MechanismDefinitionId definition
+    ) const;
+    const CompiledControlledScriptProgram* FindControlledScriptProgram(
         MechanismDefinitionId definition
     ) const;
     const RuntimeCapabilityContract* FindCapability(
@@ -221,6 +225,7 @@ private:
     std::vector<CompiledMechanismSpawnDefinition> spawnDefinitions_;
     std::vector<AlgorithmDescriptor> algorithms_;
     std::vector<CompiledAlgorithmProgram> algorithmPrograms_;
+    std::vector<CompiledControlledScriptProgram> controlledScriptPrograms_;
     std::vector<RuntimeCapabilityContract> capabilities_;
     std::vector<CompiledAlgorithmCapabilityBinding>
         algorithmCapabilityBindings_;
@@ -237,6 +242,7 @@ private:
     std::map<std::pair<std::uint64_t, std::uint32_t>, std::size_t>
         algorithmIndex_;
     std::map<std::uint64_t, std::size_t> algorithmProgramIndex_;
+    std::map<std::uint64_t, std::size_t> controlledScriptProgramIndex_;
     std::map<std::pair<std::uint64_t, std::uint32_t>, std::size_t>
         capabilityIndex_;
     std::map<std::pair<std::uint64_t, std::uint32_t>, std::size_t>

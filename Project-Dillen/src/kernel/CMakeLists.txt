@@ -11,6 +11,8 @@ dillen_add_component(
         algorithm_inbox.hpp
         component_schema.cpp
         component_schema.hpp
+        controlled_script.cpp
+        controlled_script.hpp
         deterministic_rng.cpp
         deterministic_rng.hpp
         entity_definition.hpp
@@ -26,6 +28,7 @@ dillen_add_component(
         mechanism_definition_registry.hpp
         mechanism_ids.cpp
         mechanism_ids.hpp
+        mechanism_ids.natvis
         mechanism_instance.hpp
         mechanism_instance_store.cpp
         mechanism_instance_store.hpp
@@ -46,6 +49,8 @@ dillen_add_component(
         mechanism_value.hpp
         package_lock.cpp
         package_lock.hpp
+        package_content_digest.cpp
+        package_content_digest.hpp
         package_manifest.cpp
         package_manifest.hpp
         relation_definition.hpp

@@ -1,0 +1,12 @@
+mechanism_spawn = {
+    name = dillen.demo1.initial_settlements
+    mechanism = dillen.demo1.settlement_growth
+    definition = dillen.demo1.default_settlement
+    count = 2
+
+    fields = {
+        population = 100
+        food_stock = 40
+        label = "balanced settlement"
+    }
+}

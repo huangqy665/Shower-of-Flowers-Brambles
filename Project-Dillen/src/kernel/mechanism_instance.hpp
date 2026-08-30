@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "algorithm_execution_policy.hpp"
+#include "controlled_script.hpp"
 #include "mechanism_ids.hpp"
 #include "mechanism_lifecycle.hpp"
 #include "mechanism_value.hpp"
@@ -23,6 +24,7 @@ struct MechanismInstance
     std::vector<MechanismValue> values;
     std::vector<std::vector<MechanismReference>> roles;
     std::vector<MechanismValue> algorithmState;
+    std::vector<ControlledScriptContinuation> algorithmContinuations;
     bool algorithmInitialized = false;
     AlgorithmFaultState algorithmFault;
     std::uint64_t createdTick = 0;

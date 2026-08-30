@@ -1,0 +1,12 @@
+mechanism_template = {
+    name = dillen.demo1.unselected_probe
+    version = 1
+
+    fields = {
+        field = {
+            name = value
+            kind = integer
+            default = 0
+        }
+    }
+}

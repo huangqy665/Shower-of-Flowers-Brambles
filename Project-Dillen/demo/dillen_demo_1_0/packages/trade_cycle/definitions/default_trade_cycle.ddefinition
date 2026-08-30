@@ -1,0 +1,13 @@
+mechanism_definition = {
+    name = dillen.demo1.default_trade_cycle
+    mechanism = dillen.demo1.trade_cycle
+    schema_version = 1
+    algorithm = dillen.demo1.trade_cycle_algorithm
+    algorithm_version = 1
+
+    fields = {
+        market_index = 10
+        completed_cycles = 0
+        label = "default market"
+    }
+}

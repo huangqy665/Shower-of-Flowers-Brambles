@@ -64,4 +64,19 @@ MechanismCommand MechanismCommand::Destroy(MechanismInstanceId target)
     return {target, MechanismDestroyOperation{}};
 }
 
+MechanismCommand MechanismCommand::ReplaceAlgorithmState(
+    MechanismInstanceId target,
+    std::vector<MechanismValue> state,
+    std::vector<ControlledScriptContinuation> continuations
+)
+{
+    return {
+        target,
+        MechanismReplaceAlgorithmStateOperation{
+            std::move(state),
+            std::move(continuations)
+        }
+    };
+}
+
 }

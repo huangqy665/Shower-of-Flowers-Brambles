@@ -1,0 +1,6 @@
+status
+list mechanisms
+tick 3
+status
+list mechanisms
+quit

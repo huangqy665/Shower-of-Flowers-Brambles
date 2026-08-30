@@ -23,6 +23,42 @@ bool ProgramFitsInstructionBudget(
     return true;
 }
 
+bool IsBackendProgramValid(const AlgorithmDescriptor& descriptor) noexcept
+{
+    if (descriptor.backend == AlgorithmBackend::Declarative)
+    {
+        return descriptor.script.stages.empty()
+            && descriptor.script.state.empty()
+            && IsValidAlgorithmProgram(
+                descriptor.program,
+                descriptor.entryPoints)
+            && ProgramFitsInstructionBudget(
+                descriptor.program,
+                descriptor.executionPolicy);
+    }
+    if (descriptor.backend == AlgorithmBackend::Script)
+    {
+        return descriptor.program.stages.empty()
+            && descriptor.executionPolicy.scriptSliceInstructionBudget
+                <= descriptor.executionPolicy.instructionBudget
+            && IsValidControlledScriptProgram(
+                descriptor.script,
+                descriptor.entryPoints)
+            && ControlledScriptStateFootprint(
+                [&descriptor]
+                {
+                    std::vector<MechanismValue> values;
+                    values.reserve(descriptor.script.state.size());
+                    for (const auto& state : descriptor.script.state)
+                        values.push_back(state.initialValue);
+                    return values;
+                }()) <= descriptor.executionPolicy.scriptMemoryLimitBytes;
+    }
+    return descriptor.program.stages.empty()
+        && descriptor.script.stages.empty()
+        && descriptor.script.state.empty();
+}
+
 }
 
 AlgorithmEntryPoint operator|(
@@ -73,16 +109,7 @@ AlgorithmRegisterResult AlgorithmRegistry::Register(
     {
         return AlgorithmRegisterResult::InvalidDescriptor;
     }
-    if ((descriptor.backend == AlgorithmBackend::Declarative
-            && !IsValidAlgorithmProgram(
-                descriptor.program,
-                descriptor.entryPoints))
-        || (descriptor.backend == AlgorithmBackend::Declarative
-            && !ProgramFitsInstructionBudget(
-                descriptor.program,
-                descriptor.executionPolicy))
-        || (descriptor.backend != AlgorithmBackend::Declarative
-            && !descriptor.program.stages.empty()))
+    if (!IsBackendProgramValid(descriptor))
     {
         return AlgorithmRegisterResult::InvalidDescriptor;
     }

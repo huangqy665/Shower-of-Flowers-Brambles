@@ -6,7 +6,9 @@ bool IsValidAlgorithmExecutionPolicy(
     const AlgorithmExecutionPolicy& policy
 ) noexcept
 {
-    return policy.instructionBudget > 0;
+    return policy.instructionBudget > 0
+        && policy.scriptSliceInstructionBudget > 0
+        && policy.scriptMemoryLimitBytes > 0;
 }
 
 bool IsAuthoritativeAlgorithmFaultCode(
@@ -21,6 +23,7 @@ bool IsAuthoritativeAlgorithmFaultCode(
     case AlgorithmFaultCode::ExecutionRejected:
     case AlgorithmFaultCode::ExecutorException:
     case AlgorithmFaultCode::TransactionRejected:
+    case AlgorithmFaultCode::ScriptMemoryQuotaExceeded:
         return true;
     case AlgorithmFaultCode::None:
     case AlgorithmFaultCode::WallClockTimeoutLegacy:

@@ -3,6 +3,7 @@
 #include <variant>
 
 #include "algorithm_execution_policy.hpp"
+#include "controlled_script.hpp"
 #include "mechanism_ids.hpp"
 #include "mechanism_lifecycle.hpp"
 #include "mechanism_value.hpp"
@@ -38,13 +39,20 @@ struct MechanismDestroyOperation
 {
 };
 
+struct MechanismReplaceAlgorithmStateOperation
+{
+    std::vector<MechanismValue> state;
+    std::vector<ControlledScriptContinuation> continuations;
+};
+
 using MechanismCommandOperation = std::variant<
     MechanismSetFieldOperation,
     MechanismTransitionLifecycleOperation,
     MechanismCompleteAlgorithmCreateOperation,
     MechanismRecordAlgorithmFaultOperation,
     MechanismClearAlgorithmFaultOperation,
-    MechanismDestroyOperation
+    MechanismDestroyOperation,
+    MechanismReplaceAlgorithmStateOperation
 >;
 
 struct MechanismCommand
@@ -73,6 +81,11 @@ struct MechanismCommand
         MechanismInstanceId target
     );
     static MechanismCommand Destroy(MechanismInstanceId target);
+    static MechanismCommand ReplaceAlgorithmState(
+        MechanismInstanceId target,
+        std::vector<MechanismValue> state,
+        std::vector<ControlledScriptContinuation> continuations
+    );
 };
 
 }

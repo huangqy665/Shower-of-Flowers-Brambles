@@ -1,0 +1,20 @@
+package_manifest = {
+    name = dillen.demo1.trade_cycle_package
+    version_major = 1
+    version_minor = 0
+    version_patch = 0
+    content_digest = "9757887c57a51088b7dea848963c11f212005ce448751fcd6cbdf5c7c3470a68"
+    load_priority = 10
+    dependencies = {
+        dependency = {
+            name = dillen.demo1.settlement_growth_package
+            minimum_major = 1
+            minimum_minor = 0
+            minimum_patch = 0
+            maximum_major = 2
+            maximum_minor = 0
+            maximum_patch = 0
+            required = yes
+        }
+    }
+}

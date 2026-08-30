@@ -1,0 +1,12 @@
+mechanism_spawn = {
+    name = dillen.demo1.initial_settlements
+    mechanism = dillen.demo1.settlement_growth
+    definition = dillen.demo1.default_settlement
+    count = 3
+
+    fields = {
+        population = 250
+        food_stock = 90
+        label = "accelerated settlement"
+    }
+}

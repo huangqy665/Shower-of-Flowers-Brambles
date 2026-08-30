@@ -396,16 +396,25 @@ kernel::WorldTransactionResult WorldTransactionExecutor::Apply(
                     operation->type.value
                 );
             }
-            result.changes.emplace_back(ScheduledEventAddedChange{
-                *std::find_if(
-                    algorithmInbox.Pending().begin(),
-                    algorithmInbox.Pending().end(),
-                    [sequence](const ScheduledAlgorithmEvent& event)
-                    {
-                        return event.sequence == sequence;
-                    }
-                )
-            });
+            const auto scheduled = std::find_if(
+                algorithmInbox.Pending().begin(),
+                algorithmInbox.Pending().end(),
+                [sequence](const ScheduledAlgorithmEvent& event)
+                {
+                    return event.sequence == sequence;
+                }
+            );
+            if (scheduled == algorithmInbox.Pending().end())
+            {
+                return Failure(
+                    WorldTransactionStatus::ScheduledEventRejected,
+                    index,
+                    operation->type.value
+                );
+            }
+            result.changes.emplace_back(
+                ScheduledEventAddedChange{*scheduled}
+            );
             continue;
         }
         if (const auto* operation =

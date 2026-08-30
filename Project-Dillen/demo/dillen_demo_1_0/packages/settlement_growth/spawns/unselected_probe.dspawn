@@ -1,0 +1,6 @@
+mechanism_spawn = {
+    name = dillen.demo1.unselected_probe_spawn
+    mechanism = dillen.demo1.unselected_probe
+    definition = dillen.demo1.unselected_probe_definition
+    count = 5
+}

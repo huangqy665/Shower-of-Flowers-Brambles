@@ -420,11 +420,11 @@ Resolver 不遍历文件系统、不重新读取文件、不执行算法、不�
 
 ### 3.3 Manifest、Ruleset、Package Lock 与 Source Lock
 
-**当前实现**：已建立 `PackageManifestRegistry`、`RulesetRegistry`、`PackageLockBuilder`、`SourceLock`、`RulesetFingerprint`、`RulesetIntegrityValidator` 与版本化 `RuntimeCapabilityContractRegistry/Resolver`。Package Lock 已能执行确定性版本选择、依赖闭包、拓扑排序、冲突和循环拒绝；Source Lock 直接记录实际胜出 Source Artifact 的 Source Layer、虚拟路径、内容 Fingerprint 和字节长度，而不是由 Package 摘要伪造。`RootRulesetDefinition`、`ExtensionRulesetDefinition` 与 `RulesetComposer` 已取代全局不可替换 Core Ruleset 假设：启动方显式传入一个 Root，Extension 按 `priority → stable id → version` 确定性排序，仅能在 Root 允许的契约类别中执行加法组合；Root 已拥有契约、显式保留契约、Extension 重复契约、目标 Root/版本不匹配均会在组合阶段拒绝。组合结果、Package Lock 与 Source Lock 一并进入 Frozen Runtime Catalog、Ruleset Fingerprint 和持久化身份校验。
+**当前实现**：已建立 `PackageManifestRegistry`、`RulesetRegistry`、`PackageLockBuilder`、`SourceLock`、`RulesetFingerprint`、`RulesetIntegrityValidator` 与版本化 `RuntimeCapabilityContractRegistry/Resolver`。Package Lock 已能执行确定性版本选择、依赖闭包、拓扑排序、冲突和循环拒绝。每个 Authoring Source Layer 现在必须且只能由一个 Package Manifest 所有；Pipeline 按稳定虚拟路径对该层除 Manifest 自身以外的真实 Source 字节计算 `dillen.package.content.v1` SHA-256，并验证 `content_digest`。Source Lock 的每项同时记录 Package ID / Version、Source Layer、虚拟路径、内容 Fingerprint 和字节长度，从而把真实文件严格绑定到明确 Package 版本，而不是由任意 Package 摘要伪造。Root Source Layer 同样必须拥有被 Root 明确要求的 Package。`RootRulesetDefinition`、`ExtensionRulesetDefinition` 与 `RulesetComposer` 已取代全局不可替换 Core Ruleset 假设：启动方显式传入一个 Root，Extension 按 `priority → stable id → version` 确定性排序，仅能在 Root 允许的契约类别中执行加法组合；Root 已拥有契约、显式保留契约、Extension 重复契约、目标 Root/版本不匹配均会在组合阶段拒绝。组合结果、Package Lock 与 Source Lock 一并进入 Frozen Runtime Catalog、Ruleset Fingerprint 和持久化身份校验。
 
 **需要修正和补齐**：
 
-- 将 External Corpus、Importer、Mapping Profile 和 Projection Artifact 摘要纳入 Fingerprint；
+- Projection Artifact 已建立完整身份链与稳定摘要；待 External Corpus Adapter ABI 恢复后，将其生成的 Projection Lock Source 正式并入 Package / Source Lock 与 Ruleset Fingerprint；
 - 在纯加法 Extension 验证稳定后，再以显式操作和逐契约授权扩展 Override Policy；未获 Root 授权的替换继续默认拒绝；
 - 补齐资源要求和 Generated Source 的完整性验证。
 
@@ -442,7 +442,7 @@ Resolver 不遍历文件系统、不重新读取文件、不执行算法、不�
 
 ### 3.5 Runtime Compiler 与 Frozen Runtime Catalog
 
-**当前实现**：Runtime Compiler 已将 Mechanism / Component 字段和角色编译为 32 位 Slot，将 Mechanism / Component / Relation Schema 编译为 Type Layout，将 Entity / Relation / Mechanism / Spawn Definition 编译为紧凑向量，并冻结 Algorithm、Definition 专属 Declarative Bytecode 与 Capability Binding、Package Lock、Source Lock、Root / Extension Composition 身份和 Ruleset Fingerprint。Tick 热路径不再解析 Algorithm 字段名，也不依赖顶层字段字符串 Map。
+**当前实现**：Runtime Compiler 已将 Mechanism / Component 字段和角色编译为 32 位 Slot，将 Mechanism / Component / Relation Schema 编译为 Type Layout，将 Entity / Relation / Mechanism / Spawn Definition 编译为紧凑向量，并冻结 Algorithm、Definition 专属 Declarative Bytecode 与 Capability Binding、Package Lock、Source Lock、Root / Extension Composition 身份和 Ruleset Fingerprint。编译入口先从组合后的 Root 要求出发，递归闭包 Definition → Schema / Algorithm、Spawn → Definition、Relation Definition → Relation / Entity、Entity → Component，以及 Declarative Program 引用的 Entity / Spawn；只有闭包内容进入 Frozen Catalog。已加载但未选择的 Registry 内容不会进入运行时布局、字节码、初始 Spawn 或 Tick 热路径。Tick 热路径不再解析 Algorithm 字段名，也不依赖顶层字段字符串 Map。
 
 **下一缺口**：
 
@@ -476,16 +476,18 @@ WorldBuilder 只消费 Frozen Runtime Catalog 和场景入口，构造临时候�
 
 **当前实现**：Algorithm Descriptor 已包含稳定 ID、版本、Backend、Create / Tick / Event / Command / Destroy 入口点、确定性声明、Execution Policy 和 Capability Requirement。Algorithm Runtime 已接通全部五个阶段；Executor 只读同代际 Snapshot、Scheduled Event 和 RNG Snapshot，只能输出 World Transaction。Declarative / Bytecode 后端支持字段设值与增量、生命周期转换、Entity / Component / Relation / Mechanism Query 数量条件、字段条件、事件类型条件、RNG 模条件，以及创建 Entity、设置 Component、增加 Relation、Spawn Mechanism、调度事件、创建和推进 RNG Stream 等通用事务指令。Runtime Compiler 在加载期解析引用并冻结为 Slot / Stable ID 字节码，内建无循环 VM 按稳定顺序执行并仅生成事务。Native 后端继续使用显式 Executor Registry。
 
-Execution Policy 提供正数确定性指令预算、非权威墙钟警告阈值和 `isolate_instance / pause_instance / fail_instance` 三种失败策略。Declarative VM 在每条字节码前消费确定性预算；Native Executor 通过 Context 中的 Tracker 协作消费预算。只有指令预算超限、契约错误、执行拒绝、异常或事务拒绝等确定性/语义故障才会丢弃输出、记录权威 Fault 并执行 Failure Policy。墙钟耗时只保存在当次 Invocation 诊断报告中，不中止算法、不影响事务提交、不进入 Authoritative World、Save、Replay Checksum 或生命周期。Fault State 包含隔离标记、次数、错误码、阶段和 Tick，可由显式事务清除。
+Execution Policy 提供正数确定性指令预算、受控 Script 单次切片预算、Script 权威状态内存配额、非权威墙钟警告阈值和 `isolate_instance / pause_instance / fail_instance` 三种失败策略。Declarative VM 与 Controlled Script VM 在每条字节码前消费确定性预算；Native Executor 通过 Context 中的 Tracker 协作消费预算。只有指令预算超限、Script 内存配额超限、契约错误、执行拒绝、异常或事务拒绝等确定性/语义故障才会丢弃输出、记录权威 Fault 并执行 Failure Policy。墙钟耗时只保存在当次 Invocation 诊断报告中，不中止算法、不影响事务提交、不进入 Authoritative World、Save、Replay Checksum 或生命周期。Fault State 包含隔离标记、次数、错误码、阶段和 Tick，可由显式事务清除。
 
-Destroy 阶段在实例进入 Completed / Failed 后执行；成功输出与实例删除同事务提交，同时清理定向 Algorithm Inbox。存在其他 Mechanism Instance Role 引用时保守拒绝删除。Native C++ 回调不会被不安全地强制终止；进程级卡死保护属于非权威 Host Watchdog，可抢占硬沙箱留给未来受控 Script / Bytecode Worker，二者都不得把墙钟结果回写为权威 Gameplay 结果。
+Destroy 阶段在实例进入 Completed / Failed 后执行；成功输出与实例删除同事务提交，同时清理定向 Algorithm Inbox。存在其他 Mechanism Instance Role 引用时保守拒绝删除。Native C++ 回调不会被不安全地强制终止；进程级卡死保护属于非权威 Host Watchdog，且不得把墙钟结果回写为权威 Gameplay 结果。
 
-**受控 Script 评估结论**：当前只保留 `script` Backend 描述符和明确的 `ScriptBackendUnavailable` 运行结果，不立即嵌入 Lua 或其他脚本 VM。Script 后端仍必须与内存限制、Capability 白名单、存档状态和确定性 Replay 同时设计，否则会破坏 Kernel 的安全边界和可重现性。
+**受控 Script 当前实现**：`script` Backend 已启用 Dillen 自有的确定性 Controlled Script Bytecode VM，不嵌入宿主 Lua、操作系统线程状态或不可审计的第三方 VM 堆。外部 `.dalgorithm` 可声明类型稳定的持久状态、`set/add_state`、`set/add_field`、生命周期转换、绝对跳转、条件跳转、`yield` 和 `halt`。Runtime Compiler 在加载期把状态名和字段名冻结为 Slot；VM 在指令边界按 `script_slice_instruction_budget` 抢占，将 Program Counter 与状态值作为 Mechanism Instance 权威状态，通过同一 World Transaction 原子提交。Create / Tick / Destroy 在对应阶段继续执行；被抢占的 Event / Command 帧在后续 Tick 优先恢复，当前最小语言不读取未持久化的宿主事件对象。
+
+Script 状态使用确定性的结构化字节占用模型执行 `script_memory_limit_bytes` 配额；超额会丢弃整次输出并产生 `ScriptMemoryQuotaExceeded` 权威 Fault。状态值、每阶段 Continuation、Fault 与所有相关 Sequence 已进入 Save Format v4、候选世界验证和 Replay；v3 Codec 读取继续保留，以便显式 Runtime Migration。`controlled_script_probe` 已覆盖外部语法解析、加载时编译、自动抢占、跨 Tick 恢复、Save / Load 后续执行一致性与内存配额拒绝。
 
 **下一缺口**：
 
-- Capability 的实际调用 ABI，而不仅是版本绑定。
-- 受控 Script 的内存配额、可抢占沙箱和持久化状态。
+- Capability 的实际调用 ABI，而不仅是版本绑定；
+- Controlled Script 对 Query、Event Payload、Command View 与 Capability 的受控只读访问；任何扩展仍必须先定义可持久化 Invocation Frame，禁止直接保存宿主对象或指针。
 
 ### 3.9 Scheduler、Transaction、Event、Query 与 RNG
 
@@ -504,7 +506,7 @@ Destroy 阶段在实例进入 Completed / Failed 后执行；成功输出与实�
 - Algorithm Runtime 已接收完整一致 Query Snapshot；算法可读取四类通用世界对象，但仍只能通过 Command / Transaction 修改权威世界；
 - RNG Snapshot 与 World Query Snapshot 在每次 Runtime 发布时使用相同 Tick / Revision；
 - Scheduler 的物理归属已从 Kernel 契约层迁入 `src/runtime`，由 `KernelRuntime` 持有并编排 Tick；Kernel 只保留可复用的状态、事务和编译契约；
-- 当前纯 Dillen（关闭 HOI3 Compatibility 与 Oracle）Windows x64 测试为 12 项，全部通过。启用冻结 HOI3 Compatibility 后 28 个 Target 均可构建，其中 12 个旧兼容夹具仍引用整理前的仓库 Corpus 路径；按照当前冻结策略，它们将在未来 Adapter 恢复时改为测试显式传入的实际 Corpus Root，不在 Standalone 主线中临时回接旧路径。
+- 当前纯 Dillen（关闭 HOI3 Compatibility 与 Oracle）Windows x64 测试为 16 项；`dillen_demo_1_0_probe` 覆盖双外部机制包、真实 Package / Source Lock、可替换 Root、Query、Scheduled Event、RNG 和权威事务结果，`controlled_script_probe` 与 `projection_adapter_probe` 分别覆盖受控脚本和 Adapter 身份迁移，`mechanism_ids_probe` 冻结 Stable Identity 层的哈希输出。启用冻结 HOI3 Compatibility 后的旧兼容夹具仍引用整理前的仓库 Corpus 路径；按照当前冻结策略，它们将在未来 Adapter 恢复时改为测试显式传入的实际 Corpus Root，不在 Standalone 主线中临时回接旧路径。
 
 **下一缺口**：
 
@@ -530,7 +532,7 @@ Destroy 阶段在实例进入 Completed / Failed 后执行；成功输出与实�
 
 **当前实现**：`Project-Dillen/src/persistence` 已成为独立 Durability 组件，并完成以下最小闭环：
 
-- `RuntimeSaveImage` 使用显式格式版本保存 Active Ruleset、Extension 列表、Ruleset Fingerprint、完整 Package Lock，以及逐个记录 Source Layer、虚拟路径、内容 Fingerprint 和字节长度的真实 Source Lock；
+- `RuntimeSaveImage` 当前格式版本为 3，保存 Active Ruleset、Extension 列表、Ruleset Fingerprint、完整 Package Lock，以及逐个记录 Package ID / Version、Source Layer、虚拟路径、内容 Fingerprint 和字节长度的真实 Source Lock；
 - 保存 Entity、Component、Relation、Mechanism Instance、Mechanism Algorithm State / Fault State、World Tick / Revision、Mechanism 创建序号、Scheduled Inbox、RNG Seed / Draw Count、待执行 Command Queue，以及 Command / Inbox / Fact 的下一稳定 Sequence；
 - Query Snapshot、反向索引、当前 Fact Queue、Algorithm 阶段报告和表现状态不进入 Save Image；加载成功后由 Store 和 Runtime 重新构造；
 - `RuntimeSaveCodec` 使用受限递归、长度上限、确定性字段顺序、固定小端编码和整包校验值生成 Canonical Binary Save；相同权威状态产生相同存档字节；
@@ -538,8 +540,9 @@ Destroy 阶段在实例进入 Completed / Failed 后执行；成功输出与实�
 - `RuntimeMigrationRegistry` 以“Save Format + 源 Ruleset Fingerprint”为唯一迁移入口，只允许冻结后的显式单路径迁移；每一步在 Save Image 副本上执行，成功后切换至声明的完整目标 Identity，禁止静默兼容；
 - `DeterministicReplayService` 从 Save Image 恢复独立 Runtime，按 `submitTick` 和日志顺序重放 Command，在每 Tick 收集 Canonical Fact Stream，并输出终态存档、Fact Stream 及两类稳定 Checksum；
 - `persistence_replay_probe` 已覆盖全部四类 Store、Package / Source Lock、Clock、RNG、Inbox、Queue、创建序号与三类 Sequence 的存档往返，验证损坏存档拒绝、不兼容 Ruleset 拒绝、旧格式 Schema Migration、派生索引重建，以及双次 Replay 的 Fact Stream 和最终状态逐字节一致。
+- `dillen_demo_1_0_probe` 进一步使用聚落增长与贸易周期两个真实外部 Gameplay Package 验证三 Tick 存档恢复、双次确定性 Replay、Source Lock 篡改拒绝、Package 源文件摘要篡改拒绝和跨 Root 读档拒绝。
 
-**边界**：Durability Core 只返回内存字节，不直接承担文件路径、云存储或平台对话框；Standalone Host 已在 Platform 边界实现受限文件读取与同目录临时文件原子替换，并继续通过 `RuntimePersistenceService` 完成身份、格式与候选世界验证。受控 Script Backend 的 VM 堆、协程和沙箱状态仍需在启用该 Backend 时另行定义持久化契约。
+**边界**：Durability Core 只返回内存字节，不直接承担文件路径、云存储或平台对话框；Standalone Host 已在 Platform 边界实现受限文件读取与同目录临时文件原子替换，并继续通过 `RuntimePersistenceService` 完成身份、格式与候选世界验证。Controlled Script 不持有独立宿主 VM 堆；其状态值和 Continuation 已作为普通权威状态进入统一 Codec、Migration 与 Replay 契约。
 
 ### 3.11 GUI、AI 与平台宿主
 
@@ -579,7 +582,9 @@ GUI、AI 和工具必须只通过 Query、Command 与 Fact Stream 使用世界�
 - Projection Artifact 与 Source Map；
 - Mapping Profile 版本、摘要和兼容范围。
 
-该系统在纯 Dillen Demo 1.0 通过前不进入主线实现。
+纯 Dillen Demo 1.0 已通过。通用 `dillen::adapter` 基础层现已建立 Projection Artifact Identity 与 Adapter Migration：身份同时锁定 Corpus Snapshot、Importer 实现、Normalized IR Schema / Digest、Mapping Profile、目标 Root Ruleset 和生成 Source / Source Map 摘要；产物篡改会被拒绝，并可生成作为普通 Generated Source 进入 Package 的 Projection Lock Document。Migration Registry 只允许冻结后的显式身份迁移，要求 Corpus Snapshot 不变、每步输出重新封印并验证；无路径、歧义路径、转换拒绝和非法输出均独立诊断。该层不解析任何 HOI3 语义，也不绕过 Resolver 创建 Runtime 对象。
+
+真实 External Corpus Importer / Mapping Profile 仍保持冻结；恢复时必须把 Projection Lock Document 作为普通 Source 纳入 Package / Source Lock，禁止把 Adapter 身份藏入 Kernel 或 Tick 热路径。
 
 ### 3.14 HOI3 Oracle
 
@@ -630,6 +635,7 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 | `Project-Dillen/src/persistence` | Save Image、Canonical Codec、Migration Registry、Replay 和 Checksum | 独立 Durability 服务，不保存派生 Snapshot |
 | `Project-Dillen/src/host` | 纯 Dillen Session 启动、CLI Inspector、Command 输入、状态展示与原子存档文件 I/O | Standalone Platform Host；只依赖公开 Authoring / Query / Command / Persistence 契约 |
 | `Project-Dillen/src/parser` | 通用 VFS、FileCatalog、Lexer、Parser Registry、Resolver | Dillen Native Source 前端基础设施 |
+| `Project-Dillen/src/adapter` | Projection Artifact 联合身份、内容封印、Source Map 验证、Projection Lock 与 Adapter Migration Registry | 加载期 External Corpus 边界；不含 Gameplay Semantic，不进入 Tick 热路径 |
 | `Project-Dillen/src/parser/parsers/hoi3` | 当前 HOI3 Parser 原型 | 冻结并迁往独立 Importer Target |
 | `Project-Dillen/src/compatibility/hoi3` | 当前 HOI3 IR 与转换期原型 | 冻结；拆分为 Importer IR，删除 Runtime WorldBuilder 职责 |
 | `Project-Dillen/hoi3oracle` | 注入、Hook、原生访问、Probe、Script GUI | 独立研究平台，不是 Standalone 依赖 |
@@ -645,8 +651,8 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 
 1. 统一 Mechanism / Entity / Component / Relation ID 与值类型；
 2. Mechanism / Component / Relation Schema、Algorithm、Entity / Relation / Mechanism Definition、Spawn 和 Capability Registry；
-3. Manifest、多 Package Source Layer、Package Lock、真实 Source Lock、Ruleset Fingerprint 和基础完整性验证；
-4. Runtime Compiler、Slot 化布局和 Frozen Runtime Catalog；
+3. Manifest、多 Package Source Layer、一层一 Package 所有权、自动 SHA-256 `content_digest` 验证、Package Lock、绑定 Package 身份的真实 Source Lock、Ruleset Fingerprint 和完整性验证；
+4. Runtime Compiler、Ruleset 传递依赖闭包裁剪、Slot 化布局和 Frozen Runtime Catalog；
 5. Authoritative World、Entity / Component / Relation / Mechanism Store；
 6. WorldBuilder 显式 Spawn；
 7. Lifecycle、Algorithm Create / Tick / Event / Command；
@@ -656,17 +662,23 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 11. 外部 Package / Capability / Component / Entity / Relation / Mechanism / Algorithm / Definition / Spawn / Ruleset Authoring 闭环；
 12. Entity / Component / Relation / Mechanism 同代际不可变 Query Snapshot 与稳定获取接口；
 13. 外部 Declarative Program、Query / 字段 / Event / RNG 条件、通用事务指令、Definition 专属 Slot Bytecode、内建无循环 VM 与事务输出闭环；
-14. 受控 Script 后端完成前置条件评估并保持显式不可用；
+14. 受控 Script 已完成外部语法、加载时 Slot 编译、确定性字节码 VM、指令边界抢占、权威状态/Continuation 事务提交、内存配额、Save v4 与 Replay 契约；
 15. Destroy、确定性指令预算、非权威墙钟诊断、单实例 Fault 隔离、三种失败策略和显式恢复；
 16. 全权威状态 Canonical Save / Load、原子恢复、显式 Schema Migration、固定 Command Log Replay 与稳定 Checksum；
 17. 最小 Standalone Host、外部 Authoring Session 启动、交互/脚本化 CLI Inspector、即时与排队 Command、状态查询及原子 Save / Load 文件闭环；
-18. Windows x64 纯 Dillen 测试已增至 12 项并全部通过；启用冻结 HOI3 Compatibility 的 28 个 Target 均可构建，旧兼容夹具的 12 项路径失败已明确隔离为未来 Adapter 恢复工作，不计入当前 Standalone 主线验收。
+18. Windows x64 纯 Dillen 测试已增至 16 项；新增 `controlled_script_probe`、`projection_adapter_probe` 与 `mechanism_ids_probe`，分别固化 Script 沙箱/持久化、Projection 身份/迁移，以及 Stable Identity 层的冻结哈希、归一化等价与运算符语义；旧兼容夹具的 Corpus 路径问题继续隔离为未来 Adapter 恢复工作，不计入当前 Standalone 主线验收；
+19. 纯 Dillen Demo 1.0 已以聚落增长与贸易周期两个外部机制包、均衡/加速两个可替换 Root Package / Source Layer 完成端到端验收，并固化闭包裁剪、源摘要篡改拒绝、存档恢复、确定性回放、Source Lock 篡改拒绝与跨 Root 读档拒绝。
 
-**核心缺口**：
+**本轮已补齐的核心缺口**：
 
-1. 受控 Script 的内存配额、可抢占沙箱和持久化状态；
-2. 具备两个外部机制包与可替换 Root Ruleset 的纯 Dillen Demo 1.0 端到端样本；
-3. External Corpus Adapter 恢复后的 Projection Artifact 身份与 Adapter Migration。
+1. 受控 Script 的内存配额、指令边界可抢占沙箱、权威 Continuation 与持久化状态；
+2. External Corpus Adapter 恢复所需的 Projection Artifact 联合身份、内容封印、Projection Lock 与 Adapter Migration。
+
+**后续主线缺口**：
+
+1. Capability 的实际调用 ABI及 Controlled Script 的受控 Query / Event / Command / Capability 访问；
+2. External Corpus Adapter ABI、Normalized IR 容器与 Mapping Profile 执行器本身；
+3. Projection Lock Source 与正式 Package / Source Lock、Ruleset Fingerprint 的端到端接线。
 
 **暂停项**：
 
@@ -675,6 +687,36 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 - HOI3 Runtime WorldBuilder；
 - Oracle 横向逆向扩展；
 - 以 HOI3 War / Diplomacy 作为当前主线验收样本。
+
+### 3.19 工程化加固与代码修复
+
+本轮不改变任何 Kernel 边界、权威状态所有权、依赖方向或 Ruleset 语义；全部改动均已通过 16 项纯 Dillen 测试。
+
+**构建与工程基线**：
+
+- MSVC 构建启用 `/W4 /permissive-`；`std::visit` + `if constexpr` visitor 尾部 `return` 的 C4702 误报以 `/wd4702` 定点关闭并注释说明。当前标准核心在此配置下 0 warning。
+- `cmake/DillenTargets.cmake` 增加非 MSVC（GCC / Clang）分支：`-Wall -Wextra -Wpedantic`。跨平台移植尚未完成（见 §4.6），该分支用于让 Linux CI 尽早暴露一致性与可移植性差距。
+- 新增 `.github/workflows/ci.yml`：Windows MSVC 跑 `dillen-standalone-windows-x64` preset 的 configure / build / ctest；另有一个标注 `continue-on-error` 的 Linux（gcc/clang）job，可见但不阻塞。
+- 仓库卫生：新增 `.gitignore` / `.editorconfig`，停止跟踪约 1790 个构建产物、`.vs/` 与本地日志；新增 `Project-Dillen/README.md`、根 `CONTRIBUTING.md`。引擎子树（`Project-Dillen/`）以 MIT License 发布（`Project-Dillen/LICENSE`）。
+
+**正确性与健壮性修复**：
+
+- 事务执行器调度事件时，`std::find_if` 结果先判 `end()`，找不到即拒绝事务，消除可能的迭代器越界解引用。
+- Authoring 的 `Declare` / `Resolve` 与 `ValidateAndCompile` 一致，按 `CatalogDisposition::Active` 过滤 —— 落败的 Replace-Path 工件不再进入 Declare / Resolve。
+- Declarative 程序中目标 Entity 无法解析的 `set_component_field`，在编译期与 `create_entity` / `spawn_mechanism` 一样硬失败，而非静默跳过。
+- `schedule_event` 的 `delay == 0` 在加载期即拒绝（运行期必然被 `dueTick <= currentTick` 拒绝）。
+- Save Codec 的 `String()` / `Raw()` 长度检查前置 `offset_ > limit_` 守卫，即使内部不变量被破坏也返回失败而非越界读。
+- Runtime Compiler 编译 Spawn 时对 `FindLayout` 结果补 `nullptr` 检查，与 Definition / Entity-Component 路径一致。
+
+**Stable Identity 层重构**：
+
+- 21 个手写 ID / Slot 类型（各含 `struct` + `operator bool` + `== / != / <`）收敛为单个 `StrongId<Tag, Underlying, Empty>` 模板加 21 行 `using` 别名。类型仍是聚合体，`Id{}` / `Id{rawValue}` / `return {rawValue};` / 公开可变的 `.value` 全部不变。
+- 21 条 `static_assert` 锁定每个 ID 的 `sizeof == 底层类型`、`alignof` 一致、trivially-copyable、standard-layout。
+- 新增可选的 `std::hash<StrongId<…>>` 偏特化，不改动任何现有容器，仅为将来把热点有序查找替换为哈希查找解除障碍。
+- 所有 `Stable*Id` 哈希函数、归一化规则与哈希域字符串一字未动；`mechanism_ids_probe` 以冻结的十六进制期望值锁定全部 17 个 `Stable*Id` 输出，`persistence_replay_probe` / `dillen_demo_1_0_probe` / `runtime_catalog_probe` 验证 Ruleset Fingerprint、存档字节与 Replay Checksum 逐字节不变。
+- 新增 `mechanism_ids.natvis` 供 VS 调试器显示裸 ID 值。
+
+新增一个 ID 类型现在是 1 行 `using` + 1 行 `static_assert`，不再需要修改多处 Kernel 样板。
 
 ---
 
@@ -685,14 +727,14 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 ### 4.1 当前主线顺序
 
 1. **Root Ruleset 收口（已完成）**：已移除全局不可替换 Core Ruleset 假设，完成显式 Root 选择、纯加法 Extension Composition、保护策略、确定性排序和 Fingerprint；后续 Override 只能在独立授权模型完成后增量加入。
-2. **外部 Authoring 纵向管线（基础闭环已完成）**：Package Manifest、Capability Contract、Component Schema、Entity Definition、Relation Schema / Definition、Mechanism Template、Algorithm Descriptor、Mechanism Definition、Spawn、Root Ruleset 和 Extension Ruleset 已能从多个 Source Layer 进入 Registry 与 Frozen Catalog；真实 Source Lock 已进入编译、Fingerprint 与持久化身份。复杂值和面向作者的工具链作为后续增量能力补齐。
+2. **外部 Authoring 纵向管线（基础闭环已完成）**：Package Manifest、Capability Contract、Component Schema、Entity Definition、Relation Schema / Definition、Mechanism Template、Algorithm Descriptor、Mechanism Definition、Spawn、Root Ruleset 和 Extension Ruleset 已能从多个 Source Layer 进入 Registry；每层严格绑定唯一 Package，真实 Source 自动计算并验证 Package SHA-256 摘要，绑定 Package 身份的 Source Lock 已进入编译、Fingerprint 与持久化身份。只有组合 Root 的依赖闭包进入 Frozen Catalog。复杂值和面向作者的工具链作为后续增量能力补齐。
 3. **通用 Query 完整化（已完成）**：已发布 Entity / Component / Relation / Mechanism 同代际不可变快照、稳定索引和跨发布代际安全句柄；增量快照属于后续性能优化，不再阻塞 Query 核心契约。
-4. **可执行 Algorithm 后端（基础闭环已完成）**：外部 Declarative Program 已能编译 Query、字段、Scheduled Event 与 RNG 条件，以及 Entity / Component / Relation / Mechanism / Event / RNG 通用事务指令为 Definition 专属 Slot / Stable ID Bytecode，并由内建无循环 VM 在 Create / Tick / Event / Command 阶段生成 World Transaction；通用 Budget、Fault、Persistence 与 Replay 契约已经完成，但受控 Script 后端仍须先补齐脚本 VM 自身的内存配额、可抢占沙箱和 VM 状态编解码，暂不启用。
+4. **可执行 Algorithm 后端（Declarative 与 Controlled Script 基础闭环已完成）**：外部 Declarative Program 已能编译 Query、字段、Scheduled Event 与 RNG 条件，以及 Entity / Component / Relation / Mechanism / Event / RNG 通用事务指令为 Definition 专属 Slot / Stable ID Bytecode，并由内建无循环 VM 生成 World Transaction；Controlled Script 已提供类型稳定的持久状态、跳转、条件、`yield/halt`、确定性切片抢占、内存配额和 Save / Replay 状态契约。Native 后端继续受显式 Executor Registry 与协作 Budget 约束。
 5. **生命周期和 Fault 收口（已完成）**：Destroy、正数确定性指令预算、单实例权威 Fault 隔离、`isolate / pause / fail` 策略、显式恢复、引用保护和定向 Inbox 清理均已接入统一事务；墙钟阈值已从权威确定性结果中剥离，只产生 Invocation 诊断。Native C++ 回调不执行不安全的线程强杀，未来 Host Watchdog 或可抢占 Worker 也不得把墙钟结果回写为 Gameplay 状态。
 6. **Persistence / Migration / Replay（已完成）**：已保存四类权威 Store、算法状态、Clock、RNG、Inbox、Queue、创建序号和稳定 Sequence；完成 Canonical Binary Codec、身份/版本拒绝、候选世界原子恢复、显式 Schema Migration、派生索引重建与固定 Command Log 的双次确定性回放。
 7. **Standalone Host（已完成）**：已提供纯 Dillen `project-dillen` CLI、外部 Authoring Session 启动、Query 状态检查、即时/排队 Command、Tick 驱动、脚本化命令流和原子 Save / Load 文件闭环；窗口后端属于后续 Platform 增量，不再阻塞 Host 核心契约。
-8. **纯 Dillen Demo 1.0**：以两个外部机制包和一个可替换 Root Ruleset 完成验收。
-9. **主线冻结后再定义 External Corpus Adapter ABI**：先用合成 Corpus 验证 Importer / Mapping 分离，再恢复 HOI3 工作。
+8. **纯 Dillen Demo 1.0（已完成）**：聚落增长与贸易周期两个外部机制包已通过 Package Lock 和真实 Source Lock 进入 Standalone；均衡/加速 Root 各自作为正式 Root Package，可在不重新编译引擎的情况下替换，并产生不同 Fingerprint、Spawn 组合和权威初始状态。独立 Probe 已固化 Query、Scheduled Event、RNG、通用事务、Ruleset 闭包裁剪、Package 源摘要篡改拒绝、Save 恢复、双次 Replay、Source Lock 篡改拒绝与跨 Root 读档拒绝。
+9. **主线冻结后再定义 External Corpus Adapter ABI（身份与迁移基础已完成）**：已用合成 Projection 固化 Corpus / Importer / IR / Mapping / Target / Generated Source 联合身份、篡改拒绝和唯一迁移链；下一步仍须先用合成 Corpus 实现 Importer / Mapping 执行分离与 Projection Lock 接线，再恢复 HOI3 工作。
 
 ### 4.2 Demo 0.2：Kernel Contract Freeze
 
@@ -760,7 +802,7 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 
 内容：
 
-- 一个 Root Ruleset；
+- 一个可替换 Root Ruleset 契约及均衡/加速两个 Root 实现；
 - 至少两个外部 Gameplay Mechanism Package；
 - 一个原生 Dillen Content Package 和场景；
 - 最小 Standalone Host / Inspector；
@@ -775,6 +817,8 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 - 更换 Root Ruleset 可以改变机制组合；
 - 运行期不依赖可编辑字符串结构；
 - 核心验收标准 1—10 全部通过。
+
+**当前验收状态**：`Project-Dillen/demo/dillen_demo_1_0` 已提供两个独立外部 Gameplay Package、两个可互换 Root Package / Source Layer、CLI 命令流与说明文档；`dillen_demo_1_0_probe` 已验证当前三 Package 与 16 个真实 Source Artifact 锁定、Root Fingerprint / Spawn 差异、未选择 Definition / Spawn / Algorithm 裁剪、三 Tick Query / Event / RNG / Transaction 固定结果、真实 Demo Save 恢复、双次确定性 Replay、Package 源摘要篡改拒绝、Source Lock 篡改拒绝和跨 Root 读档拒绝。Migration、非法 Command 与超预算隔离门禁继续由同一纯 Dillen 测试组中的既有 Probe 联合覆盖。
 
 ### 4.6 Demo 1.1：Authoring Hardening
 

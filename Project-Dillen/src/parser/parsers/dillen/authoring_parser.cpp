@@ -959,6 +959,8 @@ bool ParseAlgorithmExecutionPolicy(
             node,
             {
                 "instruction_budget",
+                "script_slice_instruction_budget",
+                "script_memory_limit_bytes",
                 "wall_clock_warning_microseconds",
                 "timeout_microseconds", "failure_policy"
             },
@@ -977,6 +979,32 @@ bool ParseAlgorithmExecutionPolicy(
             "instruction_budget",
             cursor,
             output.instructionBudget))
+    {
+        return false;
+    }
+    if (FindUnique(
+            node,
+            "script_slice_instruction_budget",
+            cursor,
+            false) != nullptr
+        && !ReadUInt32Property(
+            node,
+            "script_slice_instruction_budget",
+            cursor,
+            output.scriptSliceInstructionBudget))
+    {
+        return false;
+    }
+    if (FindUnique(
+            node,
+            "script_memory_limit_bytes",
+            cursor,
+            false) != nullptr
+        && !ReadUInt32Property(
+            node,
+            "script_memory_limit_bytes",
+            cursor,
+            output.scriptMemoryLimitBytes))
     {
         return false;
     }
@@ -1195,7 +1223,7 @@ bool ParseAlgorithmFieldInstruction(
                 {
                     return false;
                 }
-                std::string kind;
+                std::string queryKindName;
                 std::string type;
                 std::uint32_t count = 0;
                 condition.kind =
@@ -1204,7 +1232,7 @@ bool ParseAlgorithmFieldInstruction(
                         conditionNode,
                         "kind",
                         cursor,
-                        kind)
+                        queryKindName)
                     || !ReadStringProperty(
                         conditionNode,
                         "type",
@@ -1219,27 +1247,27 @@ bool ParseAlgorithmFieldInstruction(
                     return false;
                 }
                 condition.minimumCount = count;
-                if (kind == "entity")
+                if (queryKindName == "entity")
                 {
                     condition.queryKind = kernel::AlgorithmQueryKind::EntityType;
                     condition.queryType =
                         kernel::StableEntityTypeId(type).value;
                 }
-                else if (kind == "component")
+                else if (queryKindName == "component")
                 {
                     condition.queryKind =
                         kernel::AlgorithmQueryKind::ComponentType;
                     condition.queryType =
                         kernel::StableComponentTypeId(type).value;
                 }
-                else if (kind == "relation")
+                else if (queryKindName == "relation")
                 {
                     condition.queryKind =
                         kernel::AlgorithmQueryKind::RelationType;
                     condition.queryType =
                         kernel::StableRelationTypeId(type).value;
                 }
-                else if (kind == "mechanism")
+                else if (queryKindName == "mechanism")
                 {
                     condition.queryKind =
                         kernel::AlgorithmQueryKind::MechanismType;
@@ -1250,7 +1278,7 @@ bool ParseAlgorithmFieldInstruction(
                 {
                     cursor.Diagnostics().Error(
                         "dillen.authoring.query_kind_unknown",
-                        "unknown declarative Query kind: " + kind,
+                        "unknown declarative Query kind: " + queryKindName,
                         conditionNode.span
                     );
                     return false;
@@ -1691,6 +1719,209 @@ bool ParseAlgorithmProgram(
                 "dillen.authoring.algorithm_stage_duplicate",
                 "algorithm program stage appears more than once",
                 node.keys[stageIndex].span
+            );
+            return false;
+        }
+    }
+    return true;
+}
+
+bool ParseControlledScriptInstruction(
+    std::string_view name,
+    const SyntaxNode& node,
+    kernel::ControlledScriptInstructionDefinition& output,
+    ParserCursor& cursor
+)
+{
+    const auto scalarValue = [&node, &cursor](
+        std::string_view property,
+        kernel::MechanismValue& value)
+    {
+        const SyntaxNode* propertyNode = FindUnique(
+            node,
+            property,
+            cursor,
+            true
+        );
+        Token token;
+        return propertyNode != nullptr
+            && RequireScalar(propertyNode, cursor, property, token)
+            && InferScalarValue(token, value, cursor);
+    };
+    if (name == "set_state" || name == "add_state")
+    {
+        if (!RejectUnknown(node, {"state", "value"}, cursor, name))
+            return false;
+        output.kind = name == "set_state"
+            ? kernel::ControlledScriptInstructionKind::SetState
+            : kernel::ControlledScriptInstructionKind::AddState;
+        return ReadStringProperty(node, "state", cursor, output.state)
+            && scalarValue("value", output.operand);
+    }
+    if (name == "set_field" || name == "add_field")
+    {
+        if (!RejectUnknown(node, {"field", "value"}, cursor, name))
+            return false;
+        output.kind = name == "set_field"
+            ? kernel::ControlledScriptInstructionKind::SetField
+            : kernel::ControlledScriptInstructionKind::AddField;
+        return ReadStringProperty(node, "field", cursor, output.field)
+            && scalarValue("value", output.operand);
+    }
+    if (name == "transition_lifecycle")
+    {
+        Token token;
+        if (!RequireScalar(
+                &node,
+                cursor,
+                "transition_lifecycle",
+                token)) return false;
+        const auto lifecycle = ParseLifecycleState(token, cursor);
+        if (!lifecycle) return false;
+        output.kind = kernel::ControlledScriptInstructionKind::
+            TransitionLifecycle;
+        output.lifecycle = *lifecycle;
+        return true;
+    }
+    if (name == "jump")
+    {
+        Token token;
+        std::uint64_t target = 0;
+        if (!RequireScalar(&node, cursor, "jump", token)
+            || !ParseUnsigned(
+                token,
+                std::numeric_limits<std::uint32_t>::max(),
+                target,
+                cursor)) return false;
+        output.kind = kernel::ControlledScriptInstructionKind::Jump;
+        output.targetInstruction = static_cast<std::uint32_t>(target);
+        return true;
+    }
+    if (name == "jump_if_state_equals")
+    {
+        if (!RejectUnknown(
+                node,
+                {"state", "value", "target_instruction"},
+                cursor,
+                name)) return false;
+        output.kind = kernel::ControlledScriptInstructionKind::
+            JumpIfStateEquals;
+        return ReadStringProperty(node, "state", cursor, output.state)
+            && scalarValue("value", output.operand)
+            && ReadUInt32Property(
+                node,
+                "target_instruction",
+                cursor,
+                output.targetInstruction);
+    }
+    if (name == "yield" || name == "halt")
+    {
+        Token token;
+        bool enabled = false;
+        if (!RequireScalar(&node, cursor, name, token)
+            || !ParseBooleanToken(token, enabled, cursor)
+            || !enabled)
+        {
+            cursor.Diagnostics().Error(
+                "dillen.authoring.controlled_script_terminator_invalid",
+                "yield and halt instructions must be enabled with yes",
+                node.span
+            );
+            return false;
+        }
+        output.kind = name == "yield"
+            ? kernel::ControlledScriptInstructionKind::Yield
+            : kernel::ControlledScriptInstructionKind::Halt;
+        return true;
+    }
+    return false;
+}
+
+bool ParseControlledScriptProgram(
+    const SyntaxNode& node,
+    kernel::ControlledScriptProgramDefinition& output,
+    ParserCursor& cursor
+)
+{
+    if (!node.block || !node.items.empty())
+    {
+        cursor.Diagnostics().Error(
+            "dillen.authoring.controlled_script_block_required",
+            "script must be a property block",
+            node.span
+        );
+        return false;
+    }
+    bool stateSeen = false;
+    for (std::size_t index = 0; index < node.keys.size(); ++index)
+    {
+        const Token& key = node.keys[index];
+        const SyntaxNode& value = node.values[index];
+        if (key.text == "state")
+        {
+            if (stateSeen)
+            {
+                cursor.Diagnostics().Error(
+                    "dillen.authoring.controlled_script_state_duplicate",
+                    "script state appears more than once",
+                    key.span
+                );
+                return false;
+            }
+            stateSeen = true;
+            std::map<std::string, kernel::MechanismValue> state;
+            if (!ParseScalarFieldMap(value, state, cursor)) return false;
+            for (auto& entry : state)
+            {
+                output.state.push_back({
+                    std::move(entry.first),
+                    std::move(entry.second)
+                });
+            }
+            continue;
+        }
+        const auto entryPoint = ParseEntryPoint(key, cursor);
+        if (!entryPoint) return false;
+        if (!value.block || !value.items.empty())
+        {
+            cursor.Diagnostics().Error(
+                "dillen.authoring.controlled_script_stage_block_required",
+                "script stage must be an instruction block",
+                value.span
+            );
+            return false;
+        }
+        std::vector<kernel::ControlledScriptInstructionDefinition>
+            instructions;
+        for (std::size_t instructionIndex = 0;
+            instructionIndex < value.keys.size();
+            ++instructionIndex)
+        {
+            kernel::ControlledScriptInstructionDefinition instruction;
+            if (!ParseControlledScriptInstruction(
+                    value.keys[instructionIndex].text,
+                    value.values[instructionIndex],
+                    instruction,
+                    cursor))
+            {
+                cursor.Diagnostics().Error(
+                    "dillen.authoring.controlled_script_instruction_unknown",
+                    "unknown or invalid Controlled Script instruction: "
+                        + std::string(value.keys[instructionIndex].text),
+                    value.keys[instructionIndex].span
+                );
+                return false;
+            }
+            instructions.push_back(std::move(instruction));
+        }
+        if (!output.stages.emplace(
+                *entryPoint,
+                std::move(instructions)).second)
+        {
+            cursor.Diagnostics().Error(
+                "dillen.authoring.controlled_script_stage_duplicate",
+                "script stage appears more than once",
+                key.span
             );
             return false;
         }
@@ -2994,7 +3225,7 @@ bool ParseAlgorithmDescriptor(
             {
                 "name", "version", "backend", "entry_points",
                 "deterministic", "execution_policy",
-                "required_capabilities", "program"
+                "required_capabilities", "program", "script"
             },
             cursor,
             "algorithm descriptor"))
@@ -3101,6 +3332,8 @@ bool ParseAlgorithmDescriptor(
     }
     const bool declarative = document.value.backend
         == kernel::AlgorithmBackend::Declarative;
+    const bool controlledScript = document.value.backend
+        == kernel::AlgorithmBackend::Script;
     const SyntaxNode* program = FindUnique(
         root.body,
         "program",
@@ -3124,6 +3357,29 @@ bool ParseAlgorithmDescriptor(
         }
         return false;
     }
+    const SyntaxNode* script = FindUnique(
+        root.body,
+        "script",
+        cursor,
+        controlledScript
+    );
+    if (script != nullptr
+        && (!controlledScript
+            || !ParseControlledScriptProgram(
+                *script,
+                document.value.script,
+                cursor)))
+    {
+        if (!controlledScript && !cursor.Diagnostics().HasErrors())
+        {
+            cursor.Diagnostics().Error(
+                "dillen.authoring.controlled_script_backend_invalid",
+                "only script algorithms may define a script program",
+                script->span
+            );
+        }
+        return false;
+    }
     if (declarative
         && !kernel::IsValidAlgorithmProgram(
             document.value.program,
@@ -3133,6 +3389,18 @@ bool ParseAlgorithmDescriptor(
             "dillen.authoring.algorithm_program_entry_mismatch",
             "declarative program stages must exactly match entry_points",
             program == nullptr ? root.body.span : program->span
+        );
+        return false;
+    }
+    if (controlledScript
+        && !kernel::IsValidControlledScriptProgram(
+            document.value.script,
+            document.value.entryPoints))
+    {
+        cursor.Diagnostics().Error(
+            "dillen.authoring.controlled_script_entry_mismatch",
+            "script stages must exactly match entry_points",
+            script == nullptr ? root.body.span : script->span
         );
         return false;
     }

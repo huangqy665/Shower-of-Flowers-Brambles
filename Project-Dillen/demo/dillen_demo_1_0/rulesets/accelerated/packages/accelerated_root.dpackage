@@ -1,0 +1,20 @@
+package_manifest = {
+    name = dillen.demo1.accelerated_root_package
+    version_major = 1
+    version_minor = 0
+    version_patch = 0
+    content_digest = "3a2071fb184ebab4f9ef2b5383956cb7db12ce496c1b7c747d879c3de34150b9"
+    load_priority = 100
+    dependencies = {
+        dependency = {
+            name = dillen.demo1.trade_cycle_package
+            minimum_major = 1
+            minimum_minor = 0
+            minimum_patch = 0
+            maximum_major = 2
+            maximum_minor = 0
+            maximum_patch = 0
+            required = yes
+        }
+    }
+}

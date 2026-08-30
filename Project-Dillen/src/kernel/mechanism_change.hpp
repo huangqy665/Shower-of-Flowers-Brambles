@@ -4,6 +4,7 @@
 #include <variant>
 
 #include "algorithm_execution_policy.hpp"
+#include "controlled_script.hpp"
 #include "mechanism_ids.hpp"
 #include "mechanism_lifecycle.hpp"
 #include "mechanism_value.hpp"
@@ -46,11 +47,21 @@ struct MechanismDestroyedChange
     MechanismTypeId type;
 };
 
+struct MechanismAlgorithmStateChange
+{
+    MechanismInstanceId target;
+    std::vector<MechanismValue> previousState;
+    std::vector<MechanismValue> currentState;
+    std::vector<ControlledScriptContinuation> previousContinuations;
+    std::vector<ControlledScriptContinuation> currentContinuations;
+};
+
 using MechanismChange = std::variant<
     MechanismFieldChange,
     MechanismLifecycleChange,
     MechanismAlgorithmInitializedChange,
     MechanismAlgorithmFaultChange,
+    MechanismAlgorithmStateChange,
     MechanismDestroyedChange
 >;
 

@@ -1,11 +1,13 @@
 #include "authoring_pipeline.hpp"
 
 #include <algorithm>
+#include <map>
 #include <set>
 #include <string>
 #include <utility>
 
 #include "authoring_parser.hpp"
+#include "package_content_digest.hpp"
 
 namespace dillen::authoring {
 
@@ -300,7 +302,9 @@ bool AuthoringSession::Declare(
     extensionRulesets_.clear();
     for (const parser::ParsedFile& file : workspace.files)
     {
-        if (!file.result.success)
+        if (!file.result.success
+            || file.catalog.disposition
+                != parser::CatalogDisposition::Active)
         {
             continue;
         }
@@ -462,7 +466,9 @@ bool AuthoringSession::Resolve(
 {
     for (const parser::ParsedFile& file : workspace.files)
     {
-        if (!file.result.success)
+        if (!file.result.success
+            || file.catalog.disposition
+                != parser::CatalogDisposition::Active)
         {
             continue;
         }
@@ -537,7 +543,9 @@ bool AuthoringSession::Resolve(
 
     for (const parser::ParsedFile& file : workspace.files)
     {
-        if (!file.result.success)
+        if (!file.result.success
+            || file.catalog.disposition
+                != parser::CatalogDisposition::Active)
         {
             continue;
         }
@@ -721,6 +729,82 @@ bool AuthoringSession::ValidateAndCompile(
         );
         return false;
     }
+    struct SourceLayerBinding
+    {
+        const kernel::PackageManifest* manifest = nullptr;
+        std::vector<const parser::ParsedFile*> files;
+    };
+    std::map<std::string, SourceLayerBinding> sourceLayers;
+    for (const parser::ParsedFile& file : workspace.files)
+    {
+        if (!file.result.success
+            || file.catalog.disposition
+                != parser::CatalogDisposition::Active)
+        {
+            continue;
+        }
+        SourceLayerBinding& layer = sourceLayers[
+            file.catalog.sourceLayerName
+        ];
+        layer.files.push_back(&file);
+        if (file.result.artifact.type != kPackageManifestDocumentType)
+        {
+            continue;
+        }
+        const PackageManifestDocument* document =
+            file.result.artifact.As<PackageManifestDocument>();
+        if (document == nullptr || layer.manifest != nullptr)
+        {
+            diagnostics.Error(
+                "dillen.authoring.package_source_ambiguous",
+                "each Source Layer must contain exactly one Package Manifest: "
+                    + file.catalog.sourceLayerName
+            );
+            continue;
+        }
+        layer.manifest = &document->value;
+    }
+    for (const auto& layerEntry : sourceLayers)
+    {
+        const std::string& layerName = layerEntry.first;
+        const SourceLayerBinding& layer = layerEntry.second;
+        if (layer.manifest == nullptr)
+        {
+            diagnostics.Error(
+                "dillen.authoring.package_source_missing",
+                "Source Layer has no Package Manifest: " + layerName
+            );
+            continue;
+        }
+        std::vector<kernel::PackageContentSource> contentSources;
+        for (const parser::ParsedFile* file : layer.files)
+        {
+            if (file->result.artifact.type
+                == kPackageManifestDocumentType)
+            {
+                continue;
+            }
+            contentSources.push_back({
+                file->catalog.virtualPath,
+                file->source.Bytes()
+            });
+        }
+        const std::string actualDigest =
+            kernel::ComputePackageContentDigest(std::move(contentSources));
+        if (actualDigest != layer.manifest->contentDigest)
+        {
+            diagnostics.Error(
+                "dillen.authoring.package_content_digest_mismatch",
+                "Package content_digest does not match Source Layer "
+                    + layerName + "; expected " + actualDigest
+            );
+        }
+    }
+    if (diagnostics.HasErrors())
+    {
+        return false;
+    }
+
     kernel::PackageLockReport packageReport;
     if (!kernel::PackageLockBuilder{}.Resolve(
             packageManifests_,
@@ -739,20 +823,39 @@ bool AuthoringSession::ValidateAndCompile(
     }
     std::vector<kernel::SourceLockEntry> sourceEntries;
     sourceEntries.reserve(workspace.files.size());
-    for (const parser::ParsedFile& file : workspace.files)
+    for (const auto& layerEntry : sourceLayers)
     {
-        if (!file.result.success
-            || file.catalog.disposition
-                != parser::CatalogDisposition::Active)
+        const std::string& layerName = layerEntry.first;
+        const SourceLayerBinding& layer = layerEntry.second;
+        const kernel::PackageLockEntry* locked = packageLock_.Find(
+            layer.manifest->id
+        );
+        if (locked == nullptr
+            || locked->version != layer.manifest->version
+            || locked->contentDigest != layer.manifest->contentDigest)
         {
+            diagnostics.Error(
+                "dillen.authoring.package_source_not_selected",
+                "Source Layer Package is absent from the resolved Package Lock: "
+                    + layerName
+            );
             continue;
         }
-        sourceEntries.push_back({
-            file.catalog.sourceLayerName,
-            file.catalog.virtualPath,
-            file.catalog.fingerprint,
-            static_cast<std::uint64_t>(file.catalog.size)
-        });
+        for (const parser::ParsedFile* file : layer.files)
+        {
+            sourceEntries.push_back({
+                layer.manifest->id,
+                layer.manifest->version,
+                file->catalog.sourceLayerName,
+                file->catalog.virtualPath,
+                file->catalog.fingerprint,
+                static_cast<std::uint64_t>(file->catalog.size)
+            });
+        }
+    }
+    if (diagnostics.HasErrors())
+    {
+        return false;
     }
     std::string sourceLockMessage;
     if (!kernel::SourceLockBuilder{}.Build(

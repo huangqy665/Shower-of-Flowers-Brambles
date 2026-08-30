@@ -1,0 +1,62 @@
+algorithm_descriptor = {
+    name = dillen.demo1.trade_cycle_algorithm
+    version = 1
+    backend = declarative
+    entry_points = { create tick event }
+    deterministic = yes
+    execution_policy = {
+        instruction_budget = 32
+        wall_clock_warning_microseconds = 50000
+        failure_policy = fail_instance
+    }
+    program = {
+        create = {
+            transition_lifecycle = active
+            create_rng = {
+                stream = dillen.demo1.trade_rng
+                seed = 20260829
+            }
+            schedule_event = {
+                type = dillen.demo1.market_review
+                delay = 1
+                priority = 20
+                payload = "scheduled market review"
+            }
+        }
+        tick = {
+            add_field = {
+                field = completed_cycles
+                value = 1
+            }
+            add_field = {
+                field = market_index
+                value = 4
+                when = {
+                    query_at_least = {
+                        kind = mechanism
+                        type = dillen.demo1.settlement_growth
+                        count = 1
+                    }
+                    rng_modulo = {
+                        stream = dillen.demo1.trade_rng
+                        modulo = 1
+                        equals = 0
+                    }
+                }
+            }
+            advance_rng = {
+                stream = dillen.demo1.trade_rng
+                count = 1
+            }
+        }
+        event = {
+            set_field = {
+                field = market_index
+                value = 50
+                when = {
+                    scheduled_event = dillen.demo1.market_review
+                }
+            }
+        }
+    }
+}

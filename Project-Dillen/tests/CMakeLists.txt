@@ -10,6 +10,7 @@ function(dillen_add_probe target)
 endfunction()
 
 if(DILLEN_BUILD_STANDALONE_RUNTIME)
+    dillen_add_probe(mechanism_ids_probe dillen::kernel)
     dillen_add_probe(mechanism_registry_probe dillen::kernel)
     dillen_add_probe(ruleset_composition_probe dillen::kernel)
     dillen_add_probe(runtime_catalog_probe dillen::kernel)
@@ -28,6 +29,13 @@ if(DILLEN_BUILD_STANDALONE_RUNTIME)
         dillen::runtime
     )
     dillen_add_probe(declarative_algorithm_vm_probe dillen::runtime)
+    dillen_add_probe(
+        controlled_script_probe
+        dillen::runtime
+        dillen::persistence
+        dillen::authoring
+    )
+    dillen_add_probe(projection_adapter_probe dillen::adapter)
     dillen_add_probe(parser_syntax_probe dillen::parser)
     dillen_add_probe(parser_pipeline_probe dillen::parser)
     dillen_add_probe(
@@ -37,6 +45,7 @@ if(DILLEN_BUILD_STANDALONE_RUNTIME)
         dillen::runtime
     )
     dillen_add_probe(standalone_host_probe dillen::host)
+    dillen_add_probe(dillen_demo_1_0_probe dillen::host)
 endif()
 
 if(DILLEN_BUILD_HOI3_COMPATIBILITY)

@@ -1,0 +1,12 @@
+algorithm_descriptor = {
+    name = dillen.demo1.unselected_probe_algorithm
+    version = 1
+    backend = declarative
+    entry_points = { create }
+    deterministic = yes
+    program = {
+        create = {
+            transition_lifecycle = active
+        }
+    }
+}

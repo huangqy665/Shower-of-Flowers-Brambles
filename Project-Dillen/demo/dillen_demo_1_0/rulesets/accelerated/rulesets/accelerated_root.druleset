@@ -1,0 +1,68 @@
+root_ruleset = {
+    name = dillen.demo1.accelerated_root
+    version = 1
+    allow_additions = {
+        package mechanism_schema mechanism_definition mechanism_spawn algorithm
+    }
+
+    required_packages = {
+        requirement = {
+            name = dillen.demo1.accelerated_root_package
+            minimum_major = 1
+            minimum_minor = 0
+            minimum_patch = 0
+            maximum_major = 2
+            maximum_minor = 0
+            maximum_patch = 0
+        }
+        requirement = {
+            name = dillen.demo1.settlement_growth_package
+            minimum_major = 1
+            minimum_minor = 0
+            minimum_patch = 0
+            maximum_major = 2
+            maximum_minor = 0
+            maximum_patch = 0
+        }
+        requirement = {
+            name = dillen.demo1.trade_cycle_package
+            minimum_major = 1
+            minimum_minor = 0
+            minimum_patch = 0
+            maximum_major = 2
+            maximum_minor = 0
+            maximum_patch = 0
+        }
+    }
+
+    required_schemas = {
+        dillen.demo1.settlement_growth = 1
+        dillen.demo1.trade_cycle = 1
+    }
+    required_algorithms = {
+        dillen.demo1.settlement_growth_algorithm = 1
+        dillen.demo1.trade_cycle_algorithm = 1
+    }
+    required_definitions = {
+        requirement = {
+            mechanism = dillen.demo1.settlement_growth
+            name = dillen.demo1.default_settlement
+        }
+        requirement = {
+            mechanism = dillen.demo1.trade_cycle
+            name = dillen.demo1.default_trade_cycle
+        }
+    }
+    required_spawns = {
+        requirement = {
+            mechanism = dillen.demo1.settlement_growth
+            definition = dillen.demo1.default_settlement
+            name = dillen.demo1.initial_settlements
+        }
+        requirement = {
+            mechanism = dillen.demo1.trade_cycle
+            definition = dillen.demo1.default_trade_cycle
+            name = dillen.demo1.initial_trade_cycle
+        }
+    }
+}

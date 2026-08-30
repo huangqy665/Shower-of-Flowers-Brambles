@@ -196,6 +196,12 @@ bool ValidCommand(const kernel::WorldCommand& command)
                             }
                             else if constexpr (std::is_same_v<
                                     MechanismOperation,
+                                    kernel::MechanismReplaceAlgorithmStateOperation>)
+                            {
+                                return true;
+                            }
+                            else if constexpr (std::is_same_v<
+                                    MechanismOperation,
                                     kernel::MechanismTransitionLifecycleOperation>)
                             {
                                 return ValidLifecycle(
@@ -375,6 +381,13 @@ bool RuntimePersistenceService::BuildCandidate(
             catalog.FindDefinition(instance.definition);
         const kernel::CompiledMechanismLayout* layout =
             catalog.FindLayout(instance.type, instance.schemaVersion);
+        const kernel::AlgorithmDescriptor* algorithm = instance.algorithm
+            ? catalog.FindAlgorithm(
+                instance.algorithm,
+                instance.algorithmVersion)
+            : nullptr;
+        const kernel::CompiledControlledScriptProgram* script =
+            catalog.FindControlledScriptProgram(instance.definition);
         const auto nextOrdinal = mechanisms.nextOrdinalByDefinition_.find(
             instance.definition
         );
@@ -390,6 +403,17 @@ bool RuntimePersistenceService::BuildCandidate(
                 instance.creationOrdinal)
             || instance.values.size() != layout->fields.size()
             || instance.roles.size() != layout->roles.size()
+            || (algorithm != nullptr
+                && algorithm->backend == kernel::AlgorithmBackend::Script
+                && (script == nullptr
+                    || !kernel::IsValidControlledScriptRuntimeState(
+                        *script,
+                        instance.algorithmState,
+                        instance.algorithmContinuations,
+                        algorithm->executionPolicy.scriptMemoryLimitBytes)))
+            || ((algorithm == nullptr
+                    || algorithm->backend != kernel::AlgorithmBackend::Script)
+                && !instance.algorithmContinuations.empty())
             || !ValidLifecycle(instance.lifecycle)
             || !ValidFaultCode(instance.algorithmFault.code)
             || !ValidFaultStage(instance.algorithmFault.stage)

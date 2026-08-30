@@ -1,0 +1,26 @@
+mechanism_template = {
+    name = dillen.demo1.trade_cycle
+    version = 1
+
+    fields = {
+        field = {
+            name = market_index
+            kind = integer
+            required = yes
+            default = 0
+            minimum_number = 0
+        }
+        field = {
+            name = completed_cycles
+            kind = integer
+            required = yes
+            default = 0
+            minimum_number = 0
+        }
+        field = {
+            name = label
+            kind = string
+            default = "market"
+        }
+    }
+}

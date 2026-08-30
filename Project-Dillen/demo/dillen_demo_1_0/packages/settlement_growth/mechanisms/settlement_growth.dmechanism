@@ -1,0 +1,26 @@
+mechanism_template = {
+    name = dillen.demo1.settlement_growth
+    version = 1
+
+    fields = {
+        field = {
+            name = population
+            kind = integer
+            required = yes
+            default = 0
+            minimum_number = 0
+        }
+        field = {
+            name = food_stock
+            kind = integer
+            required = yes
+            default = 0
+            minimum_number = 0
+        }
+        field = {
+            name = label
+            kind = string
+            default = "settlement"
+        }
+    }
+}

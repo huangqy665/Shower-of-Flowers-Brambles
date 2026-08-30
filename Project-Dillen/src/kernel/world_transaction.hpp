@@ -208,6 +208,7 @@ using WorldChange = std::variant<
     MechanismLifecycleChange,
     MechanismAlgorithmInitializedChange,
     MechanismAlgorithmFaultChange,
+    MechanismAlgorithmStateChange,
     MechanismDestroyedChange,
     ScheduledEventAddedChange,
     ScheduledEventCancelledChange,

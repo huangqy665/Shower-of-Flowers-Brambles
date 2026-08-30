@@ -214,6 +214,7 @@ public:
         std::uint32_t size = 0;
         if (!U32(size)
             || size > kMaximumStringBytes
+            || offset_ > limit_
             || size > limit_ - offset_)
         {
             return false;
@@ -228,7 +229,8 @@ public:
 
     bool Raw(const std::uint8_t* expected, std::size_t size)
     {
-        if (size > limit_ - offset_
+        if (offset_ > limit_
+            || size > limit_ - offset_
             || !std::equal(
                 expected,
                 expected + size,
@@ -623,6 +625,24 @@ bool WriteMechanismCommand(
                 writer.U8(static_cast<std::uint8_t>(operation.code));
                 writer.U8(static_cast<std::uint8_t>(operation.stage));
             }
+            else if constexpr (std::is_same_v<
+                    Operation,
+                    kernel::MechanismReplaceAlgorithmStateOperation>)
+            {
+                if (!WriteValues(writer, operation.state)
+                    || !writer.Count(operation.continuations.size()))
+                {
+                    return false;
+                }
+                for (const kernel::ControlledScriptContinuation& continuation
+                    : operation.continuations)
+                {
+                    writer.U32(static_cast<std::uint32_t>(
+                        continuation.entryPoint
+                    ));
+                    writer.U32(continuation.programCounter);
+                }
+            }
             return true;
         },
         command.operation
@@ -698,6 +718,31 @@ bool ReadMechanismCommand(
     case 5:
         command.operation = kernel::MechanismDestroyOperation{};
         return true;
+    case 6:
+    {
+        kernel::MechanismReplaceAlgorithmStateOperation operation;
+        std::uint32_t count = 0;
+        if (!ReadValues(reader, operation.state) || !reader.Count(count))
+        {
+            return false;
+        }
+        operation.continuations.reserve(count);
+        for (std::uint32_t index = 0; index < count; ++index)
+        {
+            std::uint32_t entryPoint = 0;
+            kernel::ControlledScriptContinuation continuation;
+            if (!reader.U32(entryPoint)
+                || !reader.U32(continuation.programCounter))
+            {
+                return false;
+            }
+            continuation.entryPoint =
+                static_cast<kernel::AlgorithmEntryPoint>(entryPoint);
+            operation.continuations.push_back(continuation);
+        }
+        command.operation = std::move(operation);
+        return true;
+    }
     default:
         return false;
     }
@@ -972,6 +1017,8 @@ bool WriteIdentity(Writer& writer, const RuntimeSaveIdentity& identity)
     if (!writer.Count(identity.sourceLock.size())) return false;
     for (const RuntimeSourceLockEntry& source : identity.sourceLock)
     {
+        WriteId(writer, source.package);
+        WriteVersion(writer, source.packageVersion);
         if (!writer.String(source.sourceLayer)
             || !writer.String(source.virtualPath)) return false;
         writer.U64(source.fingerprint);
@@ -1053,7 +1100,9 @@ bool ReadIdentity(Reader& reader, RuntimeSaveIdentity& identity)
     for (std::uint32_t index = 0; index < count; ++index)
     {
         RuntimeSourceLockEntry source;
-        if (!reader.String(source.sourceLayer)
+        if (!ReadId(reader, source.package)
+            || !ReadVersion(reader, source.packageVersion)
+            || !reader.String(source.sourceLayer)
             || !reader.String(source.virtualPath)
             || !reader.U64(source.fingerprint)
             || !reader.U64(source.size)) return false;
@@ -1112,6 +1161,19 @@ bool WriteImage(Writer& writer, const RuntimeSaveImage& image)
             }
         }
         if (!WriteValues(writer, mechanism.algorithmState)) return false;
+        if (image.identity.formatVersion >= 4)
+        {
+            if (!writer.Count(mechanism.algorithmContinuations.size()))
+                return false;
+            for (const kernel::ControlledScriptContinuation& continuation
+                : mechanism.algorithmContinuations)
+            {
+                writer.U32(static_cast<std::uint32_t>(
+                    continuation.entryPoint
+                ));
+                writer.U32(continuation.programCounter);
+            }
+        }
         writer.Boolean(mechanism.algorithmInitialized);
         WriteFault(writer, mechanism.algorithmFault);
         writer.U64(mechanism.createdTick);
@@ -1234,8 +1296,26 @@ bool ReadImage(Reader& reader, RuntimeSaveImage& image)
                 role.push_back(reference);
             }
         }
-        if (!ReadValues(reader, mechanism.algorithmState)
-            || !reader.Boolean(mechanism.algorithmInitialized)
+        if (!ReadValues(reader, mechanism.algorithmState)) return false;
+        if (image.identity.formatVersion >= 4)
+        {
+            std::uint32_t continuationCount = 0;
+            if (!reader.Count(continuationCount)) return false;
+            mechanism.algorithmContinuations.reserve(continuationCount);
+            for (std::uint32_t continuationIndex = 0;
+                continuationIndex < continuationCount;
+                ++continuationIndex)
+            {
+                std::uint32_t entryPoint = 0;
+                kernel::ControlledScriptContinuation continuation;
+                if (!reader.U32(entryPoint)
+                    || !reader.U32(continuation.programCounter)) return false;
+                continuation.entryPoint =
+                    static_cast<kernel::AlgorithmEntryPoint>(entryPoint);
+                mechanism.algorithmContinuations.push_back(continuation);
+            }
+        }
+        if (!reader.Boolean(mechanism.algorithmInitialized)
             || !ReadFault(reader, mechanism.algorithmFault)
             || !reader.U64(mechanism.createdTick)
             || !reader.U64(mechanism.updatedTick)) return false;
@@ -1417,6 +1497,37 @@ bool WriteWorldEventPayload(
             {
                 WriteId(writer, value.stream);
                 writer.U64(value.seed);
+            }
+            else if constexpr (std::is_same_v<Value,
+                    kernel::MechanismAlgorithmStateChange>)
+            {
+                WriteId(writer, value.target);
+                if (!WriteValues(writer, value.previousState)
+                    || !WriteValues(writer, value.currentState)
+                    || !writer.Count(value.previousContinuations.size()))
+                {
+                    return false;
+                }
+                for (const auto& continuation
+                    : value.previousContinuations)
+                {
+                    writer.U32(static_cast<std::uint32_t>(
+                        continuation.entryPoint
+                    ));
+                    writer.U32(continuation.programCounter);
+                }
+                if (!writer.Count(value.currentContinuations.size()))
+                {
+                    return false;
+                }
+                for (const auto& continuation
+                    : value.currentContinuations)
+                {
+                    writer.U32(static_cast<std::uint32_t>(
+                        continuation.entryPoint
+                    ));
+                    writer.U32(continuation.programCounter);
+                }
             }
             else
             {

@@ -48,7 +48,8 @@ using WorldEventPayload = std::variant<
     ScheduledEventAddedChange,
     ScheduledEventCancelledChange,
     RngStreamCreatedChange,
-    RngStreamAdvancedChange
+    RngStreamAdvancedChange,
+    MechanismAlgorithmStateChange
 >;
 
 struct WorldEvent

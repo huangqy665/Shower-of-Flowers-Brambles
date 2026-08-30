@@ -76,6 +76,16 @@ MechanismInstanceCreateResult MechanismInstanceStore::CreateFromDefinition(
             algorithm->entryPoints,
             AlgorithmEntryPoint::Create
         );
+    if (algorithm != nullptr && algorithm->backend == AlgorithmBackend::Script)
+    {
+        const CompiledControlledScriptProgram* script =
+            catalog.FindControlledScriptProgram(definitionId);
+        if (script == nullptr)
+        {
+            return MechanismInstanceCreateResult::DefinitionMissing;
+        }
+        instance.algorithmState = script->initialState;
+    }
     instance.createdTick = currentTick;
     instance.updatedTick = currentTick;
 
@@ -143,6 +153,16 @@ MechanismInstanceCreateResult MechanismInstanceStore::CreateFromSpawn(
             algorithm->entryPoints,
             AlgorithmEntryPoint::Create
         );
+    if (algorithm != nullptr && algorithm->backend == AlgorithmBackend::Script)
+    {
+        const CompiledControlledScriptProgram* script =
+            catalog.FindControlledScriptProgram(spawn->definition);
+        if (script == nullptr)
+        {
+            return MechanismInstanceCreateResult::DefinitionMissing;
+        }
+        instance.algorithmState = script->initialState;
+    }
     instance.createdTick = currentTick;
     instance.updatedTick = currentTick;
 
@@ -294,6 +314,50 @@ MechanismTransactionResult MechanismInstanceStore::ApplyTransaction(
                 changes.emplace_back(
                     MechanismAlgorithmInitializedChange{command.target}
                 );
+                changed.insert(command.target);
+            }
+            continue;
+        }
+
+        if (const auto* operation = std::get_if<
+                MechanismReplaceAlgorithmStateOperation>(
+                &command.operation))
+        {
+            const AlgorithmDescriptor* algorithm = instance.algorithm
+                ? catalog.FindAlgorithm(
+                    instance.algorithm,
+                    instance.algorithmVersion)
+                : nullptr;
+            const CompiledControlledScriptProgram* script =
+                catalog.FindControlledScriptProgram(instance.definition);
+            if (algorithm == nullptr
+                || algorithm->backend != AlgorithmBackend::Script
+                || script == nullptr
+                || !IsValidControlledScriptRuntimeState(
+                    *script,
+                    operation->state,
+                    operation->continuations,
+                    algorithm->executionPolicy.scriptMemoryLimitBytes))
+            {
+                return TransactionFailure(
+                    MechanismTransactionStatus::AlgorithmStateInvalid,
+                    index,
+                    command.target
+                );
+            }
+            if (instance.algorithmState != operation->state
+                || instance.algorithmContinuations
+                    != operation->continuations)
+            {
+                changes.emplace_back(MechanismAlgorithmStateChange{
+                    command.target,
+                    instance.algorithmState,
+                    operation->state,
+                    instance.algorithmContinuations,
+                    operation->continuations
+                });
+                instance.algorithmState = operation->state;
+                instance.algorithmContinuations = operation->continuations;
                 changed.insert(command.target);
             }
             continue;

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+  <!-- Show a StrongId as its bare stored value instead of the full
+       StrongId<Tag, Underlying, Empty> template signature. -->
+  <Type Name="dillen::kernel::StrongId&lt;*&gt;">
+    <DisplayString>{value}</DisplayString>
+    <Expand>
+      <Item Name="value">value</Item>
+    </Expand>
+  </Type>
+</AutoVisualizer>
