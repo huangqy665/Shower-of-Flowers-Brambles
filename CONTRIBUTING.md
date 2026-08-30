@@ -8,6 +8,13 @@ boundaries, authoritative-state ownership, dependency direction, ruleset
 semantics or the external-compatibility architecture, update that document **in
 the same change**.
 
+`Project-Dillen/FROZEN_CONTRACTS.md` lists the contract surface frozen by
+Demo 0.2 and, for each item, the guard that enforces it. Read it before
+touching the save codec, the serialized `std::variant` types, the stable-ID
+hashes or the Capability invocation ABI. A guard that fails is asking you one
+question: *did you mean to change the format?* If not, fix the code — never
+re-baseline a golden value to make a build go green.
+
 ## Commit messages
 
 One `<area>: <imperative summary>` line (≤ 72 chars), then an optional body that

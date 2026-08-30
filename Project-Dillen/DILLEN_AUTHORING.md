@@ -103,11 +103,19 @@ algorithm_descriptor = {
 | `set_component_field` | 写入指定 Entity 的 Component 字段 | Entity、Component 与字段必须存在且类型匹配 |
 | `add_relation` | 在两个稳定 Entity 之间增加 Relation | 必须满足 Relation Schema |
 | `spawn_mechanism` | 按 Spawn Definition 创建机制实例 | Spawn 必须进入 Frozen Catalog |
-| `schedule_event` | 向 Algorithm Inbox 调度确定性事件 | 使用 Tick 偏移、优先级和标量 Payload |
+| `schedule_event` | 向 Algorithm Inbox 调度确定性事件 | 使用 Tick 偏移、优先级和标量 Payload；`delay` 必须为正 |
+| `invoke_capability` | 向某 Capability Contract 的提供者发一次调用（默认广播，`target_role` 可定向单个） | 请求版本区间必须与组合 Ruleset 中某契约相交；`delay` 必须为正；不引用任何提供者 Entity / Instance ID |
 | `create_rng` | 创建稳定 RNG Stream | Stream ID 必须有效且不能重复 |
 | `advance_rng` | 按期望 Draw Count 推进 RNG Stream | Draw Count 不一致时事务拒绝 |
 
-`set_field` 与 `add_field` 可附加 `when`，当前支持 `field_equals`、`query_at_least`、`scheduled_event` 和 `rng_modulo`。Query 可统计 Entity、Component、Relation 或 Mechanism Type；Event 与 RNG 条件只读取同代际 Snapshot。
+`invoke_capability` 是**单向、单 Operation、无返回值、无关联 ID** 的 fire-and-forget 调用 —— 即 **Capability ABI v1**，本节描述的语义在 Demo 0.2 定稿。契约的 `operations` 字段尚未接入调用点；将来的多 Operation / 返回值 / 关联 ID 属于 v2，会以纯加法方式引入，不改变本节语义。`invoke_capability = { capability = <契约名> payload = <标量> delay = <正整数> priority = <整数> target_role = <角色名> version = <正整数> }`（`target_role` 与 `version` 可选）。
+
+- **版本协商**：`version` 请求一个精确契约版本；省略则接受任意版本。加载期 Runtime Compiler 只在 **Package Lock 声明为某锁定包所提供**的契约版本里区间内取最高；与之都不相交时编译报错（不静默取 latest，也不扫描整个 Registry）。定义契约的 Package 其 manifest 须用 `provides = { capability = { name = <契约名> version = <正整数> } }` 声明所提供的版本；一个 manifest 每个契约只能声明一个版本。提供端 `provides_capabilities` 同样解析为具体版本；只有版本相符的提供者会收到投递。
+- **定向**：省略 `target_role` = 广播，运行期按稳定 Instance ID 顺序投递给每个 `provides_capabilities` 命中且版本相符的实例（零提供者是无害空操作）。`target_role` 命名调用方机制自身的一个角色 Slot，运行期从该 Slot 读出目标实例，只投递给它；该实例必须存在并提供相符版本，否则事务拒绝（定向未命中是作者错误）。角色 Slot 未绑定 mechanism 实例时算法 Fault。
+
+`set_field` 与 `add_field` 可附加 `when`，当前支持 `field_equals`、`query_at_least`、`scheduled_event`、`rng_modulo` 和 `capability_invoked`。`capability_invoked = <契约名>` 是 `scheduled_event` 在 Capability 派生事件类型上的语法糖，用于提供者在 `event` 阶段识别一次 Capability 调用。Query 可统计 Entity、Component、Relation 或 Mechanism Type；Event 与 RNG 条件只读取同代际 Snapshot。
+
+`set_field` / `add_field` 可用 `from_payload = yes` 代替 `value`，改用当前 Scheduled Event / Capability 调用的 Payload 作为操作数（仅在 `event` 阶段有效；`add_field` 要求数值字段）。这样提供者能读取消费者发送的数值，而不必知道消费者是谁。
 
 加载期由 Runtime Compiler 把字段名解析为 Definition 专属的 32 位 Slot，并生成无字符串、无循环的冻结字节码；运行期内建 VM 只读取当前 Instance，按顺序生成 `WorldTransaction`，不直接修改权威世界。空阶段合法，可用于声明当前阶段暂时无操作。
 
@@ -155,7 +163,11 @@ algorithm_descriptor = {
 }
 ```
 
-Script v1 支持 `set_state`、`add_state`、`set_field`、`add_field`、`transition_lifecycle`、`jump`、`jump_if_state_equals`、`yield` 和 `halt`。跳转目标是当前阶段的零基指令下标，也可等于阶段长度表示完成。状态类型由初值固定；`script_memory_limit_bytes` 约束全部持久状态的确定性结构化占用。达到 `script_slice_instruction_budget` 或执行 `yield` 时，VM 在指令边界抢占，把状态与 Program Counter 通过同一 World Transaction 提交；二者进入 Save v4 和 Replay。内存越界会丢弃整次输出并按 Failure Policy 记录权威 Fault。
+Script 的控制层指令：`set_state`、`add_state`、`jump`、`jump_if_state_equals`、`yield`、`halt`，以及不带 `when` 的 `set_field` / `add_field` / `transition_lifecycle`。跳转目标是当前阶段的零基指令下标，也可等于阶段长度表示完成。
+
+除此之外，Script 阶段可直接写 **Declarative 后端的任意通用事务指令**——`create_entity`、`set_component_field`、`add_relation`、`remove_relation`、`spawn_mechanism`、`schedule_event`、`cancel_event`、`create_rng`、`advance_rng`、`invoke_capability`——以及带 `when` 条件（`field_equals` / `query_at_least` / `scheduled_event` / `capability_invoked` / `rng_modulo`）或 `from_payload = yes` 的 `set_field` / `add_field`。它们与 Declarative 用同一套加载期下降和运行期执行（`EmitBytecodeTransaction`），语义完全一致，只是嵌在 Script 的控制流里。
+
+状态类型由初值固定；`script_memory_limit_bytes` 约束全部持久状态的确定性结构化占用。达到 `script_slice_instruction_budget` 或执行 `yield` 时，VM 在指令边界抢占，把状态与 Program Counter 通过同一 World Transaction 提交；二者进入 Save 和 Replay。内存越界会丢弃整次输出并按 Failure Policy 记录权威 Fault。
 
 `native` 继续通过宿主显式注册的 Executor 执行。Declarative VM 与 Controlled Script VM 都在指令边界消费确定性预算；Native Executor 获得协作式 Budget Tracker。墙钟耗时只写入当次 `AlgorithmInvocationResult` 诊断报告，不进入 Authoritative World、Save、Replay Checksum 或 Failure Policy。Kernel 不会不安全地强杀任意 C++ 回调；真正的进程级卡死保护必须由非权威 Host Watchdog 提供。
 
@@ -168,13 +180,14 @@ mechanism_definition = {
     schema_version = 1
     algorithm = dillen.demo.counter_algorithm
     algorithm_version = 1
+    provides_capabilities = { dillen.demo.market_pressure }
     fields = {
         value = 5
     }
 }
 ```
 
-Definition 在 Resolver 的 Resolve 阶段绑定已经冻结的 Schema 与 Algorithm；未知字段、错误类型、缺失必填字段和悬空 Algorithm 会被拒绝。
+Definition 在 Resolver 的 Resolve 阶段绑定已经冻结的 Schema 与 Algorithm；未知字段、错误类型、缺失必填字段和悬空 Algorithm 会被拒绝。可选的 `provides_capabilities` 列出该 Definition 的实例响应的 Capability Contract；每项可以是裸契约名（接受 Ruleset 锁定的任意版本），也可以是 `requirement = { name = <契约名> minimum_version = <正整数> maximum_version = <正整数（不含）> }` 声明可接受的版本范围。Runtime Compiler 在其范围内解析为一个具体契约版本并纳入依赖闭包，无兼容版本时拒绝。
 
 ## 5. Mechanism Spawn
 
@@ -250,6 +263,7 @@ extension_ruleset = {
 - Runtime Compiler 只冻结 Root / Extension 组合所选择的依赖闭包；未选择的 Schema、Algorithm、Definition、Spawn 及其无关依赖可以存在于已加载 Registry，但不会进入 Frozen Catalog 或初始权威世界。
 - Declarative Algorithm 已完成 `外部程序 → Query/Condition/通用事务解析 → Slot/Stable ID 编译 → Frozen Bytecode → 内建 VM → WorldTransaction` 的可执行闭环；当前指令集刻意保持无循环。
 - Destroy、确定性指令预算、单实例 Fault 隔离、三种失败策略和显式恢复已接入权威事务与 Query Snapshot；墙钟阈值只产生非权威诊断。
-- 受控 Script 已完成 `外部语法 → Slot 编译 → 确定性 VM → 指令边界抢占 → 权威状态/Continuation 事务 → Save/Replay` 基础闭环；Query、Event/Command 上下文和 Capability 访问仍待按可持久化 Frame 契约扩展。
+- 受控 Script 已完成 `外部语法 → Slot 编译 → 确定性 VM → 指令边界抢占 → 权威状态/Continuation 事务 → Save/Replay` 闭环，并与 Declarative 后端完全对齐：全部通用事务指令 + `when` 条件经同一套下降与运行期执行（`EmitBytecodeTransaction`），只是可嵌在 Script 的跳转/yield 控制流里。
+- Capability 调用：消费者只写契约名（可加 `version` 精确请求、`target_role` 定向单个提供者）；加载期把版本区间解析为具体版本，运行期按稳定顺序投递给版本相符的提供者。跨机制交互不引用对方的 Mechanism Type 或 Instance ID。
 
-纯 Dillen Demo 1.0 位于 `demo/dillen_demo_1_0`，展示两个独立机制包、真实包依赖和可替换 Root Ruleset。
+纯 Dillen Demo 1.0 位于 `demo/dillen_demo_1_0`，展示两个独立机制包、真实包依赖、可替换 Root Ruleset，以及两个机制**仅通过 `dillen.demo1.market_pressure` Capability Contract**交互（互不引用对方类型）。

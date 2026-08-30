@@ -5,6 +5,7 @@
 #include <limits>
 #include <type_traits>
 #include <utility>
+#include <variant>
 
 namespace dillen::persistence {
 
@@ -20,6 +21,160 @@ constexpr std::uint32_t kMaximumContainerItems = 16U * 1024U * 1024U;
 constexpr std::uint32_t kMaximumStringBytes = 16U * 1024U * 1024U;
 constexpr std::size_t kMaximumValueDepth = 64;
 
+// ─────────────────────────────────────────────────────────────────────────
+// Frozen on-disk variant tags (Demo 0.2 Kernel Contract Freeze).
+//
+// Three std::variant types are serialised by writing `.index()` straight out
+// as the on-disk / on-wire discriminator:
+//
+//   kernel::MechanismCommandOperation -> WriteMechanismCommand
+//   kernel::WorldCommandPayload       -> WriteWorldCommand
+//   kernel::WorldEventPayload         -> WriteWorldEventPayload (Fact Stream,
+//                                        i.e. the deterministic replay checksum)
+//
+// That makes each alternative's POSITION part of the save format and of the
+// replay checksum. Inserting an alternative anywhere but the end, or
+// reordering two of them, silently rewrites every existing save and shifts
+// every replay checksum -- with no compile error and no guaranteed test
+// failure.
+//
+// The asserts below pin every position. Adding an alternative at the END is
+// still fine and needs one new assert; anything else stops the build here, on
+// purpose. If a reorder is genuinely intended, it is a save-format break:
+// bump kCurrentRuntimeSaveFormatVersion, provide a migration, and update
+// memo section 4.2.
+// ─────────────────────────────────────────────────────────────────────────
+
+template <class T, class Variant>
+struct VariantAlternativeIndex;
+
+template <class T, class... Rest>
+struct VariantAlternativeIndex<T, std::variant<T, Rest...>>
+{
+    static constexpr std::size_t value = 0;
+};
+
+template <class T, class First, class... Rest>
+struct VariantAlternativeIndex<T, std::variant<First, Rest...>>
+{
+    static constexpr std::size_t value =
+        1 + VariantAlternativeIndex<T, std::variant<Rest...>>::value;
+};
+
+// A type that is not an alternative recurses to std::variant<>, which has no
+// specialisation -- that is the compile error, by design.
+
+template <class T, class Variant, std::size_t Expected>
+inline constexpr bool kVariantTagIs =
+    VariantAlternativeIndex<T, Variant>::value == Expected;
+
+#define DILLEN_FROZEN_VARIANT_TAG(Alternative, Variant, Expected)             \
+    static_assert(                                                            \
+        kVariantTagIs<Alternative, Variant, Expected>,                        \
+        "frozen on-disk tag for " #Alternative " in " #Variant                \
+        " moved; see the note above -- this is a save-format break"           \
+    )
+
+// kernel::MechanismCommandOperation -- 7 alternatives, tags 0..6.
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::MechanismSetFieldOperation, kernel::MechanismCommandOperation, 0);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::MechanismTransitionLifecycleOperation,
+    kernel::MechanismCommandOperation, 1);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::MechanismCompleteAlgorithmCreateOperation,
+    kernel::MechanismCommandOperation, 2);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::MechanismRecordAlgorithmFaultOperation,
+    kernel::MechanismCommandOperation, 3);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::MechanismClearAlgorithmFaultOperation,
+    kernel::MechanismCommandOperation, 4);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::MechanismDestroyOperation,
+    kernel::MechanismCommandOperation, 5);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::MechanismReplaceAlgorithmStateOperation,
+    kernel::MechanismCommandOperation, 6);
+static_assert(
+    std::variant_size_v<kernel::MechanismCommandOperation> == 7,
+    "MechanismCommandOperation gained an alternative; pin its tag above"
+);
+
+// kernel::WorldCommandPayload -- 11 alternatives, tags 0..10.
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::EntityCreateCommand, kernel::WorldCommandPayload, 0);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::ComponentSetFieldCommand, kernel::WorldCommandPayload, 1);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::RelationAddCommand, kernel::WorldCommandPayload, 2);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::RelationRemoveCommand, kernel::WorldCommandPayload, 3);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::MechanismSpawnCommand, kernel::WorldCommandPayload, 4);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::MechanismCommand, kernel::WorldCommandPayload, 5);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::ScheduledEventScheduleCommand, kernel::WorldCommandPayload, 6);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::ScheduledEventCancelCommand, kernel::WorldCommandPayload, 7);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::RngStreamCreateCommand, kernel::WorldCommandPayload, 8);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::RngStreamAdvanceCommand, kernel::WorldCommandPayload, 9);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::InvokeCapabilityCommand, kernel::WorldCommandPayload, 10);
+static_assert(
+    std::variant_size_v<kernel::WorldCommandPayload> == 11,
+    "WorldCommandPayload gained an alternative; pin its tag above"
+);
+
+// kernel::WorldEventPayload -- 18 alternatives, tags 0..17. Never read back,
+// but it encodes the Fact Stream the replay checksum is taken over, so the
+// positions are just as frozen as the save ones.
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::WorldTransactionCommittedEvent, kernel::WorldEventPayload, 0);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::WorldTransactionRejectedEvent, kernel::WorldEventPayload, 1);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::EntityCreatedChange, kernel::WorldEventPayload, 2);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::ComponentAttachedChange, kernel::WorldEventPayload, 3);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::ComponentFieldChange, kernel::WorldEventPayload, 4);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::RelationAddedChange, kernel::WorldEventPayload, 5);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::RelationRemovedChange, kernel::WorldEventPayload, 6);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::MechanismSpawnedChange, kernel::WorldEventPayload, 7);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::MechanismFieldChange, kernel::WorldEventPayload, 8);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::MechanismLifecycleChange, kernel::WorldEventPayload, 9);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::MechanismAlgorithmInitializedChange,
+    kernel::WorldEventPayload, 10);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::MechanismAlgorithmFaultChange, kernel::WorldEventPayload, 11);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::MechanismDestroyedChange, kernel::WorldEventPayload, 12);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::ScheduledEventAddedChange, kernel::WorldEventPayload, 13);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::ScheduledEventCancelledChange, kernel::WorldEventPayload, 14);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::RngStreamCreatedChange, kernel::WorldEventPayload, 15);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::RngStreamAdvancedChange, kernel::WorldEventPayload, 16);
+DILLEN_FROZEN_VARIANT_TAG(
+    kernel::MechanismAlgorithmStateChange, kernel::WorldEventPayload, 17);
+static_assert(
+    std::variant_size_v<kernel::WorldEventPayload> == 18,
+    "WorldEventPayload gained an alternative; pin its tag above"
+);
+
+#undef DILLEN_FROZEN_VARIANT_TAG
 
 std::uint64_t Checksum(
     const std::uint8_t* bytes,

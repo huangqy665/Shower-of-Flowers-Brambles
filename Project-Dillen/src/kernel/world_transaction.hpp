@@ -84,6 +84,11 @@ struct InvokeCapabilityCommand
     std::uint32_t capabilityVersion = 0;
 };
 
+// FROZEN ORDER (Demo 0.2). Each alternative's position is written straight out
+// as the on-disk command tag by the save codec, so reordering or inserting
+// anywhere but the END is a save-format break. runtime_save_codec.cpp pins
+// every position with a static_assert -- get it wrong and the build stops
+// there, not at a corrupted save.
 using WorldCommandPayload = std::variant<
     EntityCreateCommand,
     ComponentSetFieldCommand,

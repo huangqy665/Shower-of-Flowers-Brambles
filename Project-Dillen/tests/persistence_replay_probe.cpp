@@ -266,6 +266,132 @@ dillen::kernel::WorldTransaction SetPopulation(
 
 }
 
+// Frozen encoding of every World command payload (Demo 0.2).
+//
+// The canonical world below only ever leaves ONE command type in the persisted
+// queue, so its golden bytes do not exercise most of WriteWorldCommand. This
+// encodes a hand-built Save Image whose command queue holds one transaction per
+// WorldCommandPayload alternative -- all 11 -- plus a spread of
+// MechanismCommandOperation alternatives, so every command writer branch is
+// covered by a golden. Verified byte-identical on Windows MSVC and Linux GCC.
+bool CheckFrozenCommandEncoding()
+{
+    using namespace dillen;
+    using namespace dillen::kernel;
+
+    const EntityId entity{0x1111ULL};
+    const EntityDefinitionId entityDefinition{0x2222ULL};
+    const ComponentTypeId component{0x3333ULL};
+    const ComponentFieldSlotId componentField{4};
+    const RelationTypeId relationType{0x4444ULL};
+    const RelationId relation{0x5555ULL};
+    const MechanismSpawnDefinitionId spawn{0x6666ULL};
+    const MechanismInstanceId instance{0x7777ULL};
+    const MechanismFieldSlotId field{9};
+    const AlgorithmEventTypeId eventType{0x8888ULL};
+    const RngStreamId stream{0x9999ULL};
+    const CapabilityId capability{0xAAAAULL};
+    const AlgorithmEventTypeId deliveryType{0xBBBBULL};
+
+    WorldTransaction all;
+    all.commands = {
+        WorldCommand::CreateEntity(entityDefinition),
+        WorldCommand::SetComponentField(
+            entity, component, componentField,
+            MechanismValue(std::int64_t{-7})),
+        WorldCommand::AddRelation(relationType, entity, EntityId{0x1112ULL}),
+        WorldCommand::RemoveRelation(relation),
+        WorldCommand::SpawnMechanism(spawn),
+        WorldCommand::Mechanism(MechanismCommand::SetField(
+            instance, field, MechanismValue(std::string("frozen")))),
+        WorldCommand::ScheduleEvent(
+            eventType, instance, 12, -3, MechanismValue(2.5)),
+        WorldCommand::CancelEvent(77),
+        WorldCommand::CreateRngStream(stream, 0xFEEDULL),
+        WorldCommand::AdvanceRngStream(stream, 5, 3),
+        WorldCommand::InvokeCapability(
+            capability, deliveryType, 20, 4,
+            MechanismValue(std::int64_t{11}), instance, 2),
+    };
+    // Remaining MechanismCommandOperation alternatives.
+    WorldTransaction operations;
+    operations.commands = {
+        WorldCommand::Mechanism(MechanismCommand::TransitionLifecycle(
+            instance, MechanismLifecycleState::Paused)),
+        WorldCommand::Mechanism(
+            MechanismCommand::CompleteAlgorithmCreate(instance)),
+        WorldCommand::Mechanism(MechanismCommand::RecordAlgorithmFault(
+            instance,
+            AlgorithmFaultCode::InstructionBudgetExceeded,
+            AlgorithmFaultStage::Tick)),
+        WorldCommand::Mechanism(MechanismCommand::ClearAlgorithmFault(
+            instance)),
+        WorldCommand::Mechanism(MechanismCommand::Destroy(instance)),
+        WorldCommand::Mechanism(MechanismCommand::ReplaceAlgorithmState(
+            instance,
+            {MechanismValue(std::int64_t{1}), MechanismValue(true)},
+            {{AlgorithmEntryPoint::Tick, 3}})),
+    };
+
+    persistence::RuntimeSaveImage image;
+    image.worldTick = 42;
+    image.worldRevision = 7;
+    image.commandQueue.push_back({1, 5, 0, std::move(all)});
+    image.commandQueue.push_back({2, 6, -1, std::move(operations)});
+    image.nextCommandSequence = 3;
+
+    std::vector<std::uint8_t> bytes;
+    if (!persistence::RuntimeSaveCodec{}.Encode(image, bytes))
+    {
+        std::cerr << "Frozen command encoding: Encode failed\n";
+        return false;
+    }
+
+    // See the golden note in main(): an accidental change is a bug to fix, a
+    // deliberate one needs a format-version bump and a migration.
+    constexpr std::size_t kGoldenBytes = 516;
+    constexpr std::uint64_t kGoldenChecksum = 5610142064737695594ULL;
+    if (bytes.size() != kGoldenBytes
+        || persistence::StableRuntimeChecksum(bytes) != kGoldenChecksum)
+    {
+        std::cerr << "Frozen command encoding drifted:\n"
+                  << "  bytes    : " << bytes.size()
+                  << " (expected " << kGoldenBytes << ")\n"
+                  << "  checksum : "
+                  << persistence::StableRuntimeChecksum(bytes)
+                  << " (expected " << kGoldenChecksum << ")\n";
+        return false;
+    }
+
+    // Round trip: every alternative must decode back to the same tag.
+    persistence::RuntimeSaveImage decoded;
+    if (!persistence::RuntimeSaveCodec{}.Decode(bytes, decoded)
+        || decoded.commandQueue.size() != 2
+        || decoded.commandQueue[0].transaction.commands.size() != 11
+        || decoded.commandQueue[1].transaction.commands.size() != 6)
+    {
+        std::cerr << "Frozen command encoding: round trip failed\n";
+        return false;
+    }
+    // The first transaction lists the alternatives in declaration order, so
+    // each decoded command must land back on its own tag -- this catches a
+    // reader/writer pair that drifted together and so kept the byte count.
+    const auto& roundTripped = decoded.commandQueue[0].transaction;
+    for (std::size_t command = 0; command < roundTripped.commands.size();
+        ++command)
+    {
+        if (roundTripped.commands[command].payload.index() != command)
+        {
+            std::cerr << "Frozen command encoding: tag " << command
+                      << " decoded as "
+                      << roundTripped.commands[command].payload.index()
+                      << '\n';
+            return false;
+        }
+    }
+    return true;
+}
+
 int main()
 {
     using namespace dillen;
@@ -502,6 +628,50 @@ int main()
     {
         std::cerr << "Deterministic Command Log Replay failed\n";
         return 12;
+    }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // Frozen save-format golden values (Demo 0.2 Kernel Contract Freeze).
+    //
+    // The static_asserts in runtime_save_codec.cpp pin the on-disk variant
+    // TAGS. These pin everything else: field order, encoding, padding and the
+    // Fact Stream layout, for a world that exercises entities, components,
+    // relations, mechanism fields, an RNG stream, a scheduled event and a
+    // queued command. Verified identical on Windows MSVC and Linux GCC, so a
+    // mismatch is a real format change and not a platform difference.
+    //
+    // If one of these fails, ask which happened:
+    //   * an ACCIDENTAL format change -- fix the code, do not touch the number;
+    //   * a DELIBERATE format change -- bump kCurrentRuntimeSaveFormatVersion,
+    //     provide a migration, update memo section 4.2, then update these.
+    // Silently re-baselining a golden defeats the entire freeze.
+    // ─────────────────────────────────────────────────────────────────────
+    constexpr std::size_t kGoldenSaveBytes = 688;
+    constexpr std::uint64_t kGoldenSaveChecksum = 7194244525752032699ULL;
+    constexpr std::uint64_t kGoldenFinalStateChecksum =
+        9515266196334764553ULL;
+    constexpr std::uint64_t kGoldenFactStreamChecksum =
+        14511951199989717232ULL;
+    if (saved.size() != kGoldenSaveBytes
+        || persistence::StableRuntimeChecksum(saved) != kGoldenSaveChecksum
+        || firstReplay.finalStateChecksum != kGoldenFinalStateChecksum
+        || firstReplay.factStreamChecksum != kGoldenFactStreamChecksum)
+    {
+        std::cerr << "Frozen save format drifted -- see the note above.\n"
+                  << "  save bytes    : " << saved.size()
+                  << " (expected " << kGoldenSaveBytes << ")\n"
+                  << "  save checksum : "
+                  << persistence::StableRuntimeChecksum(saved)
+                  << " (expected " << kGoldenSaveChecksum << ")\n"
+                  << "  final state   : " << firstReplay.finalStateChecksum
+                  << " (expected " << kGoldenFinalStateChecksum << ")\n"
+                  << "  fact stream   : " << firstReplay.factStreamChecksum
+                  << " (expected " << kGoldenFactStreamChecksum << ")\n";
+        return 13;
+    }
+    if (!CheckFrozenCommandEncoding())
+    {
+        return 14;
     }
 
     std::cout

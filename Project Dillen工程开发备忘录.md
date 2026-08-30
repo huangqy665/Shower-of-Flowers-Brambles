@@ -484,10 +484,32 @@ Destroy 阶段在实例进入 Completed / Failed 后执行；成功输出与实�
 
 Script 状态使用确定性的结构化字节占用模型执行 `script_memory_limit_bytes` 配额；超额会丢弃整次输出并产生 `ScriptMemoryQuotaExceeded` 权威 Fault。状态值、每阶段 Continuation、Fault 与所有相关 Sequence 已进入 Save Format v4、候选世界验证和 Replay；v3 Codec 读取继续保留，以便显式 Runtime Migration。`controlled_script_probe` 已覆盖外部语法解析、加载时编译、自动抢占、跨 Tick 恢复、Save / Load 后续执行一致性与内存配额拒绝。
 
-**下一缺口**：
+**Capability 调用 ABI —— 当前是"Capability 级 fire-and-forget 闭环"，不是完整通用 RPC 式 ABI**。当前能力：单向、单 Operation（`RuntimeCapabilityContract::operations` 已定义并在注册期校验，但尚未进入调用指令、命令或投递路由）、无返回值、无关联 ID。多 Operation / 返回值 / 关联 ID 是后续设计（见本节末"下一缺口"）。以下描述的是这个 fire-and-forget 闭环。
 
-- Capability 的实际调用 ABI，而不仅是版本绑定；
-- Controlled Script 对 Query、Event Payload、Command View 与 Capability 的受控只读访问；任何扩展仍必须先定义可持久化 Invocation Frame，禁止直接保存宿主对象或指针。
+Mechanism Definition 用 `provides_capabilities` 声明其实例响应的契约（裸名 = 接受 Ruleset 锁定的任意版本，或 `requirement = { name minimum_version maximum_version }` 声明范围）；Declarative Algorithm 用 `invoke_capability = { capability delay priority payload [target_role] [version] }` 发起一次调用，消费者只写契约名，不引用任何提供者的 Entity / Mechanism / Instance ID。
+
+- **版本协商（9b）**：`invoke_capability` 与 `provides_capabilities` 的版本区间在加载期解析为**一个具体版本**。`ResolveCapabilityVersion` 只在 **Package Lock 声明为某锁定包所提供**的契约版本里区间内取最高（不再扫描整个 Contract Registry）——所以 Kernel 编译自封闭：只能绑定锁定包集真正拥有的版本。请求/声明区间与锁定包提供的版本都不相交 → 编译诊断 `AlgorithmProgramOperandInvalid`。字节码携带解析出的 `capabilityVersion`。（提供契约的包 manifest 用 `provides = { capability = { name version } }` 声明；一个 manifest 每个契约只能声明一个版本。）
+- **定向单提供者（9a）**：`target_role` 命名调用方机制自身的一个角色 Slot；Runtime Compiler 把它解析为 `MechanismRoleSlotId`，Declarative VM 运行期从该 Slot 读出目标实例 ID 写入 `InvokeCapabilityCommand.targetInstance`（Slot 未绑定 mechanism 实例 → Fault）。省略 `target_role` = 广播。
+- **投递**：VM 只发一条 `InvokeCapabilityCommand`；World Transaction Executor 按稳定 Instance ID 顺序扇出——广播时对每个 `provides_capabilities` 命中且**版本相符**的实例投递（版本不符者跳过，与零提供者一样无害）；定向时只投递给 `targetInstance`，且该实例必须存在并提供相符版本，否则事务 `Failure`（定向未命中是作者错误）。投递事件类型由契约名派生（独立哈希域）。
+- **Save v5**：`InvokeCapabilityCommand`（命令 tag 10）新增 `targetInstance` 与 `capabilityVersion` 两字段，`kCurrentRuntimeSaveFormatVersion` 4 → 5；无线上 v4 存档含该命令，loader 对非当前版本按既有身份拒绝策略处理，无需 4→5 迁移器。投递复用既有 Scheduled Event 的 `type` 字段，Scheduled Event 存档格式本身不变。
+- `capability_invoked = <契约名>` + `from_payload = yes` 供提供者在 `event` 阶段识别调用并读取消费者数值。`capability_invocation_probe` 覆盖 8 个用例：开放协商→锁定版本；显式 v2 命中投递；消费者 pin v1 而包只拥有 v2 → 编译拒绝；pin 不存在的 v3 → 拒绝；提供者版本下限高于所拥有版本 → 拒绝；零提供者无害；Controlled Script pump 的 `invoke_capability` 经 script 阶段进入编译闭包并投递；两个包提供同一契约 → 编译拒绝；**`target_role` 端到端**（两个 sink 提供同一契约，pump 的 `preferred` 角色绑定其一 → 只有被点名的实例 +payload，另一个保持 0；去掉 `target_role` 该用例即失败，已验证判别力）；**Save v5 往返**（排队的 `InvokeCapabilityCommand` 带 `targetInstance` + `capabilityVersion`，Save→Load→Save 逐字节一致且字段保留）。
+
+**9c —— Controlled Script 与 Declarative 等价（运行期 + 加载期闭包）**：新增 `ControlledScriptInstructionKind::Transact`，内嵌一条 `AlgorithmInstructionDefinition`（附 `when` 条件）。
+
+- **运行期共享**：抽出 `runtime/bytecode_transaction.{hpp,cpp}` —— `EvaluateBytecodeConditions` + `EmitBytecodeTransaction`（全部 13 个字节码 opcode → World 命令，含字段读改写、`from_payload`、`target_role` 角色 Slot 读取、生命周期门）。Declarative VM 与 Controlled Script VM 都调它 —— **两个后端的运行期行为不可能漂移**，只可能在"先报哪条编译诊断"上无害地不同。
+- **编译期下降**：`runtime_compiler.cpp` 的 Controlled Script 分支里一个 `[&]` 捕获全部的 `lowerTransact` lambda，把 `Transact.action` 降为 `AlgorithmBytecodeInstruction`（与 Declarative 下降逻辑镜像；未做物理抽取以避开冻结前对编译器最密的 ~350 行做搬运的风险）。抽出共享 `IsValidAlgorithmInstruction`（`algorithm_program.hpp`）供两个校验器复用。
+- **编译期依赖闭包（审核修复）**：`BuildCompileSelection` 原来只遍历 `algorithm->program.stages`；已抽出 `closeOverInstruction` lambda，同时遍历 `algorithm->script.stages` 的 `Transact.action`——Script 独占引用的 Capability / Entity / Spawn 现在与 Declarative 一样进入 Frozen Catalog。`capability_invocation_probe` 的 Controlled Script pump 用例守住此回归。
+- **Parser**：`script` 阶段里 `set_field` / `add_field` 带 `when` 或 `from_payload` → 走 `ParseAlgorithmFieldInstruction` 包成 `Transact`；`create_entity` / `set_component_field` / `add_relation` / `remove_relation` / `spawn_mechanism` / `schedule_event` / `cancel_event` / `create_rng` / `advance_rng` / `invoke_capability` → 走 `ParseGenericAlgorithmInstruction` 包成 `Transact`。裸 `set_state` / `add_state` / `set_field` / `add_field` / `transition_lifecycle` / `jump` / `jump_if_state_equals` / `yield` / `halt` 仍走原生路径（零风险）。
+- **无 Save 格式变化**：Controlled Script 持久化的是 state 值 + Continuation PC，不是字节码。
+- `controlled_script_probe` 扩展：DSL 里 `add_field when=` 与 `schedule_event` 解析为 `Transact`；一条守卫 `Transact`（`field_equals counter==0` 时 `add_field +5`）经共享路径执行，Tick 1 +5、Tick 2 守卫失败不变。
+
+**契约归属（第二轮审核修复）**：一个 Capability Contract 身份在一次组合 Ruleset 里**只能由一个 Package 提供**（`RejectAmbiguousCapabilityProviders`，编译期 `IntegrityValidationFailed`）。原因是 Kernel 里根本无法判定归属：`MechanismDefinitionSource` 只有 Source Layer 名，`AlgorithmDescriptor` 连来源字段都没有。若两个包分别提供 v1/v2，`ResolveCapabilityVersion` 的"区间内取最高"会让某个 Definition 绑定到**另一个包**声明的版本。拒绝歧义比补一条完整归属链更小且更可审；冻结前收紧、将来要放宽（真正的多提供者模型）随时可以，反向则不行。
+
+**下一缺口（尚未闭合）**：
+
+- **多 Operation / 返回值 / 关联 ID 的通用 Capability ABI（= Capability ABI v2）**：当前是单向 fire-and-forget。`operations` 字段已在契约里（`runtime_capability_contract.hpp`），但只被注册期校验，调用指令、World 命令与投递路由都还没用它。要成为可被多种实现自由替换的通用 ABI，需要：调用点指定 Operation、投递携带关联 ID、提供者可回一条关联响应。这是 Capability 层最大的一块未做工作。
+  **与 Demo 0.2 冻结的关系**：v2 **不阻塞**冻结；Demo 0.2 冻结的是 fire-and-forget v1（见 §4.2「冻结范围界定」）。v2 必须以**纯加法**方式引入 —— 新指令或新命令 tag + Save 版本升级 —— 不得改变 v1 的语义或既有存档布局。
+- **正式的 Definition / Algorithm → Package 归属链**：上面的"单一提供者"约束是用拒绝歧义换来的安全，不是真正的归属判定。若将来要支持一个契约的多版本并存，必须先给 `MechanismDefinitionSource` 与 `AlgorithmDescriptor` 补 `PackageId`，并按依赖闭包（而非全部锁定包）解析版本。
 
 ### 3.9 Scheduler、Transaction、Event、Query 与 RNG
 
@@ -506,13 +528,34 @@ Script 状态使用确定性的结构化字节占用模型执行 `script_memory_
 - Algorithm Runtime 已接收完整一致 Query Snapshot；算法可读取四类通用世界对象，但仍只能通过 Command / Transaction 修改权威世界；
 - RNG Snapshot 与 World Query Snapshot 在每次 Runtime 发布时使用相同 Tick / Revision；
 - Scheduler 的物理归属已从 Kernel 契约层迁入 `src/runtime`，由 `KernelRuntime` 持有并编排 Tick；Kernel 只保留可复用的状态、事务和编译契约；
-- 当前纯 Dillen（关闭 HOI3 Compatibility 与 Oracle）Windows x64 测试为 16 项；`dillen_demo_1_0_probe` 覆盖双外部机制包、真实 Package / Source Lock、可替换 Root、Query、Scheduled Event、RNG 和权威事务结果，`controlled_script_probe` 与 `projection_adapter_probe` 分别覆盖受控脚本和 Adapter 身份迁移，`mechanism_ids_probe` 冻结 Stable Identity 层的哈希输出。启用冻结 HOI3 Compatibility 后的旧兼容夹具仍引用整理前的仓库 Corpus 路径；按照当前冻结策略，它们将在未来 Adapter 恢复时改为测试显式传入的实际 Corpus Root，不在 Standalone 主线中临时回接旧路径。
+- 当前纯 Dillen（关闭 HOI3 Compatibility 与 Oracle）Windows x64 测试为 19 项；`dillen_demo_1_0_probe` 覆盖双外部机制包、真实 Package / Source Lock、可替换 Root、Query、Scheduled Event、RNG、Capability 跨机制调用和权威事务结果，`controlled_script_probe` 与 `projection_adapter_probe` 分别覆盖受控脚本和 Adapter 身份迁移，`mechanism_ids_probe` 冻结 Stable Identity 层的哈希输出，`capability_invocation_probe` 固化契约调用的解耦闭环，`scale_probe` 是代表性规模的正确性与耗时基线，`architecture_guard_probe` 把模块分层依赖与"无 HOI3/oracle include"变成源码级门禁。启用冻结 HOI3 Compatibility 后的旧兼容夹具仍引用整理前的仓库 Corpus 路径；按照当前冻结策略，它们将在未来 Adapter 恢复时改为测试显式传入的实际 Corpus Root，不在 Standalone 主线中临时回接旧路径。
+
+**线程契约（与 Snapshot / Transaction 契约同批冻结）**：
+
+**Kernel 可以在 Tick 相位内使用工作线程执行算法派发。这不改变任何权威结果。**允许并行的只有算法派发——即“读不可变快照 → 产出 `WorldTransaction`”这一段纯函数计算。
+
+以下**永远单线程**，按稳定 Instance ID 顺序：
+
+- 全部 `WorldTransaction` 的应用与提交；
+- Stable ID / Sequence / 创建序号的分配；
+- 事件发布、快照发布、`revision` / `tick` 更新；
+- RNG Stream 的推进。
+
+**工作线程被禁止**：触碰 `AuthoritativeWorld`（它在派发路径上不可达）、分配任何稳定标识、发布任何事件、让异常越过线程边界。
+
+**确定性由构造保证，不由调度保证**：派发结果写入按枚举位置预先定长的槽位，顺序只取决于快照枚举顺序，与完成顺序无关。**线程数对权威输出无影响**——1 线程与 N 线程必须产生逐字节相同的存档与 Replay Checksum，这是验收项而非期望。
+
+墙钟时间在并行下更不可信，继续只作为非权威 Invocation 诊断，不得进入权威状态、存档或 Failure Policy（沿用既有规则）。
+
+**契约当前成立的依据（已核实）**：`AlgorithmRuntime` 只持有 `catalog_` / `executors_` 两个 const 引用，无可变状态；`Invoke` 声明为 `const`；`AlgorithmExecutionBudget` 每次调用局部构造（`algorithm_runtime.cpp`）；异常已在 `Invoke` 内部捕获并转为 Fault；派发本来就是“全部实例先对同一份快照跑完、再统一提交”，并行不引入新语义。RNG 特别说明：算法从不可变 `DeterministicRngSnapshot` 读取，`advance_rng` 携带从快照读到的 `expectedDrawCount`；同相位内两个实例推进同一 Stream 时，第二条在提交期因 `expectedDrawCount` 不符被拒——这是今天已有的行为，并行不改变它。
+
+**实现形态与顺序**：线程池放在 `src/runtime`，**不进 Kernel**（Kernel 是业务无关契约层，不该知道线程）；Host 可配置线程数且**必须能设为 1**；低于实例数阈值仍走单线程。实测派发仅占 Tick 的 ≈21%（N=4000：派发 32 ms / 提交 79 ms），按 Amdahl 定律完美并行也只能快 **1.27×**，因此**契约随冻结定下，实现排在粗粒度 CoW 之后**（CoW 针对的是占 70%+ 的提交侧）。
 
 **下一缺口**：
 
 - 脏索引、结构共享和增量快照优化；当前实现优先保证不可变性与跨 Store 一致性；
 - 阶段级预算、明确 Scheduler Phase Contract；
-- 更细粒度事务暂存，替换当前正确性优先的全 Store Copy；
+- 更细粒度事务暂存（粗粒度 CoW），替换当前每个 Tick 相位一次的全 Store Copy —— 逐**事务**的全 Store Copy 已由 `WorldTransactionBatch` 消除，见 §3.20；
 - Scheduled Event 消费审计和持久化屏障。
 
 ### 3.10 Persistence、Migration 与 Replay
@@ -532,7 +575,7 @@ Script 状态使用确定性的结构化字节占用模型执行 `script_memory_
 
 **当前实现**：`Project-Dillen/src/persistence` 已成为独立 Durability 组件，并完成以下最小闭环：
 
-- `RuntimeSaveImage` 当前格式版本为 3，保存 Active Ruleset、Extension 列表、Ruleset Fingerprint、完整 Package Lock，以及逐个记录 Package ID / Version、Source Layer、虚拟路径、内容 Fingerprint 和字节长度的真实 Source Lock；
+- `RuntimeSaveImage` 当前格式版本为 5（v4 加入 Controlled Script 状态/Continuation；v5 给 `InvokeCapabilityCommand` 加 `targetInstance` 与 `capabilityVersion`），保存 Active Ruleset、Extension 列表、Ruleset Fingerprint、完整 Package Lock，以及逐个记录 Package ID / Version、Source Layer、虚拟路径、内容 Fingerprint 和字节长度的真实 Source Lock；
 - 保存 Entity、Component、Relation、Mechanism Instance、Mechanism Algorithm State / Fault State、World Tick / Revision、Mechanism 创建序号、Scheduled Inbox、RNG Seed / Draw Count、待执行 Command Queue，以及 Command / Inbox / Fact 的下一稳定 Sequence；
 - Query Snapshot、反向索引、当前 Fact Queue、Algorithm 阶段报告和表现状态不进入 Save Image；加载成功后由 Store 和 Runtime 重新构造；
 - `RuntimeSaveCodec` 使用受限递归、长度上限、确定性字段顺序、固定小端编码和整包校验值生成 Canonical Binary Save；相同权威状态产生相同存档字节；
@@ -662,21 +705,23 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 11. 外部 Package / Capability / Component / Entity / Relation / Mechanism / Algorithm / Definition / Spawn / Ruleset Authoring 闭环；
 12. Entity / Component / Relation / Mechanism 同代际不可变 Query Snapshot 与稳定获取接口；
 13. 外部 Declarative Program、Query / 字段 / Event / RNG 条件、通用事务指令、Definition 专属 Slot Bytecode、内建无循环 VM 与事务输出闭环；
-14. 受控 Script 已完成外部语法、加载时 Slot 编译、确定性字节码 VM、指令边界抢占、权威状态/Continuation 事务提交、内存配额、Save v4 与 Replay 契约；
+14. 受控 Script 已完成外部语法、加载时 Slot 编译、确定性字节码 VM、指令边界抢占、权威状态/Continuation 事务提交、内存配额、Save 与 Replay 契约；并已与 Declarative 后端在**运行期与加载期依赖闭包**上等价——`Transact` 指令内嵌 `AlgorithmInstructionDefinition`，经共享 `EmitBytecodeTransaction` 执行，`BuildCompileSelection` 同时遍历 script 阶段，支持全部通用事务指令与 `when` 条件；
 15. Destroy、确定性指令预算、非权威墙钟诊断、单实例 Fault 隔离、三种失败策略和显式恢复；
 16. 全权威状态 Canonical Save / Load、原子恢复、显式 Schema Migration、固定 Command Log Replay 与稳定 Checksum；
 17. 最小 Standalone Host、外部 Authoring Session 启动、交互/脚本化 CLI Inspector、即时与排队 Command、状态查询及原子 Save / Load 文件闭环；
-18. Windows x64 纯 Dillen 测试已增至 16 项；新增 `controlled_script_probe`、`projection_adapter_probe` 与 `mechanism_ids_probe`，分别固化 Script 沙箱/持久化、Projection 身份/迁移，以及 Stable Identity 层的冻结哈希、归一化等价与运算符语义；旧兼容夹具的 Corpus 路径问题继续隔离为未来 Adapter 恢复工作，不计入当前 Standalone 主线验收；
+18. Windows x64 纯 Dillen 测试已增至 19 项；`controlled_script_probe`、`projection_adapter_probe`、`mechanism_ids_probe`、`capability_invocation_probe`、`scale_probe` 与 `architecture_guard_probe` 分别固化 Script 沙箱/持久化、Projection 身份/迁移、Stable Identity 冻结哈希、Capability 契约调用的解耦闭环、代表性规模的正确性/耗时基线，以及模块分层依赖与"无 HOI3/oracle include"的源码级门禁；旧兼容夹具的 Corpus 路径问题继续隔离为未来 Adapter 恢复工作，不计入当前 Standalone 主线验收；
 19. 纯 Dillen Demo 1.0 已以聚落增长与贸易周期两个外部机制包、均衡/加速两个可替换 Root Package / Source Layer 完成端到端验收，并固化闭包裁剪、源摘要篡改拒绝、存档恢复、确定性回放、Source Lock 篡改拒绝与跨 Root 读档拒绝。
+20. Capability 级 **fire-and-forget 闭环**收口：`provides_capabilities` + `invoke_capability` + `capability_invoked` + `from_payload` + 定向单提供者（`target_role`）+ 显式版本协商（限定在 Package Lock 声明的提供集内）+ Controlled Script 与 Declarative 在运行期和加载期闭包上等价（`Transact` + 共享 `EmitBytecodeTransaction`）；跨机制交互不引用对方 Mechanism Type / Instance ID。Save 4→5。Demo 1.0 的契约已移入中立 `dillen.demo1.contracts_package`，两个机制包各自依赖它、互不依赖；`target_role` 有完整 e2e。**尚不含**：多 Operation、返回值、关联 ID（`operations` 字段已在契约里但未接线）—— 那是 Capability ABI v2，Demo 0.2 冻结的是 fire-and-forget v1（见 §4.2）。
 
 **本轮已补齐的核心缺口**：
 
-1. 受控 Script 的内存配额、指令边界可抢占沙箱、权威 Continuation 与持久化状态；
-2. External Corpus Adapter 恢复所需的 Projection Artifact 联合身份、内容封印、Projection Lock 与 Adapter Migration。
+1. 受控 Script 的内存配额、指令边界可抢占沙箱、权威 Continuation 与持久化状态；受控 Script 现已能做全部通用事务（Query / Event / Command / Capability）+ `when` 条件，与 Declarative 后端共享编译下降形态与运行期执行；
+2. Capability 调用 ABI 收口：定向单提供者、显式版本协商、Controlled Script 同等访问；
+3. External Corpus Adapter 恢复所需的 Projection Artifact 联合身份、内容封印、Projection Lock 与 Adapter Migration。
 
 **后续主线缺口**：
 
-1. Capability 的实际调用 ABI及 Controlled Script 的受控 Query / Event / Command / Capability 访问；
+1. §4.1 第 10 项的**剩余部分**：粗粒度 CoW 与同相位算法并行（见 §3.20）。主体已完成——分相位批量提交 + `DispatchEvent` 资格外提已把 Tick 成本从二次降为线性；剩余两项只是常数因子，其中并行会确立线程契约，宜在冻结前定；
 2. External Corpus Adapter ABI、Normalized IR 容器与 Mapping Profile 执行器本身；
 3. Projection Lock Source 与正式 Package / Source Lock、Ruleset Fingerprint 的端到端接线。
 
@@ -690,14 +735,16 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 
 ### 3.19 工程化加固与代码修复
 
-本轮不改变任何 Kernel 边界、权威状态所有权、依赖方向或 Ruleset 语义；全部改动均已通过 16 项纯 Dillen 测试。
+本轮不改变任何 Kernel 边界、权威状态所有权、依赖方向或 Ruleset 语义；全部改动均已通过纯 Dillen 测试。
 
 **构建与工程基线**：
 
 - MSVC 构建启用 `/W4 /permissive-`；`std::visit` + `if constexpr` visitor 尾部 `return` 的 C4702 误报以 `/wd4702` 定点关闭并注释说明。当前标准核心在此配置下 0 warning。
-- `cmake/DillenTargets.cmake` 增加非 MSVC（GCC / Clang）分支：`-Wall -Wextra -Wpedantic`。跨平台移植尚未完成（见 §4.6），该分支用于让 Linux CI 尽早暴露一致性与可移植性差距。
-- 新增 `.github/workflows/ci.yml`：Windows MSVC 跑 `dillen-standalone-windows-x64` preset 的 configure / build / ctest；另有一个标注 `continue-on-error` 的 Linux（gcc/clang）job，可见但不阻塞。
+- `cmake/DillenTargets.cmake` 的非 MSVC（GCC / Clang）分支：`-Wall -Wextra -Wpedantic -Wno-missing-field-initializers`。最后一项是定点关闭，理由与 `/wd4702` 同类：本项目通行写法是只花括号初始化 POD 的前若干成员、其余交给值初始化（`MechanismReference{kind, type, value}`、各 `WorldCommand` 工厂等），标准保证省略项零初始化，正是这些调用点想要的；逐一写全会让"给结构体加一个成员"变成全仓改动。MSVC 不报此警告。
+- **跨平台移植已完成并转为阻塞门禁（2026-08-30）**：本机 WSL Ubuntu 24.04（GCC 13.3 / Clang 18.1 / CMake 3.28 / Ninja 1.11，与 CI `ubuntu-24.04` 镜像同代）实测，两个编译器均 **0 warning、19/19 probe 全绿**。`.github/workflows/ci.yml` 的 Linux job 已移除 `continue-on-error`，与 Windows MSVC job 同为必过门禁。这条门禁的实质作用是防止 Package `content_digest` 再次跨平台漂移（见下条 `.gitattributes`）。
+- `.github/workflows/ci.yml`：Windows MSVC 跑 `dillen-standalone-windows-x64` preset 的 configure / build / ctest；Linux 跑 gcc 与 clang 两个 matrix 分支的 Ninja Debug configure / build / ctest。两者均为阻塞门禁。
 - 仓库卫生：新增 `.gitignore` / `.editorconfig`，停止跟踪约 1790 个构建产物、`.vs/` 与本地日志；新增 `Project-Dillen/README.md`、根 `CONTRIBUTING.md`。引擎子树（`Project-Dillen/`）以 MIT License 发布（`Project-Dillen/LICENSE`）。
+- 新增 `architecture_guard_probe`（不链接任何引擎库，直接读源码）：遍历 8 个 Standalone 模块（kernel / world / runtime / persistence / parser / authoring / adapter / host）的每个 `.hpp` / `.cpp`，把每条带引号 `#include` 解析回所属模块，任一跨层依赖（超出该模块 CMake `PUBLIC_LINKS` 允许范围）或引用非 Standalone 子系统（`hoi3` / `oracle` / `compatibility` 路径 token）即以 `file:line` 失败。首次把"kernel 头文件不含 HOI3 类型""world 不反向 include runtime"从人工 grep 变成 CI 门禁，是 Demo 0.2（§4.2）架构诊断验收项的落地件。已用注入-回滚自测确认能捕获违规。
 
 **正确性与健壮性修复**：
 
@@ -707,6 +754,11 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 - `schedule_event` 的 `delay == 0` 在加载期即拒绝（运行期必然被 `dueTick <= currentTick` 拒绝）。
 - Save Codec 的 `String()` / `Raw()` 长度检查前置 `offset_ > limit_` 守卫，即使内部不变量被破坏也返回失败而非越界读。
 - Runtime Compiler 编译 Spawn 时对 `FindLayout` 结果补 `nullptr` 检查，与 Definition / Entity-Component 路径一致。
+- **（审核修复）`BuildCompileSelection` 依赖闭包只遍历 `algorithm->program.stages`**：Controlled Script `Transact` 里的 Capability / Entity / Spawn 引用不进闭包，可能不进 Frozen Catalog。已抽 `closeOverInstruction` lambda，同时遍历 `algorithm->script.stages`。
+- **（审核修复）`invoke_capability` / `provides_capabilities` 的版本解析扫描整个 Contract Registry**：绕过 Package Lock，Kernel 编译不自封闭。`ResolveCapabilityVersion` 改为只在 `packageLock.Entries()[].providedCapabilities` 里选版本（镜像 `RuntimeCapabilityResolver::Resolve`）；提供契约的包 manifest 须 `provides = { capability = { name version } }` 声明。
+- **（二轮审核修复）跨 Package 的契约版本串绑**：`ResolveCapabilityVersion` 在**全部**锁定包中取最高版本，而 Definition / Algorithm 没有 PackageId，无法判定归属——两个包分别提供 v1/v2 时，某个 Definition 可能绑定到另一个包声明的版本。新增 `RejectAmbiguousCapabilityProviders`：一个契约身份被一个以上锁定包提供即编译拒绝。
+- **（二轮审核修复）行尾未固定导致 `content_digest` 跨平台不一致**：仓库无 `.gitattributes` 且 `core.autocrlf=true`，Git 存 LF、Windows 工作树是 CRLF。`content_digest` 是源文件**原始字节**的 SHA-256，所以同一个 commit 在 Windows 与 Linux 上会算出两个不同的摘要，其中一侧必然被判为篡改。（Linux CI job 标了 `continue-on-error`，一直掩盖着这个问题。）新增 `.gitattributes`，对全部 Dillen Authoring 扩展名与命令流 `.txt` 固定 `text eol=lf`，并把工作树里残留的 CRLF 源文件转为 LF、重算受影响的 Package 摘要。这不是风格问题，是确定性正确性问题。
+- **（Demo 0.2 冻结加固）磁盘 variant tag 无保护**：`MechanismCommandOperation`（7 项）、`WorldCommandPayload`（11 项）、`WorldEventPayload`（18 项）三个 variant 的 `.index()` 被直接当作 tag 写入存档与 Fact Stream，但没有任何机制阻止重排。中间插入或重排即静默重写全部存档并移位全部 Replay Checksum。已加 `VariantAlternativeIndex` 与 36 条逐项 `static_assert` + 3 条 `variant_size_v` 断言；三个定义处加 `FROZEN ORDER` 注释。末尾追加仍合法，其余改动编译期即停。详见 §4.2。
 
 **Stable Identity 层重构**：
 
@@ -717,6 +769,57 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 - 新增 `mechanism_ids.natvis` 供 VS 调试器显示裸 ID 值。
 
 新增一个 ID 类型现在是 1 行 `using` + 1 行 `static_assert`，不再需要修改多处 Kernel 样板。
+
+**运行期共享层（9c）**：
+
+- 新增 `runtime/bytecode_transaction.{hpp,cpp}` —— 从 Declarative VM 抽出 `EvaluateBytecodeConditions` 与 `EmitBytecodeTransaction`（全部 13 个字节码 opcode → World 命令）。Declarative VM 重写为循环调用这两个函数；Controlled Script VM 的新 `Transact` opcode 也调它们。两个后端的运行期行为从此不可能漂移。
+- 从 `IsValidAlgorithmProgram` 抽出共享的 `IsValidAlgorithmInstruction`（`algorithm_program.hpp`），供 Declarative 与 Controlled Script 两个程序校验器复用。
+- 编译期未做物理抽取：Controlled Script 的 `Transact` 下降用 `runtime_compiler.cpp` 内一个 `[&]` 捕获全部的 `lowerTransact` lambda，与 Declarative 下降镜像。这是刻意的——冻结前不对编译器最密的 ~350 行下降逻辑做整体搬运。运行期共享已消除行为漂移风险，编译期只可能在"先报哪条诊断"上无害地不同。
+- 全部改动零 Save 格式变化、零既有测试回归；`declarative_algorithm_vm_probe` / `algorithm_runtime_probe` / `controlled_script_probe`（已扩展）与 `dillen_demo_1_0_probe` 逐字节一致。
+
+### 3.20 Capability 调用 ABI 与性能现实检验
+
+**Capability 级 fire-and-forget 闭环**：详见 §3.8（含"尚不是完整通用 ABI"的边界说明）。核心：跨机制交互从"按对方 Mechanism Type 名查询数量"改为"向契约的提供者（广播或定向单个）发一次版本协商过的单向调用"。落地面：
+
+- Kernel：`AlgorithmInstructionKind::InvokeCapability` 与字节码 opcode；`InvokeCapabilityCommand`（`WorldCommandPayload` variant 与 Save Codec 索引 10，v5 加 `targetInstance` + `capabilityVersion`）；`CompiledMechanismDefinition.providedCapabilities`；`CapabilityProvisionDeclaration`（契约名 + `CapabilityVersionRange`）；`CapabilityDeliveryEventType()` 派生事件类型；`operandFromPayload`、`targetRoleName` / `targetRoleSlot`、`capabilityVersions` / `capabilityVersion` 字段；`ResolveCapabilityVersion` 区间内取最高。
+- World：`WorldTransactionExecutor` 按稳定 Instance ID 顺序扇出——广播时命中 `provides_capabilities` 且版本相符者投递，定向时只投给 `targetInstance` 且未命中即 `Failure`；扇出循环在确定性 Executor 里，不在 VM 里。
+- Runtime（9c，两个 VM 共享）：`runtime/bytecode_transaction.{hpp,cpp}` 的 `EmitBytecodeTransaction` + `EvaluateBytecodeConditions` 是全部 13 个字节码 opcode → World 命令的唯一实现，Declarative VM 与 Controlled Script VM（`Transact` 指令）都调它——含 `InvokeCapability`（`target_role` 角色 Slot 读取）、`from_payload` 操作数替换、字段读改写、生命周期门。共享 `IsValidAlgorithmInstruction`（`algorithm_program.hpp`）供两个校验器复用。
+- Parser：`invoke_capability`（`capability delay priority payload target_role version`）、`capability_invoked` 条件（`ScheduledEventTypeEquals` 语法糖）、`provides_capabilities`（裸名或 `requirement` 范围块）、`from_payload = yes`；`script` 阶段的通用事务指令与带 `when` 的字段指令解析为 `Transact`。
+- Compiler：`invoke_capability` 请求版本区间必须与组合 Ruleset 中某契约相交（否则编译诊断）、`delay` 为正、`target_role` 必须是调用方 Definition 的角色 Slot；`provides_capabilities` 解析为具体契约版本并入闭包。
+- Save v5：`InvokeCapabilityCommand` 加两字段；投递仍复用既有 Scheduled Event 的 `type` 字段，Scheduled Event 存档格式本身不变；无 4→5 迁移器（无线上 v4 存档含该命令）。
+- Demo 1.0 两个机制包已删除 `query_at_least { type = dillen.demo1.<对方> }`，改为 `dillen.demo1.market_pressure` 契约。契约现在住在**中立的 `dillen.demo1.contracts_package`**（`packages/contracts/`，首个走通完整 Authoring 管线的 `.dcapability`），聚落包与贸易包**各自依赖它、互不依赖** —— 提供者实现从此可被替换。
+
+**性能现实检验（`scale_probe`）**：合成世界 N 个同类型机制实例 × M 个 Tick，每 Tick 每实例 `add_field counter 1`，验证 M Tick 后全部实例 counter 精确等于 M，并打印各阶段耗时。
+
+**优化前基线（Debug）**：250×10 ≈ 3 s（246 ms/Tick）；400×20 ≈ 11 s（565 ms/Tick）；**2000×60 在 5 分钟内未跑完**。耗时随实例数**约二次增长**。
+
+**优化后（2026-08-30，同机同构建）**：
+
+| N（实例） | ms/Tick |
+| --- | --- |
+| 250 | 9.8 |
+| 500 | 18.0 |
+| 1000 | 34.9 |
+| 2000 | 78 |
+| 4000 | 154 |
+
+**N 翻倍 → 耗时约翻倍，二次项已消除。** N=250 从 246 → 9.8 ms/Tick（**25×**）；**2000×60 从"5 分钟未跑完"变为 4.75 s**。
+
+两处改动，收益比例与最初判断**不同**（原判断认为逐事务 Store 深拷贝是主因，实测不是）：
+
+1. **分相位批量提交（`WorldTransactionBatch`）**：一个 Tick 相位只拷贝一次 6 个 Store、按稳定顺序把 N 条事务应用到同一份工作副本、相位末尾只发布一次快照。**实测贡献约 5.6× 常数因子，但不改变增长阶。**
+2. **`DispatchEvent` 资格判定外提（真正的二次项）**：事件广播是 `for(event) for(instance) dispatch()`，而"该实例的算法有没有 Event 入口"的判断在**内层**。`CaptureAlgorithmEvents` 每条已提交事务产生一条事件，于是每 Tick 有 N 条事件 × N 个实例 = **N² 次 catalog 查找**——即使世界里根本没有任何 Event 阶段算法也照跑。把资格判定提到循环外、先构建一次广播目标列表后，N=1000 时该段从 **1353 ms → 0.3 ms**。快照顺序不变，故调用顺序与逐对过滤逐字节一致。
+
+**提交语义验证**：批量路径是**乐观**的，只在"全相位干净"时生效——任一 invocation 失败、目标在相位中途被销毁/隔离、或任一事务被拒，立即**整批丢弃**（工作副本析构，权威世界从未被触碰、未消耗任何 Sequence、未发布任何事件、未修改任何 invocation 记录），退回原有逐事务路径重跑整个相位。因此失败路径行为与批量化之前**逐字节相同**。已保持不变的量：`world_.revision_`（进存档，按"每条产生变更的事务 +1"累加）、Command Sequence 取值与顺序、`world_.tick_`、事件顺序。唯一变化是相位内不再逐事务重发布 Query Snapshot（`publication` 不进存档，测试只断言其单调性）；相位内的"目标是否可用/已隔离"改为读批次工作副本，与原先逐事务重发布后的查询等价。空相位保持完全空操作（惰性建批，不拷贝、不发布）。
+
+**验证**：Windows MSVC / Linux GCC / Linux Clang 三者 0 warning、19/19 全绿；`persistence_replay_probe`、`dillen_demo_1_0_probe` 的存档字节与 Replay Checksum 不变。
+
+**仍未做**：粗粒度 CoW（6 个 Store 各 `shared_ptr<const Data>` + 写时克隆）与同相位算法并行。二者现在都是**纯常数因子**优化，不再阻塞规模——每 Tick 的剩余成本已是线性的快照发布与 VM 执行。
+
+**剩余的两项（现在都只是常数因子，不再阻塞规模）**：
+
+1. **粗粒度 CoW**：6 个 Store 各自 `shared_ptr<const Data>` + 首次写时克隆（`use_count() > 1` 才 clone）。批次构造的那一次 O(世界大小) 拷贝变 O(1)；只写 `mechanisms` 的事务不再拷另外 5 个 Store。`RuntimePersistenceService` 的 friend 直连成员访问需改为走 `Data` 存取器。风险不低（≈150–200 处机械改写，每处读/写路径必须分清 `data_->` 与 `mut()`，错一处即破坏确定性），而收益现在只是常数因子——**建议放到契约冻结之后**，因为它不改变任何对外语义。
+2. **同相位算法并行**：`DispatchTick/Create/Event/Command/Destroy` 对每个实例跑 VM（只读快照进、事务出，实例间无依赖）。用简单线程池 / `for_each(par)`，结果按 Instance ID 稳定排序后再串行应用——确定性由构造保证。设实例数阈值，低于阈值仍单线程。此项**会确立"Kernel 可使用工作线程"这条契约**，宜在冻结前定，即使实现延后。
 
 ---
 
@@ -733,8 +836,10 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 5. **生命周期和 Fault 收口（已完成）**：Destroy、正数确定性指令预算、单实例权威 Fault 隔离、`isolate / pause / fail` 策略、显式恢复、引用保护和定向 Inbox 清理均已接入统一事务；墙钟阈值已从权威确定性结果中剥离，只产生 Invocation 诊断。Native C++ 回调不执行不安全的线程强杀，未来 Host Watchdog 或可抢占 Worker 也不得把墙钟结果回写为 Gameplay 状态。
 6. **Persistence / Migration / Replay（已完成）**：已保存四类权威 Store、算法状态、Clock、RNG、Inbox、Queue、创建序号和稳定 Sequence；完成 Canonical Binary Codec、身份/版本拒绝、候选世界原子恢复、显式 Schema Migration、派生索引重建与固定 Command Log 的双次确定性回放。
 7. **Standalone Host（已完成）**：已提供纯 Dillen `project-dillen` CLI、外部 Authoring Session 启动、Query 状态检查、即时/排队 Command、Tick 驱动、脚本化命令流和原子 Save / Load 文件闭环；窗口后端属于后续 Platform 增量，不再阻塞 Host 核心契约。
-8. **纯 Dillen Demo 1.0（已完成）**：聚落增长与贸易周期两个外部机制包已通过 Package Lock 和真实 Source Lock 进入 Standalone；均衡/加速 Root 各自作为正式 Root Package，可在不重新编译引擎的情况下替换，并产生不同 Fingerprint、Spawn 组合和权威初始状态。独立 Probe 已固化 Query、Scheduled Event、RNG、通用事务、Ruleset 闭包裁剪、Package 源摘要篡改拒绝、Save 恢复、双次 Replay、Source Lock 篡改拒绝与跨 Root 读档拒绝。
-9. **主线冻结后再定义 External Corpus Adapter ABI（身份与迁移基础已完成）**：已用合成 Projection 固化 Corpus / Importer / IR / Mapping / Target / Generated Source 联合身份、篡改拒绝和唯一迁移链；下一步仍须先用合成 Corpus 实现 Importer / Mapping 执行分离与 Projection Lock 接线，再恢复 HOI3 工作。
+8. **纯 Dillen Demo 1.0（已完成）**：聚落增长与贸易周期两个外部机制包已通过 Package Lock 和真实 Source Lock 进入 Standalone；均衡/加速 Root 各自作为正式 Root Package，可在不重新编译引擎的情况下替换，并产生不同 Fingerprint、Spawn 组合和权威初始状态。独立 Probe 已固化 Query、Scheduled Event、RNG、Capability 契约调用、通用事务、Ruleset 闭包裁剪、Package 源摘要篡改拒绝、Save 恢复、双次 Replay、Source Lock 篡改拒绝与跨 Root 读档拒绝。
+9. **Capability 级 fire-and-forget 闭环收口（见 §3.8 / §3.20）**：`provides_capabilities` + `invoke_capability` + `capability_invoked` + `from_payload` 让两个独立机制包仅通过契约交互。本轮补齐 **9a 定向单提供者**（`target_role` → 角色 Slot → 单实例投递）、**9b 显式版本协商**（加载期在 Package Lock 提供集内解析为具体版本；Save 4→5）、**9c Controlled Script 与 Declarative 在运行期 + 加载期闭包上等价**（`Transact` + 共享 `EmitBytecodeTransaction` + 共享 `IsValidAlgorithmInstruction`；`BuildCompileSelection` 遍历 script 阶段；无 Save 格式变化），并把 Demo 契约移入中立 `contracts_package` 使两个机制包互不依赖。**剩余**：通用多 Operation ABI（= Capability ABI v2，不阻塞 Demo 0.2，见 §3.8 / §4.2）。
+10. **性能现实检验与运行时优化（主体已完成，见 §3.20）**：`scale_probe` 原测得 Tick 耗时随实例数二次增长（250×10 = 246 ms/Tick，2000×60 五分钟未跑完）。已实施**分相位批量提交**（`WorldTransactionBatch`，一个相位一次 Store 拷贝、一次快照发布，乐观路径失败即整批丢弃退回逐事务慢路径）与 **`DispatchEvent` 资格判定外提**（事件广播的 N² catalog 查找 → 一次目标列表构建，N=1000 时该段 1353 ms → 0.3 ms）。结果：**耗时随实例数线性**，250×10 = 9.8 ms/Tick（25×），2000×60 = 4.75 s。剩余粗粒度 CoW 与同相位并行只是常数因子。
+11. **主线冻结后再定义 External Corpus Adapter ABI（身份与迁移基础已完成）**：已用合成 Projection 固化 Corpus / Importer / IR / Mapping / Target / Generated Source 联合身份、篡改拒绝和唯一迁移链；下一步仍须先用合成 Corpus 实现 Importer / Mapping 执行分离与 Projection Lock 接线，再恢复 HOI3 工作。
 
 ### 4.2 Demo 0.2：Kernel Contract Freeze
 
@@ -745,6 +850,8 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 - Root Ruleset / Extension Ruleset 语义定稿；
 - Kernel、World、Runtime、Parser Target 不依赖 HOI3 Adapter；
 - World Transaction、Inbox、RNG、Scheduler 和 Snapshot 契约冻结；
+- **线程契约冻结**（只有算法派发可并行，提交/标识分配/发布/RNG 推进永远单线程；见 §3.9）；
+- **Capability 调用 ABI 冻结为 fire-and-forget v1**（见下方“冻结范围界定”）；
 - 形成最小外部 Package Fixture；
 - 架构诊断能够阻止非法依赖和缺失 Contract。
 
@@ -754,6 +861,50 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 - Kernel 公共头文件不包含 HOI3 类型；
 - Root Ruleset 可以被另一份测试 Root Ruleset 替换；
 - 同优先级 Command / Event 使用稳定 Sequence。
+
+**当前进度（2026-08-30）**：范围中的 **Root/Extension 语义定稿、无 HOI3 依赖、最小外部 Package Fixture、架构诊断** 四项，与全部四条验收，均已满足（Root/Extension 语义见 §4.1-1；无 HOI3 依赖与架构诊断由 `architecture_guard_probe` 源码级门禁守住；最小 Fixture 见 Demo 1.0 的中立契约包 + 两个互不依赖的机制包；`dillen-standalone-windows-x64` 19/19 绿，Linux gcc/clang 同为阻塞门禁且同样 19/19；balanced/accelerated 可换 Root；稳定 Sequence 见 §4.1-6）。剩下的三项——**World Transaction / Inbox / RNG / Scheduler / Snapshot 契约冻结、线程契约冻结、Capability ABI v1 冻结**——即“冻结这个动作本身”，按方案 A 暂缓到第 9、10 项收口后；三项的**内容**现均已就绪：
+
+- **9a 定向单提供者 —— 已完成**：`InvokeCapabilityCommand` 加 `targetInstance`，`target_role` → 角色 Slot；`capability_invocation_probe` 有完整 e2e（两个 sink 提供同一契约，pump 角色绑定其一 → 只有被点名者收到；去掉 `target_role` 该用例即失败，判别力已验证）。
+- **9b 显式版本协商 —— 已完成**：`capabilityVersion` 进命令与 Save Codec（4→5），编译期在 Package Lock 提供集内解析版本，并拒绝一个契约被多个包提供的歧义。
+- **9c Controlled Script 等价 —— 已完成**：`Transact` 指令 + `runtime/bytecode_transaction.{hpp,cpp}` 共享运行期 + 共享 `IsValidAlgorithmInstruction` + `BuildCompileSelection` 遍历 script 阶段；无 Save 格式变化。
+- **Demo 提供者解耦 —— 已完成**：中立 `dillen.demo1.contracts_package`（`demo/dillen_demo_1_0/packages/contracts/`）持有契约，聚落包与贸易包各自依赖它、互不依赖，提供者实现可替换。
+- **§4.1 第 10 项 —— 主体已完成**：分相位批量提交 + `DispatchEvent` 资格外提，Tick 成本已从二次降为线性（§3.20）。提交语义变更已逐条验证：`revision` / Sequence / tick / 事件顺序不变，失败路径退回逐事务慢路径后逐字节相同，唯一变化是相位内不再逐事务重发布 Query Snapshot。
+- **线程契约 —— 已定稿（见 §3.9）**：只有算法派发可并行，提交 / 稳定标识分配 / 事件与快照发布 / RNG 推进永远单线程且按稳定 Instance ID 顺序；确定性由槽位写入构造保证，1 线程与 N 线程必须产出逐字节相同的存档与 Replay Checksum。**契约随本次冻结生效，实现延后**：实测派发仅占 Tick 的 ≈21%，完美并行上限 1.27×；粗粒度 CoW 针对的提交侧占 70%+，且不改对外语义，因此实现顺序定为 **CoW → 并行**，两者都在冻结之后。
+
+**冻结范围界定 —— Capability 调用 ABI 冻结的是 fire-and-forget v1**：
+
+本次冻结的 Capability 语义是**单向、单 Operation、无返回值、无关联 ID**的一次性调用，具体为：`provides_capabilities` 声明 + `invoke_capability`（`capability delay priority payload [target_role] [version]`）+ 加载期版本协商 + 广播/定向投递 + `capability_invoked` / `from_payload` 接收，以及 `InvokeCapabilityCommand` 在 Save v5 中的布局。**这一层就此定稿。**
+
+`RuntimeCapabilityContract::operations` 字段虽已存在并受注册期校验，但未接入调用指令、World 命令或投递路由，**不属于本次冻结范围**。将来的多 Operation / 返回值 / 关联 ID 属于 **Capability ABI v2**，必须以纯加法方式引入（新指令或新命令 tag + Save 版本升级），不得改变 v1 的语义或既有存档布局。冻结 v1 不阻塞 Demo 0.2 —— 它冻的是一个已经端到端验证、已在 Demo 1.0 承载真实跨包交互的完整闭环。
+
+**结论：冻结前置条件已全部满足。** World Transaction / Inbox / RNG / Scheduler / Snapshot、线程契约、Capability fire-and-forget v1 均可即刻冻结。剩余的粗粒度 CoW 与同相位并行都是**不改对外语义的内部优化**，不得作为冻结阻塞项；它们在冻结后实施时，验收标准是存档字节与 Replay Checksum 逐字节不变。
+
+**冻结后的变更规则**：上述契约的任何语义变更一律走**纯加法**（新指令 / 新命令 tag / 新 Save 版本），不得改变已冻结语义或既有存档布局；需要破坏性变更时，先修订本节并记录理由。
+
+**冻结动作的实际交付物**：Demo 0.2 不是“再做一个 Demo”——它门禁的内容已由 Demo 1.0 完成。它的交付物是**让“冻结”从备忘录里的一句话变成可执行的门禁**。
+
+**（1）磁盘 variant tag 钉死 —— 已完成（2026-08-30）**。发现的隐患：`runtime_save_codec.cpp` 在三处将 `variant.index()` 直接当作磁盘 / 字节流 tag 写出，而这三个 variant **没有任何保护**：
+
+| Variant | 备选项数 | 用途 |
+| --- | --- | --- |
+| `kernel::MechanismCommandOperation` | 7 | 存档中的 Mechanism 操作 tag |
+| `kernel::WorldCommandPayload` | 11 | 存档中的 World 命令 tag |
+| `kernel::WorldEventPayload` | 18 | Fact Stream tag（**即确定性 Replay Checksum 的输入**） |
+
+在其中任一个 variant 的**中间插入或重排**备选项，会静默重写所有已有存档并移位所有 Replay Checksum——既不编译失败，现有测试也不一定能发现。`WorldEventPayload` 尤其隐蔽：这些字节**从不被读回**，但它们是 Replay Checksum 的输入。
+
+已在 `runtime_save_codec.cpp` 内加入 `VariantAlternativeIndex` 辅助模板与 **36 条 `static_assert`**（每个备选项一条），再加三条 `std::variant_size_v` 断言捕获“新增了备选项却未钉位”。末尾追加仍然合法（只需补一条断言），其余改动一律在编译期停下。三个 variant 定义处各加了 `FROZEN ORDER` 注释，使约束在**编辑现场**即可见。
+
+已做两组注入-回滚验证：交换两个备选项 → 精确点名两条失败；中间插入一个新备选项 → 点亮全部下游 6 条加 `gained an alternative`。MSVC / GCC / Clang 三平台 0 warning、19/19 全绿。
+
+**（2）黄金存档字节 —— 已完成（2026-08-30）**。上一项钉的是 tag 序号，这一项钉的是**字段顺序与编码**。均在 `persistence_replay_probe`：
+
+- **规范世界黄金值**：存档 688 字节 / 校验和 `7194244525752032699`，回放 `finalStateChecksum` `9515266196334764553`、`factStreamChecksum` `14511951199989717232`。该世界含 Entity / Component / Relation / Mechanism / RNG Stream / Scheduled Event / 队列命令。
+- **命令编码黄金值**（`CheckFrozenCommandEncoding()`）：手工构造一个 Save Image，其命令队列含**全部 11 种 `WorldCommandPayload` 备选项 + 全部 6 种 `MechanismCommandOperation` 备选项**，锁定 516 字节 / 校验和 `5610142064737695594`，并验证 tag 往返逐项对位。
+- **这一条是被验证逼出来的**：最初只做了规范世界黄金值，注入"交换 `RngStreamAdvanceCommand` 两个相邻 U64 字段写出"后**没有被捕获**——因为那个世界的持久化命令队列里只有一种命令，`WriteWorldCommand` 的绝大多数分支从未被序列化。补上命令编码黄金值后重注入，即被捕获（字节数相同、**校验和不同** —— 两个指标都必要）。
+- **跨平台**：上述全部黄金值在 Windows MSVC、Linux GCC、Linux Clang 上**逐位相同**，所以失配一定是真格式变更而非平台差异。失败信息直接写明"意外就修代码，有意就升版本+写迁移"。
+
+**（3）已冻结契约面清单 —— 已完成（2026-08-30）**：新增 `Project-Dillen/FROZEN_CONTRACTS.md`，按存档与回放格式 / 稳定身份 / Capability ABI v1 / 线程契约 / 模块分层五类列出冻结项，**每一项标明由什么守卫**。第 0 节写明变更规则（纯加法允许；破坏性变更需升版本 + 迁移 + 修订 §4.2 + 更新黄金值；禁止为了让构建变绿而重置黄金值），末节诚实列出**尚无守卫的缺口**：线程契约尚无运行期守卫（并行未实现，1-vs-N 对拍探针待补）、Authoring DSL 语法面无黄金锁定、多步 Migration 无夹具、黄金值本身可被人为重置（只能靠评审纪律）。`CONTRIBUTING.md` 已指向该文件。
 
 ### 4.3 Demo 0.5：External Mechanism Vertical Slice
 
@@ -818,7 +969,7 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 - 运行期不依赖可编辑字符串结构；
 - 核心验收标准 1—10 全部通过。
 
-**当前验收状态**：`Project-Dillen/demo/dillen_demo_1_0` 已提供两个独立外部 Gameplay Package、两个可互换 Root Package / Source Layer、CLI 命令流与说明文档；`dillen_demo_1_0_probe` 已验证当前三 Package 与 16 个真实 Source Artifact 锁定、Root Fingerprint / Spawn 差异、未选择 Definition / Spawn / Algorithm 裁剪、三 Tick Query / Event / RNG / Transaction 固定结果、真实 Demo Save 恢复、双次确定性 Replay、Package 源摘要篡改拒绝、Source Lock 篡改拒绝和跨 Root 读档拒绝。Migration、非法 Command 与超预算隔离门禁继续由同一纯 Dillen 测试组中的既有 Probe 联合覆盖。
+**当前验收状态**：`Project-Dillen/demo/dillen_demo_1_0` 已提供一个中立 Contracts Package、两个互不依赖的外部 Gameplay Package、两个可互换 Root Package / Source Layer、CLI 命令流与说明文档；`dillen_demo_1_0_probe` 已验证当前四 Package 与 18 个真实 Source Artifact 锁定、Root Fingerprint / Spawn 差异、未选择 Definition / Spawn / Algorithm 裁剪、三 Tick Query / Event / RNG / Transaction 固定结果、真实 Demo Save 恢复、双次确定性 Replay、Package 源摘要篡改拒绝、Source Lock 篡改拒绝和跨 Root 读档拒绝。Migration、非法 Command 与超预算隔离门禁继续由同一纯 Dillen 测试组中的既有 Probe 联合覆盖。
 
 ### 4.6 Demo 1.1：Authoring Hardening
 
@@ -829,7 +980,7 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 - 更完整的错误恢复、Source Map 和诊断；
 - Package 模板、Schema 文档生成和开发工具；
 - 增量编译、脏索引和事务暂存优化；
-- 跨平台数值固定向量和性能基线；
+- 跨平台数值固定向量和性能基线（构建与全部 probe 的跨平台一致性已于 2026-08-30 达成并转为 CI 阻塞门禁，见 §3.19；此项余下的是**浮点数值**跨平台固定向量与各平台性能基线）；
 - Script GUI 的 Standalone Backend 评估。
 
 ### 4.7 External Corpus Demo：暂不排期
