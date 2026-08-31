@@ -1,0 +1,6 @@
+mechanism_spawn = {
+    name = dillen.dsl.sink_spawn
+    mechanism = dillen.dsl.sink
+    definition = dillen.dsl.sink_definition
+    count = 1
+}

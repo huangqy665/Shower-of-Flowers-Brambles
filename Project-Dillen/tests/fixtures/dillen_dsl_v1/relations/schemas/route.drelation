@@ -1,0 +1,7 @@
+relation_schema = {
+    name = dillen.dsl.route
+    version = 1
+    source_type = dillen.dsl.place
+    target_type = dillen.dsl.place
+    allow_self = no
+}

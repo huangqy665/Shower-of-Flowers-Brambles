@@ -1,0 +1,9 @@
+mechanism_definition = {
+    name = dillen.dsl.sink_definition
+    mechanism = dillen.dsl.sink
+    schema_version = 1
+    algorithm = dillen.dsl.sink_algorithm
+    algorithm_version = 1
+
+    provides_capabilities = { dillen.dsl.probe_signal }
+}

@@ -1,0 +1,11 @@
+entity_definition = {
+    name = dillen.dsl.depot
+    entity_type = dillen.dsl.place
+    components = {
+        component = {
+            type = dillen.dsl.stock
+            schema_version = 1
+            fields = { amount = 11  ratio = 0.25 }
+        }
+    }
+}

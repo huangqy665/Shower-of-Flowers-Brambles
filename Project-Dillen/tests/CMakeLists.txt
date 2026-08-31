@@ -67,6 +67,12 @@ if(DILLEN_BUILD_STANDALONE_RUNTIME)
         dillen::runtime
     )
     dillen_add_probe(
+        authoring_compile_golden_probe
+        dillen::authoring
+        dillen::kernel
+        dillen::persistence
+    )
+    dillen_add_probe(
         dsl_read_operand_probe
         dillen::authoring
         dillen::world
@@ -77,6 +83,17 @@ if(DILLEN_BUILD_STANDALONE_RUNTIME)
         dillen::authoring
         dillen::world
         dillen::runtime
+    )
+    dillen_add_probe(
+        authoring_frontend_golden_probe
+        dillen::authoring
+        dillen::kernel
+        dillen::persistence
+    )
+    dillen_add_probe(
+        authoring_diagnostic_contract_probe
+        dillen::authoring
+        dillen::parser
     )
     dillen_add_probe(standalone_host_probe dillen::host)
     dillen_add_probe(dillen_demo_1_0_probe dillen::host)

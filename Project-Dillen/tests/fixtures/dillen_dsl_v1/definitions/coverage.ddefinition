@@ -1,0 +1,20 @@
+mechanism_definition = {
+    name = dillen.dsl.coverage_definition
+    mechanism = dillen.dsl.node
+    schema_version = 1
+    algorithm = dillen.dsl.coverage_algorithm
+    algorithm_version = 1
+
+    roles = {
+        anchor = {
+            entity = { entity_type = dillen.dsl.place  definition = dillen.dsl.site }
+        }
+    }
+
+    fields = {
+        counter = 10
+        rate    = 2.75
+        active  = yes
+        label   = "coverage"
+    }
+}

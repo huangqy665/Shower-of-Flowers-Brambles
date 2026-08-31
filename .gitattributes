@@ -18,6 +18,11 @@
 *.dcomponent  text eol=lf
 *.dentity     text eol=lf
 *.drelation   text eol=lf
+# Not covered by *.drelation -- gitattributes globs are exact, so ".drelationdef"
+# was falling through to `* text=auto` and picking up CRLF on any Windows clone
+# with core.autocrlf=true. That is the exact defect this section exists to
+# prevent, surviving in the one authoring extension that was left off the list.
+*.drelationdef text eol=lf
 *.dmechanism  text eol=lf
 *.dalgorithm  text eol=lf
 *.ddefinition text eol=lf

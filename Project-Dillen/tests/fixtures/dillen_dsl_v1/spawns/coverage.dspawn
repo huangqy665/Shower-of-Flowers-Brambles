@@ -1,0 +1,7 @@
+mechanism_spawn = {
+    name = dillen.dsl.coverage_spawn
+    mechanism = dillen.dsl.node
+    definition = dillen.dsl.coverage_definition
+    count = 2
+    fields = { counter = 20 }
+}

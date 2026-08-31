@@ -1,0 +1,14 @@
+package_manifest = {
+    name = dillen.dsl.package
+    version_major = 1
+    version_minor = 0
+    version_patch = 0
+    content_digest = "d4301e423b6f85892c43eae0803599fa761131fecaaedce031944d6ad7b8d906"
+    load_priority = 0
+    provides = {
+        capability = {
+            name = dillen.dsl.probe_signal
+            version = 1
+        }
+    }
+}

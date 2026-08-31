@@ -1,0 +1,26 @@
+mechanism_template = {
+    name = dillen.dsl.node
+    version = 1
+
+    fields = {
+        field = { name = counter  kind = integer  required = yes  default = 0 }
+        field = { name = rate     kind = decimal  required = yes  default = 0.5 }
+        field = { name = active   kind = boolean  required = yes  default = no }
+        field = { name = label    kind = string   default = "node" }
+    }
+
+    roles = {
+        role = {
+            name = peer
+            reference_kind = mechanism_instance
+            minimum_count = 0
+            maximum_count = 4
+        }
+        role = {
+            name = anchor
+            reference_kind = entity
+            minimum_count = 0
+            maximum_count = 2
+        }
+    }
+}

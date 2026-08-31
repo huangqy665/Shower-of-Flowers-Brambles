@@ -1,0 +1,17 @@
+algorithm_descriptor = {
+    name = dillen.dsl.sink_algorithm
+    version = 1
+    backend = declarative
+    entry_points = { create event }
+    deterministic = yes
+    program = {
+        create = { transition_lifecycle = active }
+        event = {
+            add_field = {
+                field = received
+                from_payload = yes
+                when = { capability_invoked = dillen.dsl.probe_signal }
+            }
+        }
+    }
+}

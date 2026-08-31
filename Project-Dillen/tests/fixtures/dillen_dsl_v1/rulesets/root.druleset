@@ -1,0 +1,55 @@
+root_ruleset = {
+    name = dillen.dsl.root
+    version = 1
+
+    required_packages = {
+        requirement = {
+            name = dillen.dsl.package
+            minimum_major = 1
+            minimum_minor = 0
+            minimum_patch = 0
+            maximum_major = 2
+            maximum_minor = 0
+            maximum_patch = 0
+        }
+    }
+
+    required_schemas = {
+        dillen.dsl.node = 1
+        dillen.dsl.sink = 1
+    }
+    required_components = {
+        dillen.dsl.stock = 1
+    }
+    required_relations = {
+        dillen.dsl.route = 1
+    }
+    required_capabilities = {
+        requirement = {
+            name = dillen.dsl.probe_signal
+            minimum_version = 1
+        }
+    }
+    required_algorithms = {
+        dillen.dsl.coverage_algorithm = 1
+        dillen.dsl.scripted_algorithm = 1
+        dillen.dsl.sink_algorithm = 1
+    }
+    required_definitions = {
+        requirement = { mechanism = dillen.dsl.node  name = dillen.dsl.coverage_definition }
+        requirement = { mechanism = dillen.dsl.node  name = dillen.dsl.scripted_definition }
+        requirement = { mechanism = dillen.dsl.sink  name = dillen.dsl.sink_definition }
+    }
+    required_entity_definitions = {
+        requirement = { entity_type = dillen.dsl.place  name = dillen.dsl.site }
+        requirement = { entity_type = dillen.dsl.place  name = dillen.dsl.depot }
+    }
+    required_relation_definitions = {
+        requirement = { relation = dillen.dsl.route  name = dillen.dsl.site_depot }
+    }
+    required_spawns = {
+        requirement = { mechanism = dillen.dsl.node  definition = dillen.dsl.coverage_definition  name = dillen.dsl.coverage_spawn }
+        requirement = { mechanism = dillen.dsl.node  definition = dillen.dsl.scripted_definition  name = dillen.dsl.scripted_spawn }
+        requirement = { mechanism = dillen.dsl.sink  definition = dillen.dsl.sink_definition      name = dillen.dsl.sink_spawn }
+    }
+}

@@ -1,0 +1,7 @@
+mechanism_template = {
+    name = dillen.dsl.sink
+    version = 1
+    fields = {
+        field = { name = received  kind = integer  required = yes  default = 0 }
+    }
+}

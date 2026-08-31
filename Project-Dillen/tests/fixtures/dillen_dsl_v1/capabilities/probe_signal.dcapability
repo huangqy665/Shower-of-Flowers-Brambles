@@ -1,0 +1,5 @@
+capability_contract = {
+    name = dillen.dsl.probe_signal
+    version = 1
+    deterministic = yes
+}

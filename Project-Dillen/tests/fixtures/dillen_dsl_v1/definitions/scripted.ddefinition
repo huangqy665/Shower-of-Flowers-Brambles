@@ -1,0 +1,9 @@
+mechanism_definition = {
+    name = dillen.dsl.scripted_definition
+    mechanism = dillen.dsl.node
+    schema_version = 1
+    algorithm = dillen.dsl.scripted_algorithm
+    algorithm_version = 1
+
+    fields = { counter = 1  rate = 0.5  active = yes  label = "scripted" }
+}

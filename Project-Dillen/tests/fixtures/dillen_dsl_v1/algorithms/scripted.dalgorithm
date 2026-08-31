@@ -1,0 +1,49 @@
+# Controlled Script backend. Covers the script-only instructions (state, jump,
+# yield, halt) plus the Transact path that shares lowering with the declarative
+# backend, so the golden pins both backends' compile output.
+algorithm_descriptor = {
+    name = dillen.dsl.scripted_algorithm
+    version = 1
+    backend = script
+    entry_points = { create tick }
+    deterministic = yes
+    execution_policy = {
+        instruction_budget = 32
+        script_slice_instruction_budget = 8
+        script_memory_limit_bytes = 512
+        failure_policy = fail_instance
+    }
+
+    script = {
+        state = {
+            cursor = 0
+            accumulated = 0.0
+        }
+
+        create = {
+            transition_lifecycle = active
+            halt = yes
+        }
+
+        tick = {
+            set_state = { state = cursor       value = 1 }
+            add_state = { state = accumulated  value = 0.5 }
+
+            add_field = {
+                field = counter
+                value = 2
+                when = { field_equals = { field = active  value = yes } }
+            }
+
+            schedule_event = {
+                type = dillen.dsl.script_pulse
+                delay = 3
+                priority = 1
+                payload = 0
+            }
+
+            yield = yes
+            halt = yes
+        }
+    }
+}

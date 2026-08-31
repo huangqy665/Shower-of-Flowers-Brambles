@@ -1,0 +1,204 @@
+# Coverage fixture for the Compile golden. Every construct the Authoring DSL
+# can express appears at least once, deliberately -- this is constructed for
+# coverage, not sampled from a demo. The last golden that was sampled instead
+# of constructed missed an entire family of encodings.
+#
+# Not present, because the DSL cannot express them:
+#   cancel_event -- carries a run-time sequence number (see authoring_parser).
+algorithm_descriptor = {
+    name = dillen.dsl.coverage_algorithm
+    version = 1
+    backend = declarative
+    entry_points = { create tick event command destroy }
+    deterministic = yes
+    execution_policy = {
+        instruction_budget = 160
+        wall_clock_warning_microseconds = 250000
+        failure_policy = isolate_instance
+    }
+
+    program = {
+        create = {
+            transition_lifecycle = active
+
+            create_entity = {
+                entity_type = dillen.dsl.place
+                definition = dillen.dsl.site
+            }
+
+            add_relation = {
+                relation = dillen.dsl.route
+                source_entity_type = dillen.dsl.place
+                source_definition = dillen.dsl.site
+                target_entity_type = dillen.dsl.place
+                target_definition = dillen.dsl.depot
+            }
+
+            create_rng = {
+                stream = dillen.dsl.coverage_rng
+                seed = 20260831
+            }
+        }
+
+        tick = {
+            add_field = { field = counter  value = 1 }
+            add_field = { field = rate     value = 0.25 }
+            set_field = { field = label    value = "ticked" }
+            set_field = { field = active   value = yes }
+
+            advance_rng = {
+                stream = dillen.dsl.coverage_rng
+                count = 1
+            }
+
+            set_component_field = {
+                owner_entity_type = dillen.dsl.place
+                owner_definition = dillen.dsl.site
+                component = dillen.dsl.stock
+                field = amount
+                value = 42
+            }
+
+            spawn_mechanism = {
+                mechanism = dillen.dsl.sink
+                definition = dillen.dsl.sink_definition
+                spawn = dillen.dsl.sink_spawn
+            }
+
+            schedule_event = {
+                type = dillen.dsl.pulse
+                delay = 2
+                priority = -3
+                payload = 7
+            }
+
+            invoke_capability = {
+                capability = dillen.dsl.probe_signal
+                delay = 1
+                priority = 5
+                payload = 11
+                target_role = peer
+                version = 1
+            }
+        }
+
+        event = {
+            # field_equals condition
+            set_field = {
+                field = counter
+                value = 0
+                when = { field_equals = { field = active  value = yes } }
+            }
+
+            # from_payload operand
+            add_field = {
+                field = counter
+                from_payload = yes
+                when = { capability_invoked = dillen.dsl.probe_signal }
+            }
+
+            # scheduled_event condition
+            add_field = {
+                field = counter
+                value = 3
+                when = { scheduled_event = dillen.dsl.pulse }
+            }
+        }
+
+        command = {
+            # query_at_least and rng_modulo conditions, both on one instruction
+            add_field = {
+                field = counter
+                value = 5
+                when = {
+                    query_at_least = {
+                        kind = entity
+                        type = dillen.dsl.place
+                        count = 1
+                    }
+                    rng_modulo = {
+                        stream = dillen.dsl.coverage_rng
+                        offset = 0
+                        modulo = 2
+                        equals = 0
+                    }
+                }
+            }
+        }
+
+        # ---------------------------------------------------------------
+        # DSL v1 read operands. Constructed for coverage: every read root,
+        # every reducer, every binary operator and every comparison appears
+        # at least once, so the Compile golden actually pins their lowering.
+        # Semantics are irrelevant here -- this probe compiles, it never ticks.
+        # ---------------------------------------------------------------
+        destroy = {
+            remove_relation = {
+                relation = dillen.dsl.route
+                source_entity_type = dillen.dsl.place
+                source_definition = dillen.dsl.site
+                target_entity_type = dillen.dsl.place
+                target_definition = dillen.dsl.depot
+            }
+
+            # --- read roots ---
+            set_field = { field = counter  left = { constant = 3 } }
+            set_field = { field = counter  left = { event_payload = yes } }
+            set_field = { field = counter  left = { self_field = counter } }
+            set_field = { field = counter
+                          left = { role = anchor  component = dillen.dsl.stock  field = amount } }
+            set_field = { field = counter
+                          left = { role = peer  field = counter } }
+            set_field = { field = counter
+                          left = { role = anchor
+                                   relation = { type = dillen.dsl.route  direction = outgoing }
+                                   component = dillen.dsl.stock  field = amount } }
+            set_field = { field = counter
+                          left = { role = anchor
+                                   relation = { type = dillen.dsl.route  direction = incoming }
+                                   component = dillen.dsl.stock  field = amount } }
+
+            # --- reducers ---
+            set_field = { field = counter
+                          left = { role = anchor  component = dillen.dsl.stock  field = amount  reduce = require_one } }
+            set_field = { field = counter
+                          left = { role = anchor  component = dillen.dsl.stock  field = amount  reduce = sum } }
+            set_field = { field = counter
+                          left = { role = anchor  component = dillen.dsl.stock  field = amount  reduce = count } }
+            set_field = { field = counter
+                          left = { role = anchor  component = dillen.dsl.stock  field = amount  reduce = min } }
+            set_field = { field = counter
+                          left = { role = anchor  component = dillen.dsl.stock  field = amount  reduce = max } }
+
+            # --- binary operators, on both set and add ---
+            set_field = { field = counter  op = add
+                          left = { self_field = counter }  right = { constant = 1 } }
+            set_field = { field = counter  op = sub
+                          left = { self_field = counter }  right = { constant = 1 } }
+            set_field = { field = rate     op = mul
+                          left = { self_field = rate }     right = { constant = 2 } }
+            set_field = { field = rate     op = div
+                          left = { self_field = rate }     right = { constant = 2 } }
+            set_field = { field = counter  op = min
+                          left = { self_field = counter }  right = { constant = 9 } }
+            add_field = { field = counter  op = max
+                          left = { self_field = counter }  right = { constant = 9 } }
+
+            # --- comparisons ---
+            set_field = { field = counter  value = 0
+                          when = { compare = { left = { self_field = counter }  op = eq   right = { constant = 1 } } } }
+            set_field = { field = counter  value = 0
+                          when = { compare = { left = { self_field = counter }  op = ne   right = { constant = 1 } } } }
+            set_field = { field = counter  value = 0
+                          when = { compare = { left = { self_field = counter }  op = lt   right = { constant = 1 } } } }
+            set_field = { field = counter  value = 0
+                          when = { compare = { left = { self_field = counter }  op = lte  right = { constant = 1 } } } }
+            set_field = { field = counter  value = 0
+                          when = { compare = { left = { self_field = counter }  op = gt   right = { constant = 1 } } } }
+            set_field = { field = counter  value = 0
+                          when = { compare = { left = { role = anchor  component = dillen.dsl.stock  field = amount  reduce = sum }
+                                               op = gte
+                                               right = { self_field = counter } } } }
+        }
+    }
+}

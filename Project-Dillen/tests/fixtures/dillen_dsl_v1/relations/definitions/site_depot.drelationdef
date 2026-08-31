@@ -1,0 +1,9 @@
+relation_definition = {
+    name = dillen.dsl.site_depot
+    relation = dillen.dsl.route
+    schema_version = 1
+    source_entity_type = dillen.dsl.place
+    source_definition = dillen.dsl.site
+    target_entity_type = dillen.dsl.place
+    target_definition = dillen.dsl.depot
+}

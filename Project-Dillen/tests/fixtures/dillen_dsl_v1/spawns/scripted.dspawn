@@ -1,0 +1,6 @@
+mechanism_spawn = {
+    name = dillen.dsl.scripted_spawn
+    mechanism = dillen.dsl.node
+    definition = dillen.dsl.scripted_definition
+    count = 1
+}
