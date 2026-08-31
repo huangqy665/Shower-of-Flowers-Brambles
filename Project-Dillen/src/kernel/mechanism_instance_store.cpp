@@ -5,6 +5,8 @@
 #include <set>
 #include <utility>
 
+#include "sorted_id_index.hpp"
+
 namespace dillen::kernel {
 
 namespace {
@@ -46,12 +48,12 @@ MechanismInstanceCreateResult MechanismInstanceStore::CreateFromDefinition(
     }
 
     const std::uint64_t creationOrdinal =
-        nextOrdinalByDefinition_[definitionId];
+        Mutable().nextOrdinalByDefinition[definitionId];
     const MechanismInstanceId instanceId = StableMechanismInstanceId(
         definitionId,
         creationOrdinal
     );
-    if (instances_.find(instanceId) != instances_.end())
+    if (Read().instances.find(instanceId) != Read().instances.end())
     {
         return MechanismInstanceCreateResult::IdCollision;
     }
@@ -89,10 +91,11 @@ MechanismInstanceCreateResult MechanismInstanceStore::CreateFromDefinition(
     instance.createdTick = currentTick;
     instance.updatedTick = currentTick;
 
-    instances_.emplace(instanceId, std::move(instance));
-    instancesByDefinition_[definitionId].push_back(instanceId);
-    instancesByType_[definition->type].push_back(instanceId);
-    nextOrdinalByDefinition_[definitionId] = creationOrdinal + 1;
+    Data& data = Mutable();
+    data.instances.emplace(instanceId, std::move(instance));
+    InsertSortedId(data.instancesByDefinition[definitionId], instanceId);
+    InsertSortedId(data.instancesByType[definition->type], instanceId);
+    data.nextOrdinalByDefinition[definitionId] = creationOrdinal + 1;
     outputId = instanceId;
     return MechanismInstanceCreateResult::Created;
 }
@@ -123,12 +126,12 @@ MechanismInstanceCreateResult MechanismInstanceStore::CreateFromSpawn(
     }
 
     const std::uint64_t creationOrdinal =
-        nextOrdinalByDefinition_[spawn->definition];
+        Mutable().nextOrdinalByDefinition[spawn->definition];
     const MechanismInstanceId instanceId = StableMechanismInstanceId(
         spawn->definition,
         creationOrdinal
     );
-    if (instances_.find(instanceId) != instances_.end())
+    if (Read().instances.find(instanceId) != Read().instances.end())
     {
         return MechanismInstanceCreateResult::IdCollision;
     }
@@ -166,10 +169,14 @@ MechanismInstanceCreateResult MechanismInstanceStore::CreateFromSpawn(
     instance.createdTick = currentTick;
     instance.updatedTick = currentTick;
 
-    instances_.emplace(instanceId, std::move(instance));
-    instancesByDefinition_[spawn->definition].push_back(instanceId);
-    instancesByType_[definition->type].push_back(instanceId);
-    nextOrdinalByDefinition_[spawn->definition] = creationOrdinal + 1;
+    Data& data = Mutable();
+    data.instances.emplace(instanceId, std::move(instance));
+    InsertSortedId(
+        data.instancesByDefinition[spawn->definition],
+        instanceId
+    );
+    InsertSortedId(data.instancesByType[definition->type], instanceId);
+    data.nextOrdinalByDefinition[spawn->definition] = creationOrdinal + 1;
     outputId = instanceId;
     return MechanismInstanceCreateResult::Created;
 }
@@ -207,8 +214,9 @@ MechanismTransactionResult MechanismInstanceStore::ApplyTransaction(
         auto stagedIterator = staged.find(command.target);
         if (stagedIterator == staged.end())
         {
-            const auto storedIterator = instances_.find(command.target);
-            if (storedIterator == instances_.end())
+            const auto storedIterator =
+                Read().instances.find(command.target);
+            if (storedIterator == Read().instances.end())
             {
                 return TransactionFailure(
                     MechanismTransactionStatus::TargetMissing,
@@ -459,28 +467,39 @@ MechanismTransactionResult MechanismInstanceStore::ApplyTransaction(
         }
     }
 
+    if (changed.empty())
+    {
+        return {
+            MechanismTransactionStatus::Committed,
+            commands.size(),
+            {},
+            0,
+            std::move(changes)
+        };
+    }
+    Data& data = Mutable();
     for (MechanismInstanceId id : changed)
     {
         MechanismInstance& instance = staged.at(id);
         if (destroyed.find(id) != destroyed.end())
         {
-            auto& byDefinition = instancesByDefinition_.at(
+            auto& byDefinition = data.instancesByDefinition.at(
                 instance.definition
             );
             byDefinition.erase(
                 std::remove(byDefinition.begin(), byDefinition.end(), id),
                 byDefinition.end()
             );
-            auto& byType = instancesByType_.at(instance.type);
+            auto& byType = data.instancesByType.at(instance.type);
             byType.erase(
                 std::remove(byType.begin(), byType.end(), id),
                 byType.end()
             );
-            instances_.erase(id);
+            data.instances.erase(id);
             continue;
         }
         instance.updatedTick = currentTick;
-        instances_.at(id) = std::move(instance);
+        data.instances.at(id) = std::move(instance);
     }
     return {
         MechanismTransactionStatus::Committed,
@@ -493,28 +512,29 @@ MechanismTransactionResult MechanismInstanceStore::ApplyTransaction(
 
 void MechanismInstanceStore::Clear()
 {
-    instances_.clear();
-    instancesByDefinition_.clear();
-    instancesByType_.clear();
-    nextOrdinalByDefinition_.clear();
+    Data& data = Mutable();
+    data.instances.clear();
+    data.instancesByDefinition.clear();
+    data.instancesByType.clear();
+    data.nextOrdinalByDefinition.clear();
 }
 
 bool MechanismInstanceStore::Empty() const noexcept
 {
-    return instances_.empty();
+    return Read().instances.empty();
 }
 
 std::size_t MechanismInstanceStore::Size() const noexcept
 {
-    return instances_.size();
+    return Read().instances.size();
 }
 
 const MechanismInstance* MechanismInstanceStore::Find(
     MechanismInstanceId id
 ) const
 {
-    const auto iterator = instances_.find(id);
-    return iterator == instances_.end() ? nullptr : &iterator->second;
+    const auto iterator = Read().instances.find(id);
+    return iterator == Read().instances.end() ? nullptr : &iterator->second;
 }
 
 const std::vector<MechanismInstanceId>&
@@ -522,8 +542,8 @@ MechanismInstanceStore::FindByDefinition(
     MechanismDefinitionId definition
 ) const
 {
-    const auto iterator = instancesByDefinition_.find(definition);
-    return iterator == instancesByDefinition_.end()
+    const auto iterator = Read().instancesByDefinition.find(definition);
+    return iterator == Read().instancesByDefinition.end()
         ? EmptyInstanceIds()
         : iterator->second;
 }
@@ -532,8 +552,8 @@ const std::vector<MechanismInstanceId>& MechanismInstanceStore::FindByType(
     MechanismTypeId type
 ) const
 {
-    const auto iterator = instancesByType_.find(type);
-    return iterator == instancesByType_.end()
+    const auto iterator = Read().instancesByType.find(type);
+    return iterator == Read().instancesByType.end()
         ? EmptyInstanceIds()
         : iterator->second;
 }
@@ -541,7 +561,7 @@ const std::vector<MechanismInstanceId>& MechanismInstanceStore::FindByType(
 const MechanismInstanceStore::InstanceMap&
 MechanismInstanceStore::All() const noexcept
 {
-    return instances_;
+    return Read().instances;
 }
 
 }

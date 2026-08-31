@@ -19,6 +19,18 @@ struct WorldQueryStamp
     std::uint64_t revision = 0;
 };
 
+// Each sub-snapshot holds its store by value. The stores are copy-on-write, so
+// publishing is a refcount bump instead of a deep copy plus an index rebuild --
+// which made every tick cost O(world) even when the tick changed nothing. The
+// snapshot copy is frozen by construction: the Kernel Runtime never writes
+// through it, and any write to the authoritative store clones away from the
+// payload the snapshot holds.
+//
+// This is only sound because the stores now maintain every index a snapshot
+// exposes, in the order the snapshot used to rebuild them (ascending id, see
+// kernel/sorted_id_index.hpp). Rebuilding lazily inside the snapshot is not an
+// option: worker threads read published snapshots during algorithm dispatch
+// (memo section 3.9), so a lazily-filled index would be a data race.
 class EntityQuerySnapshot
 {
 public:
@@ -39,11 +51,7 @@ private:
 
     void Publish(const world::EntityRegistry& entities);
 
-    EntityMap entities_;
-    std::map<kernel::EntityDefinitionId, std::vector<kernel::EntityId>>
-        entitiesByDefinition_;
-    std::map<kernel::EntityTypeId, std::vector<kernel::EntityId>>
-        entitiesByType_;
+    world::EntityRegistry entities_;
 };
 
 class ComponentQuerySnapshot
@@ -74,11 +82,7 @@ private:
 
     void Publish(const world::ComponentStore& components);
 
-    ComponentMap components_;
-    std::map<kernel::ComponentTypeId, std::vector<kernel::EntityId>>
-        ownersByType_;
-    std::map<kernel::EntityId, std::vector<kernel::ComponentTypeId>>
-        typesByOwner_;
+    world::ComponentStore components_;
 };
 
 class RelationQuerySnapshot
@@ -104,16 +108,9 @@ public:
 private:
     friend class WorldQuerySnapshot;
 
-    using TypedEntityKey =
-        std::pair<kernel::RelationTypeId, kernel::EntityId>;
-
     void Publish(const world::RelationIndex& relations);
 
-    RelationMap relations_;
-    std::map<kernel::RelationTypeId, std::vector<kernel::RelationId>>
-        relationsByType_;
-    std::map<TypedEntityKey, std::vector<kernel::RelationId>> outgoing_;
-    std::map<TypedEntityKey, std::vector<kernel::RelationId>> incoming_;
+    world::RelationIndex relations_;
 };
 
 class WorldQuerySnapshot

@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include "sorted_id_index.hpp"
+
 namespace dillen::world {
 
 namespace {
@@ -40,8 +42,8 @@ RelationAddResult RelationIndex::Add(
         source,
         target
     );
-    const auto existing = relations_.find(id);
-    if (existing != relations_.end())
+    const auto existing = Read().relations.find(id);
+    if (existing != Read().relations.end())
     {
         const RelationRecord& relation = existing->second;
         return relation.type == type
@@ -50,9 +52,11 @@ RelationAddResult RelationIndex::Add(
             ? RelationAddResult::DuplicateRelation
             : RelationAddResult::IdCollision;
     }
-    relations_.emplace(id, RelationRecord{id, type, source, target});
-    outgoing_[{type, source}].push_back(id);
-    incoming_[{type, target}].push_back(id);
+    Data& data = Mutable();
+    data.relations.emplace(id, RelationRecord{id, type, source, target});
+    kernel::InsertSortedId(data.relationsByType[type], id);
+    kernel::InsertSortedId(data.outgoing[{type, source}], id);
+    kernel::InsertSortedId(data.incoming[{type, target}], id);
     outputId = id;
     return RelationAddResult::Added;
 }
@@ -107,55 +111,77 @@ RelationRemoveResult RelationIndex::Remove(
 )
 {
     removed = {};
-    const auto iterator = relations_.find(relation);
-    if (iterator == relations_.end())
+    const auto reader = Read().relations.find(relation);
+    if (reader == Read().relations.end())
     {
         return RelationRemoveResult::RelationMissing;
     }
-    removed = iterator->second;
-    auto& outgoing = outgoing_[{removed.type, removed.source}];
+    removed = reader->second;
+    Data& data = Mutable();
+    auto& byType = data.relationsByType[removed.type];
+    byType.erase(
+        std::remove(byType.begin(), byType.end(), relation),
+        byType.end()
+    );
+    if (byType.empty())
+    {
+        data.relationsByType.erase(removed.type);
+    }
+    auto& outgoing = data.outgoing[{removed.type, removed.source}];
     outgoing.erase(
         std::remove(outgoing.begin(), outgoing.end(), relation),
         outgoing.end()
     );
     if (outgoing.empty())
     {
-        outgoing_.erase({removed.type, removed.source});
+        data.outgoing.erase({removed.type, removed.source});
     }
-    auto& incoming = incoming_[{removed.type, removed.target}];
+    auto& incoming = data.incoming[{removed.type, removed.target}];
     incoming.erase(
         std::remove(incoming.begin(), incoming.end(), relation),
         incoming.end()
     );
     if (incoming.empty())
     {
-        incoming_.erase({removed.type, removed.target});
+        data.incoming.erase({removed.type, removed.target});
     }
-    relations_.erase(iterator);
+    data.relations.erase(relation);
     return RelationRemoveResult::Removed;
 }
 
 void RelationIndex::Clear()
 {
-    relations_.clear();
-    outgoing_.clear();
-    incoming_.clear();
+    Data& data = Mutable();
+    data.relations.clear();
+    data.relationsByType.clear();
+    data.outgoing.clear();
+    data.incoming.clear();
 }
 
 bool RelationIndex::Empty() const noexcept
 {
-    return relations_.empty();
+    return Read().relations.empty();
 }
 
 std::size_t RelationIndex::Size() const noexcept
 {
-    return relations_.size();
+    return Read().relations.size();
 }
 
 const RelationRecord* RelationIndex::Find(kernel::RelationId id) const
 {
-    const auto iterator = relations_.find(id);
-    return iterator == relations_.end() ? nullptr : &iterator->second;
+    const auto iterator = Read().relations.find(id);
+    return iterator == Read().relations.end() ? nullptr : &iterator->second;
+}
+
+const std::vector<kernel::RelationId>& RelationIndex::FindByType(
+    kernel::RelationTypeId type
+) const
+{
+    const auto iterator = Read().relationsByType.find(type);
+    return iterator == Read().relationsByType.end()
+        ? EmptyRelationIds()
+        : iterator->second;
 }
 
 const std::vector<kernel::RelationId>& RelationIndex::Outgoing(
@@ -163,8 +189,8 @@ const std::vector<kernel::RelationId>& RelationIndex::Outgoing(
     kernel::EntityId source
 ) const
 {
-    const auto iterator = outgoing_.find({type, source});
-    return iterator == outgoing_.end()
+    const auto iterator = Read().outgoing.find({type, source});
+    return iterator == Read().outgoing.end()
         ? EmptyRelationIds()
         : iterator->second;
 }
@@ -174,15 +200,15 @@ const std::vector<kernel::RelationId>& RelationIndex::Incoming(
     kernel::EntityId target
 ) const
 {
-    const auto iterator = incoming_.find({type, target});
-    return iterator == incoming_.end()
+    const auto iterator = Read().incoming.find({type, target});
+    return iterator == Read().incoming.end()
         ? EmptyRelationIds()
         : iterator->second;
 }
 
 const RelationIndex::RelationMap& RelationIndex::All() const noexcept
 {
-    return relations_;
+    return Read().relations;
 }
 
 }

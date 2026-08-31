@@ -278,15 +278,22 @@ bool RuntimePersistenceService::BuildCandidate(
             || definition == nullptr
             || definition->type != record.type
             || record.id != kernel::StableEntityId(record.definition)
-            || !entities.entities_.emplace(record.id, record).second)
+            || !entities.Mutable().entities.emplace(
+                    record.id, record).second)
         {
             message = "Entity state is incompatible with the Runtime Catalog";
             return false;
         }
     }
-    for (const auto& entry : entities.entities_)
+    // Walking the primary map yields ascending ids, which is exactly the order
+    // the secondary indexes are contracted to hold (kernel/sorted_id_index.hpp),
+    // so a plain push_back rebuilds them correctly and in one pass.
+    for (const auto& entry : entities.Read().entities)
     {
-        entities.entitiesByType_[entry.second.type].push_back(entry.first);
+        entities.Mutable().entitiesByDefinition[entry.second.definition]
+            .push_back(entry.first);
+        entities.Mutable().entitiesByType[entry.second.type].push_back(
+            entry.first);
     }
 
     world::ComponentStore components;
@@ -317,19 +324,22 @@ bool RuntimePersistenceService::BuildCandidate(
             record.owner,
             record.type
         };
-        if (!components.components_.emplace(key, record).second)
+        if (!components.Mutable().components.emplace(key, record).second)
         {
             message = "Component state contains a duplicate key";
             return false;
         }
     }
-    for (const auto& entry : components.components_)
+    for (const auto& entry : components.Read().components)
     {
-        components.ownersByType_[entry.second.type].push_back(
+        components.Mutable().ownersByType[entry.second.type].push_back(
             entry.second.owner
         );
+        components.Mutable().typesByOwner[entry.second.owner].push_back(
+            entry.second.type
+        );
     }
-    for (const auto& entry : entities.entities_)
+    for (const auto& entry : entities.Read().entities)
     {
         const kernel::CompiledEntityDefinition* definition =
             catalog.FindEntityDefinition(entry.second.definition);
@@ -360,23 +370,27 @@ bool RuntimePersistenceService::BuildCandidate(
                 record.type,
                 record.source,
                 record.target)
-            || !relations.relations_.emplace(record.id, record).second)
+            || !relations.Mutable().relations.emplace(
+                    record.id, record).second)
         {
             message = "Relation state is invalid or references a missing Entity";
             return false;
         }
     }
-    for (const auto& entry : relations.relations_)
+    for (const auto& entry : relations.Read().relations)
     {
         const world::RelationRecord& record = entry.second;
-        relations.outgoing_[{record.type, record.source}].push_back(record.id);
-        relations.incoming_[{record.type, record.target}].push_back(record.id);
+        relations.Mutable().relationsByType[record.type].push_back(record.id);
+        relations.Mutable().outgoing[{record.type, record.source}]
+            .push_back(record.id);
+        relations.Mutable().incoming[{record.type, record.target}]
+            .push_back(record.id);
     }
 
     kernel::MechanismInstanceStore mechanisms;
-    mechanisms.nextOrdinalByDefinition_ =
+    mechanisms.Mutable().nextOrdinalByDefinition =
         image.nextMechanismOrdinalByDefinition;
-    for (const auto& next : mechanisms.nextOrdinalByDefinition_)
+    for (const auto& next : mechanisms.Read().nextOrdinalByDefinition)
     {
         if (catalog.FindDefinition(next.first) == nullptr)
         {
@@ -397,7 +411,8 @@ bool RuntimePersistenceService::BuildCandidate(
             : nullptr;
         const kernel::CompiledControlledScriptProgram* script =
             catalog.FindControlledScriptProgram(instance.definition);
-        const auto nextOrdinal = mechanisms.nextOrdinalByDefinition_.find(
+        const auto nextOrdinal =
+            mechanisms.Read().nextOrdinalByDefinition.find(
             instance.definition
         );
         if (!instance.id
@@ -438,9 +453,10 @@ bool RuntimePersistenceService::BuildCandidate(
                     || instance.algorithmFault.tick != 0))
             || instance.updatedTick < instance.createdTick
             || instance.updatedTick > image.worldTick
-            || nextOrdinal == mechanisms.nextOrdinalByDefinition_.end()
+            || nextOrdinal == mechanisms.Read().nextOrdinalByDefinition.end()
             || nextOrdinal->second <= instance.creationOrdinal
-            || !mechanisms.instances_.emplace(instance.id, instance).second)
+            || !mechanisms.Mutable().instances.emplace(
+                    instance.id, instance).second)
         {
             message = "Mechanism state is incompatible with its frozen Definition";
             return false;
@@ -478,16 +494,18 @@ bool RuntimePersistenceService::BuildCandidate(
             }
         }
     }
-    for (const auto& entry : mechanisms.instances_)
+    for (const auto& entry : mechanisms.Read().instances)
     {
         const kernel::MechanismInstance& instance = entry.second;
-        mechanisms.instancesByDefinition_[instance.definition].push_back(
+        mechanisms.Mutable().instancesByDefinition[instance.definition]
+            .push_back(
             instance.id
         );
-        mechanisms.instancesByType_[instance.type].push_back(instance.id);
+        mechanisms.Mutable().instancesByType[instance.type].push_back(
+            instance.id);
     }
 
-    for (const auto& entry : components.components_)
+    for (const auto& entry : components.Read().components)
     {
         for (const kernel::MechanismValue& value : entry.second.values)
         {
@@ -498,7 +516,7 @@ bool RuntimePersistenceService::BuildCandidate(
             }
         }
     }
-    for (const auto& entry : mechanisms.instances_)
+    for (const auto& entry : mechanisms.Read().instances)
     {
         const kernel::MechanismInstance& instance = entry.second;
         for (const kernel::MechanismValue& value : instance.values)
@@ -531,11 +549,11 @@ bool RuntimePersistenceService::BuildCandidate(
     }
 
     kernel::AlgorithmInbox inbox;
-    inbox.pending_ = image.scheduledInbox;
-    inbox.nextSequence_ = image.nextScheduledEventSequence;
+    inbox.Mutable().pending = image.scheduledInbox;
+    inbox.Mutable().nextSequence = image.nextScheduledEventSequence;
     std::set<std::uint64_t> inboxSequences;
     std::uint64_t maximumInboxSequence = 0;
-    for (const kernel::ScheduledAlgorithmEvent& event : inbox.pending_)
+    for (const kernel::ScheduledAlgorithmEvent& event : inbox.Read().pending)
     {
         if (event.sequence == 0
             || !event.type
@@ -553,8 +571,8 @@ bool RuntimePersistenceService::BuildCandidate(
         }
         maximumInboxSequence = std::max(maximumInboxSequence, event.sequence);
     }
-    if (inbox.nextSequence_ == 0
-        || inbox.nextSequence_ <= maximumInboxSequence)
+    if (inbox.Read().nextSequence == 0
+        || inbox.Read().nextSequence <= maximumInboxSequence)
     {
         message = "Scheduled Algorithm Inbox sequence regressed";
         return false;
@@ -565,7 +583,8 @@ bool RuntimePersistenceService::BuildCandidate(
     for (const kernel::DeterministicRngStream& stream : image.rngStreams)
     {
         if (!stream.id
-            || !rngStreams.streams_.emplace(stream.id, stream).second)
+            || !rngStreams.Mutable().streams.emplace(
+                    stream.id, stream).second)
         {
             message = "RNG Registry contains an invalid or duplicate stream";
             return false;
@@ -656,28 +675,28 @@ RuntimePersistenceReport RuntimePersistenceService::Capture(
     image.identity = IdentityFor(runtime.catalog_);
     image.worldTick = runtime.world_.tick_;
     image.worldRevision = runtime.world_.revision_;
-    for (const auto& entry : runtime.world_.entities_.entities_)
+    for (const auto& entry : runtime.world_.entities_.Read().entities)
     {
         image.entities.push_back(entry.second);
     }
-    for (const auto& entry : runtime.world_.components_.components_)
+    for (const auto& entry : runtime.world_.components_.Read().components)
     {
         image.components.push_back(entry.second);
     }
-    for (const auto& entry : runtime.world_.relations_.relations_)
+    for (const auto& entry : runtime.world_.relations_.Read().relations)
     {
         image.relations.push_back(entry.second);
     }
-    for (const auto& entry : runtime.world_.mechanisms_.instances_)
+    for (const auto& entry : runtime.world_.mechanisms_.Read().instances)
     {
         image.mechanisms.push_back(entry.second);
     }
     image.nextMechanismOrdinalByDefinition =
-        runtime.world_.mechanisms_.nextOrdinalByDefinition_;
-    image.scheduledInbox = runtime.world_.algorithmInbox_.pending_;
+        runtime.world_.mechanisms_.Read().nextOrdinalByDefinition;
+    image.scheduledInbox = runtime.world_.algorithmInbox_.Read().pending;
     image.nextScheduledEventSequence =
-        runtime.world_.algorithmInbox_.nextSequence_;
-    for (const auto& entry : runtime.world_.rngStreams_.streams_)
+        runtime.world_.algorithmInbox_.Read().nextSequence;
+    for (const auto& entry : runtime.world_.rngStreams_.Read().streams)
     {
         image.rngStreams.push_back(entry.second);
     }

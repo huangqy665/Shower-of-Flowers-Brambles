@@ -4,6 +4,7 @@
 #include <map>
 #include <utility>
 #include <vector>
+#include <memory>
 
 #include "entity_registry.hpp"
 
@@ -69,6 +70,9 @@ public:
     bool Empty() const noexcept;
     std::size_t Size() const noexcept;
     const RelationRecord* Find(kernel::RelationId id) const;
+    const std::vector<kernel::RelationId>& FindByType(
+        kernel::RelationTypeId type
+    ) const;
     const std::vector<kernel::RelationId>& Outgoing(
         kernel::RelationTypeId type,
         kernel::EntityId source
@@ -84,9 +88,40 @@ private:
 
     using TypedEntityKey = std::pair<kernel::RelationTypeId, kernel::EntityId>;
 
-    RelationMap relations_;
-    std::map<TypedEntityKey, std::vector<kernel::RelationId>> outgoing_;
-    std::map<TypedEntityKey, std::vector<kernel::RelationId>> incoming_;
+    // Copy-on-write. Copying the store shares the payload and costs a
+    // refcount bump; the first write through a shared handle clones it. The
+    // World Transaction executor copies all six stores to stage a transaction,
+    // so this turns "stage a transaction" from O(world) into O(what it
+    // touches). Reads go through Read(), writes through Mutable() -- taking a
+    // non-const reference out of Read() would mutate a payload someone else
+    // may still be holding.
+    //
+    // use_count() is only meaningful because commit is single-threaded by
+    // contract (memo section 3.9): worker threads may run algorithm dispatch,
+    // never the store writes below.
+    // All three secondary indexes are kept ascending by relation id (see
+    // kernel/sorted_id_index.hpp) so the Query Snapshot can share this payload
+    // instead of rebuilding them.
+    struct Data
+    {
+        RelationMap relations;
+        std::map<kernel::RelationTypeId, std::vector<kernel::RelationId>>
+            relationsByType;
+        std::map<TypedEntityKey, std::vector<kernel::RelationId>> outgoing;
+        std::map<TypedEntityKey, std::vector<kernel::RelationId>> incoming;
+    };
+
+    const Data& Read() const noexcept { return *data_; }
+    Data& Mutable()
+    {
+        if (data_.use_count() > 1)
+        {
+            data_ = std::make_shared<Data>(*data_);
+        }
+        return *data_;
+    }
+
+    std::shared_ptr<Data> data_ = std::make_shared<Data>();
 };
 
 }

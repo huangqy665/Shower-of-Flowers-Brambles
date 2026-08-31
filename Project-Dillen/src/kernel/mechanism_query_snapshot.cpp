@@ -4,34 +4,13 @@
 
 namespace dillen::kernel {
 
-namespace {
-
-const std::vector<MechanismInstanceId>& EmptyInstanceIds()
-{
-    static const std::vector<MechanismInstanceId> empty;
-    return empty;
-}
-
-}
-
 void MechanismQuerySnapshot::Publish(
     const MechanismInstanceStore& store,
     std::uint64_t tick,
     std::uint64_t revision
 )
 {
-    MechanismInstanceStore::InstanceMap instances = store.All();
-    std::map<MechanismDefinitionId, std::vector<MechanismInstanceId>>
-        byDefinition;
-    std::map<MechanismTypeId, std::vector<MechanismInstanceId>> byType;
-    for (const auto& stored : instances)
-    {
-        byDefinition[stored.second.definition].push_back(stored.first);
-        byType[stored.second.type].push_back(stored.first);
-    }
-    instances_ = std::move(instances);
-    instancesByDefinition_ = std::move(byDefinition);
-    instancesByType_ = std::move(byType);
+    instances_ = store;
     tick_ = tick;
     revision_ = revision;
     published_ = true;
@@ -39,9 +18,7 @@ void MechanismQuerySnapshot::Publish(
 
 void MechanismQuerySnapshot::Clear()
 {
-    instances_.clear();
-    instancesByDefinition_.clear();
-    instancesByType_.clear();
+    instances_.Clear();
     tick_ = 0;
     revision_ = 0;
     published_ = false;
@@ -64,15 +41,14 @@ std::uint64_t MechanismQuerySnapshot::Revision() const noexcept
 
 std::size_t MechanismQuerySnapshot::Size() const noexcept
 {
-    return instances_.size();
+    return instances_.Size();
 }
 
 const MechanismInstance* MechanismQuerySnapshot::Find(
     MechanismInstanceId id
 ) const
 {
-    const auto iterator = instances_.find(id);
-    return iterator == instances_.end() ? nullptr : &iterator->second;
+    return instances_.Find(id);
 }
 
 const MechanismValue* MechanismQuerySnapshot::FindField(
@@ -106,25 +82,19 @@ MechanismQuerySnapshot::FindByDefinition(
     MechanismDefinitionId definition
 ) const
 {
-    const auto iterator = instancesByDefinition_.find(definition);
-    return iterator == instancesByDefinition_.end()
-        ? EmptyInstanceIds()
-        : iterator->second;
+    return instances_.FindByDefinition(definition);
 }
 
 const std::vector<MechanismInstanceId>&
 MechanismQuerySnapshot::FindByType(MechanismTypeId type) const
 {
-    const auto iterator = instancesByType_.find(type);
-    return iterator == instancesByType_.end()
-        ? EmptyInstanceIds()
-        : iterator->second;
+    return instances_.FindByType(type);
 }
 
 const MechanismInstanceStore::InstanceMap&
 MechanismQuerySnapshot::All() const noexcept
 {
-    return instances_;
+    return instances_.All();
 }
 
 }

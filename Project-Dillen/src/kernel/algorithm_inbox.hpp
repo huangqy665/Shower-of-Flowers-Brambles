@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <vector>
+#include <memory>
 
 #include "mechanism_ids.hpp"
 #include "mechanism_value.hpp"
@@ -60,8 +61,34 @@ private:
 
     void SortPending();
 
-    std::vector<ScheduledAlgorithmEvent> pending_;
-    std::uint64_t nextSequence_ = 1;
+    // Copy-on-write. Copying the store shares the payload and costs a
+    // refcount bump; the first write through a shared handle clones it. The
+    // World Transaction executor copies all six stores to stage a transaction,
+    // so this turns "stage a transaction" from O(world) into O(what it
+    // touches). Reads go through Read(), writes through Mutable() -- taking a
+    // non-const reference out of Read() would mutate a payload someone else
+    // may still be holding.
+    //
+    // use_count() is only meaningful because commit is single-threaded by
+    // contract (memo section 3.9): worker threads may run algorithm dispatch,
+    // never the store writes below.
+    struct Data
+    {
+        std::vector<ScheduledAlgorithmEvent> pending;
+        std::uint64_t nextSequence = 1;
+    };
+
+    const Data& Read() const noexcept { return *data_; }
+    Data& Mutable()
+    {
+        if (data_.use_count() > 1)
+        {
+            data_ = std::make_shared<Data>(*data_);
+        }
+        return *data_;
+    }
+
+    std::shared_ptr<Data> data_ = std::make_shared<Data>();
 };
 
 }

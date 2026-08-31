@@ -34,23 +34,35 @@ using namespace dillen::kernel;
 
 // Kept small enough to stay in the default suite; raise locally to profile.
 //
-// Measured Debug baseline on this machine (2026-08-30), after phase-batched
-// commit and hoisting the Event-stage eligibility test out of the
-// events x instances fan-out:
+// READ THE CONFIGURATION BEFORE QUOTING A NUMBER. ctest runs this probe in
+// Debug, where MSVC's checked iterators dominate every std::map and std::set
+// touch: the same binary is ~18x slower than Release. Debug numbers are useful
+// only for comparing Debug to Debug. The engine's actual cost is the Release
+// column, and that is the one to quote.
 //
-//     N=250   9.8 ms/tick      N=2000   78 ms/tick
-//     N=500  18.0 ms/tick      N=4000  154 ms/tick
-//     N=1000 34.9 ms/tick
+// Measured on this machine (2026-08-31), after phase-batched commit, hoisting
+// the Event-stage eligibility test out of the events x instances fan-out,
+// copy-on-write stores, and sharing the store payload into the Query Snapshots:
 //
-// Doubling N roughly doubles the tick, i.e. cost is now linear in instance
-// count. Before that work the same probe read 246 ms/tick at N=250 and 2000x60
-// did not finish inside five minutes; it now completes in ~4.8 s. If a future
-// change reintroduces a superlinear term this probe will not fail on its own --
-// compare the numbers above across a few N by hand.
+//               Release       Debug
+//     N=250      0.54          8.1     ms/tick
+//     N=1000     2.02         35       ms/tick
+//     N=4000     8.00          -
+//     N=16000   34.8           -
 //
-// Within the Tick stage the split is roughly 30% dispatch (VM execution,
-// parallelisable) and 70% apply (serial by contract): N=4000 measured
-// dispatch 32 ms / apply 79 ms.
+// 64x the instances costs ~64x the tick: cost is linear in instance count, with
+// only the std::map log factor on top. Before the fan-out fix the same probe
+// read 246 ms/tick (Debug) at N=250 and 2000x60 did not finish inside five
+// minutes. If a future change reintroduces a superlinear term this probe will
+// not fail on its own -- compare the numbers above across a few N by hand, in
+// the same configuration.
+//
+// Where a tick goes at N=16000 (Release, measured with temporary phase timers):
+// apply ~60%, dispatch ~15%, snapshot publication ~16%. Apply is serial by
+// contract (memo section 3.9); dispatch is the parallelisable part. Publication
+// used to be the term that made an idle tick cost O(world) -- sharing the
+// stores' copy-on-write payload into the snapshots removed the deep copy and
+// the index rebuild, worth -25% of the whole tick at N=16000.
 constexpr std::uint32_t kInstances = 250;
 constexpr std::uint64_t kTicks = 10;
 constexpr double kCeilingSeconds = 60.0;
@@ -275,6 +287,27 @@ int main()
         }
     }
 
+    // A Query Snapshot shares the store's copy-on-write payload rather than
+    // rebuilding its own secondary indexes, so the store must keep them in the
+    // order the snapshot used to produce: ascending id
+    // (kernel/sorted_id_index.hpp). Instance ids are hashes, so with 250 of
+    // them creation order and id order cannot coincide by luck -- reverting
+    // InsertSortedId to push_back fails here, which is the point of asserting
+    // it on this fixture rather than only on the small worlds.
+    if (instances.size() != kInstances)
+    {
+        std::cerr << "scale probe: FindByType lost instances\n";
+        return 13;
+    }
+    for (std::size_t index = 1; index < instances.size(); ++index)
+    {
+        if (!(instances[index - 1] < instances[index]))
+        {
+            std::cerr << "scale probe: instance index is not ascending by id\n";
+            return 14;
+        }
+    }
+
     const double perTickMs = tickSeconds * 1000.0 / static_cast<double>(kTicks);
     std::cout << "scale probe: passed ("
               << kInstances << " instances x " << kTicks << " ticks; compile "
@@ -284,7 +317,7 @@ int main()
     {
         std::cerr << "scale probe: tick loop exceeded the "
                   << kCeilingSeconds << " s ceiling\n";
-        return 13;
+        return 15;
     }
     return 0;
 }

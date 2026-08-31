@@ -40,12 +40,13 @@ AlgorithmInboxScheduleResult AlgorithmInbox::Schedule(
     {
         return AlgorithmInboxScheduleResult::InvalidEvent;
     }
-    if (nextSequence_ == std::numeric_limits<std::uint64_t>::max())
+    if (Read().nextSequence == std::numeric_limits<std::uint64_t>::max())
     {
         return AlgorithmInboxScheduleResult::SequenceExhausted;
     }
-    outputSequence = nextSequence_++;
-    pending_.push_back({
+    Data& data = Mutable();
+    outputSequence = data.nextSequence++;
+    data.pending.push_back({
         outputSequence,
         type,
         target,
@@ -63,20 +64,24 @@ bool AlgorithmInbox::Cancel(
 )
 {
     removed = {};
-    const auto iterator = std::find_if(
-        pending_.begin(),
-        pending_.end(),
+    const auto& readable = Read().pending;
+    const auto reader = std::find_if(
+        readable.begin(),
+        readable.end(),
         [sequence](const ScheduledAlgorithmEvent& event)
         {
             return event.sequence == sequence;
         }
     );
-    if (iterator == pending_.end())
+    if (reader == readable.end())
     {
         return false;
     }
-    removed = std::move(*iterator);
-    pending_.erase(iterator);
+    const std::size_t index =
+        static_cast<std::size_t>(reader - readable.begin());
+    auto& pending = Mutable().pending;
+    removed = std::move(pending[index]);
+    pending.erase(pending.begin() + static_cast<std::ptrdiff_t>(index));
     return true;
 }
 
@@ -85,12 +90,22 @@ std::vector<ScheduledAlgorithmEvent> AlgorithmInbox::CancelTarget(
 )
 {
     std::vector<ScheduledAlgorithmEvent> removed;
-    std::vector<ScheduledAlgorithmEvent> retained;
-    removed.reserve(pending_.size());
-    retained.reserve(pending_.size());
-    for (ScheduledAlgorithmEvent& event : pending_)
+    const auto matches = [target](const ScheduledAlgorithmEvent& event)
     {
-        if (target && event.target == target)
+        return target && event.target == target;
+    };
+    const auto& readable = Read().pending;
+    if (std::none_of(readable.begin(), readable.end(), matches))
+    {
+        return removed;
+    }
+    std::vector<ScheduledAlgorithmEvent> retained;
+    auto& pending = Mutable().pending;
+    removed.reserve(pending.size());
+    retained.reserve(pending.size());
+    for (ScheduledAlgorithmEvent& event : pending)
+    {
+        if (matches(event))
         {
             removed.push_back(std::move(event));
         }
@@ -99,7 +114,7 @@ std::vector<ScheduledAlgorithmEvent> AlgorithmInbox::CancelTarget(
             retained.push_back(std::move(event));
         }
     }
-    pending_ = std::move(retained);
+    pending = std::move(retained);
     return removed;
 }
 
@@ -107,13 +122,25 @@ std::vector<ScheduledAlgorithmEvent> AlgorithmInbox::TakeReady(
     std::uint64_t tick
 )
 {
+    // Called every tick, and in most ticks nothing is due -- taking the
+    // mutable payload unconditionally would clone the inbox for nothing.
     std::vector<ScheduledAlgorithmEvent> ready;
-    std::vector<ScheduledAlgorithmEvent> delayed;
-    ready.reserve(pending_.size());
-    delayed.reserve(pending_.size());
-    for (ScheduledAlgorithmEvent& event : pending_)
+    const auto due = [tick](const ScheduledAlgorithmEvent& event)
     {
-        if (event.dueTick <= tick)
+        return event.dueTick <= tick;
+    };
+    const auto& readable = Read().pending;
+    if (std::none_of(readable.begin(), readable.end(), due))
+    {
+        return ready;
+    }
+    std::vector<ScheduledAlgorithmEvent> delayed;
+    auto& pending = Mutable().pending;
+    ready.reserve(pending.size());
+    delayed.reserve(pending.size());
+    for (ScheduledAlgorithmEvent& event : pending)
+    {
+        if (due(event))
         {
             ready.push_back(std::move(event));
         }
@@ -122,40 +149,42 @@ std::vector<ScheduledAlgorithmEvent> AlgorithmInbox::TakeReady(
             delayed.push_back(std::move(event));
         }
     }
-    pending_ = std::move(delayed);
+    pending = std::move(delayed);
     return ready;
 }
 
 void AlgorithmInbox::Clear()
 {
-    pending_.clear();
-    nextSequence_ = 1;
+    Data& data = Mutable();
+    data.pending.clear();
+    data.nextSequence = 1;
 }
 
 bool AlgorithmInbox::Empty() const noexcept
 {
-    return pending_.empty();
+    return Read().pending.empty();
 }
 
 std::size_t AlgorithmInbox::Size() const noexcept
 {
-    return pending_.size();
+    return Read().pending.size();
 }
 
 const std::vector<ScheduledAlgorithmEvent>& AlgorithmInbox::Pending()
     const noexcept
 {
-    return pending_;
+    return Read().pending;
 }
 
 std::uint64_t AlgorithmInbox::NextSequence() const noexcept
 {
-    return nextSequence_;
+    return Read().nextSequence;
 }
 
 void AlgorithmInbox::SortPending()
 {
-    std::stable_sort(pending_.begin(), pending_.end(), EventOrder);
+    auto& pending = Mutable().pending;
+    std::stable_sort(pending.begin(), pending.end(), EventOrder);
 }
 
 }

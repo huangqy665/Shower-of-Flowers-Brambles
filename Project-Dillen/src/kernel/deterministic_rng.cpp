@@ -25,11 +25,14 @@ RngStreamCreateResult DeterministicRngRegistry::Create(
     {
         return RngStreamCreateResult::InvalidStream;
     }
-    if (streams_.find(stream) != streams_.end())
+    if (Read().streams.find(stream) != Read().streams.end())
     {
         return RngStreamCreateResult::DuplicateStream;
     }
-    streams_.emplace(stream, DeterministicRngStream{stream, seed, 0});
+    Mutable().streams.emplace(
+        stream,
+        DeterministicRngStream{stream, seed, 0}
+    );
     return RngStreamCreateResult::Created;
 }
 
@@ -43,21 +46,23 @@ RngStreamAdvanceResult DeterministicRngRegistry::Advance(
     {
         return RngStreamAdvanceResult::InvalidAdvance;
     }
-    const auto iterator = streams_.find(stream);
-    if (iterator == streams_.end())
+    // Validate against the shared payload; clone only once the advance is
+    // certain, so a rejected advance never costs a store copy.
+    const auto reader = Read().streams.find(stream);
+    if (reader == Read().streams.end())
     {
         return RngStreamAdvanceResult::StreamMissing;
     }
-    if (iterator->second.drawCount != expectedDrawCount)
+    if (reader->second.drawCount != expectedDrawCount)
     {
         return RngStreamAdvanceResult::DrawCountMismatch;
     }
     if (count > std::numeric_limits<std::uint64_t>::max()
-            - iterator->second.drawCount)
+            - reader->second.drawCount)
     {
         return RngStreamAdvanceResult::DrawCountOverflow;
     }
-    iterator->second.drawCount += count;
+    Mutable().streams.at(stream).drawCount += count;
     return RngStreamAdvanceResult::Advanced;
 }
 
@@ -65,8 +70,8 @@ const DeterministicRngStream* DeterministicRngRegistry::Find(
     RngStreamId stream
 ) const
 {
-    const auto iterator = streams_.find(stream);
-    return iterator == streams_.end() ? nullptr : &iterator->second;
+    const auto iterator = Read().streams.find(stream);
+    return iterator == Read().streams.end() ? nullptr : &iterator->second;
 }
 
 std::uint64_t DeterministicRngRegistry::Preview(
@@ -89,23 +94,23 @@ std::uint64_t DeterministicRngRegistry::Preview(
 
 void DeterministicRngRegistry::Clear()
 {
-    streams_.clear();
+    Mutable().streams.clear();
 }
 
 bool DeterministicRngRegistry::Empty() const noexcept
 {
-    return streams_.empty();
+    return Read().streams.empty();
 }
 
 std::size_t DeterministicRngRegistry::Size() const noexcept
 {
-    return streams_.size();
+    return Read().streams.size();
 }
 
 const DeterministicRngRegistry::StreamMap&
 DeterministicRngRegistry::All() const noexcept
 {
-    return streams_;
+    return Read().streams;
 }
 
 void DeterministicRngSnapshot::Publish(

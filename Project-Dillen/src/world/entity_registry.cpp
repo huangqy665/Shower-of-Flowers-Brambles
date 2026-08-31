@@ -2,6 +2,8 @@
 
 #include <utility>
 
+#include "sorted_id_index.hpp"
+
 namespace dillen::world {
 
 namespace {
@@ -32,55 +34,69 @@ EntityCreateResult EntityRegistry::CreateFromDefinition(
         return EntityCreateResult::DefinitionMissing;
     }
     const kernel::EntityId entityId = kernel::StableEntityId(definitionId);
-    if (entities_.find(entityId) != entities_.end())
+    if (Read().entities.find(entityId) != Read().entities.end())
     {
         return EntityCreateResult::IdCollision;
     }
-    entities_.emplace(entityId, EntityRecord{
+    Data& data = Mutable();
+    data.entities.emplace(entityId, EntityRecord{
         entityId,
         definitionId,
         definition->type
     });
-    entitiesByType_[definition->type].push_back(entityId);
+    kernel::InsertSortedId(data.entitiesByDefinition[definitionId], entityId);
+    kernel::InsertSortedId(data.entitiesByType[definition->type], entityId);
     outputId = entityId;
     return EntityCreateResult::Created;
 }
 
 void EntityRegistry::Clear()
 {
-    entities_.clear();
-    entitiesByType_.clear();
+    Data& data = Mutable();
+    data.entities.clear();
+    data.entitiesByDefinition.clear();
+    data.entitiesByType.clear();
 }
 
 bool EntityRegistry::Empty() const noexcept
 {
-    return entities_.empty();
+    return Read().entities.empty();
 }
 
 std::size_t EntityRegistry::Size() const noexcept
 {
-    return entities_.size();
+    return Read().entities.size();
 }
 
 const EntityRecord* EntityRegistry::Find(kernel::EntityId id) const
 {
-    const auto iterator = entities_.find(id);
-    return iterator == entities_.end() ? nullptr : &iterator->second;
+    const auto iterator = Read().entities.find(id);
+    return iterator == Read().entities.end() ? nullptr : &iterator->second;
+}
+
+const std::vector<kernel::EntityId>& EntityRegistry::FindByDefinition(
+    kernel::EntityDefinitionId definition
+) const
+{
+    const auto iterator = Read().entitiesByDefinition.find(definition);
+    return iterator == Read().entitiesByDefinition.end()
+        ? EmptyEntityIds()
+        : iterator->second;
 }
 
 const std::vector<kernel::EntityId>& EntityRegistry::FindByType(
     kernel::EntityTypeId type
 ) const
 {
-    const auto iterator = entitiesByType_.find(type);
-    return iterator == entitiesByType_.end()
+    const auto iterator = Read().entitiesByType.find(type);
+    return iterator == Read().entitiesByType.end()
         ? EmptyEntityIds()
         : iterator->second;
 }
 
 const EntityRegistry::EntityMap& EntityRegistry::All() const noexcept
 {
-    return entities_;
+    return Read().entities;
 }
 
 }

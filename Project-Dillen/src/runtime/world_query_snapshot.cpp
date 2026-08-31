@@ -4,44 +4,23 @@
 
 namespace dillen::runtime {
 
-namespace {
-
-template<typename Id>
-const std::vector<Id>& EmptyIds()
-{
-    static const std::vector<Id> empty;
-    return empty;
-}
-
-}
-
 void EntityQuerySnapshot::Publish(
     const world::EntityRegistry& entities
 )
 {
-    entities_ = entities.All();
-    entitiesByDefinition_.clear();
-    entitiesByType_.clear();
-    for (const auto& stored : entities_)
-    {
-        entitiesByDefinition_[stored.second.definition].push_back(
-            stored.first
-        );
-        entitiesByType_[stored.second.type].push_back(stored.first);
-    }
+    entities_ = entities;
 }
 
 std::size_t EntityQuerySnapshot::Size() const noexcept
 {
-    return entities_.size();
+    return entities_.Size();
 }
 
 const world::EntityRecord* EntityQuerySnapshot::Find(
     kernel::EntityId id
 ) const
 {
-    const auto iterator = entities_.find(id);
-    return iterator == entities_.end() ? nullptr : &iterator->second;
+    return entities_.Find(id);
 }
 
 const std::vector<kernel::EntityId>&
@@ -49,46 +28,32 @@ EntityQuerySnapshot::FindByDefinition(
     kernel::EntityDefinitionId definition
 ) const
 {
-    const auto iterator = entitiesByDefinition_.find(definition);
-    return iterator == entitiesByDefinition_.end()
-        ? EmptyIds<kernel::EntityId>()
-        : iterator->second;
+    return entities_.FindByDefinition(definition);
 }
 
 const std::vector<kernel::EntityId>& EntityQuerySnapshot::FindByType(
     kernel::EntityTypeId type
 ) const
 {
-    const auto iterator = entitiesByType_.find(type);
-    return iterator == entitiesByType_.end()
-        ? EmptyIds<kernel::EntityId>()
-        : iterator->second;
+    return entities_.FindByType(type);
 }
 
 const EntityQuerySnapshot::EntityMap&
 EntityQuerySnapshot::All() const noexcept
 {
-    return entities_;
+    return entities_.All();
 }
 
 void ComponentQuerySnapshot::Publish(
     const world::ComponentStore& components
 )
 {
-    components_ = components.All();
-    ownersByType_.clear();
-    typesByOwner_.clear();
-    for (const auto& stored : components_)
-    {
-        const world::ComponentRecord& component = stored.second;
-        ownersByType_[component.type].push_back(component.owner);
-        typesByOwner_[component.owner].push_back(component.type);
-    }
+    components_ = components;
 }
 
 std::size_t ComponentQuerySnapshot::Size() const noexcept
 {
-    return components_.size();
+    return components_.Size();
 }
 
 const world::ComponentRecord* ComponentQuerySnapshot::Find(
@@ -96,8 +61,7 @@ const world::ComponentRecord* ComponentQuerySnapshot::Find(
     kernel::ComponentTypeId type
 ) const
 {
-    const auto iterator = components_.find({owner, type});
-    return iterator == components_.end() ? nullptr : &iterator->second;
+    return components_.Find(owner, type);
 }
 
 const kernel::MechanismValue* ComponentQuerySnapshot::FindField(
@@ -118,65 +82,45 @@ const std::vector<kernel::EntityId>& ComponentQuerySnapshot::FindOwners(
     kernel::ComponentTypeId type
 ) const
 {
-    const auto iterator = ownersByType_.find(type);
-    return iterator == ownersByType_.end()
-        ? EmptyIds<kernel::EntityId>()
-        : iterator->second;
+    return components_.FindOwners(type);
 }
 
 const std::vector<kernel::ComponentTypeId>&
 ComponentQuerySnapshot::FindTypes(kernel::EntityId owner) const
 {
-    const auto iterator = typesByOwner_.find(owner);
-    return iterator == typesByOwner_.end()
-        ? EmptyIds<kernel::ComponentTypeId>()
-        : iterator->second;
+    return components_.FindTypes(owner);
 }
 
 const ComponentQuerySnapshot::ComponentMap&
 ComponentQuerySnapshot::All() const noexcept
 {
-    return components_;
+    return components_.All();
 }
 
 void RelationQuerySnapshot::Publish(
     const world::RelationIndex& relations
 )
 {
-    relations_ = relations.All();
-    relationsByType_.clear();
-    outgoing_.clear();
-    incoming_.clear();
-    for (const auto& stored : relations_)
-    {
-        const world::RelationRecord& relation = stored.second;
-        relationsByType_[relation.type].push_back(relation.id);
-        outgoing_[{relation.type, relation.source}].push_back(relation.id);
-        incoming_[{relation.type, relation.target}].push_back(relation.id);
-    }
+    relations_ = relations;
 }
 
 std::size_t RelationQuerySnapshot::Size() const noexcept
 {
-    return relations_.size();
+    return relations_.Size();
 }
 
 const world::RelationRecord* RelationQuerySnapshot::Find(
     kernel::RelationId id
 ) const
 {
-    const auto iterator = relations_.find(id);
-    return iterator == relations_.end() ? nullptr : &iterator->second;
+    return relations_.Find(id);
 }
 
 const std::vector<kernel::RelationId>& RelationQuerySnapshot::FindByType(
     kernel::RelationTypeId type
 ) const
 {
-    const auto iterator = relationsByType_.find(type);
-    return iterator == relationsByType_.end()
-        ? EmptyIds<kernel::RelationId>()
-        : iterator->second;
+    return relations_.FindByType(type);
 }
 
 const std::vector<kernel::RelationId>& RelationQuerySnapshot::Outgoing(
@@ -184,10 +128,7 @@ const std::vector<kernel::RelationId>& RelationQuerySnapshot::Outgoing(
     kernel::EntityId source
 ) const
 {
-    const auto iterator = outgoing_.find({type, source});
-    return iterator == outgoing_.end()
-        ? EmptyIds<kernel::RelationId>()
-        : iterator->second;
+    return relations_.Outgoing(type, source);
 }
 
 const std::vector<kernel::RelationId>& RelationQuerySnapshot::Incoming(
@@ -195,16 +136,13 @@ const std::vector<kernel::RelationId>& RelationQuerySnapshot::Incoming(
     kernel::EntityId target
 ) const
 {
-    const auto iterator = incoming_.find({type, target});
-    return iterator == incoming_.end()
-        ? EmptyIds<kernel::RelationId>()
-        : iterator->second;
+    return relations_.Incoming(type, target);
 }
 
 const RelationQuerySnapshot::RelationMap&
 RelationQuerySnapshot::All() const noexcept
 {
-    return relations_;
+    return relations_.All();
 }
 
 void WorldQuerySnapshot::Publish(

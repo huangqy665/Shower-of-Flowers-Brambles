@@ -610,6 +610,63 @@ int main()
         return 18;
     }
 
+    // The Query Snapshots share the stores' copy-on-write payloads instead of
+    // rebuilding their own secondary indexes, which is only sound while the
+    // stores keep those indexes in the order the snapshots used to produce:
+    // ascending id (kernel/sorted_id_index.hpp). A regression here silently
+    // reorders every Query that iterates an index, and therefore the commands
+    // it emits and the bytes they save to.
+    //
+    // This world holds only a couple of ids per index, so it is a breadth
+    // check -- it covers all six index kinds, but is too small to be sure a
+    // creation-order regression would land out of order. scale_probe asserts
+    // the same property over 250 ids, where it cannot pass by luck.
+    const auto ascending = [](const auto& ids)
+    {
+        for (std::size_t index = 1; index < ids.size(); ++index)
+        {
+            if (!(ids[index - 1] < ids[index]))
+            {
+                return false;
+            }
+        }
+        return true;
+    };
+    const runtime::WorldQuerySnapshot& indexQuery = runtime.Query();
+    const std::vector<EntityId>& storedByType =
+        transactionWorld.Entities().FindByType(countryType);
+    const std::vector<EntityId>& storedByDefinition =
+        transactionWorld.Entities().FindByDefinition(firstDefinition);
+    const std::vector<EntityId>& storedOwners =
+        transactionWorld.Components().FindOwners(identityType);
+    const std::vector<ComponentTypeId>& storedTypes =
+        transactionWorld.Components().FindTypes(firstEntity);
+    const std::vector<RelationId>& storedRelations =
+        transactionWorld.Relations().FindByType(allianceType);
+    const std::vector<MechanismInstanceId>& storedInstances =
+        transactionWorld.Mechanisms().FindByType(mechanismType);
+    if (storedByType.empty()
+        || storedOwners.empty()
+        || storedTypes.empty()
+        || storedRelations.empty()
+        || storedInstances.empty()
+        || !ascending(storedByType)
+        || !ascending(storedByDefinition)
+        || !ascending(storedOwners)
+        || !ascending(storedTypes)
+        || !ascending(storedRelations)
+        || !ascending(storedInstances)
+        || !ascending(indexQuery.Entities().FindByType(countryType))
+        || !ascending(indexQuery.Entities().FindByDefinition(firstDefinition))
+        || !ascending(indexQuery.Components().FindOwners(identityType))
+        || !ascending(indexQuery.Components().FindTypes(firstEntity))
+        || !ascending(indexQuery.Relations().FindByType(allianceType))
+        || !ascending(indexQuery.Mechanisms().FindByType(mechanismType)))
+    {
+        std::cerr << "Query Snapshot secondary index order mismatch\n";
+        return 19;
+    }
+
     std::cout
         << "Entity/Component/Relation/Spawn/Transaction slice: passed ("
         << authoritativeWorld.Entities().Size()

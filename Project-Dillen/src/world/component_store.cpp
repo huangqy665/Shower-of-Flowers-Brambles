@@ -2,6 +2,8 @@
 
 #include <utility>
 
+#include "sorted_id_index.hpp"
+
 namespace dillen::world {
 
 namespace {
@@ -9,6 +11,12 @@ namespace {
 const std::vector<kernel::EntityId>& EmptyEntityIds()
 {
     static const std::vector<kernel::EntityId> empty;
+    return empty;
+}
+
+const std::vector<kernel::ComponentTypeId>& EmptyComponentTypeIds()
+{
+    static const std::vector<kernel::ComponentTypeId> empty;
     return empty;
 }
 
@@ -29,17 +37,19 @@ ComponentAttachResult ComponentStore::Attach(
         return ComponentAttachResult::InvalidComponent;
     }
     const ComponentKey key{owner, component.type};
-    if (components_.find(key) != components_.end())
+    if (Read().components.find(key) != Read().components.end())
     {
         return ComponentAttachResult::DuplicateComponent;
     }
-    components_.emplace(key, ComponentRecord{
+    Data& data = Mutable();
+    data.components.emplace(key, ComponentRecord{
         owner,
         component.type,
         component.schemaVersion,
         component.initialValues
     });
-    ownersByType_[component.type].push_back(owner);
+    kernel::InsertSortedId(data.ownersByType[component.type], owner);
+    kernel::InsertSortedId(data.typesByOwner[owner], component.type);
     return ComponentAttachResult::Attached;
 }
 
@@ -58,12 +68,16 @@ ComponentFieldSetResult ComponentStore::SetField(
     {
         return ComponentFieldSetResult::OwnerMissing;
     }
-    const auto iterator = components_.find({owner, type});
-    if (iterator == components_.end())
+    // Validate against the shared payload and only clone once the write is
+    // certain: a rejected or no-op SetField must not cost a store copy, and
+    // "set a field to the value it already holds" is common.
+    const ComponentMap& readable = Read().components;
+    const auto reader = readable.find({owner, type});
+    if (reader == readable.end())
     {
         return ComponentFieldSetResult::ComponentMissing;
     }
-    ComponentRecord& component = iterator->second;
+    const ComponentRecord& component = reader->second;
     const kernel::CompiledComponentLayout* layout =
         catalog.FindComponentLayout(type, component.schemaVersion);
     if (layout == nullptr)
@@ -87,24 +101,27 @@ ComponentFieldSetResult ComponentStore::SetField(
     {
         return ComponentFieldSetResult::Unchanged;
     }
-    component.values[field.value] = std::move(value);
+    Mutable().components.at({owner, type}).values[field.value] =
+        std::move(value);
     return ComponentFieldSetResult::Updated;
 }
 
 void ComponentStore::Clear()
 {
-    components_.clear();
-    ownersByType_.clear();
+    Data& data = Mutable();
+    data.components.clear();
+    data.ownersByType.clear();
+    data.typesByOwner.clear();
 }
 
 bool ComponentStore::Empty() const noexcept
 {
-    return components_.empty();
+    return Read().components.empty();
 }
 
 std::size_t ComponentStore::Size() const noexcept
 {
-    return components_.size();
+    return Read().components.size();
 }
 
 const ComponentRecord* ComponentStore::Find(
@@ -112,23 +129,35 @@ const ComponentRecord* ComponentStore::Find(
     kernel::ComponentTypeId type
 ) const
 {
-    const auto iterator = components_.find({owner, type});
-    return iterator == components_.end() ? nullptr : &iterator->second;
+    const auto iterator = Read().components.find({owner, type});
+    return iterator == Read().components.end()
+        ? nullptr
+        : &iterator->second;
 }
 
 const std::vector<kernel::EntityId>& ComponentStore::FindOwners(
     kernel::ComponentTypeId type
 ) const
 {
-    const auto iterator = ownersByType_.find(type);
-    return iterator == ownersByType_.end()
+    const auto iterator = Read().ownersByType.find(type);
+    return iterator == Read().ownersByType.end()
         ? EmptyEntityIds()
+        : iterator->second;
+}
+
+const std::vector<kernel::ComponentTypeId>& ComponentStore::FindTypes(
+    kernel::EntityId owner
+) const
+{
+    const auto iterator = Read().typesByOwner.find(owner);
+    return iterator == Read().typesByOwner.end()
+        ? EmptyComponentTypeIds()
         : iterator->second;
 }
 
 const ComponentStore::ComponentMap& ComponentStore::All() const noexcept
 {
-    return components_;
+    return Read().components;
 }
 
 }

@@ -9,6 +9,11 @@
 
 namespace dillen::kernel {
 
+// Holds the store by value. The store is copy-on-write, so publishing is a
+// refcount bump rather than a deep copy of the instance map plus a rebuild of
+// both secondary indexes -- see the note on EntityQuerySnapshot in
+// runtime/world_query_snapshot.hpp for why the indexes had to move into the
+// store for this to be sound.
 class MechanismQuerySnapshot
 {
 public:
@@ -40,11 +45,7 @@ public:
     const MechanismInstanceStore::InstanceMap& All() const noexcept;
 
 private:
-    MechanismInstanceStore::InstanceMap instances_;
-    std::map<MechanismDefinitionId, std::vector<MechanismInstanceId>>
-        instancesByDefinition_;
-    std::map<MechanismTypeId, std::vector<MechanismInstanceId>>
-        instancesByType_;
+    MechanismInstanceStore instances_;
     std::uint64_t tick_ = 0;
     std::uint64_t revision_ = 0;
     bool published_ = false;
