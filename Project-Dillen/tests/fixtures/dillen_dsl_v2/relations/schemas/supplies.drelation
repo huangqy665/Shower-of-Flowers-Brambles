@@ -1,0 +1,7 @@
+relation_schema = {
+    name = dillen.eco.supplies
+    version = 1
+    source_type = dillen.eco.place
+    target_type = dillen.eco.place
+    allow_self = no
+}

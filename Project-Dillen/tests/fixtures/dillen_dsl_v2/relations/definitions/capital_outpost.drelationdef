@@ -1,0 +1,9 @@
+relation_definition = {
+    name = dillen.eco.capital_outpost
+    relation = dillen.eco.supplies
+    schema_version = 1
+    source_entity_type = dillen.eco.place
+    source_definition = dillen.eco.capital
+    target_entity_type = dillen.eco.place
+    target_definition = dillen.eco.outpost
+}

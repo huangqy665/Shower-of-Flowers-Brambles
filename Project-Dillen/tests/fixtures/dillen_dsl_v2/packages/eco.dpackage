@@ -1,0 +1,8 @@
+package_manifest = {
+    name = dillen.eco.package
+    version_major = 1
+    version_minor = 0
+    version_patch = 0
+    content_digest = "449e94777a9d8f3f6b49aff3ebfff2287c7eb6f030f6e702b27bb05934750ada"
+    load_priority = 0
+}

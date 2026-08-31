@@ -1,0 +1,11 @@
+entity_definition = {
+    name = dillen.eco.outpost
+    entity_type = dillen.eco.place
+    components = {
+        component = {
+            type = dillen.eco.stock
+            schema_version = 1
+            fields = { ore = 7  tax = 3.25 }
+        }
+    }
+}

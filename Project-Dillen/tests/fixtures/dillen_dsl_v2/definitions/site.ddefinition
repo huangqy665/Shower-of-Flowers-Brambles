@@ -1,0 +1,12 @@
+mechanism_definition = {
+    name = dillen.eco.site_definition
+    mechanism = dillen.eco.site
+    schema_version = 1
+    algorithm = dillen.eco.algorithm
+    algorithm_version = 1
+    roles = {
+        home = {
+            entity = { entity_type = dillen.eco.place  definition = dillen.eco.capital }
+        }
+    }
+}

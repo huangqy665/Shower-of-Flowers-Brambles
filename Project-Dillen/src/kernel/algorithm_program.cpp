@@ -118,6 +118,14 @@ bool IsValidAlgorithmInstruction(
             || instruction.dueTickOffset == 0
             || !instruction.capabilityVersions.IsValid()) return false;
         break;
+    case AlgorithmInstructionKind::SetFieldComputed:
+    case AlgorithmInstructionKind::AddFieldComputed:
+        // A computed assignment needs a destination and a left read path; the
+        // right one is optional and only meaningful with an operator. The path
+        // contents themselves are checked when they are lowered, where the
+        // layout is available to resolve names against.
+        if (instruction.field.empty()) return false;
+        break;
     }
     for (const AlgorithmConditionDefinition& condition
         : instruction.conditions)

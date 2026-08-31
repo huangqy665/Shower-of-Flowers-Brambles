@@ -7,6 +7,8 @@ dillen_add_component(
         algorithm_runtime.hpp
         bytecode_transaction.cpp
         bytecode_transaction.hpp
+        read_path.cpp
+        read_path.hpp
         controlled_script_vm.cpp
         controlled_script_vm.hpp
         declarative_algorithm_vm.cpp

@@ -66,6 +66,12 @@ if(DILLEN_BUILD_STANDALONE_RUNTIME)
         dillen::world
         dillen::runtime
     )
+    dillen_add_probe(
+        dsl_read_operand_probe
+        dillen::authoring
+        dillen::world
+        dillen::runtime
+    )
     dillen_add_probe(standalone_host_probe dillen::host)
     dillen_add_probe(dillen_demo_1_0_probe dillen::host)
 endif()

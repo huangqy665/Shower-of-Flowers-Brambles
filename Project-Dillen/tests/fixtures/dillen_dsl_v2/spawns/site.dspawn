@@ -1,0 +1,6 @@
+mechanism_spawn = {
+    name = dillen.eco.site_spawn
+    mechanism = dillen.eco.site
+    definition = dillen.eco.site_definition
+    count = 1
+}

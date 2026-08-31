@@ -1,5 +1,7 @@
 #include "bytecode_transaction.hpp"
 
+#include "read_path.hpp"
+
 #include "algorithm_runtime.hpp"
 
 #include <cmath>
@@ -99,6 +101,28 @@ bool EvaluateBytecodeConditions(
                 return false;
             }
             break;
+        case AlgorithmConditionKind::Compare:
+        {
+            // Both sides are read paths, so this is the general form that
+            // SelfFieldEquals was the one hard-coded case of.
+            const ReadPathResult left =
+                EvaluateReadPath(condition.left, context, values);
+            const ReadPathResult right =
+                EvaluateReadPath(condition.right, context, values);
+            if (!left || !right)
+            {
+                // A condition that cannot be evaluated is false, not an
+                // exception: the instruction it guards simply does not fire.
+                // The alternative -- faulting the instance -- would make a
+                // temporarily unbound role a fatal error.
+                return false;
+            }
+            if (!CompareReads(condition.compare, left, right))
+            {
+                return false;
+            }
+            break;
+        }
         case AlgorithmConditionKind::RngModuloEquals:
             if (context.rng.Find(condition.rngStream) == nullptr
                 || context.rng.Preview(
@@ -276,6 +300,135 @@ BytecodeTransactionOutcome EmitBytecodeTransaction(
             BytecodeTransactionStatus::InvalidFieldSlot,
             "bytecode field Slot is out of range"
         );
+    }
+
+    if (instruction.opcode == AlgorithmBytecodeOpcode::SetFieldComputed
+        || instruction.opcode == AlgorithmBytecodeOpcode::AddFieldComputed)
+    {
+        // The whole expression runs on the fixed-point pipeline, so nothing
+        // between reading the operands and quantising the result touches a
+        // double. Intermediates keep two digits below the storage quantum.
+        ReadPathResult value =
+            EvaluateReadPath(instruction.left, context, values);
+        if (!value)
+        {
+            return Reject(
+                value.status == ReadPathStatus::ArithmeticRejected
+                    ? BytecodeTransactionStatus::NumericOverflow
+                    : BytecodeTransactionStatus::OperandTypeMismatch,
+                value.message
+            );
+        }
+        if (instruction.hasRight)
+        {
+            const ReadPathResult right =
+                EvaluateReadPath(instruction.right, context, values);
+            if (!right)
+            {
+                return Reject(
+                    right.status == ReadPathStatus::ArithmeticRejected
+                        ? BytecodeTransactionStatus::NumericOverflow
+                        : BytecodeTransactionStatus::OperandTypeMismatch,
+                    right.message
+                );
+            }
+            value = ApplyBinaryOperator(
+                instruction.binaryOperator,
+                value,
+                right
+            );
+            if (!value)
+            {
+                return Reject(
+                    BytecodeTransactionStatus::NumericOverflow,
+                    value.message
+                );
+            }
+        }
+
+        // The destination field's declared kind wins: writing a decimal
+        // expression into an integer field rounds to the integer, it does not
+        // silently change the field's kind out from under the schema.
+        const MechanismValue& currentValue = values[instruction.field.value];
+        const bool destinationIsDecimal =
+            std::get_if<double>(&currentValue.data) != nullptr;
+        const bool destinationIsInteger =
+            std::get_if<std::int64_t>(&currentValue.data) != nullptr;
+        if (!destinationIsDecimal && !destinationIsInteger)
+        {
+            return Reject(
+                BytecodeTransactionStatus::OperandTypeMismatch,
+                "computed assignment requires a numeric destination field"
+            );
+        }
+
+        std::int64_t combined = value.scaled;
+        if (instruction.opcode == AlgorithmBytecodeOpcode::AddFieldComputed)
+        {
+            kernel::FixedPointValue base =
+                destinationIsDecimal
+                    ? kernel::DecimalToInternal(
+                        *std::get_if<double>(&currentValue.data))
+                    : kernel::IntegerToInternal(
+                        *std::get_if<std::int64_t>(&currentValue.data));
+            if (!base)
+            {
+                return Reject(
+                    BytecodeTransactionStatus::NumericOverflow,
+                    "current field value is outside the fixed-point range"
+                );
+            }
+            const kernel::FixedPointValue sum =
+                kernel::FixedAdd(base.scaled, combined);
+            if (!sum)
+            {
+                return Reject(
+                    BytecodeTransactionStatus::NumericOverflow,
+                    "computed addition overflowed"
+                );
+            }
+            combined = sum.scaled;
+        }
+
+        MechanismValue written;
+        if (destinationIsDecimal)
+        {
+            double stored = 0.0;
+            const kernel::FixedPointValue quantised =
+                kernel::InternalToStorage(combined, stored);
+            if (!quantised)
+            {
+                return Reject(
+                    BytecodeTransactionStatus::NumericOverflow,
+                    "computed value does not fit the decimal storage scale"
+                );
+            }
+            written = MechanismValue(stored);
+        }
+        else
+        {
+            std::int64_t stored = 0;
+            const kernel::FixedPointValue whole =
+                kernel::InternalToInteger(combined, stored);
+            if (!whole)
+            {
+                return Reject(
+                    BytecodeTransactionStatus::NumericOverflow,
+                    "computed value does not fit an integer field"
+                );
+            }
+            written = MechanismValue(stored);
+        }
+
+        values[instruction.field.value] = written;
+        resultCommands.push_back(WorldCommand::Mechanism(
+            MechanismCommand::SetField(
+                instance.id,
+                instruction.field,
+                std::move(written)
+            )
+        ));
+        return outcome;
     }
 
     if (instruction.operandFromPayload && context.scheduledEvent == nullptr)

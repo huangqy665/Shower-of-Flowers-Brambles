@@ -1,0 +1,16 @@
+mechanism_template = {
+    name = dillen.eco.site
+    version = 1
+    fields = {
+        field = { name = efficiency   kind = decimal  required = yes  default = 1.5 }
+        field = { name = output       kind = decimal  required = yes  default = 0.0 }
+        field = { name = progress     kind = integer  required = yes  default = 0 }
+        field = { name = cost         kind = integer  required = yes  default = 30 }
+        field = { name = completed    kind = boolean  required = yes  default = no }
+        field = { name = income       kind = decimal  required = yes  default = 0.0 }
+        field = { name = reach        kind = integer  required = yes  default = 0 }
+    }
+    roles = {
+        role = { name = home   reference_kind = entity  minimum_count = 0  maximum_count = 4 }
+    }
+}

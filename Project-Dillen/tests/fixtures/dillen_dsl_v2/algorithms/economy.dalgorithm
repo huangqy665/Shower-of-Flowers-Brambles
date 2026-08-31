@@ -1,0 +1,68 @@
+# Every construct added in DSL v1: read paths from all four roots, all three
+# addressing modes, every reducer, binary operators and ordered comparison.
+algorithm_descriptor = {
+    name = dillen.eco.algorithm
+    version = 1
+    backend = declarative
+    entry_points = { create tick }
+    deterministic = yes
+    execution_policy = { instruction_budget = 64  failure_policy = fail_instance }
+
+    program = {
+        create = { transition_lifecycle = active }
+
+        tick = {
+            # 生产: output = 所属实体的 ore x 自身 efficiency
+            #      跨对象读(经角色到 Entity 的 Component) + 乘法
+            set_field = {
+                field = output
+                op    = mul
+                left  = { role = home  component = dillen.eco.stock  field = ore }
+                right = { self_field = efficiency }
+            }
+
+            # 上限截断: output = min(output, 50)
+            set_field = {
+                field = output
+                op    = min
+                left  = { self_field = output }
+                right = { constant = 50 }
+            }
+
+            # 积分: progress += 1(字段当操作数的退化形式)
+            add_field = {
+                field = progress
+                left  = { constant = 1 }
+            }
+
+            # 科研完成判定: progress >= cost —— 有序比较,右侧是字段
+            set_field = {
+                field = completed
+                value = yes
+                when = {
+                    compare = {
+                        left  = { self_field = progress }
+                        op    = gte
+                        right = { self_field = cost }
+                    }
+                }
+            }
+
+            # 聚合: income = 经关系跳到对端实体后的 tax 求和
+            set_field = {
+                field = income
+                left  = { role = home
+                          relation = { type = dillen.eco.supplies  direction = outgoing }
+                          component = dillen.eco.stock
+                          field = tax
+                          reduce = sum }
+            }
+
+            # 计数归约
+            set_field = {
+                field = reach
+                left  = { role = home  component = dillen.eco.stock  field = ore  reduce = count }
+            }
+        }
+    }
+}

@@ -45,7 +45,11 @@ enum class AlgorithmInstructionKind
     CancelEvent,
     CreateRngStream,
     AdvanceRngStream,
-    InvokeCapability
+    InvokeCapability,
+    // Appended, never inserted. The compile golden proves that adding these
+    // leaves every existing construct's lowering byte-identical.
+    SetFieldComputed,
+    AddFieldComputed
 };
 
 enum class AlgorithmQueryKind
@@ -56,12 +60,106 @@ enum class AlgorithmQueryKind
     MechanismType
 };
 
+// Where a run-time operand is read from.
+//
+// Until now the only operands were a compile-time constant and the scheduled
+// event payload, which is why the DSL could express "add 1" and nothing else:
+// no instruction could read a value. These are the roots of a read path.
+//
+// A Mechanism Instance owns fields and role slots; it does NOT own Components
+// -- those belong to Entities. So reaching a Component always starts at a role
+// slot that references an Entity, and a Relation hop always starts from such an
+// Entity. That ordering is forced by the data model, not chosen.
+enum class AlgorithmReadRoot
+{
+    Constant,
+    EventPayload,
+    SelfField,
+    RoleTarget
+};
+
+// A role slot holds a list of references, and a Relation hop widens that list
+// again, so a path can name many values. The reducer says what a set of values
+// means -- which is why aggregation is not a separate feature bolted on, but
+// the multi-valued case of an ordinary read.
+enum class AlgorithmReduce
+{
+    // Exactly one value must be reachable; anything else is a Fault. The
+    // explicit scalar form, so "there happened to be two" never silently
+    // becomes "the first one".
+    RequireOne,
+    Sum,
+    Count,
+    Minimum,
+    Maximum
+};
+
+enum class AlgorithmRelationDirection
+{
+    Outgoing,
+    Incoming
+};
+
+// Terminal read on whatever the path arrives at.
+enum class AlgorithmReadTerminal
+{
+    // The path stops at the root value itself (Constant / EventPayload).
+    Value,
+    // Referenced Mechanism Instance's field slot.
+    MechanismField,
+    // Referenced Entity's Component field slot.
+    ComponentField
+};
+
+struct AlgorithmReadPathDefinition
+{
+    AlgorithmReadRoot root = AlgorithmReadRoot::Constant;
+    MechanismValue constant;
+    std::string selfField;
+    std::string role;
+    bool traverseRelation = false;
+    RelationTypeId relationType;
+    AlgorithmRelationDirection direction =
+        AlgorithmRelationDirection::Outgoing;
+    AlgorithmReadTerminal terminal = AlgorithmReadTerminal::Value;
+    ComponentTypeId component;
+    std::string componentField;
+    std::string targetField;
+    AlgorithmReduce reduce = AlgorithmReduce::RequireOne;
+};
+
+enum class AlgorithmBinaryOperator
+{
+    Add,
+    Subtract,
+    Multiply,
+    Divide,
+    Minimum,
+    Maximum
+};
+
+enum class AlgorithmCompareOperator
+{
+    Equal,
+    NotEqual,
+    Less,
+    LessOrEqual,
+    Greater,
+    GreaterOrEqual
+};
+
+// FROZEN ORDER for the four original kinds -- they are the on-disk tags of
+// nothing, but they are the compile golden's tags of everything. Append only.
 enum class AlgorithmConditionKind
 {
     SelfFieldEquals,
     QueryCountAtLeast,
     ScheduledEventTypeEquals,
-    RngModuloEquals
+    RngModuloEquals,
+    // Both sides are read paths, so this subsumes SelfFieldEquals -- which is
+    // kept because existing content compiles to it and must keep compiling to
+    // exactly the same bytes.
+    Compare
 };
 
 struct AlgorithmConditionDefinition
@@ -77,6 +175,10 @@ struct AlgorithmConditionDefinition
     std::uint64_t rngOffset = 0;
     std::uint64_t rngModulo = 1;
     std::uint64_t rngEquals = 0;
+    // kind == Compare
+    AlgorithmReadPathDefinition left;
+    AlgorithmReadPathDefinition right;
+    AlgorithmCompareOperator compare = AlgorithmCompareOperator::Equal;
 };
 
 struct AlgorithmInstructionDefinition
@@ -111,6 +213,11 @@ struct AlgorithmInstructionDefinition
     // version range ({1, open} when the author omits `version`).
     std::string targetRoleName;
     CapabilityVersionRange capabilityVersions;
+    // kind == SetFieldComputed / AddFieldComputed
+    AlgorithmReadPathDefinition left;
+    AlgorithmReadPathDefinition right;
+    bool hasRight = false;
+    AlgorithmBinaryOperator binaryOperator = AlgorithmBinaryOperator::Add;
 
     static AlgorithmInstructionDefinition SetField(
         std::string field,
@@ -133,6 +240,8 @@ struct AlgorithmProgramDefinition
     > stages;
 };
 
+// FROZEN ORDER. These are the tags the compile golden pins, so an insertion or
+// a reorder rewrites the lowering of content that did not change. Append only.
 enum class AlgorithmBytecodeOpcode
 {
     SetFieldConstant,
@@ -148,7 +257,31 @@ enum class AlgorithmBytecodeOpcode
     CancelEvent,
     CreateRngStream,
     AdvanceRngStream,
-    InvokeCapability
+    InvokeCapability,
+    // Appended 2026-08-31. The *Constant opcodes above stay exactly as they
+    // are: existing content keeps lowering to them, which is what the compile
+    // golden holding at 1617 bytes proves.
+    SetFieldComputed,
+    AddFieldComputed
+};
+
+// Slot-resolved read path. Names have become slots, so nothing here needs a
+// string lookup at run time.
+struct CompiledAlgorithmReadPath
+{
+    AlgorithmReadRoot root = AlgorithmReadRoot::Constant;
+    MechanismValue constant;
+    MechanismFieldSlotId selfField;
+    MechanismRoleSlotId role;
+    bool traverseRelation = false;
+    RelationTypeId relationType;
+    AlgorithmRelationDirection direction =
+        AlgorithmRelationDirection::Outgoing;
+    AlgorithmReadTerminal terminal = AlgorithmReadTerminal::Value;
+    ComponentTypeId component;
+    ComponentFieldSlotId componentField;
+    MechanismFieldSlotId targetField;
+    AlgorithmReduce reduce = AlgorithmReduce::RequireOne;
 };
 
 struct CompiledAlgorithmCondition
@@ -164,6 +297,10 @@ struct CompiledAlgorithmCondition
     std::uint64_t rngOffset = 0;
     std::uint64_t rngModulo = 1;
     std::uint64_t rngEquals = 0;
+    // kind == Compare
+    CompiledAlgorithmReadPath left;
+    CompiledAlgorithmReadPath right;
+    AlgorithmCompareOperator compare = AlgorithmCompareOperator::Equal;
 };
 
 struct AlgorithmBytecodeInstruction
@@ -199,6 +336,13 @@ struct AlgorithmBytecodeInstruction
     // capabilityVersion is the concrete contract version the compiler resolved.
     MechanismRoleSlotId targetRoleSlot;
     std::uint32_t capabilityVersion = 0;
+    // opcode == SetFieldComputed / AddFieldComputed. `hasRight` distinguishes
+    // a single read from a binary operation, so "copy this value" does not
+    // have to be spelled as "add zero".
+    CompiledAlgorithmReadPath left;
+    CompiledAlgorithmReadPath right;
+    bool hasRight = false;
+    AlgorithmBinaryOperator binaryOperator = AlgorithmBinaryOperator::Add;
 };
 
 struct CompiledAlgorithmProgram

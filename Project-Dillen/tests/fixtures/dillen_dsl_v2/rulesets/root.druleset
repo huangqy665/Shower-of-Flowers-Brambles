@@ -1,0 +1,32 @@
+root_ruleset = {
+    name = dillen.eco.root
+    version = 1
+    required_packages = {
+        requirement = {
+            name = dillen.eco.package
+            minimum_major = 1
+            minimum_minor = 0
+            minimum_patch = 0
+            maximum_major = 2
+            maximum_minor = 0
+            maximum_patch = 0
+        }
+    }
+    required_schemas    = { dillen.eco.site = 1 }
+    required_components = { dillen.eco.stock = 1 }
+    required_relations  = { dillen.eco.supplies = 1 }
+    required_algorithms = { dillen.eco.algorithm = 1 }
+    required_definitions = {
+        requirement = { mechanism = dillen.eco.site  name = dillen.eco.site_definition }
+    }
+    required_entity_definitions = {
+        requirement = { entity_type = dillen.eco.place  name = dillen.eco.capital }
+        requirement = { entity_type = dillen.eco.place  name = dillen.eco.outpost }
+    }
+    required_relation_definitions = {
+        requirement = { relation = dillen.eco.supplies  name = dillen.eco.capital_outpost }
+    }
+    required_spawns = {
+        requirement = { mechanism = dillen.eco.site  definition = dillen.eco.site_definition  name = dillen.eco.site_spawn }
+    }
+}

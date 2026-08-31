@@ -75,6 +75,184 @@ void AddIssue(
     });
 }
 
+// Lowers one authored read path to slots.
+//
+// Every name becomes a slot here, at load time, so the run-time evaluator never
+// does a string lookup. The shape rules are enforced here too rather than in
+// the VM, because "this role is bound to Entities but the path reads a
+// Mechanism field" is an authoring mistake that should stop the build, not
+// fault an instance halfway through a campaign.
+//
+// The data model dictates one ordering that is worth stating plainly: a
+// Mechanism Instance has fields and role slots but no Components, so a path
+// that wants a Component field must go through a role slot bound to an Entity,
+// and a Relation hop must start from such an Entity. There is no way to
+// shortcut that, and no reason to want one.
+bool LowerReadPath(
+    const AlgorithmReadPathDefinition& source,
+    const CompiledMechanismLayout& layout,
+    const std::vector<CompiledComponentLayout>& componentLayouts,
+    const std::vector<CompiledRelationLayout>& relationLayouts,
+    const std::string& algorithmName,
+    RuntimeCompileReport& report,
+    CompiledAlgorithmReadPath& out
+)
+{
+    const auto reject = [&](const std::string& message)
+    {
+        AddIssue(
+            report,
+            RuntimeCompileIssueCode::AlgorithmProgramOperandInvalid,
+            algorithmName,
+            message
+        );
+        return false;
+    };
+
+    out = CompiledAlgorithmReadPath{};
+    out.root = source.root;
+    out.reduce = source.reduce;
+    out.terminal = source.terminal;
+    out.traverseRelation = source.traverseRelation;
+    out.relationType = source.relationType;
+    out.direction = source.direction;
+    out.component = source.component;
+
+    switch (source.root)
+    {
+    case AlgorithmReadRoot::Constant:
+        out.constant = source.constant;
+        if (out.constant.Kind() != MechanismValueKind::Integer
+            && out.constant.Kind() != MechanismValueKind::Decimal)
+        {
+            return reject("a read path constant must be numeric");
+        }
+        return true;
+    case AlgorithmReadRoot::EventPayload:
+        return true;
+    case AlgorithmReadRoot::SelfField:
+    {
+        const auto field = layout.fieldSlotsByName.find(source.selfField);
+        if (field == layout.fieldSlotsByName.end())
+        {
+            return reject(
+                "read path names an unknown field: " + source.selfField);
+        }
+        const MechanismValueKind kind = layout.fields[field->second.value].kind;
+        if (kind != MechanismValueKind::Integer
+            && kind != MechanismValueKind::Decimal)
+        {
+            return reject(
+                "read path field '" + source.selfField + "' is not numeric");
+        }
+        out.selfField = field->second;
+        return true;
+    }
+    case AlgorithmReadRoot::RoleTarget:
+        break;
+    }
+
+    const auto role = layout.roleSlotsByName.find(source.role);
+    if (role == layout.roleSlotsByName.end())
+    {
+        return reject("read path names an unknown role: " + source.role);
+    }
+    out.role = role->second;
+    const MechanismRoleSchema& roleSchema = layout.roles[role->second.value];
+
+    if (source.terminal == AlgorithmReadTerminal::MechanismField)
+    {
+        if (source.traverseRelation)
+        {
+            return reject(
+                "a Relation hop ends at an Entity, so it cannot read a "
+                "Mechanism field");
+        }
+        if (roleSchema.referenceKind
+            != MechanismReferenceKind::MechanismInstance)
+        {
+            return reject(
+                "role '" + source.role
+                    + "' does not reference Mechanism Instances");
+        }
+        // The referenced instance's layout is not knowable at compile time --
+        // a role may be bound to any Definition of the declared kind -- so the
+        // field name is resolved against this Mechanism's own layout, which is
+        // the only slot space the compiler can see. Cross-type role reads are
+        // therefore restricted to same-layout targets by construction.
+        const auto field = layout.fieldSlotsByName.find(source.targetField);
+        if (field == layout.fieldSlotsByName.end())
+        {
+            return reject(
+                "read path names an unknown target field: "
+                    + source.targetField);
+        }
+        out.targetField = field->second;
+        return true;
+    }
+
+    if (source.terminal != AlgorithmReadTerminal::ComponentField)
+    {
+        return reject("a role read path must name a terminal field");
+    }
+    if (roleSchema.referenceKind != MechanismReferenceKind::Entity)
+    {
+        return reject(
+            "role '" + source.role + "' does not reference Entities, so it "
+            "cannot reach a Component");
+    }
+    if (source.traverseRelation)
+    {
+        bool relationKnown = false;
+        for (const CompiledRelationLayout& relation
+            : relationLayouts)
+        {
+            if (relation.type == source.relationType)
+            {
+                relationKnown = true;
+                break;
+            }
+        }
+        if (!relationKnown)
+        {
+            return reject("read path traverses an unknown Relation type");
+        }
+    }
+
+    const CompiledComponentLayout* componentLayout = nullptr;
+    for (const CompiledComponentLayout& compiled : componentLayouts)
+    {
+        if (compiled.type == source.component)
+        {
+            componentLayout = &compiled;
+            break;
+        }
+    }
+    if (componentLayout == nullptr)
+    {
+        return reject("read path names an unknown Component type");
+    }
+    const auto componentField =
+        componentLayout->fieldSlotsByName.find(source.componentField);
+    if (componentField == componentLayout->fieldSlotsByName.end())
+    {
+        return reject(
+            "read path names an unknown Component field: "
+                + source.componentField);
+    }
+    const MechanismValueKind kind =
+        componentLayout->fields[componentField->second.value].kind;
+    if (kind != MechanismValueKind::Integer
+        && kind != MechanismValueKind::Decimal)
+    {
+        return reject(
+            "read path Component field '" + source.componentField
+                + "' is not numeric");
+    }
+    out.componentField = componentField->second;
+    return true;
+}
+
 // A Capability Contract identity may be provided by at most ONE package in a
 // composed Ruleset. Two packages both declaring `provides` for the same
 // contract is a conflict, not a choice: nothing in the Kernel can say which one
@@ -1238,6 +1416,30 @@ bool RuntimeCompiler::Compile(
                     condition.rngModulo = sourceCondition.rngModulo;
                     condition.rngEquals = sourceCondition.rngEquals;
                     if (sourceCondition.kind
+                        == AlgorithmConditionKind::Compare)
+                    {
+                        condition.compare = sourceCondition.compare;
+                        if (!LowerReadPath(
+                                sourceCondition.left,
+                                *layout,
+                                candidate.componentLayouts_,
+                                candidate.relationLayouts_,
+                                algorithm->canonicalName,
+                                report,
+                                condition.left)
+                            || !LowerReadPath(
+                                sourceCondition.right,
+                                *layout,
+                                candidate.componentLayouts_,
+                                candidate.relationLayouts_,
+                                algorithm->canonicalName,
+                                report,
+                                condition.right))
+                        {
+                            return false;
+                        }
+                    }
+                    else if (sourceCondition.kind
                         == AlgorithmConditionKind::SelfFieldEquals)
                     {
                         const auto conditionField =
@@ -1263,6 +1465,71 @@ bool RuntimeCompiler::Compile(
                 }
                 switch (src.kind)
                 {
+                case AlgorithmInstructionKind::SetFieldComputed:
+                case AlgorithmInstructionKind::AddFieldComputed:
+                {
+                    // Controlled Script reaches computed assignment through
+                    // the same Transact lowering the declarative backend uses,
+                    // so the two backends stay equivalent (memo 4.1 item 9c).
+                    const auto target =
+                        layout->fieldSlotsByName.find(src.field);
+                    if (target == layout->fieldSlotsByName.end())
+                    {
+                        AddIssue(
+                            report,
+                            RuntimeCompileIssueCode::
+                                AlgorithmProgramOperandInvalid,
+                            algorithm->canonicalName,
+                            "computed assignment names an unknown field"
+                        );
+                        return false;
+                    }
+                    const MechanismValueKind destination =
+                        layout->fields[target->second.value].kind;
+                    if (destination != MechanismValueKind::Integer
+                        && destination != MechanismValueKind::Decimal)
+                    {
+                        AddIssue(
+                            report,
+                            RuntimeCompileIssueCode::
+                                AlgorithmProgramOperandInvalid,
+                            algorithm->canonicalName,
+                            "computed assignment requires a numeric field"
+                        );
+                        return false;
+                    }
+                    if (!LowerReadPath(
+                            src.left,
+                            *layout,
+                            candidate.componentLayouts_,
+                            candidate.relationLayouts_,
+                            algorithm->canonicalName,
+                            report,
+                            out.left))
+                    {
+                        return false;
+                    }
+                    out.hasRight = src.hasRight;
+                    if (src.hasRight
+                        && !LowerReadPath(
+                            src.right,
+                            *layout,
+                            candidate.componentLayouts_,
+                            candidate.relationLayouts_,
+                            algorithm->canonicalName,
+                            report,
+                            out.right))
+                    {
+                        return false;
+                    }
+                    out.binaryOperator = src.binaryOperator;
+                    out.field = target->second;
+                    out.opcode = src.kind
+                            == AlgorithmInstructionKind::SetFieldComputed
+                        ? AlgorithmBytecodeOpcode::SetFieldComputed
+                        : AlgorithmBytecodeOpcode::AddFieldComputed;
+                    return true;
+                }
                 case AlgorithmInstructionKind::TransitionLifecycle:
                     out.opcode = AlgorithmBytecodeOpcode::TransitionLifecycle;
                     out.lifecycle = src.lifecycle;
@@ -1859,6 +2126,30 @@ bool RuntimeCompiler::Compile(
                     condition.rngModulo = sourceCondition.rngModulo;
                     condition.rngEquals = sourceCondition.rngEquals;
                     if (sourceCondition.kind
+                        == AlgorithmConditionKind::Compare)
+                    {
+                        condition.compare = sourceCondition.compare;
+                        if (!LowerReadPath(
+                                sourceCondition.left,
+                                *layout,
+                                candidate.componentLayouts_,
+                                candidate.relationLayouts_,
+                                algorithm->canonicalName,
+                                report,
+                                condition.left)
+                            || !LowerReadPath(
+                                sourceCondition.right,
+                                *layout,
+                                candidate.componentLayouts_,
+                                candidate.relationLayouts_,
+                                algorithm->canonicalName,
+                                report,
+                                condition.right))
+                        {
+                            return false;
+                        }
+                    }
+                    else if (sourceCondition.kind
                         == AlgorithmConditionKind::SelfFieldEquals)
                     {
                         const auto field = layout->fieldSlotsByName.find(
@@ -1882,6 +2173,74 @@ bool RuntimeCompiler::Compile(
                     }
                     instruction.conditions.push_back(std::move(condition));
                 }
+                if (sourceInstruction.kind
+                        == AlgorithmInstructionKind::SetFieldComputed
+                    || sourceInstruction.kind
+                        == AlgorithmInstructionKind::AddFieldComputed)
+                {
+                    const auto target = layout->fieldSlotsByName.find(
+                        sourceInstruction.field
+                    );
+                    if (target == layout->fieldSlotsByName.end())
+                    {
+                        AddIssue(
+                            report,
+                            RuntimeCompileIssueCode::
+                                AlgorithmProgramOperandInvalid,
+                            algorithm->canonicalName,
+                            "computed assignment names an unknown field"
+                        );
+                        return false;
+                    }
+                    const MechanismValueKind destination =
+                        layout->fields[target->second.value].kind;
+                    if (destination != MechanismValueKind::Integer
+                        && destination != MechanismValueKind::Decimal)
+                    {
+                        AddIssue(
+                            report,
+                            RuntimeCompileIssueCode::
+                                AlgorithmProgramOperandInvalid,
+                            algorithm->canonicalName,
+                            "computed assignment requires a numeric field"
+                        );
+                        return false;
+                    }
+                    if (!LowerReadPath(
+                            sourceInstruction.left,
+                            *layout,
+                            candidate.componentLayouts_,
+                            candidate.relationLayouts_,
+                            algorithm->canonicalName,
+                            report,
+                            instruction.left))
+                    {
+                        return false;
+                    }
+                    instruction.hasRight = sourceInstruction.hasRight;
+                    if (sourceInstruction.hasRight
+                        && !LowerReadPath(
+                            sourceInstruction.right,
+                            *layout,
+                            candidate.componentLayouts_,
+                            candidate.relationLayouts_,
+                            algorithm->canonicalName,
+                            report,
+                            instruction.right))
+                    {
+                        return false;
+                    }
+                    instruction.binaryOperator =
+                        sourceInstruction.binaryOperator;
+                    instruction.field = target->second;
+                    instruction.opcode = sourceInstruction.kind
+                            == AlgorithmInstructionKind::SetFieldComputed
+                        ? AlgorithmBytecodeOpcode::SetFieldComputed
+                        : AlgorithmBytecodeOpcode::AddFieldComputed;
+                    bytecode.push_back(std::move(instruction));
+                    continue;
+                }
+
                 if (sourceInstruction.kind
                     == AlgorithmInstructionKind::TransitionLifecycle)
                 {

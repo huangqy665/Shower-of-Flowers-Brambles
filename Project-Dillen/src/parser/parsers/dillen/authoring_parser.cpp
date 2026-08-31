@@ -1125,59 +1125,27 @@ std::optional<kernel::MechanismLifecycleState> ParseLifecycleState(
     return std::nullopt;
 }
 
-bool ParseAlgorithmFieldInstruction(
+// Defined below; the condition grammar needs read paths and the read-path
+// grammar is easier to read next to the instruction that uses it.
+bool ParseReadPath(
     const SyntaxNode& node,
-    kernel::AlgorithmInstructionKind kind,
-    kernel::AlgorithmInstructionDefinition& output,
+    kernel::AlgorithmReadPathDefinition& output,
+    ParserCursor& cursor
+);
+bool ParseCompareOperator(
+    const SyntaxNode& node,
+    kernel::AlgorithmCompareOperator& output,
+    ParserCursor& cursor
+);
+
+// Shared by the constant and the computed forms of a field instruction, and
+// by every generic transaction instruction: one `when` block, one grammar.
+bool ParseAlgorithmConditions(
+    const SyntaxNode& node,
+    std::vector<kernel::AlgorithmConditionDefinition>& conditions,
     ParserCursor& cursor
 )
 {
-    if (!node.block
-        || !RejectUnknown(
-            node,
-            {"field", "value", "from_payload", "when"},
-            cursor,
-            "algorithm field instruction"))
-    {
-        return false;
-    }
-    std::string field;
-    bool fromPayload = false;
-    if (!ReadStringProperty(node, "field", cursor, field)
-        || !ReadBoolProperty(node, "from_payload", cursor, fromPayload, false))
-    {
-        return false;
-    }
-    kernel::MechanismValue value;
-    if (!fromPayload)
-    {
-        const SyntaxNode* valueNode = FindUnique(node, "value", cursor, true);
-        Token valueToken;
-        if (!RequireScalar(valueNode, cursor, "value", valueToken)
-            || !InferScalarValue(valueToken, value, cursor))
-        {
-            return false;
-        }
-    }
-    else if (FindUnique(node, "value", cursor, false) != nullptr)
-    {
-        cursor.Diagnostics().Error(
-            "dillen.authoring.field_instruction_payload_conflict",
-            "field instruction cannot set both value and from_payload",
-            node.span
-        );
-        return false;
-    }
-    output = kind == kernel::AlgorithmInstructionKind::SetField
-        ? kernel::AlgorithmInstructionDefinition::SetField(
-            std::move(field),
-            std::move(value)
-        )
-        : kernel::AlgorithmInstructionDefinition::AddField(
-            std::move(field),
-            std::move(value)
-        );
-    output.operandFromPayload = fromPayload;
     const SyntaxNode* when = FindUnique(node, "when", cursor, false);
     if (when != nullptr)
     {
@@ -1190,7 +1158,37 @@ bool ParseAlgorithmFieldInstruction(
             const Token& name = when->keys[index];
             const SyntaxNode& conditionNode = when->values[index];
             kernel::AlgorithmConditionDefinition condition;
-            if (name.text == "field_equals")
+            if (name.text == "compare")
+            {
+                // The general form. field_equals stays as its own kind so
+                // existing content keeps lowering to exactly the same bytes.
+                if (!conditionNode.block
+                    || !RejectUnknown(
+                        conditionNode,
+                        {"left", "op", "right"},
+                        cursor,
+                        "compare condition"))
+                {
+                    return false;
+                }
+                const SyntaxNode* left =
+                    FindUnique(conditionNode, "left", cursor, true);
+                const SyntaxNode* right =
+                    FindUnique(conditionNode, "right", cursor, true);
+                condition.kind = kernel::AlgorithmConditionKind::Compare;
+                if (left == nullptr
+                    || right == nullptr
+                    || !ParseReadPath(*left, condition.left, cursor)
+                    || !ParseReadPath(*right, condition.right, cursor)
+                    || !ParseCompareOperator(
+                        conditionNode,
+                        condition.compare,
+                        cursor))
+                {
+                    return false;
+                }
+            }
+            else if (name.text == "field_equals")
             {
                 if (!conditionNode.block
                     || !RejectUnknown(
@@ -1396,9 +1394,426 @@ bool ParseAlgorithmFieldInstruction(
                 );
                 return false;
             }
-            output.conditions.push_back(std::move(condition));
+            conditions.push_back(std::move(condition));
         }
     }
+    return true;
+}
+
+// A read path: where a run-time operand comes from.
+//
+//   { constant = 5 }
+//   { event_payload = yes }
+//   { self_field = ore_input }
+//   { role = peer    field = counter }                     Mechanism field
+//   { role = anchor  component = dillen.game.stock  field = amount }
+//   { role = anchor  relation = { type = ...  direction = outgoing }
+//     component = ...  field = ...  reduce = sum }
+//
+// One grammar covers the scalar and the aggregate case, because they are the
+// same thing: a role slot holds a list, a Relation hop widens it again, and
+// `reduce` says what a set of values means. Omitting `reduce` means
+// require_one -- a path that reaches two values is an error rather than a
+// silent "first one wins".
+bool ParseReadPath(
+    const SyntaxNode& node,
+    kernel::AlgorithmReadPathDefinition& output,
+    ParserCursor& cursor
+)
+{
+    if (!node.block
+        || !RejectUnknown(
+            node,
+            {
+                "constant", "event_payload", "self_field", "role",
+                "relation", "component", "field", "reduce"
+            },
+            cursor,
+            "read path"))
+    {
+        return false;
+    }
+
+    const auto has = [&node, &cursor](std::string_view key)
+    {
+        return FindUnique(node, key, cursor, false) != nullptr;
+    };
+
+    int roots = 0;
+    roots += has("constant") ? 1 : 0;
+    roots += has("event_payload") ? 1 : 0;
+    roots += has("self_field") ? 1 : 0;
+    roots += has("role") ? 1 : 0;
+    if (roots != 1)
+    {
+        cursor.Diagnostics().Error(
+            "dillen.authoring.read_path_root_invalid",
+            "a read path needs exactly one of constant, event_payload, "
+            "self_field or role",
+            node.span
+        );
+        return false;
+    }
+
+    if (has("reduce"))
+    {
+        std::string reduce;
+        if (!ReadStringProperty(node, "reduce", cursor, reduce))
+        {
+            return false;
+        }
+        if (reduce == "require_one")
+        {
+            output.reduce = kernel::AlgorithmReduce::RequireOne;
+        }
+        else if (reduce == "sum")
+        {
+            output.reduce = kernel::AlgorithmReduce::Sum;
+        }
+        else if (reduce == "count")
+        {
+            output.reduce = kernel::AlgorithmReduce::Count;
+        }
+        else if (reduce == "min")
+        {
+            output.reduce = kernel::AlgorithmReduce::Minimum;
+        }
+        else if (reduce == "max")
+        {
+            output.reduce = kernel::AlgorithmReduce::Maximum;
+        }
+        else
+        {
+            cursor.Diagnostics().Error(
+                "dillen.authoring.read_path_reduce_unknown",
+                "unknown reducer: " + reduce,
+                node.span
+            );
+            return false;
+        }
+    }
+
+    if (has("constant"))
+    {
+        const SyntaxNode* value = FindUnique(node, "constant", cursor, true);
+        Token token;
+        if (!RequireScalar(value, cursor, "constant", token)
+            || !InferScalarValue(token, output.constant, cursor))
+        {
+            return false;
+        }
+        output.root = kernel::AlgorithmReadRoot::Constant;
+        output.terminal = kernel::AlgorithmReadTerminal::Value;
+        return true;
+    }
+    if (has("event_payload"))
+    {
+        bool enabled = false;
+        if (!ReadBoolProperty(node, "event_payload", cursor, enabled, false))
+        {
+            return false;
+        }
+        if (!enabled)
+        {
+            cursor.Diagnostics().Error(
+                "dillen.authoring.read_path_root_invalid",
+                "event_payload must be enabled with yes",
+                node.span
+            );
+            return false;
+        }
+        output.root = kernel::AlgorithmReadRoot::EventPayload;
+        output.terminal = kernel::AlgorithmReadTerminal::Value;
+        return true;
+    }
+    if (has("self_field"))
+    {
+        if (!ReadStringProperty(node, "self_field", cursor, output.selfField))
+        {
+            return false;
+        }
+        output.root = kernel::AlgorithmReadRoot::SelfField;
+        output.terminal = kernel::AlgorithmReadTerminal::Value;
+        return true;
+    }
+
+    // role
+    if (!ReadStringProperty(node, "role", cursor, output.role))
+    {
+        return false;
+    }
+    output.root = kernel::AlgorithmReadRoot::RoleTarget;
+    if (!has("field"))
+    {
+        cursor.Diagnostics().Error(
+            "dillen.authoring.read_path_terminal_missing",
+            "a role read path must name the field it reads",
+            node.span
+        );
+        return false;
+    }
+
+    if (has("relation"))
+    {
+        const SyntaxNode* relation = FindUnique(node, "relation", cursor, true);
+        if (relation == nullptr
+            || !relation->block
+            || !RejectUnknown(
+                *relation,
+                {"type", "direction"},
+                cursor,
+                "read path relation"))
+        {
+            return false;
+        }
+        std::string type;
+        if (!ReadStringProperty(*relation, "type", cursor, type))
+        {
+            return false;
+        }
+        output.traverseRelation = true;
+        output.relationType = kernel::StableRelationTypeId(type);
+        std::string direction = "outgoing";
+        if (FindUnique(*relation, "direction", cursor, false) != nullptr
+            && !ReadStringProperty(*relation, "direction", cursor, direction))
+        {
+            return false;
+        }
+        if (direction == "outgoing")
+        {
+            output.direction = kernel::AlgorithmRelationDirection::Outgoing;
+        }
+        else if (direction == "incoming")
+        {
+            output.direction = kernel::AlgorithmRelationDirection::Incoming;
+        }
+        else
+        {
+            cursor.Diagnostics().Error(
+                "dillen.authoring.read_path_direction_unknown",
+                "relation direction must be outgoing or incoming",
+                relation->span
+            );
+            return false;
+        }
+    }
+
+    if (has("component"))
+    {
+        std::string component;
+        if (!ReadStringProperty(node, "component", cursor, component)
+            || !ReadStringProperty(
+                node,
+                "field",
+                cursor,
+                output.componentField))
+        {
+            return false;
+        }
+        output.component = kernel::StableComponentTypeId(component);
+        output.terminal = kernel::AlgorithmReadTerminal::ComponentField;
+        return true;
+    }
+
+    // No component: the role must reference Mechanism Instances, and a
+    // Relation hop lands on an Entity, so the two cannot combine. The compiler
+    // re-checks this against the role's declared reference kind.
+    if (output.traverseRelation)
+    {
+        cursor.Diagnostics().Error(
+            "dillen.authoring.read_path_terminal_missing",
+            "a Relation hop ends at an Entity, so it needs a component to read",
+            node.span
+        );
+        return false;
+    }
+    if (!ReadStringProperty(node, "field", cursor, output.targetField))
+    {
+        return false;
+    }
+    output.terminal = kernel::AlgorithmReadTerminal::MechanismField;
+    return true;
+}
+
+bool ParseBinaryOperator(
+    const SyntaxNode& node,
+    kernel::AlgorithmBinaryOperator& output,
+    ParserCursor& cursor
+)
+{
+    std::string op;
+    if (!ReadStringProperty(node, "op", cursor, op))
+    {
+        return false;
+    }
+    if (op == "add") { output = kernel::AlgorithmBinaryOperator::Add; }
+    else if (op == "sub") { output = kernel::AlgorithmBinaryOperator::Subtract; }
+    else if (op == "mul") { output = kernel::AlgorithmBinaryOperator::Multiply; }
+    else if (op == "div") { output = kernel::AlgorithmBinaryOperator::Divide; }
+    else if (op == "min") { output = kernel::AlgorithmBinaryOperator::Minimum; }
+    else if (op == "max") { output = kernel::AlgorithmBinaryOperator::Maximum; }
+    else
+    {
+        cursor.Diagnostics().Error(
+            "dillen.authoring.binary_operator_unknown",
+            "unknown operator: " + op,
+            node.span
+        );
+        return false;
+    }
+    return true;
+}
+
+bool ParseCompareOperator(
+    const SyntaxNode& node,
+    kernel::AlgorithmCompareOperator& output,
+    ParserCursor& cursor
+)
+{
+    std::string op;
+    if (!ReadStringProperty(node, "op", cursor, op))
+    {
+        return false;
+    }
+    if (op == "eq") { output = kernel::AlgorithmCompareOperator::Equal; }
+    else if (op == "ne") { output = kernel::AlgorithmCompareOperator::NotEqual; }
+    else if (op == "lt") { output = kernel::AlgorithmCompareOperator::Less; }
+    else if (op == "lte")
+    {
+        output = kernel::AlgorithmCompareOperator::LessOrEqual;
+    }
+    else if (op == "gt") { output = kernel::AlgorithmCompareOperator::Greater; }
+    else if (op == "gte")
+    {
+        output = kernel::AlgorithmCompareOperator::GreaterOrEqual;
+    }
+    else
+    {
+        cursor.Diagnostics().Error(
+            "dillen.authoring.compare_operator_unknown",
+            "unknown comparison: " + op,
+            node.span
+        );
+        return false;
+    }
+    return true;
+}
+
+bool ParseAlgorithmFieldInstruction(
+    const SyntaxNode& node,
+    kernel::AlgorithmInstructionKind kind,
+    kernel::AlgorithmInstructionDefinition& output,
+    ParserCursor& cursor
+)
+{
+    if (!node.block
+        || !RejectUnknown(
+            node,
+            {"field", "value", "from_payload", "when", "op", "left", "right"},
+            cursor,
+            "algorithm field instruction"))
+    {
+        return false;
+    }
+    std::string field;
+    bool fromPayload = false;
+    if (!ReadStringProperty(node, "field", cursor, field)
+        || !ReadBoolProperty(node, "from_payload", cursor, fromPayload, false))
+    {
+        return false;
+    }
+
+    // A `left` block turns this into a computed assignment. The constant form
+    // is untouched and still lowers to the *Constant opcodes, which is what
+    // keeps every existing Package compiling to exactly the same bytes.
+    const SyntaxNode* left = FindUnique(node, "left", cursor, false);
+    if (left != nullptr)
+    {
+        if (fromPayload || FindUnique(node, "value", cursor, false) != nullptr)
+        {
+            cursor.Diagnostics().Error(
+                "dillen.authoring.field_instruction_operand_conflict",
+                "a computed field instruction cannot also set value or "
+                "from_payload",
+                node.span
+            );
+            return false;
+        }
+        output = kernel::AlgorithmInstructionDefinition{};
+        output.kind = kind == kernel::AlgorithmInstructionKind::SetField
+            ? kernel::AlgorithmInstructionKind::SetFieldComputed
+            : kernel::AlgorithmInstructionKind::AddFieldComputed;
+        output.field = std::move(field);
+        if (!ParseReadPath(*left, output.left, cursor))
+        {
+            return false;
+        }
+        const SyntaxNode* right = FindUnique(node, "right", cursor, false);
+        const bool hasOperator =
+            FindUnique(node, "op", cursor, false) != nullptr;
+        if ((right == nullptr) != !hasOperator)
+        {
+            cursor.Diagnostics().Error(
+                "dillen.authoring.field_instruction_operand_conflict",
+                "a computed field instruction needs op and right together, "
+                "or neither",
+                node.span
+            );
+            return false;
+        }
+        if (right != nullptr)
+        {
+            output.hasRight = true;
+            if (!ParseReadPath(*right, output.right, cursor)
+                || !ParseBinaryOperator(node, output.binaryOperator, cursor))
+            {
+                return false;
+            }
+        }
+        return ParseAlgorithmConditions(node, output.conditions, cursor);
+    }
+    if (FindUnique(node, "op", cursor, false) != nullptr
+        || FindUnique(node, "right", cursor, false) != nullptr)
+    {
+        cursor.Diagnostics().Error(
+            "dillen.authoring.field_instruction_operand_conflict",
+            "op and right require a left read path",
+            node.span
+        );
+        return false;
+    }
+
+    kernel::MechanismValue value;
+    if (!fromPayload)
+    {
+        const SyntaxNode* valueNode = FindUnique(node, "value", cursor, true);
+        Token valueToken;
+        if (!RequireScalar(valueNode, cursor, "value", valueToken)
+            || !InferScalarValue(valueToken, value, cursor))
+        {
+            return false;
+        }
+    }
+    else if (FindUnique(node, "value", cursor, false) != nullptr)
+    {
+        cursor.Diagnostics().Error(
+            "dillen.authoring.field_instruction_payload_conflict",
+            "field instruction cannot set both value and from_payload",
+            node.span
+        );
+        return false;
+    }
+    output = kind == kernel::AlgorithmInstructionKind::SetField
+        ? kernel::AlgorithmInstructionDefinition::SetField(
+            std::move(field),
+            std::move(value)
+        )
+        : kernel::AlgorithmInstructionDefinition::AddField(
+            std::move(field),
+            std::move(value)
+        );
+    output.operandFromPayload = fromPayload;
+    return ParseAlgorithmConditions(node, output.conditions, cursor);
     return true;
 }
 
@@ -1539,6 +1954,70 @@ bool ParseGenericAlgorithmInstruction(
                 kernel::StableEntityTypeId(targetType),
                 targetDefinition
             )
+        );
+        return true;
+    }
+    // Mirrors add_relation exactly: the same five keys identify the same edge,
+    // and StableRelationId over the resolved endpoints reproduces the id that
+    // add_relation's edge was stored under. Authoring had no way to remove a
+    // Relation at all until now, even though the instruction kind, the opcode,
+    // the compiler lowering and the VM have all existed and been covered by the
+    // frozen save-format asserts -- only the DSL entry point was missing.
+    if (name == "remove_relation")
+    {
+        if (!RejectUnknown(
+                node,
+                {
+                    "relation", "source_entity_type",
+                    "source_definition", "target_entity_type",
+                    "target_definition"
+                },
+                cursor,
+                "remove relation instruction")) return false;
+        std::string relation;
+        std::string sourceType;
+        std::string sourceDefinition;
+        std::string targetType;
+        std::string targetDefinition;
+        output.kind = kernel::AlgorithmInstructionKind::RemoveRelation;
+        if (!ReadStringProperty(node, "relation", cursor, relation)
+            || !ReadStringProperty(
+                node,
+                "source_entity_type",
+                cursor,
+                sourceType)
+            || !ReadStringProperty(
+                node,
+                "source_definition",
+                cursor,
+                sourceDefinition)
+            || !ReadStringProperty(
+                node,
+                "target_entity_type",
+                cursor,
+                targetType)
+            || !ReadStringProperty(
+                node,
+                "target_definition",
+                cursor,
+                targetDefinition)) return false;
+        output.relationType = kernel::StableRelationTypeId(relation);
+        output.sourceEntity = kernel::StableEntityId(
+            kernel::StableEntityDefinitionId(
+                kernel::StableEntityTypeId(sourceType),
+                sourceDefinition
+            )
+        );
+        output.targetEntity = kernel::StableEntityId(
+            kernel::StableEntityDefinitionId(
+                kernel::StableEntityTypeId(targetType),
+                targetDefinition
+            )
+        );
+        output.relation = kernel::StableRelationId(
+            output.relationType,
+            output.sourceEntity,
+            output.targetEntity
         );
         return true;
     }
@@ -1762,6 +2241,7 @@ bool ParseAlgorithmProgram(
             else if (instructionName.text == "create_entity"
                 || instructionName.text == "set_component_field"
                 || instructionName.text == "add_relation"
+                || instructionName.text == "remove_relation"
                 || instructionName.text == "spawn_mechanism"
                 || instructionName.text == "schedule_event"
                 || instructionName.text == "invoke_capability"
@@ -1933,9 +2413,18 @@ bool ParseControlledScriptInstruction(
         return true;
     }
     // Any other name: a declarative transaction instruction (entity /
-    // component / relation / spawn / schedule_event / cancel_event / rng /
-    // invoke_capability). Parse it with the declarative grammar and wrap it as
-    // a Transact so it lowers and executes through the shared code path.
+    // component / add_relation / remove_relation / spawn / schedule_event /
+    // rng / invoke_capability). Parse it with the declarative grammar and wrap
+    // it as a Transact so it lowers and executes through the shared code path.
+    //
+    // cancel_event is deliberately NOT in that list, here or in the declarative
+    // grammar. The instruction kind, the opcode, the lowering and the VM all
+    // exist, but CancelEvent carries a scheduled-event *sequence number*, which
+    // is assigned at run time. A literal sequence written in source would name
+    // whatever event happened to get that number, so the construct cannot be
+    // authored correctly until an operand can be read at run time. Adding a
+    // syntax that can only be used wrongly is worse than leaving the gap
+    // visible -- it waits for the read-operand work.
     kernel::AlgorithmInstructionDefinition action;
     if (ParseGenericAlgorithmInstruction(name, node, action, cursor))
     {
@@ -3537,7 +4026,8 @@ bool ParseMechanismDefinition(
             root.body,
             {
                 "name", "mechanism", "schema_version", "algorithm",
-                "algorithm_version", "fields", "provides_capabilities"
+                "algorithm_version", "fields", "roles",
+                "provides_capabilities"
             },
             cursor,
             "mechanism definition"))
@@ -3621,6 +4111,102 @@ bool ParseMechanismDefinition(
             cursor))
     {
         return false;
+    }
+    // Role bindings. The schema could declare role slots and the compiler
+    // could lower them, but the Definition grammar had no way to fill one, so
+    // every role slot was necessarily empty in anything authored externally.
+    // That made the whole reference side of the data model unreachable from a
+    // Package -- and, once read paths arrived, made `role = ...` unresolvable
+    // by construction.
+    //
+    //   roles = {
+    //       home = {
+    //           entity = { entity_type = dillen.eco.place
+    //                      definition  = dillen.eco.capital }
+    //       }
+    //   }
+    //
+    // Entity references only. The other reference kinds a role slot may
+    // declare -- Mechanism Instance in particular -- name things that do not
+    // exist when a Definition is written, so binding them is a run-time
+    // concern and is deliberately not expressible here.
+    const SyntaxNode* roles = FindUnique(root.body, "roles", cursor, false);
+    if (roles != nullptr)
+    {
+        if (!roles->block)
+        {
+            cursor.Diagnostics().Error(
+                "dillen.authoring.role_entry_expected",
+                "roles must be a block of role bindings",
+                roles->span
+            );
+            return false;
+        }
+        for (std::size_t index = 0; index < roles->keys.size(); ++index)
+        {
+            const Token& roleName = roles->keys[index];
+            const SyntaxNode& binding = roles->values[index];
+            if (!binding.block
+                || !RejectUnknown(
+                    binding,
+                    {"entity"},
+                    cursor,
+                    "role binding"))
+            {
+                return false;
+            }
+            std::vector<kernel::MechanismReference> references;
+            for (const std::size_t entry : FindAll(binding, "entity"))
+            {
+                const SyntaxNode& target = binding.values[entry];
+                std::string entityType;
+                std::string entityDefinition;
+                if (!target.block
+                    || !RejectUnknown(
+                        target,
+                        {"entity_type", "definition"},
+                        cursor,
+                        "role entity binding")
+                    || !ReadStringProperty(
+                        target,
+                        "entity_type",
+                        cursor,
+                        entityType)
+                    || !ReadStringProperty(
+                        target,
+                        "definition",
+                        cursor,
+                        entityDefinition))
+                {
+                    return false;
+                }
+                // Resolved the same way add_relation resolves its endpoints,
+                // so a role and a Relation naming the same Entity agree.
+                kernel::MechanismReference reference;
+                reference.kind = kernel::MechanismReferenceKind::Entity;
+                reference.type = kernel::StableEntityTypeId(entityType).value;
+                reference.value = kernel::StableEntityId(
+                    kernel::StableEntityDefinitionId(
+                        kernel::StableEntityTypeId(entityType),
+                        entityDefinition
+                    )
+                ).value;
+                references.push_back(reference);
+            }
+            if (references.empty())
+            {
+                cursor.Diagnostics().Error(
+                    "dillen.authoring.role_entry_expected",
+                    "role binding names no target",
+                    binding.span
+                );
+                return false;
+            }
+            document.value.roles.emplace(
+                std::string(roleName.text),
+                std::move(references)
+            );
+        }
     }
     const SyntaxNode* provides = FindUnique(
         root.body,

@@ -1,0 +1,8 @@
+component_schema = {
+    name = dillen.eco.stock
+    version = 1
+    fields = {
+        field = { name = ore   kind = integer  required = yes  default = 0 }
+        field = { name = tax   kind = decimal  required = yes  default = 0.0 }
+    }
+}
