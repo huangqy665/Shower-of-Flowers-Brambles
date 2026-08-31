@@ -1,0 +1,9 @@
+component_schema = {
+    name = dillen.g.resources
+    version = 1
+    fields = {
+        field = { name = ore          kind = integer  required = yes  default = 0 }
+        field = { name = capacity     kind = integer  required = yes  default = 0 }
+        field = { name = infra_level  kind = decimal  required = yes  default = 1.0 }
+    }
+}

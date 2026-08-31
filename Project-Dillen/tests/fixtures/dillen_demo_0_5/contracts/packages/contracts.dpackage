@@ -1,0 +1,12 @@
+package_manifest = {
+    name = dillen.g.contracts
+    version_major = 1
+    version_minor = 0
+    version_patch = 0
+    content_digest = "c73e3e2b37fa9491ba3778b61a8f63bc19246d66818eaeefb8d52ea6d18ba3bc"
+    load_priority = 0
+    provides = {
+        capability = { name = dillen.g.tax_report        version = 1 }
+        capability = { name = dillen.g.research_unlocked version = 1 }
+    }
+}

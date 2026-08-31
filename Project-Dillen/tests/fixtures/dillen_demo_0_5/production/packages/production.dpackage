@@ -1,0 +1,8 @@
+package_manifest = {
+    name = dillen.g.production
+    version_major = 1
+    version_minor = 0
+    version_patch = 0
+    content_digest = "28768a03f28765950913ff8d12121298238a70e11c4fef23e232d7eb51f08dcb"
+    load_priority = 10
+}

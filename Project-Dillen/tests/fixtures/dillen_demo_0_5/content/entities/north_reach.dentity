@@ -1,0 +1,8 @@
+entity_definition = {
+    name = dillen.g.north_reach
+    entity_type = dillen.g.province
+    components = {
+        component = { type = dillen.g.resources  schema_version = 1
+                      fields = { ore = 12  capacity = 20  infra_level = 1.50 } }
+    }
+}

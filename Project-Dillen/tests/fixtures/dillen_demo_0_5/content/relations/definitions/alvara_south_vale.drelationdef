@@ -1,0 +1,9 @@
+relation_definition = {
+    name = dillen.g.alvara_south_vale
+    relation = dillen.g.owns
+    schema_version = 1
+    source_entity_type = dillen.g.country
+    source_definition = dillen.g.alvara
+    target_entity_type = dillen.g.province
+    target_definition = dillen.g.south_vale
+}

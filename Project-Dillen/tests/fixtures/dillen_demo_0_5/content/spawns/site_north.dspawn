@@ -1,0 +1,6 @@
+mechanism_spawn = {
+    name = dillen.g.site_north_spawn
+    mechanism = dillen.g.production_site
+    definition = dillen.g.site_north
+    count = 1
+}

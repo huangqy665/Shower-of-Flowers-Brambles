@@ -1,0 +1,8 @@
+entity_definition = {
+    name = dillen.g.alvara
+    entity_type = dillen.g.country
+    components = {
+        component = { type = dillen.g.treasury  schema_version = 1
+                      fields = { money = 25.00  tax_rate = 0.15  science = 3 } }
+    }
+}

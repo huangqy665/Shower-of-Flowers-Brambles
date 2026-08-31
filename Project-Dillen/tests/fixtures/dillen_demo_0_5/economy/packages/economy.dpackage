@@ -1,0 +1,8 @@
+package_manifest = {
+    name = dillen.g.economy
+    version_major = 1
+    version_minor = 0
+    version_patch = 0
+    content_digest = "41a20e7f4b0799aad7e3bb251930800efd4785fdd92ef70535db2004894096e7"
+    load_priority = 20
+}

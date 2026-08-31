@@ -1,0 +1,8 @@
+package_manifest = {
+    name = dillen.g.research
+    version_major = 1
+    version_minor = 0
+    version_patch = 0
+    content_digest = "4864ec69b3908e491e542f4146ff4ab764549b87cc2f96eb0bd32ebd9bc2cc01"
+    load_priority = 30
+}
