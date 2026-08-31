@@ -18,6 +18,8 @@ dillen_add_component(
         entity_definition.hpp
         entity_definition_registry.cpp
         entity_definition_registry.hpp
+        fixed_point.cpp
+        fixed_point.hpp
         frozen_runtime_catalog.cpp
         frozen_runtime_catalog.hpp
         mechanism_change.hpp

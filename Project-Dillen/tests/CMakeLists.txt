@@ -21,6 +21,7 @@ if(DILLEN_BUILD_STANDALONE_RUNTIME)
         dillen::world
         dillen::runtime
     )
+    dillen_add_probe(fixed_point_probe dillen::kernel)
     dillen_add_probe(algorithm_lifecycle_fault_probe dillen::runtime)
     dillen_add_probe(persistence_replay_probe dillen::persistence)
     dillen_add_probe(
