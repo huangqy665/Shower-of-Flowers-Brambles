@@ -42,6 +42,12 @@ public:
     const AlgorithmStageReport& LastCommandAlgorithms() const noexcept;
     const AlgorithmStageReport& LastDestroyAlgorithms() const noexcept;
 
+    // Order in which each stage's planned invocations are executed. Changing
+    // it must not change a single authoritative byte -- see
+    // DispatchExecutionOrder in algorithm_runtime.hpp and
+    // thread_contract_probe.
+    void SetAlgorithmExecutionOrder(DispatchExecutionOrder order) noexcept;
+
     std::uint64_t Enqueue(
         kernel::WorldTransaction transaction,
         std::uint64_t notBeforeTick,

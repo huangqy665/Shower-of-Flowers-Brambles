@@ -44,6 +44,13 @@ if(DILLEN_BUILD_STANDALONE_RUNTIME)
         dillen::runtime
     )
     dillen_add_probe(
+        thread_contract_probe
+        dillen::kernel
+        dillen::world
+        dillen::runtime
+        dillen::persistence
+    )
+    dillen_add_probe(
         controlled_script_probe
         dillen::runtime
         dillen::persistence

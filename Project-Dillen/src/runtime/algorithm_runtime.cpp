@@ -189,14 +189,54 @@ AlgorithmRuntime::AlgorithmRuntime(
 {
 }
 
-AlgorithmStageReport AlgorithmRuntime::DispatchCreate(
+void AlgorithmRuntime::SetExecutionOrder(
+    DispatchExecutionOrder order
+) noexcept
+{
+    executionOrder_ = order;
+}
+
+AlgorithmStageReport AlgorithmRuntime::ExecutePlan(
+    const std::vector<PlannedInvocation>& plan,
     const WorldQuerySnapshot& query,
     const kernel::DeterministicRngSnapshot& rng,
     std::uint64_t tick
 ) const
 {
     AlgorithmStageReport report;
+    report.invocations.resize(plan.size());
+    // Slot i belongs to plan[i] whatever order the loop runs in. That is the
+    // whole point: this is the loop a worker pool would own, so it must not
+    // matter which entry is visited first.
+    const bool reversed = executionOrder_ == DispatchExecutionOrder::Reversed;
+    for (std::size_t step = 0; step < plan.size(); ++step)
+    {
+        const std::size_t index = reversed
+            ? plan.size() - 1 - step
+            : step;
+        const PlannedInvocation& planned = plan[index];
+        report.invocations[index] = Invoke(
+            planned.stage,
+            tick,
+            *planned.instance,
+            query,
+            rng,
+            planned.event,
+            planned.scheduledEvent,
+            planned.command
+        );
+    }
+    return report;
+}
+
+AlgorithmStageReport AlgorithmRuntime::DispatchCreate(
+    const WorldQuerySnapshot& query,
+    const kernel::DeterministicRngSnapshot& rng,
+    std::uint64_t tick
+) const
+{
     const kernel::MechanismQuerySnapshot& snapshot = query.Mechanisms();
+    std::vector<PlannedInvocation> plan;
     for (const auto& entry : snapshot.All())
     {
         const kernel::MechanismInstance& instance = entry.second;
@@ -205,19 +245,13 @@ AlgorithmStageReport AlgorithmRuntime::DispatchCreate(
             && !instance.algorithmFault.isolated
             && instance.lifecycle == kernel::MechanismLifecycleState::Created)
         {
-            report.invocations.push_back(Invoke(
-                AlgorithmRuntimeStage::Create,
-                tick,
-                instance,
-                query,
-                rng,
-                nullptr,
-                nullptr,
-                nullptr
-            ));
+            PlannedInvocation planned;
+            planned.stage = AlgorithmRuntimeStage::Create;
+            planned.instance = &instance;
+            plan.push_back(planned);
         }
     }
-    return report;
+    return ExecutePlan(plan, query, rng, tick);
 }
 
 AlgorithmStageReport AlgorithmRuntime::DispatchTick(
@@ -226,8 +260,8 @@ AlgorithmStageReport AlgorithmRuntime::DispatchTick(
     std::uint64_t tick
 ) const
 {
-    AlgorithmStageReport report;
     const kernel::MechanismQuerySnapshot& snapshot = query.Mechanisms();
+    std::vector<PlannedInvocation> plan;
     for (const auto& entry : snapshot.All())
     {
         const kernel::MechanismInstance& instance = entry.second;
@@ -243,20 +277,14 @@ AlgorithmStageReport AlgorithmRuntime::DispatchTick(
                     descriptor->entryPoints,
                     kernel::AlgorithmEntryPoint::Tick))
             {
-                report.invocations.push_back(Invoke(
-                    AlgorithmRuntimeStage::Tick,
-                    tick,
-                    instance,
-                    query,
-                    rng,
-                    nullptr,
-                    nullptr,
-                    nullptr
-                ));
+                PlannedInvocation planned;
+                planned.stage = AlgorithmRuntimeStage::Tick;
+                planned.instance = &instance;
+                plan.push_back(planned);
             }
         }
     }
-    return report;
+    return ExecutePlan(plan, query, rng, tick);
 }
 
 AlgorithmStageReport AlgorithmRuntime::DispatchEvent(
@@ -267,8 +295,8 @@ AlgorithmStageReport AlgorithmRuntime::DispatchEvent(
     const std::vector<kernel::ScheduledAlgorithmEvent>& scheduledEvents
 ) const
 {
-    AlgorithmStageReport report;
     const kernel::MechanismQuerySnapshot& snapshot = query.Mechanisms();
+    std::vector<PlannedInvocation> plan;
     const auto eligible = [this](const kernel::MechanismInstance& instance)
     {
         if (!IsActiveAlgorithmInstance(instance)
@@ -288,21 +316,17 @@ AlgorithmStageReport AlgorithmRuntime::DispatchEvent(
                 descriptor->entryPoints,
                 kernel::AlgorithmEntryPoint::Event);
     };
-    const auto dispatch = [this, &report, &query, &rng, tick](
+    const auto dispatch = [&plan](
         const kernel::MechanismInstance& instance,
         const kernel::WorldEvent* event,
         const kernel::ScheduledAlgorithmEvent* scheduledEvent)
     {
-        report.invocations.push_back(Invoke(
-            AlgorithmRuntimeStage::Event,
-            tick,
-            instance,
-            query,
-            rng,
-            event,
-            scheduledEvent,
-            nullptr
-        ));
+        PlannedInvocation planned;
+        planned.stage = AlgorithmRuntimeStage::Event;
+        planned.instance = &instance;
+        planned.event = event;
+        planned.scheduledEvent = scheduledEvent;
+        plan.push_back(planned);
     };
 
     // Eligibility depends only on the immutable snapshot and the frozen
@@ -359,7 +383,7 @@ AlgorithmStageReport AlgorithmRuntime::DispatchEvent(
             dispatch(*instance, &event, nullptr);
         }
     }
-    return report;
+    return ExecutePlan(plan, query, rng, tick);
 }
 
 AlgorithmStageReport AlgorithmRuntime::DispatchCommand(
@@ -369,8 +393,8 @@ AlgorithmStageReport AlgorithmRuntime::DispatchCommand(
     const kernel::WorldTransaction& command
 ) const
 {
-    AlgorithmStageReport report;
     const kernel::MechanismQuerySnapshot& snapshot = query.Mechanisms();
+    std::vector<PlannedInvocation> plan;
     for (const auto& entry : snapshot.All())
     {
         const kernel::MechanismInstance& instance = entry.second;
@@ -391,19 +415,14 @@ AlgorithmStageReport AlgorithmRuntime::DispatchCommand(
                 descriptor->entryPoints,
                 kernel::AlgorithmEntryPoint::Command))
         {
-            report.invocations.push_back(Invoke(
-                AlgorithmRuntimeStage::Command,
-                tick,
-                instance,
-                query,
-                rng,
-                nullptr,
-                nullptr,
-                &command
-            ));
+            PlannedInvocation planned;
+            planned.stage = AlgorithmRuntimeStage::Command;
+            planned.instance = &instance;
+            planned.command = &command;
+            plan.push_back(planned);
         }
     }
-    return report;
+    return ExecutePlan(plan, query, rng, tick);
 }
 
 AlgorithmStageReport AlgorithmRuntime::DispatchDeferred(
@@ -412,7 +431,7 @@ AlgorithmStageReport AlgorithmRuntime::DispatchDeferred(
     std::uint64_t tick
 ) const
 {
-    AlgorithmStageReport report;
+    std::vector<PlannedInvocation> plan;
     for (const auto& entry : query.Mechanisms().All())
     {
         const kernel::MechanismInstance& instance = entry.second;
@@ -434,19 +453,13 @@ AlgorithmStageReport AlgorithmRuntime::DispatchDeferred(
             {
                 continue;
             }
-            report.invocations.push_back(Invoke(
-                stage,
-                tick,
-                instance,
-                query,
-                rng,
-                nullptr,
-                nullptr,
-                nullptr
-            ));
+            PlannedInvocation planned;
+            planned.stage = stage;
+            planned.instance = &instance;
+            plan.push_back(planned);
         }
     }
-    return report;
+    return ExecutePlan(plan, query, rng, tick);
 }
 
 AlgorithmStageReport AlgorithmRuntime::DispatchDestroy(
@@ -455,7 +468,7 @@ AlgorithmStageReport AlgorithmRuntime::DispatchDestroy(
     std::uint64_t tick
 ) const
 {
-    AlgorithmStageReport report;
+    std::vector<PlannedInvocation> plan;
     for (const auto& entry : query.Mechanisms().All())
     {
         const kernel::MechanismInstance& instance = entry.second;
@@ -477,19 +490,13 @@ AlgorithmStageReport AlgorithmRuntime::DispatchDestroy(
                 descriptor->entryPoints,
                 kernel::AlgorithmEntryPoint::Destroy))
         {
-            report.invocations.push_back(Invoke(
-                AlgorithmRuntimeStage::Destroy,
-                tick,
-                instance,
-                query,
-                rng,
-                nullptr,
-                nullptr,
-                nullptr
-            ));
+            PlannedInvocation planned;
+            planned.stage = AlgorithmRuntimeStage::Destroy;
+            planned.instance = &instance;
+            plan.push_back(planned);
         }
     }
-    return report;
+    return ExecutePlan(plan, query, rng, tick);
 }
 
 AlgorithmInvocationResult AlgorithmRuntime::Invoke(

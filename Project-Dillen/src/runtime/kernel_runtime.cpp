@@ -123,6 +123,13 @@ const AlgorithmStageReport& KernelRuntime::LastDestroyAlgorithms()
     return lastDestroyAlgorithms_;
 }
 
+void KernelRuntime::SetAlgorithmExecutionOrder(
+    DispatchExecutionOrder order
+) noexcept
+{
+    algorithmRuntime_.SetExecutionOrder(order);
+}
+
 std::uint64_t KernelRuntime::Enqueue(
     kernel::WorldTransaction transaction,
     std::uint64_t notBeforeTick,
