@@ -51,26 +51,35 @@
 //   exactly one commit succeeds and the rest are rejected -- this is the
 //   example the memo itself uses to justify the contract. Which instance wins
 //   must be decided by slot order, never by who ran first.
-// - Scheduled events reach the Event stage, which plans a broadcast of
-//   (events x eligible instances).
+// - Both Event delivery paths, deliberately, because DispatchEvent resolves
+//   them differently and the two-phase rewrite touched both. Every instance
+//   re-arms a self-targeted event each Tick, which goes through
+//   snapshot.Find(target); the host posts target-less events each Tick, which
+//   fan out over every eligible instance. The DSL cannot express the second --
+//   schedule_event always targets the scheduling instance -- so it has to come
+//   from the host side. The broadcasts carry distinct priorities so the Inbox
+//   ordering rule (dueTick -> priority -> sequence) is exercised rather than
+//   every event tying on priority and falling through to sequence.
 //
-// A coverage note that has to stay honest. This fixture used to produce 21661
-// facts over five ticks, because every committed transaction's audit event was
-// fed back into the algorithm event queue and amplified. That feedback was
-// removed on 2026-08-31 (memo section 3.9) and the same fixture now produces
-// 105. The probe still proves what it claims -- reversing the fill order must
-// not move a byte -- but its Event-stage plan is now small, so the stage that
-// once dominated the comparison barely exercises it. Widening that coverage
-// needs scheduled events authored into the fixture, not a return of the
-// feedback loop.
+// Coverage history, kept because the number in it is easy to misread. This
+// fixture once produced 21661 facts over five ticks, but that came from
+// transaction audit events being fed back into the algorithm event queue and
+// amplifying -- volume from a feedback loop, not from the Event stage doing
+// interesting work. That feedback was removed on 2026-08-31 (memo section
+// 3.9), the count fell to 105, and the Event-stage plan collapsed with it.
+// Authoring real scheduled events instead brings the largest plan back to 144
+// entries with both branches populated, at 747 facts and a quarter of a
+// second -- stronger coverage than the amplified version and fourteen times
+// faster than it was.
 
 namespace
 {
 using namespace dillen;
 using namespace dillen::kernel;
 
-constexpr std::uint32_t kInstancesPerDefinition = 3;
+constexpr std::uint32_t kInstancesPerDefinition = 8;
 constexpr std::uint64_t kTicks = 5;
+constexpr std::int32_t kBroadcastsPerTick = 3;
 
 struct RunOutcome
 {
@@ -95,12 +104,19 @@ AlgorithmInstructionDefinition AdvanceRng(RngStreamId stream)
     return instruction;
 }
 
-AlgorithmInstructionDefinition ScheduleSelfEvent(AlgorithmEventTypeId type)
+// The DSL's schedule_event always targets the scheduling instance, so this is
+// the *targeted* delivery path -- DispatchEvent resolves it with
+// snapshot.Find(target). The broadcast path needs a target-less event, which
+// only the host can submit; the probe posts those directly.
+AlgorithmInstructionDefinition ScheduleSelfEvent(
+    AlgorithmEventTypeId type,
+    std::uint64_t delay
+)
 {
     AlgorithmInstructionDefinition instruction;
     instruction.kind = AlgorithmInstructionKind::ScheduleEvent;
     instruction.eventType = type;
-    instruction.dueTickOffset = 2;
+    instruction.dueTickOffset = delay;
     instruction.priority = 0;
     instruction.payload = MechanismValue(std::int64_t{1});
     return instruction;
@@ -122,19 +138,22 @@ AlgorithmDescriptor MakeAlgorithm(
         | AlgorithmEntryPoint::Tick
         | AlgorithmEntryPoint::Event;
     algorithm.deterministic = true;
-    algorithm.executionPolicy.instructionBudget = 16;
+    algorithm.executionPolicy.instructionBudget = 24;
 
     std::vector<AlgorithmInstructionDefinition> create = {
         AlgorithmInstructionDefinition::TransitionLifecycle(
             MechanismLifecycleState::Active
         ),
-        ScheduleSelfEvent(eventType)
+        ScheduleSelfEvent(eventType, 2)
     };
     std::vector<AlgorithmInstructionDefinition> tickStage = {
         AlgorithmInstructionDefinition::AddField(
             "counter",
             MechanismValue(tickIncrement)
-        )
+        ),
+        // Re-arms every Tick, so the targeted branch carries one event per
+        // instance per Tick in steady state rather than firing once at Create.
+        ScheduleSelfEvent(eventType, 1)
     };
     if (contendedStream != nullptr)
     {
@@ -168,6 +187,8 @@ RunOutcome Run(runtime::DispatchExecutionOrder order)
         StableRngStreamId("dillen.threadcontract.shared");
     const AlgorithmEventTypeId eventType =
         StableAlgorithmEventTypeId("dillen.threadcontract.pulse");
+    const AlgorithmEventTypeId broadcastType =
+        StableAlgorithmEventTypeId("dillen.threadcontract.broadcast");
 
     MechanismSchema schema;
     schema.type = StableMechanismTypeId(typeName);
@@ -346,8 +367,41 @@ RunOutcome Run(runtime::DispatchExecutionOrder order)
         return fail("rng stream seed");
     }
 
+    // Broadcast deliveries. A target-less Scheduled Event fans out to every
+    // eligible instance, which is the (events x instances) branch of
+    // DispatchEvent -- the largest plan the Event stage builds and the one the
+    // two-phase rewrite changed most. The DSL cannot express it: schedule_event
+    // always targets the scheduling instance, so these come from the host.
+    const auto postBroadcasts = [&](std::uint64_t currentTick,
+                                    std::uint64_t dueTick)
+    {
+        WorldTransaction broadcasts;
+        for (std::int32_t slot = 0; slot < kBroadcastsPerTick; ++slot)
+        {
+            broadcasts.commands.push_back(WorldCommand::ScheduleEvent(
+                broadcastType,
+                MechanismInstanceId{},
+                dueTick,
+                // Distinct priorities, so the Inbox ordering rule
+                // (dueTick -> priority -> sequence) is exercised rather than
+                // every event tying and falling through to sequence.
+                slot - 1,
+                MechanismValue(static_cast<std::int64_t>(slot))
+            ));
+        }
+        // Submitted at the world's current Tick; RunTick then advances past
+        // it, so the events are due on a Tick that has not run yet.
+        return static_cast<bool>(
+            kernelRuntime.ApplyImmediate(broadcasts, currentTick)
+        );
+    };
+
     for (std::uint64_t tick = 1; tick <= kTicks; ++tick)
     {
+        if (!postBroadcasts(tick - 1, tick))
+        {
+            return fail("broadcast schedule");
+        }
         if (!kernelRuntime.RunTick(tick))
         {
             return fail("tick");
