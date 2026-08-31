@@ -51,9 +51,18 @@
 //   exactly one commit succeeds and the rest are rejected -- this is the
 //   example the memo itself uses to justify the contract. Which instance wins
 //   must be decided by slot order, never by who ran first.
-// - Committed transactions publish Algorithm Events, so the Event stage plans
-//   a broadcast of (events x eligible instances) -- by far the largest plan,
-//   and the one whose construction was rewritten most.
+// - Scheduled events reach the Event stage, which plans a broadcast of
+//   (events x eligible instances).
+//
+// A coverage note that has to stay honest. This fixture used to produce 21661
+// facts over five ticks, because every committed transaction's audit event was
+// fed back into the algorithm event queue and amplified. That feedback was
+// removed on 2026-08-31 (memo section 3.9) and the same fixture now produces
+// 105. The probe still proves what it claims -- reversing the fill order must
+// not move a byte -- but its Event-stage plan is now small, so the stage that
+// once dominated the comparison barely exercises it. Widening that coverage
+// needs scheduled events authored into the fixture, not a return of the
+// feedback loop.
 
 namespace
 {

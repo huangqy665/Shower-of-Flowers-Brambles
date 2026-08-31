@@ -45,10 +45,18 @@ using namespace dillen::kernel;
 // copy-on-write stores, and sharing the store payload into the Query Snapshots:
 //
 //               Release       Debug
-//     N=250      0.54          8.1     ms/tick
-//     N=1000     2.02         35       ms/tick
-//     N=4000     8.00          -
-//     N=16000   34.8           -
+//     N=250      0.45          8.0     ms/tick
+//     N=1000     2.04         34.8     ms/tick
+//     N=4000     6.75          -
+//     N=16000   30.1           -
+//
+// Re-measured 2026-08-31 after transaction audit events stopped being fed back
+// into the algorithm event queue (see memo section 3.9). The Debug column did
+// not move; Release is 13-16% faster from N=4000 up, which is the cost of
+// carrying a per-transaction audit event into a dispatch stage that then found
+// nothing eligible to deliver it to. Small-N readings here are noise-dominated
+// -- three runs at N=250 spread 7.3 to 8.1 in Debug -- so only compare
+// same-configuration numbers at four digits of instances.
 //
 // 64x the instances costs ~64x the tick: cost is linear in instance count, with
 // only the std::map log factor on top. Before the fan-out fix the same probe

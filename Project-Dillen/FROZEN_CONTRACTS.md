@@ -27,7 +27,7 @@
 | `WorldEventPayload` 18 个备选项的**位置** | 同上（这些字节从不读回，但是 Replay Checksum 的输入） |
 | 规范世界的存档**字节数与校验和** | `persistence_replay_probe` 黄金值（688 字节 / `7194244525752032699`） |
 | 规范回放的 `finalStateChecksum` / `factStreamChecksum` | 同一探针黄金值 |
-| **全部 11 种命令载荷 + 6 种 Mechanism 操作**的字段顺序与编码 | 同一探针 `CheckFrozenCommandEncoding()`（516 字节 / `5610142064737695594`）+ tag 往返 |
+| **全部 11 种命令载荷 + 全部 7 种 Mechanism 操作**的字段顺序与编码（1 种在第一条事务、其余 6 种在第二条） | 同一探针 `CheckFrozenCommandEncoding()`（516 字节 / `5610142064737695594`）+ tag 往返（**逐项对位只覆盖外层 11 个**；内层 7 个仅校验数量，见第 7 节缺口） |
 | 上述全部值**跨平台一致** | Windows MSVC / Linux GCC / Linux Clang 三平台 CI 阻塞门禁 |
 | Authoring 源文件的 `content_digest` 稳定性 | `.gitattributes` 对全部 `.d*` 扩展名固定 `eol=lf` |
 
@@ -67,14 +67,14 @@
 
 | 面 | 冻结项 | 守卫 |
 | --- | --- | --- |
-| **Parse** | 哪些文件被认领、分类成什么格式、同虚拟路径由哪一层胜出 | `authoring_frontend_golden_probe`：3534 字节 / 校验和 `7108115718015835428` |
-| **Resolve** | Package Lock 与 Source Lock 的锁定身份 | 同上：2953 字节 / 校验和 `8728362738506238519` |
-| **Compile** | 字节码与 Slot 布局 | `authoring_compile_golden_probe`：1617 字节 / 校验和 `3152762109085638588` |
-| **Diagnostic** | 91 个 `dillen.authoring.*` 稳定码 | `authoring_diagnostic_contract_probe`：源码级注册表比对 + 8 个端到端触发 |
+| **Parse** | 哪些文件被认领、分类成什么格式、同虚拟路径由哪一层胜出 | `authoring_frontend_golden_probe`：3912 字节 / 校验和 `3730319217720541124` |
+| **Resolve** | Package Lock 与 Source Lock 的锁定身份 | 同上：3137 字节 / 校验和 `14470188716694633576` |
+| **Compile** | 字节码与 Slot 布局 | `authoring_compile_golden_probe`：2449 字节 / 校验和 `7998801853630025278` |
+| **Diagnostic** | 96 个 `dillen.authoring.*` 稳定码 | `authoring_diagnostic_contract_probe`：源码级注册表比对 + 9 个端到端触发 |
 | Slot 按**字段名排序**分配，源码顺序不是契约 | 作者可自由重排字段而不影响编译产物 | Compile 黄金值（换序不动，改名即动） |
 | 授权扩展名的 `eol=lf` | `content_digest` 是原始字节的 SHA-256，行尾漂移即身份漂移 | `.gitattributes` 覆盖全部 11 个扩展名；Parse 黄金值编码文件大小，CRLF 回归会被抓 |
 
-**加法性规则**：新增指令、操作数来源、归约、运算符一律只能追加，**不得改变既有构造编译出的字节**。这条由 Compile 黄金值机器证明——DSL v1 的读操作数与聚合全部落地后，1617 / `3152762109085638588` 纹丝未动。
+**加法性规则**：新增指令、操作数来源、归约、运算符一律只能追加，**不得改变既有构造编译出的字节**。`invoke_capability payload_from` 以可选尾段加入黄金编码：旧的常量载荷编码保持原样，只有新构造追加读路径编码；完整覆盖夹具当前锁定为 2449 / `7998801853630025278`。
 
 ## 6. 模块分层
 
