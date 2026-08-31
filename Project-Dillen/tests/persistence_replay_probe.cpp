@@ -389,6 +389,53 @@ bool CheckFrozenCommandEncoding()
             return false;
         }
     }
+
+    // The inner variant needs the same treatment, and did not have it. Until
+    // now MechanismCommandOperation was only counted, so a reader and writer
+    // that drifted together on a Mechanism operation -- swapping two tags,
+    // say -- kept both the byte count and the outer tags, and nothing here
+    // noticed. Every one of the seven alternatives is asserted on its own
+    // position: SetField rides in the first transaction at outer tag 5, and
+    // the second transaction carries the remaining six in declaration order.
+    const auto operationTag = [](const WorldCommand& command,
+                                 std::size_t& tag)
+    {
+        const auto* mechanism = std::get_if<MechanismCommand>(&command.payload);
+        if (mechanism == nullptr)
+        {
+            return false;
+        }
+        tag = mechanism->operation.index();
+        return true;
+    };
+
+    std::size_t setFieldTag = 0;
+    if (!operationTag(roundTripped.commands[5], setFieldTag)
+        || setFieldTag != 0)
+    {
+        std::cerr << "Frozen command encoding: MechanismCommandOperation tag 0"
+                     " (SetField) decoded as " << setFieldTag << '\n';
+        return false;
+    }
+
+    const auto& operationsRoundTripped =
+        decoded.commandQueue[1].transaction;
+    for (std::size_t operation = 0;
+        operation < operationsRoundTripped.commands.size();
+        ++operation)
+    {
+        std::size_t tag = 0;
+        // Declaration order minus SetField, so alternative n+1 sits at n.
+        const std::size_t expected = operation + 1;
+        if (!operationTag(operationsRoundTripped.commands[operation], tag)
+            || tag != expected)
+        {
+            std::cerr << "Frozen command encoding: "
+                         "MechanismCommandOperation tag " << expected
+                      << " decoded as " << tag << '\n';
+            return false;
+        }
+    }
     return true;
 }
 

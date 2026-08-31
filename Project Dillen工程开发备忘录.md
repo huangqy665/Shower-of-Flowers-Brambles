@@ -810,7 +810,7 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 
 1. **Capability 多发送者原子聚合未实现**——Demo 0.5 已证明 fire-and-forget v1 能表达单向反馈链，但同 Tick fan-in 仍需要纯加法的原子累加/归约事务或 ABI v2 关联语义；不得改变已冻结 v1 命令布局。
 2. **同相位算法并行未实现**——粗粒度 CoW 与快照共享载荷已完成（§3.20），派发的两相位结构与顺序守卫已完成（§3.9）；剩下的是 Worker Pool 本身，以及它必须同批带来的 1-vs-N 对拍探针和 Native Executor 的 `parallel_safe` 契约。
-3. **内层 variant tag 未逐项验证**——`CheckFrozenCommandEncoding` 只对外层 11 个 `WorldCommandPayload` 做了 tag 往返对位，内层 7 个 `MechanismCommandOperation` 仅校验数量（§4.2）。
+3. ~~**内层 variant tag 未逐项验证**~~——**已闭合（2026-08-31）**：`CheckFrozenCommandEncoding` 现对全部 18 个 tag 逐项断言（外层 11 个 `WorldCommandPayload` + 内层 7 个 `MechanismCommandOperation`）。判别力用注入验证过：读侧对调内层 tag 4/5，两者均无载荷，编码字节数与外层 tag 全部不变——正是旧检查必然放行的那一类——被精确捕获。
 4. **多步 Migration 无夹具**——v5 之后的迁移链没有测试路径，而"升版本 + 迁移"正是冻结规则的唯一逃生口。
 5. **加载期只有 Demo 0.5 基线**——正式 5 Package / 29 Source 的 Parse → Resolve → Compile → Freeze 已纳入 30 秒硬门禁并输出实测微秒值；更大规模 Package 图仍需独立基准。
 6. External Corpus Adapter ABI、Normalized IR 容器与 Mapping Profile 执行器本身；
@@ -1020,7 +1020,8 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 
 - **规范世界黄金值**：存档 688 字节 / 校验和 `7194244525752032699`，回放 `finalStateChecksum` `9515266196334764553`、`factStreamChecksum` `14511951199989717232`。该世界含 Entity / Component / Relation / Mechanism / RNG Stream / Scheduled Event / 队列命令。
 - **命令编码黄金值**（`CheckFrozenCommandEncoding()`）：手工构造一个 Save Image，其命令队列含**全部 11 种 `WorldCommandPayload` 备选项 + 全部 7 种 `MechanismCommandOperation` 备选项**（1 种在第一条事务里，其余 6 种在第二条），锁定 516 字节 / 校验和 `5610142064737695594`。
-  **覆盖范围要说准**：18 个备选项的**编码**都被黄金字节数与校验和覆盖；但**逐项 tag 往返对位只做了外层 11 个** `WorldCommandPayload`——探针的回环循环只遍历 `commandQueue[0]`，内层 7 个 `MechanismCommandOperation` 仅校验了数量。因此"读写两侧同步漂移但字节数不变"这一类错误，在内层 variant 上尚未被逐项捕获。**这是已登记的探针缺口，不是已完成的守卫。**
+  **覆盖范围（2026-08-31 补齐）**：18 个备选项的**编码**由黄金字节数与校验和覆盖，**全部 18 个 tag 也已逐项往返对位**——外层 11 个 `WorldCommandPayload` 走 `commandQueue[0]`，内层 7 个 `MechanismCommandOperation` 走 `SetField`（第一条事务外层 tag 5）加 `commandQueue[1]` 的其余六个。
+  此前内层只校验数量，"读写两侧同步漂移但字节数不变"这一类错误必然放行。补齐后用注入验证：读侧对调内层 tag 4/5（`ClearAlgorithmFault` 与 `Destroy`，两者均无载荷，故编码字节数与全部外层 tag 不变），被精确捕获。
 - **这一条是被验证逼出来的**：最初只做了规范世界黄金值，注入"交换 `RngStreamAdvanceCommand` 两个相邻 U64 字段写出"后**没有被捕获**——因为那个世界的持久化命令队列里只有一种命令，`WriteWorldCommand` 的绝大多数分支从未被序列化。补上命令编码黄金值后重注入，即被捕获（字节数相同、**校验和不同** —— 两个指标都必要）。
 - **跨平台**：上述全部黄金值在 Windows MSVC、Linux GCC、Linux Clang 上**逐位相同**，所以失配一定是真格式变更而非平台差异。失败信息直接写明"意外就修代码，有意就升版本+写迁移"。
 

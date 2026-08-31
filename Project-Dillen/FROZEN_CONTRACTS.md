@@ -27,7 +27,7 @@
 | `WorldEventPayload` 18 个备选项的**位置** | 同上（这些字节从不读回，但是 Replay Checksum 的输入） |
 | 规范世界的存档**字节数与校验和** | `persistence_replay_probe` 黄金值（688 字节 / `7194244525752032699`） |
 | 规范回放的 `finalStateChecksum` / `factStreamChecksum` | 同一探针黄金值 |
-| **全部 11 种命令载荷 + 全部 7 种 Mechanism 操作**的字段顺序与编码（1 种在第一条事务、其余 6 种在第二条） | 同一探针 `CheckFrozenCommandEncoding()`（516 字节 / `5610142064737695594`）+ tag 往返（**逐项对位只覆盖外层 11 个**；内层 7 个仅校验数量，见第 7 节缺口） |
+| **全部 11 种命令载荷 + 全部 7 种 Mechanism 操作**的字段顺序与编码（1 种在第一条事务、其余 6 种在第二条） | 同一探针 `CheckFrozenCommandEncoding()`（516 字节 / `5610142064737695594`）+ **全部 18 个 tag 逐项对位**（外层 11 个 `WorldCommandPayload`，内层 7 个 `MechanismCommandOperation`） |
 | 上述全部值**跨平台一致** | Windows MSVC / Linux GCC / Linux Clang 三平台 CI 阻塞门禁 |
 | Authoring 源文件的 `content_digest` 稳定性 | `.gitattributes` 对全部 `.d*` 扩展名固定 `eol=lf` |
 
@@ -91,6 +91,7 @@
 - **DSL 定点标度只冻了存储侧** —— 存储标度 10⁻²（两位小数）是冻结契约；表达式内部标度 10⁻⁴ 不进存档、不进 Query、不进 Package，可随时调整。改**存储**标度会改掉所有既有存档。
 - **`role → Mechanism 字段` 读路径在纯 Authoring 下不可达** —— `.ddefinition` 的角色绑定只支持 Entity 引用（Mechanism Instance 在写 Definition 时尚不存在）。三种寻址里经 Component 的两种已通。
 - **`cancel_event` 无 DSL 语法** —— 有意保留：它携带运行期序列号，写死字面量只能用错。等 `schedule_event` 的返回侧读操作数。
+- ~~**内层 variant tag 未逐项对位**~~ —— **已闭合（2026-08-31）**：`CheckFrozenCommandEncoding` 现对全部 18 个 tag 逐项断言。判别力已用注入验证：读侧对调内层 tag 4/5（两者均无载荷，字节数与外层 tag 全不变——正是旧检查漏掉的那一类），被精确捕获。
 - **Migration 链只有一条测试路径** —— `persistence_replay_probe` 覆盖一次旧格式
   迁移；v5 之后的多步迁移尚无夹具。
 - **黄金值可被人为重置** —— 没有任何机制能阻止有人直接改数字。这最终靠评审
