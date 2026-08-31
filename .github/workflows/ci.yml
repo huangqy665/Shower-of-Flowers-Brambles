@@ -9,10 +9,27 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
+# Every job runs both Debug and Release.
+#
+# Release is not redundant coverage. Debug and Release are different programs
+# here: MSVC's checked iterators make Debug ~18x slower on the std::map-heavy
+# runtime, optimisers expose UB and aliasing bugs Debug hides, and until
+# 2026-08-31 nothing in CI had ever built this engine optimised -- so every
+# performance number recorded in the repo was a Debug number, off by more than
+# an order of magnitude (see the header of tests/scale_probe.cpp). A
+# configuration nobody builds is a configuration that drifts.
 jobs:
   standalone-windows-x64:
-    name: Pure Dillen standalone (Windows, MSVC x64)
+    name: Pure Dillen standalone (Windows, MSVC x64, ${{ matrix.configuration }})
     runs-on: windows-2022
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - configuration: Debug
+            preset_suffix: debug
+          - configuration: Release
+            preset_suffix: release
     defaults:
       run:
         working-directory: Project-Dillen
@@ -27,26 +44,49 @@ jobs:
         run: cmake --preset dillen-standalone-windows-x64
 
       - name: Build
-        run: cmake --build --preset dillen-standalone-windows-x64-debug
+        run: >
+          cmake --build --preset
+          dillen-standalone-windows-x64-${{ matrix.preset_suffix }}
 
       - name: Test
-        run: ctest --preset dillen-standalone-windows-x64-debug --output-on-failure
+        run: >
+          ctest --preset
+          dillen-standalone-windows-x64-${{ matrix.preset_suffix }}
+          --output-on-failure
 
   standalone-linux:
-    name: Pure Dillen standalone (Linux, ${{ matrix.cc }})
+    name: Pure Dillen standalone (Linux, ${{ matrix.compiler }}, ${{ matrix.build_type }})
     runs-on: ubuntu-24.04
-    # Blocking gate as of 2026-08-30. Verified locally under WSL Ubuntu 24.04
-    # with the same toolchain versions this image ships (GCC 13.3, Clang 18.1,
-    # CMake 3.28, Ninja 1.11): both compilers build clean and all 19 probes
-    # pass. Keeping this blocking is what stops the Package `content_digest`
-    # from silently diverging between platforms again -- see .gitattributes.
+    # Blocking gate as of 2026-08-30, extended to Release on 2026-08-31.
+    # Verified locally under WSL Ubuntu 24.04 with the same toolchain versions
+    # this image ships (GCC 13.3, Clang 18.1, CMake 3.28, Ninja 1.11): all four
+    # combinations pass 19/19. Keeping this blocking is what stops the Package
+    # `content_digest` from silently diverging between platforms again -- see
+    # .gitattributes.
+    #
+    # Known, deliberate: GCC 13 Release emits 16 -Wmaybe-uninitialized warnings
+    # from inside libstdc++'s <variant> at -O2. They are the well-known false
+    # positive, they are in system headers rather than this tree, and they do
+    # not appear under GCC Debug, Clang (either configuration) or MSVC. Nothing
+    # here is -Werror, so they do not gate the build -- which also means the
+    # repo's "0 warnings" claim is checked by hand, not by CI. Turning on
+    # -Werror is a separate decision that has to deal with those 16 first.
     strategy:
       fail-fast: false
       matrix:
+        # Two real axes -- 4 jobs. The `include` entries key on `compiler`,
+        # which is an axis value, so each one merges into that compiler's
+        # combinations only; an include entry carrying nothing but new keys
+        # would instead be merged into every combination and the last one
+        # would win, collapsing this to a single compiler.
+        compiler: [gcc, clang]
+        build_type: [Debug, Release]
         include:
-          - cc: gcc
+          - compiler: gcc
+            cc: gcc
             cxx: g++
-          - cc: clang
+          - compiler: clang
+            cc: clang
             cxx: clang++
     defaults:
       run:
@@ -66,7 +106,7 @@ jobs:
           CXX: ${{ matrix.cxx }}
         run: >
           cmake -S . -B build-linux -G Ninja
-          -D CMAKE_BUILD_TYPE=Debug
+          -D CMAKE_BUILD_TYPE=${{ matrix.build_type }}
           -D BUILD_TESTING=ON
           -D DILLEN_BUILD_STANDALONE_RUNTIME=ON
           -D DILLEN_BUILD_HOI3_COMPATIBILITY=OFF
