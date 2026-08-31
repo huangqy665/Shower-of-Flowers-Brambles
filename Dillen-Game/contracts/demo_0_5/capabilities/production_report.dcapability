@@ -1,0 +1,5 @@
+capability_contract = {
+    name = dillen.demo05.production_report
+    version = 1
+    deterministic = yes
+}

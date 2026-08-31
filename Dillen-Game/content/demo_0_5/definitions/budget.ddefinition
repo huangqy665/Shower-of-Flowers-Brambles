@@ -1,0 +1,13 @@
+mechanism_definition = {
+    name = dillen.demo05.alvara_budget
+    mechanism = dillen.demo05.national_budget
+    schema_version = 1
+    algorithm = dillen.demo05.budget_algorithm
+    algorithm_version = 1
+    provides_capabilities = { dillen.demo05.production_report }
+    roles = {
+        capital = {
+            entity = { entity_type = dillen.demo05.country  definition = dillen.demo05.alvara }
+        }
+    }
+}

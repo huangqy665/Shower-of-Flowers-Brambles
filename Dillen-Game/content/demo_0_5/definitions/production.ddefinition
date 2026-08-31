@@ -1,0 +1,13 @@
+mechanism_definition = {
+    name = dillen.demo05.north_reach_industry
+    mechanism = dillen.demo05.production_site
+    schema_version = 1
+    algorithm = dillen.demo05.production_algorithm
+    algorithm_version = 1
+    provides_capabilities = { dillen.demo05.technology_unlock }
+    roles = {
+        province = {
+            entity = { entity_type = dillen.demo05.province  definition = dillen.demo05.north_reach }
+        }
+    }
+}

@@ -13,6 +13,17 @@
 
 namespace dillen::kernel {
 
+enum class PackageRole
+{
+    Unspecified,
+    Contract,
+    Mechanism,
+    Content,
+    Presentation
+};
+
+std::string_view ToString(PackageRole role) noexcept;
+
 struct PackageVersion
 {
     std::uint32_t major = 0;
@@ -50,6 +61,7 @@ struct PackageManifest
     PackageId id;
     std::string canonicalName;
     PackageVersion version;
+    PackageRole role = PackageRole::Unspecified;
     std::string contentDigest;
     std::int32_t loadPriority = 0;
     std::vector<PackageDependency> dependencies;

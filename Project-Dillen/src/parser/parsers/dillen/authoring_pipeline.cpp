@@ -94,6 +94,38 @@ bool SameSelection(
         && selection.version == version;
 }
 
+bool PackageRoleAllows(
+    kernel::PackageRole role,
+    parser::DefinitionTypeId type
+)
+{
+    if (type == kPackageManifestDocumentType)
+    {
+        return true;
+    }
+    switch (role)
+    {
+    case kernel::PackageRole::Unspecified:
+        return true;
+    case kernel::PackageRole::Contract:
+        return type == kCapabilityContractDocumentType
+            || type == kComponentSchemaDocumentType
+            || type == kRelationSchemaDocumentType;
+    case kernel::PackageRole::Mechanism:
+        return type == kMechanismTemplateDocumentType
+            || type == kAlgorithmDescriptorDocumentType;
+    case kernel::PackageRole::Content:
+        return type == kMechanismDefinitionDocumentType
+            || type == kMechanismSpawnDocumentType
+            || type == kRulesetDocumentType
+            || type == kEntityDefinitionDocumentType
+            || type == kRelationDefinitionDocumentType;
+    case kernel::PackageRole::Presentation:
+        return false;
+    }
+    return false;
+}
+
 }
 
 AuthoringSession::AuthoringSession(AuthoringLaunchSelection selection)
@@ -776,6 +808,31 @@ bool AuthoringSession::ValidateAndCompile(
             );
             continue;
         }
+        if (selection_.requireExplicitPackageRoles
+            && layer.manifest->role == kernel::PackageRole::Unspecified)
+        {
+            diagnostics.Error(
+                "dillen.authoring.package_role_required",
+                "Source Layer Package must declare an explicit role: "
+                    + layerName
+            );
+            continue;
+        }
+        for (const parser::ParsedFile* file : layer.files)
+        {
+            if (!PackageRoleAllows(
+                    layer.manifest->role,
+                    file->result.artifact.type))
+            {
+                diagnostics.Error(
+                    "dillen.authoring.package_role_violation",
+                    "Package role '"
+                        + std::string(kernel::ToString(layer.manifest->role))
+                        + "' cannot own source "
+                        + file->catalog.virtualPath
+                );
+            }
+        }
         std::vector<kernel::PackageContentSource> contentSources;
         for (const parser::ParsedFile* file : layer.files)
         {
@@ -798,6 +855,41 @@ bool AuthoringSession::ValidateAndCompile(
                 "Package content_digest does not match Source Layer "
                     + layerName + "; expected " + actualDigest
             );
+        }
+    }
+    std::map<kernel::PackageId, kernel::PackageRole> packageRoles;
+    for (const auto& layerEntry : sourceLayers)
+    {
+        const kernel::PackageManifest* manifest = layerEntry.second.manifest;
+        if (manifest != nullptr)
+        {
+            packageRoles.emplace(manifest->id, manifest->role);
+        }
+    }
+    for (const auto& layerEntry : sourceLayers)
+    {
+        const kernel::PackageManifest* manifest = layerEntry.second.manifest;
+        if (manifest == nullptr
+            || manifest->role != kernel::PackageRole::Mechanism)
+        {
+            continue;
+        }
+        for (const kernel::PackageDependency& dependency
+            : manifest->dependencies)
+        {
+            const auto target = packageRoles.find(dependency.package);
+            if (target != packageRoles.end()
+                && target->second != kernel::PackageRole::Unspecified
+                && target->second != kernel::PackageRole::Contract)
+            {
+                diagnostics.Error(
+                    "dillen.authoring.package_dependency_role_violation",
+                    "Mechanism Package '" + manifest->canonicalName
+                        + "' may depend only on Contract Packages; '"
+                        + dependency.canonicalName + "' has role '"
+                        + std::string(kernel::ToString(target->second)) + "'"
+                );
+            }
         }
     }
     if (diagnostics.HasErrors())

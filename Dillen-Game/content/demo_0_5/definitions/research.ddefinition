@@ -1,0 +1,14 @@
+mechanism_definition = {
+    name = dillen.demo05.metallurgy_program
+    mechanism = dillen.demo05.research_project
+    schema_version = 1
+    algorithm = dillen.demo05.research_algorithm
+    algorithm_version = 1
+    fields = { cost = 24.0 }
+    provides_capabilities = { dillen.demo05.research_funding }
+    roles = {
+        sponsor = {
+            entity = { entity_type = dillen.demo05.country  definition = dillen.demo05.alvara }
+        }
+    }
+}

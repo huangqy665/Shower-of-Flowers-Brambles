@@ -1,0 +1,14 @@
+mechanism_template = {
+    name = dillen.demo05.research_project
+    version = 1
+    fields = {
+        field = { name = progress          kind = decimal  required = yes  default = 0.0 }
+        field = { name = cost              kind = decimal  required = yes  default = 24.0 }
+        field = { name = completed         kind = boolean  required = yes  default = no }
+        field = { name = funding_received  kind = decimal  required = yes  default = 0.0 }
+        field = { name = unlock_sent       kind = boolean  required = yes  default = no }
+    }
+    roles = {
+        role = { name = sponsor  reference_kind = entity  minimum_count = 1  maximum_count = 1 }
+    }
+}

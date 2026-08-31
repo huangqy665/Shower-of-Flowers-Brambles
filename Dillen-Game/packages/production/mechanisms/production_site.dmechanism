@@ -1,0 +1,12 @@
+mechanism_template = {
+    name = dillen.demo05.production_site
+    version = 1
+    fields = {
+        field = { name = unlocked      kind = boolean  required = yes  default = no }
+        field = { name = goods_output  kind = decimal  required = yes  default = 0.0 }
+        field = { name = reports_sent  kind = integer  required = yes  default = 0 }
+    }
+    roles = {
+        role = { name = province  reference_kind = entity  minimum_count = 1  maximum_count = 1 }
+    }
+}

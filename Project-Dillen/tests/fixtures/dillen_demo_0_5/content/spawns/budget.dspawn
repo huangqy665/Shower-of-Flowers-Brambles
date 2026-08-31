@@ -1,6 +1,0 @@
-mechanism_spawn = {
-    name = dillen.g.budget_spawn
-    mechanism = dillen.g.national_budget
-    definition = dillen.g.alvara_budget
-    count = 1
-}

@@ -80,6 +80,21 @@ algorithm_descriptor = {
                 target_role = peer
                 version = 1
             }
+
+            invoke_capability = {
+                capability = dillen.dsl.probe_signal
+                delay = 2
+                priority = 6
+                payload_from = { self_field = counter }
+                version = 1
+                when = {
+                    compare = {
+                        left = { self_field = counter }
+                        op = gt
+                        right = { constant = 0 }
+                    }
+                }
+            }
         }
 
         event = {

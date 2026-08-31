@@ -1,0 +1,11 @@
+entity_definition = {
+    name = dillen.demo05.alvara
+    entity_type = dillen.demo05.country
+    components = {
+        component = {
+            type = dillen.demo05.treasury
+            schema_version = 1
+            fields = { money = 25.0  science = 3 }
+        }
+    }
+}

@@ -1,0 +1,51 @@
+package_manifest = {
+    name = dillen.demo05.content
+    version_major = 1
+    version_minor = 0
+    version_patch = 0
+    role = content
+    content_digest = "9efb9738c25d2f324b912ee21a2d46004b6064a0dd8ea744f869d7cb47bb2d19"
+    load_priority = 100
+    dependencies = {
+        dependency = {
+            name = dillen.demo05.contracts
+            minimum_major = 1
+            minimum_minor = 0
+            minimum_patch = 0
+            maximum_major = 2
+            maximum_minor = 0
+            maximum_patch = 0
+            required = yes
+        }
+        dependency = {
+            name = dillen.demo05.economy
+            minimum_major = 1
+            minimum_minor = 0
+            minimum_patch = 0
+            maximum_major = 2
+            maximum_minor = 0
+            maximum_patch = 0
+            required = yes
+        }
+        dependency = {
+            name = dillen.demo05.technology
+            minimum_major = 1
+            minimum_minor = 0
+            minimum_patch = 0
+            maximum_major = 2
+            maximum_minor = 0
+            maximum_patch = 0
+            required = yes
+        }
+        dependency = {
+            name = dillen.demo05.production
+            minimum_major = 1
+            minimum_minor = 0
+            minimum_patch = 0
+            maximum_major = 2
+            maximum_minor = 0
+            maximum_patch = 0
+            required = yes
+        }
+    }
+}

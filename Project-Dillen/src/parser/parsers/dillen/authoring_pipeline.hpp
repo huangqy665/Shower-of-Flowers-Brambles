@@ -36,6 +36,7 @@ struct AuthoringLaunchSelection
 {
     SelectedRulesetVersion root;
     std::vector<SelectedRulesetVersion> extensions;
+    bool requireExplicitPackageRoles = false;
 };
 
 class AuthoringSession

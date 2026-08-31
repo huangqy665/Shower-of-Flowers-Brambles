@@ -1,0 +1,14 @@
+package_manifest = {
+    name = dillen.demo05.contracts
+    version_major = 1
+    version_minor = 0
+    version_patch = 0
+    role = contract
+    content_digest = "e1102e4ad485e1bf887814e2ea00cc58253d6b9860620bf5f02f5ace2adee3b2"
+    load_priority = 0
+    provides = {
+        capability = { name = dillen.demo05.production_report   version = 1 }
+        capability = { name = dillen.demo05.research_funding   version = 1 }
+        capability = { name = dillen.demo05.technology_unlock  version = 1 }
+    }
+}

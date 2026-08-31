@@ -1,9 +1,0 @@
-component_schema = {
-    name = dillen.g.treasury
-    version = 1
-    fields = {
-        field = { name = money        kind = decimal  required = yes  default = 0.0 }
-        field = { name = tax_rate     kind = decimal  required = yes  default = 0.0 }
-        field = { name = science      kind = integer  required = yes  default = 0 }
-    }
-}

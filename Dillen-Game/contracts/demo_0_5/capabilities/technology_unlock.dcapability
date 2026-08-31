@@ -1,0 +1,5 @@
+capability_contract = {
+    name = dillen.demo05.technology_unlock
+    version = 1
+    deterministic = yes
+}

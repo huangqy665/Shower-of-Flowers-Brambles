@@ -221,6 +221,53 @@ BytecodeTransactionOutcome EmitBytecodeTransaction(
     }
     if (instruction.opcode == AlgorithmBytecodeOpcode::InvokeCapability)
     {
+        MechanismValue payload = instruction.payload;
+        if (instruction.payloadComputed)
+        {
+            const ReadPathResult computed = EvaluateReadPath(
+                instruction.payloadSource,
+                context,
+                values
+            );
+            if (!computed)
+            {
+                return Reject(
+                    computed.status == ReadPathStatus::ArithmeticRejected
+                        ? BytecodeTransactionStatus::NumericOverflow
+                        : BytecodeTransactionStatus::OperandTypeMismatch,
+                    computed.message
+                );
+            }
+            if (computed.kind == MechanismValueKind::Decimal)
+            {
+                double stored = 0.0;
+                const kernel::FixedPointValue converted =
+                    kernel::InternalToStorage(computed.scaled, stored);
+                if (!converted)
+                {
+                    return Reject(
+                        BytecodeTransactionStatus::NumericOverflow,
+                        "computed capability payload does not fit decimal "
+                        "storage"
+                    );
+                }
+                payload = MechanismValue(stored);
+            }
+            else
+            {
+                std::int64_t stored = 0;
+                const kernel::FixedPointValue converted =
+                    kernel::InternalToInteger(computed.scaled, stored);
+                if (!converted)
+                {
+                    return Reject(
+                        BytecodeTransactionStatus::NumericOverflow,
+                        "computed capability payload does not fit an integer"
+                    );
+                }
+                payload = MechanismValue(stored);
+            }
+        }
         MechanismInstanceId targetInstance;
         if (instruction.targetRoleSlot)
         {
@@ -254,7 +301,7 @@ BytecodeTransactionOutcome EmitBytecodeTransaction(
             instruction.capabilityDeliveryType,
             context.tick + instruction.dueTickOffset,
             instruction.priority,
-            instruction.payload,
+            std::move(payload),
             targetInstance,
             instruction.capabilityVersion
         ));

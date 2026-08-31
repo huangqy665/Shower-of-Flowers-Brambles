@@ -1,0 +1,69 @@
+algorithm_descriptor = {
+    name = dillen.demo05.budget_algorithm
+    version = 1
+    backend = declarative
+    entry_points = { create tick event }
+    deterministic = yes
+    execution_policy = { instruction_budget = 128  failure_policy = fail_instance }
+
+    program = {
+        create = { transition_lifecycle = active }
+
+        tick = {
+            set_field = {
+                field = base_income
+                left = {
+                    role = capital
+                    relation = { type = dillen.demo05.owns  direction = outgoing }
+                    component = dillen.demo05.resources
+                    field = ore
+                    reduce = sum
+                }
+            }
+            add_field = { field = balance  left = { self_field = base_income } }
+            set_field = {
+                field = funding_sent
+                op = min
+                left = { self_field = balance }
+                right = { constant = 6.0 }
+            }
+            add_field = {
+                field = balance
+                op = sub
+                left = { constant = 0.0 }
+                right = { self_field = funding_sent }
+            }
+            invoke_capability = {
+                capability = dillen.demo05.research_funding
+                delay = 1
+                priority = 10
+                payload_from = { self_field = funding_sent }
+                when = {
+                    compare = {
+                        left = { self_field = funding_sent }
+                        op = gt
+                        right = { constant = 0.0 }
+                    }
+                }
+            }
+        }
+
+        event = {
+            add_field = {
+                field = reported_output
+                from_payload = yes
+                when = { capability_invoked = dillen.demo05.production_report }
+            }
+            add_field = {
+                field = balance
+                from_payload = yes
+                when = { capability_invoked = dillen.demo05.production_report }
+            }
+            add_field = {
+                field = report_count
+                value = 1
+                when = { capability_invoked = dillen.demo05.production_report }
+            }
+        }
+    }
+}

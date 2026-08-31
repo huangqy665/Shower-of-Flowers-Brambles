@@ -80,9 +80,7 @@ if(DILLEN_BUILD_STANDALONE_RUNTIME)
     )
     dillen_add_probe(
         demo_0_5_vertical_slice_probe
-        dillen::authoring
-        dillen::world
-        dillen::runtime
+        dillen::host
     )
     dillen_add_probe(
         authoring_frontend_golden_probe

@@ -1,0 +1,11 @@
+entity_definition = {
+    name = dillen.demo05.south_vale
+    entity_type = dillen.demo05.province
+    components = {
+        component = {
+            type = dillen.demo05.resources
+            schema_version = 1
+            fields = { ore = 5  capacity = 30  infra_level = 2.0 }
+        }
+    }
+}

@@ -1,234 +1,543 @@
+#include <algorithm>
+#include <chrono>
 #include <cstdint>
 #include <filesystem>
+#include <fstream>
 #include <iostream>
 #include <string>
+#include <vector>
 
-#include "authoring_pipeline.hpp"
-#include "diagnostic.hpp"
-#include "file_catalog.hpp"
-#include "initial_world_builder.hpp"
-#include "kernel_runtime.hpp"
-#include "parser_registry.hpp"
-#include "resolver.hpp"
-#include "template_registry.hpp"
+#include "deterministic_replay.hpp"
+#include "runtime_persistence.hpp"
+#include "standalone_session.hpp"
 
-// Demo 0.5 vertical slice: economy, research and production as real content.
-//
-// This is the model that was used to reverse-derive DSL v1, written out in
-// full. Before that work every line of it was inexpressible -- the language
-// had no way to read a value at run time, so `output = ore * infra_level`,
-// `progress >= cost` and `sum over owned provinces` were all impossible and
-// the draft of this file was a list of "cannot express" annotations.
-//
-// It is also the first fixture built to the Package role split (memo section
-// 1.2.2), with five Source Layers:
-//
-//   contracts   Contract Package    public ABI only: Capability Contracts,
-//                                   shared Component Schemas, Relation Schema
-//   production  Mechanism Package   implementation
-//   economy     Mechanism Package   implementation
-//   research    Mechanism Package   implementation
-//   content     Content Package     concrete world: entities, relations,
-//                                   definitions, spawns, the Root Ruleset
-//
-// The three Mechanism Packages do not reference each other. They meet only
-// through the Contract Package's Component Schemas and Relation Schema, which
-// is the property the split exists to enforce.
+namespace {
 
-namespace
-{
+namespace fs = std::filesystem;
 using namespace dillen;
 
-int failures = 0;
+constexpr std::uint64_t kFinalTick = 12;
+constexpr std::chrono::seconds kLoadBudget{30};
 
-void Expect(bool condition, const std::string& what)
+struct DemoResult
 {
-    if (!condition)
+    std::size_t packageCount = 0;
+    std::size_t sourceCount = 0;
+    std::size_t mechanismCount = 0;
+    std::uint64_t loadMicroseconds = 0;
+    std::string fingerprint;
+    kernel::MechanismValue balance;
+    kernel::MechanismValue reportCount;
+    kernel::MechanismValue progress;
+    kernel::MechanismValue completed;
+    kernel::MechanismValue unlockSent;
+    kernel::MechanismValue unlocked;
+    kernel::MechanismValue output;
+    kernel::MechanismValue reportsSent;
+    persistence::RuntimeSaveImage saveImage;
+    std::vector<std::uint8_t> saveBytes;
+    std::uint64_t replayStateChecksum = 0;
+    std::uint64_t replayFactChecksum = 0;
+};
+
+host::StandaloneSessionConfig DemoConfig(
+    const fs::path& economySource = "Dillen-Game/packages/economy",
+    bool includeTechnology = true,
+    const fs::path& contractSource = "Dillen-Game/contracts/demo_0_5"
+)
+{
+    host::StandaloneSessionConfig config;
+    config.sources.push_back({
+        "demo05_contracts", contractSource, 0, {}, {}, {}
+    });
+    config.sources.push_back({
+        "demo05_economy", economySource, 10, {}, {}, {}
+    });
+    if (includeTechnology)
     {
-        std::cerr << "demo 0.5: " << what << '\n';
-        ++failures;
+        config.sources.push_back({
+            "demo05_technology",
+            "Dillen-Game/packages/technology",
+            20,
+            {},
+            {},
+            {}
+        });
     }
+    config.sources.push_back({
+        "demo05_production",
+        "Dillen-Game/packages/production",
+        30,
+        {},
+        {},
+        {}
+    });
+    config.sources.push_back({
+        "demo05_content",
+        "Dillen-Game/content/demo_0_5",
+        100,
+        {},
+        {},
+        {}
+    });
+    config.rulesets.root = {
+        kernel::StableRulesetId("dillen.demo05.root"),
+        "dillen.demo05.root",
+        1
+    };
+    config.rulesets.requireExplicitPackageRoles = true;
+    return config;
+}
+
+bool HasDiagnostic(
+    const host::StandaloneSessionReport& report,
+    const std::string& code
+)
+{
+    return std::any_of(
+        report.diagnostics.begin(),
+        report.diagnostics.end(),
+        [&code](const std::string& diagnostic)
+        {
+            return diagnostic.find(code) != std::string::npos;
+        }
+    );
+}
+
+void PrintReport(const host::StandaloneSessionReport& report)
+{
+    std::cerr << report.message << '\n';
+    for (const std::string& diagnostic : report.diagnostics)
+    {
+        std::cerr << "  " << diagnostic << '\n';
+    }
+}
+
+const kernel::MechanismValue* FindField(
+    const host::StandaloneSession& session,
+    const std::string& mechanismName,
+    const std::string& definitionName,
+    const std::string& fieldName
+)
+{
+    const kernel::MechanismDefinitionId definition =
+        kernel::StableMechanismDefinitionId(
+            kernel::StableMechanismTypeId(mechanismName),
+            definitionName
+        );
+    const auto slot = session.Catalog().ResolveDefinitionFieldSlot(
+        definition,
+        fieldName
+    );
+    if (!slot)
+    {
+        return nullptr;
+    }
+    return session.Runtime().Query().Mechanisms().FindField(
+        kernel::StableMechanismInstanceId(definition, 0),
+        *slot
+    );
+}
+
+bool ReadField(
+    const host::StandaloneSession& session,
+    const std::string& mechanismName,
+    const std::string& definitionName,
+    const std::string& fieldName,
+    kernel::MechanismValue& output
+)
+{
+    const kernel::MechanismValue* value = FindField(
+        session,
+        mechanismName,
+        definitionName,
+        fieldName
+    );
+    if (value == nullptr)
+    {
+        return false;
+    }
+    output = *value;
+    return true;
+}
+
+bool RunDemo(
+    const fs::path& economySource,
+    DemoResult& output,
+    const std::vector<std::uint8_t>* foreignSave = nullptr
+)
+{
+    host::StandaloneSession session;
+    host::StandaloneSessionReport report;
+    const auto loadStart = std::chrono::steady_clock::now();
+    if (!session.Start(DemoConfig(economySource), report))
+    {
+        PrintReport(report);
+        return false;
+    }
+    const auto loadEnd = std::chrono::steady_clock::now();
+    output.loadMicroseconds = static_cast<std::uint64_t>(
+        std::chrono::duration_cast<std::chrono::microseconds>(
+            loadEnd - loadStart
+        ).count()
+    );
+    if (loadEnd - loadStart > kLoadBudget)
+    {
+        std::cerr << "Demo 0.5 exceeded the 30 second loading gate\n";
+        return false;
+    }
+
+    for (std::uint64_t tick = 1; tick <= kFinalTick; ++tick)
+    {
+        if (!session.Runtime().RunTick(tick)
+            || session.Runtime().LastCreateAlgorithms().FailedCount() != 0
+            || session.Runtime().LastTickAlgorithms().FailedCount() != 0
+            || session.Runtime().LastEventAlgorithms().FailedCount() != 0)
+        {
+            std::cerr << "Demo 0.5 runtime failed at tick " << tick << '\n';
+            const auto printFaults = [](const auto& batch)
+            {
+                for (const runtime::AlgorithmInvocationResult& invocation
+                    : batch.invocations)
+                {
+                    if (!invocation)
+                    {
+                        std::cerr << "  " << invocation.message << '\n';
+                    }
+                }
+            };
+            printFaults(session.Runtime().LastCreateAlgorithms());
+            printFaults(session.Runtime().LastTickAlgorithms());
+            printFaults(session.Runtime().LastEventAlgorithms());
+            return false;
+        }
+    }
+
+    output.packageCount = session.Catalog().LockedPackages().Size();
+    output.sourceCount = session.Catalog().LockedSources().Size();
+    output.mechanismCount = session.Runtime().Query().Mechanisms().Size();
+    output.fingerprint = session.Catalog().Fingerprint().ToHex();
+    const bool read =
+        ReadField(
+            session,
+            "dillen.demo05.national_budget",
+            "dillen.demo05.alvara_budget",
+            "balance",
+            output.balance
+        )
+        && ReadField(
+            session,
+            "dillen.demo05.national_budget",
+            "dillen.demo05.alvara_budget",
+            "report_count",
+            output.reportCount
+        )
+        && ReadField(
+            session,
+            "dillen.demo05.research_project",
+            "dillen.demo05.metallurgy_program",
+            "progress",
+            output.progress
+        )
+        && ReadField(
+            session,
+            "dillen.demo05.research_project",
+            "dillen.demo05.metallurgy_program",
+            "completed",
+            output.completed
+        )
+        && ReadField(
+            session,
+            "dillen.demo05.research_project",
+            "dillen.demo05.metallurgy_program",
+            "unlock_sent",
+            output.unlockSent
+        )
+        && ReadField(
+            session,
+            "dillen.demo05.production_site",
+            "dillen.demo05.north_reach_industry",
+            "unlocked",
+            output.unlocked
+        )
+        && ReadField(
+            session,
+            "dillen.demo05.production_site",
+            "dillen.demo05.north_reach_industry",
+            "goods_output",
+            output.output
+        )
+        && ReadField(
+            session,
+            "dillen.demo05.production_site",
+            "dillen.demo05.north_reach_industry",
+            "reports_sent",
+            output.reportsSent
+        );
+    if (!read)
+    {
+        std::cerr << "Demo 0.5 result fields are unavailable\n";
+        return false;
+    }
+
+    persistence::RuntimePersistenceService persistence;
+    if (!persistence.Capture(session.Runtime(), output.saveImage)
+        || !persistence.Save(session.Runtime(), output.saveBytes))
+    {
+        std::cerr << "Demo 0.5 save capture failed\n";
+        return false;
+    }
+
+    if (!session.Runtime().RunTick(kFinalTick + 1))
+    {
+        return false;
+    }
+    const persistence::RuntimePersistenceReport restored =
+        persistence.Load(session.Runtime(), output.saveBytes);
+    std::vector<std::uint8_t> restoredBytes;
+    if (!restored || session.World().Tick() != kFinalTick
+        || !persistence.Save(session.Runtime(), restoredBytes)
+        || restoredBytes != output.saveBytes)
+    {
+        std::cerr << "Demo 0.5 save restoration was not byte-stable\n";
+        return false;
+    }
+
+    persistence::RuntimeSaveImage tampered = output.saveImage;
+    if (tampered.identity.sourceLock.empty())
+    {
+        return false;
+    }
+    tampered.identity.sourceLock.front().fingerprint ^= 1;
+    const persistence::RuntimePersistenceReport tamperReport =
+        persistence.Restore(session.Runtime(), std::move(tampered));
+    if (tamperReport
+        || tamperReport.status
+            != persistence::RuntimePersistenceStatus::IdentityMismatch
+        || session.World().Tick() != kFinalTick)
+    {
+        std::cerr << "Demo 0.5 accepted a tampered Source Lock\n";
+        return false;
+    }
+
+    if (foreignSave != nullptr)
+    {
+        const persistence::RuntimePersistenceReport crossPackage =
+            persistence.Load(session.Runtime(), *foreignSave);
+        if (crossPackage
+            || crossPackage.status
+                != persistence::RuntimePersistenceStatus::IdentityMismatch
+            || session.World().Tick() != kFinalTick)
+        {
+            std::cerr << "Demo 0.5 accepted a save from another Package set\n";
+            return false;
+        }
+    }
+
+    runtime::AlgorithmExecutorRegistry executors;
+    executors.Freeze();
+    persistence::ReplayCommandLog replayLog;
+    replayLog.finalTick = kFinalTick + 4;
+    const persistence::DeterministicReplayResult firstReplay =
+        persistence::DeterministicReplayService{}.Replay(
+            output.saveImage,
+            replayLog,
+            session.Catalog(),
+            executors
+        );
+    const persistence::DeterministicReplayResult secondReplay =
+        persistence::DeterministicReplayService{}.Replay(
+            output.saveImage,
+            replayLog,
+            session.Catalog(),
+            executors
+        );
+    if (!firstReplay || !secondReplay
+        || firstReplay.finalSave != secondReplay.finalSave
+        || firstReplay.factStream != secondReplay.factStream
+        || firstReplay.finalStateChecksum
+            != secondReplay.finalStateChecksum
+        || firstReplay.factStreamChecksum
+            != secondReplay.factStreamChecksum)
+    {
+        std::cerr << "Demo 0.5 deterministic Replay diverged\n";
+        return false;
+    }
+    output.replayStateChecksum = firstReplay.finalStateChecksum;
+    output.replayFactChecksum = firstReplay.factStreamChecksum;
+    return true;
+}
+
+bool RejectMissingPackage()
+{
+    host::StandaloneSession session;
+    host::StandaloneSessionReport report;
+    const bool started = session.Start(DemoConfig(
+            "Dillen-Game/packages/economy",
+            false
+        ), report);
+    const bool rejected = !started
+        && (HasDiagnostic(report, "dillen.authoring.package_lock_failed")
+            || HasDiagnostic(report, "dillen.authoring.definition_rejected"));
+    if (!rejected)
+    {
+        PrintReport(report);
+    }
+    return rejected;
+}
+
+bool RejectIllegalPackageRole()
+{
+    const fs::path temporary = fs::temp_directory_path()
+        / "dillen_demo_0_5_illegal_contract";
+    std::error_code error;
+    fs::remove_all(temporary, error);
+    error.clear();
+    fs::copy(
+        "Dillen-Game/contracts/demo_0_5",
+        temporary,
+        fs::copy_options::recursive,
+        error
+    );
+    if (error)
+    {
+        return false;
+    }
+    fs::create_directories(temporary / "algorithms", error);
+    std::ofstream illegal(
+        temporary / "algorithms/illegal.dalgorithm",
+        std::ios::binary
+    );
+    illegal
+        << "algorithm_descriptor = {\n"
+        << " name = dillen.demo05.illegal_contract_algorithm\n"
+        << " version = 1\n"
+        << " backend = declarative\n"
+        << " entry_points = { tick }\n"
+        << " deterministic = yes\n"
+        << " execution_policy = { instruction_budget = 4 failure_policy = fail_instance }\n"
+        << " program = { tick = { transition_lifecycle = active } }\n"
+        << "}\n";
+    illegal.close();
+
+    host::StandaloneSession session;
+    host::StandaloneSessionReport report;
+    const bool started = session.Start(DemoConfig(
+        "Dillen-Game/packages/economy",
+        true,
+        temporary
+    ), report);
+    const bool rejected = !started && HasDiagnostic(
+        report,
+        "dillen.authoring.package_role_violation"
+    );
+    fs::remove_all(temporary, error);
+    return rejected;
+}
+
+bool ValidateClosedLoop(const DemoResult& result)
+{
+    const bool valid = result.packageCount == 5
+        && result.sourceCount == 29
+        && result.mechanismCount == 13
+        && result.balance == kernel::MechanismValue(240.0)
+        && result.reportCount == kernel::MechanismValue(std::int64_t{6})
+        && result.progress == kernel::MechanismValue(66.0)
+        && result.completed == kernel::MechanismValue(true)
+        && result.unlockSent == kernel::MechanismValue(true)
+        && result.unlocked == kernel::MechanismValue(true)
+        && result.output == kernel::MechanismValue(18.0)
+        && result.reportsSent == kernel::MechanismValue(std::int64_t{7});
+    if (!valid)
+    {
+        const auto scalar = [](const kernel::MechanismValue& value)
+        {
+            if (const auto* item = std::get_if<std::int64_t>(&value.data))
+            {
+                return std::to_string(*item);
+            }
+            if (const auto* item = std::get_if<double>(&value.data))
+            {
+                return std::to_string(*item);
+            }
+            if (const auto* item = std::get_if<bool>(&value.data))
+            {
+                return std::string(*item ? "true" : "false");
+            }
+            return std::string("non-scalar");
+        };
+        std::cerr << "Demo 0.5 values: packages=" << result.packageCount
+                  << " sources=" << result.sourceCount
+                  << " mechanisms=" << result.mechanismCount
+                  << " balance=" << scalar(result.balance)
+                  << " reports=" << scalar(result.reportCount)
+                  << " progress=" << scalar(result.progress)
+                  << " completed=" << scalar(result.completed)
+                  << " unlock_sent=" << scalar(result.unlockSent)
+                  << " unlocked=" << scalar(result.unlocked)
+                  << " output=" << scalar(result.output)
+                  << " reports_sent=" << scalar(result.reportsSent) << '\n';
+    }
+    return valid;
 }
 
 }
 
 int main()
 {
-    const std::string rootName = "dillen.g.root";
-    authoring::AuthoringLaunchSelection selection;
-    selection.root = {kernel::StableRulesetId(rootName), rootName, 1};
-    authoring::AuthoringSession session(std::move(selection));
-
-    parser::TemplateRegistry templates;
-    parser::ParserRegistry parsers;
-    parser::Resolver resolver;
-    if (!session.Register(templates, parsers, resolver))
+    DemoResult first;
+    DemoResult second;
+    DemoResult replacement;
+    if (!RunDemo("Dillen-Game/packages/economy", first)
+        || !RunDemo("Dillen-Game/packages/economy", second)
+        || !ValidateClosedLoop(first)
+        || !ValidateClosedLoop(second)
+        || first.fingerprint != second.fingerprint
+        || first.saveBytes != second.saveBytes
+        || first.replayStateChecksum != second.replayStateChecksum
+        || first.replayFactChecksum != second.replayFactChecksum)
     {
-        std::cerr << "demo 0.5: registration failed\n";
+        std::cerr << "Demo 0.5 baseline/checksum gate failed\n";
         return 1;
     }
-    templates.Freeze();
-    parsers.Freeze();
-    resolver.Freeze();
 
-    const std::filesystem::path root =
-        "Project-Dillen/tests/fixtures/dillen_demo_0_5";
-    parser::DiagnosticBag diagnostics;
-    parser::FileCatalog fileCatalog;
-    const bool layered =
-        fileCatalog.AddLayer({1, "contracts", root / "contracts", 0, {}})
-        && fileCatalog.AddLayer({2, "production", root / "production", 10, {}})
-        && fileCatalog.AddLayer({3, "economy", root / "economy", 20, {}})
-        && fileCatalog.AddLayer({4, "research", root / "research", 30, {}})
-        && fileCatalog.AddLayer({5, "content", root / "content", 100, {}});
-    if (!layered || !fileCatalog.Build(templates, diagnostics))
+    if (!RunDemo(
+            "Dillen-Game/packages/economy_rebalanced",
+            replacement,
+            &first.saveBytes)
+        || replacement.fingerprint == first.fingerprint
+        || replacement.saveBytes == first.saveBytes
+        || replacement.packageCount != 5
+        || replacement.sourceCount != 29
+        || replacement.mechanismCount != 13
+        || replacement.balance != kernel::MechanismValue(204.0)
+        || replacement.reportCount
+            != kernel::MechanismValue(std::int64_t{2})
+        || replacement.progress != kernel::MechanismValue(33.0)
+        || replacement.completed != kernel::MechanismValue(true)
+        || replacement.output != kernel::MechanismValue(18.0))
     {
-        for (const parser::Diagnostic& diagnostic : diagnostics.All())
-        {
-            std::cerr << parser::FormatDiagnostic(diagnostic) << '\n';
-        }
-        std::cerr << "demo 0.5: source catalog failed\n";
+        std::cerr << "Demo 0.5 Package replacement gate failed\n";
         return 2;
     }
 
-    parser::ParseWorkspace workspace;
-    if (!fileCatalog.Parse(parsers, workspace, diagnostics)
-        || !resolver.Resolve(workspace, diagnostics))
+    if (!RejectMissingPackage())
     {
-        for (const parser::Diagnostic& diagnostic : diagnostics.All())
-        {
-            std::cerr << parser::FormatDiagnostic(diagnostic) << '\n';
-        }
-        std::cerr << "demo 0.5: parse/resolve failed\n";
+        std::cerr << "Demo 0.5 missing Package was not rejected\n";
         return 3;
     }
-
-    const kernel::FrozenRuntimeCatalog& catalog = session.RuntimeCatalog();
-    world::AuthoritativeWorld world;
-    world::InitialWorldBuildReport buildReport;
-    if (!catalog.IsFrozen()
-        || !world::InitialWorldBuilder{}.Build(catalog, world, buildReport))
+    if (!RejectIllegalPackageRole())
     {
-        std::cerr << "demo 0.5: world build failed\n";
+        std::cerr << "Demo 0.5 illegal Package role was not rejected\n";
         return 4;
     }
 
-    // Five Packages, each owning exactly one Source Layer, all locked.
-    Expect(catalog.LockedPackages().Size() == 5,
-        "five Packages should be locked");
-    Expect(catalog.LockedSources().Size() == 28,
-        "every authoring source should be in the Source Lock, got "
-            + std::to_string(catalog.LockedSources().Size()));
-
-    runtime::KernelRuntime kernelRuntime(world, catalog);
-    constexpr std::uint64_t kTicks = 5;
-    for (std::uint64_t tick = 1; tick <= kTicks; ++tick)
-    {
-        if (!kernelRuntime.RunTick(tick)
-            || kernelRuntime.LastTickAlgorithms().FailedCount() != 0
-            || kernelRuntime.LastCreateAlgorithms().FailedCount() != 0)
-        {
-            for (const runtime::AlgorithmInvocationResult& invocation
-                : kernelRuntime.LastTickAlgorithms().invocations)
-            {
-                if (!invocation)
-                {
-                    std::cerr << "  fault: " << invocation.message << '\n';
-                }
-            }
-            std::cerr << "demo 0.5: tick " << tick << " failed\n";
-            return 5;
-        }
-    }
-
-    const kernel::MechanismQuerySnapshot& mechanisms =
-        kernelRuntime.Query().Mechanisms();
-    const auto field = [&](const char* mechanism,
-                           const char* definitionName,
-                           const char* fieldName,
-                           kernel::MechanismValue& out)
-    {
-        const kernel::MechanismDefinitionId definition =
-            kernel::StableMechanismDefinitionId(
-                kernel::StableMechanismTypeId(mechanism),
-                definitionName
-            );
-        const auto slot =
-            catalog.ResolveDefinitionFieldSlot(definition, fieldName);
-        if (!slot) return false;
-        const kernel::MechanismValue* value = mechanisms.FindField(
-            kernel::StableMechanismInstanceId(definition, 0),
-            *slot
-        );
-        if (value == nullptr) return false;
-        out = *value;
-        return true;
-    };
-
-    kernel::MechanismValue output;
-    kernel::MechanismValue income;
-    kernel::MechanismValue provinces;
-    kernel::MechanismValue balance;
-    kernel::MechanismValue solvent;
-    kernel::MechanismValue progress;
-    kernel::MechanismValue completed;
-    const bool read =
-        field("dillen.g.production_site", "dillen.g.site_north",
-              "goods_output", output)
-        && field("dillen.g.national_budget", "dillen.g.alvara_budget",
-                 "income", income)
-        && field("dillen.g.national_budget", "dillen.g.alvara_budget",
-                 "provinces", provinces)
-        && field("dillen.g.national_budget", "dillen.g.alvara_budget",
-                 "balance", balance)
-        && field("dillen.g.national_budget", "dillen.g.alvara_budget",
-                 "solvent", solvent)
-        && field("dillen.g.research_project", "dillen.g.metallurgy",
-                 "progress", progress)
-        && field("dillen.g.research_project", "dillen.g.metallurgy",
-                 "completed", completed);
-    if (!read)
-    {
-        std::cerr << "demo 0.5: fields unavailable\n";
-        return 6;
-    }
-
-    // Production. north_reach has ore 12, infra_level 1.50, capacity 20.
-    // 12 * 1.50 = 18, and min(18, 20) = 18.
-    Expect(output == kernel::MechanismValue(18.0),
-        "goods_output should be min(12 * 1.50, 20) = 18");
-
-    // Economy. Alvara owns north_reach (ore 12) and south_vale (ore 5), so the
-    // sum across the owns Relation is 17 and the count is 2.
-    Expect(income == kernel::MechanismValue(17.0),
-        "income should be the summed ore across owned provinces = 17");
-    Expect(provinces == kernel::MechanismValue(std::int64_t{2}),
-        "provinces should count both owned provinces");
-
-    // balance accumulates income - upkeep = 17 - 4 = 13 per tick, five times.
-    Expect(balance == kernel::MechanismValue(65.0),
-        "balance should have integrated to 5 * (17 - 4) = 65");
-    Expect(solvent == kernel::MechanismValue(true),
-        "a positive balance should stay solvent");
-
-    // Research. Alvara's treasury.science is 3, so progress reaches 15 in five
-    // ticks and passes the cost of 12 on the fourth.
-    Expect(progress == kernel::MechanismValue(std::int64_t{15}),
-        "progress should have accumulated 5 * 3 = 15");
-    Expect(completed == kernel::MechanismValue(true),
-        "metallurgy should have completed once progress passed cost");
-
-    if (failures != 0)
-    {
-        std::cerr << "demo 0.5: " << failures << " failure(s)\n";
-        return 7;
-    }
-
-    std::cout << "Demo 0.5 vertical slice: passed ("
-              << catalog.LockedPackages().Size() << " Packages, "
-              << catalog.LockedSources().Size() << " locked sources, "
-              << mechanisms.Size() << " instances x " << kTicks
-              << " ticks; production, economy and research all evaluated "
-                 "through read paths)\n";
+    std::cout
+        << "Demo 0.5: passed (formal Dillen-Game content, 5 Packages, "
+        << first.sourceCount << " locked sources, "
+        << first.mechanismCount << " mechanism instances x "
+        << kFinalTick << " ticks, three Capability feedback edges, "
+        << "replace/delete/role/persistence/replay gates; load "
+        << first.loadMicroseconds << " us)\n";
     return 0;
 }

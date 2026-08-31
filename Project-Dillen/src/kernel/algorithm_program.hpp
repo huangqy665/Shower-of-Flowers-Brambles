@@ -201,6 +201,8 @@ struct AlgorithmInstructionDefinition
     std::uint64_t dueTickOffset = 1;
     std::int32_t priority = 0;
     MechanismValue payload;
+    bool payloadComputed = false;
+    AlgorithmReadPathDefinition payloadSource;
     std::uint64_t eventSequence = 0;
     RngStreamId rngStream;
     std::uint64_t rngSeed = 0;
@@ -324,6 +326,8 @@ struct AlgorithmBytecodeInstruction
     std::uint64_t dueTickOffset = 1;
     std::int32_t priority = 0;
     MechanismValue payload;
+    bool payloadComputed = false;
+    CompiledAlgorithmReadPath payloadSource;
     std::uint64_t eventSequence = 0;
     RngStreamId rngStream;
     std::uint64_t rngSeed = 0;

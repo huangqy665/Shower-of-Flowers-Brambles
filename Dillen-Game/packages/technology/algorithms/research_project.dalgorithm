@@ -1,0 +1,54 @@
+algorithm_descriptor = {
+    name = dillen.demo05.research_algorithm
+    version = 1
+    backend = declarative
+    entry_points = { create event }
+    deterministic = yes
+    execution_policy = { instruction_budget = 96  failure_policy = fail_instance }
+
+    program = {
+        create = { transition_lifecycle = active }
+
+        event = {
+            add_field = {
+                field = progress
+                from_payload = yes
+                when = { capability_invoked = dillen.demo05.research_funding }
+            }
+            add_field = {
+                field = funding_received
+                from_payload = yes
+                when = { capability_invoked = dillen.demo05.research_funding }
+            }
+            set_field = {
+                field = completed
+                value = yes
+                when = {
+                    compare = {
+                        left = { self_field = progress }
+                        op = gte
+                        right = { self_field = cost }
+                    }
+                }
+            }
+            invoke_capability = {
+                capability = dillen.demo05.technology_unlock
+                delay = 1
+                priority = 20
+                payload = 1
+                when = {
+                    field_equals = { field = completed  value = yes }
+                    field_equals = { field = unlock_sent  value = no }
+                }
+            }
+            set_field = {
+                field = unlock_sent
+                value = yes
+                when = {
+                    field_equals = { field = completed  value = yes }
+                    field_equals = { field = unlock_sent  value = no }
+                }
+            }
+        }
+    }
+}

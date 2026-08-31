@@ -1,0 +1,7 @@
+relation_schema = {
+    name = dillen.demo05.owns
+    version = 1
+    source_type = dillen.demo05.country
+    target_type = dillen.demo05.province
+    allow_self = no
+}

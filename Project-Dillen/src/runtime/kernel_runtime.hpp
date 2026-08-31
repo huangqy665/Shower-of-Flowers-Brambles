@@ -78,7 +78,8 @@ private:
 
     kernel::WorldTransactionResult ApplyImmediateCore(
         const kernel::WorldTransaction& transaction,
-        std::uint64_t currentTick
+        std::uint64_t currentTick,
+        bool dispatchResultToAlgorithms
     );
     void ApplyAlgorithmReport(
         AlgorithmStageReport& report,
@@ -103,7 +104,7 @@ private:
         AlgorithmInvocationResult& invocation,
         std::uint64_t currentTick
     );
-    void CaptureAlgorithmEvents();
+    void CaptureAlgorithmEvents(bool dispatch = true);
     void PublishSnapshots();
 
     world::AuthoritativeWorld& world_;

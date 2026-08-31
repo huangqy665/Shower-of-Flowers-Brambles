@@ -1765,6 +1765,19 @@ bool RuntimeCompiler::Compile(
                     out.dueTickOffset = src.dueTickOffset;
                     out.priority = src.priority;
                     out.payload = src.payload;
+                    out.payloadComputed = src.payloadComputed;
+                    if (src.payloadComputed
+                        && !LowerReadPath(
+                            src.payloadSource,
+                            *layout,
+                            candidate.componentLayouts_,
+                            candidate.relationLayouts_,
+                            algorithm->canonicalName,
+                            report,
+                            out.payloadSource))
+                    {
+                        return false;
+                    }
                     return true;
                 }
                 case AlgorithmInstructionKind::SetField:
@@ -2535,6 +2548,20 @@ bool RuntimeCompiler::Compile(
                         sourceInstruction.dueTickOffset;
                     instruction.priority = sourceInstruction.priority;
                     instruction.payload = sourceInstruction.payload;
+                    instruction.payloadComputed =
+                        sourceInstruction.payloadComputed;
+                    if (sourceInstruction.payloadComputed
+                        && !LowerReadPath(
+                            sourceInstruction.payloadSource,
+                            *layout,
+                            candidate.componentLayouts_,
+                            candidate.relationLayouts_,
+                            algorithm->canonicalName,
+                            report,
+                            instruction.payloadSource))
+                    {
+                        return false;
+                    }
                     bytecode.push_back(std::move(instruction));
                     continue;
                 }

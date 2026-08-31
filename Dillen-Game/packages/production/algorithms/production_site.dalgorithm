@@ -1,0 +1,49 @@
+algorithm_descriptor = {
+    name = dillen.demo05.production_algorithm
+    version = 1
+    backend = declarative
+    entry_points = { create tick event }
+    deterministic = yes
+    execution_policy = { instruction_budget = 96  failure_policy = fail_instance }
+
+    program = {
+        create = { transition_lifecycle = active }
+
+        event = {
+            set_field = {
+                field = unlocked
+                value = yes
+                when = { capability_invoked = dillen.demo05.technology_unlock }
+            }
+        }
+
+        tick = {
+            set_field = {
+                field = goods_output
+                op = mul
+                left = { role = province  component = dillen.demo05.resources  field = ore }
+                right = { role = province  component = dillen.demo05.resources  field = infra_level }
+                when = { field_equals = { field = unlocked  value = yes } }
+            }
+            set_field = {
+                field = goods_output
+                op = min
+                left = { self_field = goods_output }
+                right = { role = province  component = dillen.demo05.resources  field = capacity }
+                when = { field_equals = { field = unlocked  value = yes } }
+            }
+            invoke_capability = {
+                capability = dillen.demo05.production_report
+                delay = 1
+                priority = 0
+                payload_from = { self_field = goods_output }
+                when = { field_equals = { field = unlocked  value = yes } }
+            }
+            add_field = {
+                field = reports_sent
+                value = 1
+                when = { field_equals = { field = unlocked  value = yes } }
+            }
+        }
+    }
+}

@@ -1,0 +1,14 @@
+mechanism_template = {
+    name = dillen.demo05.national_budget
+    version = 1
+    fields = {
+        field = { name = base_income      kind = decimal  required = yes  default = 0.0 }
+        field = { name = balance          kind = decimal  required = yes  default = 0.0 }
+        field = { name = funding_sent     kind = decimal  required = yes  default = 0.0 }
+        field = { name = reported_output  kind = decimal  required = yes  default = 0.0 }
+        field = { name = report_count     kind = integer  required = yes  default = 0 }
+    }
+    roles = {
+        role = { name = capital  reference_kind = entity  minimum_count = 1  maximum_count = 1 }
+    }
+}

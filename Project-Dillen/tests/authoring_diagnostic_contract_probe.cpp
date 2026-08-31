@@ -13,9 +13,9 @@
 //
 // A diagnostic code is a contract, not a log line. Authors key on them,
 // editors and future tooling key on them, and CI configurations key on them.
-// Until now the codebase emitted 91 distinct `dillen.authoring.*` codes and
-// exactly ONE of them was asserted anywhere -- renaming or deleting the other
-// 90 broke nobody's build and no test.
+// The codebase currently emits 96 distinct `dillen.authoring.*` codes. This
+// probe freezes the full set and triggers the most author-facing failures end
+// to end so an unreachable string literal cannot masquerade as coverage.
 //
 // Two halves, because either alone is weak:
 //
@@ -90,14 +90,19 @@ const std::vector<std::string>& FrozenCodes()
     "dillen.authoring.field_instruction_payload_conflict",
     "dillen.authoring.field_map_required",
     "dillen.authoring.integrity_failed",
+    "dillen.authoring.invoke_capability_payload_invalid",
     "dillen.authoring.invoke_capability_version_invalid",
     "dillen.authoring.lifecycle_state_unknown",
     "dillen.authoring.mechanism_root_expected",
     "dillen.authoring.mechanism_schema_rejected",
     "dillen.authoring.number_required",
     "dillen.authoring.package_content_digest_mismatch",
+    "dillen.authoring.package_dependency_role_violation",
     "dillen.authoring.package_lock_failed",
     "dillen.authoring.package_manifest_rejected",
+    "dillen.authoring.package_role_invalid",
+    "dillen.authoring.package_role_required",
+    "dillen.authoring.package_role_violation",
     "dillen.authoring.package_source_ambiguous",
     "dillen.authoring.package_source_missing",
     "dillen.authoring.package_source_not_selected",
@@ -271,6 +276,12 @@ int main()
          " backend = declarative  entry_points = { tick } "
          " program = { tick = { set_field = { field = f  value = 1 "
          "   left = { self_field = a } } } } }"},
+        {"dillen.authoring.invoke_capability_payload_invalid",
+         "algorithm_descriptor = { name = a.b  version = 1 "
+         " backend = declarative  entry_points = { tick } "
+         " program = { tick = { invoke_capability = { "
+         " capability = a.signal  delay = 1  payload = 1 "
+         " payload_from = { self_field = counter } } } } }"},
         {"dillen.authoring.algorithm_root_expected",
          "mechanism_template = { name = a.b  version = 1 }"},
     };

@@ -1,0 +1,6 @@
+mechanism_spawn = {
+    name = dillen.demo05.research_spawn
+    mechanism = dillen.demo05.research_project
+    definition = dillen.demo05.metallurgy_program
+    count = 4
+}

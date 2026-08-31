@@ -1,1 +1,0 @@
-capability_contract = { name = dillen.g.tax_report  version = 1  deterministic = yes }

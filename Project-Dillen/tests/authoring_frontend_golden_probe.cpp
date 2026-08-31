@@ -159,9 +159,10 @@ void EncodeResolve(
 
 int main()
 {
-    const std::string rootName = "dillen.g.root";
+    const std::string rootName = "dillen.demo05.root";
     authoring::AuthoringLaunchSelection selection;
     selection.root = {kernel::StableRulesetId(rootName), rootName, 1};
+    selection.requireExplicitPackageRoles = true;
     authoring::AuthoringSession session(std::move(selection));
 
     parser::TemplateRegistry templates;
@@ -176,16 +177,15 @@ int main()
     parsers.Freeze();
     resolver.Freeze();
 
-    const std::filesystem::path root =
-        "Project-Dillen/tests/fixtures/dillen_demo_0_5";
+    const std::filesystem::path root = "Dillen-Game";
     parser::DiagnosticBag diagnostics;
     parser::FileCatalog fileCatalog;
     const bool layered =
-        fileCatalog.AddLayer({1, "contracts", root / "contracts", 0, {}})
-        && fileCatalog.AddLayer({2, "production", root / "production", 10, {}})
-        && fileCatalog.AddLayer({3, "economy", root / "economy", 20, {}})
-        && fileCatalog.AddLayer({4, "research", root / "research", 30, {}})
-        && fileCatalog.AddLayer({5, "content", root / "content", 100, {}});
+        fileCatalog.AddLayer({1, "contracts", root / "contracts/demo_0_5", 0, {}})
+        && fileCatalog.AddLayer({2, "economy", root / "packages/economy", 10, {}})
+        && fileCatalog.AddLayer({3, "technology", root / "packages/technology", 20, {}})
+        && fileCatalog.AddLayer({4, "production", root / "packages/production", 30, {}})
+        && fileCatalog.AddLayer({5, "content", root / "content/demo_0_5", 100, {}});
     if (!layered || !fileCatalog.Build(templates, diagnostics))
     {
         std::cerr << "frontend golden: source catalog failed\n";
@@ -223,10 +223,10 @@ int main()
 
     // Both metrics on both goldens: three times now an injected defect in this
     // codebase has held the byte count and moved only the checksum.
-    constexpr std::size_t kGoldenParseBytes = 3534;
-    constexpr std::uint64_t kGoldenParseChecksum = 7108115718015835428ULL;
-    constexpr std::size_t kGoldenResolveBytes = 2953;
-    constexpr std::uint64_t kGoldenResolveChecksum = 8728362738506238519ULL;
+    constexpr std::size_t kGoldenParseBytes = 3912;
+    constexpr std::uint64_t kGoldenParseChecksum = 3730319217720541124ULL;
+    constexpr std::size_t kGoldenResolveBytes = 3137;
+    constexpr std::uint64_t kGoldenResolveChecksum = 14470188716694633576ULL;
 
     int failures = 0;
     if (parseBytes.size() != kGoldenParseBytes

@@ -2075,15 +2075,51 @@ bool ParseGenericAlgorithmInstruction(
         if (!RejectUnknown(
                 node,
                 {"capability", "delay", "priority", "payload",
-                 "target_role", "version"},
+                 "payload_from", "target_role", "version", "when"},
                 cursor,
                 "invoke capability instruction")) return false;
         std::uint32_t delay = 0;
         output.kind = kernel::AlgorithmInstructionKind::InvokeCapability;
+        const SyntaxNode* payload = FindUnique(
+            node,
+            "payload",
+            cursor,
+            false
+        );
+        const SyntaxNode* payloadFrom = FindUnique(
+            node,
+            "payload_from",
+            cursor,
+            false
+        );
+        if ((payload == nullptr) == (payloadFrom == nullptr))
+        {
+            cursor.Diagnostics().Error(
+                "dillen.authoring.invoke_capability_payload_invalid",
+                "invoke_capability requires exactly one of payload or "
+                "payload_from",
+                node.span
+            );
+            return false;
+        }
         if (!ReadStringProperty(
                 node, "capability", cursor, output.capabilityName)
-            || !ReadUInt32Property(node, "delay", cursor, delay)
-            || !scalarValue("payload", output.payload)) return false;
+            || !ReadUInt32Property(node, "delay", cursor, delay))
+        {
+            return false;
+        }
+        if (payload != nullptr)
+        {
+            if (!scalarValue("payload", output.payload)) return false;
+        }
+        else
+        {
+            output.payloadComputed = true;
+            if (!ParseReadPath(*payloadFrom, output.payloadSource, cursor))
+            {
+                return false;
+            }
+        }
         if (FindUnique(node, "priority", cursor, false) != nullptr
             && !ReadInt32Property(
                 node,
@@ -2113,7 +2149,7 @@ bool ParseGenericAlgorithmInstruction(
             output.capabilityVersions.maximumExclusive = version + 1;
         }
         output.dueTickOffset = delay;
-        return true;
+        return ParseAlgorithmConditions(node, output.conditions, cursor);
     }
     if (name == "create_rng" || name == "advance_rng")
     {
@@ -3424,7 +3460,7 @@ bool ParsePackageManifest(
             {
                 "name", "version_major", "version_minor",
                 "version_patch", "content_digest", "load_priority",
-                "dependencies", "provides"
+                "role", "dependencies", "provides"
             },
             cursor,
             "package manifest"))
@@ -3464,6 +3500,44 @@ bool ParsePackageManifest(
     document.value.id = kernel::StablePackageId(
         document.value.canonicalName
     );
+    if (const SyntaxNode* role = FindUnique(
+            root.body,
+            "role",
+            cursor,
+            false))
+    {
+        Token token;
+        if (!RequireScalar(role, cursor, "role", token))
+        {
+            return false;
+        }
+        if (token.text == "contract")
+        {
+            document.value.role = kernel::PackageRole::Contract;
+        }
+        else if (token.text == "mechanism")
+        {
+            document.value.role = kernel::PackageRole::Mechanism;
+        }
+        else if (token.text == "content")
+        {
+            document.value.role = kernel::PackageRole::Content;
+        }
+        else if (token.text == "presentation")
+        {
+            document.value.role = kernel::PackageRole::Presentation;
+        }
+        else
+        {
+            cursor.Diagnostics().Error(
+                "dillen.authoring.package_role_invalid",
+                "package role must be contract, mechanism, content or "
+                "presentation",
+                token.span
+            );
+            return false;
+        }
+    }
     if (FindUnique(root.body, "load_priority", cursor, false) != nullptr
         && !ReadInt32Property(
             root.body,

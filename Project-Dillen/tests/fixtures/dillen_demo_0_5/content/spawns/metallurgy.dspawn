@@ -1,6 +1,0 @@
-mechanism_spawn = {
-    name = dillen.g.metallurgy_spawn
-    mechanism = dillen.g.research_project
-    definition = dillen.g.metallurgy
-    count = 1
-}

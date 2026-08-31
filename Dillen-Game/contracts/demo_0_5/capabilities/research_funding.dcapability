@@ -1,0 +1,5 @@
+capability_contract = {
+    name = dillen.demo05.research_funding
+    version = 1
+    deterministic = yes
+}

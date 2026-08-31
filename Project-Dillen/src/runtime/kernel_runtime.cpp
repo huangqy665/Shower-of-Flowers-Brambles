@@ -150,7 +150,7 @@ kernel::WorldTransactionResult KernelRuntime::ApplyImmediate(
 {
     if (currentTick < world_.tick_)
     {
-        return ApplyImmediateCore(transaction, currentTick);
+        return ApplyImmediateCore(transaction, currentTick, true);
     }
     lastCommandAlgorithms_ = algorithmRuntime_.DispatchCommand(
         *querySnapshot_,
@@ -160,7 +160,8 @@ kernel::WorldTransactionResult KernelRuntime::ApplyImmediate(
     );
     kernel::WorldTransactionResult result = ApplyImmediateCore(
         transaction,
-        currentTick
+        currentTick,
+        true
     );
     if (result)
     {
@@ -175,7 +176,8 @@ kernel::WorldTransactionResult KernelRuntime::ApplyImmediate(
 
 kernel::WorldTransactionResult KernelRuntime::ApplyImmediateCore(
     const kernel::WorldTransaction& transaction,
-    std::uint64_t currentTick
+    std::uint64_t currentTick,
+    bool dispatchResultToAlgorithms
 )
 {
     const std::uint64_t sequence = commands_.ReserveSequence();
@@ -197,7 +199,7 @@ kernel::WorldTransactionResult KernelRuntime::ApplyImmediateCore(
         currentTick
     );
     events_.PublishTransactionResult(currentTick, sequence, result);
-    CaptureAlgorithmEvents();
+    CaptureAlgorithmEvents(dispatchResultToAlgorithms);
     if (result)
     {
         if (result.Changed())
@@ -384,13 +386,16 @@ void KernelRuntime::PublishSnapshots()
     );
 }
 
-void KernelRuntime::CaptureAlgorithmEvents()
+void KernelRuntime::CaptureAlgorithmEvents(bool dispatch)
 {
     for (const kernel::WorldEvent& event : events_.Pending())
     {
         if (event.sequence > lastAlgorithmEventSequence_)
         {
-            pendingAlgorithmEvents_.push_back(event);
+            if (dispatch)
+            {
+                pendingAlgorithmEvents_.push_back(event);
+            }
             lastAlgorithmEventSequence_ = event.sequence;
         }
     }
@@ -494,7 +499,7 @@ bool KernelRuntime::TryApplyAlgorithmReportBatched(
             ++world_.revision_;
         }
     }
-    CaptureAlgorithmEvents();
+    CaptureAlgorithmEvents(false);
     world_.tick_ = currentTick;
     PublishSnapshots();
     return true;
@@ -559,7 +564,8 @@ void KernelRuntime::ApplyAlgorithmReport(
         }
         const kernel::WorldTransactionResult committed = ApplyImmediateCore(
             transaction,
-            currentTick
+            currentTick,
+            false
         );
         if (!committed)
         {
@@ -624,7 +630,8 @@ void KernelRuntime::ApplyAlgorithmFault(
         kernel::WorldTransaction::FromMechanismCommands(
             std::move(commands)
         ),
-        currentTick
+        currentTick,
+        false
     );
     if (!isolated)
     {

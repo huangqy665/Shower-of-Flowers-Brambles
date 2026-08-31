@@ -1,0 +1,21 @@
+package_manifest = {
+    name = dillen.demo05.economy
+    version_major = 1
+    version_minor = 0
+    version_patch = 0
+    role = mechanism
+    content_digest = "85b46c0f633bc888ec6b2db49701347584942aac88645b659d6eaed3d928b03f"
+    load_priority = 20
+    dependencies = {
+        dependency = {
+            name = dillen.demo05.contracts
+            minimum_major = 1
+            minimum_minor = 0
+            minimum_patch = 0
+            maximum_major = 2
+            maximum_minor = 0
+            maximum_patch = 0
+            required = yes
+        }
+    }
+}

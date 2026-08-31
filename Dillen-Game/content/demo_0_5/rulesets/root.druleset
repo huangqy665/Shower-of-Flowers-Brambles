@@ -1,0 +1,47 @@
+root_ruleset = {
+    name = dillen.demo05.root
+    version = 1
+
+    required_packages = {
+        requirement = { name = dillen.demo05.contracts  minimum_major = 1 minimum_minor = 0 minimum_patch = 0  maximum_major = 2 maximum_minor = 0 maximum_patch = 0 }
+        requirement = { name = dillen.demo05.economy    minimum_major = 1 minimum_minor = 0 minimum_patch = 0  maximum_major = 2 maximum_minor = 0 maximum_patch = 0 }
+        requirement = { name = dillen.demo05.technology minimum_major = 1 minimum_minor = 0 minimum_patch = 0  maximum_major = 2 maximum_minor = 0 maximum_patch = 0 }
+        requirement = { name = dillen.demo05.production minimum_major = 1 minimum_minor = 0 minimum_patch = 0  maximum_major = 2 maximum_minor = 0 maximum_patch = 0 }
+        requirement = { name = dillen.demo05.content    minimum_major = 1 minimum_minor = 0 minimum_patch = 0  maximum_major = 2 maximum_minor = 0 maximum_patch = 0 }
+    }
+
+    required_schemas = {
+        dillen.demo05.national_budget = 1
+        dillen.demo05.research_project = 1
+        dillen.demo05.production_site = 1
+    }
+    required_components = {
+        dillen.demo05.treasury = 1
+        dillen.demo05.resources = 1
+    }
+    required_relations = { dillen.demo05.owns = 1 }
+    required_algorithms = {
+        dillen.demo05.budget_algorithm = 1
+        dillen.demo05.research_algorithm = 1
+        dillen.demo05.production_algorithm = 1
+    }
+    required_definitions = {
+        requirement = { mechanism = dillen.demo05.national_budget  name = dillen.demo05.alvara_budget }
+        requirement = { mechanism = dillen.demo05.research_project name = dillen.demo05.metallurgy_program }
+        requirement = { mechanism = dillen.demo05.production_site  name = dillen.demo05.north_reach_industry }
+    }
+    required_entity_definitions = {
+        requirement = { entity_type = dillen.demo05.country  name = dillen.demo05.alvara }
+        requirement = { entity_type = dillen.demo05.province name = dillen.demo05.north_reach }
+        requirement = { entity_type = dillen.demo05.province name = dillen.demo05.south_vale }
+    }
+    required_relation_definitions = {
+        requirement = { relation = dillen.demo05.owns name = dillen.demo05.alvara_north_reach }
+        requirement = { relation = dillen.demo05.owns name = dillen.demo05.alvara_south_vale }
+    }
+    required_spawns = {
+        requirement = { mechanism = dillen.demo05.national_budget  definition = dillen.demo05.alvara_budget        name = dillen.demo05.budget_spawn }
+        requirement = { mechanism = dillen.demo05.research_project definition = dillen.demo05.metallurgy_program   name = dillen.demo05.research_spawn }
+        requirement = { mechanism = dillen.demo05.production_site  definition = dillen.demo05.north_reach_industry name = dillen.demo05.production_spawn }
+    }
+}

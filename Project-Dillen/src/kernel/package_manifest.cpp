@@ -8,6 +8,24 @@
 
 namespace dillen::kernel {
 
+std::string_view ToString(PackageRole role) noexcept
+{
+    switch (role)
+    {
+    case PackageRole::Unspecified:
+        return "unspecified";
+    case PackageRole::Contract:
+        return "contract";
+    case PackageRole::Mechanism:
+        return "mechanism";
+    case PackageRole::Content:
+        return "content";
+    case PackageRole::Presentation:
+        return "presentation";
+    }
+    return "unspecified";
+}
+
 namespace {
 
 std::tuple<std::uint32_t, std::uint32_t, std::uint32_t> VersionTuple(

@@ -34,11 +34,13 @@ jobs:
       run:
         working-directory: Project-Dillen
     steps:
-      - name: Checkout (engine tree only)
+      - name: Checkout (engine and formal game content)
         uses: actions/checkout@v4
         with:
-          # Skip the large reference repo and mod-content directories.
-          sparse-checkout: Project-Dillen
+          # Skip reference/oracle trees while retaining formal Demo content.
+          sparse-checkout: |
+            Project-Dillen
+            Dillen-Game
 
       - name: Configure
         run: cmake --preset dillen-standalone-windows-x64
@@ -66,7 +68,7 @@ jobs:
     #
     # A local pre-flight is not a CI result. It cannot exercise
     # actions/checkout's sparse-checkout, so a build that reaches outside
-    # Project-Dillen/ passes locally and fails here. Only a real run proves
+    # Project-Dillen/ or Dillen-Game/ passes locally and fails here. Only a real run proves
     # this workflow green.
     #
     # Keeping this blocking is what stops the Package `content_digest` from
@@ -100,10 +102,12 @@ jobs:
       run:
         working-directory: Project-Dillen
     steps:
-      - name: Checkout (engine tree only)
+      - name: Checkout (engine and formal game content)
         uses: actions/checkout@v4
         with:
-          sparse-checkout: Project-Dillen
+          sparse-checkout: |
+            Project-Dillen
+            Dillen-Game
 
       - name: Install Ninja
         run: sudo apt-get update && sudo apt-get install -y ninja-build
