@@ -58,11 +58,19 @@ jobs:
     name: Pure Dillen standalone (Linux, ${{ matrix.compiler }}, ${{ matrix.build_type }})
     runs-on: ubuntu-24.04
     # Blocking gate as of 2026-08-30, extended to Release on 2026-08-31.
-    # Verified locally under WSL Ubuntu 24.04 with the same toolchain versions
-    # this image ships (GCC 13.3, Clang 18.1, CMake 3.28, Ninja 1.11): all four
-    # combinations pass 19/19. Keeping this blocking is what stops the Package
-    # `content_digest` from silently diverging between platforms again -- see
-    # .gitattributes.
+    # Pre-flighted under WSL Ubuntu 24.04 on the *same compilers* this image
+    # ships -- GCC 13.3.0 and Clang 18.1.3, matched exactly, which is the part
+    # that could move a byte. The build tools differ and deliberately are not
+    # matched: the image carries CMake 3.31.6 and Ninja 1.13.2 against 3.28.3
+    # and 1.11.1 locally, and neither affects generated output.
+    #
+    # A local pre-flight is not a CI result. It cannot exercise
+    # actions/checkout's sparse-checkout, so a build that reaches outside
+    # Project-Dillen/ passes locally and fails here. Only a real run proves
+    # this workflow green.
+    #
+    # Keeping this blocking is what stops the Package `content_digest` from
+    # silently diverging between platforms again -- see .gitattributes.
     #
     # Known, deliberate: GCC 13 Release emits 16 -Wmaybe-uninitialized warnings
     # from inside libstdc++'s <variant> at -O2. They are the well-known false
