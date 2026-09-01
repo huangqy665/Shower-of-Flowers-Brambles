@@ -13,6 +13,7 @@ mechanism_template = {
         role = {
             name = peer
             reference_kind = mechanism_instance
+            reference_type = dillen.dsl.peer_target
             minimum_count = 0
             maximum_count = 4
         }

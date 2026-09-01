@@ -69,12 +69,12 @@
 | --- | --- | --- |
 | **Parse** | 哪些文件被认领、分类成什么格式、同虚拟路径由哪一层胜出 | `authoring_frontend_golden_probe`：3912 字节 / 校验和 `3730319217720541124` |
 | **Resolve** | Package Lock 与 Source Lock 的锁定身份 | 同上：3137 字节 / 校验和 `14470188716694633576` |
-| **Compile** | 字节码与 Slot 布局 | `authoring_compile_golden_probe`：2449 字节 / 校验和 `7998801853630025278` |
-| **Diagnostic** | 96 个 `dillen.authoring.*` 稳定码 | `authoring_diagnostic_contract_probe`：源码级注册表比对 + 9 个端到端触发 |
+| **Compile** | 字节码与 Slot 布局 | `authoring_compile_golden_probe`：2449 字节 / 校验和 `4455798241172024468` |
+| **Diagnostic** | 97 个 `dillen.authoring.*` 稳定码 | `authoring_diagnostic_contract_probe`：源码级注册表比对 + 9 个端到端触发 |
 | Slot 按**字段名排序**分配，源码顺序不是契约 | 作者可自由重排字段而不影响编译产物 | Compile 黄金值（换序不动，改名即动） |
 | 授权扩展名的 `eol=lf` | `content_digest` 是原始字节的 SHA-256，行尾漂移即身份漂移 | `.gitattributes` 覆盖全部 11 个扩展名；Parse 黄金值编码文件大小，CRLF 回归会被抓 |
 
-**加法性规则**：新增指令、操作数来源、归约、运算符一律只能追加，**不得改变既有构造编译出的字节**。`invoke_capability payload_from` 以可选尾段加入黄金编码：旧的常量载荷编码保持原样，只有新构造追加读路径编码；完整覆盖夹具当前锁定为 2449 / `7998801853630025278`。
+**加法性规则**：新增指令、操作数来源、归约、运算符一律只能追加，**不得改变既有构造编译出的字节**。`invoke_capability payload_from` 以可选尾段加入黄金编码：旧的常量载荷编码保持原样，只有新构造追加读路径编码；完整覆盖夹具当前锁定为 2449 / `4455798241172024468`。
 
 ## 6. 模块分层
 
@@ -89,7 +89,7 @@
   另需记录：冻结当时契约描述的结构**并不存在** —— 派发在过滤循环里用 `push_back` 追加结果，执行顺序与槽位顺序是焊死的，根本无法并行。结构已补齐（两相位），这条留在这里是为了提醒：冻结一个从未执行过的契约，就是冻结一个假设。
 - ~~**Authoring DSL 语法面无黄金锁定**~~ —— **已闭合（2026-08-31）**，见第 5 节：Parse / Resolve / Compile / Diagnostic 四面均已锁定。
 - **DSL 定点标度只冻了存储侧** —— 存储标度 10⁻²（两位小数）是冻结契约；表达式内部标度 10⁻⁴ 不进存档、不进 Query、不进 Package，可随时调整。改**存储**标度会改掉所有既有存档。
-- **`role → Mechanism 字段` 读路径在纯 Authoring 下不可达** —— `.ddefinition` 的角色绑定只支持 Entity 引用（Mechanism Instance 在写 Definition 时尚不存在）。三种寻址里经 Component 的两种已通。
+- **`role → Mechanism 字段` 的读取已可正确解析，但角色仍无法绑定** —— 编译期现按角色声明的 `reference_type` 解析目标 layout（未声明即拒绝；此前静默按**调用方自身** layout 解析，字段同名即读到错误槽位）。但 `.ddefinition` 的角色绑定只支持 Entity 引用，`.dspawn` 无 `roles` 键，`MechanismCommandOperation` 也无 SetRole——**`mechanism_instance` 角色槽在当前引擎里没有任何写入路径，永远为空**。补齐需要新增 Mechanism 操作（追加 variant 备选项 + 升 Save 版本），属独立决策。
 - **`cancel_event` 无 DSL 语法** —— 有意保留：它携带运行期序列号，写死字面量只能用错。等 `schedule_event` 的返回侧读操作数。
 - ~~**内层 variant tag 未逐项对位**~~ —— **已闭合（2026-08-31）**：`CheckFrozenCommandEncoding` 现对全部 18 个 tag 逐项断言。判别力已用注入验证：读侧对调内层 tag 4/5（两者均无载荷，字节数与外层 tag 全不变——正是旧检查漏掉的那一类），被精确捕获。
 - **Migration 链只有一条测试路径** —— `persistence_replay_probe` 覆盖一次旧格式

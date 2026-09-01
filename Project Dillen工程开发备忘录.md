@@ -519,9 +519,9 @@ Destroy 阶段在实例进入 Completed / Failed 后执行；成功输出与实�
 **两条当前限制，都可后续放宽**：
 
 1. **条件求值失败判为假，不是 Fault**。角色暂时未绑定时读不到值，该指令不触发；若判为 Fault，一个暂时为空的角色会直接隔离实例。
-2. **经角色读 Mechanism 字段，只能读与自身同 layout 的目标**。角色可绑定该 reference kind 下的任意 Definition，编译期无法确定目标 layout，因此 `target_field` 是对**调用方自身 layout** 解析的。这是当前数据模型下唯一能在加载期定住槽位的做法，代价是跨类型角色读不可用。放宽的前提是给角色槽声明目标 Definition 或目标 Mechanism Type，使编译期能确定唯一 layout。
+2. ~~**经角色读 Mechanism 字段，只能读与自身同 layout 的目标**~~ —— **已解决（2026-09-01）**。角色槽的 `reference_type` 现按 `reference_kind` 决定的哈希域接受**符号名**（此前只接受裸哈希数，实际无人可用），编译期据它解析目标 layout。**未声明 `reference_type` 现在是编译拒绝**——此前静默按**调用方自身** layout 解析 `target_field`，两个类型只要有同名字段就会读到错误槽位且毫无提示。判别力已用注入验证：覆盖夹具的 `peer` 角色指向一个 `counter` 落在不同槽位的类型，回退到旧解析后**字节数不变、校验和变**，正是“静默读错槽位”的指纹。
 
-3. **`role → mechanism field` 这条读路径在纯 Authoring 下目前不可达**。`.ddefinition` 的 `roles` 绑定**只支持 Entity 引用**——Mechanism Instance 在写 Definition 时尚不存在，绑定它属于运行期行为，Definition 语法里没有、也不应该有。因此三种寻址中，`role → Entity → Component`（含关系跳转）**已通**，`role → Mechanism Instance → field` **只有运行期绑定角色后才可用**，外部 Package 单靠 Authoring 走不到。要让它可用，需要先有运行期角色绑定的事务指令。
+3. **`mechanism_instance` 角色槽仍没有任何写入路径**（比此前记录的更严重）。读取侧已按上一条解决，但写入侧三条路全封死：`.ddefinition` 的 `roles` 只支持 Entity 引用（Mechanism Instance 在写 Definition 时尚不存在）、`.dspawn` **根本没有 `roles` 键**、`MechanismCommandOperation` **没有 SetRole 操作**。因此该类角色槽在当前引擎里**永远为空**——不是“读不到”，是“写不进去”。补齐需要新增 Mechanism 操作（向 variant 末尾追加备选项 + 建议同步升 Save 版本），属独立决策，不阻塞 Demo 0.5。
 
 上述三条都**不阻塞 Demo 0.5**：经济—科研—生产模型所需的跨对象读全部走 Component 路径。
 

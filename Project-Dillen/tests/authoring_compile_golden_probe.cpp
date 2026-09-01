@@ -522,7 +522,7 @@ int main()
     // Both metrics are asserted. Twice now in this codebase an injected defect
     // has kept the byte count and moved only the checksum.
     constexpr std::size_t kGoldenBytes = 2449;
-    constexpr std::uint64_t kGoldenChecksum = 7998801853630025278ULL;
+    constexpr std::uint64_t kGoldenChecksum = 4455798241172024468ULL;
     if (bytes.size() != kGoldenBytes || checksum != kGoldenChecksum)
     {
         std::cerr << "DSL compile output drifted:\n"

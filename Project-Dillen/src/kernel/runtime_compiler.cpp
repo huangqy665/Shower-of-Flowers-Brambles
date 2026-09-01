@@ -91,6 +91,7 @@ void AddIssue(
 bool LowerReadPath(
     const AlgorithmReadPathDefinition& source,
     const CompiledMechanismLayout& layout,
+    const std::vector<CompiledMechanismLayout>& mechanismLayouts,
     const std::vector<CompiledComponentLayout>& componentLayouts,
     const std::vector<CompiledRelationLayout>& relationLayouts,
     const std::string& algorithmName,
@@ -175,17 +176,50 @@ bool LowerReadPath(
                 "role '" + source.role
                     + "' does not reference Mechanism Instances");
         }
-        // The referenced instance's layout is not knowable at compile time --
-        // a role may be bound to any Definition of the declared kind -- so the
-        // field name is resolved against this Mechanism's own layout, which is
-        // the only slot space the compiler can see. Cross-type role reads are
-        // therefore restricted to same-layout targets by construction.
-        const auto field = layout.fieldSlotsByName.find(source.targetField);
-        if (field == layout.fieldSlotsByName.end())
+        // Resolve against the role's DECLARED target type, not the calling
+        // Mechanism's own layout. Without `reference_type` the compiler cannot
+        // know which slot space `target_field` lives in; it used to fall back
+        // on the caller's layout, which silently resolves to a same-named
+        // field of an unrelated type and reads the wrong slot at run time.
+        // That is a wrong answer rather than an error, so it is rejected now.
+        if (!roleSchema.referenceType)
+        {
+            return reject(
+                "role '" + source.role + "' must declare reference_type "
+                "before a read path can name a field on its target");
+        }
+        const MechanismTypeId targetType{*roleSchema.referenceType};
+        const CompiledMechanismLayout* targetLayout = nullptr;
+        for (const CompiledMechanismLayout& candidateLayout : mechanismLayouts)
+        {
+            if (candidateLayout.type == targetType)
+            {
+                targetLayout = &candidateLayout;
+                break;
+            }
+        }
+        if (targetLayout == nullptr)
+        {
+            return reject(
+                "role '" + source.role + "' declares a reference_type that is "
+                "not a Mechanism Type in this Ruleset");
+        }
+        const auto field =
+            targetLayout->fieldSlotsByName.find(source.targetField);
+        if (field == targetLayout->fieldSlotsByName.end())
         {
             return reject(
                 "read path names an unknown target field: "
                     + source.targetField);
+        }
+        const MechanismValueKind targetKind =
+            targetLayout->fields[field->second.value].kind;
+        if (targetKind != MechanismValueKind::Integer
+            && targetKind != MechanismValueKind::Decimal)
+        {
+            return reject(
+                "read path target field '" + source.targetField
+                    + "' is not numeric");
         }
         out.targetField = field->second;
         return true;
@@ -1422,6 +1456,7 @@ bool RuntimeCompiler::Compile(
                         if (!LowerReadPath(
                                 sourceCondition.left,
                                 *layout,
+                                candidate.layouts_,
                                 candidate.componentLayouts_,
                                 candidate.relationLayouts_,
                                 algorithm->canonicalName,
@@ -1430,6 +1465,7 @@ bool RuntimeCompiler::Compile(
                             || !LowerReadPath(
                                 sourceCondition.right,
                                 *layout,
+                                candidate.layouts_,
                                 candidate.componentLayouts_,
                                 candidate.relationLayouts_,
                                 algorithm->canonicalName,
@@ -1501,6 +1537,7 @@ bool RuntimeCompiler::Compile(
                     if (!LowerReadPath(
                             src.left,
                             *layout,
+                            candidate.layouts_,
                             candidate.componentLayouts_,
                             candidate.relationLayouts_,
                             algorithm->canonicalName,
@@ -1514,6 +1551,7 @@ bool RuntimeCompiler::Compile(
                         && !LowerReadPath(
                             src.right,
                             *layout,
+                            candidate.layouts_,
                             candidate.componentLayouts_,
                             candidate.relationLayouts_,
                             algorithm->canonicalName,
@@ -1770,6 +1808,7 @@ bool RuntimeCompiler::Compile(
                         && !LowerReadPath(
                             src.payloadSource,
                             *layout,
+                            candidate.layouts_,
                             candidate.componentLayouts_,
                             candidate.relationLayouts_,
                             algorithm->canonicalName,
@@ -2145,6 +2184,7 @@ bool RuntimeCompiler::Compile(
                         if (!LowerReadPath(
                                 sourceCondition.left,
                                 *layout,
+                                candidate.layouts_,
                                 candidate.componentLayouts_,
                                 candidate.relationLayouts_,
                                 algorithm->canonicalName,
@@ -2153,6 +2193,7 @@ bool RuntimeCompiler::Compile(
                             || !LowerReadPath(
                                 sourceCondition.right,
                                 *layout,
+                                candidate.layouts_,
                                 candidate.componentLayouts_,
                                 candidate.relationLayouts_,
                                 algorithm->canonicalName,
@@ -2222,6 +2263,7 @@ bool RuntimeCompiler::Compile(
                     if (!LowerReadPath(
                             sourceInstruction.left,
                             *layout,
+                            candidate.layouts_,
                             candidate.componentLayouts_,
                             candidate.relationLayouts_,
                             algorithm->canonicalName,
@@ -2235,6 +2277,7 @@ bool RuntimeCompiler::Compile(
                         && !LowerReadPath(
                             sourceInstruction.right,
                             *layout,
+                            candidate.layouts_,
                             candidate.componentLayouts_,
                             candidate.relationLayouts_,
                             algorithm->canonicalName,
@@ -2554,6 +2597,7 @@ bool RuntimeCompiler::Compile(
                         && !LowerReadPath(
                             sourceInstruction.payloadSource,
                             *layout,
+                            candidate.layouts_,
                             candidate.componentLayouts_,
                             candidate.relationLayouts_,
                             algorithm->canonicalName,

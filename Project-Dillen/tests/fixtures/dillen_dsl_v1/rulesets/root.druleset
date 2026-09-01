@@ -16,6 +16,7 @@ root_ruleset = {
 
     required_schemas = {
         dillen.dsl.node = 1
+        dillen.dsl.peer_target = 1
         dillen.dsl.sink = 1
     }
     required_components = {

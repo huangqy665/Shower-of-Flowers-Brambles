@@ -113,6 +113,7 @@ const std::vector<std::string>& FrozenCodes()
     "dillen.authoring.read_path_root_invalid",
     "dillen.authoring.read_path_terminal_missing",
     "dillen.authoring.reference_kind_unknown",
+    "dillen.authoring.reference_type_invalid",
     "dillen.authoring.relation_definition_rejected",
     "dillen.authoring.relation_schema_rejected",
     "dillen.authoring.required_property_missing",

@@ -591,6 +591,14 @@ bool InferScalarValue(
     return true;
 }
 
+// Defined below, next to the role schema it mainly serves.
+bool ParseReferenceType(
+    const SyntaxNode& node,
+    kernel::MechanismReferenceKind kind,
+    std::optional<std::uint64_t>& output,
+    ParserCursor& cursor
+);
+
 bool ParseFieldSchema(
     const SyntaxNode& node,
     kernel::MechanismFieldSchema& output,
@@ -749,32 +757,87 @@ bool ParseFieldSchema(
             return false;
         }
     }
+    // A field's reference kind is optional; without one there is no domain to
+    // hash a reference_type in, so it stays unparsed rather than guessing.
+    if (!output.referenceKind)
+    {
+        return true;
+    }
+    return ParseReferenceType(
+        node,
+        *output.referenceKind,
+        output.referenceType,
+        cursor
+    );
+}
+
+// `reference_type` narrows a reference to one target type. It used to accept
+// only a bare 64-bit number -- the raw hash -- which no author would ever
+// write, so the property was unusable in practice and nothing in the tree set
+// it. It now takes the symbolic name and hashes it in the domain the
+// reference kind implies, the same way every other name in the DSL is
+// resolved.
+//
+// This matters beyond ergonomics: the Runtime Compiler needs the target type
+// to resolve a `role -> mechanism field` read path against the right layout.
+// Without it the field name was resolved against the *calling* mechanism's
+// layout, which silently lands on a same-named field of the wrong type.
+bool ParseReferenceType(
+    const SyntaxNode& node,
+    kernel::MechanismReferenceKind kind,
+    std::optional<std::uint64_t>& output,
+    ParserCursor& cursor
+)
+{
     const SyntaxNode* referenceType = FindUnique(
         node,
         "reference_type",
         cursor,
         false
     );
-    if (referenceType != nullptr)
+    if (referenceType == nullptr)
     {
-        Token token;
-        std::uint64_t value = 0;
-        if (!RequireScalar(
-                referenceType,
-                cursor,
-                "reference_type",
-                token)
-            || !ParseUnsigned(
-                token,
-                std::numeric_limits<std::uint64_t>::max(),
-                value,
-                cursor))
-        {
-            return false;
-        }
-        output.referenceType = value;
+        return true;
     }
-    return true;
+    Token token;
+    if (!RequireScalar(referenceType, cursor, "reference_type", token))
+    {
+        return false;
+    }
+    const std::string name(token.text);
+    switch (kind)
+    {
+    case kernel::MechanismReferenceKind::Entity:
+        output = kernel::StableEntityTypeId(name).value;
+        return true;
+    case kernel::MechanismReferenceKind::MechanismDefinition:
+    case kernel::MechanismReferenceKind::MechanismInstance:
+        output = kernel::StableMechanismTypeId(name).value;
+        return true;
+    case kernel::MechanismReferenceKind::Resource:
+    case kernel::MechanismReferenceKind::Custom:
+        // No Stable ID domain of their own; the author's own opaque tag.
+        {
+            std::uint64_t value = 0;
+            if (!ParseUnsigned(
+                    token,
+                    std::numeric_limits<std::uint64_t>::max(),
+                    value,
+                    cursor))
+            {
+                cursor.Diagnostics().Error(
+                    "dillen.authoring.reference_type_invalid",
+                    "reference_type for resource/custom references must be a "
+                    "number",
+                    referenceType->span
+                );
+                return false;
+            }
+            output = value;
+            return true;
+        }
+    }
+    return false;
 }
 
 bool ParseRoleSchema(
@@ -840,32 +903,12 @@ bool ParseRoleSchema(
         }
         output.maximumCount = maximum;
     }
-    const SyntaxNode* referenceType = FindUnique(
+    return ParseReferenceType(
         node,
-        "reference_type",
-        cursor,
-        false
+        output.referenceKind,
+        output.referenceType,
+        cursor
     );
-    if (referenceType != nullptr)
-    {
-        Token token;
-        std::uint64_t value = 0;
-        if (!RequireScalar(
-                referenceType,
-                cursor,
-                "reference_type",
-                token)
-            || !ParseUnsigned(
-                token,
-                std::numeric_limits<std::uint64_t>::max(),
-                value,
-                cursor))
-        {
-            return false;
-        }
-        output.referenceType = value;
-    }
-    return true;
 }
 
 bool ParseScalarFieldMap(

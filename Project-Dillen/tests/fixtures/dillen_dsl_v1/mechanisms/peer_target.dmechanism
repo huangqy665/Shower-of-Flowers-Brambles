@@ -1,0 +1,16 @@
+# Exists so a role read path crosses a type boundary. Field names are chosen so
+# `counter` sorts to a DIFFERENT slot here than it does on dillen.dsl.node:
+# slots are assigned by sorted field name, so node gives {active, counter,
+# label, rate} -> counter = 1, and this gives {alpha, beta, counter} ->
+# counter = 2. Resolving the read against the caller's layout instead of the
+# role's declared target therefore lands on the wrong slot, silently, and the
+# compile golden moves when it does.
+mechanism_template = {
+    name = dillen.dsl.peer_target
+    version = 1
+    fields = {
+        field = { name = alpha    kind = integer  required = yes  default = 0 }
+        field = { name = beta     kind = integer  required = yes  default = 0 }
+        field = { name = counter  kind = integer  required = yes  default = 0 }
+    }
+}
