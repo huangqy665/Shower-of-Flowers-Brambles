@@ -274,6 +274,193 @@ dillen::kernel::WorldTransaction SetPopulation(
 // WorldCommandPayload alternative -- all 11 -- plus a spread of
 // MechanismCommandOperation alternatives, so every command writer branch is
 // covered by a golden. Verified byte-identical on Windows MSVC and Linux GCC.
+// Multi-step migration.
+//
+// The registry has always walked a chain -- it loops until the image identity
+// matches the target, and it carries a visited set to break cycles -- but the
+// only migration ever exercised was a single hop. A chain that needs two steps,
+// a chain that loops, and a chain that runs out of steps halfway all went
+// through code no test had ever entered.
+//
+// This matters more than an ordinary coverage gap. "Bump the save version and
+// supply a migration" is the *only* escape hatch the freeze rules offer for a
+// breaking change (FROZEN_CONTRACTS section 0), so an untested escape hatch
+// means the freeze has no sanctioned way out.
+bool CheckMigrationChain(const ProbeCatalog& probe)
+{
+    using namespace dillen;
+
+    const persistence::RuntimeSaveIdentity target =
+        persistence::RuntimePersistenceService::IdentityFor(probe.catalog);
+
+    // Two ancestors of the current identity, distinguished only by format
+    // version, which is what the registry keys a step's source on.
+    persistence::RuntimeSaveIdentity v1 = target;
+    v1.formatVersion = target.formatVersion - 1;
+    persistence::RuntimeSaveIdentity v0 = target;
+    v0.formatVersion = target.formatVersion - 2;
+
+    // Each step stamps a marker into the first mechanism's level field, so the
+    // final value proves both steps ran and proves the order they ran in.
+    const auto step = [](
+        const std::string& name,
+        const persistence::RuntimeSaveIdentity& from,
+        const persistence::RuntimeSaveIdentity& to,
+        std::int64_t stamp)
+    {
+        persistence::RuntimeMigrationStep migration;
+        migration.canonicalName = name;
+        migration.source = from;
+        migration.target = to;
+        migration.migrate = [to, stamp](
+            persistence::RuntimeSaveImage& image,
+            std::string& message)
+        {
+            if (image.mechanisms.empty())
+            {
+                message = "no mechanism to stamp";
+                return false;
+            }
+            kernel::MechanismInstance& instance = image.mechanisms.front();
+            if (instance.values.empty())
+            {
+                message = "mechanism has no values";
+                return false;
+            }
+            const auto* current =
+                std::get_if<std::int64_t>(&instance.values.back().data);
+            if (current == nullptr)
+            {
+                message = "unexpected value kind";
+                return false;
+            }
+            // Multiply-then-add, so a swapped order produces a different
+            // number rather than the same one.
+            instance.values.back() =
+                kernel::MechanismValue(*current * 10 + stamp);
+            image.identity = to;
+            return true;
+        };
+        return migration;
+    };
+
+    persistence::RuntimeSaveImage image;
+    image.identity = v0;
+    image.worldTick = 1;
+    kernel::MechanismInstance instance;
+    instance.id = kernel::MechanismInstanceId{0x99ULL};
+    instance.type = probe.mechanismType;
+    instance.schemaVersion = 1;
+    instance.values.push_back(kernel::MechanismValue(std::int64_t{1}));
+    image.mechanisms.push_back(instance);
+
+    // --- the chain runs end to end ---
+    {
+        persistence::RuntimeMigrationRegistry registry;
+        if (registry.Register(step("v0_to_v1", v0, v1, 2))
+                != persistence::RuntimeMigrationRegisterResult::Added
+            || registry.Register(step("v1_to_v2", v1, target, 3))
+                != persistence::RuntimeMigrationRegisterResult::Added)
+        {
+            std::cerr << "Migration chain: registration failed\n";
+            return false;
+        }
+        registry.Freeze();
+        persistence::RuntimeSaveImage walked = image;
+        const persistence::RuntimeMigrationReport report =
+            registry.Migrate(walked, target);
+        const auto* value =
+            std::get_if<std::int64_t>(&walked.mechanisms.front().values.back().data);
+        // 1 -> 1*10+2 = 12 -> 12*10+3 = 123. Any other order or count of steps
+        // gives a different number.
+        if (report.status != persistence::RuntimeMigrationStatus::Migrated
+            || value == nullptr
+            || *value != 123
+            || !persistence::SameRuntimeSaveIdentity(walked.identity, target))
+        {
+            std::cerr << "Migration chain: two-step walk failed, value="
+                      << (value ? std::to_string(*value) : std::string("none"))
+                      << '\n';
+            return false;
+        }
+    }
+
+    // --- a chain that never reaches the target is rejected, not half-applied ---
+    {
+        persistence::RuntimeMigrationRegistry registry;
+        if (registry.Register(step("v0_to_v1", v0, v1, 2))
+                != persistence::RuntimeMigrationRegisterResult::Added)
+        {
+            std::cerr << "Migration chain: stalled-case registration failed\n";
+            return false;
+        }
+        registry.Freeze();
+        persistence::RuntimeSaveImage stalled = image;
+        const persistence::RuntimeMigrationReport report =
+            registry.Migrate(stalled, target);
+        if (report.status != persistence::RuntimeMigrationStatus::PathMissing)
+        {
+            std::cerr << "Migration chain: a broken chain was not rejected\n";
+            return false;
+        }
+    }
+
+    // --- a step that moves the format version backwards is refused outright ---
+    //
+    // Registration already forbids it, so one whole class of cycle can never
+    // be built: a chain cannot walk back down the version ladder. Asserting it
+    // here keeps that structural guarantee from being relaxed by accident.
+    {
+        persistence::RuntimeMigrationRegistry registry;
+        if (registry.Register(step("v1_back_to_v0", v1, v0, 4))
+                != persistence::RuntimeMigrationRegisterResult::InvalidStep)
+        {
+            std::cerr << "Migration chain: a backwards step was accepted\n";
+            return false;
+        }
+    }
+
+    // --- a cycle within one format version is detected instead of looping ---
+    //
+    // Steps that keep the format version and change only the Ruleset
+    // Fingerprint are legal, so A -> B -> A is constructible. This is the
+    // shape the cycle detector actually exists for.
+    //
+    // Two independent guards catch it, which is worth knowing before either is
+    // touched: the visited set, and a cap on applied steps at the registry
+    // size. Disabling either alone still terminates -- only disabling both
+    // hangs -- so a change that removes one will not show up here as a
+    // failure, it will show up as the other guard doing all the work.
+    {
+        persistence::RuntimeSaveIdentity fingerprintA = target;
+        fingerprintA.rulesetFingerprint = {0xA1A1ULL, 0xA2A2ULL};
+        persistence::RuntimeSaveIdentity fingerprintB = target;
+        fingerprintB.rulesetFingerprint = {0xB1B1ULL, 0xB2B2ULL};
+
+        persistence::RuntimeMigrationRegistry registry;
+        if (registry.Register(step("a_to_b", fingerprintA, fingerprintB, 5))
+                != persistence::RuntimeMigrationRegisterResult::Added
+            || registry.Register(step("b_to_a", fingerprintB, fingerprintA, 6))
+                != persistence::RuntimeMigrationRegisterResult::Added)
+        {
+            std::cerr << "Migration chain: cycle-case registration failed\n";
+            return false;
+        }
+        registry.Freeze();
+        persistence::RuntimeSaveImage looping = image;
+        looping.identity = fingerprintA;
+        const persistence::RuntimeMigrationReport report =
+            registry.Migrate(looping, target);
+        if (report.status != persistence::RuntimeMigrationStatus::CycleDetected)
+        {
+            std::cerr << "Migration chain: a cycle was not detected\n";
+            return false;
+        }
+    }
+
+    return true;
+}
+
 bool CheckFrozenCommandEncoding()
 {
     using namespace dillen;
@@ -719,6 +906,11 @@ int main()
     if (!CheckFrozenCommandEncoding())
     {
         return 14;
+    }
+
+    if (!CheckMigrationChain(probe))
+    {
+        return 15;
     }
 
     std::cout

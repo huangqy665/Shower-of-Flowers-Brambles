@@ -818,7 +818,7 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 1. **Capability 多发送者原子聚合未实现**——Demo 0.5 已证明 fire-and-forget v1 能表达单向反馈链，但同 Tick fan-in 仍需要纯加法的原子累加/归约事务或 ABI v2 关联语义；不得改变已冻结 v1 命令布局。
 2. **同相位算法并行未实现**——粗粒度 CoW 与快照共享载荷已完成（§3.20），派发的两相位结构与顺序守卫已完成（§3.9）；剩下的是 Worker Pool 本身，以及它必须同批带来的 1-vs-N 对拍探针和 Native Executor 的 `parallel_safe` 契约。
 3. ~~**内层 variant tag 未逐项验证**~~——**已闭合（2026-08-31）**：`CheckFrozenCommandEncoding` 现对全部 18 个 tag 逐项断言（外层 11 个 `WorldCommandPayload` + 内层 7 个 `MechanismCommandOperation`）。判别力用注入验证过：读侧对调内层 tag 4/5，两者均无载荷，编码字节数与外层 tag 全部不变——正是旧检查必然放行的那一类——被精确捕获。
-4. **多步 Migration 无夹具**——v5 之后的迁移链没有测试路径，而"升版本 + 迁移"正是冻结规则的唯一逃生口。
+4. ~~**多步 Migration 无夹具**~~——**已闭合（2026-09-01）**。`CheckMigrationChain` 覆盖多步链、断链、版本倒退与同版本成环四种情况。顺带查明两件事：**版本倒退的步骤在注册期就被拒**（`Register` 的 `target.formatVersion < source.formatVersion` 校验），所以一整类环根本无法构造；**环检测是双重的**——visited 集合与应用步数上限，单独关掉任一道都仍会终止。
 5. **加载期只有 Demo 0.5 基线**——正式 5 Package / 29 Source 的 Parse → Resolve → Compile → Freeze 已纳入 30 秒硬门禁并输出实测微秒值；更大规模 Package 图仍需独立基准。
 6. External Corpus Adapter ABI、Normalized IR 容器与 Mapping Profile 执行器本身；
 7. **Projection Artifact Identity 未接入 Ruleset Fingerprint**——`ComputeRulesetFingerprint` 目前只吃 Ruleset Definition + Package Lock + Native Source Lock，投影身份是独立的一套（§2.2），两者尚未合并。
