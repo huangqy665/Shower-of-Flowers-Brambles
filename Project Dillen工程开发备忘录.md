@@ -537,6 +537,12 @@ Destroy 阶段在实例进入 Completed / Failed 后执行；成功输出与实�
 
 **`cancel_event` 仍缺，且是有意保留**：它携带运行期分配的事件序列号，源码里写死字面量只会命中"碰巧拿到那个号"的事件。加一个只能用错的语法比留着可见的缺口更糟；它等运行期读操作数进入 `schedule_event` 的返回侧后再补。
 
+**事件取消（2026-09-01）——`cancel_events`，且不会有按序列号的形式**：`cancel_events = { type = X }` 取消本实例该类型的全部待发事件，运行期展开成 N 条既有的 `CancelEvent` 命令，**不新增 World 命令、不新增 variant 备选项、Save 仍是 v5**，按 N 计费。
+
+**按序列号取消永远不会有 DSL 语法**，这是数据流决定的而非取舍：序列号在 `AlgorithmInbox::Schedule()` 内、即**提交期**分配，而 VM 早在此之前就已发出调度命令，无从得知。要把它写回字段就得给 `ScheduledEventScheduleCommand` 增加目标槽位——存档格式变更，且把一个**运行期内部标识**变成作者可见概念。Inbox 可读之后，"取消我挂着的某类事件"这个真实需求已被覆盖；需要更精确时可按 payload 或 dueTick 匹配，而不必让作者接触序列号。
+
+**只能取消本实例自己的事件。**能取消别的机制的排期，就绕过了 Capability 层存在的全部契约。
+
 **受控 Script 当前实现**：`script` Backend 已启用 Dillen 自有的确定性 Controlled Script Bytecode VM，不嵌入宿主 Lua、操作系统线程状态或不可审计的第三方 VM 堆。外部 `.dalgorithm` 可声明类型稳定的持久状态、`set/add_state`、`set/add_field`、生命周期转换、绝对跳转、条件跳转、`yield` 和 `halt`。Runtime Compiler 在加载期把状态名和字段名冻结为 Slot；VM 在指令边界按 `script_slice_instruction_budget` 抢占，将 Program Counter 与状态值作为 Mechanism Instance 权威状态，通过同一 World Transaction 原子提交。Create / Tick / Destroy 在对应阶段继续执行；被抢占的 Event / Command 帧在后续 Tick 优先恢复，当前最小语言不读取未持久化的宿主事件对象。
 
 Script 状态使用确定性的结构化字节占用模型执行 `script_memory_limit_bytes` 配额；超额会丢弃整次输出并产生 `ScriptMemoryQuotaExceeded` 权威 Fault。状态值、每阶段 Continuation、Fault 与所有相关 Sequence 已进入 Save Format v4、候选世界验证和 Replay；v3 Codec 读取继续保留，以便显式 Runtime Migration。`controlled_script_probe` 已覆盖外部语法解析、加载时编译、自动抢占、跨 Tick 恢复、Save / Load 后续执行一致性与内存配额拒绝。
@@ -577,6 +583,7 @@ Mechanism Definition 用 `provides_capabilities` 声明其实例响应的契约�
 - Command Queue 按 `notBeforeTick → priority → sequence` 稳定排序；
 - Algorithm Inbox 按 `dueTick → priority → sequence` 稳定排序；
 - Committed Fact Stream 与权威 Scheduled Inbox 已分离；
+- **Scheduled Event Inbox 已成为 Query 快照面（2026-09-01 新增，只读）**：`WorldQuerySnapshot::ScheduledEvents()` 按值持有写时复制的 `AlgorithmInbox`，发布只是引用计数递增。此前算法能调度事件却**看不见任何待发事件**——`AlgorithmInvocationContext` 只带 Query、Mechanism 视图和 RNG。`Pending()` 已按 `dueTick → priority → sequence` 有序，枚举天然确定，无需额外排序。
 - **事务审计事件不再回灌算法事件队列（2026-08-31 语义变更，需显式记录）**：`ApplyImmediateCore` 现携带 `dispatchResultToAlgorithms`，只有**外部/宿主提交**的事务（`ApplyImmediate`）其结果事件会进入 `pendingAlgorithmEvents_` 并在 Event 相位派发；**算法自身产生的事务**（`ApplyAlgorithmReport` / `ApplyAlgorithmFault` / 批量提交路径）其审计事件仍进入 Fact Stream，但不再回灌给算法。
   **改这个的理由**：Fact Stream 是审计与 Replay 的输入，不是 Gameplay 事件通道。回灌会让每个算法事务在下一相位再次广播给全部合格实例，形成与玩法无关的自激放大——`thread_contract_probe` 同一夹具的 fact 数由此从 **21661 降到 105**，`scale_probe` 的 Release 耗时在 N≥4000 时下降 13–16%。
   **这是对外可观察的语义变更**，不是纯优化：此前算法能在 Event 相位看到其他算法事务的审计事件，现在看不到。现有黄金值全部未动（存档格式、Replay Checksum、Demo 内容均不依赖该回灌），但外部 Package 若曾依赖它，行为会变。**需要跨算法通知的场景应使用 Capability 调用或 `schedule_event`，那才是有契约的通道。**
@@ -1054,12 +1061,12 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
   | --- | --- | --- |
   | Parse | `authoring_frontend_golden_probe` | 3912 字节 / `3730319217720541124` |
   | Resolve | 同上 | 3137 字节 / `14470188716694633576` |
-  | Compile | `authoring_compile_golden_probe` | 2449 字节 / `7998801853630025278` |
-  | Diagnostic | `authoring_diagnostic_contract_probe` | **96** 个码 + 9 个端到端触发 |
+  | Compile | `authoring_compile_golden_probe` | 2462 字节 / `16428176961995718018` |
+  | Diagnostic | `authoring_diagnostic_contract_probe` | **97** 个码 + 9 个端到端触发 |
 
   诊断码当前是 **96** 个：在既有语法与管线诊断上新增 `invoke_capability` 载荷互斥校验，以及 Package 角色、依赖角色和严格显式角色诊断。
 
-  执行顺序为：先锁现有构造（1617 字节）→ 加读操作数与聚合、黄金值必须不动 → 用真实经济—科研—生产替换草稿 → 扩充 fixture 至完整覆盖后重取（2377 字节）→ 追加 `invoke_capability payload_from` 与 Package 角色契约后重取（2449 字节）。旧常量载荷编码保持不变，只有使用动态载荷的新构造追加读路径编码，因此仍遵守纯加法冻结规则。
+  执行顺序为：先锁现有构造（1617 字节）→ 加读操作数与聚合、黄金值必须不动 → 用真实经济—科研—生产替换草稿 → 扩充 fixture 至完整覆盖后重取（2377 字节）→ 追加 `invoke_capability payload_from` 与 Package 角色契约后重取（2449 字节）→ 角色读路径按 `reference_type` 解析、并追加 `cancel_events` 后重取（2462 字节）。旧常量载荷编码保持不变，只有使用动态载荷的新构造追加读路径编码，因此仍遵守纯加法冻结规则。
 
   **这个漏洞是 GCC 的 `-Wswitch` 报出来的，不是自查发现的**：黄金编码器的 switch 少了三个 enum 分支，冻结面正好在新功能处开洞。同一批告警还暴露出 `IsValidAlgorithmInstruction` 漏校验两个新指令种类、以及**受控脚本后端整个没接读操作数**（`lowerTransact` 与脚本侧条件下降是独立于声明式的另一份代码）。MSVC /W4 三条都不报（C4061/C4062 默认关闭）。这是 Linux 阻塞门禁在本轮的实际产出。
 

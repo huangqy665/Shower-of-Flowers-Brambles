@@ -58,6 +58,7 @@
 | 冻结项 | 守卫 |
 | --- | --- |
 | 只有算法派发可并行；提交 / 稳定标识分配 / 事件与快照发布 / RNG 推进永远单线程 | 备忘录 §3.9；派发本身已改为两相位（枚举序建计划 → 按计划下标填槽位），`thread_contract_probe` 守住"填槽顺序不影响任何权威字节" |
+| Query 快照面：Entity / Component / Relation / Mechanism / **Scheduled Event Inbox**（2026-09-01 新增，只读） | 各子快照按值持有 CoW 载荷，发布是引用计数递增 |
 | 派发结果写入由枚举位置决定的槽位，与完成顺序无关 | `thread_contract_probe`：整个世界跑两遍（正序填槽 / 逆序填槽），存档镜像与 Fact Stream 必须逐字节相同。Event 相位两条投递路径均覆盖（自定向 + 宿主广播扇出），最大计划 144 项 |
 | 线程数不影响权威输出（1 线程与 N 线程存档逐字节相同） | **仍待补** —— 上一条证明的是顺序无关性，不是并发执行下的内存安全；实现 worker pool 时必须同时提供 1-vs-N 对拍探针 |
 
@@ -69,12 +70,12 @@
 | --- | --- | --- |
 | **Parse** | 哪些文件被认领、分类成什么格式、同虚拟路径由哪一层胜出 | `authoring_frontend_golden_probe`：3912 字节 / 校验和 `3730319217720541124` |
 | **Resolve** | Package Lock 与 Source Lock 的锁定身份 | 同上：3137 字节 / 校验和 `14470188716694633576` |
-| **Compile** | 字节码与 Slot 布局 | `authoring_compile_golden_probe`：2449 字节 / 校验和 `4455798241172024468` |
+| **Compile** | 字节码与 Slot 布局 | `authoring_compile_golden_probe`：2462 字节 / 校验和 `16428176961995718018` |
 | **Diagnostic** | 97 个 `dillen.authoring.*` 稳定码 | `authoring_diagnostic_contract_probe`：源码级注册表比对 + 9 个端到端触发 |
 | Slot 按**字段名排序**分配，源码顺序不是契约 | 作者可自由重排字段而不影响编译产物 | Compile 黄金值（换序不动，改名即动） |
 | 授权扩展名的 `eol=lf` | `content_digest` 是原始字节的 SHA-256，行尾漂移即身份漂移 | `.gitattributes` 覆盖全部 11 个扩展名；Parse 黄金值编码文件大小，CRLF 回归会被抓 |
 
-**加法性规则**：新增指令、操作数来源、归约、运算符一律只能追加，**不得改变既有构造编译出的字节**。`invoke_capability payload_from` 以可选尾段加入黄金编码：旧的常量载荷编码保持原样，只有新构造追加读路径编码；完整覆盖夹具当前锁定为 2449 / `4455798241172024468`。
+**加法性规则**：新增指令、操作数来源、归约、运算符一律只能追加，**不得改变既有构造编译出的字节**。`invoke_capability payload_from` 以可选尾段加入黄金编码：旧的常量载荷编码保持原样，只有新构造追加读路径编码；完整覆盖夹具当前锁定为 2462 / `16428176961995718018`。
 
 ## 6. 模块分层
 
@@ -90,7 +91,8 @@
 - ~~**Authoring DSL 语法面无黄金锁定**~~ —— **已闭合（2026-08-31）**，见第 5 节：Parse / Resolve / Compile / Diagnostic 四面均已锁定。
 - **DSL 定点标度只冻了存储侧** —— 存储标度 10⁻²（两位小数）是冻结契约；表达式内部标度 10⁻⁴ 不进存档、不进 Query、不进 Package，可随时调整。改**存储**标度会改掉所有既有存档。
 - **`role → Mechanism 字段` 的读取已可正确解析，但角色仍无法绑定** —— 编译期现按角色声明的 `reference_type` 解析目标 layout（未声明即拒绝；此前静默按**调用方自身** layout 解析，字段同名即读到错误槽位）。但 `.ddefinition` 的角色绑定只支持 Entity 引用，`.dspawn` 无 `roles` 键，`MechanismCommandOperation` 也无 SetRole——**`mechanism_instance` 角色槽在当前引擎里没有任何写入路径，永远为空**。补齐需要新增 Mechanism 操作（追加 variant 备选项 + 升 Save 版本），属独立决策。
-- **`cancel_event` 无 DSL 语法** —— 有意保留：它携带运行期序列号，写死字面量只能用错。等 `schedule_event` 的返回侧读操作数。
+- ~~**`cancel_event` 无 DSL 语法**~~ —— **已闭合（2026-09-01），但不是按序列号闭合的**。按序列号取消永远不会有语法：序列号在 `AlgorithmInbox::Schedule()` 即提交期分配，VM 发出命令时它还不存在；把它写回字段需要给 `ScheduledEventScheduleCommand` 加目标槽位，那是存档格式变更，且暴露的是内部标识而非作者语义。
+  改为把 **Inbox 暴露为 Query 快照面**，新增 `cancel_events = { type = X }`，运行期展开成 N 条既有的 `CancelEvent` 命令。**无新命令、无新 variant 备选项、Save 仍是 v5**；按 N 计费；只能取消本实例自己的事件。
 - ~~**内层 variant tag 未逐项对位**~~ —— **已闭合（2026-08-31）**：`CheckFrozenCommandEncoding` 现对全部 18 个 tag 逐项断言。判别力已用注入验证：读侧对调内层 tag 4/5（两者均无载荷，字节数与外层 tag 全不变——正是旧检查漏掉的那一类），被精确捕获。
 - **Migration 链只有一条测试路径** —— `persistence_replay_probe` 覆盖一次旧格式
   迁移；v5 之后的多步迁移尚无夹具。
