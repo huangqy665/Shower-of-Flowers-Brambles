@@ -4,12 +4,28 @@ algorithm_descriptor = {
     name = dillen.eco.algorithm
     version = 1
     backend = declarative
-    entry_points = { create tick }
+    entry_points = { create tick event }
     deterministic = yes
-    execution_policy = { instruction_budget = 64  failure_policy = fail_instance }
+    execution_policy = { instruction_budget = 96  failure_policy = fail_instance }
 
     program = {
-        create = { transition_lifecycle = active }
+        create = {
+            transition_lifecycle = active
+            # Staggered on purpose. Every invocation in one Event phase reads
+            # the same immutable snapshot, so three deliveries in one phase
+            # would each compute 0+1 and commit 1 -- indistinguishable from a
+            # single delivery, and the cancellation test would prove nothing.
+            # One per tick accumulates properly.
+            schedule_event = { type = dillen.eco.pulse   delay = 1  priority = 0  payload = 1 }
+            schedule_event = { type = dillen.eco.pulse   delay = 2  priority = 0  payload = 1 }
+            schedule_event = { type = dillen.eco.keeper  delay = 3  priority = 0  payload = 1 }
+        }
+
+        # Any delivered event bumps `pulses`. If cancellation works, only the
+        # keeper survives to tick 3, so pulses ends at 1 rather than 3.
+        event = {
+            add_field = { field = pulses  left = { constant = 1 } }
+        }
 
         tick = {
             # 生产: output = 所属实体的 ore x 自身 efficiency
@@ -57,6 +73,9 @@ algorithm_descriptor = {
                           field = tax
                           reduce = sum }
             }
+
+            # Cancel the two pulses on tick 1, before they come due on 3.
+            cancel_events = { type = dillen.eco.pulse }
 
             # 计数归约
             set_field = {

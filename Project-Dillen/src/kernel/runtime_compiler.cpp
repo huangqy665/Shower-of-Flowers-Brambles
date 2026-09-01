@@ -1501,6 +1501,10 @@ bool RuntimeCompiler::Compile(
                 }
                 switch (src.kind)
                 {
+                case AlgorithmInstructionKind::CancelEventsByType:
+                    out.opcode = AlgorithmBytecodeOpcode::CancelEventsByType;
+                    out.eventType = src.eventType;
+                    return true;
                 case AlgorithmInstructionKind::SetFieldComputed:
                 case AlgorithmInstructionKind::AddFieldComputed:
                 {
@@ -2227,6 +2231,16 @@ bool RuntimeCompiler::Compile(
                     }
                     instruction.conditions.push_back(std::move(condition));
                 }
+                if (sourceInstruction.kind
+                    == AlgorithmInstructionKind::CancelEventsByType)
+                {
+                    instruction.opcode =
+                        AlgorithmBytecodeOpcode::CancelEventsByType;
+                    instruction.eventType = sourceInstruction.eventType;
+                    bytecode.push_back(std::move(instruction));
+                    continue;
+                }
+
                 if (sourceInstruction.kind
                         == AlgorithmInstructionKind::SetFieldComputed
                     || sourceInstruction.kind

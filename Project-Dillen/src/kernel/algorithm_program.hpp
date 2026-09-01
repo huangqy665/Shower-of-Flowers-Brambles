@@ -49,7 +49,12 @@ enum class AlgorithmInstructionKind
     // Appended, never inserted. The compile golden proves that adding these
     // leaves every existing construct's lowering byte-identical.
     SetFieldComputed,
-    AddFieldComputed
+    AddFieldComputed,
+    // Cancels this instance's pending Scheduled Events of one type. Distinct
+    // from CancelEvent, which names a single event by the sequence number the
+    // Inbox assigns at commit time -- a number the VM can never learn, which
+    // is why cancel-by-sequence has no DSL syntax and this does.
+    CancelEventsByType
 };
 
 enum class AlgorithmQueryKind
@@ -220,6 +225,7 @@ struct AlgorithmInstructionDefinition
     AlgorithmReadPathDefinition right;
     bool hasRight = false;
     AlgorithmBinaryOperator binaryOperator = AlgorithmBinaryOperator::Add;
+    // kind == CancelEventsByType reuses `eventType`.
 
     static AlgorithmInstructionDefinition SetField(
         std::string field,
@@ -264,7 +270,10 @@ enum class AlgorithmBytecodeOpcode
     // are: existing content keeps lowering to them, which is what the compile
     // golden holding at 1617 bytes proves.
     SetFieldComputed,
-    AddFieldComputed
+    AddFieldComputed,
+    // Expands at run time into one CancelEvent per matching pending event, so
+    // it needs no new World command and no save-format change.
+    CancelEventsByType
 };
 
 // Slot-resolved read path. Names have become slots, so nothing here needs a

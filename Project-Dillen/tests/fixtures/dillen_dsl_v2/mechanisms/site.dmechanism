@@ -9,6 +9,7 @@ mechanism_template = {
         field = { name = completed    kind = boolean  required = yes  default = no }
         field = { name = income       kind = decimal  required = yes  default = 0.0 }
         field = { name = reach        kind = integer  required = yes  default = 0 }
+        field = { name = pulses       kind = integer  required = yes  default = 0 }
     }
     roles = {
         role = { name = home   reference_kind = entity  minimum_count = 0  maximum_count = 4 }

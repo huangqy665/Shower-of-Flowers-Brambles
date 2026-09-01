@@ -7,6 +7,7 @@
 #include <utility>
 #include <vector>
 
+#include "algorithm_inbox.hpp"
 #include "authoritative_world.hpp"
 #include "mechanism_query_snapshot.hpp"
 
@@ -113,6 +114,33 @@ private:
     world::RelationIndex relations_;
 };
 
+// The authoritative Scheduled Event Inbox, made readable by algorithms.
+//
+// It was previously invisible to them: AlgorithmInvocationContext carried the
+// Query, the Mechanism view and the RNG, and nothing else. An algorithm could
+// therefore schedule an event but never see, and so never cancel, one it had
+// already scheduled -- cancellation takes a sequence number the Inbox assigns
+// at commit time, which the VM has no way to learn.
+//
+// Holding the Inbox by value costs a refcount bump: it is copy-on-write like
+// the stores. Pending() is kept ordered by (dueTick, priority, sequence), so
+// enumerating it is deterministic without any extra sorting here.
+class ScheduledEventQuerySnapshot
+{
+public:
+    std::size_t Size() const noexcept;
+    bool Empty() const noexcept;
+    const std::vector<kernel::ScheduledAlgorithmEvent>& Pending()
+        const noexcept;
+
+private:
+    friend class WorldQuerySnapshot;
+
+    void Publish(const kernel::AlgorithmInbox& inbox);
+
+    kernel::AlgorithmInbox inbox_;
+};
+
 class WorldQuerySnapshot
 {
 public:
@@ -125,6 +153,7 @@ public:
     const ComponentQuerySnapshot& Components() const noexcept;
     const RelationQuerySnapshot& Relations() const noexcept;
     const kernel::MechanismQuerySnapshot& Mechanisms() const noexcept;
+    const ScheduledEventQuerySnapshot& ScheduledEvents() const noexcept;
 
 private:
     friend class WorldQueryService;
@@ -139,6 +168,7 @@ private:
     ComponentQuerySnapshot components_;
     RelationQuerySnapshot relations_;
     kernel::MechanismQuerySnapshot mechanisms_;
+    ScheduledEventQuerySnapshot scheduledEvents_;
     bool published_ = false;
 };
 

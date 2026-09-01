@@ -72,6 +72,14 @@ algorithm_descriptor = {
                 payload = 7
             }
 
+            # Cancels this instance's pending events of one type. The
+            # sequence-number form has no syntax on purpose: the Inbox assigns
+            # the sequence at commit time, so a literal could only name
+            # whichever event happened to get that number.
+            cancel_events = {
+                type = dillen.dsl.pulse
+            }
+
             invoke_capability = {
                 capability = dillen.dsl.probe_signal
                 delay = 1

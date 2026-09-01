@@ -219,6 +219,41 @@ BytecodeTransactionOutcome EmitBytecodeTransaction(
         ));
         return outcome;
     }
+    if (instruction.opcode == AlgorithmBytecodeOpcode::CancelEventsByType)
+    {
+        // Expands into one CancelEvent per match. The Inbox is ordered by
+        // (dueTick, priority, sequence), so the commands come out in a
+        // deterministic order without sorting anything here.
+        //
+        // Only this instance's own events are cancellable: an algorithm that
+        // could cancel another mechanism's scheduled work would be reaching
+        // past every contract the Capability layer exists to provide.
+        std::uint32_t matched = 0;
+        for (const ScheduledAlgorithmEvent& pending
+            : context.query.ScheduledEvents().Pending())
+        {
+            if (pending.target != instance.id
+                || pending.type != instruction.eventType)
+            {
+                continue;
+            }
+            resultCommands.push_back(
+                WorldCommand::CancelEvent(pending.sequence)
+            );
+            ++matched;
+        }
+        // Charged like an aggregation: one instruction, N units of work. The
+        // first match is covered by the instruction itself.
+        if (matched > 1 && !context.budget.Consume(matched - 1))
+        {
+            return Reject(
+                BytecodeTransactionStatus::OperandTypeMismatch,
+                "cancel_events matched " + std::to_string(matched)
+                    + " events, exceeding the instruction budget"
+            );
+        }
+        return outcome;
+    }
     if (instruction.opcode == AlgorithmBytecodeOpcode::InvokeCapability)
     {
         MechanismValue payload = instruction.payload;

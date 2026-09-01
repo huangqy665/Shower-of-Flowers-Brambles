@@ -118,6 +118,9 @@ bool IsValidAlgorithmInstruction(
             || instruction.dueTickOffset == 0
             || !instruction.capabilityVersions.IsValid()) return false;
         break;
+    case AlgorithmInstructionKind::CancelEventsByType:
+        if (!instruction.eventType) return false;
+        break;
     case AlgorithmInstructionKind::SetFieldComputed:
     case AlgorithmInstructionKind::AddFieldComputed:
         // A computed assignment needs a destination and a left read path; the

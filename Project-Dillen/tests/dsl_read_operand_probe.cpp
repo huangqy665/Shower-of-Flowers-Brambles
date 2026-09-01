@@ -87,7 +87,9 @@ int main()
     }
 
     runtime::KernelRuntime kernelRuntime(world, catalog);
-    for (std::uint64_t tick = 1; tick <= 3; ++tick)
+    // Four ticks: the surviving keeper is due on 3, and its delivery lands
+    // on the Event stage of the tick after it becomes due.
+    for (std::uint64_t tick = 1; tick <= 4; ++tick)
     {
         if (!kernelRuntime.RunTick(tick)
             || kernelRuntime.LastTickAlgorithms().FailedCount() != 0
@@ -132,11 +134,13 @@ int main()
     kernel::MechanismValue completed;
     kernel::MechanismValue income;
     kernel::MechanismValue reach;
+    kernel::MechanismValue pulses;
     if (!readField("output", output)
         || !readField("progress", progress)
         || !readField("completed", completed)
         || !readField("income", income)
-        || !readField("reach", reach))
+        || !readField("reach", reach)
+        || !readField("pulses", pulses))
     {
         std::cerr << "read operand probe: fields unavailable\n";
         return 6;
@@ -157,20 +161,36 @@ int main()
     expect(output == kernel::MechanismValue(50.0),
         "output should be min(40 * 1.5, 50) = 50");
 
-    // Three ticks of accumulation through a computed add.
-    expect(progress == kernel::MechanismValue(std::int64_t{3}),
-        "progress should have accumulated to 3");
+    // Four ticks of accumulation through a computed add.
+    expect(progress == kernel::MechanismValue(std::int64_t{4}),
+        "progress should have accumulated to 4");
 
     // cost is 30 and progress is 3, so the ordered comparison must be false --
     // and it must be evaluated at all, which the old `==`-only condition could
     // not have done against a field.
     expect(completed == kernel::MechanismValue(false),
-        "completed should still be false at progress 3 of 30");
+        "completed should still be false at progress 4 of 30");
 
     // The capital supplies one outpost, whose stock.tax is 3.25. Summing over
     // the Relation reaches exactly that one value.
     expect(income == kernel::MechanismValue(3.25),
         "income should be the summed tax across the supplies Relation");
+
+    // cancel_events. Create schedules two `pulse` events and one `keeper`, due
+    // on ticks 2, 3 and 4; the Tick stage cancels every pending `pulse` on
+    // tick 1, before either comes due. Only the keeper survives, so `pulses`
+    // -- which any delivered event increments -- ends at 1. Removing the
+    // cancel_events line makes it 3, which is what makes this assertion worth
+    // having.
+    //
+    // The due ticks are staggered deliberately. Every invocation in one Event
+    // phase reads the same immutable snapshot, so three deliveries in a single
+    // phase would each compute 0+1 and commit 1 -- identical to one delivery,
+    // and the assertion would hold whether or not cancellation worked. The
+    // first version of this test had exactly that flaw and passed with the
+    // feature removed.
+    expect(pulses == kernel::MechanismValue(std::int64_t{1}),
+        "cancel_events should remove both pulses and leave the keeper");
 
     // The role binds one entity, so counting the fan-out gives 1.
     expect(reach == kernel::MechanismValue(std::int64_t{1}),

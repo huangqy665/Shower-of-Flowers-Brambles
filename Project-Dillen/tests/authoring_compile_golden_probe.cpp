@@ -258,6 +258,9 @@ void EncodeInstruction(
     case Opcode::CancelEvent:
         out.U64(instruction.eventSequence);
         break;
+    case Opcode::CancelEventsByType:
+        out.U64(instruction.eventType.value);
+        break;
     case Opcode::CreateRngStream:
         out.U64(instruction.rngStream.value);
         out.U64(instruction.rngSeed);
@@ -521,8 +524,8 @@ int main()
 
     // Both metrics are asserted. Twice now in this codebase an injected defect
     // has kept the byte count and moved only the checksum.
-    constexpr std::size_t kGoldenBytes = 2449;
-    constexpr std::uint64_t kGoldenChecksum = 4455798241172024468ULL;
+    constexpr std::size_t kGoldenBytes = 2462;
+    constexpr std::uint64_t kGoldenChecksum = 16428176961995718018ULL;
     if (bytes.size() != kGoldenBytes || checksum != kGoldenChecksum)
     {
         std::cerr << "DSL compile output drifted:\n"

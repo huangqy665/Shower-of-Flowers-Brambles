@@ -2064,6 +2064,21 @@ bool ParseGenericAlgorithmInstruction(
         );
         return true;
     }
+    if (name == "cancel_events")
+    {
+        if (!RejectUnknown(node, {"type"}, cursor, "cancel events instruction"))
+        {
+            return false;
+        }
+        std::string eventType;
+        if (!ReadStringProperty(node, "type", cursor, eventType))
+        {
+            return false;
+        }
+        output.kind = kernel::AlgorithmInstructionKind::CancelEventsByType;
+        output.eventType = kernel::StableAlgorithmEventTypeId(eventType);
+        return true;
+    }
     if (name == "spawn_mechanism")
     {
         if (!RejectUnknown(
@@ -2321,6 +2336,7 @@ bool ParseAlgorithmProgram(
                 || instructionName.text == "set_component_field"
                 || instructionName.text == "add_relation"
                 || instructionName.text == "remove_relation"
+                || instructionName.text == "cancel_events"
                 || instructionName.text == "spawn_mechanism"
                 || instructionName.text == "schedule_event"
                 || instructionName.text == "invoke_capability"

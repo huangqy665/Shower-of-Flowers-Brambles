@@ -145,6 +145,27 @@ RelationQuerySnapshot::All() const noexcept
     return relations_.All();
 }
 
+void ScheduledEventQuerySnapshot::Publish(const kernel::AlgorithmInbox& inbox)
+{
+    inbox_ = inbox;
+}
+
+std::size_t ScheduledEventQuerySnapshot::Size() const noexcept
+{
+    return inbox_.Size();
+}
+
+bool ScheduledEventQuerySnapshot::Empty() const noexcept
+{
+    return inbox_.Empty();
+}
+
+const std::vector<kernel::ScheduledAlgorithmEvent>&
+ScheduledEventQuerySnapshot::Pending() const noexcept
+{
+    return inbox_.Pending();
+}
+
 void WorldQuerySnapshot::Publish(
     const world::AuthoritativeWorld& world,
     std::uint64_t publication
@@ -158,6 +179,7 @@ void WorldQuerySnapshot::Publish(
         world.Tick(),
         world.Revision()
     );
+    scheduledEvents_.Publish(world.AlgorithmEvents());
     stamp_ = {publication, world.Tick(), world.Revision()};
     published_ = true;
 }
@@ -207,6 +229,12 @@ const kernel::MechanismQuerySnapshot&
 WorldQuerySnapshot::Mechanisms() const noexcept
 {
     return mechanisms_;
+}
+
+const ScheduledEventQuerySnapshot& WorldQuerySnapshot::ScheduledEvents()
+    const noexcept
+{
+    return scheduledEvents_;
 }
 
 WorldQuerySnapshotHandle WorldQueryService::Publish(
