@@ -1,6 +1,8 @@
 #include "read_path.hpp"
 
 #include <algorithm>
+#include <limits>
+#include <string>
 
 #include "algorithm_runtime.hpp"
 
@@ -216,6 +218,17 @@ ReadPathResult EvaluateReadPath(
     const std::vector<kernel::MechanismValue>& selfValues
 )
 {
+    // One aggregation is one instruction in the program but N units of work,
+    // and the instruction budget is supposed to bound what a Tick can do. If a
+    // reduce over a thousand provinces cost the same as `add 1`, the budget
+    // would stop being an upper bound on anything -- one instruction could
+    // walk the whole world. So the visited count is charged, not just
+    // reported.
+    //
+    // Charged after the walk rather than before it, because the size of the
+    // fan-out is not known until the path has been followed; the walk itself
+    // is bounded by the world, and it is the *repeat* cost across instructions
+    // that the budget has to contain.
     Collected collected;
     switch (path.root)
     {
@@ -268,6 +281,24 @@ ReadPathResult EvaluateReadPath(
     }
 
     const std::size_t visited = collected.scaled.size();
+    if (visited > 1)
+    {
+        // The first value is already paid for by the instruction itself; only
+        // the fan-out beyond it is extra.
+        const std::uint64_t extra = static_cast<std::uint64_t>(visited - 1);
+        const std::uint32_t charge = extra
+                > std::numeric_limits<std::uint32_t>::max()
+            ? std::numeric_limits<std::uint32_t>::max()
+            : static_cast<std::uint32_t>(extra);
+        if (!context.budget.Consume(charge))
+        {
+            return Reject(
+                ReadPathStatus::BudgetExceeded,
+                "read path fan-out of " + std::to_string(visited)
+                    + " exceeded the instruction budget"
+            );
+        }
+    }
     const MechanismValueKind kind = collected.sawDecimal
         ? MechanismValueKind::Decimal
         : MechanismValueKind::Integer;

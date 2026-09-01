@@ -24,7 +24,9 @@ enum class ReadPathStatus
     // combine them.
     KindMismatch,
     // Fixed-point rejection: overflow, division by zero, non-finite input.
-    ArithmeticRejected
+    ArithmeticRejected,
+    // The fan-out cost more instruction budget than the invocation had left.
+    BudgetExceeded
 };
 
 // A read result carries its value at the internal fixed-point scale, plus the
