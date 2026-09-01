@@ -3,6 +3,6 @@ package_manifest = {
     version_major = 1
     version_minor = 0
     version_patch = 0
-    content_digest = "a958abf8dbaeb9a5636fb25fdef875541db22824343cf297bc217cab6717e541"
+    content_digest = "14f085dab9962c2443a9c3c281b64c55999dc7bac1c649206efa28d221e5058e"
     load_priority = 0
 }

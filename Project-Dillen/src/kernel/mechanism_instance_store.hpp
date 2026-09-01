@@ -23,7 +23,12 @@ enum class MechanismInstanceCreateResult
     RuntimeCatalogNotFrozen,
     SpawnMissing,
     DefinitionMissing,
-    IdCollision
+    IdCollision,
+    // A required role slot was left empty. Spawn creation catches this at
+    // registration; Definition creation has no Spawn to catch it, so the
+    // store itself does.
+    RoleBindingMissing,
+    LayoutMissing
 };
 
 class MechanismInstanceStore

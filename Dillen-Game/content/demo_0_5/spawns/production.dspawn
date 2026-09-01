@@ -3,4 +3,13 @@ mechanism_spawn = {
     mechanism = dillen.demo05.production_site
     definition = dillen.demo05.north_reach_industry
     count = 8
+    roles = {
+        treasury = {
+            mechanism_instance = {
+                mechanism = dillen.demo05.national_budget
+                definition = dillen.demo05.alvara_budget
+                ordinal = 0
+            }
+        }
+    }
 }

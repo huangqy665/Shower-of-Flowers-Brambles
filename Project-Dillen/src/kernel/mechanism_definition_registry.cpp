@@ -180,7 +180,23 @@ MechanismDefinitionDeclareResult MechanismDefinitionRegistry::Declare(
         const auto iterator = definition.roles.find(roleSchema.name);
         if (iterator == definition.roles.end())
         {
-            if (roleSchema.minimumCount != 0)
+            // A minimum count a Definition cannot possibly satisfy is not a
+            // Definition error.
+            //
+            // Entity targets have stable ids derivable from a Definition name,
+            // so a Definition can name one. A Mechanism Instance does not
+            // exist until a Spawn creates it, so a role slot of that kind can
+            // only be filled at Spawn time -- which means requiring it here
+            // would make every such Schema unregisterable and put the engine
+            // back where it was: the slot kind declared but unusable.
+            //
+            // The requirement is not dropped, only moved. The Spawn registry
+            // re-checks every schema role against the merged Definition-plus-
+            // Spawn bindings, so an unbound required role is still rejected --
+            // at the point where it could have been bound.
+            if (roleSchema.minimumCount != 0
+                && roleSchema.referenceKind
+                    != MechanismReferenceKind::MechanismInstance)
             {
                 return MechanismDefinitionDeclareResult::RoleBindingInvalid;
             }

@@ -6,6 +6,8 @@
 
 #include "algorithm_registry.hpp"
 #include "mechanism_command.hpp"
+#include "entity_definition_registry.hpp"
+#include "component_schema.hpp"
 #include "mechanism_definition_registry.hpp"
 #include "mechanism_instance.hpp"
 #include "mechanism_instance_store.hpp"
@@ -53,6 +55,303 @@ dillen::kernel::PackageManifest CoreManifest(
     return manifest;
 }
 
+}
+
+// A composed Ruleset may select a Component Type at exactly ONE Schema
+// version.
+//
+// Component field Slots are assigned per (type, version) by sorted field name,
+// so two versions give the same slot number two different meanings. An
+// instruction that reaches a Component through a role carries the type and the
+// slot but no version -- it cannot carry one, because the Entity it will write
+// is unknown until run time and Entities declare their own versions. Under two
+// versions such an instruction is not merely unchecked, it is unanswerable.
+//
+// The ambiguity is rejected at compile time rather than resolved by an
+// invisible rule, exactly as ambiguous Capability providers are.
+bool RejectsTwoComponentVersions()
+{
+    using namespace dillen::kernel;
+
+    const std::string componentName = "dillen.test.two_version_stock";
+    const ComponentTypeId componentType =
+        StableComponentTypeId(componentName);
+
+    const auto makeSchema = [&](std::uint32_t version)
+    {
+        ComponentSchema component;
+        component.type = componentType;
+        component.canonicalName = componentName;
+        component.version = version;
+        MechanismFieldSchema amount;
+        amount.name = "amount";
+        amount.kind = MechanismValueKind::Integer;
+        amount.required = true;
+        amount.defaultValue = MechanismValue(std::int64_t{0});
+        component.fields.push_back(amount);
+        // v2 adds a field whose name sorts BEFORE "amount", which is what
+        // actually moves the slots: slot 0 is `amount` in v1 and `added` in
+        // v2. Same type, same slot number, different field.
+        if (version == 2)
+        {
+            MechanismFieldSchema added;
+            added.name = "added";
+            added.kind = MechanismValueKind::Integer;
+            added.required = true;
+            added.defaultValue = MechanismValue(std::int64_t{0});
+            component.fields.push_back(added);
+        }
+        return component;
+    };
+
+    ComponentSchemaRegistry componentSchemas;
+    if (componentSchemas.Register(makeSchema(1))
+            != ComponentSchemaRegisterResult::Added
+        || componentSchemas.Register(makeSchema(2))
+            != ComponentSchemaRegisterResult::Added)
+    {
+        std::cerr << "component version probe: registration failed" << '\n';
+        return false;
+    }
+    componentSchemas.Freeze();
+
+    // Two Entity Definitions, each declaring a different version of the same
+    // Component Type. That is what pulls both versions into the selection.
+    EntityDefinitionRegistry entityDefinitions;
+    const EntityTypeId placeType = StableEntityTypeId("dillen.test.place");
+    for (std::uint32_t version = 1; version <= 2; ++version)
+    {
+        EntityDefinition entity;
+        entity.canonicalName = version == 1
+            ? "dillen.test.first_place"
+            : "dillen.test.second_place";
+        entity.type = placeType;
+        entity.id = StableEntityDefinitionId(placeType, entity.canonicalName);
+        entity.source.sourceName = "probe";
+        entity.source.virtualPath = "tests/two_versions.txt";
+        EntityComponentDefinition component;
+        component.type = componentType;
+        component.schemaVersion = version;
+        component.fields["amount"] = MechanismValue(std::int64_t{1});
+        if (version == 2)
+        {
+            component.fields["added"] = MechanismValue(std::int64_t{2});
+        }
+        entity.components.push_back(component);
+        const EntityDefinitionDeclareResult declared =
+            entityDefinitions.Declare(entity, componentSchemas);
+        if (declared != EntityDefinitionDeclareResult::Added)
+        {
+            std::cerr << "component version probe: entity " << version
+                      << " was refused (" << static_cast<int>(declared)
+                      << ")" << '\n';
+            return false;
+        }
+    }
+    entityDefinitions.Freeze();
+
+    MechanismSchemaRegistry schemas;
+    schemas.Freeze();
+    AlgorithmRegistry algorithms;
+    algorithms.Freeze();
+    MechanismDefinitionRegistry definitions;
+    definitions.Freeze();
+    MechanismSpawnDefinitionRegistry spawns;
+    spawns.Freeze();
+    RuntimeCapabilityContractRegistry capabilityContracts;
+    capabilityContracts.Freeze();
+    PackageManifestRegistry manifests;
+    manifests.Freeze();
+
+    RulesetDefinition ruleset;
+    ruleset.canonicalName = "dillen.test.two_versions";
+    ruleset.id = StableRulesetId(ruleset.canonicalName);
+    ruleset.version = 1;
+    // Required directly, so both versions enter the selection regardless of
+    // what else happens to be reachable. Content reaches the same state by
+    // declaring two Entities on different versions; this states it outright.
+    ruleset.requiredComponents.push_back({componentType, 1});
+    ruleset.requiredComponents.push_back({componentType, 2});
+    PackageLock packageLock;
+    PackageLockReport lockReport;
+    if (!PackageLockBuilder{}.Resolve(
+            manifests,
+            ruleset,
+            packageLock,
+            lockReport))
+    {
+        std::cerr << "component version probe: package lock failed" << '\n';
+        return false;
+    }
+
+    FrozenRuntimeCatalog catalog;
+    RuntimeCompileReport compileReport;
+    const bool compiled = RuntimeCompiler{}.Compile(
+        ruleset,
+        packageLock,
+        schemas,
+        componentSchemas,
+        algorithms,
+        definitions,
+        entityDefinitions,
+        spawns,
+        capabilityContracts,
+        catalog,
+        compileReport
+    );
+    if (compiled)
+    {
+        std::cerr << "component version probe: two Schema versions of one "
+                     "Component Type were accepted" << '\n';
+        return false;
+    }
+    for (const RuntimeCompileIssue& issue : compileReport.issues)
+    {
+        if (issue.code
+            == RuntimeCompileIssueCode::ComponentSchemaVersionAmbiguous)
+        {
+            return true;
+        }
+    }
+    std::cerr << "component version probe: rejected for the wrong reason:"
+              << '\n';
+    for (const RuntimeCompileIssue& issue : compileReport.issues)
+    {
+        std::cerr << "  " << issue.message << '\n';
+    }
+    return false;
+}
+
+// Creating an instance straight from a Definition must honour required roles.
+//
+// The Definition registry deliberately lets a Mechanism-Instance role go
+// unfilled, because a Definition cannot name an instance that does not exist
+// yet; the Spawn registry enforces the minimum instead. That left
+// CreateFromDefinition -- a public entry point with no Spawn anywhere near it
+// -- as a way to reach a live instance whose required roles are empty, which
+// every read path and every directed Capability call would then Fault on.
+bool RejectsUnfilledRequiredRole()
+{
+    using namespace dillen::kernel;
+
+    const std::string typeName = "dillen.test.needs_a_role";
+    const MechanismTypeId type = StableMechanismTypeId(typeName);
+
+    MechanismSchema schema;
+    schema.type = type;
+    schema.canonicalName = typeName;
+    schema.version = 1;
+    MechanismFieldSchema counter;
+    counter.name = "counter";
+    counter.kind = MechanismValueKind::Integer;
+    counter.required = true;
+    counter.defaultValue = MechanismValue(std::int64_t{0});
+    schema.fields.push_back(counter);
+    // Required, and of the one reference kind a Definition is structurally
+    // unable to fill.
+    MechanismRoleSchema partner;
+    partner.name = "partner";
+    partner.referenceKind = MechanismReferenceKind::MechanismInstance;
+    partner.referenceType = type.value;
+    partner.minimumCount = 1;
+    partner.maximumCount = 1;
+    schema.roles.push_back(partner);
+
+    MechanismSchemaRegistry schemas;
+    if (schemas.Register(std::move(schema))
+        != MechanismSchemaRegisterResult::Added)
+    {
+        return false;
+    }
+    schemas.Freeze();
+
+    MechanismDefinition definition;
+    definition.canonicalName = "dillen.test.unbound_definition";
+    definition.type = type;
+    definition.schemaVersion = 1;
+    definition.id = StableMechanismDefinitionId(
+        type,
+        definition.canonicalName
+    );
+    definition.fields["counter"] = MechanismValue(std::int64_t{0});
+    definition.source.sourceName = "probe";
+    definition.source.virtualPath = "tests/unbound_role.txt";
+
+    MechanismDefinitionRegistry definitions;
+    AlgorithmRegistry algorithms;
+    algorithms.Freeze();
+    // The Definition itself must still be accepted: requiring a Mechanism
+    // Instance role here would make every such Schema unregisterable.
+    if (definitions.Declare(definition, schemas, algorithms)
+        != MechanismDefinitionDeclareResult::Added)
+    {
+        std::cerr << "unfilled role probe: the Definition was refused, so the "
+                     "minimum is being enforced in the wrong place"
+                  << '\n';
+        return false;
+    }
+    definitions.Freeze();
+
+    ComponentSchemaRegistry componentSchemas;
+    componentSchemas.Freeze();
+    EntityDefinitionRegistry entityDefinitions;
+    entityDefinitions.Freeze();
+    MechanismSpawnDefinitionRegistry spawns;
+    spawns.Freeze();
+    RuntimeCapabilityContractRegistry capabilityContracts;
+    capabilityContracts.Freeze();
+    PackageManifestRegistry manifests;
+    manifests.Freeze();
+
+    RulesetDefinition ruleset;
+    ruleset.canonicalName = "dillen.test.unbound_role";
+    ruleset.id = StableRulesetId(ruleset.canonicalName);
+    ruleset.version = 1;
+    ruleset.requiredSchemas.push_back({type, 1});
+    ruleset.requiredDefinitions.push_back(definition.id);
+    PackageLock packageLock;
+    PackageLockReport lockReport;
+    FrozenRuntimeCatalog catalog;
+    RuntimeCompileReport compileReport;
+    if (!PackageLockBuilder{}.Resolve(
+            manifests,
+            ruleset,
+            packageLock,
+            lockReport)
+        || !RuntimeCompiler{}.Compile(
+            ruleset,
+            packageLock,
+            schemas,
+            componentSchemas,
+            algorithms,
+            definitions,
+            entityDefinitions,
+            spawns,
+            capabilityContracts,
+            catalog,
+            compileReport))
+    {
+        std::cerr << "unfilled role probe: compile failed" << '\n';
+        return false;
+    }
+
+    MechanismInstanceStore store;
+    MechanismInstanceId created;
+    const MechanismInstanceCreateResult result = store.CreateFromDefinition(
+        definition.id,
+        catalog,
+        1,
+        created
+    );
+    if (result != MechanismInstanceCreateResult::RoleBindingMissing
+        || store.Size() != 0)
+    {
+        std::cerr << "unfilled role probe: expected RoleBindingMissing, got "
+                  << static_cast<int>(result) << " with " << store.Size()
+                  << " instances" << '\n';
+        return false;
+    }
+    return true;
 }
 
 int main()
@@ -420,9 +719,19 @@ int main()
         return 12;
     }
 
+    if (!RejectsTwoComponentVersions())
+    {
+        return 13;
+    }
+    if (!RejectsUnfilledRequiredRole())
+    {
+        return 14;
+    }
+
     std::cout
         << "Ruleset lock and Runtime Catalog: passed (fingerprint "
         << catalog.Fingerprint().ToHex()
-        << ")\n";
+        << ", Component version ambiguity and unfilled required roles both "
+           "rejected)" << '\n';
     return 0;
 }

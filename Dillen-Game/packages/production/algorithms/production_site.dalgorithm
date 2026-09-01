@@ -32,8 +32,17 @@ algorithm_descriptor = {
                 right = { role = province  component = dillen.demo05.resources  field = capacity }
                 when = { field_equals = { field = unlocked  value = yes } }
             }
+            # 读另一个机制实例的字段。走的是 AlgorithmReadTerminal::MechanismField,
+            # 在角色槽可写之前这条终端在内容里无法触达。
+            set_field = {
+                field = treasury_seen
+                left = { role = treasury  field = balance }
+            }
+            # target_role 定向而非广播。角色槽未绑定机制实例时算法会 Fault,
+            # 所以这条同时是绑定生效与否的运行期断言。
             invoke_capability = {
                 capability = dillen.demo05.production_report
+                target_role = treasury
                 delay = 1
                 priority = 0
                 payload_from = { self_field = goods_output }

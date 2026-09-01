@@ -224,9 +224,9 @@ int main()
     // Both metrics on both goldens: three times now an injected defect in this
     // codebase has held the byte count and moved only the checksum.
     constexpr std::size_t kGoldenParseBytes = 3912;
-    constexpr std::uint64_t kGoldenParseChecksum = 3730319217720541124ULL;
+    constexpr std::uint64_t kGoldenParseChecksum = 1278464547742860928ULL;
     constexpr std::size_t kGoldenResolveBytes = 3137;
-    constexpr std::uint64_t kGoldenResolveChecksum = 14470188716694633576ULL;
+    constexpr std::uint64_t kGoldenResolveChecksum = 15737711886577553487ULL;
 
     int failures = 0;
     if (parseBytes.size() != kGoldenParseBytes

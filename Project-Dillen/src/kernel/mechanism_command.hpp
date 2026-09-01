@@ -16,6 +16,22 @@ struct MechanismSetFieldOperation
     MechanismValue value;
 };
 
+// Applies a delta to the committed value rather than replacing it.
+//
+// SetField carries an absolute value computed against the dispatch snapshot.
+// When several invocations in one phase target the same field of the same
+// instance -- which is exactly what Capability fan-in looks like, N senders
+// reporting into one receiver -- they all read the same stale base, all
+// compute base+1, and the last commit wins. Eight reports become one.
+//
+// A delta has no such base. The executor reads whatever is committed when the
+// command is applied, so N deltas accumulate to N.
+struct MechanismAddFieldOperation
+{
+    MechanismFieldSlotId field;
+    MechanismValue delta;
+};
+
 struct MechanismTransitionLifecycleOperation
 {
     MechanismLifecycleState target = MechanismLifecycleState::Created;
@@ -57,7 +73,10 @@ using MechanismCommandOperation = std::variant<
     MechanismRecordAlgorithmFaultOperation,
     MechanismClearAlgorithmFaultOperation,
     MechanismDestroyOperation,
-    MechanismReplaceAlgorithmStateOperation
+    MechanismReplaceAlgorithmStateOperation,
+    // FROZEN ORDER -- appended 2026-09-01, never inserted. Purely additive
+    // under FROZEN_CONTRACTS rule 0.1: old saves contain no tag 7.
+    MechanismAddFieldOperation
 >;
 
 struct MechanismCommand
@@ -65,6 +84,11 @@ struct MechanismCommand
     MechanismInstanceId target;
     MechanismCommandOperation operation;
 
+    static MechanismCommand AddField(
+        MechanismInstanceId target,
+        MechanismFieldSlotId field,
+        MechanismValue delta
+    );
     static MechanismCommand SetField(
         MechanismInstanceId target,
         MechanismFieldSlotId field,

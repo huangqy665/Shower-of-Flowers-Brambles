@@ -4,6 +4,7 @@
 #include <iostream>
 #include <set>
 #include <string>
+#include <string_view>
 #include <vector>
 
 #include "authoring_parser.hpp"
@@ -66,6 +67,7 @@ const std::vector<std::string>& FrozenCodes()
     "dillen.authoring.capability_requirement_expected",
     "dillen.authoring.compare_operator_unknown",
     "dillen.authoring.complex_value_not_scalar",
+    "dillen.authoring.component_owner_ambiguous",
     "dillen.authoring.component_schema_rejected",
     "dillen.authoring.controlled_script_backend_invalid",
     "dillen.authoring.controlled_script_block_required",
@@ -98,6 +100,7 @@ const std::vector<std::string>& FrozenCodes()
     "dillen.authoring.number_required",
     "dillen.authoring.package_content_digest_mismatch",
     "dillen.authoring.package_dependency_role_violation",
+    "dillen.authoring.package_entity_reference_violation",
     "dillen.authoring.package_lock_failed",
     "dillen.authoring.package_manifest_rejected",
     "dillen.authoring.package_role_invalid",
@@ -117,6 +120,7 @@ const std::vector<std::string>& FrozenCodes()
     "dillen.authoring.relation_definition_rejected",
     "dillen.authoring.relation_schema_rejected",
     "dillen.authoring.required_property_missing",
+    "dillen.authoring.role_binding_duplicate",
     "dillen.authoring.role_entry_expected",
     "dillen.authoring.root_assignment_required",
     "dillen.authoring.root_ruleset_missing",
@@ -285,13 +289,44 @@ int main()
          " payload_from = { self_field = counter } } } } }"},
         {"dillen.authoring.algorithm_root_expected",
          "mechanism_template = { name = a.b  version = 1 }"},
+        // Neither addressing mode given: the instruction says which Component
+        // and field but never which Entity.
+        {"dillen.authoring.component_owner_ambiguous",
+         "algorithm_descriptor = { name = a.b  version = 1 "
+         " backend = declarative  entry_points = { tick } "
+         " program = { tick = { set_component_field = { "
+         "   component = a.stock  field = ore  value = 1 } } } }"},
+        // Both given: a role AND a named owner.
+        {"dillen.authoring.component_owner_ambiguous",
+         "algorithm_descriptor = { name = a.b  version = 1 "
+         " backend = declarative  entry_points = { tick } "
+         " program = { tick = { set_component_field = { role = home "
+         "   owner_entity_type = a.place  owner_definition = a.site "
+         "   component = a.stock  field = ore  value = 1 } } } }"},
+        // The same role slot bound twice. std::map::emplace keeps the first
+        // and drops the second, so this used to be silently accepted with the
+        // author's second binding thrown away.
+        {"dillen.authoring.role_binding_duplicate",
+         "mechanism_spawn = { name = a.spawn  mechanism = a.mech "
+         " definition = a.def  count = 1  roles = { "
+         "   home = { entity = { entity_type = a.place "
+         "     definition = a.first } } "
+         "   home = { entity = { entity_type = a.place "
+         "     definition = a.second } } } }"},
     };
 
     for (const Case& probe : cases)
     {
+        // Cases are not all algorithms any more, and a Spawn parsed by the
+        // algorithm parser would fail on its root keyword and never reach the
+        // diagnostic under test.
+        const bool isSpawn =
+            std::string_view(probe.source).substr(0, 15) == "mechanism_spawn";
         parser::SourceBuffer source(
             1,
-            "diagnostics/case.dalgorithm",
+            isSpawn
+                ? "diagnostics/case.dspawn"
+                : "diagnostics/case.dalgorithm",
             {},
             probe.source,
             parser::SourceEncoding::Utf8
@@ -299,8 +334,9 @@ int main()
         parser::DiagnosticBag diagnostics;
         parser::ParserCursor cursor(source, diagnostics);
         parser::ParseArtifact artifact;
-        const bool parsed =
-            authoring::ParseAlgorithmDescriptor(cursor, artifact);
+        const bool parsed = isSpawn
+            ? authoring::ParseMechanismSpawn(cursor, artifact)
+            : authoring::ParseAlgorithmDescriptor(cursor, artifact);
         bool sawCode = false;
         for (const parser::Diagnostic& diagnostic : diagnostics.All())
         {

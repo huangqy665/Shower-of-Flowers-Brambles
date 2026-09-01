@@ -59,6 +59,41 @@ algorithm_descriptor = {
                 value = 42
             }
 
+            # The computed form of the same instruction. Reading an Entity
+            # Component has worked for a while; this is the write side, so a
+            # Mechanism can push a derived value back onto an Entity instead of
+            # only stamping a literal.
+            set_component_field = {
+                owner_entity_type = dillen.dsl.place
+                owner_definition = dillen.dsl.site
+                component = dillen.dsl.stock
+                field = ratio
+                left = { self_field = rate }
+                op = mul
+                right = { constant = 2.0 }
+            }
+
+            # The role-addressed forms of both writes. A Mechanism Package must
+            # reach an Entity through a role rather than naming a Definition,
+            # so these two opcodes are what reusable content actually compiles
+            # to -- and an opcode the fixture never builds is an opcode the
+            # golden does not freeze.
+            set_component_field = {
+                role = anchor
+                component = dillen.dsl.stock
+                field = amount
+                value = 11
+            }
+
+            set_component_field = {
+                role = anchor
+                component = dillen.dsl.stock
+                field = ratio
+                left = { self_field = rate }
+                op = add
+                right = { constant = 0.25 }
+            }
+
             spawn_mechanism = {
                 mechanism = dillen.dsl.sink
                 definition = dillen.dsl.sink_definition

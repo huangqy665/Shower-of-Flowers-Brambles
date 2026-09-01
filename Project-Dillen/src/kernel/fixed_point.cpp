@@ -36,20 +36,28 @@ FixedPointValue DivideRounded(
     const std::int64_t remainder = numerator % denominator;
     if (remainder != 0)
     {
-        // |remainder| * 2 >= |denominator| decides the round, and doubling the
-        // remainder is safe only when it cannot overflow; compare by division
-        // instead when it would.
-        const bool roundAway = remainder > 0
-            ? (remainder > kMax / 2
-                ? true
-                : remainder * 2 >= (denominator > 0
-                    ? denominator
-                    : -denominator))
-            : (remainder < kMin / 2
-                ? true
-                : -remainder * 2 >= (denominator > 0
-                    ? denominator
-                    : -denominator));
+        // |remainder| * 2 >= |denominator| decides the round.
+        //
+        // Both magnitudes are taken as unsigned. `-denominator` is undefined
+        // when denominator is kMin, and kMin is a value FixedDivide can be
+        // handed directly; unsigned negation is defined for every input, so
+        // the comparison becomes total instead of nearly-total.
+        //
+        // The doubling is rearranged rather than guarded: absRemainder is
+        // strictly less than absDenominator, so absDenominator - absRemainder
+        // cannot underflow, and comparing against it says the same thing as
+        // comparing 2 * absRemainder against absDenominator without ever
+        // forming a value that could overflow.
+        const auto magnitude = [](std::int64_t value) noexcept
+        {
+            return value < 0
+                ? 0ULL - static_cast<std::uint64_t>(value)
+                : static_cast<std::uint64_t>(value);
+        };
+        const std::uint64_t absRemainder = magnitude(remainder);
+        const std::uint64_t absDenominator = magnitude(denominator);
+        const bool roundAway =
+            absRemainder >= absDenominator - absRemainder;
         if (roundAway)
         {
             const bool negative = (numerator < 0) != (denominator < 0);
@@ -157,7 +165,23 @@ FixedPointValue FixedSubtract(std::int64_t left, std::int64_t right) noexcept
             ? FixedPointValue{left - right, FixedPointStatus::Ok}
             : Fail(FixedPointStatus::Overflow);
     }
-    return FixedAdd(left, -right);
+    // Subtraction is checked directly instead of being routed through
+    // FixedAdd(left, -right).
+    //
+    // That routing negated `right` before anything had tested it, and
+    // negating kMin has no representable result -- undefined behaviour on the
+    // way to the overflow check meant to prevent it. Refusing every kMin
+    // right-hand side would fix the UB but reject representable answers:
+    // kMin - kMin is 0 and -1 - kMax is exactly kMin.
+    //
+    // Both bounds below are formed by adding a value of the opposite sign to a
+    // limit, so neither can overflow while being computed.
+    if ((right < 0 && left > kMax + right)
+        || (right > 0 && left < kMin + right))
+    {
+        return Fail(FixedPointStatus::Overflow);
+    }
+    return {left - right, FixedPointStatus::Ok};
 }
 
 FixedPointValue FixedMultiply(std::int64_t left, std::int64_t right) noexcept
@@ -166,9 +190,18 @@ FixedPointValue FixedMultiply(std::int64_t left, std::int64_t right) noexcept
     {
         // Checked before multiplying, so no 128-bit intermediate and no
         // reliance on wrap-around that the standard does not grant.
+        //
+        // The kMin test comes FIRST. `-left` where left == kMin has no
+        // representable result and is undefined behaviour; computing the
+        // absolute values before testing for kMin meant the UB happened on
+        // the way to the check that was supposed to prevent it.
+        if (left == kMin || right == kMin)
+        {
+            return Fail(FixedPointStatus::Overflow);
+        }
         const std::int64_t absLeft = left < 0 ? -left : left;
         const std::int64_t absRight = right < 0 ? -right : right;
-        if (left == kMin || right == kMin || absLeft > kMax / absRight)
+        if (absLeft > kMax / absRight)
         {
             return Fail(FixedPointStatus::Overflow);
         }
@@ -184,8 +217,13 @@ FixedPointValue FixedDivide(std::int64_t left, std::int64_t right) noexcept
     }
     if (left != 0)
     {
+        // kMin first, for the same reason as FixedMultiply.
+        if (left == kMin)
+        {
+            return Fail(FixedPointStatus::Overflow);
+        }
         const std::int64_t absLeft = left < 0 ? -left : left;
-        if (left == kMin || absLeft > kMax / kDecimalInternalScale)
+        if (absLeft > kMax / kDecimalInternalScale)
         {
             return Fail(FixedPointStatus::Overflow);
         }

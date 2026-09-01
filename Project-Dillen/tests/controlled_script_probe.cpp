@@ -216,7 +216,7 @@ algorithm_descriptor = {
     backend = script
     entry_points = { tick }
     execution_policy = {
-        instruction_budget = 8
+        instruction_budget = 10
         script_slice_instruction_budget = 2
         script_memory_limit_bytes = 128
     }
@@ -284,6 +284,15 @@ algorithm_descriptor = {
                 priority = 0
                 payload = 0
             }
+            set_component_field = {
+                owner_entity_type = dillen.test.place
+                owner_definition = dillen.test.site
+                component = dillen.test.stock
+                field = amount
+                left = { self_field = counter }
+                op = mul
+                right = { constant = 2 }
+            }
             halt = yes
         }
     }
@@ -308,14 +317,25 @@ algorithm_descriptor = {
         dillen::kernel::AlgorithmEntryPoint::Tick
     );
     if (stage == document->value.script.stages.end()
-        || stage->second.size() != 3) return false;
+        || stage->second.size() != 4) return false;
     using Kind = dillen::kernel::ControlledScriptInstructionKind;
+    // The computed set_component_field is asserted here for the reason the
+    // -Wswitch round taught: the Script backend lowers through its own code,
+    // so a construct can work end to end in the declarative backend and be
+    // entirely unconnected here. Parity is only real when it is asserted.
     return stage->second[0].kind == Kind::Transact
         && stage->second[0].action.conditions.size() == 1
         && stage->second[1].kind == Kind::Transact
         && stage->second[1].action.kind
             == dillen::kernel::AlgorithmInstructionKind::ScheduleEvent
-        && stage->second[2].kind == Kind::Halt;
+        && stage->second[2].kind == Kind::Transact
+        && stage->second[2].action.kind
+            == dillen::kernel::AlgorithmInstructionKind::
+                SetComponentFieldComputed
+        && stage->second[2].action.hasRight
+        && stage->second[2].action.binaryOperator
+            == dillen::kernel::AlgorithmBinaryOperator::Multiply
+        && stage->second[3].kind == Kind::Halt;
 }
 
 bool HasTickContinuation(const dillen::kernel::MechanismInstance& instance)

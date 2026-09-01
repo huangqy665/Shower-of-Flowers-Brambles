@@ -100,7 +100,7 @@ algorithm_descriptor = {
 | `add_field` | 对当前整数或小数字段加常量 | 只允许数值字段；整数溢出和非有限小数会失败 |
 | `transition_lifecycle` | 提交生命周期转换 | 必须满足 Kernel 生命周期转换规则 |
 | `create_entity` | 按 Entity Definition 创建 Entity | Definition 必须已冻结 |
-| `set_component_field` | 写入指定 Entity 的 Component 字段 | Entity、Component 与字段必须存在且类型匹配 |
+| `set_component_field` | 写入指定 Entity 的 Component 字段（常量或计算值） | Entity、Component 与字段必须存在；常量形式要求类型匹配，计算形式要求目标为数值字段 |
 | `add_relation` | 在两个稳定 Entity 之间增加 Relation | 必须满足 Relation Schema |
 | `spawn_mechanism` | 按 Spawn Definition 创建机制实例 | Spawn 必须进入 Frozen Catalog |
 | `schedule_event` | 向 Algorithm Inbox 调度确定性事件 | 使用 Tick 偏移、优先级和标量 Payload；`delay` 必须为正 |
@@ -116,6 +116,45 @@ algorithm_descriptor = {
 `set_field` 与 `add_field` 可附加 `when`，当前支持 `field_equals`、`query_at_least`、`scheduled_event`、`rng_modulo` 和 `capability_invoked`。`capability_invoked = <契约名>` 是 `scheduled_event` 在 Capability 派生事件类型上的语法糖，用于提供者在 `event` 阶段识别一次 Capability 调用。Query 可统计 Entity、Component、Relation 或 Mechanism Type；Event 与 RNG 条件只读取同代际 Snapshot。
 
 `set_field` / `add_field` 可用 `from_payload = yes` 代替 `value`，改用当前 Scheduled Event / Capability 调用的 Payload 作为操作数（仅在 `event` 阶段有效；`add_field` 要求数值字段）。这样提供者能读取消费者发送的数值，而不必知道消费者是谁。
+
+### 读路径与计算式赋值
+
+`set_field`、`add_field` 与 `set_component_field` 都可以用 `left` 代替 `value`，把写入的值改成一个
+**读路径**求值的结果。`left` 与 `value` / `from_payload` 互斥。可选的 `op` 与 `right`
+必须成对出现，构成一次二元运算：
+
+```text
+set_field = {
+    field = base_income
+    left = {
+        role = capital
+        relation = { type = dillen.demo.owns  direction = outgoing }
+        component = dillen.demo.resources
+        field = ore
+        reduce = sum
+    }
+}
+
+add_field = { field = balance  op = sub  left = { self_field = income }  right = { constant = 3.0 } }
+```
+
+读路径有且只有一个**根**：`constant`（字面量）、`event_payload`（当前事件载荷）、
+`self_field`（本实例字段）或 `role`（本机制的一个角色 Slot）。`role` 根可选地经
+`relation = { type = <关系名> direction = outgoing | incoming }` 走一跳，然后以
+`component = <组件名> field = <字段名>` 读实体 Component，或以 `field = <字段名>` 读机制字段。
+多个目标时用 `reduce` 归约：`require_one`、`sum`、`count`、`min`、`max`。
+`op` 支持 `add`、`sub`、`mul`、`div`、`min`、`max`。
+
+**算术全程走定点**：存储精度两位小数，内部精度四位，四舍五入远离零。中间结果不经过浮点，
+溢出、除零与非有限值一律拒绝而不是静默产生 NaN。目标字段的**声明类型说了算**——把小数表达式写进
+整数字段会舍入到整数，不会把字段类型改掉。
+
+**`add_field` 的计算形式提交的是增量，不是绝对值**。这不是优化：绝对值是对派发期 Snapshot 算的，
+同一阶段只要有两个以上调用写同一字段（Capability 多发送者汇聚正是这个形状），
+它们会读到同一个陈旧基数并互相覆盖。增量没有基数。
+
+**`set_component_field` 的计算形式提交绝对值**，因为 Component 字段目前没有 `add` 形式，
+不存在同阶段汇聚。将来若增加，必须按同样的理由改成增量。
 
 加载期由 Runtime Compiler 把字段名解析为 Definition 专属的 32 位 Slot，并生成无字符串、无循环的冻结字节码；运行期内建 VM 只读取当前 Instance，按顺序生成 `WorldTransaction`，不直接修改权威世界。空阶段合法，可用于声明当前阶段暂时无操作。
 
@@ -165,11 +204,51 @@ algorithm_descriptor = {
 
 Script 的控制层指令：`set_state`、`add_state`、`jump`、`jump_if_state_equals`、`yield`、`halt`，以及不带 `when` 的 `set_field` / `add_field` / `transition_lifecycle`。跳转目标是当前阶段的零基指令下标，也可等于阶段长度表示完成。
 
-除此之外，Script 阶段可直接写 **Declarative 后端的任意通用事务指令**——`create_entity`、`set_component_field`、`add_relation`、`remove_relation`、`spawn_mechanism`、`schedule_event`、`cancel_event`、`create_rng`、`advance_rng`、`invoke_capability`——以及带 `when` 条件（`field_equals` / `query_at_least` / `scheduled_event` / `capability_invoked` / `rng_modulo`）或 `from_payload = yes` 的 `set_field` / `add_field`。它们与 Declarative 用同一套加载期下降和运行期执行（`EmitBytecodeTransaction`），语义完全一致，只是嵌在 Script 的控制流里。
+除此之外，Script 阶段可直接写 **Declarative 后端的任意通用事务指令**——`create_entity`、`set_component_field`（含计算形式）、`add_relation`、`remove_relation`、`spawn_mechanism`、`schedule_event`、`cancel_event`、`create_rng`、`advance_rng`、`invoke_capability`——以及带 `when` 条件（`field_equals` / `query_at_least` / `scheduled_event` / `capability_invoked` / `rng_modulo`）、`from_payload = yes` 或 `left` 读路径的 `set_field` / `add_field`。它们与 Declarative 用同一套加载期下降和运行期执行（`EmitBytecodeTransaction`），语义完全一致，只是嵌在 Script 的控制流里。
 
 状态类型由初值固定；`script_memory_limit_bytes` 约束全部持久状态的确定性结构化占用。达到 `script_slice_instruction_budget` 或执行 `yield` 时，VM 在指令边界抢占，把状态与 Program Counter 通过同一 World Transaction 提交；二者进入 Save 和 Replay。内存越界会丢弃整次输出并按 Failure Policy 记录权威 Fault。
 
 `native` 继续通过宿主显式注册的 Executor 执行。Declarative VM 与 Controlled Script VM 都在指令边界消费确定性预算；Native Executor 获得协作式 Budget Tracker。墙钟耗时只写入当次 `AlgorithmInvocationResult` 诊断报告，不进入 Authoritative World、Save、Replay Checksum 或 Failure Policy。Kernel 不会不安全地强杀任意 C++ 回调；真正的进程级卡死保护必须由非权威 Host Watchdog 提供。
+
+## 3.5 角色绑定
+
+角色槽由 `.dmechanism` 的 `roles` 声明，由 `.ddefinition` 或 `.dspawn` 的 `roles` 填写。
+两处语法相同，区别只有一个：**目标可以是什么**。
+
+```text
+# .ddefinition —— 只能指向 Entity
+roles = {
+    capital = { entity = { entity_type = dillen.demo05.country  definition = dillen.demo05.alvara } }
+}
+
+# .dspawn —— 还可以指向 Mechanism Instance
+roles = {
+    treasury = {
+        mechanism_instance = {
+            mechanism   = dillen.demo05.national_budget
+            definition  = dillen.demo05.alvara_budget
+            ordinal     = 0
+        }
+    }
+}
+```
+
+Definition 是在任何实例存在之前写的，所以它只能命名 Entity —— Entity 的稳定 ID 由
+`(entity_type, definition)` 直接导出。Spawn 是实例被创建的地方，实例 ID 由
+`(mechanism, definition, ordinal)` 确定性导出，所以这里才是命名 Mechanism Instance
+第一个有意义的位置。`ordinal` 可省略，默认 0，也就是 `count = 1` 的 Spawn 唯一产生的那个实例。
+
+一个槽可以写多个目标（受 `maximum_count` 约束），`entity` 与 `mechanism_instance` 可以混写，
+但必须与 Schema 声明的 `reference_kind` 一致，否则注册期拒绝。
+
+`reference_kind = mechanism_instance` 的槽上，Schema 的 `minimum_count` 由
+**Spawn 注册**强制，而不是 Definition 注册：Definition 层根本无法满足它，在那里要求它
+只会让这一类 Schema 无法注册。约束没有放松，只是移到了唯一能满足它的地方。
+
+绑定到不存在的实例不会被静默吞掉：读路径在运行期第一次求值时就报
+`read path target Mechanism field is missing` 并按 Failure Policy 记录 Fault。
+
+**运行期重绑定尚不存在**，见 `Project Dillen工程开发备忘录` C2 一节的理由。
 
 ## 4. Mechanism Definition
 

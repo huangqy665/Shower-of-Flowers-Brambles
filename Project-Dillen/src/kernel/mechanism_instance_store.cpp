@@ -5,6 +5,7 @@
 #include <set>
 #include <utility>
 
+#include "fixed_point.hpp"
 #include "sorted_id_index.hpp"
 
 namespace dillen::kernel {
@@ -56,6 +57,38 @@ MechanismInstanceCreateResult MechanismInstanceStore::CreateFromDefinition(
     if (Read().instances.find(instanceId) != Read().instances.end())
     {
         return MechanismInstanceCreateResult::IdCollision;
+    }
+
+    const CompiledMechanismLayout* layout = catalog.FindLayout(
+        definition->type,
+        definition->schemaVersion
+    );
+    if (layout == nullptr)
+    {
+        return MechanismInstanceCreateResult::LayoutMissing;
+    }
+
+    // Every required role slot must be filled.
+    //
+    // The Definition registry deliberately lets a Mechanism-Instance role go
+    // unfilled, because a Definition cannot name an instance; the Spawn
+    // registry enforces the minimum instead. That leaves this entry point --
+    // creating straight from a Definition, with no Spawn anywhere -- as a way
+    // to reach a live instance whose required roles are empty, which every
+    // read path and directed Capability call would then Fault on.
+    //
+    // So the same rule is applied here. It is the last door into instance
+    // creation that was not checking it.
+    for (std::size_t slot = 0; slot < layout->roles.size(); ++slot)
+    {
+        const MechanismRoleSchema& roleSchema = layout->roles[slot];
+        const std::size_t bound = slot < definition->initialRoles.size()
+            ? definition->initialRoles[slot].size()
+            : 0;
+        if (bound < roleSchema.minimumCount)
+        {
+            return MechanismInstanceCreateResult::RoleBindingMissing;
+        }
     }
 
     MechanismInstance instance;
@@ -307,6 +340,123 @@ MechanismTransactionResult MechanismInstanceStore::ApplyTransaction(
                     operation->value
                 });
                 storedValue = operation->value;
+                changed.insert(command.target);
+            }
+            continue;
+        }
+
+        if (const auto* operation =
+            std::get_if<MechanismAddFieldOperation>(&command.operation))
+        {
+            // Read-modify-write against the COMMITTED value, which is the
+            // whole point: several deltas landing in one phase accumulate
+            // instead of overwriting one another.
+            if (!operation->field
+                || operation->field.value >= layout->fields.size()
+                || operation->field.value >= instance.values.size())
+            {
+                return TransactionFailure(
+                    MechanismTransactionStatus::UnknownField,
+                    index,
+                    command.target
+                );
+            }
+            MechanismValue& storedValue =
+                instance.values[operation->field.value];
+            const auto* storedInteger =
+                std::get_if<std::int64_t>(&storedValue.data);
+            const auto* deltaInteger =
+                std::get_if<std::int64_t>(&operation->delta.data);
+            const auto* storedDecimal =
+                std::get_if<double>(&storedValue.data);
+            const auto* deltaDecimal =
+                std::get_if<double>(&operation->delta.data);
+            MechanismValue next;
+            if (storedInteger != nullptr && deltaInteger != nullptr)
+            {
+                // Integer + integer is a checked int64 addition, NOT a trip
+                // through the fixed-point pipeline.
+                //
+                // The internal fixed-point scale is 10^4, so IntegerToInternal
+                // rejects anything past +-9.2e14 -- it has to, or the scaled
+                // form overflows. Routing an integer field's delta through it
+                // therefore shrank a full int64 field to about one ten-
+                // thousandth of its range and rejected perfectly legal
+                // additions as overflow. Decimals need the scale; integers
+                // never did.
+                const std::int64_t base = *storedInteger;
+                const std::int64_t addend = *deltaInteger;
+                if ((addend > 0
+                        && base
+                            > std::numeric_limits<std::int64_t>::max()
+                                - addend)
+                    || (addend < 0
+                        && base
+                            < std::numeric_limits<std::int64_t>::min()
+                                - addend))
+                {
+                    return TransactionFailure(
+                        MechanismTransactionStatus::FieldValueInvalid,
+                        index,
+                        command.target
+                    );
+                }
+                next = MechanismValue(base + addend);
+            }
+            else if (storedDecimal != nullptr && deltaDecimal != nullptr)
+            {
+                const FixedPointValue base =
+                    DecimalToInternal(*storedDecimal);
+                const FixedPointValue addend =
+                    DecimalToInternal(*deltaDecimal);
+                if (!base || !addend)
+                {
+                    return TransactionFailure(
+                        MechanismTransactionStatus::FieldValueInvalid,
+                        index,
+                        command.target
+                    );
+                }
+                const FixedPointValue sum =
+                    FixedAdd(base.scaled, addend.scaled);
+                double stored = 0.0;
+                if (!sum || !InternalToStorage(sum.scaled, stored))
+                {
+                    return TransactionFailure(
+                        MechanismTransactionStatus::FieldValueInvalid,
+                        index,
+                        command.target
+                    );
+                }
+                next = MechanismValue(stored);
+            }
+            else
+            {
+                return TransactionFailure(
+                    MechanismTransactionStatus::FieldValueInvalid,
+                    index,
+                    command.target
+                );
+            }
+            const MechanismFieldSchema& field =
+                layout->fields[operation->field.value];
+            if (!MechanismValueMatchesSchema(field, next))
+            {
+                return TransactionFailure(
+                    MechanismTransactionStatus::FieldValueInvalid,
+                    index,
+                    command.target
+                );
+            }
+            if (storedValue != next)
+            {
+                changes.emplace_back(MechanismFieldChange{
+                    command.target,
+                    operation->field,
+                    storedValue,
+                    next
+                });
+                storedValue = next;
                 changed.insert(command.target);
             }
             continue;

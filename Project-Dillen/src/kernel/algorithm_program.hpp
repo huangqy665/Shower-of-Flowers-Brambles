@@ -54,7 +54,27 @@ enum class AlgorithmInstructionKind
     // from CancelEvent, which names a single event by the sequence number the
     // Inbox assigns at commit time -- a number the VM can never learn, which
     // is why cancel-by-sequence has no DSL syntax and this does.
-    CancelEventsByType
+    CancelEventsByType,
+    // Writes a computed expression into an Entity Component field.
+    //
+    // Reading an Entity Component from a Mechanism has worked since the read
+    // paths landed; writing one back could only ever store a literal. A
+    // national treasury could be read as income and never spent. This closes
+    // that asymmetry, and needs no new World command: ComponentSetFieldCommand
+    // already exists and the save format does not move.
+    SetComponentFieldComputed,
+    // The same two writes, addressing the Entity through a role slot instead
+    // of naming an Entity Definition.
+    //
+    // Naming a Definition is what a Content Package does; it identifies one
+    // concrete entity in one concrete world. A Mechanism Package that writes
+    // that name into an algorithm has hard-coded a game element, which is the
+    // one thing the layering exists to prevent -- and it does it silently,
+    // because the Package's declared dependencies never mention the Package
+    // that owns the name. Addressing through a role keeps the mechanism
+    // generic: Content binds the slot, the mechanism only knows the slot.
+    SetComponentFieldByRole,
+    SetComponentFieldByRoleComputed
 };
 
 enum class AlgorithmQueryKind
@@ -273,7 +293,15 @@ enum class AlgorithmBytecodeOpcode
     AddFieldComputed,
     // Expands at run time into one CancelEvent per matching pending event, so
     // it needs no new World command and no save-format change.
-    CancelEventsByType
+    CancelEventsByType,
+    // Appended 2026-09-01. SetComponentFieldConstant above is untouched, so
+    // every Package that writes a literal into a Component keeps lowering to
+    // exactly the same bytes.
+    SetComponentFieldComputed,
+    // Appended 2026-09-01. Role-addressed forms; the Entity comes from a role
+    // slot at run time instead of being baked into the instruction.
+    SetComponentFieldByRoleConstant,
+    SetComponentFieldByRoleComputed
 };
 
 // Slot-resolved read path. Names have become slots, so nothing here needs a
@@ -324,6 +352,14 @@ struct AlgorithmBytecodeInstruction
     std::vector<CompiledAlgorithmCondition> conditions;
     EntityDefinitionId entityDefinition;
     EntityId entity;
+    // No Component Schema version travels with these two.
+    //
+    // It could not: a role-addressed write does not know which Entity it will
+    // reach until run time, and Entities declare their own Component versions.
+    // What makes the pair sufficient is the compile-time rule that a composed
+    // Ruleset selects exactly ONE version per Component Type
+    // (ComponentSchemaVersionAmbiguous), so type plus slot is unambiguous by
+    // construction rather than by hope.
     ComponentTypeId component;
     ComponentFieldSlotId componentField;
     RelationTypeId relationType;
@@ -349,13 +385,24 @@ struct AlgorithmBytecodeInstruction
     // capabilityVersion is the concrete contract version the compiler resolved.
     MechanismRoleSlotId targetRoleSlot;
     std::uint32_t capabilityVersion = 0;
-    // opcode == SetFieldComputed / AddFieldComputed. `hasRight` distinguishes
-    // a single read from a binary operation, so "copy this value" does not
-    // have to be spelled as "add zero".
+    // opcode == SetFieldComputed / AddFieldComputed /
+    // SetComponentFieldComputed. `hasRight` distinguishes a single read from a
+    // binary operation, so "copy this value" does not have to be spelled as
+    // "add zero".
     CompiledAlgorithmReadPath left;
     CompiledAlgorithmReadPath right;
     bool hasRight = false;
     AlgorithmBinaryOperator binaryOperator = AlgorithmBinaryOperator::Add;
+    // opcode == SetComponentFieldComputed: the declared kind of the
+    // destination Component field.
+    //
+    // A computed write into a Mechanism field can read the destination's kind
+    // off the instance's own value at run time. A Component field is on
+    // another object entirely, so the VM would have to go find it and would
+    // still be guessing when the Component is absent. The compiler already
+    // resolved the layout to assign the Slot, so it records the kind there and
+    // the VM quantises against a fact rather than an observation.
+    MechanismValueKind componentFieldKind = MechanismValueKind::Null;
 };
 
 struct CompiledAlgorithmProgram

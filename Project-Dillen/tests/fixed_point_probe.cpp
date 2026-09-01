@@ -153,6 +153,80 @@ void CheckRejection()
         "1e30 exceeds the fixed-point range");
 }
 
+// Extreme-value vectors around int64's edges.
+//
+// Every one of these once reached a `-value` on an operand that had not been
+// tested for kMin yet. Negating kMin has no representable result, so those
+// were undefined behaviour on the way to the very check meant to prevent the
+// overflow -- a sanitiser build would trap, and an optimiser is entitled to
+// assume it cannot happen and delete the check.
+//
+// A rejection here is the correct answer; a wrong number or a crash is not.
+void CheckExtremes()
+{
+    constexpr std::int64_t kMin = std::numeric_limits<std::int64_t>::min();
+    constexpr std::int64_t kMax = std::numeric_limits<std::int64_t>::max();
+
+    // Subtract: `-right` used to be formed before anything looked at right.
+    // 0 - kMin is kMax + 1, which is not representable.
+    Check(FixedSubtract(0, kMin).status == FixedPointStatus::Overflow,
+        "0 - kMin overflows");
+    // These two ARE representable, and a blanket "reject every kMin operand"
+    // fix would have turned correct answers into errors. kMin - kMin is 0 and
+    // -1 - kMax is exactly kMin.
+    FixedPointValue zero = FixedSubtract(kMin, kMin);
+    Check(zero && zero.scaled == 0,
+        "kMin - kMin is 0 and must not be rejected");
+    FixedPointValue floor = FixedSubtract(-1, kMax);
+    Check(floor && floor.scaled == kMin,
+        "-1 - kMax is exactly kMin and must not be rejected");
+    Check(static_cast<bool>(FixedSubtract(kMax, kMax)),
+        "kMax - kMax is representable");
+    Check(FixedSubtract(kMax, -1).status == FixedPointStatus::Overflow,
+        "kMax - (-1) overflows");
+
+    // Multiply: the absolute values were taken before the kMin test.
+    Check(FixedMultiply(kMin, 1).status == FixedPointStatus::Overflow,
+        "kMin * 1 must be rejected rather than negate kMin");
+    Check(FixedMultiply(1, kMin).status == FixedPointStatus::Overflow,
+        "1 * kMin must be rejected rather than negate kMin");
+    Check(FixedMultiply(kMin, 0).status == FixedPointStatus::Ok,
+        "anything * 0 is zero without touching the magnitudes");
+    Check(FixedMultiply(kMax, kMax).status == FixedPointStatus::Overflow,
+        "kMax * kMax overflows");
+
+    // Divide: same shape, plus the denominator magnitude inside
+    // DivideRounded, where `-denominator` was formed for the rounding test.
+    Check(FixedDivide(kMin, 1).status == FixedPointStatus::Overflow,
+        "kMin / 1 must be rejected rather than negate kMin");
+    Check(FixedDivide(1, kMin).status == FixedPointStatus::Ok,
+        "1 / kMin is representable and must not negate the denominator");
+    // Rejected because FixedDivide pre-scales the numerator by the internal
+    // scale, so a numerator anywhere near kMax cannot survive regardless of
+    // the denominator. The point of the vector is that it is rejected rather
+    // than negating kMin on the way.
+    Check(FixedDivide(kMax, kMin).status == FixedPointStatus::Overflow,
+        "kMax / kMin is rejected on the numerator, without negating kMin");
+    Check(FixedDivide(1, 0).status == FixedPointStatus::DivideByZero,
+        "division by zero is rejected");
+
+    // Add: no negation, but the overflow guard has the same edges.
+    Check(FixedAdd(kMax, 1).status == FixedPointStatus::Overflow,
+        "kMax + 1 overflows");
+    Check(FixedAdd(kMin, -1).status == FixedPointStatus::Overflow,
+        "kMin - 1 underflows");
+    Check(static_cast<bool>(FixedAdd(kMin, kMax)),
+        "kMin + kMax is representable");
+
+    // The integer bridge still has a scaled range, which is why an integer
+    // field's delta must not be routed through it -- see the read-modify-write
+    // in MechanismInstanceStore.
+    Check(IntegerToInternal(kMax).status == FixedPointStatus::Overflow,
+        "kMax has no scaled image");
+    Check(IntegerToInternal(kMin).status == FixedPointStatus::Overflow,
+        "kMin has no scaled image");
+}
+
 }
 
 int main()
@@ -162,6 +236,7 @@ int main()
     CheckAssociativity();
     CheckIntegerBridge();
     CheckRejection();
+    CheckExtremes();
 
     if (failures != 0)
     {

@@ -2,12 +2,25 @@ algorithm_descriptor = {
     name = dillen.demo05.research_algorithm
     version = 1
     backend = declarative
-    entry_points = { create event }
+    entry_points = { create tick event }
     deterministic = yes
     execution_policy = { instruction_budget = 96  failure_policy = fail_instance }
 
     program = {
         create = { transition_lifecycle = active }
+
+        tick = {
+            add_field = {
+                field = progress
+                left = {
+                    role = sponsor
+                    component = dillen.demo05.treasury
+                    field = science
+                    reduce = sum
+                }
+                when = { field_equals = { field = completed  value = no } }
+            }
+        }
 
         event = {
             add_field = {

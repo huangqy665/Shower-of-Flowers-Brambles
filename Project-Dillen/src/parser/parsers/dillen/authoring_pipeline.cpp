@@ -832,6 +832,88 @@ bool AuthoringSession::ValidateAndCompile(
                         + file->catalog.virtualPath
                 );
             }
+            // A Mechanism Package may not name a concrete Entity Definition.
+            //
+            // The role check above is about file kinds; this is about what is
+            // written inside them. A Mechanism Package declares dependencies
+            // only on Contract Packages, and Contract Packages declare
+            // schemas, not entities. So an Entity Definition name appearing in
+            // a Mechanism algorithm is by construction a name the Package
+            // never declared a dependency on -- a hidden coupling to whatever
+            // Content happens to be loaded, and exactly the hard-coded game
+            // element the layering exists to prevent.
+            //
+            // This is not hypothetical: the first computed set_component_field
+            // written into this repository named `dillen.demo05.alvara`
+            // directly, and nothing complained. Every gate passed. The
+            // replaceable-Package promise was quietly false until this check
+            // existed.
+            //
+            // The supported way to reach an Entity is a role slot, which
+            // Content binds and the Mechanism only knows by name.
+            if (layer.manifest->role != kernel::PackageRole::Mechanism)
+            {
+                continue;
+            }
+            const AlgorithmDescriptorDocument* algorithm =
+                file->result.artifact.type == kAlgorithmDescriptorDocumentType
+                ? file->result.artifact.As<AlgorithmDescriptorDocument>()
+                : nullptr;
+            if (algorithm == nullptr)
+            {
+                continue;
+            }
+            const auto reportEntityName = [&](const std::string& what)
+            {
+                diagnostics.Error(
+                    "dillen.authoring.package_entity_reference_violation",
+                    "Mechanism Package '" + layer.manifest->canonicalName
+                        + "' names a concrete Entity Definition in "
+                        + file->catalog.virtualPath + " (" + what
+                        + "); a Mechanism Package may only reach Entities "
+                          "through a role slot"
+                );
+            };
+            const auto inspect =
+                [&](const kernel::AlgorithmInstructionDefinition& instruction)
+            {
+                switch (instruction.kind)
+                {
+                case kernel::AlgorithmInstructionKind::CreateEntity:
+                    reportEntityName("create_entity");
+                    break;
+                case kernel::AlgorithmInstructionKind::SetComponentField:
+                case kernel::AlgorithmInstructionKind::
+                    SetComponentFieldComputed:
+                    reportEntityName("set_component_field owner");
+                    break;
+                case kernel::AlgorithmInstructionKind::AddRelation:
+                    reportEntityName("add_relation endpoint");
+                    break;
+                default:
+                    break;
+                }
+            };
+            for (const auto& stage : algorithm->value.program.stages)
+            {
+                for (const kernel::AlgorithmInstructionDefinition& instruction
+                    : stage.second)
+                {
+                    inspect(instruction);
+                }
+            }
+            for (const auto& stage : algorithm->value.script.stages)
+            {
+                for (const kernel::ControlledScriptInstructionDefinition&
+                    instruction : stage.second)
+                {
+                    if (instruction.kind
+                        == kernel::ControlledScriptInstructionKind::Transact)
+                    {
+                        inspect(instruction.action);
+                    }
+                }
+            }
         }
         std::vector<kernel::PackageContentSource> contentSources;
         for (const parser::ParsedFile* file : layer.files)

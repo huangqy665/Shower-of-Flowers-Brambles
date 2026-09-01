@@ -129,6 +129,21 @@ bool IsValidAlgorithmInstruction(
         // layout is available to resolve names against.
         if (instruction.field.empty()) return false;
         break;
+    case AlgorithmInstructionKind::SetComponentFieldComputed:
+        // Same shape as SetComponentField, except the value arrives as a read
+        // path instead of a literal, so `operand` is expected to be empty.
+        if (!instruction.entity
+            || !instruction.component
+            || instruction.componentField.empty()) return false;
+        break;
+    case AlgorithmInstructionKind::SetComponentFieldByRole:
+    case AlgorithmInstructionKind::SetComponentFieldByRoleComputed:
+        // No `entity`: the owner is whatever the named role slot holds at run
+        // time. A role name is required in its place.
+        if (instruction.targetRoleName.empty()
+            || !instruction.component
+            || instruction.componentField.empty()) return false;
+        break;
     }
     for (const AlgorithmConditionDefinition& condition
         : instruction.conditions)

@@ -6,7 +6,10 @@ algorithm_descriptor = {
     deterministic = yes
     execution_policy = { instruction_budget = 128  failure_policy = fail_instance }
     program = {
-        create = { transition_lifecycle = active }
+        create = {
+            transition_lifecycle = active
+            set_field = { field = balance  left = { role = capital component = dillen.demo05.treasury field = money reduce = sum } }
+        }
         tick = {
             set_field = {
                 field = base_income
@@ -20,6 +23,7 @@ algorithm_descriptor = {
                 right = { constant = 3.0 }
             }
             add_field = { field = balance op = sub left = { constant = 0.0 } right = { self_field = funding_sent } }
+            set_component_field = { role = capital  component = dillen.demo05.treasury  field = money  left = { self_field = balance } }
             invoke_capability = {
                 capability = dillen.demo05.research_funding
                 delay = 1

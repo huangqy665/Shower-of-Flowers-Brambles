@@ -505,7 +505,10 @@ bool BuildCompileSelection(
                             instruction.entityDefinition).second || changed;
                     }
                     else if (instruction.kind
-                        == AlgorithmInstructionKind::SetComponentField)
+                        == AlgorithmInstructionKind::SetComponentField
+                        || instruction.kind
+                            == AlgorithmInstructionKind::
+                                SetComponentFieldComputed)
                     {
                         bool found = false;
                         for (const EntityDefinition& entity
@@ -974,6 +977,45 @@ bool RuntimeCompiler::Compile(
             return first.schemaVersion < second.schemaVersion;
         }
     );
+    // A Component Type may appear at exactly ONE Schema version in a composed
+    // Ruleset.
+    //
+    // Field Slots are assigned per (type, version) by sorted field name, so
+    // two versions of one type give slot 3 two different meanings. Every
+    // instruction that reaches a Component through a role carries the type and
+    // the slot but no version -- it cannot carry one, because the Entity it
+    // will write is not known until run time, and different Entities may
+    // declare different versions of the same Component. Under two versions
+    // such an instruction is not merely unchecked, it is unanswerable.
+    //
+    // This is the same ruling RejectAmbiguousCapabilityProviders makes for
+    // contract providers, for the same reason: the ambiguity is rejected
+    // rather than resolved by a rule nobody can see. Deliberately strict --
+    // a later per-Entity version model can relax this; it could not tighten
+    // it once content depends on the looseness.
+    for (std::size_t index = 1;
+        index < candidate.componentLayouts_.size();
+        ++index)
+    {
+        const CompiledComponentLayout& previous =
+            candidate.componentLayouts_[index - 1];
+        const CompiledComponentLayout& current =
+            candidate.componentLayouts_[index];
+        if (previous.type == current.type)
+        {
+            AddIssue(
+                report,
+                RuntimeCompileIssueCode::ComponentSchemaVersionAmbiguous,
+                componentSchemas.Find(current.type, current.schemaVersion)
+                    ->canonicalName,
+                "Component Type is selected at two Schema versions ("
+                    + std::to_string(previous.schemaVersion) + " and "
+                    + std::to_string(current.schemaVersion)
+                    + "); a composed Ruleset may select only one"
+            );
+            return false;
+        }
+    }
     candidate.RebuildIndexes();
 
     candidate.definitions_.reserve(selection.definitions.size());
@@ -1671,7 +1713,10 @@ bool RuntimeCompiler::Compile(
                     out.rngCount = src.rngCount;
                     return true;
                 case AlgorithmInstructionKind::SetComponentField:
+                case AlgorithmInstructionKind::SetComponentFieldComputed:
                 {
+                    const bool computed = src.kind
+                        == AlgorithmInstructionKind::SetComponentFieldComputed;
                     const CompiledEntityDefinition* ownerDefinition = nullptr;
                     for (const CompiledEntityDefinition& entity
                         : candidate.entityDefinitions_)
@@ -1708,13 +1753,19 @@ bool RuntimeCompiler::Compile(
                         : componentLayout->fieldSlotsByName.find(
                             src.componentField
                         );
+                    // The literal form checks the value against the schema
+                    // here. The computed form has no value yet, so what is
+                    // checked instead is that the destination can hold an
+                    // arithmetic result at all -- the same rule the computed
+                    // Mechanism field assignment applies.
                     if (componentLayout == nullptr
                         || componentField
                             == componentLayout->fieldSlotsByName.end()
-                        || !MechanismValueMatchesSchema(
-                            componentLayout->fields[
-                                componentField->second.value],
-                            src.operand))
+                        || (!computed
+                            && !MechanismValueMatchesSchema(
+                                componentLayout->fields[
+                                    componentField->second.value],
+                                src.operand)))
                     {
                         AddIssue(
                             report,
@@ -1725,12 +1776,195 @@ bool RuntimeCompiler::Compile(
                         );
                         return false;
                     }
-                    out.opcode =
-                        AlgorithmBytecodeOpcode::SetComponentFieldConstant;
                     out.entity = src.entity;
                     out.component = src.component;
                     out.componentField = componentField->second;
-                    out.operand = src.operand;
+                    if (!computed)
+                    {
+                        out.opcode =
+                            AlgorithmBytecodeOpcode::SetComponentFieldConstant;
+                        out.operand = src.operand;
+                        return true;
+                    }
+                    const MechanismValueKind destination =
+                        componentLayout->fields[
+                            componentField->second.value].kind;
+                    if (destination != MechanismValueKind::Integer
+                        && destination != MechanismValueKind::Decimal)
+                    {
+                        AddIssue(
+                            report,
+                            RuntimeCompileIssueCode::
+                                AlgorithmProgramOperandInvalid,
+                            algorithm->canonicalName,
+                            "computed set_component_field requires a numeric "
+                            "Component field"
+                        );
+                        return false;
+                    }
+                    if (!LowerReadPath(
+                            src.left,
+                            *layout,
+                            candidate.layouts_,
+                            candidate.componentLayouts_,
+                            candidate.relationLayouts_,
+                            algorithm->canonicalName,
+                            report,
+                            out.left))
+                    {
+                        return false;
+                    }
+                    out.hasRight = src.hasRight;
+                    if (src.hasRight
+                        && !LowerReadPath(
+                            src.right,
+                            *layout,
+                            candidate.layouts_,
+                            candidate.componentLayouts_,
+                            candidate.relationLayouts_,
+                            algorithm->canonicalName,
+                            report,
+                            out.right))
+                    {
+                        return false;
+                    }
+                    out.binaryOperator = src.binaryOperator;
+                    out.componentFieldKind = destination;
+                    out.opcode =
+                        AlgorithmBytecodeOpcode::SetComponentFieldComputed;
+                    return true;
+                }
+                case AlgorithmInstructionKind::SetComponentFieldByRole:
+                case AlgorithmInstructionKind::SetComponentFieldByRoleComputed:
+                {
+                    const bool computed = src.kind
+                        == AlgorithmInstructionKind::
+                            SetComponentFieldByRoleComputed;
+                    const auto roleSlot =
+                        layout->roleSlotsByName.find(src.targetRoleName);
+                    if (roleSlot == layout->roleSlotsByName.end())
+                    {
+                        AddIssue(
+                            report,
+                            RuntimeCompileIssueCode::
+                                AlgorithmProgramOperandInvalid,
+                            algorithm->canonicalName,
+                            "set_component_field names an unknown role"
+                        );
+                        return false;
+                    }
+                    // The slot has to hold Entities. A Mechanism Instance
+                    // reference has no Components, so writing one would fail
+                    // at run time on every single invocation.
+                    if (layout->roles[roleSlot->second.value].referenceKind
+                        != MechanismReferenceKind::Entity)
+                    {
+                        AddIssue(
+                            report,
+                            RuntimeCompileIssueCode::
+                                AlgorithmProgramOperandInvalid,
+                            algorithm->canonicalName,
+                            "set_component_field requires a role that "
+                            "references Entities"
+                        );
+                        return false;
+                    }
+                    // Resolved by type alone, which is exact because a
+                    // composed Ruleset selects one version per Component Type
+                    // (ComponentSchemaVersionAmbiguous). Which Entity ends up
+                    // in the slot is a Content decision, so there is no Entity
+                    // Definition to check the field against here -- the
+                    // Component schema is the contract both sides share.
+                    const CompiledComponentLayout* componentLayout = nullptr;
+                    for (const CompiledComponentLayout& compiled
+                        : candidate.componentLayouts_)
+                    {
+                        if (compiled.type == src.component)
+                        {
+                            componentLayout = &compiled;
+                            break;
+                        }
+                    }
+                    const auto componentField = componentLayout == nullptr
+                        ? std::map<std::string, ComponentFieldSlotId>::
+                            const_iterator{}
+                        : componentLayout->fieldSlotsByName.find(
+                            src.componentField
+                        );
+                    if (componentLayout == nullptr
+                        || componentField
+                            == componentLayout->fieldSlotsByName.end()
+                        || (!computed
+                            && !MechanismValueMatchesSchema(
+                                componentLayout->fields[
+                                    componentField->second.value],
+                                src.operand)))
+                    {
+                        AddIssue(
+                            report,
+                            RuntimeCompileIssueCode::
+                                AlgorithmProgramOperandInvalid,
+                            algorithm->canonicalName,
+                            "set_component_field references an invalid target"
+                        );
+                        return false;
+                    }
+                    out.targetRoleSlot = roleSlot->second;
+                    out.component = src.component;
+                    out.componentField = componentField->second;
+                    if (!computed)
+                    {
+                        out.opcode = AlgorithmBytecodeOpcode::
+                            SetComponentFieldByRoleConstant;
+                        out.operand = src.operand;
+                        return true;
+                    }
+                    const MechanismValueKind destination =
+                        componentLayout->fields[
+                            componentField->second.value].kind;
+                    if (destination != MechanismValueKind::Integer
+                        && destination != MechanismValueKind::Decimal)
+                    {
+                        AddIssue(
+                            report,
+                            RuntimeCompileIssueCode::
+                                AlgorithmProgramOperandInvalid,
+                            algorithm->canonicalName,
+                            "computed set_component_field requires a numeric "
+                            "Component field"
+                        );
+                        return false;
+                    }
+                    if (!LowerReadPath(
+                            src.left,
+                            *layout,
+                            candidate.layouts_,
+                            candidate.componentLayouts_,
+                            candidate.relationLayouts_,
+                            algorithm->canonicalName,
+                            report,
+                            out.left))
+                    {
+                        return false;
+                    }
+                    out.hasRight = src.hasRight;
+                    if (src.hasRight
+                        && !LowerReadPath(
+                            src.right,
+                            *layout,
+                            candidate.layouts_,
+                            candidate.componentLayouts_,
+                            candidate.relationLayouts_,
+                            algorithm->canonicalName,
+                            report,
+                            out.right))
+                    {
+                        return false;
+                    }
+                    out.binaryOperator = src.binaryOperator;
+                    out.componentFieldKind = destination;
+                    out.opcode = AlgorithmBytecodeOpcode::
+                        SetComponentFieldByRoleComputed;
                     return true;
                 }
                 case AlgorithmInstructionKind::InvokeCapability:
@@ -2344,8 +2578,12 @@ bool RuntimeCompiler::Compile(
                     continue;
                 }
                 if (sourceInstruction.kind
-                    == AlgorithmInstructionKind::SetComponentField)
+                        == AlgorithmInstructionKind::SetComponentField
+                    || sourceInstruction.kind
+                        == AlgorithmInstructionKind::SetComponentFieldComputed)
                 {
+                    const bool computed = sourceInstruction.kind
+                        == AlgorithmInstructionKind::SetComponentFieldComputed;
                     const CompiledEntityDefinition* ownerDefinition = nullptr;
                     for (const CompiledEntityDefinition& entity
                         : candidate.entityDefinitions_)
@@ -2384,13 +2622,18 @@ bool RuntimeCompiler::Compile(
                         : componentLayout->fieldSlotsByName.find(
                             sourceInstruction.componentField
                         );
+                    // The literal form checks the value against the schema
+                    // here. The computed form has no value yet, so what is
+                    // checked instead is that the destination can hold an
+                    // arithmetic result at all.
                     if (componentLayout == nullptr
                         || componentField
                             == componentLayout->fieldSlotsByName.end()
-                        || !MechanismValueMatchesSchema(
-                            componentLayout->fields[
-                                componentField->second.value],
-                            sourceInstruction.operand))
+                        || (!computed
+                            && !MechanismValueMatchesSchema(
+                                componentLayout->fields[
+                                    componentField->second.value],
+                                sourceInstruction.operand)))
                     {
                         AddIssue(
                             report,
@@ -2401,12 +2644,64 @@ bool RuntimeCompiler::Compile(
                         );
                         return false;
                     }
-                    instruction.opcode = AlgorithmBytecodeOpcode::
-                        SetComponentFieldConstant;
                     instruction.entity = sourceInstruction.entity;
                     instruction.component = sourceInstruction.component;
                     instruction.componentField = componentField->second;
-                    instruction.operand = sourceInstruction.operand;
+                    if (!computed)
+                    {
+                        instruction.opcode = AlgorithmBytecodeOpcode::
+                            SetComponentFieldConstant;
+                        instruction.operand = sourceInstruction.operand;
+                        bytecode.push_back(std::move(instruction));
+                        continue;
+                    }
+                    const MechanismValueKind destination =
+                        componentLayout->fields[
+                            componentField->second.value].kind;
+                    if (destination != MechanismValueKind::Integer
+                        && destination != MechanismValueKind::Decimal)
+                    {
+                        AddIssue(
+                            report,
+                            RuntimeCompileIssueCode::
+                                AlgorithmProgramOperandInvalid,
+                            algorithm->canonicalName,
+                            "computed set_component_field requires a numeric "
+                            "Component field"
+                        );
+                        return false;
+                    }
+                    if (!LowerReadPath(
+                            sourceInstruction.left,
+                            *layout,
+                            candidate.layouts_,
+                            candidate.componentLayouts_,
+                            candidate.relationLayouts_,
+                            algorithm->canonicalName,
+                            report,
+                            instruction.left))
+                    {
+                        return false;
+                    }
+                    instruction.hasRight = sourceInstruction.hasRight;
+                    if (sourceInstruction.hasRight
+                        && !LowerReadPath(
+                            sourceInstruction.right,
+                            *layout,
+                            candidate.layouts_,
+                            candidate.componentLayouts_,
+                            candidate.relationLayouts_,
+                            algorithm->canonicalName,
+                            report,
+                            instruction.right))
+                    {
+                        return false;
+                    }
+                    instruction.binaryOperator =
+                        sourceInstruction.binaryOperator;
+                    instruction.componentFieldKind = destination;
+                    instruction.opcode = AlgorithmBytecodeOpcode::
+                        SetComponentFieldComputed;
                     bytecode.push_back(std::move(instruction));
                     continue;
                 }
@@ -2523,6 +2818,147 @@ bool RuntimeCompiler::Compile(
                         AlgorithmBytecodeOpcode::AdvanceRngStream;
                     instruction.rngStream = sourceInstruction.rngStream;
                     instruction.rngCount = sourceInstruction.rngCount;
+                    bytecode.push_back(std::move(instruction));
+                    continue;
+                }
+                if (sourceInstruction.kind
+                        == AlgorithmInstructionKind::SetComponentFieldByRole
+                    || sourceInstruction.kind
+                        == AlgorithmInstructionKind::
+                            SetComponentFieldByRoleComputed)
+                {
+                    const bool computed = sourceInstruction.kind
+                        == AlgorithmInstructionKind::
+                            SetComponentFieldByRoleComputed;
+                    const auto roleSlot = layout->roleSlotsByName.find(
+                        sourceInstruction.targetRoleName
+                    );
+                    if (roleSlot == layout->roleSlotsByName.end())
+                    {
+                        AddIssue(
+                            report,
+                            RuntimeCompileIssueCode::
+                                AlgorithmProgramOperandInvalid,
+                            algorithm->canonicalName,
+                            "set_component_field names an unknown role"
+                        );
+                        return false;
+                    }
+                    // The slot has to hold Entities. A Mechanism Instance
+                    // reference has no Components, so writing one would fail
+                    // at run time on every single invocation.
+                    if (layout->roles[roleSlot->second.value].referenceKind
+                        != MechanismReferenceKind::Entity)
+                    {
+                        AddIssue(
+                            report,
+                            RuntimeCompileIssueCode::
+                                AlgorithmProgramOperandInvalid,
+                            algorithm->canonicalName,
+                            "set_component_field requires a role that "
+                            "references Entities"
+                        );
+                        return false;
+                    }
+                    // Resolved by Component type alone, which is exact
+                    // because a composed Ruleset selects one version per
+                    // Component Type (ComponentSchemaVersionAmbiguous). Which
+                    // Entity lands in the slot is a Content decision; the
+                    // Component schema is the contract the Mechanism and the
+                    // Content share, and it is the only thing a reusable
+                    // mechanism may depend on.
+                    const CompiledComponentLayout* componentLayout = nullptr;
+                    for (const CompiledComponentLayout& compiled
+                        : candidate.componentLayouts_)
+                    {
+                        if (compiled.type == sourceInstruction.component)
+                        {
+                            componentLayout = &compiled;
+                            break;
+                        }
+                    }
+                    const auto componentField = componentLayout == nullptr
+                        ? std::map<std::string, ComponentFieldSlotId>::
+                            const_iterator{}
+                        : componentLayout->fieldSlotsByName.find(
+                            sourceInstruction.componentField
+                        );
+                    if (componentLayout == nullptr
+                        || componentField
+                            == componentLayout->fieldSlotsByName.end()
+                        || (!computed
+                            && !MechanismValueMatchesSchema(
+                                componentLayout->fields[
+                                    componentField->second.value],
+                                sourceInstruction.operand)))
+                    {
+                        AddIssue(
+                            report,
+                            RuntimeCompileIssueCode::
+                                AlgorithmProgramOperandInvalid,
+                            algorithm->canonicalName,
+                            "set_component_field references an invalid target"
+                        );
+                        return false;
+                    }
+                    instruction.targetRoleSlot = roleSlot->second;
+                    instruction.component = sourceInstruction.component;
+                    instruction.componentField = componentField->second;
+                    if (!computed)
+                    {
+                        instruction.opcode = AlgorithmBytecodeOpcode::
+                            SetComponentFieldByRoleConstant;
+                        instruction.operand = sourceInstruction.operand;
+                        bytecode.push_back(std::move(instruction));
+                        continue;
+                    }
+                    const MechanismValueKind destination =
+                        componentLayout->fields[
+                            componentField->second.value].kind;
+                    if (destination != MechanismValueKind::Integer
+                        && destination != MechanismValueKind::Decimal)
+                    {
+                        AddIssue(
+                            report,
+                            RuntimeCompileIssueCode::
+                                AlgorithmProgramOperandInvalid,
+                            algorithm->canonicalName,
+                            "computed set_component_field requires a numeric "
+                            "Component field"
+                        );
+                        return false;
+                    }
+                    if (!LowerReadPath(
+                            sourceInstruction.left,
+                            *layout,
+                            candidate.layouts_,
+                            candidate.componentLayouts_,
+                            candidate.relationLayouts_,
+                            algorithm->canonicalName,
+                            report,
+                            instruction.left))
+                    {
+                        return false;
+                    }
+                    instruction.hasRight = sourceInstruction.hasRight;
+                    if (sourceInstruction.hasRight
+                        && !LowerReadPath(
+                            sourceInstruction.right,
+                            *layout,
+                            candidate.layouts_,
+                            candidate.componentLayouts_,
+                            candidate.relationLayouts_,
+                            algorithm->canonicalName,
+                            report,
+                            instruction.right))
+                    {
+                        return false;
+                    }
+                    instruction.binaryOperator =
+                        sourceInstruction.binaryOperator;
+                    instruction.componentFieldKind = destination;
+                    instruction.opcode = AlgorithmBytecodeOpcode::
+                        SetComponentFieldByRoleComputed;
                     bytecode.push_back(std::move(instruction));
                     continue;
                 }

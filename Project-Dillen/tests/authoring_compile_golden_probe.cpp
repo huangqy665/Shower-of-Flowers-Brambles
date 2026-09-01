@@ -280,6 +280,38 @@ void EncodeInstruction(
             EncodeReadPath(out, instruction.right);
         }
         break;
+    case Opcode::SetComponentFieldComputed:
+        out.U64(instruction.entity.value);
+        out.U64(instruction.component.value);
+        out.U32(instruction.componentField.value);
+        out.U8(static_cast<std::uint8_t>(instruction.componentFieldKind));
+        EncodeReadPath(out, instruction.left);
+        out.U8(instruction.hasRight ? 1U : 0U);
+        if (instruction.hasRight)
+        {
+            out.U8(static_cast<std::uint8_t>(instruction.binaryOperator));
+            EncodeReadPath(out, instruction.right);
+        }
+        break;
+    case Opcode::SetComponentFieldByRoleConstant:
+        out.U32(instruction.targetRoleSlot.value);
+        out.U64(instruction.component.value);
+        out.U32(instruction.componentField.value);
+        out.Value(instruction.operand);
+        break;
+    case Opcode::SetComponentFieldByRoleComputed:
+        out.U32(instruction.targetRoleSlot.value);
+        out.U64(instruction.component.value);
+        out.U32(instruction.componentField.value);
+        out.U8(static_cast<std::uint8_t>(instruction.componentFieldKind));
+        EncodeReadPath(out, instruction.left);
+        out.U8(instruction.hasRight ? 1U : 0U);
+        if (instruction.hasRight)
+        {
+            out.U8(static_cast<std::uint8_t>(instruction.binaryOperator));
+            EncodeReadPath(out, instruction.right);
+        }
+        break;
     case Opcode::InvokeCapability:
         out.U64(instruction.capability.value);
         out.U64(instruction.capabilityDeliveryType.value);
@@ -524,8 +556,8 @@ int main()
 
     // Both metrics are asserted. Twice now in this codebase an injected defect
     // has kept the byte count and moved only the checksum.
-    constexpr std::size_t kGoldenBytes = 2462;
-    constexpr std::uint64_t kGoldenChecksum = 16428176961995718018ULL;
+    constexpr std::size_t kGoldenBytes = 2582;
+    constexpr std::uint64_t kGoldenChecksum = 5867319647378757321ULL;
     if (bytes.size() != kGoldenBytes || checksum != kGoldenChecksum)
     {
         std::cerr << "DSL compile output drifted:\n"

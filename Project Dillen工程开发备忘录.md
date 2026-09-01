@@ -521,7 +521,7 @@ Destroy 阶段在实例进入 Completed / Failed 后执行；成功输出与实�
 1. **条件求值失败判为假，不是 Fault**。角色暂时未绑定时读不到值，该指令不触发；若判为 Fault，一个暂时为空的角色会直接隔离实例。
 2. ~~**经角色读 Mechanism 字段，只能读与自身同 layout 的目标**~~ —— **已解决（2026-09-01）**。角色槽的 `reference_type` 现按 `reference_kind` 决定的哈希域接受**符号名**（此前只接受裸哈希数，实际无人可用），编译期据它解析目标 layout。**未声明 `reference_type` 现在是编译拒绝**——此前静默按**调用方自身** layout 解析 `target_field`，两个类型只要有同名字段就会读到错误槽位且毫无提示。判别力已用注入验证：覆盖夹具的 `peer` 角色指向一个 `counter` 落在不同槽位的类型，回退到旧解析后**字节数不变、校验和变**，正是“静默读错槽位”的指纹。
 
-3. **`mechanism_instance` 角色槽仍没有任何写入路径**（比此前记录的更严重）。读取侧已按上一条解决，但写入侧三条路全封死：`.ddefinition` 的 `roles` 只支持 Entity 引用（Mechanism Instance 在写 Definition 时尚不存在）、`.dspawn` **根本没有 `roles` 键**、`MechanismCommandOperation` **没有 SetRole 操作**。因此该类角色槽在当前引擎里**永远为空**——不是“读不到”，是“写不进去”。补齐需要新增 Mechanism 操作（向 variant 末尾追加备选项 + 建议同步升 Save 版本），属独立决策，不阻塞 Demo 0.5。
+3. ~~**`mechanism_instance` 角色槽仍没有任何写入路径**~~——**已闭合（2026-09-01，见 C2）**。当时记录的三条封死路里，真正封死的只有一条：`.dspawn` 没有 `roles` 键。`MechanismSpawnDefinition::initialRoles` 结构、注册期 `RoleBindingsValid`、编译器下降、实例创建时的 `instance.roles = spawn->initialRoles` **全都已经在了**，只差解析器读那一个键。`.ddefinition` 只支持 Entity 是正确的（Definition 写就时实例不存在），`SetRole` 操作则是**有意不加**，理由见 C2。
 
 上述三条都**不阻塞 Demo 0.5**：经济—科研—生产模型所需的跨对象读全部走 Component 路径。
 
@@ -532,8 +532,10 @@ Destroy 阶段在实例进入 Completed / Failed 后执行；成功输出与实�
 | `remove_relation` | 指令种类、操作码、编译器下降、VM、存档冻结断言**全有** | 外部 Package 无法解除关系 |
 | `.ddefinition` 的 `roles` | `MechanismDefinition::roles`、编译器 `initialRoles`、注册期 `RoleBindingsValid` **全有** | 外部 Package 声明的角色槽**必然为空**，引用侧数据模型整体不可达 |
 | `.drelationdef` 的 `eol=lf` | Parser 注册了 11 个授权扩展名，`.gitattributes` 只钉了 10 个 | Windows 克隆得到 CRLF，同一 commit 两平台算出不同 `content_digest` |
+| `set_component_field` 的计算形式（2026-09-01 补，见 C1） | `ComponentSetFieldCommand`、World 执行侧、读路径求值**全有**，只有 DSL 与操作码没接 | 机制能读实体 Component 但只能往回写字面量；国库可以被读成收入，**永远不会被花掉** |
 
-三处均已补齐。这类洞**只能靠构造覆盖撞出来**，行为测试发现不了——这正是 §4.3 要求冻结 Parse / Resolve / Compile / Diagnostic **四面**而不只是 Compile 一面的直接理由。
+四处均已补齐。**这一类洞的共同形状值得单独记住**：下层能力是完整的，缺的只是作者能写出来的那句话。
+它们不会让任何测试变红，因为没有内容用得上它们——只有真去写一份完整领域模型时才会撞上。这类洞**只能靠构造覆盖撞出来**，行为测试发现不了——这正是 §4.3 要求冻结 Parse / Resolve / Compile / Diagnostic **四面**而不只是 Compile 一面的直接理由。
 
 **`cancel_event` 仍缺，且是有意保留**：它携带运行期分配的事件序列号，源码里写死字面量只会命中"碰巧拿到那个号"的事件。加一个只能用错的语法比留着可见的缺口更糟；它等运行期读操作数进入 `schedule_event` 的返回侧后再补。
 
@@ -805,7 +807,7 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 17. 最小 Standalone Host、外部 Authoring Session 启动、交互/脚本化 CLI Inspector、即时与排队 Command、状态查询及原子 Save / Load 文件闭环；
 18. Windows x64 纯 Dillen 测试为 26 项；`thread_contract_probe`（派发顺序无关性）、`controlled_script_probe`、`projection_adapter_probe`、`mechanism_ids_probe`、`capability_invocation_probe`、`scale_probe`、`demo_0_5_vertical_slice_probe` 与 `architecture_guard_probe` 分别固化 Script 沙箱/持久化、Projection 身份/迁移、Stable Identity 冻结哈希、Capability 契约调用、代表性规模、正式玩法纵向切片，以及模块分层依赖与"无 HOI3/oracle include"的源码级门禁；
 19. 纯 Dillen Demo 1.0 已以聚落增长与贸易周期两个外部机制包、均衡/加速两个可替换 Root Package / Source Layer 完成端到端验收，并固化闭包裁剪、源摘要篡改拒绝、存档恢复、确定性回放、Source Lock 篡改拒绝与跨 Root 读档拒绝。
-20. Capability 级 **fire-and-forget 闭环**收口：`provides_capabilities` + `invoke_capability` + `payload / payload_from` + `capability_invoked` + `from_payload` + 定向单提供者（`target_role`）+ 显式版本协商（限定在 Package Lock 声明的提供集内）+ Controlled Script 与 Declarative 在运行期和加载期闭包上等价；跨机制交互不引用对方 Mechanism Type / Instance ID。Demo 0.5 已用生产报告、科研拨款和科技解锁三条真实 Capability 边完成闭环。**已确认的 v1 边界**：单向链路足够；同 Tick 多发送者写入同一接收实例时，各 Event Invocation 基于同代 Snapshot 计算，普通 `SetField` 不能表达原子聚合，因此会发生最后写入覆盖。多 Operation、返回值、关联 ID 与原子聚合属于 Capability / Transaction 的纯加法后续能力。
+20. Capability 级 **fire-and-forget 闭环**收口：`provides_capabilities` + `invoke_capability` + `payload / payload_from` + `capability_invoked` + `from_payload` + 定向单提供者（`target_role`）+ 显式版本协商（限定在 Package Lock 声明的提供集内）+ Controlled Script 与 Declarative 在运行期和加载期闭包上等价；跨机制交互不引用对方 Mechanism Type / Instance ID。Demo 0.5 已用生产报告、科研拨款和科技解锁三条真实 Capability 边完成闭环。**已确认的 v1 边界**：单向链路足够。同 Tick 多发送者写入同一接收实例的丢失更新**已于 2026-09-01 闭合**——不是靠改 ABI，而是靠 `MechanismAddFieldOperation`（内层 tag 7，纯加法）：命令携带增量而非绝对值，由 Executor 对已提交值做读改写，**已冻结的 v1 命令布局一个字节未动**。详见 §4.3 第二轮审查修复第 1 条。仍属后续纯加法能力的是：多 Operation、返回值、关联 ID。
 
 **本轮已补齐的核心缺口**：
 
@@ -815,9 +817,9 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 
 **后续主线缺口**：
 
-1. **Capability 多发送者原子聚合未实现**——Demo 0.5 已证明 fire-and-forget v1 能表达单向反馈链，但同 Tick fan-in 仍需要纯加法的原子累加/归约事务或 ABI v2 关联语义；不得改变已冻结 v1 命令布局。
+1. ~~**Capability 多发送者原子聚合未实现**~~——**已闭合（2026-09-01，见 §4.3 第二轮审查修复第 1 条）**：`MechanismAddFieldOperation`（内层 tag 7）纯加法追加，命令只携带增量，由 Executor 对已提交值做读改写。**已冻结的 v1 命令布局一个字节未动**。返回值与关联 ID 仍属 ABI v2。
 2. **同相位算法并行未实现**——粗粒度 CoW 与快照共享载荷已完成（§3.20），派发的两相位结构与顺序守卫已完成（§3.9）；剩下的是 Worker Pool 本身，以及它必须同批带来的 1-vs-N 对拍探针和 Native Executor 的 `parallel_safe` 契约。
-3. ~~**内层 variant tag 未逐项验证**~~——**已闭合（2026-08-31）**：`CheckFrozenCommandEncoding` 现对全部 18 个 tag 逐项断言（外层 11 个 `WorldCommandPayload` + 内层 7 个 `MechanismCommandOperation`）。判别力用注入验证过：读侧对调内层 tag 4/5，两者均无载荷，编码字节数与外层 tag 全部不变——正是旧检查必然放行的那一类——被精确捕获。
+3. ~~**内层 variant tag 未逐项验证**~~——**已闭合（2026-08-31）**：`CheckFrozenCommandEncoding` 现对全部 19 个 tag 逐项断言（外层 11 个 `WorldCommandPayload` + 内层 8 个 `MechanismCommandOperation`）。判别力用注入验证过：读侧对调内层 tag 4/5，两者均无载荷，编码字节数与外层 tag 全部不变——正是旧检查必然放行的那一类——被精确捕获。
 4. ~~**多步 Migration 无夹具**~~——**已闭合（2026-09-01）**。`CheckMigrationChain` 覆盖多步链、断链、版本倒退与同版本成环四种情况。顺带查明两件事：**版本倒退的步骤在注册期就被拒**（`Register` 的 `target.formatVersion < source.formatVersion` 校验），所以一整类环根本无法构造；**环检测是双重的**——visited 集合与应用步数上限，单独关掉任一道都仍会终止。
 5. **加载期只有 Demo 0.5 基线**——正式 5 Package / 29 Source 的 Parse → Resolve → Compile → Freeze 已纳入 30 秒硬门禁并输出实测微秒值；更大规模 Package 图仍需独立基准。
 6. External Corpus Adapter ABI、Normalized IR 容器与 Mapping Profile 执行器本身；
@@ -857,7 +859,7 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 - **（审核修复）`invoke_capability` / `provides_capabilities` 的版本解析扫描整个 Contract Registry**：绕过 Package Lock，Kernel 编译不自封闭。`ResolveCapabilityVersion` 改为只在 `packageLock.Entries()[].providedCapabilities` 里选版本（镜像 `RuntimeCapabilityResolver::Resolve`）；提供契约的包 manifest 须 `provides = { capability = { name version } }` 声明。
 - **（二轮审核修复）跨 Package 的契约版本串绑**：`ResolveCapabilityVersion` 在**全部**锁定包中取最高版本，而 Definition / Algorithm 没有 PackageId，无法判定归属——两个包分别提供 v1/v2 时，某个 Definition 可能绑定到另一个包声明的版本。新增 `RejectAmbiguousCapabilityProviders`：一个契约身份被一个以上锁定包提供即编译拒绝。
 - **（二轮审核修复）行尾未固定导致 `content_digest` 跨平台不一致**：仓库无 `.gitattributes` 且 `core.autocrlf=true`，Git 存 LF、Windows 工作树是 CRLF。`content_digest` 是源文件**原始字节**的 SHA-256，所以同一个 commit 在 Windows 与 Linux 上会算出两个不同的摘要，其中一侧必然被判为篡改。（Linux CI job 标了 `continue-on-error`，一直掩盖着这个问题。）新增 `.gitattributes`，对全部 Dillen Authoring 扩展名与命令流 `.txt` 固定 `text eol=lf`，并把工作树里残留的 CRLF 源文件转为 LF、重算受影响的 Package 摘要。这不是风格问题，是确定性正确性问题。
-- **（Demo 0.2 冻结加固）磁盘 variant tag 无保护**：`MechanismCommandOperation`（7 项）、`WorldCommandPayload`（11 项）、`WorldEventPayload`（18 项）三个 variant 的 `.index()` 被直接当作 tag 写入存档与 Fact Stream，但没有任何机制阻止重排。中间插入或重排即静默重写全部存档并移位全部 Replay Checksum。已加 `VariantAlternativeIndex` 与 36 条逐项 `static_assert` + 3 条 `variant_size_v` 断言；三个定义处加 `FROZEN ORDER` 注释。末尾追加仍合法，其余改动编译期即停。详见 §4.2。
+- **（Demo 0.2 冻结加固）磁盘 variant tag 无保护**：`MechanismCommandOperation`（8 项）、`WorldCommandPayload`（11 项）、`WorldEventPayload`（18 项）三个 variant 的 `.index()` 被直接当作 tag 写入存档与 Fact Stream，但没有任何机制阻止重排。中间插入或重排即静默重写全部存档并移位全部 Replay Checksum。已加 `VariantAlternativeIndex` 与 36 条逐项 `static_assert` + 3 条 `variant_size_v` 断言；三个定义处加 `FROZEN ORDER` 注释。末尾追加仍合法，其余改动编译期即停。详见 §4.2。
 
 **Stable Identity 层重构**：
 
@@ -1013,7 +1015,7 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 
 | Variant | 备选项数 | 用途 |
 | --- | --- | --- |
-| `kernel::MechanismCommandOperation` | 7 | 存档中的 Mechanism 操作 tag |
+| `kernel::MechanismCommandOperation` | 8 | 存档中的 Mechanism 操作 tag |
 | `kernel::WorldCommandPayload` | 11 | 存档中的 World 命令 tag |
 | `kernel::WorldEventPayload` | 18 | Fact Stream tag（**即确定性 Replay Checksum 的输入**） |
 
@@ -1026,17 +1028,46 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 **（2）黄金存档字节 —— 已完成（2026-08-30）**。上一项钉的是 tag 序号，这一项钉的是**字段顺序与编码**。均在 `persistence_replay_probe`：
 
 - **规范世界黄金值**：存档 688 字节 / 校验和 `7194244525752032699`，回放 `finalStateChecksum` `9515266196334764553`、`factStreamChecksum` `14511951199989717232`。该世界含 Entity / Component / Relation / Mechanism / RNG Stream / Scheduled Event / 队列命令。
-- **命令编码黄金值**（`CheckFrozenCommandEncoding()`）：手工构造一个 Save Image，其命令队列含**全部 11 种 `WorldCommandPayload` 备选项 + 全部 7 种 `MechanismCommandOperation` 备选项**（1 种在第一条事务里，其余 6 种在第二条），锁定 516 字节 / 校验和 `5610142064737695594`。
-  **覆盖范围（2026-08-31 补齐）**：18 个备选项的**编码**由黄金字节数与校验和覆盖，**全部 18 个 tag 也已逐项往返对位**——外层 11 个 `WorldCommandPayload` 走 `commandQueue[0]`，内层 7 个 `MechanismCommandOperation` 走 `SetField`（第一条事务外层 tag 5）加 `commandQueue[1]` 的其余六个。
+- **命令编码黄金值**（`CheckFrozenCommandEncoding()`）：手工构造一个 Save Image，其命令队列含**全部 11 种 `WorldCommandPayload` 备选项 + 全部 8 种 `MechanismCommandOperation` 备选项**（1 种在第一条事务里，其余 7 种在第二条），锁定 539 字节 / 校验和 `11380329816255759537`。
+  **`add_field` 的语义已固定为增量**（2026-09-01）：`AddFieldComputed` / `AddIntegerConstant` /
+  `AddDecimalConstant` 三个操作码一律发 `MechanismAddFieldOperation`，命令里只带 delta，
+  由 Executor 对**已提交值**做读改写。`SetField` 仍是绝对写。这条区别不是优化而是正确性——
+  绝对值是对 Dispatch 期快照算的，只要同一 Phase 有两个以上调用写同一字段就会丢更新。
+  存档里因此会出现内层 tag 7；旧存档不含该 tag，读侧不受影响。
+
+  **追加备选项必须同时在这里追加一条命令**：2026-09-01 追加 `AddField`（内层 tag 7）时，整套 26 个测试在黄金值一字未动的情况下全绿——因为黄金根本没编码过这个 tag。冻结面在新功能处开洞，与 2026-08-31 那次 `-Wswitch` 暴露的是同一类错误：**没有被构造过的备选项等于没有被冻结**。
+  **覆盖范围（2026-08-31 补齐，2026-09-01 扩至 19 项）**：19 个备选项的**编码**由黄金字节数与校验和覆盖，**全部 19 个 tag 也已逐项往返对位**——外层 11 个 `WorldCommandPayload` 走 `commandQueue[0]`，内层 8 个 `MechanismCommandOperation` 走 `SetField`（第一条事务外层 tag 5）加 `commandQueue[1]` 的其余七个。
   此前内层只校验数量，"读写两侧同步漂移但字节数不变"这一类错误必然放行。补齐后用注入验证：读侧对调内层 tag 4/5（`ClearAlgorithmFault` 与 `Destroy`，两者均无载荷，故编码字节数与全部外层 tag 不变），被精确捕获。
 - **这一条是被验证逼出来的**：最初只做了规范世界黄金值，注入"交换 `RngStreamAdvanceCommand` 两个相邻 U64 字段写出"后**没有被捕获**——因为那个世界的持久化命令队列里只有一种命令，`WriteWorldCommand` 的绝大多数分支从未被序列化。补上命令编码黄金值后重注入，即被捕获（字节数相同、**校验和不同** —— 两个指标都必要）。
 - **跨平台**：上述全部黄金值在 Windows MSVC、Linux GCC、Linux Clang 上**逐位相同**，所以失配一定是真格式变更而非平台差异。失败信息直接写明"意外就修代码，有意就升版本+写迁移"。
 
 **（3）已冻结契约面清单 —— 已完成（2026-08-30，2026-08-31 扩充）**：`Project-Dillen/FROZEN_CONTRACTS.md` 按存档与回放格式 / 稳定身份 / Capability ABI v1 / 线程契约 / 模块分层 / Authoring DSL 六类列出冻结项，**每一项标明由什么守卫**。第 0 节写明变更规则（纯加法允许；破坏性变更需升版本 + 迁移 + 修订 §4.2 + 更新黄金值；禁止为了让构建变绿而重置黄金值），末节诚实列出**尚无守卫的缺口**：线程契约尚无运行期守卫（并行未实现，1-vs-N 对拍探针待补）、多步 Migration 无夹具、黄金值本身可被人为重置（只能靠评审纪律）。Authoring DSL 的 Parse / Resolve / Compile / Diagnostic 四面黄金锁定已经闭合；`CONTRIBUTING.md` 已指向该文件。
 
-### 4.3 Demo 0.5：External Mechanism Vertical Slice（已完成，持续回归）
+### 4.3 Demo 0.5：External Mechanism Vertical Slice（**已封存 2026-09-01**，持续回归）
 
-**目标日期：2026-11-15**
+**目标日期：2026-11-15 ｜ 实际封存：2026-09-01**
+
+**封存结论**：经五轮审查（其中四轮由用户提出）后冻结。封存时的可观察结果：
+
+| 项 | 值 |
+| --- | --- |
+| Package / Source / 实例 / Tick | 5 / 29 / 13 / 12 |
+| `balance` / `report_count` | 1165.0 / 56 |
+| `progress` / `goods_output` / `reports_sent` | 75.0 / 18.0 / 8 |
+| `treasury.money`（实体侧） | 等于 `balance` |
+| `treasury_seen`（跨机制读） | 1154.0（滞后一 Tick，快照语义） |
+| Windows x64 测试 | Debug 26/26、Release 26/26 |
+| Parse / Resolve / Compile 黄金 | 3912、3137、2582 字节 |
+| 诊断码 / 端到端触发 | 100 / 12 |
+
+**门禁清单**（全部在 `demo_0_5_vertical_slice_probe` 内，除非另注）：
+双运行 Fingerprint / Save / Replay Checksum 一致；经济包替换；技术包删除；
+缺包拒绝；非法 Package 角色拒绝；**Mechanism Package 硬编码 Content 实体拒绝**；
+Source 篡改拒绝；跨 Package 读档拒绝；存档恢复字节稳定；
+**连续运行 vs 存档续跑 Tick 20 逐字节对拍**；全部实例逐一取值一致（8 生产 + 4 研究）。
+
+**封存时仍开放、且已知的**：运行期角色重绑定（`SetRole`，有意不加，见 C2）；
+Worker Pool 与 1-vs-N 对拍（Demo 0.8 之后）；`-Werror`（构建问题，非架构问题，已搁置）。
 
 上面那些**引擎能力**已由 Kernel 工程验证夹具证明（§4.0），不再是本阶段的门禁。Demo 0.5 的门禁改为：**用真实玩法纵深压这些能力，看它们在哪里先断。**
 
@@ -1048,10 +1079,297 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 
 验收 —— 前四条沿用（换包、删包、非法 Package 拒绝、Checksum 一致），并新增两条**真正未知的问题**：
 
-- **Capability fire-and-forget v1 是否够用**：正式切片已经证明 v1 足以表达“生产报告 → 经济拨款 → 科研解锁 → 生产增益”的定向单提供者反馈链；但同 Tick 多发送者对同一接收实例做读改写时，各调用基于同代 Snapshot，普通 `SetField` 会最后写入覆盖。结论是 v1 可继续冻结，原子累加/归约、返回值和关联 ID 必须作为 ABI v2 或新事务操作纯加法引入（§4.2）。
+- **Capability fire-and-forget v1 是否够用**：正式切片已经证明 v1 足以表达“生产报告 → 经济拨款 → 科研解锁 → 生产增益”的定向单提供者反馈链。同 Tick 多发送者对同一接收实例做读改写的丢失更新问题**已于 2026-09-01 闭合**（见下方“多发送者汇聚”）。v1 ABI 本身继续冻结，返回值与关联 ID 仍留待 ABI v2 纯加法引入（§4.2）。
 - **加载期成本**：正式切片为 5 个 Package / 29 个 Source Artifact，探针对 Parse → Resolve → Compile → Freeze 设置 30 秒硬门禁并输出实测微秒值；这建立了最小正式基线，但更大规模 Package 图仍需独立基准。
 
 **正式验收结果（2026-08-31）**：`Dillen-Game/` 已成为唯一内容真相源；一个 Contract Package、三个 Mechanism Package 和一个 Content Package 共生成 13 个机制实例并运行 12 Tick。`demo_0_5_vertical_slice_probe` 已覆盖双运行 Fingerprint / Save / Replay Checksum 一致、经济包替换、技术包删除、非法 Package 角色拒绝、Package / Source Lock、Source 篡改拒绝、存档恢复和跨 Package 读档拒绝。旧 `tests/fixtures/dillen_demo_0_5` 已删除，避免正式内容与测试夹具分叉。
+
+**第二轮审查修复（2026-09-01，由用户审查提出）**：
+
+1. **多发送者汇聚不是原子累加（最严重）**。`AddFieldComputed` 在 VM 里先用 Dispatch 期快照算出绝对值，
+   再发一条普通 `SetField`。八个生产站点同 Tick 向同一个预算实例报告时，八条命令读到同一个陈旧基数、
+   算出同一个 `base + x`，最后一条覆盖前七条——**八份报告只落地一份**。修复方式是向
+   `MechanismCommandOperation` **末尾追加** `MechanismAddFieldOperation { field, delta }`（内层 tag 7，
+   纯加法，旧存档不含该 tag），命令只携带增量，由 Executor 对**已提交值**做读改写；VM 本地 `values[]`
+   仍取绝对结果，好让同一程序后续指令看到。修复前 `report_count = 6 / balance = 240`，
+   修复后 `48 / 996`——与用户手算一致。
+2. **探针只验证第一个实例**。`FindField()` 固定读序号 0，八个生产站点和四个研究项目各只有一个被看过。
+   新增 `UniformField()`：读**该 Definition 的全部实例**，同时断言实例数与逐实例取值一致。
+3. **正式内容未全部参与 Gameplay**。`treasury.money` / `treasury.science` 只在 `.dentity` 里躺着。
+   现已接入：预算机制 `create` 期把 `capital → treasury.money` 读作起始国库（25.0）；
+   研究机制新增 `tick` 入口，把 `sponsor → treasury.science` 当作每 Tick 基础科研点。
+   顺带证明了整数 Component 字段可直接汇入 decimal 机制字段。
+4. **缺少连续运行对拍**。原有检查只做“存档 → 读档 → 再存档，字节相同”，这是**编解码**的性质，
+   不是**模拟**的性质。新增 `CheckSaveResumeEquivalence()`：同一份内容跑两遍 Tick 1–20，一遍直通，
+   一遍在 Tick 12 存档后**载入全新 Session** 再跑 13–20，要求 Tick 20 的存档逐字节相同。
+   判别力已用注入验证：让 Capture 丢弃在途 Scheduled Event，旧检查**全程放行**，新门禁精确捕获，
+   且两份存档**字节数完全相同**（5894），只有校验和不同——又一次说明字节数单独作断言没有意义。
+5. 文档数字对齐：诊断码正文 96 → **97**（与表格一致）。
+
+**C1：计算式 `set_component_field`（2026-09-01）**
+
+上一条的 treasury 接线撞出来的：**机制能读实体 Component，但只能往回写字面量**。
+解析器那行是 `scalarValue("value", output.operand)`，且只有 `SetComponentFieldConstant`
+一个操作码。后果是国库可以被读成收入，但**永远不会被花掉**——读写单向，任何真实经济都会立刻卡住。
+
+补法（纯加法，不动存档格式）：
+
+- `AlgorithmInstructionKind` 与 `AlgorithmBytecodeOpcode` 各**末尾追加** `SetComponentFieldComputed`；
+- `set_component_field` 接受 `left` / `op` / `right`，与 `value` 互斥，语法与 `set_field` 完全一致；
+- **两条下降路径都要改**：`lowerTransact`（受控脚本）在 1434 起，声明式后端在 2347 起，是两份独立代码——
+  这正是 2026-08-31 `-Wswitch` 那次的教训，不能只改一份；
+- 实体可达性分析也要认新种类，否则 Package 能写进它没声明的 Entity；
+- 复用已有的 `ComponentSetFieldCommand`，**World 命令与存档格式一个字节都不动**。
+
+一个设计选择值得记：`AlgorithmBytecodeInstruction` 新增了 `componentFieldKind`。计算式写机制字段时，
+VM 能从实例自己的值里读出目标类型；但 Component 在另一个对象上，VM 去找它还得在 Component 缺失时猜。
+编译期为了分配 Slot 本来就解析过 layout，所以把 kind 记在指令里，VM 按事实量化而不是按观察。
+
+**加法性机器证明**：操作码已编入但 fixture 未使用时，Compile 黄金**保持 2462 纹丝不动**；
+fixture 加上新构造后才移到 2509。这是这条黄金存在的意义。
+
+**判别力验证（两处，都注入过）**：
+
+1. 正式内容里预算每 Tick 把 balance 写回 `treasury.money`。把这条写回删掉后，机制侧全部数字
+   **依旧正确**（1165 / 56 / 75）——因为预算只在 create 期读一次国库——只有新加的
+   `result.treasuryMoney == result.balance` 断言把它抓住。没有这条断言，整个 C1
+   可以静默失效而 26 个测试全绿。
+2. `dsl_read_operand_probe` 覆盖**整数目的地**（Demo 那条写的是 decimal，两条量化路径分开）：
+   fixture 每 Tick 把 `progress * 3` 写进 outpost 的 `stock.ore`，四 Tick 后应为 12。
+   把 VM 整数分支改成 `stored + 1` 后被精确捕获。
+   写的是 outpost 而不是 capital：`home` 角色绑的是 capital，写它的 `ore`
+   会反馈进下一 Tick 的 `output`，把一条写路径断言变成耦合断言。
+
+**受控脚本后端也已断言**：`controlled_script_probe` 现在要求计算式 `set_component_field`
+在 Script 阶段解析成 `Transact` 并带上正确的二元算子。上一轮 `-Wswitch`
+的教训就是这条路径可以整个没接而声明式一切正常——平价只有被断言才是真的。
+
+**顺带补齐的文档缺口**：`DILLEN_AUTHORING.md` 此前**从未记载读路径语法**——
+`left` / `op` / `right`、四个根、`relation` 一跳、五个归约、六个二元算子、定点算术规则，
+以及“`add_field` 计算形式提交增量而 `set_component_field` 提交绝对值”的理由，
+全部是内容作者写 Package 时必须知道但文档里查不到的。已补成独立一节。
+
+**C2：`mechanism_instance` 角色槽的写入路径（2026-09-01）**
+
+此前记录说"写入侧三条路全封死"。实际去做才发现，**真正封死的只有一条**：
+
+| 记录的封死路 | 实情 |
+| --- | --- |
+| `.ddefinition` 的 `roles` 只支持 Entity | **正确，且应当如此**。Definition 写就时实例不存在，Entity 的稳定 ID 却能由 `(entity_type, definition)` 直接导出 |
+| `.dspawn` 根本没有 `roles` 键 | **这才是唯一的缺口**。`MechanismSpawnDefinition::initialRoles`、注册期 `RoleBindingsValid`、编译器下降、实例创建时的 `instance.roles = spawn->initialRoles` 全都已经在了，只差解析器读那一个键 |
+| `MechanismCommandOperation` 没有 SetRole | **有意不加**，理由见下 |
+
+补法：抽出共享的 `ParseRoleBindings`，Definition 与 Spawn 共用，只差一个
+`allowMechanismInstance` 开关。Spawn 侧新增 `mechanism_instance = { mechanism definition ordinal }`
+目标形式——`ordinal` 可省略默认 0——解析成 `StableMechanismInstanceId(StableMechanismDefinitionId(type, definition), ordinal)`，
+`reference.type` 取 Mechanism Type 域的哈希，与 `ParseReferenceType` 对 `reference_type` 的解释一致。
+
+**一处引擎行为必须改**：Schema 里 `reference_kind = mechanism_instance` 且 `minimum_count >= 1`
+的角色槽，会让 **Definition 注册直接失败**——因为 Definition 层无法满足它。
+把这一类槽的最小数量检查从 Definition 注册移到 Spawn 注册。**约束没有放松**：
+Spawn 注册本来就把 Definition 与 Spawn 的绑定合并后再逐个校验 Schema 角色，
+删掉 `.dspawn` 里的绑定后加载期立刻拒绝（注入验证过）。区别只是检查发生在
+唯一能满足它的地方，而不是必然失败的地方。
+
+**正式内容验证**：生产站点新增指向预算实例的 `treasury` 角色槽，
+`invoke_capability` 从广播改为 `target_role = treasury` 定向，
+并新增 `treasury_seen` 字段读取预算的 `balance`——走的是
+`AlgorithmReadTerminal::MechanismField`，**这条读终端在角色槽可写之前内容根本无法触达**。
+`treasury_seen = 1154` 而最终 `balance = 1165`，差一轮：生产 Tick 读的是派发期快照，
+看到的是最后一 Tick 开始时的余额。这个滞后本身就是快照语义的证据。
+
+**判别力，两处注入**：
+
+1. 删掉 `.dspawn` 的绑定 → **加载期**被 Spawn 注册拒绝（`spawn_rejected`）。
+2. 绑定存在但 `ordinal = 1`（该实例不存在）→ **运行期第一 Tick** 就 Fault，
+   报 `read path target Mechanism field is missing`，不是静默读空。
+
+**`SetRole` 运行期操作：有意不加，理由与 `cancel_event` 完全相同。**
+
+运行期 Spawn 的序号来自 `nextOrdinalByDefinition` 这个递增计数器，
+所以算法**无法知道自己刚刚创建的实例的 ID**。读路径产出的是用于算术的数值标量，
+没有任何操作数来源能产出一个 Mechanism Instance 引用。因此一条 DSL 的 `set_role`
+只能写字面 `(definition, ordinal)`——那与 `.dspawn` 的静态绑定表达力完全相同，只是发生得晚一点。
+
+代价却不对称：`MechanismCommandOperation` 是**冻结的磁盘 tag**，追加了就永远不能删。
+为一个只能用错的构造钉一个永久 tag，比留着可见的缺口更糟。
+等 Capability ABI v2 的返回值或某种"引用型操作数来源"落地、能表达
+"我刚生成的那个实例"之后再补——那时它才有正确用法。
+
+**第三轮审查修复（2026-09-01，由用户审查提出）——Demo 0.5 封存前的最后一批**
+
+**1. 隐藏的跨包耦合（最严重，且是我在 C1 里亲手引入的）**
+
+C1 那条写回把 Content 实体名直接写进了 Mechanism Package 的算法：
+
+```
+# Dillen-Game/packages/economy/algorithms/budget.dalgorithm，错误写法
+set_component_field = {
+    owner_entity_type = dillen.demo05.country
+    owner_definition  = dillen.demo05.alvara     # ← Content 的名字
+    ...
+}
+```
+
+而 `economy.dpackage` 只声明依赖 Contract 包。**这是一个包没有声明、也不可能声明的依赖**——
+一个隐藏耦合，直接违背"不硬编码机制、实体等游戏要素"这条核心设计目标。
+更糟的是：当时 26 个测试全绿，换包门禁也过了。**可替换 Package 这个承诺当时是假的**。
+
+两半修复：
+
+- **按角色寻址**。`set_component_field` 新增 `role = <槽名>` 形式，与
+  `owner_entity_type` / `owner_definition` 互斥。实体在运行期从角色槽取，Content 负责绑定，
+  机制只认识槽名。追加两个操作码 `SetComponentFieldByRoleConstant` /
+  `SetComponentFieldByRoleComputed`（末尾追加，字面量形式一字未动，Compile 黄金保持 2509）。
+  编译期校验该槽的 `reference_kind` 必须是 Entity——机制实例没有 Component，
+  否则每次调用都会在运行期失败。运行期一个绑定目标发一条命令：槽可以合法地绑多个实体，
+  只写第一个是静默的部分写入。
+- **加载期边界检查**。新增 `dillen.authoring.package_entity_reference_violation`：
+  **Mechanism Package 的算法不得点名具体 Entity Definition**——覆盖 `create_entity`、
+  `set_component_field` 的 owner 形式、`add_relation` 的端点，声明式与受控脚本两条路径都查。
+  规则的依据很直接：Mechanism 包只能依赖 Contract 包，而 Contract 包声明 Schema 不声明实体，
+  所以出现在机制算法里的实体名**必然**是一个没有声明依赖的名字。
+
+  判别力已验证：把硬编码改回去，检查在**摘要门禁之前**就报错并指名文件与构造。
+
+  改成按角色寻址后 Demo 数字**完全不变**（1165 / 56 / 1154），说明两种寻址等价，
+  换掉的只是耦合。
+
+**2. 整数增量被限制到定点范围**
+
+`MechanismAddFieldOperation` 对整数字段也走 `IntegerToInternal()`。内部标度是 10⁴，
+该函数必须拒绝超过 ±9.2e14 的值否则放大后溢出——于是一个完整 int64 字段的可加范围
+被压到约万分之一，合法的大整数加法被当作溢出拒绝。这是 C1 一并引入的回归。
+改为**带检查的 int64 直接相加**：小数需要标度，整数从来不需要。
+
+**3. 定点边界的未定义行为**
+
+`FixedSubtract` 先 `-right` 再交给 `FixedAdd`；`FixedMultiply` / `FixedDivide`
+先取绝对值再检查 `== kMin`。取负 `kMin` 没有可表示结果，是 UB——
+**而且恰好发生在那个本该阻止溢出的检查的路上**。Sanitizer 会 trap，
+优化器有权假定它不会发生并删掉检查。
+
+`DivideRounded` 里还有第三处：舍入判定用 `-denominator`，而 `FixedDivide`
+可以把 kMin 直接传进来。改用无符号幅值，并把 `2*|r| >= |d|` 重排成
+`|r| >= |d| - |r|`（`|r| < |d|` 保证不会下溢），比较变成全域可用，
+顺带去掉原先那段 `kMax/2` 特判。
+
+减法改为直接检查而不是取负后转发。这里有个陷阱：**"凡 kMin 一律拒绝"会把正确答案变成错误**——
+`kMin - kMin` 是 0，`-1 - kMax` 恰好是 kMin，两者都可表示。
+我第一版极值测试就写错了这两条期望，是代码对、测试错。
+
+新增 `CheckExtremes()` 极值向量：三个运算在 kMin / kMax 边界上的行为，
+包括那两条"可表示、不得拒绝"的。
+
+**4. 角色约束的 API 缺口**
+
+- `MechanismInstanceStore::CreateFromDefinition()` 在产品代码里**一个调用点都没有**，
+  只有测试用；但它是公开的，且不检查必填角色。Definition 注册故意允许机制实例角色为空
+  （由 Spawn 注册兜底），于是这条路径能造出必填角色为空的活实例，
+  之后每一次读路径与定向调用都会 Fault。补上同样的检查，新增
+  `RoleBindingMissing` / `LayoutMissing` 两个结果。
+- 重复角色名被 `emplace` 静默丢弃：作者在文件里看得见自己的绑定，引擎却从不应用它。
+  改为报 `dillen.authoring.role_binding_duplicate`。
+
+**5. 权威文档过期表述**：`FROZEN_CONTRACTS.md` 仍称机制角色不可绑定、仍写 18 个 tag；
+备忘录 §3.19 仍称多发送者累加未实现，与 §4.3 自相矛盾。均已更正。
+诊断码 97 → **100**（本轮新增 `component_owner_ambiguous`、
+`package_entity_reference_violation`、`role_binding_duplicate`）。
+
+**这一轮最值得记住的一条**：#1 不是能力缺失，是**我做 C1 时为了让内容跑起来而走的近路**，
+而且它通过了当时全部 26 个测试。架构约束如果没有加载期检查，
+就只是文档里的一句话——补上检查之前，"Mechanism Package 可替换"是无法验证的承诺。
+
+**第四轮审查修复（2026-09-01）——上一轮修复自身的缺口**
+
+上一轮修 #1 时新加的按角色寻址写入，自己带进来三个洞。这一轮全部是"修复的修复"。
+
+**1. 多目标写入不消耗预算**
+
+我写了注释说"一个绑定发一条命令，只写第一个是静默的部分写入"，却没为额外目标计费。
+指令预算是**一次算法调用能提交多少工作的唯一上界**，一个角色绑一百个实体就能让
+一条计费指令发出一百条命令。改为与 `cancel_events`、与聚合读路径同规则：
+`bound.size() - 1`。
+
+**2. Component 版本歧义**
+
+`selection.components` 是 `set<pair<ComponentTypeId, version>>`——同一类型**可以**选入两个版本，
+而实体各自声明 `schema_version`。Slot 按 (type, version) 的字段名排序分配，
+所以两个版本下 slot 3 是两个不同字段。而按角色寻址的指令**带不了版本**：
+它要写的实体到运行期才知道。在两个版本共存时，这条指令不是"未校验"，是**无解**。
+
+裁定按项目对 Capability 提供者的既有立场：**拒绝歧义，而不是用一条谁也看不见的规则去消解它**。
+编译期新增 `ComponentSchemaVersionAmbiguous`——一份组合 Ruleset 中每个 Component 类型只允许一个版本。
+`AlgorithmBytecodeInstruction` 里也写清了为什么这对 (type, slot) 是充分的：
+不是靠运气，是靠这条加载期规则。
+
+这条规则**故意从严**。以后要放宽成"每实体版本"可以，反过来收紧则不行——
+一旦有内容依赖了宽松语义就再也收不回来了。
+
+**3. 回归门禁不足**
+
+角色常量写入、多目标写入、预算耗尽三条运行期路径**一个测试都没有**；
+新增的三个诊断码也只进了字符串清单，从未被真正触发过。
+
+- `declarative_algorithm_vm_probe` 新增一组:角色槽绑三个实体，断言发出三条命令、
+  三条各自指向正确实体、预算恰好消耗 3 个单位；预算给 2 时必须失败而不是少写几个实体；
+  槽为空时必须 Fault 而不是空操作。两处注入验证过（去掉计费 → 消耗读到 1；
+  只写 `bound.front()` → "did not reach every bound Entity"）。
+- `authoring_diagnostic_contract_probe` 端到端触发从 9 条增至 **12** 条，
+  新增 `component_owner_ambiguous`（两种写法：一个都不给 / 两个都给）
+  与 `role_binding_duplicate`。探针原先只会用算法解析器，现按根关键字分派，
+  否则 Spawn 用例会先在根关键字上失败、永远到不了被测诊断。
+- `package_entity_reference_violation` 做成**常驻门禁** `RejectHardCodedContentEntity()`：
+  复制 economy 包，把写回从按角色改回点名实体，要求加载被拒。
+  这条不能只做一次性注入——它拦的那个违规是**手写进仓库并通过了当时全部测试的**。
+
+  写这条门禁时踩了一个坑值得记：最初用 `text.find("role = capital")` 定位，
+  结果命中的是 `create` 段里那条**读**路径，改写后产生的是语法错误而不是边界违规——
+  一个伪装成失败的假通过。改为先定位 `set_component_field` 再向后找。
+
+**4. 文档矛盾**：§3.19 第 20 条仍称多发送者写入会丢失更新，与 §4.3 冲突。已更正。
+
+**这一轮的教训**：#1 到 #3 全部是上一轮修复引入的。一个为解耦而加的新寻址方式，
+带来了新的预算面、新的版本解析面和新的运行期分支，而我只测了正式内容用到的那一条路径。
+**修复本身也是新代码，也要按新代码来验。**
+
+**第五轮审查修复（2026-09-01）——冻结前的最后一批**
+
+**1. 角色写入未进入 Compile 黄金夹具**
+
+编码器支持两个按角色寻址的操作码，夹具却只构造了具名 Entity 写入。
+**这正是我自己在上面写下的那条规则**——"没有被构造过的备选项等于没有被冻结"——
+而我在同一份文档里第三次犯了它（前两次是 `AddField` 的内层 tag 7、
+`SetComponentFieldComputed`）。
+
+夹具补上两条按角色写入（常量形式与计算形式），黄金从 2509 移到 **2582** 字节。
+判别力已验证：把编码器里的 `targetRoleSlot` 故意写偏一位，
+**字节数不变（2582）、校验和移动**——正是只有校验和能抓的那一类。
+
+**这条规则显然靠记性是守不住的。**它已经写进 §4.2 命令编码黄金值条目，
+但对 Compile 黄金同样成立：`EncodeInstruction` 每加一个 `case`，
+`coverage.dalgorithm` 必须同时加一条构造它的指令。
+
+**2. 补两个缺失的拒绝测试**（`runtime_catalog_probe`）
+
+- `RejectsTwoComponentVersions()`：同一 Component 类型注册 v1 与 v2，
+  v2 多一个**排序在 `amount` 之前**的字段——这才是真正移动 Slot 的原因，
+  slot 0 在 v1 是 `amount`、在 v2 是 `added`。要求编译失败并给出
+  `ComponentSchemaVersionAmbiguous`。
+- `RejectsUnfilledRequiredRole()`：一个必填的 `mechanism_instance` 角色，
+  Definition **必须仍被接受**（否则这类 Schema 就无法注册了），
+  而 `CreateFromDefinition()` 必须返回 `RoleBindingMissing` 且不留下任何实例。
+
+两条都用关掉对应检查的方式验证过判别力。
+
+放置位置本身也是个教训：我最初把它们写进 `mechanism_instance_store_probe`，
+而那个探针挂在 `DILLEN_BUILD_HOI3_COMPATIBILITY` 下，**标准 26 项里根本不跑**——
+一个永远不会失败的测试。改放到无条件构建的 `runtime_catalog_probe`。
+
+**同一轮暴露出的冻结方法论问题**：追加内层 tag 7 之后，26 个测试在**黄金值一字未动**的情况下全绿。
+原因是 `CheckFrozenCommandEncoding` 从没构造过这个备选项——**没有被构造过的备选项等于没有被冻结**。
+补上一条 `AddField` 命令后黄金从 516 字节移到 539 字节。这与 2026-08-31 由 GCC `-Wswitch` 暴露的
+“黄金编码器少三个分支”是同一类错误，已在 §4.2 命令编码黄金值条目里写成硬性规则。
 
 前置项（见 §4.2 冻结后的守卫缺口）：
 
@@ -1059,14 +1377,21 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 
   | 面 | 守卫 | 黄金值 |
   | --- | --- | --- |
-  | Parse | `authoring_frontend_golden_probe` | 3912 字节 / `3730319217720541124` |
-  | Resolve | 同上 | 3137 字节 / `14470188716694633576` |
-  | Compile | `authoring_compile_golden_probe` | 2462 字节 / `16428176961995718018` |
-  | Diagnostic | `authoring_diagnostic_contract_probe` | **97** 个码 + 9 个端到端触发 |
+  | Parse | `authoring_frontend_golden_probe` | 3912 字节 / `1278464547742860928` |
+  | Resolve | 同上 | 3137 字节 / `15737711886577553487` |
+  | Compile | `authoring_compile_golden_probe` | 2582 字节 / `5867319647378757321` |
+  | Diagnostic | `authoring_diagnostic_contract_probe` | **100** 个码 + 12 个端到端触发 |
 
-  诊断码当前是 **96** 个：在既有语法与管线诊断上新增 `invoke_capability` 载荷互斥校验，以及 Package 角色、依赖角色和严格显式角色诊断。
+  诊断码当前是 **100** 个：在既有语法与管线诊断上新增 `invoke_capability` 载荷互斥校验，以及 Package 角色、依赖角色和严格显式角色诊断。
 
-  执行顺序为：先锁现有构造（1617 字节）→ 加读操作数与聚合、黄金值必须不动 → 用真实经济—科研—生产替换草稿 → 扩充 fixture 至完整覆盖后重取（2377 字节）→ 追加 `invoke_capability payload_from` 与 Package 角色契约后重取（2449 字节）→ 角色读路径按 `reference_type` 解析、并追加 `cancel_events` 后重取（2462 字节）。旧常量载荷编码保持不变，只有使用动态载荷的新构造追加读路径编码，因此仍遵守纯加法冻结规则。
+  **硬性规则（三次踩坑后写下）：`EncodeInstruction` 每加一个 `case`，
+  `tests/fixtures/dillen_dsl_v1/algorithms/coverage.dalgorithm` 必须同时加一条构造它的指令。**
+  命令编码黄金同理（见 §4.2 命令编码黄金值条目）。
+  没有被构造过的备选项等于没有被冻结——`AddField` 内层 tag 7、
+  `SetComponentFieldComputed`、按角色寻址的两个操作码，三次都是加了编码分支而没加夹具构造，
+  三次都是全套测试在黄金一字未动的情况下全绿。**这条规则靠记性守不住，只能靠 review 时对照。**
+
+  执行顺序为：先锁现有构造（1617 字节）→ 加读操作数与聚合、黄金值必须不动 → 用真实经济—科研—生产替换草稿 → 扩充 fixture 至完整覆盖后重取（2377 字节）→ 追加 `invoke_capability payload_from` 与 Package 角色契约后重取（2449 字节）→ 角色读路径按 `reference_type` 解析、并追加 `cancel_events` 后重取（2462 字节）→ 追加计算式 `set_component_field` 后重取（2509 字节）→ 追加按角色寻址的两个 Component 写入操作码后重取（2582 字节）。旧常量载荷编码保持不变，只有使用动态载荷的新构造追加读路径编码，因此仍遵守纯加法冻结规则。
 
   **这个漏洞是 GCC 的 `-Wswitch` 报出来的，不是自查发现的**：黄金编码器的 switch 少了三个 enum 分支，冻结面正好在新功能处开洞。同一批告警还暴露出 `IsValidAlgorithmInstruction` 漏校验两个新指令种类、以及**受控脚本后端整个没接读操作数**（`lowerTransact` 与脚本侧条件下降是独立于声明式的另一份代码）。MSVC /W4 三条都不报（C4061/C4062 默认关闭）。这是 Linux 阻塞门禁在本轮的实际产出。
 
@@ -1089,6 +1414,8 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 - Replay 在重复运行中产生相同 Fact Stream 和最终状态。
 
 **当前验收状态**：核心 Durability 闭环已由 `persistence_replay_probe` 达成；`standalone_host_probe` 已进一步覆盖 Platform 文件写入、同目录临时文件原子替换和恢复，文件路径仍不进入权威存档格式。
+
+**Demo 级连续运行对拍（2026-09-01 提前落地）**：`demo_0_5_vertical_slice_probe` 的 `CheckSaveResumeEquivalence()` 已实现本 Demo 的主门禁形态——正式内容跑 Tick 1–20 直通，与 Tick 12 存档后载入全新 Session 再跑 13–20，要求两者 Tick 20 存档逐字节相同。它比“存档字节稳定”强一个量级：后者只证明编解码可往返，前者证明**存档没有漏掉任何影响后续演算的状态**。Demo 0.8 的剩余工作是把它推广到 Migration 之后的续跑，以及更长的 Tick 跨度。
 
 ### 4.5 Demo 1.0：Pure Dillen Standalone
 

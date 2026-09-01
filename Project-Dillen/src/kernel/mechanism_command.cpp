@@ -4,6 +4,21 @@
 
 namespace dillen::kernel {
 
+MechanismCommand MechanismCommand::AddField(
+    MechanismInstanceId target,
+    MechanismFieldSlotId field,
+    MechanismValue delta
+)
+{
+    return {
+        target,
+        MechanismAddFieldOperation{
+            field,
+            std::move(delta)
+        }
+    };
+}
+
 MechanismCommand MechanismCommand::SetField(
     MechanismInstanceId target,
     MechanismFieldSlotId field,

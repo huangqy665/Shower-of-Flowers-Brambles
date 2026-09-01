@@ -376,6 +376,244 @@ BytecodeTransactionOutcome EmitBytecodeTransaction(
         ));
         return outcome;
     }
+    // Role-addressed Component writes. The Entity is whatever the role slot
+    // holds right now, so a reusable Mechanism never names one.
+    if (instruction.opcode
+            == AlgorithmBytecodeOpcode::SetComponentFieldByRoleConstant
+        || instruction.opcode
+            == AlgorithmBytecodeOpcode::SetComponentFieldByRoleComputed)
+    {
+        if (instruction.targetRoleSlot.value >= instance.roles.size())
+        {
+            return Reject(
+                BytecodeTransactionStatus::InvalidFieldSlot,
+                "bytecode role Slot is out of range"
+            );
+        }
+        const std::vector<MechanismReference>& bound =
+            instance.roles[instruction.targetRoleSlot.value];
+        if (bound.empty())
+        {
+            return Reject(
+                BytecodeTransactionStatus::OperandTypeMismatch,
+                "set_component_field role slot is unbound"
+            );
+        }
+
+        MechanismValue written = instruction.operand;
+        if (instruction.opcode
+            == AlgorithmBytecodeOpcode::SetComponentFieldByRoleComputed)
+        {
+            ReadPathResult value =
+                EvaluateReadPath(instruction.left, context, values);
+            if (!value)
+            {
+                return Reject(
+                    value.status == ReadPathStatus::ArithmeticRejected
+                        ? BytecodeTransactionStatus::NumericOverflow
+                        : BytecodeTransactionStatus::OperandTypeMismatch,
+                    value.message
+                );
+            }
+            if (instruction.hasRight)
+            {
+                const ReadPathResult right =
+                    EvaluateReadPath(instruction.right, context, values);
+                if (!right)
+                {
+                    return Reject(
+                        right.status == ReadPathStatus::ArithmeticRejected
+                            ? BytecodeTransactionStatus::NumericOverflow
+                            : BytecodeTransactionStatus::OperandTypeMismatch,
+                        right.message
+                    );
+                }
+                value = ApplyBinaryOperator(
+                    instruction.binaryOperator,
+                    value,
+                    right
+                );
+                if (!value)
+                {
+                    return Reject(
+                        BytecodeTransactionStatus::NumericOverflow,
+                        value.message
+                    );
+                }
+            }
+            if (instruction.componentFieldKind == MechanismValueKind::Decimal)
+            {
+                double stored = 0.0;
+                if (!kernel::InternalToStorage(value.scaled, stored))
+                {
+                    return Reject(
+                        BytecodeTransactionStatus::NumericOverflow,
+                        "computed value does not fit the decimal storage scale"
+                    );
+                }
+                written = MechanismValue(stored);
+            }
+            else if (instruction.componentFieldKind
+                == MechanismValueKind::Integer)
+            {
+                std::int64_t stored = 0;
+                if (!kernel::InternalToInteger(value.scaled, stored))
+                {
+                    return Reject(
+                        BytecodeTransactionStatus::NumericOverflow,
+                        "computed value does not fit an integer field"
+                    );
+                }
+                written = MechanismValue(stored);
+            }
+            else
+            {
+                return Reject(
+                    BytecodeTransactionStatus::OperandTypeMismatch,
+                    "computed set_component_field requires a numeric "
+                    "Component field"
+                );
+            }
+        }
+
+        // One command per bound Entity. A role slot may legitimately hold
+        // several, and writing only the first would be a silent partial write.
+        //
+        // Charged like cancel_events and like an aggregation: one instruction,
+        // N units of work. Without this an author could bind a role to a
+        // hundred Entities and have one budgeted instruction emit a hundred
+        // commands -- the instruction budget is the only bound on how much
+        // work one algorithm invocation can commit, so any construct that
+        // expands at run time has to pay for its expansion.
+        if (bound.size() > 1
+            && !context.budget.Consume(bound.size() - 1))
+        {
+            return Reject(
+                // Same status cancel_events uses for the same situation;
+                // BytecodeTransactionStatus has no budget member of its own.
+                BytecodeTransactionStatus::OperandTypeMismatch,
+                "set_component_field targets " + std::to_string(bound.size())
+                    + " Entities, exceeding the instruction budget"
+            );
+        }
+        for (const MechanismReference& target : bound)
+        {
+            if (target.kind != MechanismReferenceKind::Entity)
+            {
+                return Reject(
+                    BytecodeTransactionStatus::OperandTypeMismatch,
+                    "set_component_field role slot holds a non-Entity "
+                    "reference"
+                );
+            }
+            resultCommands.push_back(WorldCommand::SetComponentField(
+                EntityId{target.value},
+                instruction.component,
+                instruction.componentField,
+                written
+            ));
+        }
+        return outcome;
+    }
+
+    // Placed above the field-Slot guard on purpose: this opcode writes an
+    // Entity Component, not one of this instance's own fields, so
+    // instruction.field is unused and would fail a guard meant for others.
+    if (instruction.opcode
+        == AlgorithmBytecodeOpcode::SetComponentFieldComputed)
+    {
+        ReadPathResult value =
+            EvaluateReadPath(instruction.left, context, values);
+        if (!value)
+        {
+            return Reject(
+                value.status == ReadPathStatus::ArithmeticRejected
+                    ? BytecodeTransactionStatus::NumericOverflow
+                    : BytecodeTransactionStatus::OperandTypeMismatch,
+                value.message
+            );
+        }
+        if (instruction.hasRight)
+        {
+            const ReadPathResult right =
+                EvaluateReadPath(instruction.right, context, values);
+            if (!right)
+            {
+                return Reject(
+                    right.status == ReadPathStatus::ArithmeticRejected
+                        ? BytecodeTransactionStatus::NumericOverflow
+                        : BytecodeTransactionStatus::OperandTypeMismatch,
+                    right.message
+                );
+            }
+            value = ApplyBinaryOperator(
+                instruction.binaryOperator,
+                value,
+                right
+            );
+            if (!value)
+            {
+                return Reject(
+                    BytecodeTransactionStatus::NumericOverflow,
+                    value.message
+                );
+            }
+        }
+
+        // The Component field's declared kind wins, exactly as the destination
+        // Mechanism field's does for SetFieldComputed. The compiler recorded
+        // it, so an absent Component cannot make the VM guess.
+        MechanismValue written;
+        if (instruction.componentFieldKind == MechanismValueKind::Decimal)
+        {
+            double stored = 0.0;
+            const kernel::FixedPointValue quantised =
+                kernel::InternalToStorage(value.scaled, stored);
+            if (!quantised)
+            {
+                return Reject(
+                    BytecodeTransactionStatus::NumericOverflow,
+                    "computed value does not fit the decimal storage scale"
+                );
+            }
+            written = MechanismValue(stored);
+        }
+        else if (instruction.componentFieldKind == MechanismValueKind::Integer)
+        {
+            std::int64_t stored = 0;
+            const kernel::FixedPointValue whole =
+                kernel::InternalToInteger(value.scaled, stored);
+            if (!whole)
+            {
+                return Reject(
+                    BytecodeTransactionStatus::NumericOverflow,
+                    "computed value does not fit an integer field"
+                );
+            }
+            written = MechanismValue(stored);
+        }
+        else
+        {
+            return Reject(
+                BytecodeTransactionStatus::OperandTypeMismatch,
+                "computed set_component_field requires a numeric Component "
+                "field"
+            );
+        }
+
+        // Absolute, not a delta. Unlike a Mechanism field, a Component field
+        // has no add form in the DSL yet, so nothing here can fan in from
+        // several senders in one phase. When one is added it needs the same
+        // delta treatment MechanismAddFieldOperation got, for the same reason.
+        resultCommands.push_back(WorldCommand::SetComponentField(
+            instruction.entity,
+            instruction.component,
+            instruction.componentField,
+            written
+        ));
+        return outcome;
+    }
+
     if (instruction.field.value >= values.size())
     {
         return Reject(
@@ -502,7 +740,53 @@ BytecodeTransactionOutcome EmitBytecodeTransaction(
             written = MechanismValue(stored);
         }
 
+        // The local copy takes the absolute result so later instructions in
+        // this same program see it, but the COMMAND carries a delta for the
+        // add form. An absolute value computed against the dispatch snapshot
+        // is only correct while one invocation writes the field; the moment N
+        // do -- Capability fan-in is exactly that shape -- they all read the
+        // same stale base and the last commit wins. A delta has no base.
         values[instruction.field.value] = written;
+        if (instruction.opcode == AlgorithmBytecodeOpcode::AddFieldComputed)
+        {
+            MechanismValue delta;
+            if (destinationIsDecimal)
+            {
+                double stored = 0.0;
+                const kernel::FixedPointValue quantised =
+                    kernel::InternalToStorage(value.scaled, stored);
+                if (!quantised)
+                {
+                    return Reject(
+                        BytecodeTransactionStatus::NumericOverflow,
+                        "computed delta does not fit the decimal storage scale"
+                    );
+                }
+                delta = MechanismValue(stored);
+            }
+            else
+            {
+                std::int64_t stored = 0;
+                const kernel::FixedPointValue whole =
+                    kernel::InternalToInteger(value.scaled, stored);
+                if (!whole)
+                {
+                    return Reject(
+                        BytecodeTransactionStatus::NumericOverflow,
+                        "computed delta does not fit an integer field"
+                    );
+                }
+                delta = MechanismValue(stored);
+            }
+            resultCommands.push_back(WorldCommand::Mechanism(
+                MechanismCommand::AddField(
+                    instance.id,
+                    instruction.field,
+                    std::move(delta)
+                )
+            ));
+            return outcome;
+        }
         resultCommands.push_back(WorldCommand::Mechanism(
             MechanismCommand::SetField(
                 instance.id,
@@ -577,6 +861,20 @@ BytecodeTransactionOutcome EmitBytecodeTransaction(
         next = MechanismValue(sum);
     }
     values[instruction.field.value] = next;
+    // Same rule as the computed form: `add` commits a delta so concurrent
+    // writers accumulate, `set` commits the absolute value it was given.
+    if (instruction.opcode == AlgorithmBytecodeOpcode::AddIntegerConstant
+        || instruction.opcode == AlgorithmBytecodeOpcode::AddDecimalConstant)
+    {
+        resultCommands.push_back(WorldCommand::Mechanism(
+            MechanismCommand::AddField(
+                instance.id,
+                instruction.field,
+                operandValue
+            )
+        ));
+        return outcome;
+    }
     resultCommands.push_back(WorldCommand::Mechanism(
         MechanismCommand::SetField(
             instance.id,

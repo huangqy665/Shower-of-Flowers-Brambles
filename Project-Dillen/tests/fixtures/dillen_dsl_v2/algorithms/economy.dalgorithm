@@ -82,6 +82,22 @@ algorithm_descriptor = {
                 field = reach
                 left  = { role = home  component = dillen.eco.stock  field = ore  reduce = count }
             }
+
+            # 计算式写回实体 Component。目的地是 integer 字段 ore,而 Demo 0.5
+            # 那条写回打的是 decimal,两种量化路径这样才都被覆盖。
+            # progress 每 Tick +1,所以第 4 Tick 结束时 ore = 4 * 3 = 12。
+            set_component_field = {
+                owner_entity_type = dillen.eco.place
+                # outpost,不是 capital:home 角色绑定的是 capital,写回它的 ore
+                # 会反过来改变下一 Tick 的 output,把一条写路径断言变成一条耦合断言。
+                # 没有任何读路径读 outpost.ore。
+                owner_definition = dillen.eco.outpost
+                component = dillen.eco.stock
+                field = ore
+                left  = { self_field = progress }
+                op    = mul
+                right = { constant = 3 }
+            }
         }
     }
 }

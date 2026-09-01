@@ -96,8 +96,10 @@ DILLEN_FROZEN_VARIANT_TAG(
 DILLEN_FROZEN_VARIANT_TAG(
     kernel::MechanismReplaceAlgorithmStateOperation,
     kernel::MechanismCommandOperation, 6);
+DILLEN_FROZEN_VARIANT_TAG(kernel::MechanismAddFieldOperation,
+    kernel::MechanismCommandOperation, 7);
 static_assert(
-    std::variant_size_v<kernel::MechanismCommandOperation> == 7,
+    std::variant_size_v<kernel::MechanismCommandOperation> == 8,
     "MechanismCommandOperation gained an alternative; pin its tag above"
 );
 
@@ -770,6 +772,13 @@ bool WriteMechanismCommand(
             }
             else if constexpr (std::is_same_v<
                     Operation,
+                    kernel::MechanismAddFieldOperation>)
+            {
+                WriteSlot(writer, operation.field);
+                return WriteValue(writer, operation.delta);
+            }
+            else if constexpr (std::is_same_v<
+                    Operation,
                     kernel::MechanismTransitionLifecycleOperation>)
             {
                 writer.U8(static_cast<std::uint8_t>(operation.target));
@@ -895,6 +904,17 @@ bool ReadMechanismCommand(
             continuation.entryPoint =
                 static_cast<kernel::AlgorithmEntryPoint>(entryPoint);
             operation.continuations.push_back(continuation);
+        }
+        command.operation = std::move(operation);
+        return true;
+    }
+    case 7:
+    {
+        kernel::MechanismAddFieldOperation operation;
+        if (!ReadSlot(reader, operation.field)
+            || !ReadValue(reader, operation.delta))
+        {
+            return false;
         }
         command.operation = std::move(operation);
         return true;

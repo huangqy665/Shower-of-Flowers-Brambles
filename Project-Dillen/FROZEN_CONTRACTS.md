@@ -27,7 +27,7 @@
 | `WorldEventPayload` 18 个备选项的**位置** | 同上（这些字节从不读回，但是 Replay Checksum 的输入） |
 | 规范世界的存档**字节数与校验和** | `persistence_replay_probe` 黄金值（688 字节 / `7194244525752032699`） |
 | 规范回放的 `finalStateChecksum` / `factStreamChecksum` | 同一探针黄金值 |
-| **全部 11 种命令载荷 + 全部 7 种 Mechanism 操作**的字段顺序与编码（1 种在第一条事务、其余 6 种在第二条） | 同一探针 `CheckFrozenCommandEncoding()`（516 字节 / `5610142064737695594`）+ **全部 18 个 tag 逐项对位**（外层 11 个 `WorldCommandPayload`，内层 7 个 `MechanismCommandOperation`） |
+| **全部 11 种命令载荷 + 全部 8 种 Mechanism 操作**的字段顺序与编码（1 种在第一条事务、其余 7 种在第二条） | 同一探针 `CheckFrozenCommandEncoding()`（539 字节 / `11380329816255759537`）+ **全部 19 个 tag 逐项对位**（外层 11 个 `WorldCommandPayload`，内层 8 个 `MechanismCommandOperation`）。**追加备选项必须同时在该探针里追加一条构造它的命令**，否则新 tag 不在黄金覆盖内。 |
 | 上述全部值**跨平台一致** | Windows MSVC / Linux GCC / Linux Clang 三平台 CI 阻塞门禁 |
 | Authoring 源文件的 `content_digest` 稳定性 | `.gitattributes` 对全部 `.d*` 扩展名固定 `eol=lf` |
 
@@ -68,14 +68,16 @@
 
 | 面 | 冻结项 | 守卫 |
 | --- | --- | --- |
-| **Parse** | 哪些文件被认领、分类成什么格式、同虚拟路径由哪一层胜出 | `authoring_frontend_golden_probe`：3912 字节 / 校验和 `3730319217720541124` |
-| **Resolve** | Package Lock 与 Source Lock 的锁定身份 | 同上：3137 字节 / 校验和 `14470188716694633576` |
-| **Compile** | 字节码与 Slot 布局 | `authoring_compile_golden_probe`：2462 字节 / 校验和 `16428176961995718018` |
-| **Diagnostic** | 97 个 `dillen.authoring.*` 稳定码 | `authoring_diagnostic_contract_probe`：源码级注册表比对 + 9 个端到端触发 |
+| **Parse** | 哪些文件被认领、分类成什么格式、同虚拟路径由哪一层胜出 | `authoring_frontend_golden_probe`：3912 字节 / 校验和 `1278464547742860928` |
+| **Resolve** | Package Lock 与 Source Lock 的锁定身份 | 同上：3137 字节 / 校验和 `15737711886577553487` |
+| **Compile** | 字节码与 Slot 布局 | `authoring_compile_golden_probe`：2582 字节 / 校验和 `5867319647378757321` |
+| **Diagnostic** | 100 个 `dillen.authoring.*` 稳定码 | `authoring_diagnostic_contract_probe`：源码级注册表比对 + 12 个端到端触发 |
 | Slot 按**字段名排序**分配，源码顺序不是契约 | 作者可自由重排字段而不影响编译产物 | Compile 黄金值（换序不动，改名即动） |
 | 授权扩展名的 `eol=lf` | `content_digest` 是原始字节的 SHA-256，行尾漂移即身份漂移 | `.gitattributes` 覆盖全部 11 个扩展名；Parse 黄金值编码文件大小，CRLF 回归会被抓 |
 
-**加法性规则**：新增指令、操作数来源、归约、运算符一律只能追加，**不得改变既有构造编译出的字节**。`invoke_capability payload_from` 以可选尾段加入黄金编码：旧的常量载荷编码保持原样，只有新构造追加读路径编码；完整覆盖夹具当前锁定为 2462 / `16428176961995718018`。
+**加法性规则**：新增指令、操作数来源、归约、运算符一律只能追加，**不得改变既有构造编译出的字节**。`invoke_capability payload_from` 以可选尾段加入黄金编码：旧的常量载荷编码保持原样，只有新构造追加读路径编码；完整覆盖夹具当前锁定为 2582 / `5867319647378757321`。
+
+**硬性规则**：`EncodeInstruction` 每加一个 `case`，`tests/fixtures/dillen_dsl_v1/algorithms/coverage.dalgorithm` **必须同时加一条构造它的指令**。没有被构造过的备选项等于没有被冻结。2026-09-01 一天之内在这上面栽了三次（`AddField` 内层 tag 7、`SetComponentFieldComputed`、按角色寻址的两个操作码），三次都是加了编码分支而没加夹具构造，三次都是全套测试在黄金一字未动的情况下全绿。2026-09-01 的计算式 `set_component_field` 走了同一条路：操作码编入而夹具未使用时黄金保持 2462 不动，夹具用上新构造后才移到 2509。
 
 ## 6. 模块分层
 
@@ -90,10 +92,10 @@
   另需记录：冻结当时契约描述的结构**并不存在** —— 派发在过滤循环里用 `push_back` 追加结果，执行顺序与槽位顺序是焊死的，根本无法并行。结构已补齐（两相位），这条留在这里是为了提醒：冻结一个从未执行过的契约，就是冻结一个假设。
 - ~~**Authoring DSL 语法面无黄金锁定**~~ —— **已闭合（2026-08-31）**，见第 5 节：Parse / Resolve / Compile / Diagnostic 四面均已锁定。
 - **DSL 定点标度只冻了存储侧** —— 存储标度 10⁻²（两位小数）是冻结契约；表达式内部标度 10⁻⁴ 不进存档、不进 Query、不进 Package，可随时调整。改**存储**标度会改掉所有既有存档。
-- **`role → Mechanism 字段` 的读取已可正确解析，但角色仍无法绑定** —— 编译期现按角色声明的 `reference_type` 解析目标 layout（未声明即拒绝；此前静默按**调用方自身** layout 解析，字段同名即读到错误槽位）。但 `.ddefinition` 的角色绑定只支持 Entity 引用，`.dspawn` 无 `roles` 键，`MechanismCommandOperation` 也无 SetRole——**`mechanism_instance` 角色槽在当前引擎里没有任何写入路径，永远为空**。补齐需要新增 Mechanism 操作（追加 variant 备选项 + 升 Save 版本），属独立决策。
+- ~~**`role → Mechanism 字段` 的读取已可正确解析，但角色仍无法绑定**~~ —— **已闭合（2026-09-01）**。编译期按角色声明的 `reference_type` 解析目标 layout（未声明即拒绝；此前静默按**调用方自身** layout 解析，字段同名即读到错误槽位）；写入侧由 `.dspawn` 的 `roles` 键提供，支持 `mechanism_instance = { mechanism definition ordinal }`。**没有新增 variant 备选项，Save 版本未变**——所需结构 （`MechanismSpawnDefinition::initialRoles`、注册期校验、编译器下降、实例创建）此前就已齐备，缺的只是解析器读那一个键。运行期重绑定的 `SetRole` 操作**有意不加**：算法无法得知自己刚创建实例的 ID，该操作只能写字面 `(definition, ordinal)`，表达力与静态绑定相同，却要为此永久钉一个磁盘 tag。详见备忘录 C2。
 - ~~**`cancel_event` 无 DSL 语法**~~ —— **已闭合（2026-09-01），但不是按序列号闭合的**。按序列号取消永远不会有语法：序列号在 `AlgorithmInbox::Schedule()` 即提交期分配，VM 发出命令时它还不存在；把它写回字段需要给 `ScheduledEventScheduleCommand` 加目标槽位，那是存档格式变更，且暴露的是内部标识而非作者语义。
   改为把 **Inbox 暴露为 Query 快照面**，新增 `cancel_events = { type = X }`，运行期展开成 N 条既有的 `CancelEvent` 命令。**无新命令、无新 variant 备选项、Save 仍是 v5**；按 N 计费；只能取消本实例自己的事件。
-- ~~**内层 variant tag 未逐项对位**~~ —— **已闭合（2026-08-31）**：`CheckFrozenCommandEncoding` 现对全部 18 个 tag 逐项断言。判别力已用注入验证：读侧对调内层 tag 4/5（两者均无载荷，字节数与外层 tag 全不变——正是旧检查漏掉的那一类），被精确捕获。
+- ~~**内层 variant tag 未逐项对位**~~ —— **已闭合（2026-08-31，2026-09-01 扩至 19 项）**：`CheckFrozenCommandEncoding` 现对全部 19 个 tag 逐项断言（外层 11 个 `WorldCommandPayload` + 内层 8 个 `MechanismCommandOperation`）。判别力已用注入验证：读侧对调内层 tag 4/5（两者均无载荷，字节数与外层 tag 全不变——正是旧检查漏掉的那一类），被精确捕获。
 - ~~**Migration 链只有一条测试路径**~~ —— **已闭合（2026-09-01）**：`CheckMigrationChain` 覆盖两步链走通（值 1→12→123，顺序错即数值不同）、断链拒绝为 `PathMissing`、版本倒退步骤在**注册期**即被拒、同版本指纹成环被检出。环检测实为**双重**：visited 集合 + 应用步数上限，单独关掉任一道仍会终止。
 - **黄金值可被人为重置** —— 没有任何机制能阻止有人直接改数字。这最终靠评审
   纪律，本文第 0 节的规则就是评审时的对照标准。

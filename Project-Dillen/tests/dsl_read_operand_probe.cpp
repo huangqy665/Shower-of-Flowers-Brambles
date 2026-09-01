@@ -176,6 +176,41 @@ int main()
     expect(income == kernel::MechanismValue(3.25),
         "income should be the summed tax across the supplies Relation");
 
+    // Computed set_component_field, integer destination.
+    //
+    // The Demo 0.5 write-back lands on a decimal field, so without this the
+    // integer quantisation path would be reachable only through the compile
+    // golden -- encoded, never executed. progress reaches 4 over four ticks
+    // and the instruction writes progress * 3, so the outpost's ore must be 12
+    // rather than the 7 it was authored with.
+    //
+    // The target is the outpost on purpose. The `home` role is bound to the
+    // capital, so writing the capital's ore would feed back into `output` on
+    // the following tick and turn a write assertion into a coupling one.
+    {
+        const kernel::ComponentTypeId stock =
+            kernel::StableComponentTypeId("dillen.eco.stock");
+        const auto slot =
+            catalog.ResolveComponentFieldSlot(stock, 1, "ore");
+        const kernel::EntityId outpost = kernel::StableEntityId(
+            kernel::StableEntityDefinitionId(
+                kernel::StableEntityTypeId("dillen.eco.place"),
+                "dillen.eco.outpost"
+            )
+        );
+        const kernel::MechanismValue* ore = slot
+            ? kernelRuntime.Query().Components().FindField(
+                outpost,
+                stock,
+                *slot)
+            : nullptr;
+        expect(
+            ore != nullptr
+                && *ore == kernel::MechanismValue(std::int64_t{12}),
+            "outpost stock.ore should have been written back as progress * 3"
+        );
+    }
+
     // cancel_events. Create schedules two `pulse` events and one `keeper`, due
     // on ticks 2, 3 and 4; the Tick stage cancels every pending `pulse` on
     // tick 1, before either comes due. Only the keeper survives, so `pulses`

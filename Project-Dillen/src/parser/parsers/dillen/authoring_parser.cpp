@@ -599,6 +599,164 @@ bool ParseReferenceType(
     ParserCursor& cursor
 );
 
+// Parses a `roles = { <slot> = { <target> ... } }` block.
+//
+// Two grammars need this and they differ in exactly one way: what a target may
+// be. A Mechanism Definition is written before any instance exists, so it can
+// only name Entities. A Spawn is the point where instances are created with
+// deterministic ids, so it can also name a Mechanism Instance by
+// (mechanism, definition, ordinal) -- the same triple StableMechanismInstanceId
+// is built from, which is why the id is knowable at authoring time at all.
+//
+// `allowMechanismInstance` is the whole difference.
+bool ParseRoleBindings(
+    const SyntaxNode& roles,
+    bool allowMechanismInstance,
+    std::map<std::string, std::vector<kernel::MechanismReference>>& output,
+    ParserCursor& cursor
+)
+{
+    if (!roles.block)
+    {
+        cursor.Diagnostics().Error(
+            "dillen.authoring.role_entry_expected",
+            "roles must be a block of role bindings",
+            roles.span
+        );
+        return false;
+    }
+    for (std::size_t index = 0; index < roles.keys.size(); ++index)
+    {
+        const Token& roleName = roles.keys[index];
+        const SyntaxNode& binding = roles.values[index];
+        // RejectUnknown takes an initializer_list, which cannot be built
+        // conditionally, so the two allowed sets are spelled out.
+        const bool keysValid = binding.block
+            && (allowMechanismInstance
+                ? RejectUnknown(
+                    binding,
+                    {"entity", "mechanism_instance"},
+                    cursor,
+                    "role binding")
+                : RejectUnknown(
+                    binding,
+                    {"entity"},
+                    cursor,
+                    "role binding"));
+        if (!keysValid)
+        {
+            return false;
+        }
+        std::vector<kernel::MechanismReference> references;
+        for (const std::size_t entry : FindAll(binding, "entity"))
+        {
+            const SyntaxNode& target = binding.values[entry];
+            std::string entityType;
+            std::string entityDefinition;
+            if (!target.block
+                || !RejectUnknown(
+                    target,
+                    {"entity_type", "definition"},
+                    cursor,
+                    "role entity binding")
+                || !ReadStringProperty(
+                    target,
+                    "entity_type",
+                    cursor,
+                    entityType)
+                || !ReadStringProperty(
+                    target,
+                    "definition",
+                    cursor,
+                    entityDefinition))
+            {
+                return false;
+            }
+            // Resolved the same way add_relation resolves its endpoints, so a
+            // role and a Relation naming the same Entity agree.
+            kernel::MechanismReference reference;
+            reference.kind = kernel::MechanismReferenceKind::Entity;
+            reference.type = kernel::StableEntityTypeId(entityType).value;
+            reference.value = kernel::StableEntityId(
+                kernel::StableEntityDefinitionId(
+                    kernel::StableEntityTypeId(entityType),
+                    entityDefinition
+                )
+            ).value;
+            references.push_back(reference);
+        }
+        for (const std::size_t entry : FindAll(binding, "mechanism_instance"))
+        {
+            const SyntaxNode& target = binding.values[entry];
+            std::string mechanism;
+            std::string definition;
+            std::uint32_t ordinal = 0;
+            if (!target.block
+                || !RejectUnknown(
+                    target,
+                    {"mechanism", "definition", "ordinal"},
+                    cursor,
+                    "role mechanism instance binding")
+                || !ReadStringProperty(target, "mechanism", cursor, mechanism)
+                || !ReadStringProperty(
+                    target,
+                    "definition",
+                    cursor,
+                    definition))
+            {
+                return false;
+            }
+            // `ordinal` is optional and defaults to 0, which is the only
+            // instance a Spawn with count = 1 produces.
+            if (FindUnique(target, "ordinal", cursor, false) != nullptr
+                && !ReadUInt32Property(target, "ordinal", cursor, ordinal))
+            {
+                return false;
+            }
+            const kernel::MechanismTypeId type =
+                kernel::StableMechanismTypeId(mechanism);
+            kernel::MechanismReference reference;
+            reference.kind =
+                kernel::MechanismReferenceKind::MechanismInstance;
+            // The role schema's `reference_type` for a Mechanism Instance is
+            // hashed in the Mechanism Type domain (see ParseReferenceType), so
+            // the binding has to agree or RoleBindingsValid rejects it.
+            reference.type = type.value;
+            reference.value = kernel::StableMechanismInstanceId(
+                kernel::StableMechanismDefinitionId(type, definition),
+                ordinal
+            ).value;
+            references.push_back(reference);
+        }
+        if (references.empty())
+        {
+            cursor.Diagnostics().Error(
+                "dillen.authoring.role_entry_expected",
+                "role binding names no target",
+                binding.span
+            );
+            return false;
+        }
+        // emplace() keeps the FIRST binding and silently drops the rest, so a
+        // duplicated slot name meant the second block was quietly ignored --
+        // the author sees their binding in the file and the engine never
+        // applies it. Say so instead.
+        if (!output.emplace(
+                std::string(roleName.text),
+                std::move(references)).second)
+        {
+            cursor.Diagnostics().Error(
+                "dillen.authoring.role_binding_duplicate",
+                "role '" + std::string(roleName.text)
+                    + "' is bound more than once",
+                binding.span
+            );
+            return false;
+        }
+    }
+    return true;
+}
+
 bool ParseFieldSchema(
     const SyntaxNode& node,
     kernel::MechanismFieldSchema& output,
@@ -1912,16 +2070,63 @@ bool ParseGenericAlgorithmInstruction(
         if (!RejectUnknown(
                 node,
                 {
-                    "owner_entity_type", "owner_definition",
-                    "component", "field", "value"
+                    "owner_entity_type", "owner_definition", "role",
+                    "component", "field", "value", "left", "op", "right"
                 },
                 cursor,
                 "set component field instruction")) return false;
         std::string ownerType;
         std::string ownerDefinition;
         std::string component;
-        output.kind = kernel::AlgorithmInstructionKind::SetComponentField;
-        if (!ReadStringProperty(
+        // Two ways to say which Entity. `role` names a role slot on the
+        // writing Mechanism and resolves at run time; the owner_* pair names
+        // one concrete Entity Definition and resolves at compile time.
+        //
+        // A Mechanism Package should use `role`. Naming a Definition ties a
+        // reusable mechanism to one specific world -- see the Package boundary
+        // check, which rejects exactly that.
+        const bool byRole = FindUnique(node, "role", cursor, false) != nullptr;
+        const bool byOwner =
+            FindUnique(node, "owner_entity_type", cursor, false) != nullptr
+            || FindUnique(node, "owner_definition", cursor, false) != nullptr;
+        if (byRole == byOwner)
+        {
+            cursor.Diagnostics().Error(
+                "dillen.authoring.component_owner_ambiguous",
+                "set_component_field needs either role, or "
+                "owner_entity_type with owner_definition -- not both and not "
+                "neither",
+                node.span
+            );
+            return false;
+        }
+        // A `left` block turns this into a computed write, exactly as it does
+        // for set_field. The literal form is untouched and keeps lowering to
+        // SetComponentFieldConstant, so existing Packages compile to the same
+        // bytes.
+        const SyntaxNode* left = FindUnique(node, "left", cursor, false);
+        if (byRole)
+        {
+            output.kind = left == nullptr
+                ? kernel::AlgorithmInstructionKind::SetComponentFieldByRole
+                : kernel::AlgorithmInstructionKind::
+                    SetComponentFieldByRoleComputed;
+        }
+        else
+        {
+            output.kind = left == nullptr
+                ? kernel::AlgorithmInstructionKind::SetComponentField
+                : kernel::AlgorithmInstructionKind::SetComponentFieldComputed;
+        }
+        if (byRole)
+        {
+            if (!ReadStringProperty(
+                    node,
+                    "role",
+                    cursor,
+                    output.targetRoleName)) return false;
+        }
+        else if (!ReadStringProperty(
                 node,
                 "owner_entity_type",
                 cursor,
@@ -1930,20 +2135,75 @@ bool ParseGenericAlgorithmInstruction(
                 node,
                 "owner_definition",
                 cursor,
-                ownerDefinition)
-            || !ReadStringProperty(node, "component", cursor, component)
+                ownerDefinition)) return false;
+        if (!ReadStringProperty(node, "component", cursor, component)
             || !ReadStringProperty(
                 node,
                 "field",
                 cursor,
-                output.componentField)
-            || !scalarValue("value", output.operand)) return false;
-        output.entity = kernel::StableEntityId(
-            kernel::StableEntityDefinitionId(
-                kernel::StableEntityTypeId(ownerType),
-                ownerDefinition
-            )
-        );
+                output.componentField)) return false;
+        if (left == nullptr)
+        {
+            if (FindUnique(node, "op", cursor, false) != nullptr
+                || FindUnique(node, "right", cursor, false) != nullptr)
+            {
+                cursor.Diagnostics().Error(
+                    "dillen.authoring.field_instruction_operand_conflict",
+                    "op and right require a left read path",
+                    node.span
+                );
+                return false;
+            }
+            if (!scalarValue("value", output.operand)) return false;
+        }
+        else
+        {
+            if (FindUnique(node, "value", cursor, false) != nullptr)
+            {
+                cursor.Diagnostics().Error(
+                    "dillen.authoring.field_instruction_operand_conflict",
+                    "a computed field instruction cannot also set value or "
+                    "from_payload",
+                    node.span
+                );
+                return false;
+            }
+            if (!ParseReadPath(*left, output.left, cursor))
+            {
+                return false;
+            }
+            const SyntaxNode* right = FindUnique(node, "right", cursor, false);
+            const bool hasOperator =
+                FindUnique(node, "op", cursor, false) != nullptr;
+            if ((right == nullptr) != !hasOperator)
+            {
+                cursor.Diagnostics().Error(
+                    "dillen.authoring.field_instruction_operand_conflict",
+                    "a computed field instruction needs op and right together, "
+                    "or neither",
+                    node.span
+                );
+                return false;
+            }
+            if (right != nullptr)
+            {
+                output.hasRight = true;
+                if (!ParseReadPath(*right, output.right, cursor)
+                    || !ParseBinaryOperator(node, output.binaryOperator, cursor))
+                {
+                    return false;
+                }
+            }
+        }
+        if (!byRole)
+        {
+            output.entity = kernel::StableEntityId(
+                kernel::StableEntityDefinitionId(
+                    kernel::StableEntityTypeId(ownerType),
+                    ownerDefinition
+                )
+            );
+        }
         output.component = kernel::StableComponentTypeId(component);
         return true;
     }
@@ -4264,82 +4524,10 @@ bool ParseMechanismDefinition(
     // exist when a Definition is written, so binding them is a run-time
     // concern and is deliberately not expressible here.
     const SyntaxNode* roles = FindUnique(root.body, "roles", cursor, false);
-    if (roles != nullptr)
+    if (roles != nullptr
+        && !ParseRoleBindings(*roles, false, document.value.roles, cursor))
     {
-        if (!roles->block)
-        {
-            cursor.Diagnostics().Error(
-                "dillen.authoring.role_entry_expected",
-                "roles must be a block of role bindings",
-                roles->span
-            );
-            return false;
-        }
-        for (std::size_t index = 0; index < roles->keys.size(); ++index)
-        {
-            const Token& roleName = roles->keys[index];
-            const SyntaxNode& binding = roles->values[index];
-            if (!binding.block
-                || !RejectUnknown(
-                    binding,
-                    {"entity"},
-                    cursor,
-                    "role binding"))
-            {
-                return false;
-            }
-            std::vector<kernel::MechanismReference> references;
-            for (const std::size_t entry : FindAll(binding, "entity"))
-            {
-                const SyntaxNode& target = binding.values[entry];
-                std::string entityType;
-                std::string entityDefinition;
-                if (!target.block
-                    || !RejectUnknown(
-                        target,
-                        {"entity_type", "definition"},
-                        cursor,
-                        "role entity binding")
-                    || !ReadStringProperty(
-                        target,
-                        "entity_type",
-                        cursor,
-                        entityType)
-                    || !ReadStringProperty(
-                        target,
-                        "definition",
-                        cursor,
-                        entityDefinition))
-                {
-                    return false;
-                }
-                // Resolved the same way add_relation resolves its endpoints,
-                // so a role and a Relation naming the same Entity agree.
-                kernel::MechanismReference reference;
-                reference.kind = kernel::MechanismReferenceKind::Entity;
-                reference.type = kernel::StableEntityTypeId(entityType).value;
-                reference.value = kernel::StableEntityId(
-                    kernel::StableEntityDefinitionId(
-                        kernel::StableEntityTypeId(entityType),
-                        entityDefinition
-                    )
-                ).value;
-                references.push_back(reference);
-            }
-            if (references.empty())
-            {
-                cursor.Diagnostics().Error(
-                    "dillen.authoring.role_entry_expected",
-                    "role binding names no target",
-                    binding.span
-                );
-                return false;
-            }
-            document.value.roles.emplace(
-                std::string(roleName.text),
-                std::move(references)
-            );
-        }
+        return false;
     }
     const SyntaxNode* provides = FindUnique(
         root.body,
@@ -4437,7 +4625,7 @@ bool ParseMechanismSpawn(
     }
     if (!RejectUnknown(
             root.body,
-            {"name", "mechanism", "definition", "count", "fields"},
+            {"name", "mechanism", "definition", "count", "fields", "roles"},
             cursor,
             "mechanism spawn"))
     {
@@ -4492,6 +4680,29 @@ bool ParseMechanismSpawn(
         && !ParseScalarFieldMap(
             *fields,
             document.value.initialFields,
+            cursor))
+    {
+        return false;
+    }
+    // Role bindings, the run-time half of what a Definition can only say
+    // statically. A Spawn is where instances come into being with ids derived
+    // from (definition, ordinal), so this is the first point in the authoring
+    // grammar where naming a Mechanism Instance is meaningful -- and the
+    // reason `reference_kind = mechanism_instance` role slots could never be
+    // filled before: the schema could declare them, the registry could
+    // validate them, the compiler could lower them and the read paths could
+    // resolve them, but nothing could write one.
+    const SyntaxNode* spawnRoles = FindUnique(
+        root.body,
+        "roles",
+        cursor,
+        false
+    );
+    if (spawnRoles != nullptr
+        && !ParseRoleBindings(
+            *spawnRoles,
+            true,
+            document.value.initialRoles,
             cursor))
     {
         return false;

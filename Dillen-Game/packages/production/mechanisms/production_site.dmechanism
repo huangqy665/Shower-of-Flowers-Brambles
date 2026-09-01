@@ -5,8 +5,17 @@ mechanism_template = {
         field = { name = unlocked      kind = boolean  required = yes  default = no }
         field = { name = goods_output  kind = decimal  required = yes  default = 0.0 }
         field = { name = reports_sent  kind = integer  required = yes  default = 0 }
+        field = { name = treasury_seen kind = decimal  required = yes  default = 0.0 }
     }
     roles = {
         role = { name = province  reference_kind = entity  minimum_count = 1  maximum_count = 1 }
+        # 指向另一个机制实例的角色槽。此前这种槽在引擎里必然为空 ——
+        # Schema 能声明、注册期能校验、编译器能下降、读路径能解析,
+        # 但没有任何一处能写进去。.dspawn 的 roles 是它的写入口。
+        role = { name = treasury
+                 reference_kind = mechanism_instance
+                 reference_type = dillen.demo05.national_budget
+                 minimum_count = 1
+                 maximum_count = 1 }
     }
 }

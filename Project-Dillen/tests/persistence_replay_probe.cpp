@@ -518,6 +518,8 @@ bool CheckFrozenCommandEncoding()
             instance,
             {MechanismValue(std::int64_t{1}), MechanismValue(true)},
             {{AlgorithmEntryPoint::Tick, 3}})),
+        WorldCommand::Mechanism(MechanismCommand::AddField(
+            instance, field, MechanismValue(std::int64_t{9}))),
     };
 
     persistence::RuntimeSaveImage image;
@@ -536,8 +538,8 @@ bool CheckFrozenCommandEncoding()
 
     // See the golden note in main(): an accidental change is a bug to fix, a
     // deliberate one needs a format-version bump and a migration.
-    constexpr std::size_t kGoldenBytes = 516;
-    constexpr std::uint64_t kGoldenChecksum = 5610142064737695594ULL;
+    constexpr std::size_t kGoldenBytes = 539;
+    constexpr std::uint64_t kGoldenChecksum = 11380329816255759537ULL;
     if (bytes.size() != kGoldenBytes
         || persistence::StableRuntimeChecksum(bytes) != kGoldenChecksum)
     {
@@ -555,7 +557,7 @@ bool CheckFrozenCommandEncoding()
     if (!persistence::RuntimeSaveCodec{}.Decode(bytes, decoded)
         || decoded.commandQueue.size() != 2
         || decoded.commandQueue[0].transaction.commands.size() != 11
-        || decoded.commandQueue[1].transaction.commands.size() != 6)
+        || decoded.commandQueue[1].transaction.commands.size() != 7)
     {
         std::cerr << "Frozen command encoding: round trip failed\n";
         return false;
@@ -581,9 +583,13 @@ bool CheckFrozenCommandEncoding()
     // now MechanismCommandOperation was only counted, so a reader and writer
     // that drifted together on a Mechanism operation -- swapping two tags,
     // say -- kept both the byte count and the outer tags, and nothing here
-    // noticed. Every one of the seven alternatives is asserted on its own
+    // noticed. Every one of the eight alternatives is asserted on its own
     // position: SetField rides in the first transaction at outer tag 5, and
-    // the second transaction carries the remaining six in declaration order.
+    // the second transaction carries the remaining seven in declaration order.
+    //
+    // Appending an alternative means appending a command here. A new tag that
+    // no command constructs is a tag the golden does not cover, which is the
+    // freeze hole this block exists to close.
     const auto operationTag = [](const WorldCommand& command,
                                  std::size_t& tag)
     {

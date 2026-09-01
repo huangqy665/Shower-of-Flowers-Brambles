@@ -26,7 +26,12 @@ enum class RuntimeCompileIssueCode
     AlgorithmProgramMissing,
     AlgorithmProgramBudgetExceeded,
     AlgorithmProgramFieldMissing,
-    AlgorithmProgramOperandInvalid
+    AlgorithmProgramOperandInvalid,
+    // Two Schema versions of one Component Type were selected. Slots are
+    // assigned per (type, version), so the same slot number would mean two
+    // different fields; an instruction that reaches a Component through a role
+    // carries no version and could not choose between them.
+    ComponentSchemaVersionAmbiguous
 };
 
 struct RuntimeCompileIssue
