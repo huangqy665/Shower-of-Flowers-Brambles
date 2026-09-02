@@ -79,6 +79,10 @@ CMakePresets.json text
 *.bin    binary
 *.dat    binary
 
+# Imported compatibility corpora are source artifacts, not Dillen authoring
+# files. Preserve their original bytes, encodings, and line endings verbatim.
+Dillen-Game/**/corpus/hoi3/** -text
+
 # ─────────────────────────────────────────────────────────────
 # Vendored third-party sources.
 #
