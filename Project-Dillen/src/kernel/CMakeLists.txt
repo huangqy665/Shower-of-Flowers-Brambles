@@ -51,6 +51,8 @@ dillen_add_component(
         mechanism_value.hpp
         package_lock.cpp
         package_lock.hpp
+        presentation_asset.cpp
+        presentation_asset.hpp
         package_content_digest.cpp
         package_content_digest.hpp
         package_manifest.cpp

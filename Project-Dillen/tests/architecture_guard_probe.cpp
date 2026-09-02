@@ -42,6 +42,24 @@ const std::vector<Module>& Modules()
         {"parser", "parser", {}},
         {"authoring", "parser/parsers/dillen", {"parser", "kernel"}},
         {"adapter", "adapter", {"kernel"}},
+        // Presentation reads the authoritative layers and nothing reads it.
+        //
+        // The edge list is the whole boundary: because no other module names
+        // "presentation" in its mayInclude set, any include of a presentation
+        // header from kernel, world, runtime, persistence, parser, authoring,
+        // adapter or host fails this probe. That is what makes "delete
+        // src/presentation and everything still passes" a structural property
+        // rather than a promise -- src/CMakeLists.txt keeps it out of
+        // dillen::standalone for the same reason.
+        {"presentation", "presentation", {"kernel", "world", "runtime"}},
+        // The GL backend. It may reach the rest of presentation and the
+        // authoritative layers below it; nothing may reach it. Listed even
+        // though it is only built with DILLEN_BUILD_MAP_RENDERER, because the
+        // guard walks the source tree rather than the build graph -- the files
+        // are there either way, and so is the rule.
+        {"presentation_gl",
+         "presentation/gl",
+         {"kernel", "world", "runtime", "presentation"}},
         {"host",
          "host",
          {"kernel", "world", "runtime", "persistence", "parser", "authoring"}},

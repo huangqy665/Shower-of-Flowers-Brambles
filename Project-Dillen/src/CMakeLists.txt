@@ -13,8 +13,30 @@ if(DILLEN_BUILD_STANDALONE_RUNTIME)
     add_subdirectory(parser)
     add_subdirectory(parser/parsers/dillen)
     add_subdirectory(adapter)
+    add_subdirectory(presentation)
+    if(DILLEN_BUILD_MAP_RENDERER)
+        add_subdirectory(presentation/gl)
+    endif()
     add_subdirectory(host)
 
+    # NOTE: dillen::presentation is built but deliberately NOT linked into
+    # dillen::standalone.
+    #
+    # The property this buys, stated exactly: NOTHING AUTHORITATIVE DEPENDS ON
+    # PRESENTATION. dillen::standalone does not link it, and
+    # architecture_guard_probe fails the build if any module includes one of
+    # its headers, so removing it is a mechanical deletion -- the directory,
+    # the add_subdirectory line just above, and the probes that test it --
+    # rather than a refactor of anything that matters.
+    #
+    # It is NOT the stronger claim that deleting the directory alone leaves a
+    # configuring build: add_subdirectory above is unconditional, so that step
+    # fails first. The distinction is worth keeping straight, because the
+    # stronger sentence is the kind that gets believed until someone tries it.
+    #
+    # Linking presentation here would lose the real property the moment
+    # anything convenient leaked across, and nothing would notice. A probe that
+    # needs it links dillen::presentation on its own.
     add_library(project_dillen_standalone INTERFACE)
     add_library(dillen::standalone ALIAS project_dillen_standalone)
     target_link_libraries(

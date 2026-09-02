@@ -1,3 +1,4 @@
+#include <filesystem>
 #include "authoring_pipeline.hpp"
 
 #include <algorithm>
@@ -33,6 +34,12 @@ inline constexpr parser::TemplateId kRelationDefinitionTemplate =
     0x44494C4C454E3009ULL;
 inline constexpr parser::TemplateId kPackageTemplate =
     0x44494C4C454E300AULL;
+inline constexpr parser::TemplateId kPresentationAssetTemplate =
+    0x44494C4C454E0FF3ULL;
+inline constexpr parser::TemplateId kEntityTableTemplate =
+    0x44494C4C454E0FF1ULL;
+inline constexpr parser::TemplateId kRelationTableTemplate =
+    0x44494C4C454E0FF2ULL;
 inline constexpr parser::TemplateId kCapabilityTemplate =
     0x44494C4C454E300BULL;
 
@@ -119,9 +126,27 @@ bool PackageRoleAllows(
             || type == kMechanismSpawnDocumentType
             || type == kRulesetDocumentType
             || type == kEntityDefinitionDocumentType
-            || type == kRelationDefinitionDocumentType;
+            || type == kRelationDefinitionDocumentType
+            // The bulk forms are Content, exactly like the single forms they
+            // collapse. They declare no new kind of thing.
+            || type == kEntityTableDocumentType
+            || type == kRelationTableDocumentType;
     case kernel::PackageRole::Presentation:
-        return false;
+        // Presentation assets, and nothing else.
+        //
+        // A skin declares what it brings; it never declares a Mechanism, a
+        // Definition or a Ruleset. That is what keeps it outside the
+        // determinism closure by construction rather than by policy -- there
+        // is no artifact it can own that the Package Lock would want.
+        //
+        // The asset form arrived with the map data it describes, not before
+        // it. Inventing a raster or layout format against an imagined world
+        // would have repeated the mistake this project has ruled against twice
+        // (cancel_event by sequence, SetRole): syntax that can only be used
+        // wrong is worse than a visible gap. The same rule governs every
+        // future kind -- fonts, layouts, palettes -- each lands with the thing
+        // it is meant to describe.
+        return type == kPresentationAssetDocumentType;
     }
     return false;
 }
@@ -200,6 +225,21 @@ bool AuthoringSession::Register(
             "relations/definitions/**/*.drelationdef",
             kRelationDefinitionParser)
         || !addTemplate(
+            kEntityTableTemplate,
+            "dillen_entity_table",
+            "entities/**/*.dentitytable",
+            kEntityTableParser)
+        || !addTemplate(
+            kRelationTableTemplate,
+            "dillen_relation_table",
+            "relations/definitions/**/*.drelationtable",
+            kRelationTableParser)
+        || !addTemplate(
+            kPresentationAssetTemplate,
+            "dillen_presentation_asset",
+            "assets/**/*.dasset",
+            kPresentationAssetParser)
+        || !addTemplate(
             kPackageTemplate,
             "dillen_package_manifest",
             "packages/**/*.dpackage",
@@ -273,6 +313,21 @@ bool AuthoringSession::Register(
             "dillen_relation_definition",
             kRelationDefinitionDocumentType,
             ParseRelationDefinition)
+        || !addParser(
+            kEntityTableParser,
+            "dillen_entity_table",
+            kEntityTableDocumentType,
+            ParseEntityTable)
+        || !addParser(
+            kRelationTableParser,
+            "dillen_relation_table",
+            kRelationTableDocumentType,
+            ParseRelationTable)
+        || !addParser(
+            kPresentationAssetParser,
+            "dillen_presentation_asset",
+            kPresentationAssetDocumentType,
+            ParsePresentationAsset)
         || !addParser(
             kPackageManifestParser,
             "dillen_package_manifest",
@@ -536,6 +591,48 @@ bool AuthoringSession::Resolve(
             }
             continue;
         }
+        // A table declares the same objects the single form does, one after
+        // another. It gets its own branch rather than being expanded earlier
+        // because the source attribution is per-file, and a table's rows all
+        // share the file they came from.
+        if (file.result.artifact.type == kEntityTableDocumentType)
+        {
+            const EntityTableDocument* table =
+                GetDocument<EntityTableDocument>(
+                    file,
+                    kEntityTableDocumentType,
+                    diagnostics,
+                    "Entity Table"
+                );
+            if (table == nullptr)
+            {
+                continue;
+            }
+            for (const kernel::EntityDefinition& row : table->value)
+            {
+                kernel::EntityDefinition entity = row;
+                entity.source.sourceName = file.catalog.sourceLayerName;
+                entity.source.virtualPath =
+                    std::string(file.source.VirtualPath());
+                entity.source.line = table->declarationSpan.begin.line;
+                entity.source.column = table->declarationSpan.begin.column;
+                if (entityDefinitions_.Declare(
+                        std::move(entity),
+                        componentSchemas_)
+                    != kernel::EntityDefinitionDeclareResult::Added)
+                {
+                    ReportRegisterFailure(
+                        diagnostics,
+                        "dillen.authoring.entity_definition_rejected",
+                        "Entity Table row '" + row.canonicalName + "'",
+                        file,
+                        table->declarationSpan
+                    );
+                    break;
+                }
+            }
+            continue;
+        }
         const EntityDefinitionDocument* entityDocument =
             GetDocument<EntityDefinitionDocument>(
                 file,
@@ -608,6 +705,45 @@ bool AuthoringSession::Resolve(
                     file,
                     document->declarationSpan
                 );
+            }
+            continue;
+        }
+        if (file.result.artifact.type == kRelationTableDocumentType)
+        {
+            const RelationTableDocument* table =
+                GetDocument<RelationTableDocument>(
+                    file,
+                    kRelationTableDocumentType,
+                    diagnostics,
+                    "Relation Table"
+                );
+            if (table == nullptr)
+            {
+                continue;
+            }
+            for (const kernel::RelationDefinition& row : table->value)
+            {
+                kernel::RelationDefinition relation = row;
+                relation.origin.sourceName = file.catalog.sourceLayerName;
+                relation.origin.virtualPath =
+                    std::string(file.source.VirtualPath());
+                relation.origin.line = table->declarationSpan.begin.line;
+                relation.origin.column = table->declarationSpan.begin.column;
+                if (relationDefinitions_.Declare(
+                        std::move(relation),
+                        relationSchemas_,
+                        entityDefinitions_)
+                    != kernel::RelationDefinitionDeclareResult::Added)
+                {
+                    ReportRegisterFailure(
+                        diagnostics,
+                        "dillen.authoring.relation_definition_rejected",
+                        "Relation Table row '" + row.canonicalName + "'",
+                        file,
+                        table->declarationSpan
+                    );
+                    break;
+                }
             }
             continue;
         }
@@ -951,27 +1087,98 @@ bool AuthoringSession::ValidateAndCompile(
     for (const auto& layerEntry : sourceLayers)
     {
         const kernel::PackageManifest* manifest = layerEntry.second.manifest;
-        if (manifest == nullptr
-            || manifest->role != kernel::PackageRole::Mechanism)
+        if (manifest == nullptr)
         {
             continue;
         }
+        if (manifest->role == kernel::PackageRole::Mechanism)
+        {
+            for (const kernel::PackageDependency& dependency
+                : manifest->dependencies)
+            {
+                const auto target = packageRoles.find(dependency.package);
+                if (target != packageRoles.end()
+                    && target->second != kernel::PackageRole::Unspecified
+                    && target->second != kernel::PackageRole::Contract)
+                {
+                    diagnostics.Error(
+                        "dillen.authoring.package_dependency_role_violation",
+                        "Mechanism Package '" + manifest->canonicalName
+                            + "' may depend only on Contract Packages; '"
+                            + dependency.canonicalName + "' has role '"
+                            + std::string(kernel::ToString(target->second))
+                            + "'"
+                    );
+                }
+            }
+        }
+        // Symmetric half: a Presentation Package may not declare
+        // dependencies either.
+        //
+        // Being outside the closure means its dependencies would never be
+        // resolved -- nothing requires it, so nothing walks its graph. A
+        // declaration that silently does nothing is worse than a refusal: a
+        // skin author writes `dependency = { name = ... required = yes }`,
+        // sees it accepted, and believes the version range is being enforced.
+        if (manifest->role == kernel::PackageRole::Presentation
+            && !manifest->dependencies.empty())
+        {
+            diagnostics.Error(
+                "dillen.authoring.presentation_package_not_authoritative",
+                "Presentation Package '" + manifest->canonicalName
+                    + "' declares dependencies; it is outside the determinism "
+                      "closure, so nothing would ever resolve them"
+            );
+        }
+        // Nothing authoritative may depend on a Presentation Package.
+        //
+        // The Package Lock is resolved from the Ruleset's package
+        // requirements plus their dependency closure, and every Lock entry --
+        // id, version, content_digest, load index -- is hashed into the
+        // Ruleset Fingerprint, which in turn is what a save validates against.
+        // So a Presentation Package that reached the closure by either route
+        // would put the map skin inside the save identity: change the skin and
+        // existing saves stop loading, and two clients with different skins
+        // would compute different fingerprints for the same simulation.
+        //
+        // Presentation is loaded on the host side, outside the closure, and
+        // that is what makes it deletable at the content level -- the same
+        // property src/CMakeLists.txt gives it at the module level.
         for (const kernel::PackageDependency& dependency
             : manifest->dependencies)
         {
             const auto target = packageRoles.find(dependency.package);
             if (target != packageRoles.end()
-                && target->second != kernel::PackageRole::Unspecified
-                && target->second != kernel::PackageRole::Contract)
+                && target->second == kernel::PackageRole::Presentation)
             {
                 diagnostics.Error(
-                    "dillen.authoring.package_dependency_role_violation",
-                    "Mechanism Package '" + manifest->canonicalName
-                        + "' may depend only on Contract Packages; '"
-                        + dependency.canonicalName + "' has role '"
-                        + std::string(kernel::ToString(target->second)) + "'"
+                    "dillen.authoring.presentation_package_not_authoritative",
+                    "Package '" + manifest->canonicalName
+                        + "' depends on Presentation Package '"
+                        + dependency.canonicalName
+                        + "'; Presentation Packages are outside the "
+                          "determinism closure and cannot be depended upon"
                 );
             }
+        }
+    }
+    // The same rule from the Ruleset side. A Ruleset requirement is the other
+    // way into the Package Lock, and it does not go through any manifest's
+    // dependency list.
+    for (const kernel::RulesetPackageRequirement& requirement
+        : composedRuleset_.packages)
+    {
+        const auto role = packageRoles.find(requirement.package);
+        if (role != packageRoles.end()
+            && role->second == kernel::PackageRole::Presentation)
+        {
+            diagnostics.Error(
+                "dillen.authoring.presentation_package_not_authoritative",
+                "Ruleset requires Presentation Package '"
+                    + requirement.canonicalName
+                    + "'; Presentation Packages are outside the determinism "
+                      "closure and cannot enter the Package Lock"
+            );
         }
     }
     if (diagnostics.HasErrors())
@@ -1001,6 +1208,73 @@ bool AuthoringSession::ValidateAndCompile(
     {
         const std::string& layerName = layerEntry.first;
         const SourceLayerBinding& layer = layerEntry.second;
+        // A Presentation Package is loaded, parsed and integrity-checked like
+        // any other, and then stops here.
+        //
+        // It is deliberately absent from the Package Lock -- nothing
+        // authoritative may require or depend on one -- so demanding Lock
+        // membership would make a Presentation Package unloadable, and the
+        // role would be decorative. Skipping the Source Lock as well is the
+        // point rather than a shortcut: every Source Lock entry is hashed into
+        // the Ruleset Fingerprint, so contributing one would put the map skin
+        // inside the save identity and change the skin would stop existing
+        // saves loading.
+        //
+        // What it keeps: its manifest is still validated, its content_digest
+        // is still verified against the files on disk, and PackageRoleAllows
+        // still governs what it may own. Tampering with a skin is a cosmetic
+        // problem, not a determinism one, so it is reported without entering
+        // the closure.
+        if (layer.manifest->role == kernel::PackageRole::Presentation)
+        {
+            // Collected here rather than in the Declare pass, because this is
+            // the one place that already knows a layer is Presentation and is
+            // about to exclude it from everything the simulation is sealed
+            // with. The assets still need somewhere to go.
+            for (const parser::ParsedFile* file : layer.files)
+            {
+                if (file->result.artifact.type
+                    != kPresentationAssetDocumentType)
+                {
+                    continue;
+                }
+                const PresentationAssetDocument* asset =
+                    file->result.artifact.As<PresentationAssetDocument>();
+                if (asset == nullptr)
+                {
+                    continue;
+                }
+                kernel::PresentationAsset declared = asset->value;
+                declared.source.sourceName = file->catalog.sourceLayerName;
+                declared.source.virtualPath =
+                    std::string(file->source.VirtualPath());
+                // The payload resolves against the directory of the source
+                // that declared it, so a Package stays relocatable and an
+                // asset can never reach outside the Package that owns it.
+                declared.source.physicalDirectory =
+                    std::filesystem::path(file->catalog.physicalPath)
+                        .parent_path()
+                        .string();
+                bool duplicate = false;
+                for (const kernel::PresentationAsset& existing
+                    : presentationAssets_)
+                {
+                    duplicate = duplicate
+                        || existing.canonicalName == declared.canonicalName;
+                }
+                if (duplicate)
+                {
+                    diagnostics.Error(
+                        "dillen.authoring.presentation_asset_duplicate",
+                        "Presentation Asset '" + declared.canonicalName
+                            + "' is declared more than once"
+                    );
+                    continue;
+                }
+                presentationAssets_.push_back(std::move(declared));
+            }
+            continue;
+        }
         const kernel::PackageLockEntry* locked = packageLock_.Find(
             layer.manifest->id
         );
@@ -1027,6 +1301,9 @@ bool AuthoringSession::ValidateAndCompile(
             });
         }
     }
+    presentationFingerprint_ =
+        kernel::ComputePresentationFingerprint(presentationAssets_);
+
     if (diagnostics.HasErrors())
     {
         return false;
@@ -1149,6 +1426,18 @@ const kernel::RuntimeCompileReport&
 AuthoringSession::CompileReport() const noexcept
 {
     return compileReport_;
+}
+
+const std::vector<kernel::PresentationAsset>&
+AuthoringSession::PresentationAssets() const noexcept
+{
+    return presentationAssets_;
+}
+
+kernel::PresentationFingerprint
+AuthoringSession::PresentationFingerprint() const noexcept
+{
+    return presentationFingerprint_;
 }
 
 }

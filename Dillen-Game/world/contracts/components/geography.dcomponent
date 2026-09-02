@@ -1,0 +1,7 @@
+component_schema = {
+    name = dillen.map.geography
+    version = 1
+    fields = {
+        field = { name = source_id  kind = integer  required = yes  default = 0 }
+    }
+}

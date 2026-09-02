@@ -63,6 +63,11 @@ public:
 
     bool IsReady() const noexcept;
     const kernel::FrozenRuntimeCatalog& Catalog() const;
+    // Presentation, which is not in the Runtime Catalog and must not be: a
+    // Presentation Package is outside the determinism closure, so it has its
+    // own identity rather than a place in the one a save validates against.
+    const std::vector<kernel::PresentationAsset>& PresentationAssets() const;
+    kernel::PresentationFingerprint PresentationFingerprint() const;
     const world::AuthoritativeWorld& World() const;
     runtime::KernelRuntime& Runtime();
     const runtime::KernelRuntime& Runtime() const;

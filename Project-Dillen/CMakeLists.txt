@@ -17,12 +17,21 @@ option(
     OFF
 )
 option(
+    DILLEN_BUILD_MAP_RENDERER
+    "Build the SDL/OpenGL map renderer and its vendored dependencies"
+    OFF
+)
+option(
     DILLEN_BUILD_HOI3_ORACLE
     "Build the independent HOI3 observation and injection platform"
     OFF
 )
 
 dillen_define_project_options()
+
+if(DILLEN_BUILD_MAP_RENDERER)
+    add_subdirectory(third_party)
+endif()
 
 add_subdirectory(src)
 

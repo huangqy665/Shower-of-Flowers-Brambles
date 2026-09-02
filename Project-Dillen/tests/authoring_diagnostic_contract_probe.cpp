@@ -84,6 +84,7 @@ const std::vector<std::string>& FrozenCodes()
     "dillen.authoring.duplicate_property",
     "dillen.authoring.duplicate_requirement",
     "dillen.authoring.entity_definition_rejected",
+    "dillen.authoring.entity_table_root_expected",
     "dillen.authoring.entry_point_list_required",
     "dillen.authoring.extension_ruleset_missing",
     "dillen.authoring.extension_selection_invalid",
@@ -109,6 +110,12 @@ const std::vector<std::string>& FrozenCodes()
     "dillen.authoring.package_source_ambiguous",
     "dillen.authoring.package_source_missing",
     "dillen.authoring.package_source_not_selected",
+    "dillen.authoring.presentation_asset_digest_invalid",
+    "dillen.authoring.presentation_asset_duplicate",
+    "dillen.authoring.presentation_asset_path_invalid",
+    "dillen.authoring.presentation_asset_properties_invalid",
+    "dillen.authoring.presentation_asset_root_expected",
+    "dillen.authoring.presentation_package_not_authoritative",
     "dillen.authoring.provides_capabilities_invalid",
     "dillen.authoring.query_kind_unknown",
     "dillen.authoring.read_path_direction_unknown",
@@ -119,6 +126,7 @@ const std::vector<std::string>& FrozenCodes()
     "dillen.authoring.reference_type_invalid",
     "dillen.authoring.relation_definition_rejected",
     "dillen.authoring.relation_schema_rejected",
+    "dillen.authoring.relation_table_root_expected",
     "dillen.authoring.required_property_missing",
     "dillen.authoring.role_binding_duplicate",
     "dillen.authoring.role_entry_expected",
@@ -137,6 +145,9 @@ const std::vector<std::string>& FrozenCodes()
     "dillen.authoring.spawn_rejected",
     "dillen.authoring.spawn_requirement_expected",
     "dillen.authoring.spawn_root_expected",
+    "dillen.authoring.table_columns_invalid",
+    "dillen.authoring.table_row_arity",
+    "dillen.authoring.table_rows_invalid",
     "dillen.authoring.typed_value_invalid",
     "dillen.authoring.unexpected_bare_value",
     "dillen.authoring.unknown_property",
@@ -245,6 +256,14 @@ int main()
     {
         const char* code;
         const char* source;
+        // Which front-end parses this case. Defaults to the algorithm parser,
+        // which is what every case used before the grammar grew roots of its
+        // own. It is stated per case rather than sniffed from the source
+        // because a case that checks "wrong root keyword" has, by
+        // construction, a root keyword that says nothing about which parser
+        // should have been handed it.
+        enum Front { Algorithm = 0, Spawn, EntityTable, Asset };
+        Front front = Algorithm;
     };
     const Case cases[] = {
         {"dillen.authoring.unknown_property",
@@ -303,16 +322,54 @@ int main()
          " program = { tick = { set_component_field = { role = home "
          "   owner_entity_type = a.place  owner_definition = a.site "
          "   component = a.stock  field = ore  value = 1 } } } }"},
+        // A row that does not carry the number of values its columns
+        // promised. Generated content is where this happens, and generated
+        // content is exactly what nobody reads before loading it.
+        {"dillen.authoring.table_row_arity",
+         "entity_table = { entity_type = a.place  name_prefix = a.p_ "
+         " component = { type = a.stock  schema_version = 1 "
+         "   columns = { ore  tax } } "
+         " rows = { row = { 1  5 } } }",
+         Case::EntityTable},
+        {"dillen.authoring.entity_table_root_expected",
+         "mechanism_template = { name = a.b  version = 1 }",
+         Case::EntityTable},
         // The same role slot bound twice. std::map::emplace keeps the first
         // and drops the second, so this used to be silently accepted with the
         // author's second binding thrown away.
+        // A payload path that climbs out of its own Package. A skin that
+        // could name bytes anywhere on the machine is a different kind of
+        // thing from a skin.
+        {"dillen.authoring.presentation_asset_path_invalid",
+         "presentation_asset = { name = a.skin  kind = map_index_raster "
+         " asset = ../../etc/passwd "
+         " asset_digest = \"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\" }",
+         Case::Asset},
+        // A digest that is not a SHA-256. The payload sits outside the
+        // Package content digest, so this string is the only thing
+        // standing between a declaration and whatever bytes happen to be
+        // next to it.
+        {"dillen.authoring.presentation_asset_digest_invalid",
+         "presentation_asset = { name = a.skin  kind = map_index_raster "
+         " asset = rasters/world.bin  asset_digest = \"short\" }",
+         Case::Asset},
+        {"dillen.authoring.presentation_asset_properties_invalid",
+         "presentation_asset = { name = a.skin  kind = map_index_raster "
+         " asset = rasters/world.bin "
+         " asset_digest = \"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\" "
+         " properties = { width = 1  width = 2 } }",
+         Case::Asset},
+        {"dillen.authoring.presentation_asset_root_expected",
+         "mechanism_template = { name = a.b  version = 1 }",
+         Case::Asset},
         {"dillen.authoring.role_binding_duplicate",
          "mechanism_spawn = { name = a.spawn  mechanism = a.mech "
          " definition = a.def  count = 1  roles = { "
          "   home = { entity = { entity_type = a.place "
          "     definition = a.first } } "
          "   home = { entity = { entity_type = a.place "
-         "     definition = a.second } } } }"},
+         "     definition = a.second } } } }",
+         Case::Spawn},
     };
 
     for (const Case& probe : cases)
@@ -320,13 +377,18 @@ int main()
         // Cases are not all algorithms any more, and a Spawn parsed by the
         // algorithm parser would fail on its root keyword and never reach the
         // diagnostic under test.
-        const bool isSpawn =
-            std::string_view(probe.source).substr(0, 15) == "mechanism_spawn";
+        const bool isSpawn = probe.front == Case::Spawn;
+        const bool isEntityTable = probe.front == Case::EntityTable;
+        const bool isAsset = probe.front == Case::Asset;
         parser::SourceBuffer source(
             1,
             isSpawn
                 ? "diagnostics/case.dspawn"
-                : "diagnostics/case.dalgorithm",
+                : (isEntityTable
+                    ? "diagnostics/case.dentitytable"
+                    : (isAsset
+                        ? "diagnostics/case.dasset"
+                        : "diagnostics/case.dalgorithm")),
             {},
             probe.source,
             parser::SourceEncoding::Utf8
@@ -336,7 +398,13 @@ int main()
         parser::ParseArtifact artifact;
         const bool parsed = isSpawn
             ? authoring::ParseMechanismSpawn(cursor, artifact)
-            : authoring::ParseAlgorithmDescriptor(cursor, artifact);
+            : (isEntityTable
+                ? authoring::ParseEntityTable(cursor, artifact)
+                : (isAsset
+                    ? authoring::ParsePresentationAsset(cursor, artifact)
+                    : authoring::ParseAlgorithmDescriptor(
+                        cursor,
+                        artifact)));
         bool sawCode = false;
         for (const parser::Diagnostic& diagnostic : diagnostics.All())
         {

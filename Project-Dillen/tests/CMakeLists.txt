@@ -58,6 +58,7 @@ if(DILLEN_BUILD_STANDALONE_RUNTIME)
         dillen::authoring
     )
     dillen_add_probe(projection_adapter_probe dillen::adapter)
+    dillen_add_probe(province_raster_import_probe dillen::adapter)
     dillen_add_probe(parser_syntax_probe dillen::parser)
     dillen_add_probe(parser_pipeline_probe dillen::parser)
     dillen_add_probe(
@@ -93,6 +94,43 @@ if(DILLEN_BUILD_STANDALONE_RUNTIME)
         dillen::authoring
         dillen::parser
     )
+    # Links dillen::presentation explicitly. dillen::standalone deliberately
+    # does not, so this is the only target in the tree that pulls it in.
+    dillen_add_probe(
+        presentation_boundary_probe
+        dillen::host
+        dillen::presentation
+    )
+    dillen_add_probe(world_map_content_probe dillen::adapter)
+    dillen_add_probe(map_view_probe dillen::presentation)
+    # The GL smoke target. Built only with the renderer, and deliberately NOT
+    # registered with CTest: it needs a GPU and a display, which the Linux
+    # cells do not have. Everything it could otherwise prove is already proved
+    # headless by map_view_probe, map_index_raster_probe and
+    # province_projection_probe. Run it by hand.
+    if(DILLEN_BUILD_MAP_RENDERER)
+        add_executable(map_renderer_smoke "map_renderer_smoke.cpp")
+        dillen_configure_target(map_renderer_smoke)
+        target_link_libraries(
+            map_renderer_smoke
+            PRIVATE
+                dillen::host
+                dillen::presentation
+                dillen::presentation::gl
+        )
+    endif()
+    dillen_add_probe(
+        map_index_raster_probe
+        dillen::host
+        dillen::presentation
+        dillen::adapter
+    )
+    dillen_add_probe(
+        province_projection_probe
+        dillen::host
+        dillen::presentation
+    )
+    dillen_add_probe(world_map_scale_probe dillen::host)
     dillen_add_probe(standalone_host_probe dillen::host)
     dillen_add_probe(dillen_demo_1_0_probe dillen::host)
 endif()

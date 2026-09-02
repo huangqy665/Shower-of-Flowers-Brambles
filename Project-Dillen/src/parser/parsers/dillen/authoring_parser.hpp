@@ -7,6 +7,7 @@
 #include "entity_definition.hpp"
 #include "mechanism_definition.hpp"
 #include "mechanism_schema.hpp"
+#include "presentation_asset.hpp"
 #include "mechanism_spawn_definition.hpp"
 #include "package_manifest.hpp"
 #include "parse_result.hpp"
@@ -43,6 +44,21 @@ inline constexpr parser::ParserId kPackageManifestParser =
     0x44494C4C454E100AULL;
 inline constexpr parser::ParserId kCapabilityContractParser =
     0x44494C4C454E100BULL;
+// Bulk forms. One document, many kernel objects.
+//
+// A world map is 14187 Entities and 41693 Relations. One file each would put
+// 55880 entries in the Source Lock, hash every one of them into the Ruleset
+// Fingerprint, and take the content digest over 55880 files -- for content
+// that is generated in a single pass from one corpus and only ever changes all
+// at once. The table forms exist so that a generated world is a handful of
+// sources, not tens of thousands.
+inline constexpr parser::ParserId kEntityTableParser =
+    0x44494C4C454E100CULL;
+inline constexpr parser::ParserId kRelationTableParser =
+    0x44494C4C454E100DULL;
+// The first thing a Presentation Package may own.
+inline constexpr parser::ParserId kPresentationAssetParser =
+    0x44494C4C454E100EULL;
 
 inline constexpr parser::DefinitionTypeId kMechanismTemplateDocumentType =
     0x44494C4C454E2001ULL;
@@ -66,6 +82,12 @@ inline constexpr parser::DefinitionTypeId kPackageManifestDocumentType =
     0x44494C4C454E200AULL;
 inline constexpr parser::DefinitionTypeId kCapabilityContractDocumentType =
     0x44494C4C454E200BULL;
+inline constexpr parser::DefinitionTypeId kEntityTableDocumentType =
+    0x44494C4C454E200CULL;
+inline constexpr parser::DefinitionTypeId kRelationTableDocumentType =
+    0x44494C4C454E200DULL;
+inline constexpr parser::DefinitionTypeId kPresentationAssetDocumentType =
+    0x44494C4C454E200EULL;
 
 template <typename T>
 struct AuthoringDocument
@@ -94,6 +116,13 @@ using PackageManifestDocument =
     AuthoringDocument<kernel::PackageManifest>;
 using CapabilityContractDocument =
     AuthoringDocument<kernel::RuntimeCapabilityContract>;
+// The only documents that carry more than one kernel object.
+using EntityTableDocument =
+    AuthoringDocument<std::vector<kernel::EntityDefinition>>;
+using RelationTableDocument =
+    AuthoringDocument<std::vector<kernel::RelationDefinition>>;
+using PresentationAssetDocument =
+    AuthoringDocument<kernel::PresentationAsset>;
 
 struct RulesetDocument
 {
@@ -136,6 +165,21 @@ bool ParseRelationSchema(
     parser::ParserCursor& cursor,
     parser::ParseArtifact& artifact
 );
+bool ParsePresentationAsset(
+    parser::ParserCursor& cursor,
+    parser::ParseArtifact& artifact
+);
+
+bool ParseEntityTable(
+    parser::ParserCursor& cursor,
+    parser::ParseArtifact& artifact
+);
+
+bool ParseRelationTable(
+    parser::ParserCursor& cursor,
+    parser::ParseArtifact& artifact
+);
+
 bool ParseRelationDefinition(
     parser::ParserCursor& cursor,
     parser::ParseArtifact& artifact

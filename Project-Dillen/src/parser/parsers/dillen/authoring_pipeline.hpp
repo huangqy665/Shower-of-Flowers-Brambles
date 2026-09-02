@@ -17,6 +17,7 @@
 #include "parser_registry.hpp"
 #include "resolver.hpp"
 #include "ruleset.hpp"
+#include "presentation_asset.hpp"
 #include "ruleset_composition.hpp"
 #include "runtime_capability_contract.hpp"
 #include "runtime_compiler.hpp"
@@ -67,6 +68,19 @@ public:
     const kernel::SourceLock& LockedSources() const noexcept;
     const kernel::RuntimeCompileReport& CompileReport() const noexcept;
 
+    // Presentation, which is deliberately NOT part of the Runtime Catalog.
+    //
+    // A Presentation Package is outside the determinism closure: it does not
+    // enter the Package Lock, the Source Lock or the Ruleset Fingerprint, so
+    // changing a skin cannot invalidate a save. It still needs an identity of
+    // its own -- one a viewer can compare or cache against -- and that is what
+    // PresentationFingerprint() is. It is computed over the declared assets
+    // only, so it moves when the skin moves and never when the simulation
+    // does.
+    const std::vector<kernel::PresentationAsset>& PresentationAssets()
+        const noexcept;
+    kernel::PresentationFingerprint PresentationFingerprint() const noexcept;
+
 private:
     bool Declare(
         parser::ParseWorkspace& workspace,
@@ -93,6 +107,8 @@ private:
     kernel::RuntimeCapabilityContractRegistry capabilityContracts_;
     kernel::PackageManifestRegistry packageManifests_;
     kernel::RulesetRegistry rulesets_;
+    std::vector<kernel::PresentationAsset> presentationAssets_;
+    kernel::PresentationFingerprint presentationFingerprint_;
     std::vector<kernel::RootRulesetDefinition> rootRulesets_;
     std::vector<kernel::ExtensionRulesetDefinition> extensionRulesets_;
     kernel::RulesetDefinition composedRuleset_;

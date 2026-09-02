@@ -370,6 +370,22 @@ bool BuildCompileSelection(
         ruleset.requiredRelationDefinitions.begin(),
         ruleset.requiredRelationDefinitions.end()
     );
+    // The wholesale forms. Bounded by the registries, which hold exactly what
+    // the locked Packages declared.
+    if (ruleset.requireAllEntityDefinitions)
+    {
+        for (const EntityDefinition& entity : entityDefinitions.All())
+        {
+            output.entityDefinitions.insert(entity.id);
+        }
+    }
+    if (ruleset.requireAllRelationDefinitions)
+    {
+        for (const RelationDefinition& relation : relationDefinitions.All())
+        {
+            output.relationDefinitions.insert(relation.id);
+        }
+    }
     output.spawns.insert(
         ruleset.requiredMechanismSpawns.begin(),
         ruleset.requiredMechanismSpawns.end()

@@ -250,6 +250,67 @@ Definition 是在任何实例存在之前写的，所以它只能命名 Entity �
 
 **运行期重绑定尚不存在**，见 `Project Dillen工程开发备忘录` C2 一节的理由。
 
+## 3.6 批量表格：`entity_table` 与 `relation_table`
+
+一个生成的世界是成千上万个同形状、且只会被整体重新生成的 Entity 与 Relation。
+把它写成一文件一对象不是品味问题：Source Lock 会为每个文件留一条目，
+每条目都被哈希进 Ruleset Fingerprint，Package 的 `content_digest` 要覆盖每个文件。
+参考世界地图是 14187 个 Entity 和 41693 个 Relation——一文件一对象即 55880 条 Source Lock 记录。
+
+```text
+# entities/**/*.dentitytable
+entity_table = {
+    entity_type = dillen.map.region
+    name_prefix  = dillen.map.region_
+    component = {
+        type = dillen.map.geography
+        schema_version = 1
+        columns = { source_id }        # 列名，顺序即行内取值顺序
+    }
+    rows = {
+        row = { 1  1 }                 # 第一个值是名字后缀，其余按 columns 顺序
+        row = { 2  2 }
+    }
+}
+
+# relations/definitions/**/*.drelationtable
+relation_table = {
+    relation = dillen.map.borders
+    schema_version = 1
+    name_prefix = dillen.map.border_
+    source_entity_type = dillen.map.region
+    target_entity_type = dillen.map.region
+    source_prefix = dillen.map.region_
+    target_prefix = dillen.map.region_
+    rows = {
+        row = { 1_2  1  2 }            # 名字后缀、源后缀、目标后缀
+    }
+}
+```
+
+表格**不引入任何新的内核概念**：它产出的 `entity_definition` 与 `relation_definition`
+和单条形式产出的完全相同，注册、校验、冻结路径也完全相同。
+它属于 **Content** 包，和它折叠的单条形式一样。
+
+行写成 `row = { ... }` 而不是扁平的值流，是为了让**坏行有自己的 span**——
+表格通常是生成的，而生成内容恰恰是错误最难读的内容。
+行内值的个数必须等于 `1 + 全部 columns 之和`，否则报 `table_row_arity`。
+
+**Ruleset 侧**：一个 Ruleset 默认只选它点名的定义（闭包裁剪）。
+点名 55880 个只是把庞大文件从内容挪进 Ruleset，所以有整体选择形式：
+
+```text
+required_entity_definitions   = { all = yes }
+required_relation_definitions = { all = yes }
+```
+
+它是 opt-in 的，且**受 Package Lock 约束**——"全部"指已锁定的 Package 声明的全部，
+不是磁盘上的全部。需要裁剪时照旧逐条 `requirement = { ... }`。
+
+**生成内容的行尾**：`.dentitytable` 与 `.drelationtable` 已在 `.gitattributes` 中钉为 `eol=lf`。
+`content_digest` 是对原始字节的 SHA-256，而生成内容没人逐行审阅——
+CRLF 检出在 Package 摘要失败之前完全不可见。
+
 ## 4. Mechanism Definition
 
 ```text

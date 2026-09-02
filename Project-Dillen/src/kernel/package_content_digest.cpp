@@ -217,4 +217,19 @@ std::string ComputePackageContentDigest(
     return output.str();
 }
 
+
+std::string ComputeContentDigest(std::string_view bytes)
+{
+    Sha256 hash;
+    hash.Update(bytes);
+    const std::array<std::uint8_t, 32> digest = hash.Finish();
+    std::ostringstream output;
+    output << std::hex << std::setfill('0');
+    for (const std::uint8_t byte : digest)
+    {
+        output << std::setw(2) << static_cast<unsigned>(byte);
+    }
+    return output.str();
+}
+
 }

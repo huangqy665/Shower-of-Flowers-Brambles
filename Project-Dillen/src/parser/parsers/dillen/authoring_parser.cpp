@@ -3350,7 +3350,24 @@ bool ParseRulesetRequirements(
     );
     if (entityDefinitions != nullptr)
     {
-        if (!entityDefinitions->block || !entityDefinitions->items.empty())
+        if (!entityDefinitions->block)
+        {
+            return false;
+        }
+        // `all = yes` takes every Entity Definition the locked Packages
+        // declared. See RulesetDefinition for why naming them one at a time
+        // stops working at map scale.
+        if (FindUnique(*entityDefinitions, "all", cursor, false) != nullptr
+            && !ReadBoolProperty(
+                *entityDefinitions,
+                "all",
+                cursor,
+                output.requireAllEntityDefinitions,
+                false))
+        {
+            return false;
+        }
+        if (!entityDefinitions->items.empty())
         {
             return false;
         }
@@ -3383,6 +3400,7 @@ bool ParseRulesetRequirements(
             );
         }
         if (FindAll(*entityDefinitions, "requirement").size()
+                + (output.requireAllEntityDefinitions ? 1u : 0u)
             != entityDefinitions->keys.size())
         {
             return false;
@@ -3396,8 +3414,21 @@ bool ParseRulesetRequirements(
     );
     if (relationDefinitions != nullptr)
     {
-        if (!relationDefinitions->block
-            || !relationDefinitions->items.empty())
+        if (!relationDefinitions->block)
+        {
+            return false;
+        }
+        if (FindUnique(*relationDefinitions, "all", cursor, false) != nullptr
+            && !ReadBoolProperty(
+                *relationDefinitions,
+                "all",
+                cursor,
+                output.requireAllRelationDefinitions,
+                false))
+        {
+            return false;
+        }
+        if (!relationDefinitions->items.empty())
         {
             return false;
         }
@@ -3426,6 +3457,7 @@ bool ParseRulesetRequirements(
             );
         }
         if (FindAll(*relationDefinitions, "requirement").size()
+                + (output.requireAllRelationDefinitions ? 1u : 0u)
             != relationDefinitions->keys.size())
         {
             return false;
@@ -3684,6 +3716,467 @@ bool ParseRelationSchema(
     {
         return false;
     }
+    artifact.value = std::move(document);
+    return true;
+}
+
+// ---------------------------------------------------------------------------
+// Bulk tables
+//
+// A generated world is thousands of Entities and tens of thousands of
+// Relations that all share one shape and are only ever regenerated together.
+// Expressing that as one file each is not a matter of taste: the Source Lock
+// would carry an entry per file, every entry is hashed into the Ruleset
+// Fingerprint, and the Package content digest is taken over every file. The
+// table forms collapse that to a handful of sources without changing what
+// reaches the Kernel -- a table produces exactly the same EntityDefinition and
+// RelationDefinition objects the single forms do.
+//
+// Rows are `row = { ... }` rather than a flat item stream so that a bad row has
+// a span of its own. Generated content is exactly the content whose errors are
+// hardest to read, so per-row diagnostics are worth the extra tokens.
+// ---------------------------------------------------------------------------
+
+bool ReadTableRows(
+    const SyntaxNode& body,
+    ParserCursor& cursor,
+    std::string_view context,
+    std::size_t stride,
+    std::vector<const SyntaxNode*>& output
+)
+{
+    const SyntaxNode* rows = FindUnique(body, "rows", cursor, true);
+    if (rows == nullptr || !rows->block)
+    {
+        cursor.Diagnostics().Error(
+            "dillen.authoring.table_rows_invalid",
+            std::string(context) + " needs a rows block",
+            body.span
+        );
+        return false;
+    }
+    if (!RejectUnknown(*rows, {"row"}, cursor, context))
+    {
+        return false;
+    }
+    output.reserve(rows->values.size());
+    for (std::size_t index = 0; index < rows->keys.size(); ++index)
+    {
+        const SyntaxNode& row = rows->values[index];
+        if (!row.block || !row.keys.empty() || row.items.size() != stride)
+        {
+            cursor.Diagnostics().Error(
+                "dillen.authoring.table_row_arity",
+                std::string(context) + " row must hold exactly "
+                    + std::to_string(stride) + " values",
+                row.span
+            );
+            return false;
+        }
+        output.push_back(&row);
+    }
+    return true;
+}
+
+// ---------------------------------------------------------------------------
+// Presentation assets
+//
+// The first artifact a Presentation Package may own, and deliberately generic:
+// a name, a kind, a payload file, a digest for it, and free-form properties
+// the kind defines. Nothing here knows what a map raster is -- presentation
+// reads `kind` and decides.
+//
+// The payload is NOT an authoring source. A map index raster is 24 MB of
+// binary and there is no sane text form for it, so it is left unclassified by
+// the file catalog: the pipeline never tries to parse it, and it never enters
+// the Package content digest. `asset_digest` is what stands in, and it is why
+// the declaration and the payload cannot drift apart unnoticed.
+// ---------------------------------------------------------------------------
+bool ParsePresentationAsset(
+    ParserCursor& cursor,
+    parser::ParseArtifact& artifact
+)
+{
+    ParsedRoot root;
+    if (!ParseRoot(cursor, root))
+    {
+        return false;
+    }
+    if (root.keyword.text != "presentation_asset")
+    {
+        cursor.Diagnostics().Error(
+            "dillen.authoring.presentation_asset_root_expected",
+            "presentation asset source must begin with presentation_asset",
+            root.keyword.span
+        );
+        return false;
+    }
+    if (!RejectUnknown(
+            root.body,
+            {"name", "kind", "asset", "asset_digest", "properties"},
+            cursor,
+            "presentation asset"))
+    {
+        return false;
+    }
+
+    PresentationAssetDocument document;
+    document.declarationSpan = root.body.span;
+    if (!ReadStringProperty(
+            root.body,
+            "name",
+            cursor,
+            document.value.canonicalName)
+        || !ReadStringProperty(root.body, "kind", cursor, document.value.kind)
+        || !ReadStringProperty(
+            root.body,
+            "asset",
+            cursor,
+            document.value.assetPath)
+        || !ReadStringProperty(
+            root.body,
+            "asset_digest",
+            cursor,
+            document.value.assetDigest))
+    {
+        return false;
+    }
+    // A payload path that climbs out of its Package would let a skin claim
+    // bytes from anywhere on the machine. Assets resolve against the directory
+    // of the source that declared them and may not leave it.
+    if (document.value.assetPath.empty()
+        || document.value.assetPath.front() == '/'
+        || document.value.assetPath.find("..") != std::string::npos
+        || document.value.assetPath.find(':') != std::string::npos)
+    {
+        cursor.Diagnostics().Error(
+            "dillen.authoring.presentation_asset_path_invalid",
+            "asset must be a relative path inside its own Package",
+            root.body.span
+        );
+        return false;
+    }
+    if (document.value.assetDigest.size() != 64)
+    {
+        cursor.Diagnostics().Error(
+            "dillen.authoring.presentation_asset_digest_invalid",
+            "asset_digest must be a 64 character SHA-256 hex digest",
+            root.body.span
+        );
+        return false;
+    }
+
+    const SyntaxNode* properties = FindUnique(
+        root.body,
+        "properties",
+        cursor,
+        false
+    );
+    if (properties != nullptr)
+    {
+        if (!properties->block || !properties->items.empty())
+        {
+            cursor.Diagnostics().Error(
+                "dillen.authoring.presentation_asset_properties_invalid",
+                "properties must be a block of key = value pairs",
+                properties->span
+            );
+            return false;
+        }
+        for (std::size_t index = 0; index < properties->keys.size(); ++index)
+        {
+            const SyntaxNode& value = properties->values[index];
+            if (value.block)
+            {
+                cursor.Diagnostics().Error(
+                    "dillen.authoring.presentation_asset_properties_invalid",
+                    "property values are scalars, not blocks",
+                    value.span
+                );
+                return false;
+            }
+            // Kept as text. The Kernel does not know what any of these mean,
+            // and typing them here would be guessing on behalf of a kind that
+            // has not been written yet.
+            if (!document.value.properties.emplace(
+                    std::string(properties->keys[index].text),
+                    std::string(value.scalar.text)).second)
+            {
+                cursor.Diagnostics().Error(
+                    "dillen.authoring.presentation_asset_properties_invalid",
+                    "property '"
+                        + std::string(properties->keys[index].text)
+                        + "' is set more than once",
+                    value.span
+                );
+                return false;
+            }
+        }
+    }
+
+    artifact.type = kPresentationAssetDocumentType;
+    artifact.value = std::move(document);
+    return true;
+}
+
+bool ParseEntityTable(
+    ParserCursor& cursor,
+    parser::ParseArtifact& artifact
+)
+{
+    ParsedRoot root;
+    if (!ParseRoot(cursor, root))
+    {
+        return false;
+    }
+    if (root.keyword.text != "entity_table")
+    {
+        cursor.Diagnostics().Error(
+            "dillen.authoring.entity_table_root_expected",
+            "entity table source must begin with entity_table",
+            root.keyword.span
+        );
+        return false;
+    }
+    if (!RejectUnknown(
+            root.body,
+            {"entity_type", "name_prefix", "component", "rows"},
+            cursor,
+            "entity table"))
+    {
+        return false;
+    }
+
+    std::string entityTypeName;
+    std::string namePrefix;
+    if (!ReadStringProperty(root.body, "entity_type", cursor, entityTypeName)
+        || !ReadStringProperty(root.body, "name_prefix", cursor, namePrefix))
+    {
+        return false;
+    }
+    const kernel::EntityTypeId entityType =
+        kernel::StableEntityTypeId(entityTypeName);
+
+    // Every row shares one component layout, declared once. `columns` names the
+    // fields in the order the row values appear.
+    struct ColumnBlock
+    {
+        kernel::ComponentTypeId type;
+        std::uint32_t schemaVersion = 1;
+        std::vector<std::string> columns;
+    };
+    std::vector<ColumnBlock> components;
+    std::size_t stride = 1;
+    for (const std::size_t entry : FindAll(root.body, "component"))
+    {
+        const SyntaxNode& node = root.body.values[entry];
+        if (!node.block
+            || !RejectUnknown(
+                node,
+                {"type", "schema_version", "columns"},
+                cursor,
+                "entity table component"))
+        {
+            return false;
+        }
+        ColumnBlock block;
+        std::string typeName;
+        if (!ReadStringProperty(node, "type", cursor, typeName)
+            || !ReadUInt32Property(
+                node,
+                "schema_version",
+                cursor,
+                block.schemaVersion))
+        {
+            return false;
+        }
+        block.type = kernel::StableComponentTypeId(typeName);
+        const SyntaxNode* columns = FindUnique(node, "columns", cursor, true);
+        if (columns == nullptr || !columns->block || columns->items.empty())
+        {
+            cursor.Diagnostics().Error(
+                "dillen.authoring.table_columns_invalid",
+                "entity table component needs a non-empty columns list",
+                node.span
+            );
+            return false;
+        }
+        for (const Token& column : columns->items)
+        {
+            block.columns.emplace_back(column.text);
+        }
+        stride += block.columns.size();
+        components.push_back(std::move(block));
+    }
+    if (components.empty())
+    {
+        cursor.Diagnostics().Error(
+            "dillen.authoring.table_columns_invalid",
+            "entity table declares no component",
+            root.body.span
+        );
+        return false;
+    }
+
+    std::vector<const SyntaxNode*> rows;
+    if (!ReadTableRows(root.body, cursor, "entity table", stride, rows))
+    {
+        return false;
+    }
+
+    EntityTableDocument document;
+    document.declarationSpan = root.body.span;
+    document.value.reserve(rows.size());
+    for (const SyntaxNode* row : rows)
+    {
+        kernel::EntityDefinition entity;
+        // The first value is the row's own suffix; the definition name is the
+        // shared prefix plus it. Names stay content-authored rather than
+        // generated from an index, so a row keeps its identity if the table is
+        // ever reordered.
+        entity.canonicalName = namePrefix + std::string(row->items[0].text);
+        entity.type = entityType;
+        entity.id = kernel::StableEntityDefinitionId(
+            entityType,
+            entity.canonicalName
+        );
+        std::size_t cursorColumn = 1;
+        for (const ColumnBlock& block : components)
+        {
+            kernel::EntityComponentDefinition component;
+            component.type = block.type;
+            component.schemaVersion = block.schemaVersion;
+            for (const std::string& column : block.columns)
+            {
+                kernel::MechanismValue value;
+                if (!InferScalarValue(
+                        row->items[cursorColumn],
+                        value,
+                        cursor))
+                {
+                    return false;
+                }
+                component.fields[column] = std::move(value);
+                ++cursorColumn;
+            }
+            entity.components.push_back(std::move(component));
+        }
+        document.value.push_back(std::move(entity));
+    }
+    artifact.type = kEntityTableDocumentType;
+    artifact.value = std::move(document);
+    return true;
+}
+
+bool ParseRelationTable(
+    ParserCursor& cursor,
+    parser::ParseArtifact& artifact
+)
+{
+    ParsedRoot root;
+    if (!ParseRoot(cursor, root))
+    {
+        return false;
+    }
+    if (root.keyword.text != "relation_table")
+    {
+        cursor.Diagnostics().Error(
+            "dillen.authoring.relation_table_root_expected",
+            "relation table source must begin with relation_table",
+            root.keyword.span
+        );
+        return false;
+    }
+    if (!RejectUnknown(
+            root.body,
+            {
+                "relation", "schema_version", "name_prefix",
+                "source_entity_type", "target_entity_type",
+                "source_prefix", "target_prefix", "rows"
+            },
+            cursor,
+            "relation table"))
+    {
+        return false;
+    }
+
+    std::string relationName;
+    std::string namePrefix;
+    std::string sourceTypeName;
+    std::string targetTypeName;
+    std::string sourcePrefix;
+    std::string targetPrefix;
+    std::uint32_t schemaVersion = 1;
+    if (!ReadStringProperty(root.body, "relation", cursor, relationName)
+        || !ReadUInt32Property(
+            root.body,
+            "schema_version",
+            cursor,
+            schemaVersion)
+        || !ReadStringProperty(root.body, "name_prefix", cursor, namePrefix)
+        || !ReadStringProperty(
+            root.body,
+            "source_entity_type",
+            cursor,
+            sourceTypeName)
+        || !ReadStringProperty(
+            root.body,
+            "target_entity_type",
+            cursor,
+            targetTypeName)
+        || !ReadStringProperty(
+            root.body,
+            "source_prefix",
+            cursor,
+            sourcePrefix)
+        || !ReadStringProperty(
+            root.body,
+            "target_prefix",
+            cursor,
+            targetPrefix))
+    {
+        return false;
+    }
+
+    // Each row is `{ name_suffix  source_suffix  target_suffix }`.
+    std::vector<const SyntaxNode*> rows;
+    if (!ReadTableRows(root.body, cursor, "relation table", 3, rows))
+    {
+        return false;
+    }
+
+    const kernel::RelationTypeId relationType =
+        kernel::StableRelationTypeId(relationName);
+    const kernel::EntityTypeId sourceType =
+        kernel::StableEntityTypeId(sourceTypeName);
+    const kernel::EntityTypeId targetType =
+        kernel::StableEntityTypeId(targetTypeName);
+
+    RelationTableDocument document;
+    document.declarationSpan = root.body.span;
+    document.value.reserve(rows.size());
+    for (const SyntaxNode* row : rows)
+    {
+        kernel::RelationDefinition relation;
+        relation.canonicalName =
+            namePrefix + std::string(row->items[0].text);
+        relation.type = relationType;
+        relation.schemaVersion = schemaVersion;
+        relation.source = kernel::StableEntityDefinitionId(
+            sourceType,
+            sourcePrefix + std::string(row->items[1].text)
+        );
+        relation.target = kernel::StableEntityDefinitionId(
+            targetType,
+            targetPrefix + std::string(row->items[2].text)
+        );
+        relation.id = kernel::StableRelationDefinitionId(
+            relationType,
+            relation.canonicalName
+        );
+        document.value.push_back(std::move(relation));
+    }
+    artifact.type = kRelationTableDocumentType;
     artifact.value = std::move(document);
     return true;
 }

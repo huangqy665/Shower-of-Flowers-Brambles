@@ -218,6 +218,26 @@ const kernel::FrozenRuntimeCatalog& StandaloneSession::Catalog() const
     return authoring_->RuntimeCatalog();
 }
 
+const std::vector<kernel::PresentationAsset>&
+StandaloneSession::PresentationAssets() const
+{
+    if (!IsReady())
+    {
+        throw std::logic_error("Standalone session is not ready");
+    }
+    return authoring_->PresentationAssets();
+}
+
+kernel::PresentationFingerprint
+StandaloneSession::PresentationFingerprint() const
+{
+    if (!IsReady())
+    {
+        throw std::logic_error("Standalone session is not ready");
+    }
+    return authoring_->PresentationFingerprint();
+}
+
 const world::AuthoritativeWorld& StandaloneSession::World() const
 {
     if (!IsReady())

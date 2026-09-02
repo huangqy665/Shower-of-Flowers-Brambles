@@ -71,7 +71,7 @@
 | **Parse** | 哪些文件被认领、分类成什么格式、同虚拟路径由哪一层胜出 | `authoring_frontend_golden_probe`：3912 字节 / 校验和 `1278464547742860928` |
 | **Resolve** | Package Lock 与 Source Lock 的锁定身份 | 同上：3137 字节 / 校验和 `15737711886577553487` |
 | **Compile** | 字节码与 Slot 布局 | `authoring_compile_golden_probe`：2582 字节 / 校验和 `5867319647378757321` |
-| **Diagnostic** | 100 个 `dillen.authoring.*` 稳定码 | `authoring_diagnostic_contract_probe`：源码级注册表比对 + 12 个端到端触发 |
+| **Diagnostic** | 111 个 `dillen.authoring.*` 稳定码 | `authoring_diagnostic_contract_probe`：源码级注册表比对 + 18 个端到端触发 |
 | Slot 按**字段名排序**分配，源码顺序不是契约 | 作者可自由重排字段而不影响编译产物 | Compile 黄金值（换序不动，改名即动） |
 | 授权扩展名的 `eol=lf` | `content_digest` 是原始字节的 SHA-256，行尾漂移即身份漂移 | `.gitattributes` 覆盖全部 11 个扩展名；Parse 黄金值编码文件大小，CRLF 回归会被抓 |
 
