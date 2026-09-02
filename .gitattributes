@@ -23,6 +23,11 @@
 # with core.autocrlf=true. That is the exact defect this section exists to
 # prevent, surviving in the one authoring extension that was left off the list.
 *.drelationdef text eol=lf
+# The bulk forms. These are GENERATED, so nothing reviews them line by
+# line and a CRLF checkout would be invisible until the Package failed its
+# own content digest on the platform that did not generate it.
+*.dentitytable   text eol=lf
+*.drelationtable text eol=lf
 *.dmechanism  text eol=lf
 *.dalgorithm  text eol=lf
 *.ddefinition text eol=lf
@@ -73,3 +78,14 @@ CMakePresets.json text
 *.pdb    binary
 *.bin    binary
 *.dat    binary
+
+# ─────────────────────────────────────────────────────────────
+# Vendored third-party sources.
+#
+# `* text=auto` above would let Git normalise line endings inside SDL, which
+# is not ours to decide: upstream ships files whose endings are deliberate and
+# whose checksums are published. Marking the tree -text leaves every byte
+# exactly as it was cloned, so the vendored copy stays diffable against the
+# upstream tag it was pinned at.
+# ─────────────────────────────────────────────────────────────
+Project-Dillen/third_party/** -text
