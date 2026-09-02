@@ -46,3 +46,10 @@ desktop.ini
 /Project-Dillen/scripted_gui_overlay.*
 /Project-Dillen/new_core_runtime.*
 /Project-Dillen/-File
+
+# ─────────────────────────────────────────────────────────────
+# Reference material kept beside the repository, not in it
+# ─────────────────────────────────────────────────────────────
+# Project-Alice-main/ is tracked already; this is the 144 MB archive of the
+# same tree, so committing it would store one reference project twice.
+Project-Alice-main.zip
