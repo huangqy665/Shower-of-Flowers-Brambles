@@ -41,6 +41,26 @@ struct ProvinceRasterImportOptions
     // A world map's left and right edges meet. Off by default only because a
     // regional map's do not.
     bool wrapHorizontally = true;
+    // Whether the image is stored with geographic NORTH at its bottom.
+    //
+    // This is not the BMP row order. BMP row order is a storage detail and is
+    // decoded from the header; this is a statement about the image, and the
+    // two are independent -- conflating them would silently mirror any corpus
+    // whose convention differs.
+    //
+    // HOI3's own province bitmaps display with north at the bottom, so a
+    // corpus taken straight from that game needs this on. The map shipped in
+    // Dillen-Game has been turned the right way up already, so it does not.
+    //
+    // Which way round a given corpus is cannot be inferred -- both
+    // orientations decode to a valid raster -- so it is stated rather than
+    // guessed, and province_raster_import_probe checks the result against
+    // named landmarks in either direction.
+    //
+    // It belongs here rather than in the renderer for the reason the whole
+    // separation exists: the LOGICAL geographic space has to be right, and
+    // the renderer is only allowed to bend it.
+    bool northAtImageBottom = false;
 };
 
 // A raster colour that is not a province, with the pixels it covers.

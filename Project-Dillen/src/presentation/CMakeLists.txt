@@ -1,18 +1,40 @@
 dillen_add_component(
     project_dillen_presentation
     SOURCES
+        client_state.cpp
+        client_state.hpp
+        control_tree.cpp
+        control_tree.hpp
+        map_command.cpp
+        map_command.hpp
+        mechanism_panel.cpp
+        mechanism_panel.hpp
+        map_entity_index.cpp
+        map_entity_index.hpp
         map_index_raster.cpp
         map_index_raster.hpp
         map_view.cpp
         map_view.hpp
+        overlay.cpp
+        overlay.hpp
+        frozen_presentation_catalog.cpp
+        frozen_presentation_catalog.hpp
+        presentation_compiler.cpp
+        presentation_compiler.hpp
+        presentation_schema.cpp
+        presentation_schema.hpp
         presentation_view.cpp
         presentation_view.hpp
         province_projection.cpp
         province_projection.hpp
+        text_atlas.cpp
+        text_atlas.hpp
     PUBLIC_LINKS
         dillen::kernel
         dillen::world
         dillen::runtime
+    PRIVATE_LINKS
+        freetype
     PUBLIC_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}"
 )
 

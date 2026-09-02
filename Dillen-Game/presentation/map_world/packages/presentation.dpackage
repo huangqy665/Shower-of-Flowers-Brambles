@@ -1,0 +1,9 @@
+package_manifest = {
+    name = dillen.map.world.presentation
+    version_major = 1
+    version_minor = 0
+    version_patch = 0
+    role = presentation
+    content_digest = "c9208926dae0001ebdfec617189b7e0c119feb7d2bf542454d6849c534530242"
+    load_priority = 200
+}

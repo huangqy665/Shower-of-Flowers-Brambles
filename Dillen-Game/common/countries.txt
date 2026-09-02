@@ -1,0 +1,3 @@
+#For exmple if you want to define a countries' basic info:
+#like that 
+# CHI = countries/Republic of China.txt

@@ -386,6 +386,13 @@ bool BuildCompileSelection(
             output.relationDefinitions.insert(relation.id);
         }
     }
+    if (ruleset.requireAllMechanismSpawns)
+    {
+        for (const MechanismSpawnDefinition& spawn : mechanismSpawns.All())
+        {
+            output.spawns.insert(spawn.id);
+        }
+    }
     output.spawns.insert(
         ruleset.requiredMechanismSpawns.begin(),
         ruleset.requiredMechanismSpawns.end()

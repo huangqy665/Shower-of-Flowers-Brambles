@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <chrono>
 #include <cstdint>
 #include <filesystem>
@@ -10,7 +11,7 @@
 
 // Demo 0.8 P1a -- province raster import, measured on the real corpus.
 //
-// This runs against the actual world map in Dillen-Game/content/map: a
+// This runs against the actual world map in Dillen-Game/map/source: a
 // 5616x2160 raster and a table of 14187 provinces. It is deliberately not
 // a synthetic fixture. The question P1a
 // exists to answer is whether the engine's primitives survive a real
@@ -26,7 +27,7 @@ namespace
 namespace fs = std::filesystem;
 using namespace dillen;
 
-const fs::path kMapRoot = "Dillen-Game/content/map";
+const fs::path kMapRoot = "Dillen-Game/map/source";
 
 int failures = 0;
 
@@ -47,6 +48,11 @@ int main()
     options.raster = kMapRoot / "provinces.bmp";
     options.definitions = kMapRoot / "definition.csv";
     options.wrapHorizontally = true;
+    // The map in Dillen-Game is already north-up, so this is off. The option
+    // exists for corpora that are not -- HOI3's own bitmaps display with
+    // north at the bottom -- and the gate at the end of this probe is what
+    // catches it being wrong in either direction.
+    options.northAtImageBottom = false;
 
     if (!fs::exists(options.raster) || !fs::exists(options.definitions))
     {
@@ -241,6 +247,101 @@ int main()
         "the index raster is not reproducible");
     Check(again.adjacency.size() == imported.adjacency.size(),
         "the adjacency graph is not reproducible");
+
+    // --- the map is the right way up ---------------------------------
+    //
+    // Nothing else in this project can catch this. Every count, every
+    // adjacency and every digest is invariant under a vertical mirror, so an
+    // upside-down world imports cleanly, ticks correctly, saves and reloads,
+    // and is simply wrong. It was found by looking at a window.
+    //
+    // The corpus's own bitmap is mirrored relative to geography, so the flag
+    // that undoes it needs a check that knows which way is north. These six
+    // provinces are the corpus's own landmarks; the ids are its, and if it
+    // ever renumbers them this fails loudly rather than quietly.
+    {
+        struct Landmark
+        {
+            std::uint32_t sourceId;
+            const char* name;
+        };
+        // Far north and far south, by name in definition.csv.
+        const Landmark north[] = {
+            {9, "Tromso"}, {59, "Murmansk"}, {8086, "Reykjavik"}
+        };
+        const Landmark south[] = {
+            {8054, "Cape Town"}, {10496, "Punta Arenas"}, {10498, "Ushuaia"}
+        };
+
+        // Corpus id -> dense index, then dense index -> mean row.
+        std::vector<std::uint64_t> rowSum(
+            imported.sourceIdByIndex.size(), 0
+        );
+        std::vector<std::uint64_t> pixels(
+            imported.sourceIdByIndex.size(), 0
+        );
+        for (std::uint32_t y = 0; y < imported.height; ++y)
+        {
+            const std::uint16_t* scan = imported.indexRaster.data()
+                + static_cast<std::size_t>(y) * imported.width;
+            for (std::uint32_t x = 0; x < imported.width; ++x)
+            {
+                const std::uint16_t index = scan[x];
+                if (index != 0 && index < rowSum.size())
+                {
+                    rowSum[index] += y;
+                    ++pixels[index];
+                }
+            }
+        }
+        const auto meanRow = [&](std::uint32_t sourceId) -> double
+        {
+            for (std::size_t index = 1;
+                index < imported.sourceIdByIndex.size();
+                ++index)
+            {
+                if (imported.sourceIdByIndex[index] == sourceId
+                    && pixels[index] != 0)
+                {
+                    return static_cast<double>(rowSum[index])
+                        / static_cast<double>(pixels[index]);
+                }
+            }
+            return -1.0;
+        };
+
+        double northest = static_cast<double>(imported.height);
+        double southest = -1.0;
+        for (const Landmark& mark : north)
+        {
+            const double row = meanRow(mark.sourceId);
+            Check(row >= 0.0,
+                std::string("the corpus no longer has ") + mark.name);
+            if (row >= 0.0)
+            {
+                northest = std::min(northest, row);
+                Check(row < static_cast<double>(imported.height) * 0.35,
+                    std::string(mark.name)
+                        + " is not in the northern third of the raster");
+            }
+        }
+        for (const Landmark& mark : south)
+        {
+            const double row = meanRow(mark.sourceId);
+            Check(row >= 0.0,
+                std::string("the corpus no longer has ") + mark.name);
+            if (row >= 0.0)
+            {
+                southest = std::max(southest, row);
+                Check(row > static_cast<double>(imported.height) * 0.65,
+                    std::string(mark.name)
+                        + " is not in the southern third of the raster");
+            }
+        }
+        Check(southest > northest,
+            "the map is upside down: the southern landmarks are above the "
+            "northern ones");
+    }
 
     if (failures != 0)
     {

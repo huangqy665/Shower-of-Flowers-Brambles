@@ -1,0 +1,14 @@
+presentation_asset = {
+    name = dillen.map.world_raster_ids
+    kind = map_province_ids
+    asset = rasters/world.dprovinceids
+    asset_digest = "6cc1c050f3e37c2330aa7523c483ee6ec98989fae7b4fbf9357cf4987e7e1cef"
+    properties = {
+        format = source_id32
+        count = 14187
+        entity_type = dillen.map.region
+        component = dillen.map.geography
+        component_version = 1
+        source_id_field = source_id
+    }
+}

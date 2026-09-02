@@ -60,6 +60,24 @@ private:
     std::uint64_t second_;
 };
 
+// Depth and sibling order both enter the hash. Two trees that differ only in
+// where a subtree hangs are different presentation identities, and a flat walk
+// that ignored the brackets would call them equal.
+void WriteNodes(
+    FingerprintWriter& writer,
+    const std::vector<PresentationAssetNode>& nodes
+)
+{
+    writer.Unsigned(nodes.size());
+    for (const PresentationAssetNode& node : nodes)
+    {
+        writer.Text(node.key);
+        writer.Unsigned(node.block ? 1U : 0U);
+        writer.Text(node.value);
+        WriteNodes(writer, node.children);
+    }
+}
+
 }
 
 std::string PresentationFingerprint::ToHex() const
@@ -120,6 +138,19 @@ PresentationFingerprint ComputePresentationFingerprint(
         // to change when the bytes behind it change, and hashing a 24 MB
         // raster on every load to discover that would be absurd.
         writer.Text(asset.assetDigest);
+        // Requirements are part of the identity: a skin that starts reading a
+        // different field is a different skin, even when every byte of its
+        // payload is unchanged.
+        writer.Unsigned(asset.requirements.size());
+        for (const PresentationAssetRequirement& requirement
+            : asset.requirements)
+        {
+            writer.Unsigned(static_cast<std::uint64_t>(requirement.kind));
+            writer.Text(requirement.primaryName);
+            writer.Text(requirement.secondaryName);
+            writer.Text(requirement.fieldName);
+            writer.Unsigned(requirement.version);
+        }
         writer.Unsigned(asset.properties.size());
         // std::map iterates in key order, so the property hash is stable
         // without a second sort.
@@ -128,6 +159,7 @@ PresentationFingerprint ComputePresentationFingerprint(
             writer.Text(property.first);
             writer.Text(property.second);
         }
+        WriteNodes(writer, asset.content);
     }
     return writer.Finish();
 }

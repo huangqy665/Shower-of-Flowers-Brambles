@@ -1,0 +1,35 @@
+presentation_asset = {
+    name = dillen.map.world_raster_panel
+    kind = ui_binding
+    requires = {
+        mechanism_field = { mechanism = dillen.map.production_site  definition = dillen.map.site  field = level }
+        mechanism_field = { mechanism = dillen.map.production_site  definition = dillen.map.site  field = output }
+        component_field = { component = dillen.map.geography  version = 1  field = source_id }
+        capability = { name = dillen.map.site_development  version = 1 }
+    }
+    properties = {
+        title = province
+        subject_role = province
+    }
+    content = {
+        panel = {
+            id = province_panel
+            background = yes
+            axis = vertical
+            padding = 8
+            gap = 4
+            label = { id = title  text = "Province"  size = 20 }
+            value = { id = level  text = "Level: "  field = level  size = 20 }
+            value = { id = output  text = "Output: "  field = output  size = 20 }
+            panel = {
+                id = actions
+                axis = horizontal
+                gap = 4
+                size = 24
+                button = { id = raise  text = "+1"  capability = dillen.map.site_development  capability_version = 1  operation = adjust_level  field = level  amount = 1  size = fill  background = yes }
+                button = { id = lower  text = "-1"  capability = dillen.map.site_development  capability_version = 1  operation = adjust_level  field = level  amount = -1  size = fill  background = yes }
+            }
+            panel = { id = spacer  size = fill }
+        }
+    }
+}

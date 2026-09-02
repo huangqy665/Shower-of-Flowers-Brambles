@@ -1,0 +1,21 @@
+package_manifest = {
+    name = dillen.map.production
+    version_major = 1
+    version_minor = 0
+    version_patch = 0
+    role = mechanism
+    content_digest = "668e9c1e360c0452189f20cf20df5ca427e4af579f9d7bf2d171d69b793c0357"
+    load_priority = 50
+    dependencies = {
+        dependency = {
+            name = dillen.map.world.contracts
+            minimum_major = 1
+            minimum_minor = 0
+            minimum_patch = 0
+            maximum_major = 2
+            maximum_minor = 0
+            maximum_patch = 0
+            required = yes
+        }
+    }
+}

@@ -69,6 +69,10 @@ struct RulesetRequirementSet
     // brought, not everything on disk.
     bool requireAllEntityDefinitions = false;
     bool requireAllRelationDefinitions = false;
+    // Same reasoning for Spawns. A world with one mechanism instance per
+    // province needs one Spawn per province -- 14187 of them -- because a
+    // Spawn's role bindings are what tell the instances apart.
+    bool requireAllMechanismSpawns = false;
     std::vector<MechanismSpawnDefinitionId> requiredMechanismSpawns;
     std::vector<RulesetAlgorithmRequirement> requiredAlgorithms;
     std::vector<CapabilityRequirement> requiredCapabilities;

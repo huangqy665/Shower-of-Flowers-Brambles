@@ -1,0 +1,6 @@
+#define what cultrue the province is and what ethnic live in there
+#like that
+# Han_ethnic ={
+#    Yue_culture = {}
+#     Centeral_culture = {}
+#}

@@ -63,19 +63,19 @@ host::StandaloneSessionConfig DemoConfig(
 {
     host::StandaloneSessionConfig config;
     config.sources.push_back({
-        "demo05_contracts", "Dillen-Game/contracts/demo_0_5", 0, {}, {}, {}
+        "demo05_contracts", "Dillen-Game/demo_0_5/contracts", 0, {}, {}, {}
     });
     config.sources.push_back({
-        "demo05_economy", "Dillen-Game/packages/economy", 10, {}, {}, {}
+        "demo05_economy", "Dillen-Game/economy/demo_0_5", 10, {}, {}, {}
     });
     config.sources.push_back({
-        "demo05_technology", "Dillen-Game/packages/technology", 20, {}, {}, {}
+        "demo05_technology", "Dillen-Game/technology/demo_0_5", 20, {}, {}, {}
     });
     config.sources.push_back({
-        "demo05_production", "Dillen-Game/packages/production", 30, {}, {}, {}
+        "demo05_production", "Dillen-Game/production/demo_0_5", 30, {}, {}, {}
     });
     config.sources.push_back({
-        "demo05_content", "Dillen-Game/content/demo_0_5", 100, {}, {}, {}
+        "demo05_content", "Dillen-Game/demo_0_5/content", 100, {}, {}, {}
     });
     if (!presentationSource.empty())
     {

@@ -43,9 +43,9 @@ struct DemoResult
 };
 
 host::StandaloneSessionConfig DemoConfig(
-    const fs::path& economySource = "Dillen-Game/packages/economy",
+    const fs::path& economySource = "Dillen-Game/economy/demo_0_5",
     bool includeTechnology = true,
-    const fs::path& contractSource = "Dillen-Game/contracts/demo_0_5"
+    const fs::path& contractSource = "Dillen-Game/demo_0_5/contracts"
 )
 {
     host::StandaloneSessionConfig config;
@@ -59,7 +59,7 @@ host::StandaloneSessionConfig DemoConfig(
     {
         config.sources.push_back({
             "demo05_technology",
-            "Dillen-Game/packages/technology",
+            "Dillen-Game/technology/demo_0_5",
             20,
             {},
             {},
@@ -68,7 +68,7 @@ host::StandaloneSessionConfig DemoConfig(
     }
     config.sources.push_back({
         "demo05_production",
-        "Dillen-Game/packages/production",
+        "Dillen-Game/production/demo_0_5",
         30,
         {},
         {},
@@ -76,7 +76,7 @@ host::StandaloneSessionConfig DemoConfig(
     });
     config.sources.push_back({
         "demo05_content",
-        "Dillen-Game/content/demo_0_5",
+        "Dillen-Game/demo_0_5/content",
         100,
         {},
         {},
@@ -525,7 +525,7 @@ bool RejectMissingPackage()
     host::StandaloneSession session;
     host::StandaloneSessionReport report;
     const bool started = session.Start(DemoConfig(
-            "Dillen-Game/packages/economy",
+            "Dillen-Game/economy/demo_0_5",
             false
         ), report);
     const bool rejected = !started
@@ -546,7 +546,7 @@ bool RejectIllegalPackageRole()
     fs::remove_all(temporary, error);
     error.clear();
     fs::copy(
-        "Dillen-Game/contracts/demo_0_5",
+        "Dillen-Game/demo_0_5/contracts",
         temporary,
         fs::copy_options::recursive,
         error
@@ -575,7 +575,7 @@ bool RejectIllegalPackageRole()
     host::StandaloneSession session;
     host::StandaloneSessionReport report;
     const bool started = session.Start(DemoConfig(
-        "Dillen-Game/packages/economy",
+        "Dillen-Game/economy/demo_0_5",
         true,
         temporary
     ), report);
@@ -609,7 +609,7 @@ bool RejectHardCodedContentEntity()
     fs::remove_all(temporary, error);
     error.clear();
     fs::copy(
-        "Dillen-Game/packages/economy",
+        "Dillen-Game/economy/demo_0_5",
         temporary,
         fs::copy_options::recursive,
         error
@@ -852,8 +852,8 @@ int main()
     DemoResult first;
     DemoResult second;
     DemoResult replacement;
-    if (!RunDemo("Dillen-Game/packages/economy", first)
-        || !RunDemo("Dillen-Game/packages/economy", second)
+    if (!RunDemo("Dillen-Game/economy/demo_0_5", first)
+        || !RunDemo("Dillen-Game/economy/demo_0_5", second)
         || !ValidateClosedLoop(first)
         || !ValidateClosedLoop(second)
         || first.fingerprint != second.fingerprint
@@ -866,7 +866,7 @@ int main()
     }
 
     if (!RunDemo(
-            "Dillen-Game/packages/economy_rebalanced",
+            "Dillen-Game/economy/demo_0_5_rebalanced",
             replacement,
             &first.saveBytes)
         || replacement.fingerprint == first.fingerprint
@@ -897,7 +897,7 @@ int main()
         return 2;
     }
 
-    if (!CheckSaveResumeEquivalence("Dillen-Game/packages/economy"))
+    if (!CheckSaveResumeEquivalence("Dillen-Game/economy/demo_0_5"))
     {
         std::cerr << "Demo 0.5 save-resume equivalence gate failed" << '\n';
         return 8;

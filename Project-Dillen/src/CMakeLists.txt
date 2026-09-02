@@ -13,9 +13,11 @@ if(DILLEN_BUILD_STANDALONE_RUNTIME)
     add_subdirectory(parser)
     add_subdirectory(parser/parsers/dillen)
     add_subdirectory(adapter)
-    add_subdirectory(presentation)
-    if(DILLEN_BUILD_MAP_RENDERER)
-        add_subdirectory(presentation/gl)
+    if(DILLEN_BUILD_PRESENTATION)
+        add_subdirectory(presentation)
+        if(DILLEN_BUILD_MAP_RENDERER)
+            add_subdirectory(presentation/gl)
+        endif()
     endif()
     add_subdirectory(host)
 
@@ -29,10 +31,11 @@ if(DILLEN_BUILD_STANDALONE_RUNTIME)
     # the add_subdirectory line just above, and the probes that test it --
     # rather than a refactor of anything that matters.
     #
-    # It is NOT the stronger claim that deleting the directory alone leaves a
-    # configuring build: add_subdirectory above is unconditional, so that step
-    # fails first. The distinction is worth keeping straight, because the
-    # stronger sentence is the kind that gets believed until someone tries it.
+    # DILLEN_BUILD_PRESENTATION=OFF is the same statement made at configure
+    # time: no presentation targets, no probes that need them, and none of the
+    # third-party sources that exist only for them. That option is what makes
+    # the deletability claim checkable rather than asserted -- a pure
+    # standalone build stopped carrying FreeType the moment it existed.
     #
     # Linking presentation here would lose the real property the moment
     # anything convenient leaked across, and nothing would notice. A probe that

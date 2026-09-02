@@ -1,0 +1,8 @@
+mechanism_definition = {
+    name = dillen.map.site
+    mechanism = dillen.map.production_site
+    schema_version = 1
+    provides_capabilities = { dillen.map.site_development }
+    algorithm = dillen.map.production_algorithm
+    algorithm_version = 1
+}

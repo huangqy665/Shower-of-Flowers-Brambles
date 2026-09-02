@@ -94,7 +94,7 @@ GUI 的职责按同一条线切开，避免三处重复拥有：
 - **存档里不含角色信息**，读档时无法回溯验证当初的包角色是否合规——存档校验的是 Package / Source Lock 与 Fingerprint，与角色无关；
 - 因此不得把"存档能加载"理解为"角色边界当初被遵守过"。要让角色成为可追溯身份，必须把它纳入 Lock 与 Fingerprint，那是破坏性变更（升 Save 版本 + 迁移）。
 
-**当前实现状态**：`PackageManifest` 已具有 `contract / mechanism / content / presentation` 显式角色，严格 Authoring 模式会拒绝未声明角色、角色越界内容，以及 Mechanism Package 对非 Contract Package 的依赖。正式 Demo 0.5 由一个 Contract Package、三个互不依赖的 Mechanism Package 与一个 Content Package 实际承担并通过 Package Lock、Source Lock 和非法包门禁。Presentation 角色边界已经存在，但 Presentation Schema / Registry / Compiler、Asset Registry、Presentation Lock / Fingerprint、窗口后端与 Map Widget 尚未实现；`Dillen-Game/presentation/` 仍只是目录占位。这些内容构成 Demo 0.8 的主线，不得通过在 Mechanism 或 Host C++ 中硬编码界面来绕过。
+**当前实现状态**：`PackageManifest` 已具有 `contract / mechanism / content / presentation` 显式角色，严格 Authoring 模式会拒绝未声明角色、角色越界内容，以及 Mechanism Package 对非 Contract Package 的依赖。正式 Demo 0.5 由一个 Contract Package、三个互不依赖的 Mechanism Package 与一个 Content Package 实际承担并通过 Package Lock、Source Lock 和非法包门禁。Demo 0.8 已建立 Presentation Schema / Registry / Compiler、Frozen Presentation Catalog、独立 Presentation Fingerprint、窗口后端、Map Widget、稳定 Entity 映射和 Contract 驱动动作绑定；表现运行期不再解释可编辑控件字符串，也不得通过在 Mechanism 或 Host C++ 中硬编码业务动作来绕过公共契约。
 
 Project Dillen 可以提供一套 **Reference Gameplay Library** 作为官方示例和默认发行内容，但该 Library 不是 Kernel，也不是所有 Ruleset 的强制基础。删除 Reference Gameplay Library 后，Kernel 仍必须能够装载其他完全不同的 Gameplay Package。
 
@@ -600,7 +600,7 @@ Mechanism Definition 用 `provides_capabilities` 声明其实例响应的契约�
 - Algorithm Runtime 已接收完整一致 Query Snapshot；算法可读取四类通用世界对象，但仍只能通过 Command / Transaction 修改权威世界；
 - RNG Snapshot 与 World Query Snapshot 在每次 Runtime 发布时使用相同 Tick / Revision；
 - Scheduler 的物理归属已从 Kernel 契约层迁入 `src/runtime`，由 `KernelRuntime` 持有并编排 Tick；Kernel 只保留可复用的状态、事务和编译契约；
-- 当前纯 Dillen（关闭 HOI3 Compatibility 与 Oracle）Windows x64 测试清单为 33 项，Linux gcc / clang CI 也配置为运行同一清单。**截至 2026-09-02 当前工作区完整重建后的 Debug 与 Release 均为 33/33**；此前 `runtime_catalog_probe` 新增必填角色拒绝用例遗漏 Ruleset `requiredDefinitions` 的接线已经在 Demo 0.5 封存提交中补齐。`demo_0_5_vertical_slice_probe`、四面 Authoring 黄金值和 Kernel 工程验证夹具均通过。`thread_contract_probe` 守住派发的顺序无关性；`dillen_demo_1_0_probe` 覆盖双外部机制包、真实 Package / Source Lock、可替换 Root、Query、Scheduled Event、RNG、Capability 跨机制调用和权威事务结果，`controlled_script_probe` 与 `projection_adapter_probe` 分别覆盖受控脚本和 Adapter 身份迁移，`mechanism_ids_probe` 冻结 Stable Identity 层的哈希输出，`capability_invocation_probe` 固化契约调用的解耦闭环，`scale_probe` 是代表性规模的正确性与耗时基线，`demo_0_5_vertical_slice_probe` 守住正式玩法闭环与 Package 门禁，`architecture_guard_probe` 把模块分层依赖与“无 HOI3/oracle include”变成源码级门禁。当前未在本机重跑 Linux 组合，Linux 状态仍以阻塞 CI 为准。启用冻结 HOI3 Compatibility 后的旧兼容夹具仍引用整理前的仓库 Corpus 路径；按照当前冻结策略，它们将在未来 Adapter 恢复时改为测试显式传入的实际 Corpus Root，不在 Standalone 主线中临时回接旧路径。
+- 纯 Dillen（关闭 HOI3 Compatibility 与 Oracle）Windows x64 测试清单在 **Demo 0.5 封存时为 33 项**，Linux gcc / clang CI 也配置为运行同一清单。**那一刻的 Debug 与 Release 均为 33/33；Demo 0.8 之后清单已增至 38 项，现状以 §4.4 结尾的「当前基础状态」为准**；此前 `runtime_catalog_probe` 新增必填角色拒绝用例遗漏 Ruleset `requiredDefinitions` 的接线已经在 Demo 0.5 封存提交中补齐。`demo_0_5_vertical_slice_probe`、四面 Authoring 黄金值和 Kernel 工程验证夹具均通过。`thread_contract_probe` 守住派发的顺序无关性；`dillen_demo_1_0_probe` 覆盖双外部机制包、真实 Package / Source Lock、可替换 Root、Query、Scheduled Event、RNG、Capability 跨机制调用和权威事务结果，`controlled_script_probe` 与 `projection_adapter_probe` 分别覆盖受控脚本和 Adapter 身份迁移，`mechanism_ids_probe` 冻结 Stable Identity 层的哈希输出，`capability_invocation_probe` 固化契约调用的解耦闭环，`scale_probe` 是代表性规模的正确性与耗时基线，`demo_0_5_vertical_slice_probe` 守住正式玩法闭环与 Package 门禁，`architecture_guard_probe` 把模块分层依赖与“无 HOI3/oracle include”变成源码级门禁。当前未在本机重跑 Linux 组合，Linux 状态仍以阻塞 CI 为准。启用冻结 HOI3 Compatibility 后的旧兼容夹具仍引用整理前的仓库 Corpus 路径；按照当前冻结策略，它们将在未来 Adapter 恢复时改为测试显式传入的实际 Corpus Root，不在 Standalone 主线中临时回接旧路径。
 
 **线程契约（与 Snapshot / Transaction 契约同批冻结）**：
 
@@ -794,9 +794,11 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 | 计划中的 `adapters/hoi3/importer` | 无 | 独立 HOI3 Source Normalizer |
 | 计划中的 `mappings/hoi3/*` | 无 | 独立 Mapping Profile 与 Projection 测试 |
 
-**`Dillen-Game` 的当前状态（2026-08-31）——已经进入正式管线。** `contracts/demo_0_5`、`packages/economy`、`packages/technology`、`packages/production` 与 `content/demo_0_5` 均拥有显式角色 Manifest 和真实 SHA-256 `content_digest`，共形成 5 个锁定 Package、29 个 Source Lock 条目。原 `Project-Dillen/tests/fixtures/dillen_demo_0_5` 最小夹具已删除，前端黄金值和综合验收探针均直接读取 `Dillen-Game/`，因此不会再出现测试夹具与正式内容分叉。
+**`Dillen-Game` 的当前状态（2026-09-02）——已经进入正式管线并完成领域优先重组。** `demo_0_5/contracts`、`economy/demo_0_5`、`technology/demo_0_5`、`production/demo_0_5` 与 `demo_0_5/content` 均拥有显式角色 Manifest 和真实 SHA-256 `content_digest`，共形成 5 个锁定 Package、29 个 Source Lock 条目。地图纵向切片分别落在 `map/contracts`、`map/world`、`production/map_world` 与 `presentation/map_world` 四个独立 Source Layer。原 `Project-Dillen/tests/fixtures/dillen_demo_0_5` 最小夹具已删除，前端黄金值和综合验收探针均直接读取 `Dillen-Game/`，因此不会再出现测试夹具与正式内容分叉。
 
-`Dillen-Game/content/common` 中的 `.txt` 与无扩展名文件仍是未来游戏内容草稿，不属于 Demo 0.5 的五个 Source Layer，也不会进入其 Package Digest、Source Lock 或 Frozen Catalog。它们日后正式接入时仍必须先明确 Package 归属和授权格式；无扩展名文件若参与摘要，还需显式钉死跨平台行尾。
+`Dillen-Game` 采用**领域优先、角色隔离**的物理结构：一级目录表示内容领域；同一领域内的 Contract、Mechanism、Content、Presentation 仍是分别装载且一层一 Manifest 的 Source Layer。目录位置不产生隐式加载语义，只有 `.dpackage`、显式 Source 配置与 Root Ruleset 决定装配关系。不得为了目录直观而把多个角色塞进同一 Source Layer。
+
+`Dillen-Game/common` 中的 `.txt` 与无扩展名文件仍是未来游戏内容草稿，不属于 Demo 0.5 的五个 Source Layer，也不会进入其 Package Digest、Source Lock 或 Frozen Catalog。`common` 不是隐式全局命名空间；其中内容日后正式接入时仍必须拥有明确 Package、被依赖方显式声明依赖并固定授权格式。无扩展名文件若参与摘要，还需显式钉死跨平台行尾。
 
 顶层 CMake 默认关闭 `DILLEN_BUILD_HOI3_COMPATIBILITY` 与 `DILLEN_BUILD_HOI3_ORACLE`。`dillen-standalone-windows-x64` 是不编译 Compatibility / Oracle 的纯 Dillen Preset；兼容原型必须通过显式 `dillen-compatibility-windows-x64` Preset 启用，不得成为 Standalone 的隐式依赖。
 
@@ -821,7 +823,7 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 15. Destroy、确定性指令预算、非权威墙钟诊断、单实例 Fault 隔离、三种失败策略和显式恢复；
 16. 全权威状态 Canonical Save / Load、原子恢复、显式 Schema Migration、固定 Command Log Replay 与稳定 Checksum；
 17. 最小 Standalone Host、外部 Authoring Session 启动、交互/脚本化 CLI Inspector、即时与排队 Command、状态查询及原子 Save / Load 文件闭环；
-18. Windows x64 纯 Dillen 测试清单为 33 项；当前工作区完整重建后的 Debug / Release 均为 33/33。`thread_contract_probe`（派发顺序无关性）、`controlled_script_probe`、`projection_adapter_probe`、`mechanism_ids_probe`、`capability_invocation_probe`、`scale_probe`、`demo_0_5_vertical_slice_probe` 与 `architecture_guard_probe` 分别固化 Script 沙箱/持久化、Projection 身份/迁移、Stable Identity 冻结哈希、Capability 契约调用、代表性规模、正式玩法纵向切片，以及模块分层依赖与“无 HOI3/oracle include”的源码级门禁；
+18. Windows x64 纯 Dillen 测试清单在 Demo 0.5 封存时为 33 项，Debug / Release 均为 33/33（Demo 0.8 后为 38 项，见 §4.4）。`thread_contract_probe`（派发顺序无关性）、`controlled_script_probe`、`projection_adapter_probe`、`mechanism_ids_probe`、`capability_invocation_probe`、`scale_probe`、`demo_0_5_vertical_slice_probe` 与 `architecture_guard_probe` 分别固化 Script 沙箱/持久化、Projection 身份/迁移、Stable Identity 冻结哈希、Capability 契约调用、代表性规模、正式玩法纵向切片，以及模块分层依赖与“无 HOI3/oracle include”的源码级门禁；
 19. Kernel 工程验证夹具已以聚落增长与贸易周期两个外部机制包、均衡/加速两个可替换 Root Package / Source Layer 完成端到端验收，并固化闭包裁剪、源摘要篡改拒绝、存档恢复、确定性回放、Source Lock 篡改拒绝与跨 Root 读档拒绝；该夹具不等于正式 Demo 1.0。
 20. Capability 级 **fire-and-forget 闭环**收口：`provides_capabilities` + `invoke_capability` + `payload / payload_from` + `capability_invoked` + `from_payload` + 定向单提供者（`target_role`）+ 显式版本协商（限定在 Package Lock 声明的提供集内）+ Controlled Script 与 Declarative 在运行期和加载期闭包上等价；跨机制交互不引用对方 Mechanism Type / Instance ID。Demo 0.5 已用生产报告、科研拨款和科技解锁三条真实 Capability 边完成闭环。**已确认的 v1 边界**：单向链路足够。同 Tick 多发送者写入同一接收实例的丢失更新**已于 2026-09-01 闭合**——不是靠改 ABI，而是靠 `MechanismAddFieldOperation`（内层 tag 7，纯加法）：命令携带增量而非绝对值，由 Executor 对已提交值做读改写，**已冻结的 v1 命令布局一个字节未动**。详见 §4.3 第二轮审查修复第 1 条。仍属后续纯加法能力的是：多 Operation、返回值、关联 ID。
 
@@ -1231,7 +1233,7 @@ Spawn 注册本来就把 Definition 与 Spawn 的绑定合并后再逐个校验 
 C1 那条写回把 Content 实体名直接写进了 Mechanism Package 的算法：
 
 ```
-# Dillen-Game/packages/economy/algorithms/budget.dalgorithm，错误写法
+# Dillen-Game/economy/demo_0_5/algorithms/budget.dalgorithm，错误写法
 set_component_field = {
     owner_entity_type = dillen.demo05.country
     owner_definition  = dillen.demo05.alvara     # ← Content 的名字
@@ -1468,7 +1470,7 @@ set_component_field = {
 未发布快照，以及 publication 不前进的快照——表现层是唯一跨 Tick 持有快照的读者，
 乱序换入会让观众看到一个"未发生"的世界。
 
-**门禁**：`presentation_boundary_probe`（Windows x64 Debug / Release 现为 **33/33**）
+**门禁**：`presentation_boundary_probe`（加入时 Windows x64 Debug / Release 为 **33/33**）
 断言指纹对 Presentation Package 的存在与否完全无差别、Package Lock 条目数不变、
 依赖它被拒、读句柄单调。指纹不变这条已注入验证：让 Presentation 源层重新走
 Lock 成员资格检查，加载立刻失败。
@@ -1544,7 +1546,7 @@ External Corpus Importer 层，而不是 HOI3 兼容树。后者在标准预设�
 行写成 `row = { ... }` 而非扁平 item 流，是为了让坏行有自己的 span：
 生成内容恰恰是错误最难读的内容。
 
-**固化位置**：`Dillen-Game/world/`，`contracts/` 与 `content/` 两个包。
+**固化位置**：`Dillen-Game/map/contracts` 与 `Dillen-Game/map/world` 两个权威包；地图规模机制位于 `Dillen-Game/production/map_world`，纯表现资源位于 `Dillen-Game/presentation/map_world`。
 运行期加载它时**没有导入器、没有位图、没有 CSV**——这正是生成 Dillen Content
 而不是直接读语料的意义。
 
@@ -1718,11 +1720,222 @@ P0 时我在 `src/CMakeLists.txt` 与备忘录里写了「删掉 `src/presentati
 所以移除它是一次**机械删除**（目录 + 那行 `add_subdirectory` + 测它的探针），不是重构。
 两处措辞均已改正。
 
+#### 4.4.0.5 P4/P5 机制、命令闭环与 UI 绑定（已完成，2026-09-02）
+
+##### P4-0 地图接上机制
+
+地图必须**接机制**才谈得上验证承载力——只画出来不算。新增 Mechanism 包
+`dillen.map.production_site`（模板 + 算法）与 Definition `dillen.map.site`，
+Content 包用 `spawn_table` 一次性生成 **14187 个实例**，每个通过 `province` 角色
+绑到一个地区实体上。
+
+**角色寻址而不是名字拼接**：Definition 只声明它要一个 `province` 角色，
+不知道地区实体叫什么。这是 Demo 0.5 那次跨包耦合（经济机制包里直接写死
+`dillen.demo05.alvara`）改出来的规矩，`package_entity_reference_violation`
+在加载期强制它。
+
+##### P4a 从地图意图到权威命令
+
+`MapCommandTranslator`：`MapIntent{Kind, provinceIndex, value}` → `MechanismCommand`。
+
+- 发出的是 **`AddField`（增量）而不是绝对值**。表现层看到的是某个快照，
+  权威世界在它读完之后还会继续 Tick;写绝对值等于把一次读当成一次锁。
+- `Resolve()` 建立 省份 → 实例 的映射时**读角色绑定**，不做算术。
+  实例 id 和省份序号看起来是平行的，但那是 Spawn 顺序的巧合，不是契约。
+
+**门禁**（`map_command_probe`）：14187 个省份全部解析出实例;5 个意图 × 6 Tick,
+与手工构造同一批命令的路径逐字节对拍，**4073946 字节存档完全相同**。
+（这条断言最初是假的——手工路径也调了 `Translate()`,等于自己和自己比。
+为此把 `InstanceFor()` 暴露出来,手工路径才真的独立。）
+
+##### P4b 客户端状态不进世界
+
+`ClientState{selected, hovered, camera, viewport}` + `Digest()`。
+**门禁**（`client_state_probe`）：三个视图者各自选中不同省份、相机停在不同曲率,
+`Digest()` 三者互不相同;跑完 3 意图 × 8 Tick 之后,**三条存档 4073946 字节完全一致**。
+「选中」「悬停」「相机」是**观众的属性,不是世界的属性**——这条不靠约定,靠对拍。
+
+##### P4c 机制面板
+
+`MechanismPanel{Bind, Read}`：省份序号 → 一组带标签的值。刻意**与绘制分离**,
+所以数据这一半是无头可测的,窗口只负责显示。
+
+`Read()` 走的是 `translator.InstanceFor()`——**和命令路径同一次查找**。
+这不是省事：两者一旦对不上,玩家读的是一个省的数字、下的是另一个省的命令。
+整数按原值,小数按定点**内部标度**（10⁴）,与 `ProvinceProjection` 一致,
+中间不做任何会因机器而异的舍入。字段名读不到时**在 Bind 期拒绝**,不显示空白。
+
+**闭环实测**（`map_renderer_smoke`,窗口侧）：从 ID 缓冲拾取 → 读面板 →
+发一个 `AdjustLevel` 意图 → 入队 → `RunTick` → 重读面板 → 刷新调色板重绘。
+拾到省份 9839,`level 1 → 5`,`output 0 → 491950000`（内部标度,
+即 9839 × 5 × 10⁴——`output` 是算法在随后那 Tick 从新 `level` 重算出来的,
+只回显命令的面板会 `level` 对而这里错）。
+**注入验证**：把 `Read()` 改成读 `provinceIndex + 1` 的实例,
+无头探针报 3 处失败、窗口探针报 2 处失败,并打印出邻省的 `98400000`。
+
+##### P5a UI 绑定作为表现层资产
+
+新增资产 kind `ui_binding`,带 **`requires` 块**：
+`PresentationAssetRequirement` 有三种类型（MechanismField / ComponentField / Capability）,
+在**加载期**对着 Ruleset 解析。面板要读的字段名同时写在这里,
+所以 Ruleset 不再提供某个字段时,世界**加载不起来**,而不是运行到一半显示空白。
+
+**门禁**（`presentation_binding_probe`）：2 个资产、3 条有类型的需求,
+一条解析不到的需求在加载期被拒。
+（这条探针有两次因为错误的原因通过：先是改了声明没重封 `asset_digest`;
+再是重算摘要时**把载荷也算进去了**——载荷是 `Unclassified`,根本不参与摘要。）
+
+##### P5b 控件树与布局
+
+**控件树写在 DSL 里,但 Kernel 一个 UI 词汇都没学到。**
+
+这是本轮唯一的架构抉择。三条路：给 Kernel 加控件类型（把 UI 词汇塞进 Kernel,
+正是 P3a 明确避开的）;把布局做成二进制载荷（丢掉 DSL 的诊断）;
+或者让 presentation 依赖 `parser` 自己再解析一遍（多一条模块边,而且 `properties`
+早就证明了不需要）。
+
+选的是第四条：把 `properties`（**已经是**无类型平表）推广成 **`content`——无类型的树**。
+Kernel 新学到的只有「嵌套」和「兄弟顺序」,没有 `panel`、`button`、`label`。
+`presentation::ControlTree` 是唯一知道这些键什么意思的地方。
+代价是解析器不能对 `content` 做任何白名单校验——所以**未知键必须由 ControlTree 拒绝**,
+拼错的 `labell` 在一个干净加载的包里凭空消失,是这一层最该防的失败模式。
+
+**`requires` 从装饰变成承重**：每个 `value` 控件绑定的字段名**必须**出现在同一资产的
+`requires` 块里,否则 `ControlTree::Load` 拒绝。在此之前那个块是一张没人查的清单。
+`MechanismPanel` 也改用 `tree.BoundFields()` 绑定,布局加一行不会绑出一个空白。
+
+**布局全整数**。`fill` 按权重分,**余数归最后一个 fill 子控件**。
+三个子控件分 100 像素得 33/33/34,精确铺满,没有一个像素属于两个控件或不属于任何控件。
+浮点矩形在两处舍入不同,就是「点击落在看着不在的控件上」的来源。
+
+**按钮只产生 `MapIntent`,不产生 Command**——`ControlTree` 根本够不着世界。
+
+**门禁**（`control_tree_probe`,全程无头）：包里 8 个控件;
+四个视口尺寸（含奇数宽,偶数宽会让余数规则测不出来）下容纳性与不重叠;
+间隙里的像素不归任何按钮;按钮意图经同一个 translator → RunTick → 面板读数真的动了;
+小数固定四位。**四处注入全部命中**：去掉余数规则（`201x300`/`201x301` 两处报错）、
+拾取不下钻、不查 `requires`、静默忽略未知键。
+
+**新增诊断码** `dillen.authoring.presentation_asset_content_invalid`,
+冻结清单 114 → **115**,端到端触发 21 → **22**。
+
+##### P5c 字体、文字与选择高光
+
+**第二个 vendored 依赖:FreeType `VER-2-13-3`**,裁掉 `docs/ devel/ tests/`、
+非本项目平台的 `builds/*`、以及不在 `BASE_SRCS` 里的 `src/tools|gxvalid|otvalid`,
+13 MB → **8.0 MB**,静态库 1.9 MB。zlib / bzip2 / PNG / Brotli / HarfBuzz 全关。
+
+**FreeType 不在 `DILLEN_BUILD_MAP_RENDERER` 之后,SDL 在**——这个分界是本轮的关键决定。
+SDL 是**平台后端**,要窗口和显示服务器;FreeType 只把字节变成覆盖率位图,**不碰显示**。
+所以文字层可以进标准套件,而一条只在有 GPU 的机器上跑的门禁,Linux 四格永远跑不到。
+
+**字体是 Presentation 资产(带载荷 + 摘要),图集不是。**
+图集只在一个像素尺寸下光栅化,烘焙它等于把界面钉死在一个尺寸和一块屏幕上——
+而「尺寸是运行期决定」正是选 FreeType 而不是位图字模的全部理由。
+所以包里发的是 TTF(Roboto Mono,OFL 1.1,183 KB,**等宽**,正好配定点固定四位小数),
+`presentation::TextAtlas` 从它光栅化。**摘要在 FreeType 看到第一个字节之前验**——
+把改动过的字体喂给字体解析器,正是没人想让它见到的输入。
+
+**能无头测的全部无头测**:`TextAtlas`(度量、笔位、按整字裁剪)与
+`BuildPanelOverlay`(哪些矩形、什么顺序、什么颜色)都是 CPU 上的算术。
+窗口只被问一个问题:overlay 有没有落在布局说的像素上。
+
+**门禁**(`text_atlas_probe`,无头):95 个字形 / 14px / 740×18 图集;
+范围内只有空格无墨;`W` 的度量框里确实有墨(只写度量不 blit 会全过);
+所有字形共享等宽 advance;`Measure` = advance 之和;
+逐字符验证 `quad.x == rect.x + i*advance + bearingX`
+(**比较相邻 quad 的差是不行的**——那等于 advance 加两个 bearing 之差,很多错误布局都满足);
+超宽字符串按整字裁剪;面板每一行的真实字符串都放得下它的控件。
+overlay:三块实心面(只有根 panel 画底,嵌套 panel 不画,否则 alpha 会越嵌越暗);
+实心在文字之前(后端可以按顺序画,不排序不用深度);
+悬停**只改一个 quad 的颜色**;没有字体时**面还在,只是没有字**。
+
+**注入命中**:不 blit、摘要不先验、不裁剪、丢掉 bearing;
+overlay 的每个 panel 都画底、忽略悬停、没字体就清空。
+
+**选择高光由写 `oIndex` 的同一次片元着色决定**,所以亮起来的省份和拾取返回的省份
+构造上不可能不一致。窗口侧读回像素验证:选中后中心像素颜色变了,
+**而另一个省份的像素没变**(只断言选中像素会被「整张图重绘」蒙混过去),
+且高光没有改变拾取结果。注入「从不高光」和「所有省份都高光」均被抓到。
+
+**两处自己踩的坑,都值得记**:
+
+1. `Present()`(SwapWindow)之后后缓冲内容**未定义**,我却在那之后才采样,
+   探针报「39 个 quad 落位 0 个」。读回必须在 present 之前。
+   `ColourAt` 还必须显式 `ReadBuffer(GL_BACK)`——`PickAt` 会把读缓冲留在 id 附件上,
+   那个名字在默认帧缓冲上根本不合法。
+2. 第三处注入(去掉 `GL_UNPACK_ALIGNMENT = 1`)**没有被抓到**。
+   738 宽的图集在 4 字节对齐下会逐行错位,但采样字形中心仍会碰到墨。
+   与其留一个测不出来的守卫,不如**把失败模式消掉**:图集宽度补齐到 4 的倍数
+   (740),这条是无头可断言的。`PixelStorei` 保留,但它不再是唯一挡在那里的东西。
+
+##### P6 可交互的地图查看器,以及它暴露出来的一个真 bug
+
+**`dillen_map_viewer`:一个真正能操作的窗口。**
+放在 `Project-Dillen/apps/`,**不在 `src/` 下**——架构守卫只走 `src/` 并把每个引号
+include 解析到所属模块,而一个把四个库拼起来的可执行文件不该是其中一个模块;
+没有任何东西链接它。它也**不 include SDL**:输入走 `MapRenderer::PollInput`,
+平台后端仍然是一个可以整目录删掉的东西。
+
+###### 地图是上下颠倒的——本轮最重要的一条
+
+用语料自己的地标实测:导入后 Tromsø / Murmansk / Reykjavík 落在 y≈2030–2076
+(共 2160 行,即**底部**),Ushuaia / Punta Arenas / Cape Town 落在 y≈68–243(**顶部**)。
+
+BMP 头是正高度(按规范自下而上),**解码本身没错**;是这份语料的图像相对地理是上下镜像的。
+所以新增的 `northAtImageBottom` 是关于**图像**的陈述,与 BMP **行序**这个存储细节
+分开写——合成一个标志会让另一种约定的语料无法表达。
+
+修在 **importer 而不是 renderer**:逻辑地理空间必须是对的,渲染器只被允许弯曲它。
+重新生成后栅格摘要 `774c3c38…` → `71fb3d7b…`,而**世界内容摘要 `f62e4e4c…` 一个字没变**。
+
+**这条为什么此前一个门禁都没抓到,值得单独记下来**:
+数量、邻接、度分布、孤岛数、所有摘要,在垂直镜像下**全部不变**。
+一个上下颠倒的世界能干净地导入、正确地 Tick、存档重载逐字节一致——**就是错的**。
+它是被人**看着窗口**看出来的。这是本项目第一条「只有渲染出来才可能被发现」的缺陷,
+也说明为什么 §4.4 要求做窗口而不只是做无头管线。
+
+补的门禁在 `province_raster_import_probe`:六个地标(北三南三,用语料自己的 id),
+断言北方三个在栅格北三分之一、南方三个在南三分之一、且南在北之下。
+注入「不做镜像」后报 **7 处失败**。
+
+###### zoom 与曲率
+
+`zoom` 只有一处状态:`MapCamera::distance`,**沿局部外法线**度量
+(`BuildMapViewMatrix` 里 `eye = target + normal · distance`),
+所以它是**离表面**的高度而不是离球心。它属于 `ClientState`,不进存档。
+取值范围 `[0.2, 2.0]` 与滚轮的乘性步进是**应用**的策略;
+FOV 45° 与近远平面是**后端**的投影矩阵。三者分层,互不知道对方。
+
+**滚轮同时驱动缩放和曲率**:拉远成球、拉近摊平。映射按**距离的对数**线性——
+滚轮本身是乘性的(每格 ×0.9),线性映射会把几乎全部曲率变化挤进最后几格。
+
+```
+bend = clamp( ln(d / 0.2) / ln(2.0 / 0.2), 0, 1 )
+```
+
+端点精确落在两个极限。手动控制(`1..9 / 0` 与 `[` `]`)保留:
+这套几何的两个极限值得能停在那里看,而耦合模式不会正好停在端点;
+滚一下滚轮自动收回耦合。
+
+**这不只是操作手感。** §4.4.1 要求「球体与平面是同一套地图几何的两个极限状态」——
+把它们绑在同一个滚轮上,是让人**摸得到**这句话,而不是被告知。
+
+###### 其余交互
+
+中键(或右键)拖动转动地图,步长随相机距离缩放,拉近后地面不会从指针底下撕走;
+相对位移从事件累加而不是每帧差分光标——差分会漏掉快速拖动的绝大部分。
+左键保持「选中」。左下角有一行**应用自己画的**状态读数(曲率 / 缩放 / Tick / 选中省份)——
+调试读数不该变成 Package 内容的一部分。
+
+`SDL_GL_SetSwapInterval(options.visible ? 1 : 0)`:可见窗口垂直同步,
+隐藏的冒烟测试不等。
+
 #### 4.4.1 内容范围
 
 1. **小型原创地图**：使用有限数量的地区和政治实体，不导入 HOI3 Corpus。
    **（已裁定 2026-09-01）**：改为**直接构建世界地图，不做小型地图验证**。
-   地图语料（`Dillen-Game/content/map`，HOI3 原版位图与数据）已入库，
+   地图语料（`Dillen-Game/map/source`，HOI3 原版位图与数据）已入库，
    实测 14187 个省份 / 41693 条邻接，见 §4.4.0.1。原文关于"有限数量"的表述作废。
    **地图渲染要求**：逻辑地理空间保持不变，只在 Renderer 中连续改变渲染曲率——
    球体与平面是同一套地图几何的两个极限状态。投影按**等距圆柱**处理，
@@ -1737,8 +1950,19 @@ P0 时我在 `src/CMakeLists.txt` 与备忘录里写了「删掉 `src/presentati
 2. **首个 Presentation Package**：外部定义窗口、控件树、文本、图片、按钮、列表、进度条、Tooltip、Map Widget、数据绑定、动作绑定、贴图、字体和本地化。
 3. **Standalone 窗口后端**：复用 `StandaloneSession`、Query Snapshot、Command 与 Fact Stream；窗口、渲染、输入和资源上传属于 Platform / Presentation Backend，不持有第二套世界状态。
 4. **机制 UI**：继续使用 Demo 0.5 已封存的经济—科研—生产机制，通过公共 Query / Command / Capability Contract 显示状态并提交玩家操作；不为经济、科研或生产编写专用 Host / Kernel C++ 分支。
+   **（偏差记录 2026-09-02）**：实际接的是**新写的地图机制包**
+   `dillen.map.production_site`，不是 Demo 0.5 的经济机制。理由是 Demo 0.5 的机制绑在
+   `dillen.demo05` 的实体上，把它搬到 14187 个地区上等于重做一遍内容，
+   而本条真正要验证的是「不为业务写专用 C++ 分支」——这一点由新机制包同样成立，
+   且它是**纯 DSL 内容**，引擎侧一行没加。见 §4.4.0.5 P4-0。
 5. **地图交互**：支持地图显示、区域拾取、稳定 Entity ID 返回、选择高光和基础信息面板。颜色和图标由 Presentation Binding 从 Query Snapshot 计算，Map Widget 不理解“国家”“经济”或“所有权”的业务含义。
+   **（已达成 2026-09-02）**：显示、拾取、稳定 ID、信息面板（§4.4.0.5 P4c）与
+   **选择高光**（§4.4.0.5 P5c）全部达成。高光由写 `oIndex` 的同一次片元着色决定，
+   所以亮起来的省份与拾取返回的省份构造上一致。
 6. **最小输入闭环**：玩家至少能够选择地区、查看机制数据、提交一类经济/科研/生产 Command，并在后续 Tick 观察权威状态变化。
+   **（已达成 2026-09-02）**：`map_renderer_smoke` 跑通 拾取 → 读面板 → 发意图 →
+   `RunTick` → 重读面板 → 重绘 的完整闭环，见 §4.4.0.5 P4c。
+   数据侧（面板读数、命令翻译、客户端状态隔离）全部另有**无头**门禁，不依赖 GPU。
 
 #### 4.4.2 身份与状态边界
 
@@ -1758,6 +1982,20 @@ P0 时我在 `src/CMakeLists.txt` 与备忘录里写了「删掉 `src/presentati
 6. 建立 `demo_0_8_playable_integration_probe`，覆盖无窗口的绑定/命令测试和有窗口后端的最小冒烟测试；
 7. 最后执行 Save / Load、Migration、长周期运行与 Replay 产品级验收。
 
+**完成情况（2026-09-02，经审查修正）**：**第 1 条未达成，第 3 条只达成一半**。
+先前此处写作「1–6 均已达成」，是错的，改正如下。
+第 1 条只做出了独立 Presentation Fingerprint，**Presentation Source → Schema →
+Registry → Compiler → Frozen Presentation Catalog 这条链一节都没有建**：
+运行期仍由 `ControlTree::Load()` 现场解释一棵可编辑的字符串树。
+第 3 条的控件树、布局、事件、数据绑定成立，但**动作绑定不通用**——见 §4.4.5。
+2、4、5、6 达成，另有两处偏差：
+第 5 条的“小型地图”已作废（§4.4.1 第 1 条），接的也不是 Demo 0.5 的机制
+而是新写的地图机制包（§4.4.1 第 4 条的偏差记录）；
+第 6 条的 `demo_0_8_playable_integration_probe` 没有建成**一个**探针，
+而是拆成五个无头探针（`map_command_probe`、`client_state_probe`、
+`presentation_binding_probe`、`control_tree_probe`、`text_atlas_probe`）
+加一个需要 GPU 的 `map_renderer_smoke`。拆开是因为它们能进标准套件而它不能。
+
 #### 4.4.4 验收门禁
 
 - 不重新编译引擎即可更换地图 Content、Presentation Package 或允许替换的 Mechanism / Root Package；
@@ -1771,7 +2009,400 @@ P0 时我在 `src/CMakeLists.txt` 与备忘录里写了「删掉 `src/presentati
 - 使用实际可玩切片执行长周期 Tick、多个存档检查点和固定 Command Log Replay；
 - Kernel、World、Runtime 和通用 Host 中不存在地区、政治实体、经济、科研、生产等 Demo 业务硬编码。
 
-**当前基础状态**：核心 Durability 闭环已由 `persistence_replay_probe` 达成；`standalone_host_probe` 已覆盖 Platform 文件写入、同目录临时文件原子替换和恢复；`demo_0_5_vertical_slice_probe::CheckSaveResumeEquivalence()` 已实现 Tick 1—20 直通与 Tick 12 存档后续跑到 Tick 20 的逐字节对拍。Windows x64 Debug / Release 当前均为 33/33（P0 新增 `presentation_boundary_probe`，P1 新增 `province_raster_import_probe`、`world_map_content_probe`、`world_map_scale_probe`，P2 新增 `province_projection_probe`，P3 新增 `map_view_probe`、`map_index_raster_probe`；`map_renderer_smoke` 需要 GPU，不入清单）。尚未实现的是 Presentation 纵向管线、窗口渲染后端、Map Widget、独立 Presentation Fingerprint，以及把 Migration 续跑和长周期 Replay 应用于真实交互负载。
+**验收门禁逐条状态（2026-09-02）**。这张表是刻意写细的：Demo 0.8 的
+「已完成」与「已被门禁挡住」不是一回事，把两者混在一起正是封存时最容易出问题的地方。
+
+| 门禁 | 状态 | 依据 / 缺口 |
+| --- | --- | --- |
+| 不重编译即可更换地图 Content / Presentation Package | **已达成** | §4.4.9；`main.cpp` 里只剩 Root Ruleset 名与包路径，机制 / Definition / 字段 / 实体类型 / 组件 / 角色全部来自包（`subject_role` 进 Binding，实体类型与组件字段从 id 表资产读回） |
+| 拾取在缩放后稳定返回同一 Entity ID | **已达成** | §4.4.7；`MapEntityIndex` 从随栅格发布的 id 表与世界里的 `source_id` 拼出对应，门禁是对调 id 表两项后 Entity 必须跟着换 |
+| GUI 只读同代际 Query Snapshot | **已达成** | `PresentationView` 拒绝空 / 未发布 / 不前进的快照；`presentation_boundary_probe` |
+| 按钮只产生通用 Command | **已达成** | §4.4.7；按钮声明 Capability 契约 + 契约自己声明的 operation，三道独立检查（包声明过 / Ruleset 发布了 / 实例公开提供），未用冻结的 8 个 Command 变体之外的东西 |
+| 关 GUI 后世界继续运行 | **结构上成立，未作为动作验证** | 无权威侧目标依赖表现层；但没有一条探针真的关掉再打开 |
+| Presentation 缺失 / 资源损坏 / Binding 悬空被拒 | **已达成** | `presentation_binding_probe`、`map_index_raster_probe`、`text_atlas_probe` 各自注入验证 |
+| 无界面 Probe 与窗口 Host 产生相同 Save / Replay Checksum | **未达成** | 现在对拍的是**两条无头路径**（`map_command_probe`）。窗口 Host 从未参与过对拍 |
+| Save / Load 覆盖全部子系统 | **已达成（Demo 0.5 世界）** | `persistence_replay_probe`；**未在 14187 省世界上跑过** |
+| 至少一条 Migration 迁移后继续运行对拍 | **已达成（Demo 0.5 世界）** | 同上，未用真实交互负载 |
+| 长周期 Tick、多检查点、Command Log Replay | **未达成** | 真实可玩切片上从未跑过 |
+| Kernel / World / Runtime / 通用 Host 无业务硬编码 | **已达成** | `architecture_guard_probe`；地图机制包是纯 DSL，引擎侧零行 |
+| 通用 Presentation 层无业务硬编码 | **已达成** | §4.4.6 + §4.4.7；`adjust_level` / `AdjustLevel` / `province_panel` / `namePrefix` 均已移出，`src/presentation` 里只在注释中留有历史说明 |
+| Presentation 经 Source → Compiler → Frozen Catalog | **已达成** | §4.4.6；Schema Registry + PresentationCompiler + FrozenPresentationCatalog，`control_tree_probe` 13 处加载期拒绝，六处注入全部命中 |
+
+#### 4.4.5 审查发现（2026-09-02）：Demo 0.8 不能封存
+
+以下五条由人工审查提出，逐条对照代码后**全部成立**。它们的共同点值得先说：
+**每一条都能通过全部 38 个探针**。这不是探针写得不够多，而是它们守的是
+「这套代码做的事对不对」，而没有一条守「这套代码做的是不是通用的事」。
+一个把业务动词写死在通用层的实现，行为完全正确、门禁全绿、并且从根上违背 §1
+的可定义性主张。
+
+**1. 业务动作硬编码进通用 Presentation 层。**
+`control_tree.cpp` 里按钮的 `action` 必须字面等于 `adjust_level`；
+`map_command.hpp` 的 `MapIntent::Kind` 是一个只含 `AdjustLevel` 的枚举；
+`map_command.cpp` 据此产生 `MechanismCommand`。
+公开的 Command / Capability Contract 被整条绕过。
+我在 §4.4.4 里把「按钮只产生通用 Command」记成已达成，是**过度声称**：
+`ControlTree` 够不着世界这一点成立，但它产出的东西本身就是业务专用的。
+
+**2. Presentation 没有在加载期编译。**
+运行期由 `ControlTree::Load()` 现场解释一棵可编辑字符串树。
+§4.4.3 第 1 条要求的 Presentation Source → Schema → Registry → Compiler →
+Frozen Presentation Catalog 一节都没建，只做出了独立 Fingerprint。
+P5b 当时把「Kernel 只存无类型的树、由表现层解释」当作优点写进备忘录——
+那个判断在**避免 Kernel 学到 UI 词汇**这一点上仍然对，
+但它不能替代编译期冻结，我当时没有把这两件事分开。
+
+**3. 地图拾取不返回稳定 Entity ID。**
+`PickAt()` 返回稠密 `uint16_t` 栅格索引；实体是之后靠
+`namePrefix + std::to_string(index)` 拼名字找回来的。
+索引↔实体的对应因此依赖 Spawn 顺序与命名约定这两个**约定**，而不是数据。
+§4.4.4 明写「读档后仍稳定返回同一 Entity ID」，现在无法成立。
+P4a 当时特意让 `Resolve()` 读角色绑定而不做算术，理由正是
+「实例 id 与省份序号平行是 Spawn 顺序的巧合」——同一条理由适用于这里，我没有推下去。
+
+**4. Demo 宿主硬编码地图业务绑定。**
+实体类型、组件名、机制名、Definition 名、字段名与 Root Ruleset 全部写在
+`apps/map_viewer/main.cpp`，所以「不重编译更换 Presentation 包」只在
+**结构完全相同**的包之间成立。
+
+**5. 通用 Overlay 硬编码面板 ID。**
+`overlay.cpp` 里只有 `control.id == "province_panel"` 的面板才画背景。
+重命名配置不会报错，只会静默不画——正是 P5b 立下「未知键必须拒绝而不是静默忽略」
+那条规矩要防的失败模式，我在同一个文件里又犯了一次。
+
+
+**当前基础状态**：核心 Durability 闭环已由 `persistence_replay_probe` 达成；`standalone_host_probe` 已覆盖 Platform 文件写入、同目录临时文件原子替换和恢复；`demo_0_5_vertical_slice_probe::CheckSaveResumeEquivalence()` 已实现 Tick 1—20 直通与 Tick 12 存档后续跑到 Tick 20 的逐字节对拍。Windows x64 Debug / Release 当前均为 **38/38**（P0 新增 `presentation_boundary_probe`，P1 新增 `province_raster_import_probe`、`world_map_content_probe`、`world_map_scale_probe`，P2 新增 `province_projection_probe`，P3 新增 `map_view_probe`、`map_index_raster_probe`，P4/P5 新增 `map_command_probe`、`client_state_probe`、`presentation_binding_probe`、`control_tree_probe`、`text_atlas_probe`；`map_renderer_smoke` 现已入清单（渲染器配置 39/39），无 GPU 时退出 77 报 Skipped；`DILLEN_BUILD_PRESENTATION=OFF` 的纯 Standalone 配置为 28/28）。Presentation 纵向管线、窗口渲染后端、Map Widget、独立 Presentation Fingerprint 与最小输入闭环均已达成（§4.4.0.4、§4.4.0.5）。文字渲染与选择高光也已完成（§4.4.0.5 P5c）。一个可操作的窗口 `dillen_map_viewer` 已可运行（§4.4.0.5 P6）。尚未完成的是把 Migration 续跑和长周期 Replay 应用于真实交互负载。
+
+
+
+#### 4.4.7 R1/R2：稳定 Entity ID 与公开 Capability 契约（已完成，2026-09-02）
+
+§4.4.5 第 1、3、4 条的修复。
+
+##### R1：拾取返回的是身份，不是图上的位置
+
+`PickAt()` 仍然返回 16 位稠密栅格索引——那是 ID 附件装得下的东西，也是调色板的寻址方式。
+问题从来不是索引，而是**把索引变回实体的方式**：
+
+```
+StableEntityId(namePrefix + std::to_string(index))
+```
+
+这不是查找，是「内容碰巧是这么拼的」这条假设。改名、换 Spawn 顺序、换语料重新生成，
+世界照样加载、Tick、存档，而每一次点击都落在错误的省份上。
+
+新的 `MapEntityIndex` 用**两半数据**拼出对应关系，各自待在该待的地方：
+
+| 半边 | 来源 | 理由 |
+| --- | --- | --- |
+| index → source_id | 随栅格发布的 `map_province_ids` 资产（独立载荷 + 摘要，57 KB） | 它描述的是**栅格的编码**，属于表现层 |
+| source_id → Entity | 走 `ComponentQuerySnapshot::FindOwners()` 读世界 | 世界本来就带 `source_id`，这半边合法地属于它 |
+
+两半都不是约定。`ClientState::selected/hovered`、`MapIntent`、`MechanismPanel::Read`
+全部改成按 `EntityId` 寻址；`ProvinceProjection` 的行仍是调色板的行号，但行 → Entity
+的表来自 `MapEntityIndex` 而不是重新拼名字。
+
+**这条门禁必须特别设计**，因为这份内容里命名约定**恰好成立**——把实现换回拼名字，
+上面每一条断言都照样通过。唯一能分辨的办法是**让约定为假**：把 id 表里第 11 项和
+第 4096 项对调，重新解析，两个索引解析到的 Entity 必须跟着换。走命名约定的实现对此
+毫无反应。注入验证：换回拼名字后，探针报
+「swapping two entries of the id table did not swap the Entities」。
+
+##### R2：按钮说的是契约，不是动词
+
+`MapIntent::Kind::AdjustLevel` 没有了。此前它是这个通用头文件里一个只含一个业务值的枚举，
+在控件编译器里跟字符串 `"adjust_level"` 比较——Demo 的词汇写进了引擎，公开契约被整条绕过。
+
+**一条硬约束先说清楚**：`MechanismCommandOperation` 的 8 个变体是**冻结**的，
+不能为了 UI 加第 9 个。所以路线不是发明新的 Command，而是用已有的机器：
+
+按钮在布局里声明 **Capability 契约 + 契约自己声明的 operation + 字段 + 增量**：
+
+```
+button = { text = "+1"
+           capability = dillen.map.site_development
+           capability_version = 1
+           operation = adjust_level
+           field = level
+           amount = 1 }
+```
+
+**三道各自独立的检查**，缺一不可：
+
+1. **包声明过要用它**——`requires` 里必须有同名同版本的 `capability` 条目，否则编译期拒绝。
+2. **Ruleset 确实发布了它**——`FindCapability(id, version)`，且 `operation` 必须在
+   契约自己的 `operations` 里，否则包可以随便发明动词而契约形同虚设。
+3. **被命令的实例公开提供它**——`MapCommandTranslator::Translate` 比对该 Definition 的
+   `providedCapabilities`。这一条是前两条都盖不住的：**一个从未声明提供该契约的机制，
+   UI 就是够不着，名字对得再齐也没用。**
+
+通用层现在知道的是 capability、operation、字段、增量——全是 Kernel 概念；
+它不再知道「生产等级」是什么。`MapCommandSpec` 从七个字段缩到两个
+（Definition + 角色名），而 Definition 来自编译好的视图。
+
+##### 又一次「因为错误原因通过」，而且犯了两遍
+
+第一版的「`requires` 对 capability 是承重的」测的是 `dillen.map.undeclared`——
+这个名字 Ruleset 里也没有，所以是 Ruleset 查找先失败，对 `requires` 什么都没说。
+把 `declared` 检查注入掉，断言依然全绿。
+
+改成「删掉声明、保留使用」之后**还是不discriminating**：版本号原本取自 requires 条目，
+声明一删版本变成 0，Ruleset 在版本 0 上查找失败——两道检查坍缩成了一道。
+
+真正的修法是让两道检查**互相独立**：版本号改由**控件自己声明**，
+Ruleset 那道题就在控件要的版本上回答，`requires` 那道题单独问。
+这之后同一注入立刻报错。
+
+这是本项目第三次栽在同一件事上（角色写入没进黄金夹具、`requires` 对字段、
+`requires` 对 capability）。**判据已经很清楚：一条拒绝性断言，必须让被测的那道检查
+成为唯一可能失败的那道。** 否则它只是在测别的东西。
+
+##### 门禁
+
+`control_tree_probe`：**17 处编译期拒绝**（新增：契约未声明的 operation、
+包未声明使用的 capability、无人听说过的 capability），加 id 表对调、
+Entity 往返、以及从另一侧验证的契约检查（伪造一个 Definition 未提供的 capability，
+必须被 `CapabilityNotProvided` 拒绝）。
+`map_command_probe`：14187 个省份仍全部解析，两条路径 4074093 字节存档逐字节相同。
+
+**注入命中**：命名约定回归、契约提供未检查、operation 未检查、`requires` 未查。
+
+
+#### 4.4.8 性能与边界审查（已完成，2026-09-02）
+
+五条人工审查发现，逐条修正。
+
+##### 1. 每帧同步拾取造成流水线停顿
+
+悬停要连续采样，而 `PickAt()` 是同步回读：CPU 向 GPU 要一个它还没画完的像素，
+然后阻塞等它画完——**为了移动一个高亮，每帧一次完整流水线停顿**。
+
+改成**两个 Pixel Pack Buffer 轮转**：`RequestPick()` 把回读发进其中一个（此时
+`glReadPixels` 的目标指针是缓冲内偏移而不是内存地址，调用变成异步的），
+下一次调用去 map 另一个——至少一帧前填好的那个。一个缓冲不行：map 它就等于等
+刚刚发进去的那次传输。
+
+**两个入口而不是一个**：`RequestPick`/`LastPick` 的答案晚一两帧，对光标不可见；
+点击必须精确，所以点击仍走同步的 `PickAt`。
+
+踩的坑:PBO 只按像素大小分配了 2 字节，而 `GL_PACK_ALIGNMENT` 默认 4 会把一行补齐，
+传输**静默什么都不写**，异步拾取一直返回 0。现在分配 4 字节并显式把对齐设为 1——
+两处都做，让它不依赖任何一处写对。
+
+##### 2. 窗口不可调整大小
+
+`SDL_WINDOW_RESIZABLE` 加上，但真正的工作是 `BuildTargets()`：
+颜色、ID、深度三个附件按新尺寸重建。只加标志不重建比固定尺寸**更糟**——
+地图会画进旧尺寸的缓冲，拾取会读到光标已经不在的像素。
+监听的是 `SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED`（drawable 尺寸，不是窗口尺寸：
+高 DPI 屏上两者不同，而这里每一个像素量都是 drawable 坐标）。
+重建时把在途的拾取请求作废——它是对旧附件发的，答案指向一个不再存在的像素。
+
+##### 3. GL 冒烟测试进 CTest
+
+此前它**不在清单里**且在没有 GPU 时返回 0。两件事叠起来的后果是：
+一台**能**跑它的机器也从来不跑，渲染后端的回归可以一路绿到底。
+
+现在注册进 CTest，并用 `SKIP_RETURN_CODE 77`：没有 GPU 或没有显示器时退出 77，
+CTest 报「Skipped」——这是唯一诚实的答案。返回 0 让「跑不了」和「跑通了」无法区分。
+渲染器配置现在是 **39/39**。
+
+##### 4. 字体图集只支持 ASCII 32–126
+
+三样东西：**UTF-8 解码**、**任意且可不连续的码点区间**、**分行装箱**。
+
+区间用 `codepoints = 32-126,0x4E00-0x9FFF` 声明，因为有意义的区间**不连续**：
+中文界面要拉丁标点和 U+4E00 起的一块，中间两万个码点一个不要，单个 first/last
+说不出这件事。
+
+装箱改成 shelf：一行放满就换行。图幅上限 **4096×4096**（一张即可——
+常用汉字约两万个字形，UI 尺寸下约 540 万覆盖像素，对 4096 方阵的 1670 万绰绰有余；
+排成一行则是 25 万像素宽，根本不是任何纹理）。装不下**明确拒绝而不是截断**——
+静默丢掉区间尾部，正是「字体恰好缺了没人测过的那些字」的来源。
+上限可由包声明（`atlas_max_width`），既为纹理限制更小的设备，也为了让换行本身可测。
+
+**字体没有的码点必须拒绝**：`FT_Load_Char` 对未映射码点会成功返回 .notdef 空心框，
+接受它等于允许包声明任意区间然后得到一堆方框——正是这一层在别处一直拒绝的替换。
+
+##### 5. 没有真正的 `DILLEN_BUILD_PRESENTATION` 边界
+
+「表现层可选」此前只是**说法**：纯 Standalone 配置照样编译 FreeType 和整个表现层。
+现在是一个真实配置——`DILLEN_BUILD_PRESENTATION=OFF` 下没有表现层目标、
+没有依赖它的探针、也不配置任何只为它存在的第三方源码。
+实测：纯 Standalone **28/28** 且构建树里没有 `third_party`；完整配置 38/38。
+
+这条让 §4.4.0.4 的「可删除性」从断言变成**可检验的**：它不再是「没人链接它」这句话，
+而是一个每次都能构建出来的配置。
+
+##### 门禁与注入
+
+`map_renderer_smoke` 新增：三次 resize 后中心与角落像素仍可寻址、
+异步拾取的结果必须等于同一像素的同步结果。
+`text_atlas_probe` 新增：UTF-8 解码七个用例（含截断与非法续字节，
+畸形输入只花一个替换字形而不是一个不终止的循环）、不连续区间、
+区间之间的空隙真的是空隙、窄图幅强制分行后字形框互不重叠且都在图幅内、
+字体缺失码点被拒、畸形区间列表被拒。
+
+**注入命中**：不换行（用 256 宽图幅强制才测得出——默认 4096 下拉丁区间根本不换行，
+只能用默认值的门禁无论换不换都会通过）、接受 .notdef、UTF-8 按字节解码。
+
+
+#### 4.4.9 第二轮审查修正（已完成，2026-09-02）
+
+##### 1. 宿主仍写死包里的名字
+
+`dillen.map.region`、`dillen.map.geography/source_id`、角色 `province` 仍在
+`main.cpp` 里。前两个其实**已经在 id 表资产的属性里**（R1 放进去的），
+只是宿主没读回来；角色则完全没有出口。
+
+- 角色进 **Presentation Binding**：`ui_binding` 的 `properties` 新增
+  `subject_role`，编译进 `CompiledPresentationView::subjectRoleName`，
+  宿主用 `tree.SubjectRole()`。此前那个字符串字面量意味着一个包只能被
+  「用同一个词表达同一个意思」的包替换。
+- 实体类型与组件字段从 `MapEntityIndex::Spec()` 读回——那是 id 表资产自己的声明。
+
+**现在 `main.cpp` 里剩下的包名只有 Root Ruleset 名和包路径**，
+其余机制 / Definition / 字段 / 实体类型 / 组件 / 角色全部来自包。
+
+##### 2. 稳定 ID 转换发生在宿主而不是 Map Widget 内部
+
+`PickAt()` 返回 uint16 稠密索引，每个画地图的宿主各自把它转成实体——
+把地图上**唯一不是位置的东西**（身份）放到了产生它的控件之外，还让每个宿主重复一遍。
+
+`MapRenderer::SetEntityIndex()` + `PickEntityAt()` / `LastPickedEntity()`：
+转换回到控件自己的 API 里。`PickAt` / `LastPick` 保留给后端自己的门禁——
+它们必须能断言栅格索引，因为那才是 ID 附件里装的东西。
+
+##### 3. 调色板固定 128×128
+
+那是一个**渲染侧的 16383 上限**，内容看不见、没人报告，
+多一个省份就会静默绕回到别人的颜色上。
+
+尺寸改为由省份数推导（每省一格 + 第 0 行「无省份」，向上取到 2 的幂），
+着色器里的 `128` 换成 `uPaletteSide` uniform，调色板边长和容量由
+`PaletteSide()` / `PaletteSize()` 告诉调用方。
+
+**门禁放在无头探针里而不是 GPU 冒烟里**，因为这条性质是算术而不是 GPU 行为——
+而且这份地图只有 14187 个省，128×128 = 16384 恰好够用，**冒烟测试根本分辨不出来**
+（把边长改回固定 128 注入，冒烟照样全绿）。
+`PaletteSideFor()` 做成自由函数，`province_projection_probe` 用
+0 / 1 / 255 / 14187 / 16383 / **16384** / 16385 / 65534 各测一遍：
+既够用、是 2 的幂、又不比需要的大一倍。同一注入立刻报出 9 处失败。
+
+**剩下的真实上限被明确拒绝而不是绕回**：ID 附件是 R16UI，最多 65534 个省份，
+超过时 `Open` 直接拒绝并说明——抬高它是格式变更（R32UI 加更宽的回读），不是改个常数。
+
+##### 4. 资源路径缺 Windows 规范化检查，摘要只查长度
+
+路径检查只认识 `/` 和 `:`，而这个解析器**在 Windows 上也跑**——
+`..\secrets.bin`、`skins\..\secrets.bin`、`\\host\share\r.bin` 在真正能解析它们的
+系统上全部放行。现在按**段**检查（而不是整串找 `..`，那会误伤 `world..v2.bin`
+这种合法文件名）：反斜杠也是分隔符、盘符、UNC 根、空段、`.` 段、`..` 段一律拒绝。
+
+摘要此前只查 64 个字符——所以六十四个字符的散文是合法声明，
+要到后面比对字节时才失败，而那时的报错说的是「字节不匹配」而不是「声明有问题」。
+现在逐字符验 `[0-9a-f]`，且**只接受小写**：大写是同一个摘要的第二种拼法，
+而需要归一化的比较就是会忘记归一化的比较。
+
+端到端触发的诊断码 22 → **30**。
+
+##### 门禁与注入
+
+四种配置全绿：完整 **38/38**、渲染器 **39/39**、纯 Standalone **28/28**、Debug 38/38。
+`map_renderer_smoke` 新增：控件的实体拾取（同步与异步）必须与它自己的栅格索引一致、
+调色板容量必须大于省份数。
+`province_projection_probe` 新增调色板边长推导。
+`authoring_diagnostic_contract_probe` 新增八条路径与摘要拒绝。
+
+**注入命中**：控件的实体拾取偏移一位、调色板边长写死 128（在无头探针里，
+GPU 冒烟测不出来）、路径与摘要的每一条拒绝。
+
+#### 4.4.6 R3：Presentation Source → Compiler → Frozen Catalog（已完成，2026-09-02）
+
+§4.4.5 第 2 条与第 5 条的修复。先做 R3 而不是放到下一个 Demo，是因为它重排整个
+表现层的加载路径，越晚做返工越大。
+
+##### 唯一的架构分叉：Schema 用代码还是用 DSL
+
+本项目其他每一种 Schema 都是数据（Component、Relation、Mechanism），显然的做法是
+再加一种 `.dcontrolschema`。**这个做法是错的**，理由具体而不是口味问题：
+
+Component Schema 声明的形状，Kernel 能据此**通用地**存储、比较、迁移——数据带来了能力。
+控件不是这样：`panel` 要有人排版、`button` 要有人绘制，那个「有人」就是代码。
+所以数据 Schema 只能声明布局引擎**已经实现**的子集，它声明而引擎没实现的种类还必须在
+加载期拒绝。也就是说数据不带来任何代码没有的能力，它只是**同一套语义的第二份实现**，
+靠手工保持同步。
+
+本项目已经因为同一条理由拒绝过两次（声明式 vs 受控脚本；在 GLSL 里重写形变），
+沉淀下来的规矩原样适用:**一套语义只有一个真相来源**。
+
+数据能定义的是数据真正能定义的东西——**布局**：有哪些控件、怎么嵌套、绑什么、显示什么。
+那正是 Presentation 包所写的，也正是 Compiler 拿 Schema 去校验的对象。
+
+所以 Schema 是一个**有类型的注册表**而不是一串手写 `if`：校验变成查表，属性有类型和默认值，
+拼错的属性会带着名字和期望类型被报出来，编译产物按**槽位**而不是字符串寻址。
+
+##### 管线
+
+```
+Presentation Source  （.dasset 的 content 块，Kernel 视为无类型的树）
+      │  PresentationCompiler，对着 Schema Registry 与 Frozen Runtime Catalog
+      ▼
+Frozen Presentation Catalog  ── 不可变、按 id 寻址、没有字符串
+      │
+      ▼
+ControlTree  ── 只剩布局与命中测试的整数算术
+```
+
+`control_tree.cpp` 里现在**一处字符串比较都没有**：控件种类是索引，属性是已知槽位上的
+类型化值，绑定字段是 `MechanismFieldSlotId`。
+
+##### 两个身份，两者都必须记
+
+编译产物只对**它编译自的那些源**、以及**它解析时所对的那个 Ruleset** 有意义——
+字段槽位就是那个 Ruleset 布局里的下标。所以 Catalog 同时记 `PresentationFingerprint`
+（Kernel 早就算的那个，不另发明第二个哈希）与 `RulesetFingerprint`，
+`ControlTree::Bind` 逐个核对。**绑到另一个世界会读到属于别人的真实数字，比读不到更糟。**
+门禁用的第二个世界是 Demo 1.0 夹具，是真的另一套 Ruleset，不是伪造的副本。
+
+##### `requires` 从装饰变成真正的承重
+
+`value` 控件绑定的字段必须出现在同一资产的 `requires` 里，而**那条声明正是 Mechanism 与
+Definition 的来源**——所以宿主不再需要知道机制叫什么、Definition 叫什么、字段叫什么。
+`MechanismPanel::Bind` 的签名从「三个字符串字面量」变成「一个 DefinitionId 加一组已解析槽位」。
+这同时解决了 §4.4.5 第 4 条的大半。
+
+##### 第 5 条：画不画底由配置声明
+
+`background = yes` 成为 Schema 里的属性。此前是 `control.id == "province_panel"`，
+重命名根面板不会报错、只会静默不画。门禁是**把布局里每个 id 都改名后重新编译，
+画底的控件数量必须不变**。
+
+##### 门禁（`control_tree_probe`，全程无头）
+
+Schema：四个种类、冻结语义、重复种类与重复属性被拒。
+Compiler：**13 处加载期拒绝**——拼错的控件种类 / 拼错的属性 / padding 不是数 /
+size 既不是像素也不是 fill / axis 不是轴 / 布尔既不是 yes 也不是 no /
+value 没有 field / 绑了没人听说过的字段 / **绑了 Ruleset 有但包没声明的字段** /
+label 带子控件 / 两个根 / 未冻结的 Schema / 未冻结的 Runtime Catalog。
+编译产物：树是扁平的且父在子前、每个兄弟块连续、字段槽位与 Ruleset 逐一相符。
+
+**六处注入全部命中**：未知键静默忽略、`requires` 松匹配、子控件不受限、
+兄弟块不预留、不核对 Ruleset 指纹、槽位常量被挪动。
+
+##### 三处自己踩的坑，都值得记
+
+1. **扁平化写错了**。深度优先追加会让兄弟节点不连续——A 的孩子插在 A 和 B 之间，
+   于是 `firstChild + childCount` 指到了孙子。探针立刻报「control 5 escapes its parent」。
+   修法是**先把整个兄弟块占位再递归**。
+2. **`assert` 在 Release 里会被编译掉**。槽位常量的守卫如果用 `assert`，
+   在唯一有人跑的构建里就是没人守的。改成无条件检查，失败时把注册表清空且不冻结，
+   之后每一次使用都会大声失败。
+3. **「`requires` 是承重的」那条断言原本测的是错的东西**。它绑的 `throughput` 在
+   Ruleset 里也不存在，所以先在 Ruleset 查找上失败，对 `requires` 检查什么都没说——
+   把 `RequirementFor` 松成「任意一条 mechanism_field 都算」，那条断言依然全绿。
+   改成删掉 `output` 的**声明**但保留布局对它的绑定（Ruleset 里确实有这个字段），
+   同一注入立刻报错。**一个因为错误原因通过的断言，比没有断言更糟。**
 
 ### 4.5 Demo 1.0：Pure Dillen Standalone
 

@@ -94,42 +94,86 @@ if(DILLEN_BUILD_STANDALONE_RUNTIME)
         dillen::authoring
         dillen::parser
     )
-    # Links dillen::presentation explicitly. dillen::standalone deliberately
-    # does not, so this is the only target in the tree that pulls it in.
-    dillen_add_probe(
-        presentation_boundary_probe
-        dillen::host
-        dillen::presentation
-    )
-    dillen_add_probe(world_map_content_probe dillen::adapter)
-    dillen_add_probe(map_view_probe dillen::presentation)
-    # The GL smoke target. Built only with the renderer, and deliberately NOT
-    # registered with CTest: it needs a GPU and a display, which the Linux
-    # cells do not have. Everything it could otherwise prove is already proved
-    # headless by map_view_probe, map_index_raster_probe and
-    # province_projection_probe. Run it by hand.
-    if(DILLEN_BUILD_MAP_RENDERER)
-        add_executable(map_renderer_smoke "map_renderer_smoke.cpp")
-        dillen_configure_target(map_renderer_smoke)
-        target_link_libraries(
-            map_renderer_smoke
-            PRIVATE
-                dillen::host
-                dillen::presentation
-                dillen::presentation::gl
+    # Everything from here to world_map_scale_probe needs the
+    # presentation layer, so none of it is registered without it. That is
+    # what makes DILLEN_BUILD_PRESENTATION=OFF a real configuration
+    # rather than a switch that breaks the build: a pure standalone tree
+    # carries no presentation targets, no probes for them and none of the
+    # third-party sources that exist only to serve them.
+    if(DILLEN_BUILD_PRESENTATION)
+        # Links dillen::presentation explicitly. dillen::standalone deliberately
+        # does not, so this is the only target in the tree that pulls it in.
+        dillen_add_probe(
+            presentation_boundary_probe
+            dillen::host
+            dillen::presentation
+        )
+        dillen_add_probe(world_map_content_probe dillen::adapter)
+        dillen_add_probe(
+            text_atlas_probe
+            dillen::host
+            dillen::presentation
+        )
+        dillen_add_probe(
+            control_tree_probe
+            dillen::host
+            dillen::presentation
+        )
+        dillen_add_probe(
+            client_state_probe
+            dillen::host
+            dillen::presentation
+            dillen::persistence
+        )
+        dillen_add_probe(
+            map_command_probe
+            dillen::host
+            dillen::presentation
+            dillen::persistence
+        )
+        dillen_add_probe(presentation_binding_probe dillen::host)
+        dillen_add_probe(map_view_probe dillen::presentation)
+        # The GL smoke target.
+        #
+        # It IS registered with CTest, but with a skip code rather than a pass: on
+        # a machine with no GPU or no display it exits 77 and CTest reports
+        # "Skipped", which is the honest answer. It used to exit 0 there and to be
+        # left out of the listing entirely -- so a machine that COULD have run it
+        # never did, and a renderer regression could reach a green board.
+        #
+        # Everything it could otherwise prove is proved headless by map_view_probe,
+        # map_index_raster_probe and province_projection_probe; what only it can
+        # say is that the backend turns those results into the right pixels.
+        if(DILLEN_BUILD_MAP_RENDERER)
+            add_executable(map_renderer_smoke "map_renderer_smoke.cpp")
+            dillen_configure_target(map_renderer_smoke)
+            target_link_libraries(
+                map_renderer_smoke
+                PRIVATE
+                    dillen::host
+                    dillen::presentation
+                    dillen::presentation::gl
+            )
+            add_test(NAME map_renderer_smoke COMMAND map_renderer_smoke)
+            set_tests_properties(
+                map_renderer_smoke
+                PROPERTIES
+                    WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/.."
+                    SKIP_RETURN_CODE 77
+            )
+        endif()
+        dillen_add_probe(
+            map_index_raster_probe
+            dillen::host
+            dillen::presentation
+            dillen::adapter
+        )
+        dillen_add_probe(
+            province_projection_probe
+            dillen::host
+            dillen::presentation
         )
     endif()
-    dillen_add_probe(
-        map_index_raster_probe
-        dillen::host
-        dillen::presentation
-        dillen::adapter
-    )
-    dillen_add_probe(
-        province_projection_probe
-        dillen::host
-        dillen::presentation
-    )
     dillen_add_probe(world_map_scale_probe dillen::host)
     dillen_add_probe(standalone_host_probe dillen::host)
     dillen_add_probe(dillen_demo_1_0_probe dillen::host)

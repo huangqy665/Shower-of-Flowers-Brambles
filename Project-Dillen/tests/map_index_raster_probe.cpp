@@ -31,8 +31,12 @@ namespace
 namespace fs = std::filesystem;
 using namespace dillen;
 
-const fs::path kWorldRoot = "Dillen-Game/world";
-const fs::path kMapRoot = "Dillen-Game/content/map";
+const fs::path kGameRoot = "Dillen-Game";
+const fs::path kMapSourceRoot = kGameRoot / "map/source";
+const fs::path kMapContractsRoot = kGameRoot / "map/contracts";
+const fs::path kMapMechanismRoot = kGameRoot / "production/map_world";
+const fs::path kMapWorldRoot = kGameRoot / "map/world";
+const fs::path kMapPresentationRoot = kGameRoot / "presentation/map_world";
 
 int failures = 0;
 
@@ -49,16 +53,19 @@ host::StandaloneSessionConfig Config(bool withPresentation)
 {
     host::StandaloneSessionConfig config;
     config.sources.push_back({
-        "world_map_contracts", kWorldRoot / "contracts", 0, {}, {}, {}
+        "world_map_contracts", kMapContractsRoot, 0, {}, {}, {}
     });
     config.sources.push_back({
-        "world_map_content", kWorldRoot / "content", 100, {}, {}, {}
+        "world_map_mechanisms", kMapMechanismRoot, 50, {}, {}, {}
+    });
+    config.sources.push_back({
+        "world_map_content", kMapWorldRoot, 100, {}, {}, {}
     });
     if (withPresentation)
     {
         config.sources.push_back({
             "world_map_presentation",
-            kWorldRoot / "presentation",
+            kMapPresentationRoot,
             200,
             {},
             {},
@@ -74,11 +81,32 @@ host::StandaloneSessionConfig Config(bool withPresentation)
     return config;
 }
 
+
+// Counts assets of one kind. Asserting on kinds rather than on a total is not
+// pedantry: the Package gained a font between two rounds of this work, and a
+// probe that counted assets failed for a reason that had nothing to do with
+// what it was testing.
+std::size_t CountKind(
+    const std::vector<kernel::PresentationAsset>& assets,
+    const std::string& kind
+)
+{
+    std::size_t total = 0;
+    for (const kernel::PresentationAsset& asset : assets)
+    {
+        if (asset.kind == kind)
+        {
+            ++total;
+        }
+    }
+    return total;
+}
+
 }
 
 int main()
 {
-    if (!fs::exists(kWorldRoot / "presentation"))
+    if (!fs::exists(kMapPresentationRoot))
     {
         std::cerr << "map index raster: the presentation package is missing"
                      " -- regenerate with DILLEN_REGENERATE_WORLD_MAP=1\n";
@@ -108,9 +136,9 @@ int main()
         "a Presentation Package entered the Package Lock");
     Check(bare.PresentationAssets().empty(),
         "assets appeared without a Presentation Package");
-    Check(skinned.PresentationAssets().size() == 1,
-        "expected exactly one declared asset, got "
-            + std::to_string(skinned.PresentationAssets().size()));
+    Check(CountKind(skinned.PresentationAssets(), "map_index_raster") == 1
+            && CountKind(skinned.PresentationAssets(), "ui_binding") == 1,
+        "the skin does not carry one raster and one panel binding");
     // Presentation has an identity of its own; it is simply not the one the
     // simulation is sealed with.
     Check(!static_cast<bool>(bare.PresentationFingerprint()),
@@ -123,8 +151,24 @@ int main()
         std::cerr << "map index raster: nothing to load\n";
         return 3;
     }
-    const kernel::PresentationAsset& asset =
-        skinned.PresentationAssets().front();
+    // Picked by kind rather than by position: the Package declares more than
+    // one asset now, and front() would silently become the wrong one the next
+    // time an asset is added ahead of it.
+    const kernel::PresentationAsset* found = nullptr;
+    for (const kernel::PresentationAsset& candidate
+        : skinned.PresentationAssets())
+    {
+        if (candidate.kind == "map_index_raster")
+        {
+            found = &candidate;
+        }
+    }
+    if (found == nullptr)
+    {
+        std::cerr << "map index raster: no map_index_raster asset\n";
+        return 3;
+    }
+    const kernel::PresentationAsset& asset = *found;
 
     const auto start = std::chrono::steady_clock::now();
     const presentation::MapIndexRaster raster =
@@ -154,8 +198,15 @@ int main()
     // does not prove the payload was ever right. Only the corpus can say that,
     // so the corpus is asked.
     adapter::ProvinceRasterImportOptions importOptions;
-    importOptions.raster = kMapRoot / "provinces.bmp";
-    importOptions.definitions = kMapRoot / "definition.csv";
+    importOptions.raster = kMapSourceRoot / "provinces.bmp";
+    importOptions.definitions = kMapSourceRoot / "definition.csv";
+    // The map in Dillen-Game is already north-up, so no corpus flip. The
+    // option stays because HOI3's own bitmaps are not: a corpus imported
+    // straight from that game needs it set, and which way round a given
+    // corpus is cannot be inferred -- it has to be stated.
+    // province_raster_import_probe is the gate either way.
+    importOptions.northAtImageBottom = false;
+
     const adapter::ProvinceRasterImport imported =
         adapter::ImportProvinceRaster(importOptions);
     if (!imported)

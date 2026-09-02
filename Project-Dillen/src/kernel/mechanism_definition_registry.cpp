@@ -180,26 +180,29 @@ MechanismDefinitionDeclareResult MechanismDefinitionRegistry::Declare(
         const auto iterator = definition.roles.find(roleSchema.name);
         if (iterator == definition.roles.end())
         {
-            // A minimum count a Definition cannot possibly satisfy is not a
-            // Definition error.
+            // A required role must be filled by the time an INSTANCE is
+            // created. It does not have to be filled here.
             //
-            // Entity targets have stable ids derivable from a Definition name,
-            // so a Definition can name one. A Mechanism Instance does not
-            // exist until a Spawn creates it, so a role slot of that kind can
-            // only be filled at Spawn time -- which means requiring it here
-            // would make every such Schema unregisterable and put the engine
-            // back where it was: the slot kind declared but unusable.
+            // Both a Definition and a Spawn can bind a role, and the Spawn's
+            // bindings are merged over the Definition's. Enforcing the minimum
+            // here therefore forbids a shape that is not only legal but
+            // necessary: one shared Definition whose instances are told apart
+            // by per-Spawn bindings. A world of 14187 provinces, each with its
+            // own production mechanism, is exactly that -- one Definition,
+            // 14187 Spawns, each binding its own province.
             //
-            // The requirement is not dropped, only moved. The Spawn registry
-            // re-checks every schema role against the merged Definition-plus-
-            // Spawn bindings, so an unbound required role is still rejected --
-            // at the point where it could have been bound.
-            if (roleSchema.minimumCount != 0
-                && roleSchema.referenceKind
-                    != MechanismReferenceKind::MechanismInstance)
-            {
-                return MechanismDefinitionDeclareResult::RoleBindingInvalid;
-            }
+            // Nothing is dropped, only moved to where it can be answered:
+            //
+            //   * MechanismSpawnDefinitionRegistry re-checks every schema role
+            //     against the merged Definition-plus-Spawn bindings, and the
+            //     initial world is built only from Spawns;
+            //   * MechanismInstanceStore::CreateFromDefinition -- the other
+            //     door to a live instance -- checks the same thing itself.
+            //
+            // This started as a special case for Mechanism Instance roles,
+            // which a Definition cannot name because the instance does not
+            // exist yet. The general rule turned out to be the same rule, and
+            // the special case was hiding it.
             continue;
         }
         if (!RoleBindingsValid(roleSchema, iterator->second))

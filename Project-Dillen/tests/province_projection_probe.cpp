@@ -5,6 +5,7 @@
 #include <memory>
 #include <string>
 
+#include "map_entity_index.hpp"
 #include "province_projection.hpp"
 #include "standalone_session.hpp"
 
@@ -33,7 +34,11 @@ namespace
 namespace fs = std::filesystem;
 using namespace dillen;
 
-const fs::path kWorldRoot = "Dillen-Game/world";
+const fs::path kGameRoot = "Dillen-Game";
+const fs::path kMapContractsRoot = kGameRoot / "map/contracts";
+const fs::path kMapMechanismRoot = kGameRoot / "production/map_world";
+const fs::path kMapWorldRoot = kGameRoot / "map/world";
+const fs::path kMapPresentationRoot = kGameRoot / "presentation/map_world";
 constexpr std::uint32_t kExpectedProvinces = 14187;
 
 int failures = 0;
@@ -58,9 +63,9 @@ runtime::WorldQuerySnapshotHandle Publish(host::StandaloneSession& session)
 
 int main()
 {
-    if (!fs::exists(kWorldRoot))
+    if (!fs::exists(kMapWorldRoot))
     {
-        std::cerr << "province projection: " << kWorldRoot
+        std::cerr << "province projection: " << kMapWorldRoot
                   << " is missing -- generate it with "
                      "DILLEN_REGENERATE_WORLD_MAP=1\n";
         return 1;
@@ -68,10 +73,25 @@ int main()
 
     host::StandaloneSessionConfig config;
     config.sources.push_back({
-        "world_map_contracts", kWorldRoot / "contracts", 0, {}, {}, {}
+        "world_map_contracts", kMapContractsRoot, 0, {}, {}, {}
     });
     config.sources.push_back({
-        "world_map_content", kWorldRoot / "content", 100, {}, {}, {}
+        "world_map_mechanisms", kMapMechanismRoot, 50, {}, {}, {}
+    });
+    config.sources.push_back({
+        "world_map_content", kMapWorldRoot, 100, {}, {}, {}
+    });
+    // The Presentation Package, for the raster's id table. A probe that
+    // addresses Entities has to read the same table the viewer does; building
+    // the correspondence any other way would be the naming convention again,
+    // in a test.
+    config.sources.push_back({
+        "world_map_presentation",
+        kMapPresentationRoot,
+        200,
+        {},
+        {},
+        {}
     });
     config.rulesets.root = {
         kernel::StableRulesetId("dillen.map.world_root"),
@@ -94,25 +114,48 @@ int main()
 
     presentation::ProvinceProjectionSpec spec;
     spec.entityTypeName = "dillen.map.region";
-    spec.namePrefix = "dillen.map.region_";
     spec.count = kExpectedProvinces;
     spec.columns.push_back({"dillen.map.geography", 1, "source_id"});
-
-    presentation::ProvinceProjection projection;
-    std::string message;
-    const presentation::ProvinceProjectionStatus bound =
-        projection.Bind(session.Catalog(), spec, message);
-    if (bound != presentation::ProvinceProjectionStatus::Ok)
-    {
-        std::cerr << "province projection: bind failed: " << message << '\n';
-        return 3;
-    }
 
     presentation::PresentationView view;
     if (!view.Advance(Publish(session)))
     {
         std::cerr << "province projection: nothing was published\n";
         return 4;
+    }
+
+    // The row -> Entity table comes from data now: the id table the raster
+    // ships plus the source_id the world carries. It used to be
+    // `namePrefix + std::to_string(row)`, which is an assumption about how
+    // the content is spelled rather than a lookup.
+    std::string message;
+    presentation::MapEntityIndex entities;
+    const kernel::PresentationAsset* idAsset = nullptr;
+    for (const kernel::PresentationAsset& asset : session.PresentationAssets())
+    {
+        if (asset.kind == "map_province_ids")
+        {
+            idAsset = &asset;
+            break;
+        }
+    }
+    if (idAsset == nullptr
+        || entities.Bind(session.Catalog(), *idAsset, message)
+            != presentation::MapEntityIndexStatus::Ok
+        || entities.Resolve(view) != presentation::MapEntityIndexStatus::Ok)
+    {
+        std::cerr << "province projection: the entity index failed: "
+                  << message << '\n';
+        return 3;
+    }
+
+    presentation::ProvinceProjection projection;
+    const presentation::ProvinceProjectionStatus bound =
+        projection.Bind(session.Catalog(), spec, entities, message);
+    if (bound != presentation::ProvinceProjectionStatus::Ok)
+    {
+        std::cerr << "province projection: bind failed: " << message << '\n';
+        return 3;
     }
 
     const auto start = std::chrono::steady_clock::now();
@@ -169,7 +212,7 @@ int main()
         "refreshing the same snapshot twice produced different values");
 
     presentation::ProvinceProjection second;
-    Check(second.Bind(session.Catalog(), spec, message)
+    Check(second.Bind(session.Catalog(), spec, entities, message)
             == presentation::ProvinceProjectionStatus::Ok,
         "the second projection failed to bind");
     Check(second.Refresh(view) == presentation::ProvinceProjectionStatus::Ok,
@@ -205,6 +248,45 @@ int main()
     // Nothing in this world changes on a tick, so the values must not either.
     Check(projection.Values() == first,
         "an idle tick changed the projected values");
+
+    // --- the palette has no ceiling of its own -------------------------
+    //
+    // The renderer used to hold a fixed 128x128 palette: 16384 texels, so a
+    // map of more than 16383 regions would have wrapped onto other regions'
+    // colours with nothing reporting it. The size is derived now, and this is
+    // where the derivation is checked -- for counts the shipped map cannot
+    // reach, which is exactly why the GPU smoke test cannot check it.
+    {
+        const std::uint32_t counts[] = {
+            0u, 1u, 3u, 4u, 255u, 14187u, 16383u, 16384u, 16385u, 65534u
+        };
+        for (const std::uint32_t count : counts)
+        {
+            const std::uint32_t side = presentation::PaletteSideFor(count);
+            Check(static_cast<std::uint64_t>(side) * side
+                    >= static_cast<std::uint64_t>(count) + 1u,
+                "a palette of side " + std::to_string(side)
+                    + " cannot hold " + std::to_string(count)
+                    + " regions and row 0");
+            // A power of two, and no larger than it has to be: halving it
+            // must stop being enough.
+            Check((side & (side - 1u)) == 0u,
+                "the palette side " + std::to_string(side)
+                    + " is not a power of two");
+            if (side > 1u)
+            {
+                const std::uint32_t half = side / 2u;
+                Check(static_cast<std::uint64_t>(half) * half
+                        < static_cast<std::uint64_t>(count) + 1u,
+                    "the palette for " + std::to_string(count)
+                        + " regions is twice as large as it needs to be");
+            }
+        }
+        // The point of the change, stated as one assertion: past the old
+        // ceiling the palette grows.
+        Check(presentation::PaletteSideFor(16384u) > 128u,
+            "a map larger than 16383 regions still gets a 128 palette");
+    }
 
     if (failures != 0)
     {

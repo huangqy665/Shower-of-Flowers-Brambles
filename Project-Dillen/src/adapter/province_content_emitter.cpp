@@ -1,6 +1,7 @@
 #include "province_content_emitter.hpp"
 
 #include <fstream>
+#include <iterator>
 #include <system_error>
 #include <utility>
 #include <vector>
@@ -95,7 +96,8 @@ std::string Manifest(
     const std::string& role,
     const std::string& digest,
     int priority,
-    const std::string& dependency
+    const std::string& dependency,
+    const std::string& providedCapability = {}
 )
 {
     std::string text;
@@ -119,6 +121,18 @@ std::string Manifest(
         text += "            maximum_minor = 0\n";
         text += "            maximum_patch = 0\n";
         text += "            required = yes\n";
+        text += "        }\n";
+        text += "    }\n";
+    }
+    if (!providedCapability.empty())
+    {
+        // A Capability Contract is only usable once its Package says it
+        // publishes it. Declaring the contract file alone would leave
+        // the Ruleset with a name nothing offers.
+        text += "    provides = {\n";
+        text += "        capability = {\n";
+        text += "            name = " + providedCapability + "\n";
+        text += "            version = 1\n";
         text += "        }\n";
         text += "    }\n";
     }
@@ -151,9 +165,42 @@ ProvinceContentReport EmitProvinceContent(
 )
 {
     ProvinceContentReport report;
+    if (options.root.empty())
+    {
+        return Fail(
+            ProvinceContentStatus::RootNotWritable,
+            "the game content root is empty"
+        );
+    }
+
+    // Domain-first Dillen-Game layout. Each path is still a separate Source
+    // Layer with exactly one Manifest; physical co-location by domain must not
+    // blur the Package role boundary enforced by AuthoringSession.
+    const std::filesystem::path contractRoot =
+        options.root / "map/contracts";
+    const std::filesystem::path contentRoot = options.root / "map/world";
+    const std::filesystem::path presentationRoot =
+        options.root / "presentation/map_world";
+    const std::filesystem::path mechanismRoot =
+        options.root / "production/map_world";
+
+    // Regeneration owns only these four generated Source Layers. Removing the
+    // whole Dillen-Game root would also delete hand-authored mechanisms,
+    // Rulesets and source corpora merely because they share the same game.
     std::error_code error;
-    std::filesystem::remove_all(options.root, error);
-    error.clear();
+    for (const std::filesystem::path& generatedRoot : {
+            contractRoot, contentRoot, presentationRoot, mechanismRoot})
+    {
+        std::filesystem::remove_all(generatedRoot, error);
+        if (error)
+        {
+            return Fail(
+                ProvinceContentStatus::RootNotWritable,
+                "could not clear generated package directory: "
+                    + generatedRoot.string()
+            );
+        }
+    }
 
     // Two Packages, because schemas and instances are different kinds of
     // statement.
@@ -166,19 +213,21 @@ ProvinceContentReport EmitProvinceContent(
     // line -- and the refusal is right. A generated world that shipped its
     // schemas inside its Content would be unusable by any mechanism that did
     // not also want that specific map.
-    const std::filesystem::path contractRoot = options.root / "contracts";
-    const std::filesystem::path contentRoot = options.root / "content";
-    const std::filesystem::path presentationRoot =
-        options.root / "presentation";
     if (!MakeDirectories(
             contractRoot,
-            {"packages", "components", "relations/schemas"})
+            {"packages", "components", "relations/schemas", "capabilities"})
         || !MakeDirectories(
             contentRoot,
-            {"packages", "entities", "relations/definitions", "rulesets"})
+            {
+                "packages", "entities", "relations/definitions",
+                "definitions", "spawns", "rulesets"
+            })
         || !MakeDirectories(
             presentationRoot,
-            {"packages", "assets/rasters"}))
+            {"packages", "assets/rasters", "assets/fonts"})
+        || !MakeDirectories(
+            mechanismRoot,
+            {"packages", "mechanisms", "algorithms"}))
     {
         return Fail(
             ProvinceContentStatus::RootNotWritable,
@@ -187,7 +236,7 @@ ProvinceContentReport EmitProvinceContent(
     }
 
     // --- Contract Package -------------------------------------------------
-    PackageWriter contracts(contractRoot, 4);
+    PackageWriter contracts(contractRoot, 5);
 
     std::string component;
     component += "component_schema = {\n";
@@ -210,6 +259,30 @@ ProvinceContentReport EmitProvinceContent(
         return Fail(ProvinceContentStatus::WriteFailed, "component schema");
     }
 
+    // The Capability Contract a UI acts through.
+    //
+    // Before this, a button carried `action = adjust_level` and the generic
+    // control compiler compared that against a string literal it held itself:
+    // a Demo's vocabulary written into the engine, and the public contract
+    // bypassed entirely. The verb now lives here, in content, and the engine
+    // knows only that a control names SOME contract and SOME operation the
+    // contract declares.
+    std::string capability;
+    capability += "capability_contract = {\n";
+    capability += "    name = " + options.capabilityName + "\n";
+    capability += "    version = 1\n";
+    capability += "    deterministic = yes\n";
+    capability += "    operations = { " + options.capabilityOperation
+        + " }\n";
+    capability += "}\n";
+    if (!contracts.Emit(
+            "capabilities/site_development.dcapability",
+            std::move(capability),
+            report))
+    {
+        return Fail(ProvinceContentStatus::WriteFailed, "capability contract");
+    }
+
     std::string relationSchema;
     relationSchema += "relation_schema = {\n";
     relationSchema += "    name = " + options.relationName + "\n";
@@ -229,14 +302,21 @@ ProvinceContentReport EmitProvinceContent(
     const std::string contractName = options.packageName + ".contracts";
     if (!contracts.Emit(
             "packages/contracts.dpackage",
-            Manifest(contractName, "contract", contracts.Digest(), 0, {}),
+            Manifest(
+                contractName,
+                "contract",
+                contracts.Digest(),
+                0,
+                {},
+                options.capabilityName
+            ),
             report))
     {
         return Fail(ProvinceContentStatus::WriteFailed, "contract manifest");
     }
 
     // --- Content Package --------------------------------------------------
-    PackageWriter content(contentRoot, 6);
+    PackageWriter content(contentRoot, 8);
 
     std::string entities;
     entities.reserve(static_cast<std::size_t>(imported.Count()) * 24 + 512);
@@ -297,6 +377,55 @@ ProvinceContentReport EmitProvinceContent(
         return Fail(ProvinceContentStatus::WriteFailed, "relation table");
     }
 
+    // One Definition, shared by every province.
+    //
+    // It binds no role: the province a given instance belongs to is a Spawn's
+    // statement, not a Definition's. That is what lets 14187 instances share
+    // one Definition instead of needing 14187 of them.
+    std::string definition;
+    definition += "mechanism_definition = {\n";
+    definition += "    name = " + options.mechanismDefinitionName + "\n";
+    definition += "    mechanism = " + options.mechanismName + "\n";
+    definition += "    schema_version = 1\n";
+    // What this Definition publicly offers. The translator refuses to
+    // command an instance whose Definition never declared this, so a UI cannot
+    // reach a mechanism that has not offered to be reached.
+    definition += "    provides_capabilities = { " + options.capabilityName
+        + " }\n";
+    definition += "    algorithm = " + options.algorithmName + "\n";
+    definition += "    algorithm_version = 1\n";
+    definition += "}\n";
+    if (!content.Emit(
+            "definitions/site.ddefinition",
+            std::move(definition),
+            report))
+    {
+        return Fail(ProvinceContentStatus::WriteFailed, "definition");
+    }
+
+    std::string spawns;
+    spawns.reserve(static_cast<std::size_t>(imported.Count()) * 32 + 512);
+    spawns += "spawn_table = {\n";
+    spawns += "    mechanism = " + options.mechanismName + "\n";
+    spawns += "    definition = " + options.mechanismDefinitionName + "\n";
+    spawns += "    name_prefix = " + options.spawnPrefix + "\n";
+    spawns += "    role = province\n";
+    spawns += "    target_entity_type = " + options.entityTypeName + "\n";
+    spawns += "    target_prefix = " + options.namePrefix + "\n";
+    spawns += "    rows = {\n";
+    for (std::uint32_t index = 1; index <= imported.Count(); ++index)
+    {
+        const std::string suffix = std::to_string(index);
+        spawns += "        row = { " + suffix + "  " + suffix + " }\n";
+    }
+    spawns += "    }\n";
+    spawns += "}\n";
+    report.spawns = imported.Count();
+    if (!content.Emit("spawns/world.dspawntable", std::move(spawns), report))
+    {
+        return Fail(ProvinceContentStatus::WriteFailed, "spawn table");
+    }
+
     std::string ruleset;
     ruleset += "root_ruleset = {\n";
     ruleset += "    name = " + options.rulesetName + "\n";
@@ -308,7 +437,24 @@ ProvinceContentReport EmitProvinceContent(
     ruleset += "        requirement = { name = " + options.packageName
         + "  minimum_major = 1 minimum_minor = 0 minimum_patch = 0"
           "  maximum_major = 2 maximum_minor = 0 maximum_patch = 0 }\n";
+    ruleset += "        requirement = { name = "
+        + options.mechanismPackageName
+        + "  minimum_major = 1 minimum_minor = 0 minimum_patch = 0"
+          "  maximum_major = 2 maximum_minor = 0 maximum_patch = 0 }\n";
     ruleset += "    }\n";
+    ruleset += "    required_schemas = { " + options.mechanismName
+        + " = 1 }\n";
+    ruleset += "    required_algorithms = { " + options.algorithmName
+        + " = 1 }\n";
+    ruleset += "    required_definitions = {\n";
+    ruleset += "        requirement = { mechanism = "
+        + options.mechanismName + "  name = "
+        + options.mechanismDefinitionName + " }\n";
+    ruleset += "    }\n";
+    // Every Spawn, one line. Naming 14187 requirements would move the
+    // enormous file into the Ruleset rather than remove it, exactly as
+    // it would for the entities and the borders.
+    ruleset += "    required_spawns = { all = yes }\n";
     ruleset += "    required_components = { " + options.componentName
         + " = 1 }\n";
     ruleset += "    required_relations = { " + options.relationName
@@ -322,6 +468,95 @@ ProvinceContentReport EmitProvinceContent(
     if (!content.Emit("rulesets/world.druleset", std::move(ruleset), report))
     {
         return Fail(ProvinceContentStatus::WriteFailed, "ruleset");
+    }
+
+    // --- Mechanism Package ------------------------------------------------
+    //
+    // One production mechanism per province, which is what makes this a test
+    // of the engine rather than of a picture. 14187 instances is two orders of
+    // magnitude past Demo 0.5 and the first time the tick has been asked to
+    // carry a real world.
+    //
+    // The algorithm is deliberately tiny. At this instance count every
+    // instruction is multiplied by 14187, and what is being measured is the
+    // floor -- what a world costs per tick before any interesting mechanic
+    // exists. A large algorithm here would measure the algorithm.
+    PackageWriter mechanisms(mechanismRoot, 4);
+
+    std::string mechanism;
+    mechanism += "mechanism_template = {\n";
+    mechanism += "    name = " + options.mechanismName + "\n";
+    mechanism += "    version = 1\n";
+    mechanism += "    fields = {\n";
+    mechanism += "        field = { name = level   kind = integer "
+                 " required = yes  default = 1 }\n";
+    mechanism += "        field = { name = output  kind = decimal "
+                 " required = yes  default = 0.0 }\n";
+    mechanism += "    }\n";
+    mechanism += "    roles = {\n";
+    // minimum_count = 1 and bound by the Spawn, not the Definition. One shared
+    // Definition plus one Spawn per province is how 14187 instances are told
+    // apart; the Spawn registry is what enforces the minimum over the merged
+    // bindings.
+    mechanism += "        role = { name = province "
+                 " reference_kind = entity "
+                 " minimum_count = 1  maximum_count = 1 }\n";
+    mechanism += "    }\n";
+    mechanism += "}\n";
+    if (!mechanisms.Emit(
+            "mechanisms/production_site.dmechanism",
+            std::move(mechanism),
+            report))
+    {
+        return Fail(ProvinceContentStatus::WriteFailed, "mechanism template");
+    }
+
+    std::string algorithm;
+    algorithm += "algorithm_descriptor = {\n";
+    algorithm += "    name = " + options.algorithmName + "\n";
+    algorithm += "    version = 1\n";
+    algorithm += "    backend = declarative\n";
+    algorithm += "    entry_points = { create tick }\n";
+    algorithm += "    deterministic = yes\n";
+    algorithm += "    execution_policy = { instruction_budget = 16 "
+                 " failure_policy = fail_instance }\n";
+    algorithm += "    program = {\n";
+    algorithm += "        create = { transition_lifecycle = active }\n";
+    algorithm += "        tick = {\n";
+    // Reads the province through the role and writes the result to itself.
+    // That is the whole mechanic: it exercises a cross-object read and a
+    // computed write at map scale, and nothing else.
+    algorithm += "            set_field = {\n";
+    algorithm += "                field = output\n";
+    algorithm += "                op    = mul\n";
+    algorithm += "                left  = { role = province "
+                 " component = " + options.componentName
+                 + "  field = source_id }\n";
+    algorithm += "                right = { self_field = level }\n";
+    algorithm += "            }\n";
+    algorithm += "        }\n";
+    algorithm += "    }\n";
+    algorithm += "}\n";
+    if (!mechanisms.Emit(
+            "algorithms/production.dalgorithm",
+            std::move(algorithm),
+            report))
+    {
+        return Fail(ProvinceContentStatus::WriteFailed, "algorithm");
+    }
+
+    if (!mechanisms.Emit(
+            "packages/mechanisms.dpackage",
+            Manifest(
+                options.mechanismPackageName,
+                "mechanism",
+                mechanisms.Digest(),
+                50,
+                contractName
+            ),
+            report))
+    {
+        return Fail(ProvinceContentStatus::WriteFailed, "mechanism manifest");
     }
 
     // --- Presentation Package ---------------------------------------------
@@ -384,7 +619,7 @@ ProvinceContentReport EmitProvinceContent(
         ++report.files;
     }
 
-    PackageWriter presentation(presentationRoot, 4);
+    PackageWriter presentation(presentationRoot, 6);
     std::string asset;
     asset += "presentation_asset = {\n";
     asset += "    name = " + options.rasterAssetName + "\n";
@@ -405,6 +640,252 @@ ProvinceContentReport EmitProvinceContent(
     {
         return Fail(ProvinceContentStatus::WriteFailed, "raster asset");
     }
+    // The raster's index -> source_id table.
+    //
+    // This is what makes a picked pixel name an ENTITY rather than a position
+    // in a naming convention. The raster stores dense indices; the world knows
+    // its regions by their corpus source_id; nothing else connects the two,
+    // and before this the connection was
+    // `namePrefix + std::to_string(index)` -- a rule about how the content
+    // happened to be spelled, which stops being true the moment anyone renames
+    // or reorders anything.
+    //
+    // It ships on the PRESENTATION side because it describes the raster's
+    // encoding, not the world. The world already carries source_id, which is
+    // the half that legitimately belongs to it.
+    {
+        std::string table;
+        table.reserve(
+            static_cast<std::size_t>(imported.Count() + 1) * 4u
+        );
+        // Little endian, index 0 first and reserved, so the file is a plain
+        // array a loader can index without a header.
+        for (std::uint32_t index = 0; index <= imported.Count(); ++index)
+        {
+            const std::uint32_t sourceId =
+                index < imported.sourceIdByIndex.size()
+                    ? imported.sourceIdByIndex[index]
+                    : 0u;
+            for (int shift = 0; shift < 32; shift += 8)
+            {
+                table.push_back(static_cast<char>(
+                    static_cast<unsigned char>((sourceId >> shift) & 0xFFu)
+                ));
+            }
+        }
+        report.provinceIdBytes = table.size();
+        report.provinceIdDigest = kernel::ComputeContentDigest(table);
+        {
+            std::ofstream stream(
+                presentationRoot / "assets/rasters/world.dprovinceids",
+                std::ios::binary | std::ios::trunc
+            );
+            if (!stream)
+            {
+                return Fail(
+                    ProvinceContentStatus::WriteFailed, "province id table");
+            }
+            stream.write(
+                table.data(),
+                static_cast<std::streamsize>(table.size())
+            );
+            if (!stream)
+            {
+                return Fail(
+                    ProvinceContentStatus::WriteFailed, "province id table");
+            }
+            report.bytes += table.size();
+            ++report.files;
+        }
+        std::string idAsset;
+        idAsset += "presentation_asset = {\n";
+        idAsset += "    name = " + options.rasterAssetName + "_ids\n";
+        idAsset += "    kind = map_province_ids\n";
+        idAsset += "    asset = rasters/world.dprovinceids\n";
+        idAsset += "    asset_digest = \""
+            + report.provinceIdDigest + "\"\n";
+        idAsset += "    properties = {\n";
+        idAsset += "        format = source_id32\n";
+        idAsset += "        count = "
+            + std::to_string(imported.Count()) + "\n";
+        // The world side of the correspondence, named by the Package
+        // rather than assumed by the loader: which entities carry a
+        // source_id, and in which component field.
+        idAsset += "        entity_type = " + options.entityTypeName
+            + "\n";
+        idAsset += "        component = " + options.componentName
+            + "\n";
+        idAsset += "        component_version = 1\n";
+        idAsset += "        source_id_field = source_id\n";
+        idAsset += "    }\n";
+        idAsset += "}\n";
+        if (!presentation.Emit(
+                "assets/world_province_ids.dasset",
+                std::move(idAsset),
+                report))
+        {
+            return Fail(ProvinceContentStatus::WriteFailed, "province ids");
+        }
+    }
+
+    // The UI font. Same shape as the raster: an opaque payload the file
+    // catalog never classifies, carried by its own digest rather than by the
+    // Package content digest.
+    //
+    // The ATLAS is not baked here, and that is the point of taking a real font
+    // library instead of a bitmap. An atlas is rasterised at one pixel size;
+    // baking it would fix the interface to one size and one display, and the
+    // reason FreeType is vendored at all is so the size is a runtime decision.
+    // So the Package ships the font, and presentation rasterises from it.
+    if (!options.fontPath.empty())
+    {
+        std::string font;
+        {
+            std::ifstream stream(options.fontPath, std::ios::binary);
+            if (!stream)
+            {
+                return Fail(ProvinceContentStatus::WriteFailed, "font source");
+            }
+            font.assign(
+                std::istreambuf_iterator<char>(stream),
+                std::istreambuf_iterator<char>()
+            );
+        }
+        if (font.empty())
+        {
+            return Fail(ProvinceContentStatus::WriteFailed, "font source");
+        }
+        report.fontBytes = font.size();
+        report.fontDigest = kernel::ComputeContentDigest(font);
+        {
+            std::ofstream stream(
+                presentationRoot / "assets/fonts/ui.ttf",
+                std::ios::binary | std::ios::trunc
+            );
+            if (!stream)
+            {
+                return Fail(ProvinceContentStatus::WriteFailed, "font payload");
+            }
+            stream.write(
+                font.data(),
+                static_cast<std::streamsize>(font.size())
+            );
+            if (!stream)
+            {
+                return Fail(ProvinceContentStatus::WriteFailed, "font payload");
+            }
+            report.bytes += font.size();
+            ++report.files;
+        }
+        std::string fontAsset;
+        fontAsset += "presentation_asset = {\n";
+        fontAsset += "    name = " + options.fontAssetName + "\n";
+        fontAsset += "    kind = font\n";
+        fontAsset += "    asset = fonts/ui.ttf\n";
+        fontAsset += "    asset_digest = \"" + report.fontDigest
+            + "\"\n";
+        fontAsset += "    properties = {\n";
+        fontAsset += "        format = truetype\n";
+        // The size the interface is authored at. A content decision, so
+        // it is declared rather than compiled in.
+        fontAsset += "        pixel_size = 14\n";
+        fontAsset += "        first_codepoint = 32\n";
+        fontAsset += "        last_codepoint = 126\n";
+        fontAsset += "    }\n";
+        fontAsset += "}\n";
+        if (!presentation.Emit(
+                "assets/ui_font.dasset",
+                std::move(fontAsset),
+                report))
+        {
+            return Fail(ProvinceContentStatus::WriteFailed, "font asset");
+        }
+    }
+
+    // A UI binding, and the reason the Presentation Package is worth having a
+    // load-time check at all.
+    //
+    // It has no payload -- a binding is a declaration, not a file -- and it
+    // states what a province panel reads. Those references are typed, so the
+    // pipeline can refuse the Package if the Ruleset stops providing them,
+    // instead of loading cleanly and showing an empty panel.
+    std::string binding;
+    binding += "presentation_asset = {\n";
+    binding += "    name = " + options.rasterAssetName + "_panel\n";
+    binding += "    kind = ui_binding\n";
+    binding += "    requires = {\n";
+    binding += "        mechanism_field = { mechanism = "
+        + options.mechanismName + "  definition = "
+        + options.mechanismDefinitionName + "  field = level }\n";
+    binding += "        mechanism_field = { mechanism = "
+        + options.mechanismName + "  definition = "
+        + options.mechanismDefinitionName + "  field = output }\n";
+    binding += "        component_field = { component = "
+        + options.componentName + "  version = 1  field = source_id }\n";
+    binding += "        capability = { name = " + options.capabilityName
+        + "  version = 1 }\n";
+    binding += "    }\n";
+    binding += "    properties = {\n";
+    binding += "        title = province\n";
+    // Which role of the Definition claims the Entity a control acts on.
+    // The host used to carry this as a string literal, so a Package could
+    // only be replaced by one that used the same word for the same idea.
+    binding += "        subject_role = " + options.subjectRoleName
+        + "\n";
+    binding += "    }\n";
+    // The control tree. The Kernel stores this as an untyped tree of text and
+    // assigns it no meaning; presentation::ControlTree is the only thing that
+    // knows what a panel or a button is. Editing this block changes the
+    // interface with no rebuild, which is the property memo section 4.4.4
+    // asks for -- and every `field` here must appear in `requires` above, so a
+    // Ruleset that stops providing one fails the load.
+    binding += "    content = {\n";
+    binding += "        panel = {\n";
+    binding += "            id = province_panel\n";
+    // Which control paints a surface is DECLARED here rather than inferred
+    // from an id. The overlay used to paint whichever panel happened to be
+    // called "province_panel", so renaming the root in a Package silently
+    // lost the background.
+    binding += "            background = yes\n";
+    binding += "            axis = vertical\n";
+    binding += "            padding = 8\n";
+    binding += "            gap = 4\n";
+    binding += "            label = { id = title  text = \"Province\""
+        "  size = 20 }\n";
+    binding += "            value = { id = level  text = \"Level: \""
+        "  field = level  size = 20 }\n";
+    binding += "            value = { id = output  text = \"Output: \""
+        "  field = output  size = 20 }\n";
+    binding += "            panel = {\n";
+    binding += "                id = actions\n";
+    binding += "                axis = horizontal\n";
+    binding += "                gap = 4\n";
+    binding += "                size = 24\n";
+    binding += "                button = { id = raise  text = \"+1\""
+        "  capability = " + options.capabilityName
+        + "  capability_version = 1"
+        "  operation = " + options.capabilityOperation
+        + "  field = level  amount = 1  size = fill"
+        "  background = yes }\n";
+    binding += "                button = { id = lower  text = \"-1\""
+        "  capability = " + options.capabilityName
+        + "  capability_version = 1"
+        "  operation = " + options.capabilityOperation
+        + "  field = level  amount = -1  size = fill"
+        "  background = yes }\n";
+    binding += "            }\n";
+    binding += "            panel = { id = spacer  size = fill }\n";
+    binding += "        }\n";
+    binding += "    }\n";
+    binding += "}\n";
+    if (!presentation.Emit(
+            "assets/province_panel.dasset",
+            std::move(binding),
+            report))
+    {
+        return Fail(ProvinceContentStatus::WriteFailed, "panel binding");
+    }
+
     // No dependency: a Presentation Package that participated in the
     // dependency graph could be pulled into the closure by it, and the whole
     // point is that a skin cannot reach the save identity.

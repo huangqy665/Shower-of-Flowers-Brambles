@@ -110,11 +110,14 @@ const std::vector<std::string>& FrozenCodes()
     "dillen.authoring.package_source_ambiguous",
     "dillen.authoring.package_source_missing",
     "dillen.authoring.package_source_not_selected",
+    "dillen.authoring.presentation_asset_content_invalid",
     "dillen.authoring.presentation_asset_digest_invalid",
     "dillen.authoring.presentation_asset_duplicate",
     "dillen.authoring.presentation_asset_path_invalid",
     "dillen.authoring.presentation_asset_properties_invalid",
+    "dillen.authoring.presentation_asset_requires_invalid",
     "dillen.authoring.presentation_asset_root_expected",
+    "dillen.authoring.presentation_binding_unresolved",
     "dillen.authoring.presentation_package_not_authoritative",
     "dillen.authoring.provides_capabilities_invalid",
     "dillen.authoring.query_kind_unknown",
@@ -145,6 +148,7 @@ const std::vector<std::string>& FrozenCodes()
     "dillen.authoring.spawn_rejected",
     "dillen.authoring.spawn_requirement_expected",
     "dillen.authoring.spawn_root_expected",
+    "dillen.authoring.spawn_table_root_expected",
     "dillen.authoring.table_columns_invalid",
     "dillen.authoring.table_row_arity",
     "dillen.authoring.table_rows_invalid",
@@ -262,7 +266,7 @@ int main()
         // because a case that checks "wrong root keyword" has, by
         // construction, a root keyword that says nothing about which parser
         // should have been handed it.
-        enum Front { Algorithm = 0, Spawn, EntityTable, Asset };
+        enum Front { Algorithm = 0, Spawn, EntityTable, Asset, SpawnTable };
         Front front = Algorithm;
     };
     const Case cases[] = {
@@ -334,6 +338,12 @@ int main()
         {"dillen.authoring.entity_table_root_expected",
          "mechanism_template = { name = a.b  version = 1 }",
          Case::EntityTable},
+        // Same shape for the spawn table: a root keyword that is not its own.
+        // Routed explicitly, because a wrong root keyword says nothing about
+        // which parser should have been handed the source.
+        {"dillen.authoring.spawn_table_root_expected",
+         "mechanism_template = { name = a.b  version = 1 }",
+         Case::SpawnTable},
         // The same role slot bound twice. std::map::emplace keeps the first
         // and drops the second, so this used to be silently accepted with the
         // author's second binding thrown away.
@@ -344,6 +354,50 @@ int main()
          "presentation_asset = { name = a.skin  kind = map_index_raster "
          " asset = ../../etc/passwd "
          " asset_digest = \"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\" }",
+         Case::Asset},
+        // Windows is a platform this parses on, so its separators and
+        // roots are climbs too. A check that only knew about '/' and ':'
+        // let every one of these through on the system where they
+        // actually resolve.
+        {"dillen.authoring.presentation_asset_path_invalid",
+         "presentation_asset = { name = a.skin  kind = map_index_raster "
+         " asset = \"..\\\\secrets.bin\"  asset_digest = \"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\" }",
+         Case::Asset},
+        {"dillen.authoring.presentation_asset_path_invalid",
+         "presentation_asset = { name = a.skin  kind = map_index_raster "
+         " asset = \"skins\\\\..\\\\secrets.bin\"  asset_digest = \"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\" }",
+         Case::Asset},
+        {"dillen.authoring.presentation_asset_path_invalid",
+         "presentation_asset = { name = a.skin  kind = map_index_raster "
+         " asset = \"\\\\host\\\\share\\\\r.bin\"  asset_digest = \"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\" }",
+         Case::Asset},
+        {"dillen.authoring.presentation_asset_path_invalid",
+         "presentation_asset = { name = a.skin  kind = map_index_raster "
+         " asset = \"/etc/passwd\"  asset_digest = \"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\" }",
+         Case::Asset},
+        // A doubled separator and a bare '.' are padding, not a path.
+        {"dillen.authoring.presentation_asset_path_invalid",
+         "presentation_asset = { name = a.skin  kind = map_index_raster "
+         " asset = \"skins//r.bin\"  asset_digest = \"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\" }",
+         Case::Asset},
+        {"dillen.authoring.presentation_asset_path_invalid",
+         "presentation_asset = { name = a.skin  kind = map_index_raster "
+         " asset = \"./r.bin\"  asset_digest = \"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\" }",
+         Case::Asset},
+        // Sixty-four characters is not a digest; sixty-four HEX
+        // characters is. Length alone accepted prose, which then failed
+        // much later at the comparison with a message about bytes
+        // rather than about the declaration.
+        {"dillen.authoring.presentation_asset_digest_invalid",
+         "presentation_asset = { name = a.skin  kind = map_index_raster "
+         " asset = r.bin  asset_digest = \"zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\" }",
+         Case::Asset},
+        // Upper case is a second spelling of one digest, and a
+        // comparison that has to normalise is a comparison that can
+        // forget to.
+        {"dillen.authoring.presentation_asset_digest_invalid",
+         "presentation_asset = { name = a.skin  kind = map_index_raster "
+         " asset = r.bin  asset_digest = \"EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE\" }",
          Case::Asset},
         // A digest that is not a SHA-256. The payload sits outside the
         // Package content digest, so this string is the only thing
@@ -358,6 +412,23 @@ int main()
          " asset = rasters/world.bin "
          " asset_digest = \"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\" "
          " properties = { width = 1  width = 2 } }",
+         Case::Asset},
+        // A bare list where the Kernel's node tree has only key = value.
+        // The tree is untyped on purpose, so this is the ONLY shape it can
+        // refuse -- anything else here is the asset kind's business.
+        {"dillen.authoring.presentation_asset_content_invalid",
+         "presentation_asset = { name = a.skin  kind = ui_binding "
+         " content = { row = { a b c } } }",
+         Case::Asset},
+        {"dillen.authoring.presentation_asset_requires_invalid",
+         "presentation_asset = { name = a.skin  kind = ui_binding "
+         " requires = { mechanism_field = { mechanism = a.m } } }",
+         Case::Asset},
+        // A digest with nothing to digest. The payload is optional; claiming
+        // one that is not there is still a mistake worth naming.
+        {"dillen.authoring.presentation_asset_digest_invalid",
+         "presentation_asset = { name = a.skin  kind = ui_binding "
+         " asset_digest = \"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\" }",
          Case::Asset},
         {"dillen.authoring.presentation_asset_root_expected",
          "mechanism_template = { name = a.b  version = 1 }",
@@ -380,6 +451,7 @@ int main()
         const bool isSpawn = probe.front == Case::Spawn;
         const bool isEntityTable = probe.front == Case::EntityTable;
         const bool isAsset = probe.front == Case::Asset;
+        const bool isSpawnTable = probe.front == Case::SpawnTable;
         parser::SourceBuffer source(
             1,
             isSpawn
@@ -388,7 +460,9 @@ int main()
                     ? "diagnostics/case.dentitytable"
                     : (isAsset
                         ? "diagnostics/case.dasset"
-                        : "diagnostics/case.dalgorithm")),
+                        : (isSpawnTable
+                            ? "diagnostics/case.dspawntable"
+                            : "diagnostics/case.dalgorithm"))),
             {},
             probe.source,
             parser::SourceEncoding::Utf8
@@ -402,9 +476,11 @@ int main()
                 ? authoring::ParseEntityTable(cursor, artifact)
                 : (isAsset
                     ? authoring::ParsePresentationAsset(cursor, artifact)
-                    : authoring::ParseAlgorithmDescriptor(
+                    : (isSpawnTable
+                        ? authoring::ParseSpawnTable(cursor, artifact)
+                        : authoring::ParseAlgorithmDescriptor(
                         cursor,
-                        artifact)));
+                        artifact))));
         bool sawCode = false;
         for (const parser::Diagnostic& diagnostic : diagnostics.All())
         {

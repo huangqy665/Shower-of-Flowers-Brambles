@@ -1,0 +1,19 @@
+algorithm_descriptor = {
+    name = dillen.map.production_algorithm
+    version = 1
+    backend = declarative
+    entry_points = { create tick }
+    deterministic = yes
+    execution_policy = { instruction_budget = 16  failure_policy = fail_instance }
+    program = {
+        create = { transition_lifecycle = active }
+        tick = {
+            set_field = {
+                field = output
+                op    = mul
+                left  = { role = province  component = dillen.map.geography  field = source_id }
+                right = { self_field = level }
+            }
+        }
+    }
+}

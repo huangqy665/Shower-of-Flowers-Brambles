@@ -382,7 +382,15 @@ ProvinceRasterImport ImportProvinceRaster(
                 "province raster ends before its declared height"
             );
         }
-        const std::uint32_t y = bottomUp ? (height - 1 - scan) : scan;
+        // Two independent flips. `bottomUp` undoes BMP's storage order;
+        // `northAtImageBottom` undoes the corpus's own orientation. Folding
+        // them into one flag would make a corpus that differs in either one
+        // impossible to express.
+        std::uint32_t y = bottomUp ? (height - 1 - scan) : scan;
+        if (options.northAtImageBottom)
+        {
+            y = height - 1 - y;
+        }
         std::uint16_t* target =
             result.indexRaster.data() + static_cast<std::size_t>(y) * width;
         for (std::uint32_t x = 0; x < width; ++x)

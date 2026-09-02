@@ -13,8 +13,8 @@
 
 // Demo 0.8 P1b -- the committed world is exactly what the corpus produces.
 //
-// Dillen-Game/world is generated content: 14187 region Entities and 41693
-// border Relations, derived from the raster in Dillen-Game/content/map. It is
+// Dillen-Game/map/world is generated content: 14187 region Entities and 41693
+// border Relations, derived from the raster in Dillen-Game/map/source. It is
 // committed rather than generated at load time, because the runtime must be
 // able to open a world without an importer, a bitmap, or a CSV anywhere near
 // it -- that is the whole point of generating Dillen Content instead of
@@ -35,8 +35,8 @@ namespace
 namespace fs = std::filesystem;
 using namespace dillen;
 
-const fs::path kMapRoot = "Dillen-Game/content/map";
-const fs::path kWorldRoot = "Dillen-Game/world";
+const fs::path kGameRoot = "Dillen-Game";
+const fs::path kMapSourceRoot = kGameRoot / "map/source";
 
 bool ReadFile(const fs::path& path, std::string& output)
 {
@@ -56,19 +56,30 @@ bool ReadFile(const fs::path& path, std::string& output)
 const std::vector<std::string>& EmittedFiles()
 {
     static const std::vector<std::string> files = {
-        "contracts/components/geography.dcomponent",
-        "contracts/relations/schemas/borders.drelation",
-        "contracts/packages/contracts.dpackage",
-        "content/entities/world.dentitytable",
-        "content/relations/definitions/world.drelationtable",
-        "content/rulesets/world.druleset",
-        "content/packages/world.dpackage",
-        "presentation/assets/world_raster.dasset",
-        "presentation/packages/presentation.dpackage",
+        "map/contracts/capabilities/site_development.dcapability",
+        "map/contracts/components/geography.dcomponent",
+        "map/contracts/relations/schemas/borders.drelation",
+        "map/contracts/packages/contracts.dpackage",
+        "production/map_world/mechanisms/production_site.dmechanism",
+        "production/map_world/algorithms/production.dalgorithm",
+        "production/map_world/packages/mechanisms.dpackage",
+        "map/world/entities/world.dentitytable",
+        "map/world/definitions/site.ddefinition",
+        "map/world/spawns/world.dspawntable",
+        "map/world/relations/definitions/world.drelationtable",
+        "map/world/rulesets/world.druleset",
+        "map/world/packages/world.dpackage",
+        "presentation/map_world/assets/world_raster.dasset",
+        "presentation/map_world/assets/world_province_ids.dasset",
+        "presentation/map_world/assets/ui_font.dasset",
+        "presentation/map_world/assets/province_panel.dasset",
+        "presentation/map_world/packages/presentation.dpackage",
         // The binary payload. Not an authoring source and not in any Package
         // content digest -- its integrity rides on asset_digest in the
         // declaration -- but it is generated, so it is compared like the rest.
-        "presentation/assets/rasters/world.dmapindex"
+        "presentation/map_world/assets/rasters/world.dmapindex",
+        "presentation/map_world/assets/rasters/world.dprovinceids",
+        "presentation/map_world/assets/fonts/ui.ttf"
     };
     return files;
 }
@@ -78,8 +89,15 @@ const std::vector<std::string>& EmittedFiles()
 int main()
 {
     adapter::ProvinceRasterImportOptions importOptions;
-    importOptions.raster = kMapRoot / "provinces.bmp";
-    importOptions.definitions = kMapRoot / "definition.csv";
+    importOptions.raster = kMapSourceRoot / "provinces.bmp";
+    importOptions.definitions = kMapSourceRoot / "definition.csv";
+    // The map in Dillen-Game is already north-up, so no corpus flip. The
+    // option stays because HOI3's own bitmaps are not: a corpus imported
+    // straight from that game needs it set, and which way round a given
+    // corpus is cannot be inferred -- it has to be stated.
+    // province_raster_import_probe is the gate either way.
+    importOptions.northAtImageBottom = false;
+
     if (!fs::exists(importOptions.raster))
     {
         std::cerr << "world map content: the map corpus is missing\n";
@@ -99,8 +117,10 @@ int main()
         && std::string(regenerate) == "1";
 
     adapter::ProvinceContentOptions options;
+    options.fontPath = fs::path("Dillen-Game/presentation/fonts")
+        / "RobotoMono-Regular.ttf";
     options.root = rewriting
-        ? kWorldRoot
+        ? kGameRoot
         : fs::temp_directory_path() / "dillen_world_map_check";
     const adapter::ProvinceContentReport emitted =
         adapter::EmitProvinceContent(imported, options);
@@ -113,7 +133,7 @@ int main()
 
     if (rewriting)
     {
-        std::cout << "World map content: REGENERATED " << kWorldRoot << " ("
+        std::cout << "World map content: REGENERATED " << kGameRoot << " ("
                   << emitted.entities << " entities, " << emitted.relations
                   << " relations, digest " << emitted.contentDigest << ")\n";
         return 0;
@@ -131,10 +151,10 @@ int main()
             ++failures;
             continue;
         }
-        if (!ReadFile(kWorldRoot / relative, committed))
+        if (!ReadFile(kGameRoot / relative, committed))
         {
             std::cerr << "world map content: " << relative
-                      << " is missing from " << kWorldRoot
+                      << " is missing from " << kGameRoot
                       << " -- regenerate with "
                          "DILLEN_REGENERATE_WORLD_MAP=1\n";
             ++failures;

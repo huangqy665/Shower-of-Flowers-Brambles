@@ -23,6 +23,9 @@ namespace dillen::adapter {
 
 struct ProvinceContentOptions
 {
+    // Root of a Dillen game tree. The emitter owns only map/contracts,
+    // map/world, production/map_world and presentation/map_world beneath it;
+    // regeneration never removes unrelated game Packages or source corpora.
     std::filesystem::path root;
     // Names are content decisions, so they are parameters rather than
     // constants baked into the emitter.
@@ -35,6 +38,21 @@ struct ProvinceContentOptions
     std::string relationNamePrefix = "dillen.map.border_";
     std::string presentationPackageName = "dillen.map.world.presentation";
     std::string rasterAssetName = "dillen.map.world_raster";
+    std::string mechanismPackageName = "dillen.map.production";
+    std::string mechanismName = "dillen.map.production_site";
+    std::string mechanismDefinitionName = "dillen.map.site";
+    std::string algorithmName = "dillen.map.production_algorithm";
+    std::string spawnPrefix = "dillen.map.site_";
+    // The role through which a site claims its region. Named once here and
+    // declared to the Presentation Package, so a host never has to know it.
+    std::string subjectRoleName = "province";
+    std::string capabilityName = "dillen.map.site_development";
+    std::string capabilityOperation = "adjust_level";
+    std::string fontAssetName = "dillen.map.ui_font";
+    // The UI font, copied into the Presentation Package with a digest of its
+    // own. Optional: leave it empty and the Package simply has no font, which
+    // is what a corpus with no interface should produce.
+    std::filesystem::path fontPath;
 };
 
 enum class ProvinceContentStatus
@@ -62,6 +80,14 @@ struct ProvinceContentReport
     std::string rasterDigest;
     std::uint64_t rasterBytes = 0;
     std::uint32_t rasterRuns = 0;
+    std::uint32_t spawns = 0;
+    std::string fontDigest;
+    std::uint64_t fontBytes = 0;
+    // The raster's index -> source_id table, carried the same way and for the
+    // same reason: it is not an authoring source and the digest is the only
+    // thing binding the declaration to the bytes.
+    std::string provinceIdDigest;
+    std::uint64_t provinceIdBytes = 0;
 
     explicit operator bool() const noexcept
     {

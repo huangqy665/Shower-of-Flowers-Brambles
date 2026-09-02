@@ -1,0 +1,6 @@
+capability_contract = {
+    name = dillen.map.site_development
+    version = 1
+    deterministic = yes
+    operations = { adjust_level }
+}

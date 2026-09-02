@@ -59,6 +59,8 @@ inline constexpr parser::ParserId kRelationTableParser =
 // The first thing a Presentation Package may own.
 inline constexpr parser::ParserId kPresentationAssetParser =
     0x44494C4C454E100EULL;
+inline constexpr parser::ParserId kSpawnTableParser =
+    0x44494C4C454E100FULL;
 
 inline constexpr parser::DefinitionTypeId kMechanismTemplateDocumentType =
     0x44494C4C454E2001ULL;
@@ -88,6 +90,8 @@ inline constexpr parser::DefinitionTypeId kRelationTableDocumentType =
     0x44494C4C454E200DULL;
 inline constexpr parser::DefinitionTypeId kPresentationAssetDocumentType =
     0x44494C4C454E200EULL;
+inline constexpr parser::DefinitionTypeId kSpawnTableDocumentType =
+    0x44494C4C454E200FULL;
 
 template <typename T>
 struct AuthoringDocument
@@ -121,6 +125,8 @@ using EntityTableDocument =
     AuthoringDocument<std::vector<kernel::EntityDefinition>>;
 using RelationTableDocument =
     AuthoringDocument<std::vector<kernel::RelationDefinition>>;
+using SpawnTableDocument =
+    AuthoringDocument<std::vector<kernel::MechanismSpawnDefinition>>;
 using PresentationAssetDocument =
     AuthoringDocument<kernel::PresentationAsset>;
 
@@ -165,6 +171,11 @@ bool ParseRelationSchema(
     parser::ParserCursor& cursor,
     parser::ParseArtifact& artifact
 );
+bool ParseSpawnTable(
+    parser::ParserCursor& cursor,
+    parser::ParseArtifact& artifact
+);
+
 bool ParsePresentationAsset(
     parser::ParserCursor& cursor,
     parser::ParseArtifact& artifact

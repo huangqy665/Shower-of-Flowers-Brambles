@@ -17,6 +17,11 @@ option(
     OFF
 )
 option(
+    DILLEN_BUILD_PRESENTATION
+    "Build the presentation layer and the dependencies only it needs"
+    ON
+)
+option(
     DILLEN_BUILD_MAP_RENDERER
     "Build the SDL/OpenGL map renderer and its vendored dependencies"
     OFF
@@ -27,13 +32,34 @@ option(
     OFF
 )
 
+# The renderer is a backend for the presentation layer; it cannot exist
+# without it.
+if(DILLEN_BUILD_MAP_RENDERER AND NOT DILLEN_BUILD_PRESENTATION)
+    message(FATAL_ERROR
+        "DILLEN_BUILD_MAP_RENDERER requires DILLEN_BUILD_PRESENTATION"
+    )
+endif()
+
 dillen_define_project_options()
 
-if(DILLEN_BUILD_MAP_RENDERER)
+# Third-party sources exist for the presentation layer and nothing else, so a
+# build without it configures none of them.
+#
+# Within that, FreeType is not behind DILLEN_BUILD_MAP_RENDERER and SDL is, and
+# the split is not arbitrary. SDL is a PLATFORM backend: it needs a window and
+# a display server, so a build that does not want one must not carry it.
+# FreeType turns font bytes into coverage bitmaps and touches no display at
+# all, which means the text layer it feeds is testable headless -- and a gate
+# that only runs on a machine with a GPU is one the Linux cells never run.
+if(DILLEN_BUILD_PRESENTATION)
     add_subdirectory(third_party)
 endif()
 
 add_subdirectory(src)
+
+if(DILLEN_BUILD_MAP_RENDERER)
+    add_subdirectory(apps)
+endif()
 
 if(DILLEN_BUILD_HOI3_ORACLE)
     add_subdirectory(hoi3oracle)

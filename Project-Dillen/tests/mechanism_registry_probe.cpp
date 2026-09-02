@@ -269,6 +269,20 @@ int main()
         return 12;
     }
 
+    // A Definition that leaves a required role empty is ACCEPTED.
+    //
+    // It used to be refused here, and that was wrong: a Spawn's bindings are
+    // merged over a Definition's, so refusing at this point forbids one shared
+    // Definition whose instances are told apart by per-Spawn bindings -- the
+    // shape a world of 14187 provinces, each with its own mechanism, is made
+    // of. The requirement did not go away; it moved to the two places that can
+    // actually answer it, and both are asserted elsewhere:
+    // MechanismSpawnDefinitionRegistry over the merged bindings
+    // (runtime_catalog_probe), and CreateFromDefinition for the other door to
+    // a live instance (runtime_catalog_probe as well).
+    //
+    // What is still refused here is a binding that is present and WRONG, which
+    // is a Definition error in a way an absent one is not.
     MechanismDefinition missingRole = MakeDefinition(
         type,
         algorithm,
@@ -276,10 +290,27 @@ int main()
     );
     missingRole.fields["label"] = MechanismValue("valid");
     if (definitions.Declare(missingRole, schemas, algorithms)
+        != MechanismDefinitionDeclareResult::Added)
+    {
+        std::cerr << "an unbound required role should be left to the Spawn\n";
+        return 13;
+    }
+
+    MechanismDefinition wrongRoleKind = MakeDefinition(
+        type,
+        algorithm,
+        "wrong_role_kind"
+    );
+    wrongRoleKind.fields["label"] = MechanismValue("valid");
+    // The schema's role references Entities; this names a Mechanism Instance.
+    wrongRoleKind.roles["owner"] = {
+        {MechanismReferenceKind::MechanismInstance, 7, 9}
+    };
+    if (definitions.Declare(wrongRoleKind, schemas, algorithms)
         != MechanismDefinitionDeclareResult::RoleBindingInvalid)
     {
-        std::cerr << "Role cardinality validation mismatch\n";
-        return 13;
+        std::cerr << "a role bound to the wrong reference kind was accepted\n";
+        return 14;
     }
 
     MechanismDefinition valid = MakeDefinition(
@@ -306,7 +337,9 @@ int main()
 
     definitions.Freeze();
     const MechanismDefinition* stored = definitions.Find(validId);
-    if (definitions.Size() != 1
+    // Two, not one: `missing_role` is now accepted, because an unbound
+    // required role is a Spawn's problem rather than a Definition's.
+    if (definitions.Size() != 2
         || stored == nullptr
         || definitions.Find(type, "valid_counter") != stored
         || stored->fields.find("amount") == stored->fields.end()

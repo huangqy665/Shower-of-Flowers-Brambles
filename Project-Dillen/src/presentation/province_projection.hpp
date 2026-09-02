@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "frozen_runtime_catalog.hpp"
+#include "map_entity_index.hpp"
 #include "presentation_view.hpp"
 
 namespace dillen::presentation {
@@ -51,11 +52,28 @@ struct ProvinceProjectionSpec
     // presentation artifact type will carry it once there is one; until then
     // the caller states it, and nothing in this layer assumes a particular
     // world.
+    // The entity type is still named -- the projection reads components off
+    // entities and has to know which ones. What is gone is `namePrefix`: the
+    // rows are keyed by the Entities MapEntityIndex resolved from data, not by
+    // reconstructing a name from a row number.
     std::string entityTypeName;
-    std::string namePrefix;
     std::uint32_t count = 0;
     std::vector<ProvinceProjectionColumn> columns;
 };
+
+// Side of the square palette texture a map of `provinceCount` regions
+// needs.
+//
+// One texel per region plus row 0 for "no region", rounded up to a power of
+// two. It is a free function, and headless, because the property worth
+// gating is arithmetic rather than anything a GPU does: the renderer used to
+// hold a fixed 128 -- a ceiling of 16383 regions that no content could see,
+// that nothing reported, and that a map with one more region would have
+// wrapped silently past.
+//
+// Square rather than a single row because GL 3.3 guarantees only 1024 texels
+// of width, so a strip long enough for a real map is not a texture anywhere.
+std::uint32_t PaletteSideFor(std::uint32_t provinceCount) noexcept;
 
 enum class ProvinceProjectionStatus
 {
@@ -77,6 +95,7 @@ public:
     ProvinceProjectionStatus Bind(
         const kernel::FrozenRuntimeCatalog& catalog,
         const ProvinceProjectionSpec& spec,
+        const MapEntityIndex& entities,
         std::string& message
     );
 

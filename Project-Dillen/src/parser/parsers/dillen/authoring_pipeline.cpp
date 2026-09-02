@@ -34,6 +34,8 @@ inline constexpr parser::TemplateId kRelationDefinitionTemplate =
     0x44494C4C454E3009ULL;
 inline constexpr parser::TemplateId kPackageTemplate =
     0x44494C4C454E300AULL;
+inline constexpr parser::TemplateId kSpawnTableTemplate =
+    0x44494C4C454E0FF4ULL;
 inline constexpr parser::TemplateId kPresentationAssetTemplate =
     0x44494C4C454E0FF3ULL;
 inline constexpr parser::TemplateId kEntityTableTemplate =
@@ -101,6 +103,78 @@ bool SameSelection(
         && selection.version == version;
 }
 
+// Checks what a Presentation Asset claims about the Ruleset.
+//
+// The asset's `kind` stays opaque -- nothing here knows what a panel is -- but
+// its requirements are typed, and a claim like "this reads production_site's
+// level" is answerable against the frozen catalog without knowing anything
+// about user interfaces.
+//
+// Memo section 4.4.4 asks for exactly this: a Binding pointing at a Contract
+// that does not exist must be refused at load time. Unchecked, the failure is
+// far worse than a refusal -- the Package loads, the widget shows nothing, and
+// the author has no way to tell which of their bindings is broken.
+bool ValidatePresentationRequirements(
+    const std::vector<kernel::PresentationAsset>& assets,
+    const kernel::FrozenRuntimeCatalog& catalog,
+    parser::DiagnosticBag& diagnostics
+)
+{
+    bool ok = true;
+    for (const kernel::PresentationAsset& asset : assets)
+    {
+        for (const kernel::PresentationAssetRequirement& requirement
+            : asset.requirements)
+        {
+            bool resolved = false;
+            std::string what;
+            switch (requirement.kind)
+            {
+            case kernel::PresentationAssetRequirement::Kind::MechanismField:
+            {
+                const kernel::MechanismDefinitionId definition =
+                    kernel::StableMechanismDefinitionId(
+                        kernel::StableMechanismTypeId(requirement.primaryName),
+                        requirement.secondaryName
+                    );
+                resolved = catalog.FindDefinition(definition) != nullptr
+                    && catalog.ResolveDefinitionFieldSlot(
+                        definition,
+                        requirement.fieldName).has_value();
+                what = "mechanism field " + requirement.primaryName + "/"
+                    + requirement.secondaryName + "." + requirement.fieldName;
+                break;
+            }
+            case kernel::PresentationAssetRequirement::Kind::ComponentField:
+                resolved = catalog.ResolveComponentFieldSlot(
+                    kernel::StableComponentTypeId(requirement.primaryName),
+                    requirement.version,
+                    requirement.fieldName).has_value();
+                what = "component field " + requirement.primaryName + "."
+                    + requirement.fieldName;
+                break;
+            case kernel::PresentationAssetRequirement::Kind::Capability:
+                resolved = catalog.FindCapability(
+                    kernel::StableCapabilityId(requirement.primaryName),
+                    requirement.version) != nullptr;
+                what = "capability " + requirement.primaryName;
+                break;
+            }
+            if (!resolved)
+            {
+                diagnostics.Error(
+                    "dillen.authoring.presentation_binding_unresolved",
+                    "Presentation Asset '" + asset.canonicalName
+                        + "' requires " + what
+                        + ", which this Ruleset does not provide"
+                );
+                ok = false;
+            }
+        }
+    }
+    return ok;
+}
+
 bool PackageRoleAllows(
     kernel::PackageRole role,
     parser::DefinitionTypeId type
@@ -130,7 +204,8 @@ bool PackageRoleAllows(
             // The bulk forms are Content, exactly like the single forms they
             // collapse. They declare no new kind of thing.
             || type == kEntityTableDocumentType
-            || type == kRelationTableDocumentType;
+            || type == kRelationTableDocumentType
+            || type == kSpawnTableDocumentType;
     case kernel::PackageRole::Presentation:
         // Presentation assets, and nothing else.
         //
@@ -240,6 +315,11 @@ bool AuthoringSession::Register(
             "assets/**/*.dasset",
             kPresentationAssetParser)
         || !addTemplate(
+            kSpawnTableTemplate,
+            "dillen_spawn_table",
+            "spawns/**/*.dspawntable",
+            kSpawnTableParser)
+        || !addTemplate(
             kPackageTemplate,
             "dillen_package_manifest",
             "packages/**/*.dpackage",
@@ -328,6 +408,11 @@ bool AuthoringSession::Register(
             "dillen_presentation_asset",
             kPresentationAssetDocumentType,
             ParsePresentationAsset)
+        || !addParser(
+            kSpawnTableParser,
+            "dillen_spawn_table",
+            kSpawnTableDocumentType,
+            ParseSpawnTable)
         || !addParser(
             kPackageManifestParser,
             "dillen_package_manifest",
@@ -676,6 +761,45 @@ bool AuthoringSession::Resolve(
             || file.catalog.disposition
                 != parser::CatalogDisposition::Active)
         {
+            continue;
+        }
+        if (file.result.artifact.type == kSpawnTableDocumentType)
+        {
+            const SpawnTableDocument* table =
+                GetDocument<SpawnTableDocument>(
+                    file,
+                    kSpawnTableDocumentType,
+                    diagnostics,
+                    "Spawn Table"
+                );
+            if (table == nullptr)
+            {
+                continue;
+            }
+            for (const kernel::MechanismSpawnDefinition& row : table->value)
+            {
+                kernel::MechanismSpawnDefinition spawn = row;
+                spawn.source.sourceName = file.catalog.sourceLayerName;
+                spawn.source.virtualPath =
+                    std::string(file.source.VirtualPath());
+                spawn.source.line = table->declarationSpan.begin.line;
+                spawn.source.column = table->declarationSpan.begin.column;
+                if (mechanismSpawns_.Declare(
+                        std::move(spawn),
+                        mechanismDefinitions_,
+                        mechanismSchemas_)
+                    != kernel::MechanismSpawnDeclareResult::Added)
+                {
+                    ReportRegisterFailure(
+                        diagnostics,
+                        "dillen.authoring.spawn_rejected",
+                        "Spawn Table row '" + row.canonicalName + "'",
+                        file,
+                        table->declarationSpan
+                    );
+                    break;
+                }
+            }
             continue;
         }
         const MechanismSpawnDocument* document =
@@ -1352,6 +1476,16 @@ bool AuthoringSession::ValidateAndCompile(
                 issue.subject + ": " + issue.message
             );
         }
+        return false;
+    }
+    // After the catalog is frozen, because that is the first moment the
+    // question can be answered. A Binding claims something about the Ruleset;
+    // the Ruleset does not exist until here.
+    if (!ValidatePresentationRequirements(
+            presentationAssets_,
+            runtimeCatalog_,
+            diagnostics))
+    {
         return false;
     }
     return true;

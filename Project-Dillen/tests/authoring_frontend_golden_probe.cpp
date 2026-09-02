@@ -181,11 +181,11 @@ int main()
     parser::DiagnosticBag diagnostics;
     parser::FileCatalog fileCatalog;
     const bool layered =
-        fileCatalog.AddLayer({1, "contracts", root / "contracts/demo_0_5", 0, {}})
-        && fileCatalog.AddLayer({2, "economy", root / "packages/economy", 10, {}})
-        && fileCatalog.AddLayer({3, "technology", root / "packages/technology", 20, {}})
-        && fileCatalog.AddLayer({4, "production", root / "packages/production", 30, {}})
-        && fileCatalog.AddLayer({5, "content", root / "content/demo_0_5", 100, {}});
+        fileCatalog.AddLayer({1, "contracts", root / "demo_0_5/contracts", 0, {}})
+        && fileCatalog.AddLayer({2, "economy", root / "economy/demo_0_5", 10, {}})
+        && fileCatalog.AddLayer({3, "technology", root / "technology/demo_0_5", 20, {}})
+        && fileCatalog.AddLayer({4, "production", root / "production/demo_0_5", 30, {}})
+        && fileCatalog.AddLayer({5, "content", root / "demo_0_5/content", 100, {}});
     if (!layered || !fileCatalog.Build(templates, diagnostics))
     {
         std::cerr << "frontend golden: source catalog failed\n";

@@ -1,9 +1,0 @@
-package_manifest = {
-    name = dillen.map.world.contracts
-    version_major = 1
-    version_minor = 0
-    version_patch = 0
-    role = contract
-    content_digest = "d1be5642a4af9621fea606dc7680c1c3c7241891ffba0f4445ad49893aee798c"
-    load_priority = 0
-}

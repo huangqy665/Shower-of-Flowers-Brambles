@@ -7,9 +7,21 @@
 
 namespace dillen::presentation {
 
+std::uint32_t PaletteSideFor(std::uint32_t provinceCount) noexcept
+{
+    std::uint32_t side = 1;
+    while (static_cast<std::uint64_t>(side) * side
+        < static_cast<std::uint64_t>(provinceCount) + 1u)
+    {
+        side *= 2;
+    }
+    return side;
+}
+
 ProvinceProjectionStatus ProvinceProjection::Bind(
     const kernel::FrozenRuntimeCatalog& catalog,
     const ProvinceProjectionSpec& spec,
+    const MapEntityIndex& entities,
     std::string& message
 )
 {
@@ -28,7 +40,7 @@ ProvinceProjectionStatus ProvinceProjection::Bind(
     if (spec.count == 0
         || spec.columns.empty()
         || spec.entityTypeName.empty()
-        || spec.namePrefix.empty())
+        )
     {
         message = "the projection spec names no world";
         return ProvinceProjectionStatus::SpecInvalid;
@@ -53,21 +65,24 @@ ProvinceProjectionStatus ProvinceProjection::Bind(
         columns_.push_back({component, *slot});
     }
 
-    // The dense index is the province's identity everywhere downstream, and
-    // the content encodes it in the Entity's own name. Resolving all of them
-    // once here is what keeps the refresh path free of strings: a frame must
-    // never hash a name.
-    const kernel::EntityTypeId entityType =
-        kernel::StableEntityTypeId(spec.entityTypeName);
+    // The row -> Entity table, taken from MapEntityIndex rather than
+    // rebuilt from a naming rule.
+    //
+    // This used to be `StableEntityId(namePrefix + std::to_string(index))`,
+    // which is not a lookup: it is an assumption about how the content is
+    // spelled, and a Package that renamed or reordered anything would have
+    // produced a projection quietly reading the wrong provinces. The index is
+    // still the row number the palette is addressed by; it is no longer
+    // pretending to be an identity.
+    if (!entities.IsBound())
+    {
+        message = "the map entity index is not bound";
+        return ProvinceProjectionStatus::SpecInvalid;
+    }
     entities_.assign(spec.count + 1, kernel::EntityId{});
     for (std::uint32_t index = 1; index <= spec.count; ++index)
     {
-        entities_[index] = kernel::StableEntityId(
-            kernel::StableEntityDefinitionId(
-                entityType,
-                spec.namePrefix + std::to_string(index)
-            )
-        );
+        entities_[index] = entities.EntityFor(index);
     }
 
     count_ = spec.count;

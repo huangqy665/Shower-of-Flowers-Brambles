@@ -3469,13 +3469,30 @@ bool ParseRulesetRequirements(
         cursor,
         false
     );
-    if (spawns != nullptr
-        && !ParseSpawnRequirements(
+    if (spawns != nullptr)
+    {
+        // `all = yes` takes every Spawn the locked Packages declared. See
+        // RulesetDefinition for why naming them one at a time stops working
+        // at map scale.
+        if (FindUnique(*spawns, "all", cursor, false) != nullptr)
+        {
+            if (!ReadBoolProperty(
+                    *spawns,
+                    "all",
+                    cursor,
+                    output.requireAllMechanismSpawns,
+                    false))
+            {
+                return false;
+            }
+        }
+        else if (!ParseSpawnRequirements(
             *spawns,
             output.requiredMechanismSpawns,
             cursor))
-    {
-        return false;
+        {
+            return false;
+        }
     }
     const SyntaxNode* capabilities = FindUnique(
         body,
@@ -3792,6 +3809,177 @@ bool ReadTableRows(
 // the Package content digest. `asset_digest` is what stands in, and it is why
 // the declaration and the payload cannot drift apart unnoticed.
 // ---------------------------------------------------------------------------
+// One Spawn per row, each binding one Entity into one role.
+//
+// This is the form a per-instance world needs. A Spawn's role bindings are
+// merged over its Definition's, so a single Definition plus N Spawns is how
+// N instances of one mechanism are told apart -- 14187 provinces, each with
+// its own production mechanism, is exactly that shape. `count` stays 1 per
+// row: a Spawn with count > 1 gives every instance the same bindings, which
+// is the opposite of what this is for.
+bool ParseSpawnTable(
+    ParserCursor& cursor,
+    parser::ParseArtifact& artifact
+)
+{
+    ParsedRoot root;
+    if (!ParseRoot(cursor, root))
+    {
+        return false;
+    }
+    if (root.keyword.text != "spawn_table")
+    {
+        cursor.Diagnostics().Error(
+            "dillen.authoring.spawn_table_root_expected",
+            "spawn table source must begin with spawn_table",
+            root.keyword.span
+        );
+        return false;
+    }
+    if (!RejectUnknown(
+            root.body,
+            {
+                "mechanism", "definition", "name_prefix",
+                "role", "target_entity_type", "target_prefix", "rows"
+            },
+            cursor,
+            "spawn table"))
+    {
+        return false;
+    }
+
+    std::string mechanismName;
+    std::string definitionName;
+    std::string namePrefix;
+    std::string roleName;
+    std::string targetTypeName;
+    std::string targetPrefix;
+    if (!ReadStringProperty(root.body, "mechanism", cursor, mechanismName)
+        || !ReadStringProperty(root.body, "definition", cursor, definitionName)
+        || !ReadStringProperty(root.body, "name_prefix", cursor, namePrefix)
+        || !ReadStringProperty(root.body, "role", cursor, roleName)
+        || !ReadStringProperty(
+            root.body,
+            "target_entity_type",
+            cursor,
+            targetTypeName)
+        || !ReadStringProperty(
+            root.body,
+            "target_prefix",
+            cursor,
+            targetPrefix))
+    {
+        return false;
+    }
+
+    // Each row is `{ name_suffix  target_suffix }`.
+    std::vector<const SyntaxNode*> rows;
+    if (!ReadTableRows(root.body, cursor, "spawn table", 2, rows))
+    {
+        return false;
+    }
+
+    const kernel::MechanismTypeId mechanismType =
+        kernel::StableMechanismTypeId(mechanismName);
+    const kernel::MechanismDefinitionId definition =
+        kernel::StableMechanismDefinitionId(mechanismType, definitionName);
+    const kernel::EntityTypeId targetType =
+        kernel::StableEntityTypeId(targetTypeName);
+
+    SpawnTableDocument document;
+    document.declarationSpan = root.body.span;
+    document.value.reserve(rows.size());
+    for (const SyntaxNode* row : rows)
+    {
+        kernel::MechanismSpawnDefinition spawn;
+        spawn.canonicalName = namePrefix + std::string(row->items[0].text);
+        spawn.definition = definition;
+        spawn.count = 1;
+        spawn.id = kernel::StableMechanismSpawnDefinitionId(
+            definition,
+            spawn.canonicalName
+        );
+        kernel::MechanismReference reference;
+        reference.kind = kernel::MechanismReferenceKind::Entity;
+        reference.type = targetType.value;
+        reference.value = kernel::StableEntityId(
+            kernel::StableEntityDefinitionId(
+                targetType,
+                targetPrefix + std::string(row->items[1].text)
+            )
+        ).value;
+        spawn.initialRoles[roleName] = {reference};
+        document.value.push_back(std::move(spawn));
+    }
+    artifact.type = kSpawnTableDocumentType;
+    artifact.value = std::move(document);
+    return true;
+}
+
+// Copies a syntax block into the Kernel's untyped node tree.
+//
+// Every key is legal and every nesting is legal; the only thing rejected is a
+// bare list (`{ a b c }`), because the Kernel's node has no place to put items
+// that are not `key = value`. Nothing is validated against a vocabulary here on
+// purpose -- whichever asset kind reads this tree is the only thing that knows
+// what the keys mean, and putting a whitelist here would drag that vocabulary
+// into the parser and the Kernel with it.
+//
+// Depth is bounded so a hand-written or generated source cannot recurse the
+// parser into the stack. The limit is far above anything a real layout needs.
+bool ReadPresentationContent(
+    const SyntaxNode& block,
+    ParserCursor& cursor,
+    std::size_t depth,
+    std::vector<kernel::PresentationAssetNode>& output
+)
+{
+    constexpr std::size_t kMaxDepth = 32;
+    if (depth > kMaxDepth)
+    {
+        cursor.Diagnostics().Error(
+            "dillen.authoring.presentation_asset_content_invalid",
+            "content is nested deeper than 32 levels",
+            block.span
+        );
+        return false;
+    }
+    if (!block.items.empty())
+    {
+        cursor.Diagnostics().Error(
+            "dillen.authoring.presentation_asset_content_invalid",
+            "content holds key = value entries, not bare items",
+            block.span
+        );
+        return false;
+    }
+    output.reserve(block.keys.size());
+    for (std::size_t index = 0; index < block.keys.size(); ++index)
+    {
+        const SyntaxNode& value = block.values[index];
+        kernel::PresentationAssetNode node;
+        node.key = std::string(block.keys[index].text);
+        node.block = value.block;
+        if (value.block)
+        {
+            if (!ReadPresentationContent(
+                    value,
+                    cursor,
+                    depth + 1,
+                    node.children))
+            {
+                return false;
+            }
+        }
+        else
+        {
+            node.value = std::string(value.scalar.text);
+        }
+        output.push_back(std::move(node));
+    }
+    return true;
+}
+
 bool ParsePresentationAsset(
     ParserCursor& cursor,
     parser::ParseArtifact& artifact
@@ -3813,7 +4001,10 @@ bool ParsePresentationAsset(
     }
     if (!RejectUnknown(
             root.body,
-            {"name", "kind", "asset", "asset_digest", "properties"},
+            {
+                "name", "kind", "asset", "asset_digest", "properties",
+                "requires", "content"
+            },
             cursor,
             "presentation asset"))
     {
@@ -3827,43 +4018,247 @@ bool ParsePresentationAsset(
             "name",
             cursor,
             document.value.canonicalName)
-        || !ReadStringProperty(root.body, "kind", cursor, document.value.kind)
-        || !ReadStringProperty(
-            root.body,
-            "asset",
-            cursor,
-            document.value.assetPath)
-        || !ReadStringProperty(
-            root.body,
-            "asset_digest",
-            cursor,
-            document.value.assetDigest))
+        || !ReadStringProperty(root.body, "kind", cursor, document.value.kind))
     {
         return false;
     }
-    // A payload path that climbs out of its Package would let a skin claim
-    // bytes from anywhere on the machine. Assets resolve against the directory
-    // of the source that declared them and may not leave it.
-    if (document.value.assetPath.empty()
-        || document.value.assetPath.front() == '/'
-        || document.value.assetPath.find("..") != std::string::npos
-        || document.value.assetPath.find(':') != std::string::npos)
+    // A payload is optional. A binding can be a pure declaration -- it says
+    // which fields a panel reads and nothing else -- and requiring an empty
+    // file to go with it would be ceremony.
+    const bool hasPayload =
+        FindUnique(root.body, "asset", cursor, false) != nullptr;
+    if (hasPayload)
     {
-        cursor.Diagnostics().Error(
-            "dillen.authoring.presentation_asset_path_invalid",
-            "asset must be a relative path inside its own Package",
-            root.body.span
-        );
-        return false;
+        if (!ReadStringProperty(
+                root.body,
+                "asset",
+                cursor,
+                document.value.assetPath)
+            || !ReadStringProperty(
+                root.body,
+                "asset_digest",
+                cursor,
+                document.value.assetDigest))
+        {
+            return false;
+        }
+        // A payload path that climbs out of its Package would let a skin
+        // claim bytes from anywhere on the machine. Assets resolve against the
+        // directory of the source that declared them and may not leave it.
+        //
+        // The checks are written against WINDOWS' rules as well as POSIX',
+        // because this parser runs on both and the platform that accepts a
+        // path is not the platform that authored it. A backslash is a
+        // separator here; `C:` is a drive; `\\host\share` is a UNC root; and a
+        // segment of `..` climbs out whichever slash it is written with. A
+        // check that only knew about '/' would pass `..\..\secrets` on the
+        // system where it actually resolves.
+        //
+        // Segments are examined rather than the whole string, so a legitimate
+        // name that merely CONTAINS two dots -- `world..v2.bin` -- is not
+        // refused for looking like a climb.
+        const std::string& assetPath = document.value.assetPath;
+        bool pathValid = !assetPath.empty()
+            && assetPath.front() != '/'
+            && assetPath.front() != '\\'
+            && assetPath.find(':') == std::string::npos;
+        if (pathValid)
+        {
+            std::size_t begin = 0;
+            while (begin <= assetPath.size())
+            {
+                std::size_t end = begin;
+                while (end < assetPath.size()
+                    && assetPath[end] != '/'
+                    && assetPath[end] != '\\')
+                {
+                    ++end;
+                }
+                const std::string segment =
+                    assetPath.substr(begin, end - begin);
+                // An empty segment is a doubled separator or a trailing one;
+                // `.` is a no-op that only exists to pad a path out.
+                if (segment.empty() || segment == "." || segment == "..")
+                {
+                    pathValid = false;
+                    break;
+                }
+                if (end >= assetPath.size())
+                {
+                    break;
+                }
+                begin = end + 1;
+            }
+        }
+        if (!pathValid)
+        {
+            cursor.Diagnostics().Error(
+                "dillen.authoring.presentation_asset_path_invalid",
+                "asset must be a relative path inside its own Package, with "
+                "no drive, no leading separator and no '.' or '..' segment",
+                root.body.span
+            );
+            return false;
+        }
+
+        // Sixty-four characters is not a digest; sixty-four HEX characters is.
+        //
+        // Length alone accepted anything of the right size, so a declaration
+        // could carry a sentence and fail only later, at the comparison,
+        // where the message is about bytes not matching rather than about the
+        // declaration being malformed. Lower case only, because that is the
+        // one form ComputeContentDigest emits: accepting upper case would
+        // mean two spellings of one digest and a comparison that has to
+        // normalise.
+        bool digestValid = document.value.assetDigest.size() == 64;
+        for (const char character : document.value.assetDigest)
+        {
+            if (!((character >= '0' && character <= '9')
+                || (character >= 'a' && character <= 'f')))
+            {
+                digestValid = false;
+                break;
+            }
+        }
+        if (!digestValid)
+        {
+            cursor.Diagnostics().Error(
+                "dillen.authoring.presentation_asset_digest_invalid",
+                "asset_digest must be 64 lower-case hexadecimal characters",
+                root.body.span
+            );
+            return false;
+        }
     }
-    if (document.value.assetDigest.size() != 64)
+    else if (FindUnique(root.body, "asset_digest", cursor, false) != nullptr)
     {
         cursor.Diagnostics().Error(
             "dillen.authoring.presentation_asset_digest_invalid",
-            "asset_digest must be a 64 character SHA-256 hex digest",
+            "asset_digest was given without an asset to digest",
             root.body.span
         );
         return false;
+    }
+
+    // What this asset claims about the Ruleset.
+    //
+    // Typed, unlike `kind` and `properties`, because these are the parts the
+    // Kernel can check: a panel that reads a field which does not exist is a
+    // load-time error, and finding it here is the difference between a refused
+    // Package and a widget that silently shows nothing.
+    const SyntaxNode* requires = FindUnique(
+        root.body,
+        "requires",
+        cursor,
+        false
+    );
+    if (requires != nullptr)
+    {
+        if (!requires->block
+            || !requires->items.empty()
+            || !RejectUnknown(
+                *requires,
+                {"mechanism_field", "component_field", "capability"},
+                cursor,
+                "presentation asset requirement"))
+        {
+            cursor.Diagnostics().Error(
+                "dillen.authoring.presentation_asset_requires_invalid",
+                "requires must be a block of typed references",
+                requires->span
+            );
+            return false;
+        }
+        for (std::size_t index = 0; index < requires->keys.size(); ++index)
+        {
+            const std::string_view key = requires->keys[index].text;
+            const SyntaxNode& node = requires->values[index];
+            kernel::PresentationAssetRequirement requirement;
+            bool parsed = false;
+            if (key == "mechanism_field")
+            {
+                requirement.kind = kernel::PresentationAssetRequirement::
+                    Kind::MechanismField;
+                parsed = node.block
+                    && RejectUnknown(
+                        node,
+                        {"mechanism", "definition", "field"},
+                        cursor,
+                        "mechanism field requirement")
+                    && ReadStringProperty(
+                        node,
+                        "mechanism",
+                        cursor,
+                        requirement.primaryName)
+                    && ReadStringProperty(
+                        node,
+                        "definition",
+                        cursor,
+                        requirement.secondaryName)
+                    && ReadStringProperty(
+                        node,
+                        "field",
+                        cursor,
+                        requirement.fieldName);
+            }
+            else if (key == "component_field")
+            {
+                requirement.kind = kernel::PresentationAssetRequirement::
+                    Kind::ComponentField;
+                parsed = node.block
+                    && RejectUnknown(
+                        node,
+                        {"component", "version", "field"},
+                        cursor,
+                        "component field requirement")
+                    && ReadStringProperty(
+                        node,
+                        "component",
+                        cursor,
+                        requirement.primaryName)
+                    && ReadUInt32Property(
+                        node,
+                        "version",
+                        cursor,
+                        requirement.version)
+                    && ReadStringProperty(
+                        node,
+                        "field",
+                        cursor,
+                        requirement.fieldName);
+            }
+            else if (key == "capability")
+            {
+                requirement.kind = kernel::PresentationAssetRequirement::
+                    Kind::Capability;
+                parsed = node.block
+                    && RejectUnknown(
+                        node,
+                        {"name", "version"},
+                        cursor,
+                        "capability requirement")
+                    && ReadStringProperty(
+                        node,
+                        "name",
+                        cursor,
+                        requirement.primaryName)
+                    && ReadUInt32Property(
+                        node,
+                        "version",
+                        cursor,
+                        requirement.version);
+            }
+            if (!parsed)
+            {
+                cursor.Diagnostics().Error(
+                    "dillen.authoring.presentation_asset_requires_invalid",
+                    "malformed " + std::string(key) + " requirement",
+                    node.span
+                );
+                return false;
+            }
+            document.value.requirements.push_back(std::move(requirement));
+        }
     }
 
     const SyntaxNode* properties = FindUnique(
@@ -3911,6 +4306,28 @@ bool ParsePresentationAsset(
                 );
                 return false;
             }
+        }
+    }
+
+    const SyntaxNode* content = FindUnique(root.body, "content", cursor, false);
+    if (content != nullptr)
+    {
+        if (!content->block)
+        {
+            cursor.Diagnostics().Error(
+                "dillen.authoring.presentation_asset_content_invalid",
+                "content must be a block",
+                content->span
+            );
+            return false;
+        }
+        if (!ReadPresentationContent(
+                *content,
+                cursor,
+                0,
+                document.value.content))
+        {
+            return false;
         }
     }
 
