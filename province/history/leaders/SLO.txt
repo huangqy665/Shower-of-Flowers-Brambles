@@ -1,0 +1,375 @@
+70000 = {
+	name = "巴托斯"
+	country = SLO
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L70000
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+70001 = {
+	name = "布拉哈"
+	country = SLO
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L70001
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 3 }
+	}
+}
+70002 = {
+	name = "卡特罗斯"
+	country = SLO
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L70002
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1930.1.1 = { rank = 4 }
+	}
+}
+70003 = {
+	name = "埃明格"
+	country = SLO
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L70003
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+70004 = {
+	name = "戈利安"
+	country = SLO
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L70004
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+	}
+}
+70005 = {
+	name = "格鲁贝尔"
+	country = SLO
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L70005
+	history = {
+		1945.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 2 }
+	}
+}
+70006 = {
+	name = "尤雷奇"
+	country = SLO
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L70006
+	add_trait = panzer_leader
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 3 }
+	}
+}
+70007 = {
+	name = "库贝拉"
+	country = SLO
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L70007
+	history = {
+		1930.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+70008 = {
+	name = "库纳"
+	country = SLO
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L70008
+	add_trait = panzer_leader
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+70009 = {
+	name = "伦德沃伊"
+	country = SLO
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L70009
+	history = {
+		1941.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+70010 = {
+	name = "马拉尔"
+	country = SLO
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L70010
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 3 }
+	}
+}
+70011 = {
+	name = "皮尔富塞克"
+	country = SLO
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 0.00
+	picture = L70011
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+70012 = {
+	name = "里赫特尔莫茨"
+	country = SLO
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L70012
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+70013 = {
+	name = "西多尔"
+	country = SLO
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L70013
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+70014 = {
+	name = "斯特凡尼克"
+	country = SLO
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L70014
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+70015 = {
+	name = "斯沃博达"
+	country = SLO
+	type = land
+	skill = 3
+	max_skill = 7
+	loyalty = 1.00
+	picture = L70015
+	add_trait = offensive_doctrine
+	history = {
+		1944.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 3 }
+		1947.1.1 = { rank = 4 }
+	}
+}
+70016 = {
+	name = "图拉内克"
+	country = SLO
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L70016
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+70017 = {
+	name = "库贝拉"
+	country = SLO
+	type = sea
+	skill = 0
+	max_skill = 5
+	loyalty = 0.00
+	picture = L70017
+	history = {
+		1930.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+70018 = {
+	name = "伦德沃伊"
+	country = SLO
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L70018
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+70019 = {
+	name = "哈诺瓦克"
+	country = SLO
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L70019
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+70020 = {
+	name = "科瓦里克"
+	country = SLO
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L70020
+	history = {
+		1930.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+70021 = {
+	name = "库卡茨萨"
+	country = SLO
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L70021
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+70022 = {
+	name = "梅齐拉"
+	country = SLO
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L70022
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+70023 = {
+	name = "普拉尼克"
+	country = SLO
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 0.00
+	picture = L70023
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+70024 = {
+	name = "赖兹纳克"
+	country = SLO
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L70024
+	add_trait = superior_air_tactician
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+70025 = {
+	name = "什奈达雷克"
+	country = SLO
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L70025
+	add_trait = offensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+	}
+}
+70026 = {
+	name = "萨德克"
+	country = SLO
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L70026
+	add_trait = trickster
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+70027 = {
+	name = "诺斯科"
+	country = SLO
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L70027
+	add_trait = offensive_doctrine
+	history = {
+		1945.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}

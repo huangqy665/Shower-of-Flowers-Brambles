@@ -1,0 +1,32 @@
+corps = {
+	name = "沙特皇家陆军"
+	location = 9613
+	regiment = { type = hq_brigade name = "沙特皇家陆军指挥部" historical_model = 0 }
+	division= {
+		name = "沙特第1皇家陆军师"
+		location = 9613
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "皇家卫队"
+		location = 9613
+		is_reserve = yes
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "沙特皇家'梅迪纳'骑兵师"
+		location = 9613
+		is_reserve = yes
+		regiment = { type = cavalry_brigade historical_model = 0 }
+		regiment = { type = cavalry_brigade historical_model = 0 }
+		regiment = { type = cavalry_brigade historical_model = 0 }
+	}
+}
+
+
+

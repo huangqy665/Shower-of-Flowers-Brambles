@@ -1,0 +1,90 @@
+division = {					
+	name = "第1奉天军"				
+	location = 4685				
+	regiment = { type = militia_brigade name = "第1步兵旅" historical_model = 1 }				
+	regiment = { type = militia_brigade name = "第2步兵旅" historical_model = 1 }				
+	regiment = { type = militia_brigade name = "第3步兵旅" historical_model = 1 }				
+}					
+division= {					
+	name = "第2吉林军"				
+	location = 4685				
+	regiment = { type = militia_brigade name = "第4步兵旅" historical_model = 1 }				
+	regiment = { type = militia_brigade name = "第5步兵旅" historical_model = 1 }				
+}					
+division= {					
+	name = "第2吉林骑兵军"				
+	location = 4685				
+	regiment = { type = cavalry_brigade name = "第1骑兵旅" historical_model = 1 }				
+	regiment = { type = cavalry_brigade name = "第2骑兵旅" historical_model = 1 }				
+}					
+division = {					
+	name = "第3齐齐哈尔军"				
+	location = 7095				
+	regiment = { type = militia_brigade name = "第6步兵旅" historical_model = 1 }				
+	regiment = { type = militia_brigade name = "第7步兵旅" historical_model = 1 }				
+	regiment = { type = militia_brigade name = "第8步兵旅" historical_model = 1 }				
+}					
+division = {					
+	name = "第4哈尔滨军"				
+	location = 7139				
+	regiment = { type = militia_brigade name = "第9步兵旅" historical_model = 1 }				
+	regiment = { type = militia_brigade name = "第10步兵旅" historical_model = 1 }				
+	regiment = { type = militia_brigade name = "第11步兵旅" historical_model = 1 }				
+	regiment = { type = militia_brigade name = "第12步兵旅" historical_model = 1 }				
+}					
+division = {					
+	name = "第5承德军"				
+	location = 7098				
+	regiment = { type = militia_brigade name = "第13步兵旅" historical_model = 1 }				
+	regiment = { type = militia_brigade name = "第14步兵旅" historical_model = 1 }				
+}					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					

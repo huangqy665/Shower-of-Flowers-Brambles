@@ -1,0 +1,45 @@
+division = {
+	name = "挪威陆军"
+	location = 812
+	is_reserve = yes
+	regiment = { type = infantry_brigade name = "第1步兵旅" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "第2步兵旅" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "第4步兵旅" historical_model = 0 }
+}
+division = {
+	name = "第6军团"
+	location = 65
+	is_reserve = yes 
+	regiment = { type = infantry_brigade name = "第3步兵旅" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "第5步兵旅" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "第6步兵旅" historical_model = 0 }
+}
+navy = {
+	name = "第1海军编队"
+	base = 812
+	location = 812
+	ship = { type = submarine name = "第1潜艇支队" historical_model = 0 }
+	ship = { type = submarine name = "第2潜艇支队" historical_model = 0 }
+}
+navy = {
+	name = "第3海军编队"
+	base = 65
+	location = 65
+	ship = { type = heavy_cruiser name = "KNM 挪威号" historical_model = 0 pride = yes }
+	ship = { type = heavy_cruiser name = "KNM 艾德森沃尔德号" historical_model = 0 }
+}
+navy = {
+	name = "第2海军编队"
+	base = 65
+	location = 65
+	ship = { type = destroyer name = "第1驱逐舰支队" historical_model = 0 }
+}
+air = {
+	name = "皇家空军"
+	base = 812
+	location = 812
+	wing = { type = interceptor name = "第1截击机大队" historical_model = 0 }
+}
+
+
+

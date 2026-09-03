@@ -1,0 +1,75 @@
+army = {					
+	name = "桂军"				
+	location = 5834				
+	regiment = { type = hq_brigade name = "桂军" historical_model = 0 }				
+	division= {				
+		name = "桂军第1军"			
+		location = 5834			
+		is_reserve = yes			
+		regiment = { type = militia_brigade name = "第151步兵师" historical_model = 0 }			
+		regiment = { type = militia_brigade name = "第152步兵师" historical_model = 0 }			
+	}				
+	division= {				
+		name = "桂军第2军"			
+		location = 5823			
+		is_reserve = yes			
+		regiment = { type = militia_brigade name = "第153步兵师" historical_model = 0 }			
+		regiment = { type = militia_brigade name = "第154步兵师" historical_model = 0 }			
+	}				
+	division= {				
+		name = "桂军第3军"			
+		location = 5852			
+		is_reserve = yes			
+		regiment = { type = militia_brigade name = "第155步兵师" historical_model = 0 }			
+		regiment = { type = militia_brigade name = "第187步兵师" historical_model = 0 }			
+	}				
+}					
+corps = {					
+	name = "粤军"				
+	location = 5902				
+	regiment = { type = hq_brigade name = "粤军" historical_model = 0 }				
+	division= {				
+		name = "粤军第1军"			
+		location = 5902			
+		is_reserve = yes			
+		regiment = { type = militia_brigade name = "第156步兵师" historical_model = 0 }			
+		regiment = { type = militia_brigade name = "第157步兵师" historical_model = 0 }			
+		regiment = { type = militia_brigade name = "第158步兵师" historical_model = 0 }			
+	}				
+	division= {				
+		name = "粤军第2军"			
+		location = 5965			
+		is_reserve = yes			
+		regiment = { type = militia_brigade name = "第159步兵师" historical_model = 0 }			
+		regiment = { type = militia_brigade name = "第160步兵师" historical_model = 0 }			
+	}				
+	division= {				
+		name = "粤军第3军"			
+		location = 5904			
+		is_reserve = yes			
+		regiment = { type = militia_brigade name = "第161步兵师" historical_model = 0 }			
+		regiment = { type = militia_brigade name = "第162步兵师" historical_model = 0 }			
+	}				
+}					
+division = {					
+	name = "广州警备队"				
+	location = 5834				
+	is_reserve = yes				
+	regiment = { type = garrison_brigade name = "第1团" historical_model = 0 }				
+	regiment = { type = garrison_brigade name = "第2团" historical_model = 0 }				
+}					
+division = {					
+	name = "海南警备"				
+	location = 5965				
+	is_reserve = yes				
+	regiment = { type = garrison_brigade name = "第1团" historical_model = 0 }				
+	regiment = { type = garrison_brigade name = "第2团" historical_model = 0 }				
+}					
+division = {					
+	name = "桂林警备队"				
+	location = 7553				
+	is_reserve = yes				
+	regiment = { type = garrison_brigade name = "第1团" historical_model = 0 }				
+	regiment = { type = garrison_brigade name = "第2团" historical_model = 0 }				
+}					
+					

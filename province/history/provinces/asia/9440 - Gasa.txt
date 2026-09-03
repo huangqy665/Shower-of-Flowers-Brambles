@@ -1,0 +1,5 @@
+owner = BHU
+controller = BHU
+add_core = BHU
+
+infra = 2

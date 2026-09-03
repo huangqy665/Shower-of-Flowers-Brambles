@@ -1,0 +1,257 @@
+theatre = {
+	name = "·ÒÀ¼Â½¾ü"
+	leader = 9750
+	location = 739
+	regiment = { type = hq_brigade name = "·ÒÀ¼Â½¾ü" historical_model = 0 }
+	armygroup = {
+		name = "Â½¾üÖ¸»Ó²¿"
+		location = 739
+		regiment = { type = hq_brigade name = "Â½¾üÖ¸»Ó²¿" historical_model = 0 }
+		army = {
+			name = "¿¨À×Àû°¢µØÏ¿¾ü"
+			location = 618
+			regiment = { type = hq_brigade name = "µØÏ¿¾ü" historical_model = 0 }
+			division = {
+				name = "Æï±øÂÃ"
+				location = 580
+				regiment = { type = cavalry_brigade name = "Æï±øÂÃ" historical_model = 1 }
+			}
+			division = {
+				name = "RT3"
+				location = 506
+				regiment = { type = garrison_brigade name = "RT3" historical_model = 0 }
+			}
+			corps = {
+				name = "µÚI¾ü"
+				location = 580
+				regiment = { type = hq_brigade name = "µÚI¾üÖ¸»Ó²¿" historical_model = 0 }
+				division = {
+					name = "µÚ1Ê¦"
+					leader = 9720
+					location = 580
+					regiment = { type = infantry_brigade name = "µÚ1ÂÃ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ2ÂÃ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ3ÂÃ" historical_model = 1 }
+				}
+				division = {
+					name = "µÚ21Ê¦"
+					location = 580
+					is_reserve = yes
+					regiment = { type = infantry_brigade name = "µÚ61²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ62²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ63²½±øÍÅ" historical_model = 1 }
+				}
+			}
+			corps = {
+				name = "µÚII¾ü"
+				location = 697
+				regiment = { type = hq_brigade name = "µÚII¾üÖ¸»Ó²¿" historical_model = 0 }
+				division = {
+					name = "µÚ3Ê¦"
+					location = 697
+					is_reserve = yes
+					regiment = { type = infantry_brigade name = "µÚ7²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ8²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ9²½±øÍÅ" historical_model = 1 }
+				}
+				division = {
+					name = "µÚ4Ê¦"
+					location = 697
+					regiment = { type = infantry_brigade name = "µÚ10²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ11²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ12²½±øÍÅ" historical_model = 1 }
+				}
+				division = {
+					name = "µÚ5Ê¦"
+					location = 657
+					is_reserve = yes
+					regiment = { type = infantry_brigade name = "µÚ13²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ14²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ15²½±øÍÅ" historical_model = 1 }
+				}
+				division = {
+					name = "µÚ23Ê¦"
+					location = 657
+					is_reserve = yes
+					regiment = { type = infantry_brigade name = "µÚ67²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ68²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ68²½±øÍÅ" historical_model = 1 }
+				}
+			}
+			corps = {
+				name = "µÚIII¾ü"
+				leader = 9710
+				location = 541
+				regiment = { type = hq_brigade name = "µÚIII¾üÖ¸»Ó²¿" historical_model = 0 }
+				division = {
+					name = "µÚ8Ê¦"
+					location = 541
+					regiment = { type = infantry_brigade name = "µÚ22²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ23²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ24²½±øÍÅ" historical_model = 1 }
+				}
+				division = {
+					name = "µÚ7Ê¦"
+					location = 470
+					is_reserve = yes
+					regiment = { type = infantry_brigade name = "µÚ19²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ20²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ21²½±øÍÅ" historical_model = 1 }
+				}
+				division = {
+					name = "µÚ2Ê¦"
+					location = 541
+					is_reserve = yes
+					regiment = { type = infantry_brigade name = "µÚ4²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ5²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ6²½±øÍÅ" historical_model = 1 }
+				}
+			}
+			corps = {
+				name = "µÚIV¾ü"
+				leader = 9714
+				location = 506
+				regiment = { type = hq_brigade name = "µÚIV¾üÖ¸»Ó²¿" historical_model = 0 }
+				division = {
+					name = "µÚ12Ê¦"
+					location = 506
+					regiment = { type = infantry_brigade name = "µÚ34²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ35²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ36²½±øÍÅ" historical_model = 1 }
+				}
+				division = {
+					name = "µÚ13Ê¦"
+					location = 433
+					is_reserve = yes
+					regiment = { type = infantry_brigade name = "µÚ37²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ38²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ39²½±øÍÅ" historical_model = 1 }
+				}
+			}
+			corps = {
+				name = "Ëþ¶ûÎ¬À­¾ü"
+				leader = 9744
+				location = 402
+				regiment = { type = hq_brigade name = "Ëþ¶ûÎ¬À­¾üÖ¸»Ó²¿" historical_model = 0 }
+				division = {
+					name = "Ëþ¶ûÎ¬À­¾ü"
+					location = 403
+					regiment = { type = infantry_brigade name = "AÕ½¶·Èº" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "Âí¶û½ðÕ½¶·Èº" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "ÅÁ¼ÓÀïÕ½¶·Èº" historical_model = 1 }
+				}
+			}
+			corps = {
+				name = "×ÜÔ¤±¸¶Ó"
+				location = 739
+				regiment = { type = hq_brigade name = "×ÜÔ¤±¸¶Ó" historical_model = 0 }
+				division = {
+					name = "µÚ1¶ÀÁ¢Óª"
+					location = 697
+					is_reserve = yes
+					regiment = { type = garrison_brigade name = "µÚ1¶ÀÁ¢Óª" historical_model = 0 }
+				}
+				division = {
+					name = "µÚ2¶ÀÁ¢Óª"
+					location = 697
+					is_reserve = yes
+					regiment = { type = garrison_brigade name = "µÚ2¶ÀÁ¢Óª" historical_model = 0 }
+				}
+				division = {
+					name = "RT1"
+					location = 739
+					is_reserve = yes
+					regiment = { type = garrison_brigade name = "RT1" historical_model = 0 }
+				}
+				division = {
+					name = "RT2"
+					location = 697
+					is_reserve = yes
+					regiment = { type = garrison_brigade name = "RT2" historical_model = 0 }
+				}
+				division = {
+					name = "°ÂÀ¼Õ½¶·Èº"
+					location = 778
+					is_reserve = yes
+					regiment = { type = garrison_brigade name = "°ÂÀ¼Õ½¶·Èº" historical_model = 0 }
+				}
+				division = {
+					name = "Í¼¶û¿âÕ½¶·Èº"
+					location = 736
+					is_reserve = yes
+					regiment = { type = garrison_brigade name = "Í¼¶û¿âÕ½¶·Èº" historical_model = 0 }
+				}
+			}
+			corps = {
+				name = "·ÒÀ¼Â½¾üÔ¤±¸¶Ó"
+				location = 234
+				regiment = { type = hq_brigade name = "·ÒÀ¼Â½¾üÔ¤±¸¶ÓÖ¸»Ó²¿" historical_model = 0 }
+				division = {
+					name = "·ÒÀ¼Â½¾üÔ¤±¸¶Ó"
+					location = 236
+					is_reserve = yes
+					regiment = { type = infantry_brigade name = "·¨¸ñË¹Õ½¶·Èº" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "ÂÞ¿ËË¹Õ½¶·Èº" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "Âí¿ËÃ·ÄáÕ½¶·Èº" historical_model = 1 }
+				}
+				division = {
+					name = "µÚ9Ê¦"
+					location = 284
+					is_reserve = yes
+					regiment = { type = infantry_brigade name = "µÚ25²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ26²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ27²½±øÍÅ" historical_model = 1 }
+				}
+			}
+			corps = {
+				name = "À­±ö¾ü"
+				location = 163
+				regiment = { type = hq_brigade name = "À­±ö¾üÖ¸»Ó²¿ä" historical_model = 0 }
+				division = {
+					name = "À­ÆÕÀ¼Õ½¶·Èº"
+					location = 163
+					is_reserve = yes
+					regiment = { type = infantry_brigade name = "µÚ40²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "À­±ö¾ü" historical_model = 1 }
+				}
+				division = {
+					name = "Æ¤²éÄ¦ÊØ±¸²¿¶Ó"
+					location = 33
+					is_reserve = yes
+					regiment = { type = bergsjaeger_brigade name = "Æ¤²éÄ¦ÊØ±¸²¿¶Ó" historical_model = 1 }
+				}
+			}
+		}
+	}
+	navy = {
+		name = "·ÒÀ¼º£¾ü"
+		base = 736
+		location = 736
+		ship = { type = heavy_cruiser name = "ÒÁ¶ûÂêÀûÄþºÅ" historical_model = 0 pride = yes }
+		ship = { type = heavy_cruiser name = "Î¬ÄÉÄªÒÁÄþºÅ" historical_model = 0 }
+	}
+	navy = {
+		name = "Ç±Í§²¿¶Ó"
+		base = 736
+		location = 736
+		ship = { type = submarine name = "µÚ1Ç±Í§´ó¶Ó" historical_model = 0 }
+	}
+	air = {
+		name = "µÚ1º½¿ÕÍÅ"
+		base = 739
+		location = 739
+		wing = { type = interceptor name = "µÚ1º½¿ÕÍÅ" historical_model = 0 }
+	}
+	air = {
+		name = "µÚ2º½¿ÕÍÅ"
+		base = 618
+		location = 618
+		wing = { type = interceptor name = "µÚ2º½¿ÕÍÅ" historical_model = 1 }
+	}
+	air = {
+		name = "µÚ4º½¿ÕÍÅ"
+		base = 580
+		location = 580
+		wing = { type = tactical_bomber name = "µÚ4º½¿ÕÍÅ" historical_model = 1 }
+	}
+}

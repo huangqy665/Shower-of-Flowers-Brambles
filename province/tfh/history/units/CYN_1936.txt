@@ -1,0 +1,112 @@
+corps = {
+	name = "云南警备"
+	location = 7561
+	regiment = { type = hq_brigade name = "云南警备司令部" historical_model = 0 }
+	division= {
+		name = "第21独立旅"
+		location = 7561
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第22独立旅"
+		location = 7561
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第23独立旅"
+		location = 7561
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+}
+corps = {
+	name = "第24军"
+	location = 9527
+	regiment = { type = hq_brigade name = "第24军司令部" historical_model = 0 }
+	division= {
+		name = "第136步兵师"
+		location = 9527
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第137步兵师"
+		location = 9527
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+}
+division = {
+	name = "四川保安队"
+	location = 9548
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+division = {
+	name = "第47军"
+	location = 9548
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+}
+division = {
+	name = "第21军"
+	location = 9548
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+}
+division = {
+	name = "第23军"
+	location = 5816
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+}
+division = {
+	name = "第44军"
+	location = 5816
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+}
+division = {
+	name = "第45军"
+	location = 5816
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+}
+division = {
+	name = "第7军团"
+	location = 5880
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+}
+division = {
+	name = "第4军"
+	location = 5880
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+}
+division = {
+	name = "第5军"
+	location = 5880
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+}
+division = {
+	name = "第20军"
+	location = 7561
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+}
+division = {
+	name = "贵州司令部"
+	location = 7561
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+}
+division = {
+	name = "贵州保安队"
+	location = 7561
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}

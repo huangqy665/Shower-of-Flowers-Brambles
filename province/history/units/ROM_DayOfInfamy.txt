@@ -1,0 +1,216 @@
+theatre= {
+	name = "罗马尼亚陆军"
+	location = 3917 # Bucuresti
+	leader = 4303 # Antonescu  I.V
+	regiment = { type = hq_brigade name = "罗马尼亚陆军指挥部" historical_model = 1 }
+	armygroup= {
+		name = "罗马尼亚集团军群"
+		location = 3917 # Bucuresti
+		leader = 4341 # Iacobici
+		regiment = { type = hq_brigade name = "罗马尼亚集团军群指挥部" historical_model = 1 }
+		army = {
+			name = "第4集团军"
+			location = 3309 # Odessa
+			leader = 4322 # Constantinescu-Claps
+			regiment = { type = hq_brigade name = "第4集团军指挥部" historical_model = 1 }
+			corps = {
+				name = "第4军团"
+				location = 3444 # Bacau
+				leader = 4381 # Sanatescu
+				regiment = { type = hq_brigade name = "第4军团指挥部" historical_model = 0 }
+				division= {
+					name = "第6步兵师"
+					location = 3444 # Bacau
+					regiment = { type = infantry_brigade name = "第10步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第15步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第27步兵团" historical_model = 1 }
+				}
+				division= {
+					name = "第7步兵师"
+					location = 3444 # Bacau
+					leader = 4388 # Stavrat
+					regiment = { type = infantry_brigade name = "第3步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第14步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第16步兵团" historical_model = 1 }
+				}
+				division= {
+					name = "第3山地师"
+					location = 3444 # Bacau
+					regiment = { type = bergsjaeger_brigade name = "第3山地团" historical_model = 0 }
+					regiment = { type = bergsjaeger_brigade name = "第6山地团" historical_model = 0 }
+				}
+			}
+			corps = {
+				name = "第1军团"
+				location = 3044 # Nikopol
+				leader = 4346 # Ionescu
+				regiment = { type = hq_brigade name = "第1军团指挥部" historical_model = 0 }
+				division= {
+					name = "第3步兵师"
+					location = 3044 # Nikopol
+					leader = 4390 # Steflea
+					regiment = { type = infantry_brigade name = "第1步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第4步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第30步兵团" historical_model = 1 }
+				}
+				division= {
+					name = "第11步兵师"
+					location = 3044 # Nikopol
+					regiment = { type = infantry_brigade name = "第2步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第3步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第19步兵团" historical_model = 1 }
+				}
+				division= {
+					name = "第13步兵师"
+					location = 3044 # Nikopol
+					leader = 4401 # Zaharescu
+					regiment = { type = infantry_brigade name = "第7步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第22步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第35步兵团" historical_model = 1 }
+				}
+			}
+			corps = {
+				name = "第7军团"
+				location = 3309 # Odessa
+				leader = 4359 # Matranescu
+				regiment = { type = hq_brigade name = "第7军团指挥部" historical_model = 0 }
+				division= {
+					name = "第19步兵师"
+					location = 3309 # Odessa
+					leader = 4383 # Schmidt
+					regiment = { type = infantry_brigade name = "第94步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第95步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第96步兵团" historical_model = 1 }
+				}
+				division= {
+					name = "第20步兵师"
+					location = 3309 # Odessa
+					leader = 4335 # Georgescu  I.G.
+					regiment = { type = infantry_brigade name = "第82步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第83步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第91步兵团" historical_model = 1 }
+				}
+			}
+			corps = {
+				name = "第6军团"
+				location = 3309 # Odessa
+				leader = 4327 # Dragalina
+				regiment = { type = hq_brigade name = "第6军团指挥部" historical_model = 0 }
+				division= {
+					name = "第1步兵师"
+					location = 3309 # Odessa
+					regiment = { type = infantry_brigade name = "第5猎兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第85步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第93步兵团" historical_model = 1 }
+				}
+				division= {
+					name = "第2步兵师"
+					location = 3309 # Odessa
+					regiment = { type = infantry_brigade name = "第3步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第26步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第31步兵团" historical_model = 1 }
+				}
+				division= {
+					name = "第4步兵师"
+					location = 3309 # Odessa
+					regiment = { type = infantry_brigade name = "第5步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第20步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第21步兵团" historical_model = 1 }
+				}
+			}
+			corps = {
+				name = "第2军团"
+				location = 3580 # Vylkove
+				leader = 4324 # Dascalescu
+				regiment = { type = hq_brigade name = "第6军团指挥部" historical_model = 0 }
+				division= {
+					name = "第9步兵师"
+					location = 3580 # Vylkove
+					leader = 4384 # Schwab
+					regiment = { type = infantry_brigade name = "第34步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第36步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第40步兵团" historical_model = 1 }
+				}
+				division= {
+					name = "第10步兵师"
+					location = 3580 # Vylkove
+					leader = 4337 # Ghineraru
+					regiment = { type = infantry_brigade name = "第23步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第33步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第38步兵团" historical_model = 1 }
+				}
+			}
+		}
+		army = {
+			is_reserve = yes
+			name = "第1集团军"
+			location = 3778 # Ploesti
+			regiment = { type = hq_brigade name = "第1集团军指挥部" historical_model = 0 }
+			corps = {
+				name = "第3军团"
+				location = 3917 #Bucuresti
+				regiment = { type = hq_brigade name = "第3军团指挥部" historical_model = 0 }
+				division= {
+					is_reserve = yes
+					name = "第1卫戍师"
+					leader = 4387 # Sova
+					location = 3917 # Bucuresti
+					regiment = { type = infantry_brigade name = "第6禁卫步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第1禁卫猎兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第2禁卫猎兵团" historical_model = 2 }
+				}
+				division= {
+					is_reserve = yes
+					name = "第15步兵师"
+					location = 3917 # Bucuresti
+					regiment = { type = infantry_brigade name = "第10猎兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第25步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第35步兵团" historical_model = 1 }
+				}
+				division= {
+					is_reserve = yes
+					name = "第35预备役步兵师"
+					location = 3919 # Constanza
+					leader = 4397 # Trincu
+					regiment = { type = infantry_brigade name = "第50步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第55步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第67步兵团" historical_model = 1 }
+				}
+			}
+			division= {
+				is_reserve = yes
+				name = "第1骑兵师"
+				location = 3917 # Bucuresti
+				leader = 4355 # Manafu
+				regiment = { type = armor_brigade name = "第2坦克团" historical_model = 1 }
+				regiment = { type = cavalry_brigade name = "第1龙骑兵团" historical_model = 0 }
+				regiment = { type = cavalry_brigade name = "第2龙骑兵团" historical_model = 0 }
+				regiment = { type = cavalry_brigade name = "禁卫轻骑兵团" historical_model = 0 }
+			}
+			division = {
+				name = "第1要塞师"
+				location = 3778 # Ploesti
+				regiment = { type = garrison_brigade name = "第1要塞团" historical_model = 0 }
+				regiment = { type = garrison_brigade name = "第2要塞团" historical_model = 0 }
+				regiment = { type = garrison_brigade name = "第68要塞团" historical_model = 0 }
+			}
+		}
+	}
+}
+navy = {
+	name = "罗马尼亚海军舰队"
+	base = 3919
+	location = 3919
+	ship = { type = destroyer name = "斐迪南国王号" historical_model = 0 }
+	ship = { type = submarine name = "海豚号" historical_model = 1 }
+}
+air = {
+	name = "战斗航空集群"
+	base = 3917
+	location = 3917
+	leader = 4418 # Jienescu
+	wing = { type = interceptor name = "第1战斗机大队" historical_model = 2 }
+	wing = { type = interceptor name = "第2战斗机大队" historical_model = 1 }
+	wing = { type = tactical_bomber name = "第1战术轰炸机大队" historical_model = 1 }
+	wing = { type = tactical_bomber name = "第2战术轰炸机大队" historical_model = 1 }
+}

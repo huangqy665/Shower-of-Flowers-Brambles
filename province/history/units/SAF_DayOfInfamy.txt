@@ -1,0 +1,23 @@
+corps = {
+	name = "南非陆军"
+	location = 7978
+	regiment = { type = hq_brigade name = "南非陆军指挥部" historical_model = 0 }
+	division = {
+		name = "第3南非步兵师"
+		location = 7978
+		regiment = { type = motorized_brigade name = "第7步兵旅" historical_model = 2 }
+		regiment = { type = motorized_brigade name = "第8步兵旅" historical_model = 2 }
+		regiment = { type = motorized_brigade name = "第9步兵旅" historical_model = 2 }
+	}
+}
+navy = {
+	name = "南非海军"
+	base = 8054
+	location = 8054
+	ship = { type = transport_ship name = "第1运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第2运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第3运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第4运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第5运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第6运输舰队" historical_model = 0 }
+}

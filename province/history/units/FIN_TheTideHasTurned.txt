@@ -1,0 +1,166 @@
+armygroup= {
+	name = "大本营"
+	location = 739
+	regiment = { type = hq_brigade name = "大本营" historical_model = 0 }
+	division= {
+		name = "第14师"
+		location = 209
+		regiment = { type = infantry_brigade name = "第10步兵团" historical_model = 3 }
+		regiment = { type = infantry_brigade name = "第31步兵团" historical_model = 3 }
+		regiment = { type = infantry_brigade name = "第52步兵团" historical_model = 3 }
+	}
+	corps = {
+		name = "第III军"
+		location = 144
+		regiment = { type = hq_brigade name = "第III军指挥部" historical_model = 0 }
+		division= {
+			name = "第3师"
+			location = 144
+			regiment = { type = infantry_brigade name = "第11步兵团" historical_model = 3 }
+			regiment = { type = infantry_brigade name = "第32步兵团" historical_model = 3 }
+		}
+	}
+	army = {
+		name = "芬兰军"
+		location = 740
+		regiment = {  type = hq_brigade name = "芬兰军指挥部" historical_model = 0 }
+		corps = {
+			name = "第IV军"
+			location = 740
+			regiment = { type = hq_brigade name = "第IV军指挥部" historical_model = 0 }
+			division= {
+				name = "第2师"
+				location = 740
+				regiment = { type = infantry_brigade name = "第7步兵团" historical_model = 3 }
+				regiment = { type = infantry_brigade name = "第49步兵团" historical_model = 3 }
+			}
+			division= {
+				name = "第10师"
+				location = 740
+				regiment = { type = infantry_brigade name = "第1步兵团" historical_model = 3 }
+				regiment = { type = infantry_brigade name = "第58步兵团" historical_model = 3 }
+				regiment = { type = infantry_brigade historical_model = 3 }
+			}
+			division= {
+				name = "第15师"
+				location = 658
+				regiment = { type = infantry_brigade name = "第15步兵团" historical_model = 3 }
+				regiment = { type = infantry_brigade name = "第36步兵团" historical_model = 3 }
+				regiment = { type = infantry_brigade name = "第57步兵团" historical_model = 3 }
+			}
+			division= {
+				name = "第18师"
+				location = 658
+				regiment = { type = infantry_brigade name = "第6步兵团" historical_model = 3 }
+				regiment = { type = infantry_brigade name = "第27步兵团" historical_model = 3 }
+				regiment = { type = infantry_brigade name = "第48步兵团" historical_model = 3 }
+			}
+			division= {
+				name = "第19师"
+				location = 658
+				regiment = { type = infantry_brigade name = "第16步兵团" historical_model = 3 }
+				regiment = { type = infantry_brigade name = "第37步兵团" historical_model = 3 }
+				regiment = { type = infantry_brigade name = "第58步兵团" historical_model = 3 }
+			}
+		}
+	}
+	army = {
+		name = "奥罗内茨军团"
+		location = 583
+		regiment = { type = hq_brigade name = "奥罗内茨军团指挥部" historical_model = 2 }
+		corps = {
+			name = "第VI军"
+			location = 583
+			regiment = { type = hq_brigade name = "第VI军指挥部" historical_model = 0 }
+			division= {
+				name = "第5师"
+				location = 583
+				regiment = { type = infantry_brigade name = "第2步兵团" historical_model = 3 }
+				regiment = { type = infantry_brigade name = "第23步兵团" historical_model = 3 }
+				regiment = { type = infantry_brigade name = "第44步兵团" historical_model = 3 }
+			}
+			division= {
+				name = "第8师"
+				location = 621
+				regiment = { type = infantry_brigade name = "第4步兵团" historical_model = 3 }
+				regiment = { type = infantry_brigade name = "第24步兵团" historical_model = 3 }
+				regiment = { type = infantry_brigade name = "第45步兵团" historical_model = 3 }
+			}
+			division= {
+				name = "第17师"
+				location = 620
+				regiment = { type = infantry_brigade name = "第13步兵团" historical_model = 3 }
+				regiment = { type = infantry_brigade name = "第34步兵团" historical_model = 3 }
+				regiment = { type = infantry_brigade name = "第61步兵团" historical_model = 3 }
+			}
+		}
+		corps = {
+			name = "第V军"
+			location = 405
+			regiment = { type = hq_brigade name = "第V军指挥部" historical_model = 0 }
+			division= {
+				name = "第11师"
+				location = 405
+				regiment = { type = bergsjaeger_brigade name = "第30步兵团" historical_model = 3 }
+				regiment = { type = bergsjaeger_brigade name = "第50步兵团" historical_model = 3 }
+			}
+			division= {
+				name = "第7师"
+				location = 435
+				regiment = { type = infantry_brigade name = "第9步兵团" historical_model = 3 }
+				regiment = { type = infantry_brigade name = "第30步兵团" historical_model = 3 }
+				regiment = { type = infantry_brigade name = "第51步兵团" historical_model = 3 }
+			}
+		}
+	}
+	army = {
+		name = "马赛克军团"
+		location = 434
+		regiment = { type = hq_brigade name = "马赛克军团指挥部" historical_model = 2 }
+		corps = {
+			name = "第II军"
+			location = 434
+			regiment = { type = hq_brigade name = "第II军指挥部" historical_model = 0 }
+			division= {
+				name = "第1师"
+				location = 434
+				regiment = { type = infantry_brigade name = "第35步兵团" historical_model = 3 }
+				regiment = { type = infantry_brigade name = "第56步兵团" historical_model = 3 }
+				regiment = { type = infantry_brigade name = "第60步兵团" historical_model = 3 }
+			}
+			division= {
+				name = "第3师"
+				location = 434
+				regiment = { type = infantry_brigade name = "第11步兵团" historical_model = 3 }
+				regiment = { type = infantry_brigade name = "第53步兵团" historical_model = 3 }
+			}
+			division= {
+				name = "第4师"
+				location = 405
+				regiment = { type = infantry_brigade name = "第5步兵团" historical_model = 3 }
+				regiment = { type = infantry_brigade name = "第25步兵团" historical_model = 3 }
+				regiment = { type = infantry_brigade name = "第46步兵团" historical_model = 3 }
+			}
+			division= {
+				name = "第6师"
+				location = 405
+				regiment = { type = infantry_brigade name = "第12步兵团" historical_model = 3 }
+				regiment = { type = infantry_brigade name = "第35步兵团" historical_model = 3 }
+			}
+		}
+	}
+}
+navy = {
+	name = "芬兰海军"
+	base = 739
+	location = 739
+	ship = { type = heavy_cruiser name = "伊尔玛利宁号" historical_model = 0 pride = yes }
+	ship = { type = heavy_cruiser name = "维纳莫伊宁号" historical_model = 0 }
+	ship = { type = submarine name = "第1潜艇大队" historical_model = 0 }
+}
+air = {
+	name = "芬兰空军"
+	base = 739
+	location = 739
+	wing = { type = interceptor name = "芬兰空军" historical_model = 2 }
+}

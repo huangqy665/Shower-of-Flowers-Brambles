@@ -1,0 +1,227 @@
+theatre = {
+	name = "匈牙利皇家军队"
+	location = 3164 # Budapest
+	leader = 31172  # Szombathelyi
+	regiment = { type = hq_brigade name = "匈牙利皇家军队指挥部" historical_model = 0 }
+	armygroup = {
+		name = "匈牙利国防军"
+		location = 3164 # Budapest
+		leader = 31187  # Werth
+		regiment = { type = hq_brigade name = "匈牙利国防军指挥部" historical_model = 0 }
+		army = {
+			name = "第1兵团"
+			location = 3164 # Budapest
+			regiment = { type = hq_brigade name = "第1军指挥部" historical_model = 0 }
+			corps = {
+				name = "第I军"
+				location = 3164 # Budapest
+				leader = 31163 # Ruszkiczay-R黡iger
+				regiment = { type = hq_brigade name = "第I军指挥部" historical_model = 0 }
+				division= {
+					name = "第1步兵师"
+					location = 3164 # Budapest
+					regiment = { type = infantry_brigade name = "第1步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第31步兵团" historical_model = 1 }
+				}
+				division= {
+					name = "第3步兵师"
+					location = 3164 # Budapest
+					regiment = { type = infantry_brigade name = "第15步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第45步兵团" historical_model = 1 }
+				}
+			}
+			corps = {
+				name = "第II军"
+				location = 3297  # Szekesfehervar
+				leader = 31135 # Hennyey
+				regiment = { type = hq_brigade name = "第II军指挥部" historical_model = 0 }
+				division= {
+					name = "第4步兵师"
+					location = 3297 # Szekesfehervar
+					regiment = { type = infantry_brigade name = "第3步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第33步兵团" historical_model = 1 }
+				}
+				division= {
+					name = "第6步兵师"
+					location = 3162 # Gy鰎
+					regiment = { type = infantry_brigade name = "第22步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第52步兵团" historical_model = 1 }
+				}
+			}
+			corps = {
+				name = "第III军"
+				location = 3161 # Sopron
+				leader = 31120 # Domaniczky
+				regiment = { type = hq_brigade name = "第III军指挥部" historical_model = 0 }
+				division= {
+					name = "第7步兵师"
+					location = 3161 # Sopron
+					regiment = { type = infantry_brigade name = "第4步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第34步兵团" historical_model = 1 }
+				}
+				division= {
+					name = "第9步兵师"
+					location = 3501 # Nagykanizsa
+					regiment = { type = infantry_brigade name = "第17步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第47步兵团" historical_model = 1 }
+				}
+			}
+		}
+		army = {
+			name = "第2兵团"
+			location = 3502 # Kaposvar
+			leader = 31142 # Jany
+			regiment = { type = hq_brigade name = "第2军指挥部" historical_model = 0 }
+			corps = {
+				name = "第IV军"
+				location = 3502 # Kaposvar
+				leader = 31114  # Csatay von Csatai
+				regiment = { type = hq_brigade name = "第II军指挥部" historical_model = 0 }
+				division= {
+					name = "第10步兵师"
+					location = 3502 # Kaposvar
+					regiment = { type = infantry_brigade name = "第6步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第36步兵团" historical_model = 1 }
+				}
+				division= {
+					name = "第11步兵师"
+					location = 3569 # Pecs
+					leader = 31101 # Algya-Pap
+					regiment = { type = infantry_brigade name = "第8步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第38步兵团" historical_model = 1 }
+				}
+				division= {
+					name = "第12步兵师"
+					location = 3569 # Pecs
+					regiment = { type = infantry_brigade name = "第18步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第48步兵团" historical_model = 1 }
+				}
+			}
+			corps = {
+				name = "第V军"
+				location = 3367 # Kecskemet
+				leader = 31126 # Feketehalmy-Czeydner
+				regiment = { type = hq_brigade name = "第II军指挥部" historical_model = 0 }
+				division= {
+					name = "第13步兵师"
+					location = 3367 # Kecskemet
+					regiment = { type = infantry_brigade name = "第7步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第37步兵团" historical_model = 1 }
+				}
+				division= {
+					name = "第14步兵师"
+					location = 3437 # Szeged
+					leader = 31185 # Stomm
+					regiment = { type = infantry_brigade name = "第9步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第39步兵团" historical_model = 1 }
+				}
+				division= {
+					name = "第15步兵师"
+					location = 3437 # Szeged
+					regiment = { type = infantry_brigade name = "第20步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第50步兵团" historical_model = 1 }
+				}
+			}
+			corps = {
+				name = "第VI军"
+				location = 3299 # Szolnok
+				leader = 31109  # Beregffy
+				regiment = { type = hq_brigade name = "第II军指挥部" historical_model = 0 }
+				division= {
+					name = "第16步兵师"
+					location = 3299 # Szolnok
+					regiment = { type = infantry_brigade name = "第10步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第40步兵团" historical_model = 1 }
+				}
+				division= {
+					name = "第17步兵师"
+					location = 3300 # Debrecen
+					leader = 31104 # Bakay
+					regiment = { type = infantry_brigade name = "第11步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第41步兵团" historical_model = 1 }
+					}
+				division= {
+					name = "第18步兵师"
+					location = 3300 # Debrecen
+					leader = 31254 # Olgyay
+					regiment = { type = infantry_brigade name = "第19步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第49步兵团" historical_model = 1 }
+				}
+			}
+		}
+		army = {
+			name = "第3兵团"
+			location = 3099 # Miskolc
+			leader = 31118 # Decleva
+			regiment = { type = hq_brigade name = "第3军指挥部" historical_model = 0 }
+			corps = {
+				name = "第VII军"
+				location = 3099 # Miskolc
+				leader = 31157  # Nagy V
+				regiment = { type = hq_brigade name = "第II军指挥部" historical_model = 0 }
+				division= {
+					name = "第19步兵师"
+					location = 3099 # Miskolc
+					regiment = { type = infantry_brigade name = "第13步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第43步兵团" historical_model = 1 }
+				}
+				division= {
+					name = "第20步兵师"
+					location = 3099 # Miskolc
+					regiment = { type = infantry_brigade name = "第14步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第44步兵团" historical_model = 1 }
+				}
+			}
+			corps = {
+				name = "第VIII军"
+				location = 2897 # Kosice
+				leader = 31147  # Lakatos
+				regiment = { type = hq_brigade name = "第II军指挥部" historical_model = 0 }
+				division= {
+					name = "第22步兵师"
+					location = 2897 # Kosice
+					regiment = { type = infantry_brigade name = "第12步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第42步兵团" historical_model = 1 }
+				}
+				division= {
+					name = "第23步兵师"
+					location = 2897 # Kosice
+					regiment = { type = infantry_brigade name = "第21步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第51步兵团" historical_model = 1 }
+				}
+			}
+			corps = {
+				name = "第IX军"
+				location = 3441 # Cluj
+				regiment = { type = hq_brigade name = "第II军指挥部" historical_model = 0 }
+				division= {
+					name = "第25步兵师"
+					location = 3441 # Cluj
+					regiment = { type = infantry_brigade name = "第25步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第55步兵团" historical_model = 1 }
+				}
+				division= {
+					name = "第26步兵师"
+					location = 3441 # Cluj
+					regiment = { type = infantry_brigade name = "第26步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第56步兵团" historical_model = 1 }
+				}
+				division= {
+					name = "第27步兵师"
+					location = 3441 # Cluj
+					regiment = { type = infantry_brigade name = "第27步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第57步兵团" historical_model = 1 }
+				}
+			}
+		}
+	}
+}
+air = {
+	name = "第I航空队"
+	base = 3164
+	location = 3301
+	leader = 31198  # Rakosi
+	wing = { type = interceptor name = "第I战斗机联队" historical_model = 2 }
+	wing = { type = interceptor name = "第II战斗机联队" historical_model = 2 }
+	wing = { type = tactical_bomber name = "第I轰炸机联队" historical_model = 1 }
+}

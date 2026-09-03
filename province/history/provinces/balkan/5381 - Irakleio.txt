@@ -1,0 +1,15 @@
+owner = GRE
+controller = GRE
+add_core = GRE
+energy = 1.00
+industry = 1
+anti_air = 1
+infra = 6
+air_base = 2
+naval_base = 2
+1941.4.30 = {
+	controller = ITA
+}
+1943.9.3 = {
+	controller = GER
+}

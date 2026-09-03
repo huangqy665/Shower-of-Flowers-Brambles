@@ -1,0 +1,6 @@
+owner = FRA
+controller = FRA
+add_core = FRA
+1944.12.01 = {
+	controller = USA
+}

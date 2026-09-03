@@ -1,0 +1,312 @@
+230000 = {
+	name = "巴尔克森托.拉莫斯"
+	country = NIC
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L230000
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+230001 = {
+	name = "卡拉瓦尔.安东尼奥"
+	country = NIC
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L230001
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1938.1.1 = { rank = 3 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+230002 = {
+	name = "卡里翁.麦克多诺"
+	country = NIC
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L230002
+	add_trait = engineer
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+230003 = {
+	name = "科罗维尔.基尔施"
+	country = NIC
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L230003
+	history = {
+		1938.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+230004 = {
+	name = "埃斯特拉萨.y.胡安"
+	country = NIC
+	type = land
+	skill = 3
+	max_skill = 4
+	loyalty = 1.00
+	picture = L230004
+	add_trait = trickster
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 3 }
+	}
+}
+230005 = {
+	name = "加西亚.扎尔达纳"
+	country = NIC
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L230005
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+230006 = {
+	name = "哈勒斯列文斯.阿塞韦多"
+	country = NIC
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L230006
+	add_trait = panzer_leader
+	history = {
+		1943.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+230007 = {
+	name = "蒙特雷"
+	country = NIC
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L230007
+	add_trait = panzer_leader
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+230008 = {
+	name = "尼尼奥.米兰达"
+	country = NIC
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L230008
+	add_trait = commando
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+230009 = {
+	name = "雷耶斯.帕洛米诺"
+	country = NIC
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L230009
+	add_trait = defensive_doctrine
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+230010 = {
+	name = "里瓦斯.夸德拉"
+	country = NIC
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L230010
+	history = {
+		1942.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+230011 = {
+	name = "罗克.加西亚"
+	country = NIC
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L230011
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+230012 = {
+	name = "萨尔瓦铁拉.里韦"
+	country = NIC
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L230012
+	add_trait = fortress_buster
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+230013 = {
+	name = "索拉尔.y.赫尔曼希洛"
+	country = NIC
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L230013
+	add_trait = offensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+230014 = {
+	name = "索摩查"
+	country = NIC
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L230014
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1930.1.1 = { rank = 4 }
+	}
+}
+230015 = {
+	name = "弗洛雷斯.门迭恩塔"
+	country = NIC
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L230015
+	history = {
+		1939.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+230016 = {
+	name = "尼尼奥.米兰达"
+	country = NIC
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L230016
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+230017 = {
+	name = "索摩查"
+	country = NIC
+	type = sea
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L230017
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+	}
+}
+230018 = {
+	name = "埃斯皮诺萨.阿尔塔米拉诺"
+	country = NIC
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L230018
+	history = {
+		1930.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+230019 = {
+	name = "加西亚.扎尔达纳"
+	country = NIC
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L230019
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+230020 = {
+	name = "马伦科"
+	country = NIC
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L230020
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+230021 = {
+	name = "佩雷达.昆塔斯"
+	country = NIC
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L230021
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+230022 = {
+	name = "里瓦斯.夸德拉"
+	country = NIC
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L230022
+	history = {
+		1942.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}

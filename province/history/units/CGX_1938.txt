@@ -1,0 +1,18 @@
+corps = {
+	name = "广西警备"
+	location = 7553
+	regiment = { type = hq_brigade name = "广西警备司令部" historical_model = 0 }
+	division= {
+		name = "广西保安队"
+		location = 7553
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "广西民军"
+		location = 7553
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+}
+

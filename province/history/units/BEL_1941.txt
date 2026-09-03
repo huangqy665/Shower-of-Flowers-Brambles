@@ -1,0 +1,16 @@
+division = {
+	name = "殖民地皇家卫队"
+	location = 10113
+	regiment = { type = infantry_brigade historical_model = 1 }
+	regiment = { type = infantry_brigade historical_model = 1 }
+	regiment = { type = infantry_brigade historical_model = 1 }
+}
+navy = {
+	name = "第1运输舰队"
+	base = 10113
+	location = 10113
+	ship = { type = transport_ship name = "第1运输分队" historical_model = 0 }
+}
+
+
+

@@ -1,0 +1,11 @@
+division = {
+	name = "º£µØÂ½¾ü"
+	location = 7661
+	is_reserve = yes
+	regiment = { type = infantry_brigade historical_model = 1 }
+	regiment = { type = infantry_brigade historical_model = 1 }
+	regiment = { type = infantry_brigade historical_model = 1 }
+}
+
+
+

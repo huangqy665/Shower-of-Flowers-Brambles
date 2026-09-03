@@ -1,0 +1,20 @@
+owner = BEL
+controller = BEL
+add_core = BEL
+
+terrain = woods
+
+metal = 2.00
+energy = 17.00
+industry = 5
+land_fort = 2
+anti_air = 2
+infra = 10
+manpower = 1.00
+leadership = 0.10
+1940.5.28 = {
+	controller = GER
+}
+1944.12.01 = {
+	controller = USA
+}

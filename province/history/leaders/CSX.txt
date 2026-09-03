@@ -1,0 +1,274 @@
+503000 = {
+	name = "贝尔楚金"
+	country = CSX
+	type = land
+	skill = 1
+	max_skill = 2
+	loyalty = 1.00
+	picture = L503000
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+503001 = {
+	name = "傅作义"
+	country = CSX
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L50085
+	add_trait = panzer_leader
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+503002 = {
+	name = "凯尔尼切克"
+	country = CSX
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L503002
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+503003 = {
+	name = "李服膺"
+	country = CSX
+	type = land
+	skill = 2
+	max_skill = 3
+	loyalty = 0.00
+	picture = L50174
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+503004 = {
+	name = "彭子谨"
+	country = CSX
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L503004
+	add_trait = winter_specialist
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+503005 = {
+	name = "鲁丁"
+	country = CSX
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L503005
+	add_trait = panzer_leader
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+503006 = {
+	name = "雷马科夫"
+	country = CSX
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L503006
+	add_trait = commando
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+503007 = {
+	name = "商震"
+	country = CSX
+	type = land
+	skill = 1
+	max_skill = 2
+	loyalty = 1.00
+	picture = L503007
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+	}
+}
+503008 = {
+	name = "史泽波"
+	country = CSX
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L503008
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+	}
+}
+503009 = {
+	name = "董其武"
+	country = CSX
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L50300
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+503010 = {
+	name = "王靖国"
+	country = CSX
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L50314
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+503011 = {
+	name = "阎锡山"
+	country = CSX
+	type = land
+	skill = 2
+	max_skill = 3
+	loyalty = 1.00
+	picture = L50348
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1938.1.1 = { rank = 3 }
+		1940.1.1 = { rank = 4 }
+	}
+}
+503012 = {
+	name = "克罗尔切夫"
+	country = CSX
+	type = sea
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L503012
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+503013 = {
+	name = "雷马科夫"
+	country = CSX
+	type = sea
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L503006
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+503014 = {
+	name = "阎锡山"
+	country = CSX
+	type = sea
+	skill = 1
+	max_skill = 2
+	loyalty = 1.00
+	picture = L50348
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1938.1.1 = { rank = 3 }
+	}
+}
+503015 = {
+	name = "格罗茨齐维利"
+	country = CSX
+	type = air
+	skill = 1
+	max_skill = 2
+	loyalty = 1.00
+	picture = L503015
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+503016 = {
+	name = "皮尔亚金"
+	country = CSX
+	type = air
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L503016
+	add_trait = superior_air_tactician
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+503017 = {
+	name = "阎锡山"
+	country = CSX
+	type = air
+	skill = 1
+	max_skill = 2
+	loyalty = 1.00
+	picture = L50348
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1938.1.1 = { rank = 3 }
+	}
+}
+503018 = {
+	name = "斯特雷修斯"
+	country = CSX
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L503018
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+503019 = {
+	name = "冯.德林"
+	country = CSX
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L503019
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}

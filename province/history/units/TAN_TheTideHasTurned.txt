@@ -1,0 +1,10 @@
+division = {
+	name = "Í¼ÍßµÚ1¾ü"
+	location = 8794
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+}
+
+
+

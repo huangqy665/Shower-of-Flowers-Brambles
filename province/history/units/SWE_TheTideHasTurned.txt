@@ -1,0 +1,168 @@
+last_election = 1940.9.15
+army = {
+	name = "瑞典陆军"
+	location = 862
+	regiment = { type = hq_brigade name = "瑞典陆军指挥部" historical_model = 1 }
+	division = {
+		name = "第I军"
+		location = 317
+		regiment = { type = infantry_brigade name = "北斯坎雅团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "克鲁努贝里团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "延雪平-卡玛尔团" historical_model = 1 }
+	}
+	division = {
+		name = "第1军"
+	location = 341
+	regiment = { type = infantry_brigade name = "约特兰来复枪团" historical_model = 1 }
+	regiment = { type = infantry_brigade name = "西诺兰团" historical_model = 1 }
+ }
+ division = {
+ name = "第1军分队"
+	location = 274	regiment = { type = infantry_brigade name = "西诺兰旅" historical_model = 2 }
+
+	}	division = {
+		name = "第III军"
+		location = 1056
+		regiment = { type = infantry_brigade name = "艾尔夫斯堡团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "哈兰团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "博斯兰团" historical_model = 1 }
+	}
+	division = {
+		name = "第IV军"
+		location = 862
+		regiment = { type = infantry_brigade name = "利夫掷弹猎兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "乌普兰团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "斯德哥尔摩团" historical_model = 1 }
+	}
+	division = {
+		name = "第XI军"
+		location = 317
+		regiment = { type = infantry_brigade name = "马尔默团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "布莱金厄团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "北斯马兰团" historical_model = 1 }
+	}
+	division = {
+		name = "第XII军"
+		location = 1056
+		regiment = { type = infantry_brigade name = "海尔辛团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "加斯特里克团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "翁厄曼兰团" historical_model = 1 }
+	}
+	division = {
+		name = "第XIII军"
+		location = 862
+		regiment = { type = infantry_brigade name = "西哥特团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "瓦尔贝里团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "哥滕堡团" historical_model = 1 }
+	}
+	division = {
+		name = "第XIV军"
+		location = 862
+		regiment = { type = infantry_brigade name = "奈里克斯团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "东哥特团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "罗斯拉根团" historical_model = 1 }
+	}
+	division = {
+		name = "第XVI军"
+		location = 901
+		regiment = { type = infantry_brigade name = "韦姆兰团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "利夫掷弹猎兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "达尔团" historical_model = 1 }
+	}
+	division = {
+		name = "第XV军"
+		location = 206
+		regiment = { type = infantry_brigade name = "北博滕团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "西博滕团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "拉普兰团" historical_model = 1 }
+	}
+	division = {
+		name = "哥特兰军"
+		location = 1135
+		regiment = { type = infantry_brigade name = "哥特兰团" historical_model = 1 }
+	}
+}
+navy = {
+	name = "第1舰队"
+	base = 862
+	location = 862
+	ship = { type = battlecruiser name = "瑞典号" historical_model = 0 pride = yes }
+	ship = { type = battlecruiser name = "维多利亚公主号" historical_model = 0 }
+	ship = { type = battlecruiser name = "古斯塔夫五世号" historical_model = 0 }
+	ship = { type = light_cruiser name = "哥特兰号" historical_model = 1 }
+	ship = { type = destroyer name = "第1驱逐舰队" historical_model = 0 }
+	ship = { type = destroyer name = "第2驱逐舰队" historical_model = 1 }
+}
+navy = {
+	name = "本土舰队"
+	base = 862
+	location = 862
+	ship = { type = light_cruiser name = "弗莱芒人号" historical_model = 0 }
+	ship = { type = transport_ship name = "第1运输舰队" historical_model = 0 }
+}
+navy = {
+	name = "奥兰海舰队"
+	base = 862
+	location = 862
+	ship = { type = heavy_cruiser name = "荣誉号" historical_model = 0 }
+	ship = { type = heavy_cruiser name = "刚毅号" historical_model = 0 }
+}
+navy = {
+	name = "卡尔斯克鲁纳舰队"
+	base = 1349
+	location = 1349
+	ship = { type = heavy_cruiser name = "奥斯卡二世号" historical_model = 0 }
+	ship = { type = submarine name = "第1潜艇编队" historical_model = 0 }
+	ship = { type = submarine name = "第3潜艇编队" historical_model = 1 }
+}
+navy = {
+	name = "哥特堡舰队"
+	base = 1171
+	location = 1171
+	ship = { type = heavy_cruiser name = "勇敢号" historical_model = 0 }
+	ship = { type = submarine name = "第2潜艇编队" historical_model = 1 }
+	ship = { type = submarine name = "第4潜艇编队" historical_model = 1 }
+}
+air = {
+	name = "第1航空联队"
+	base = 862
+	location = 862
+	wing = { type = tactical_bomber name = "第1战术轰炸机大队" historical_model = 1 }
+}
+air = {
+	name = "第4航空联队"
+	base = 862
+	location = 862
+	wing = { type = tactical_bomber name = "第41/42/43轰炸机中队" historical_model = 1 }
+}
+air = {
+	name = "第6航空联队"
+	base = 862
+	location = 862
+	wing = { type = interceptor name = "第61/62/63轰炸机中队" historical_model = 1 }
+}
+air = {
+	name = "第7航空联队"
+	base = 862
+	location = 862
+	wing = { type = tactical_bomber name = "第71/72轰炸机中队" historical_model = 1 }
+}
+air = {
+	name = "第8航空联队"
+	base = 862
+	location = 862
+	wing = { type = interceptor name = "第1战斗机大队" historical_model = 2 }
+	wing = { type = tactical_bomber name = "第6战术轰炸机大队" historical_model = 1 }
+}
+air = {
+	name = "第9航空联队"
+	base = 193
+	location = 193
+	wing = { type = interceptor name = "第2战斗机大队" historical_model = 2 }
+}
+air = {
+	name = "第10航空联队"
+	base = 862
+	location = 862
+	wing = { type = interceptor name = "第3战斗机大队" historical_model = 2 }
+}

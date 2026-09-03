@@ -1,0 +1,6 @@
+navy = {
+	name = "菲律宾海军"
+	base = 6142
+	location = 6142
+	ship = { type = transport_ship name = "第1运兵分队" historical_model = 0 }
+}

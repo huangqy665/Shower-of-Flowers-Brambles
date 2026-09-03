@@ -1,0 +1,1 @@
+owner = MANcontroller = MANadd_core = MANmetal = 9.00energy = 16.00rare_materials = 3.00industry = 6infra = 6manpower = 9.00leadership = 0.90

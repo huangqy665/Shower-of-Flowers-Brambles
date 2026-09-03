@@ -1,0 +1,61 @@
+corps = {
+	name = "墨西哥军团"
+	location = 9604
+	regiment = { type = hq_brigade name = "墨西哥军团指挥部" historical_model = 0 }
+	division= {
+		name = "总统卫队"
+		location = 9604
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		is_reserve = yes
+		name = "第I步兵师"
+		location = 9604
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		is_reserve = yes
+		name = "第II步兵师"
+		location = 9604
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		is_reserve = yes
+		name = "第III步兵师"
+		location = 9604
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+}
+corps = {
+	name = "墨西哥骑兵"
+	location = 9238
+	regiment = { type = hq_brigade name = "墨西哥骑兵指挥部" historical_model = 0 }
+	division= {
+		name = "第I骑兵师"
+		location = 9238
+		regiment = { type = cavalry_brigade historical_model = 1 }
+		regiment = { type = cavalry_brigade historical_model = 1 }
+		regiment = { type = cavalry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第II骑兵师"
+		location = 9238
+		regiment = { type = cavalry_brigade historical_model = 1 }
+		regiment = { type = cavalry_brigade historical_model = 1 }
+		regiment = { type = cavalry_brigade historical_model = 1 }
+	}
+}
+air = {
+	name = "墨西哥航空部队"
+	base = 9658
+	location = 9658
+	wing = { type = interceptor name = "第1歼击机编队" historical_model = 1 }
+}

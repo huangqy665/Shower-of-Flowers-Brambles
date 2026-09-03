@@ -1,0 +1,50 @@
+corps = {
+	name = "人民军"
+	location = 8892
+	regiment = { type = hq_brigade name = "人民军指挥部" historical_model = 0 }
+	division= {
+		name = "人民军民兵"
+		location = 8892
+		regiment = { type = militia_brigade historical_model = 1 }
+		regiment = { type = militia_brigade historical_model = 1 }
+		regiment = { type = militia_brigade historical_model = 1 }
+	}
+	division= {
+		name = "人民军骑兵"
+		location = 8892
+		regiment = { type = cavalry_brigade historical_model = 1 }
+		regiment = { type = cavalry_brigade historical_model = 1 }
+	}
+}
+corps = {
+	name = "蒙古军团"
+	location = 8912
+	regiment = { type = hq_brigade name = "蒙古军团指挥部" historical_model = 0 }
+	division= {
+		name = "第1师"
+		location = 8912
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第2师"
+		location = 8912
+		regiment = { type = cavalry_brigade historical_model = 1 }
+		regiment = { type = cavalry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第3师"
+		location = 8912
+		regiment = { type = militia_brigade historical_model = 1 }
+		regiment = { type = militia_brigade historical_model = 1 }
+		regiment = { type = militia_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第4师"
+		location = 8912
+		regiment = { type = militia_brigade historical_model = 1 }
+		regiment = { type = militia_brigade historical_model = 1 }
+		regiment = { type = militia_brigade historical_model = 1 }
+	}
+}

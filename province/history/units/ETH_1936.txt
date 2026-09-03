@@ -1,0 +1,67 @@
+corps = {
+	name = "皇家陆军"
+	location = 9943
+	regiment = { type = hq_brigade name = "皇家陆军指挥部" historical_model = 0 }
+	division= {
+		name = "皇家近卫"
+		location = 9943
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第1师"
+		location = 9943
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第2师"
+		location = 9943
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+}
+corps = {
+	name = "第1民兵军"
+	location = 9979
+	regiment = { type = hq_brigade name = "第1民兵军指挥部" historical_model = 0 }
+	division= {
+		name = "第1民兵师"
+		location = 9979
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第2民兵师"
+		location = 9979
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+}
+corps = {
+	name = "第2民兵军"
+	location = 9887
+	regiment = { type = hq_brigade name = "第2民兵军指挥部" historical_model = 0 }
+	division= {
+		name = "第3民兵师"
+		location = 9887
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第4民兵师"
+		location = 9887
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+}
+
+
+

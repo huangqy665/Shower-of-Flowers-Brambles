@@ -1,0 +1,310 @@
+210000 = {
+	name = "阿拉纳"
+	country = GUA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L210000
+	history = {
+		1941.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+210001 = {
+	name = "阿本斯.古茨曼"
+	country = GUA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L210001
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+210002 = {
+	name = "布埃纳文图勒.皮内达"
+	country = GUA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L210002
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+210003 = {
+	name = "卡斯蒂略.阿马斯"
+	country = GUA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L210003
+	history = {
+		1942.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+210004 = {
+	name = "查康.德.利昂"
+	country = GUA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L210004
+	add_trait = trickster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+210005 = {
+	name = "迪亚兹.德.利昂"
+	country = GUA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L210005
+	add_trait = offensive_doctrine
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+210006 = {
+	name = "弗洛雷斯.阿文达尼奥"
+	country = GUA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L210006
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+210007 = {
+	name = "奥雷利亚纳"
+	country = GUA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L210007
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 3 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+210008 = {
+	name = "奥尔蒂斯.埃斯卡兰特"
+	country = GUA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L210008
+	add_trait = commando
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+210009 = {
+	name = "蓬斯.瓦伊德斯"
+	country = GUA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L210009
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+210010 = {
+	name = "乌维科.卡斯塔涅达"
+	country = GUA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L210010
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+210011 = {
+	name = "比利亚夫兰科.门多萨"
+	country = GUA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L210011
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+210012 = {
+	name = "比利亚格兰.阿里萨"
+	country = GUA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L210012
+	add_trait = fortress_buster
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+210013 = {
+	name = "伊迪戈拉斯.芬特斯"
+	country = GUA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L210013
+	add_trait = panzer_leader
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+210014 = {
+	name = "埃祖伊拉.亚伯"
+	country = GUA
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L210014
+	history = {
+		1930.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+210015 = {
+	name = "门多萨.阿劳亚"
+	country = GUA
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L210015
+	add_trait = seawolf
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+210016 = {
+	name = "门多萨.乌里贝"
+	country = GUA
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L210016
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+210017 = {
+	name = "托列洛.加里多"
+	country = GUA
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L210017
+	add_trait = spotter
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+210018 = {
+	name = "布埃纳文图勒.皮内达"
+	country = GUA
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L210018
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+210019 = {
+	name = "加西亚.格拉纳多斯"
+	country = GUA
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L210019
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+210020 = {
+	name = "马丁内斯.卡斯特罗"
+	country = GUA
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L210020
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+210021 = {
+	name = "佩拉尔塔.阿苏迪亚"
+	country = GUA
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L210021
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+210022 = {
+	name = "特施.奥兰多"
+	country = GUA
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L210022
+	history = {
+		1941.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}

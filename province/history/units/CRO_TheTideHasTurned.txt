@@ -1,0 +1,68 @@
+army = {
+	name = "克罗地亚陆军"
+	location = 3633
+	regiment = { type = hq_brigade name = "克罗地亚陆军指挥部" historical_model = 0 }
+	corps = {
+		name = "第1军"
+		location = 3700
+		regiment = { type = hq_brigade name = "第1军指挥部" historical_model = 0 }
+		division= {
+			name = "第1步兵师"
+			location = 3700
+			regiment = { type = infantry_brigade name = "第1步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第2步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第11步兵团" historical_model = 1 }
+		}
+		division= {
+			name = "第2步兵师"
+			location = 3700
+			regiment = { type = infantry_brigade name = "第3步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第12步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第15步兵团" historical_model = 1 }
+		}
+	}
+	corps = {
+		name = "第2军"
+		location = 3838
+		regiment = { type = hq_brigade name = "第2军指挥部" historical_model = 0 }
+		division= {
+			name = "第3步兵师"
+			location = 3838
+			regiment = { type = infantry_brigade name = "第4步兵旅" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第6步兵旅" historical_model = 1 }
+		}
+		division= {
+			name = "第4步兵师"
+			location = 3838
+			regiment = { type = infantry_brigade name = "第5步兵旅" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第8步兵旅" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第10步兵旅" historical_model = 1 }
+		}
+	}
+	corps = {
+		name = "第3军"
+		location = 4174
+		regiment = { type = hq_brigade name = "第3军指挥部" historical_model = 0 }
+		division= {
+			name = "第5步兵师"
+			location = 4174
+			regiment = { type = infantry_brigade name = "第7步兵旅" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第9步兵旅" historical_model = 1 }
+		}
+		division= {
+			name = "第6步兵师"
+			location = 4174
+			regiment = { type = infantry_brigade name = "第13步兵旅" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第14步兵旅" historical_model = 1 }
+		}
+	}
+	division= {
+		is_reserve = yes
+		name = "第1山地师"
+		location = 4174
+		regiment = { type = bergsjaeger_brigade name = "第1山地旅" historical_model = 1 }
+		regiment = { type = bergsjaeger_brigade name = "第2山地旅" historical_model = 1 }
+		regiment = { type = bergsjaeger_brigade name = "第3山地旅" historical_model = 1 }
+		regiment = { type = bergsjaeger_brigade name = "第4山地旅" historical_model = 1 }
+	}
+}

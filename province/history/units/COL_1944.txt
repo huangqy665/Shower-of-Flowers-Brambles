@@ -1,0 +1,30 @@
+corps = {
+	name = "哥伦比亚军"
+	location = 9790
+	regiment = { type = hq_brigade name = "哥伦比亚军指挥部" historical_model = 0 }
+	division= {
+		name = "第1步兵师"
+		location = 9790
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第1骑兵师"
+		location = 9790
+		is_reserve = yes
+		regiment = { type = cavalry_brigade historical_model = 1 }
+		regiment = { type = cavalry_brigade historical_model = 1 }
+
+	}
+}
+navy = {
+	name = "哥伦比亚海军"
+	base = 9790
+	location = 9790
+	ship = { type = destroyer name = "第1运输舰队" historical_model = 0 }
+}
+
+
+

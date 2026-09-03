@@ -1,0 +1,1370 @@
+31000 = {
+	name = "阿尔贝托.范萨西奥"
+	country = BRA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L31000
+	add_trait = logistics_wizard
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+31001 = {
+	name = "奥温.马里尼奥"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L31001
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+31002 = {
+	name = "奥雷利奥.德.德蒙泰罗"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L31002
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1938.1.1 = { rank = 0 }
+	}
+}
+31003 = {
+	name = "巴拉塔.德.阿塞韦多"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L31003
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+31004 = {
+	name = "巴尔博萨"
+	country = BRA
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 0.00
+	picture = L31004
+	add_trait = commando
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+31005 = {
+	name = "博尔格斯.达.丰塞卡.内多"
+	country = BRA
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L31005
+	add_trait = logistics_wizard
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+31006 = {
+	name = "卡尔多索"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L31006
+	add_trait = logistics_wizard
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+31007 = {
+	name = "卡西亚诺"
+	country = BRA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L31007
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+31008 = {
+	name = "卡斯特卢.布兰卡"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L31008
+	add_trait = offensive_doctrine
+	history = {
+		1940.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+31009 = {
+	name = "卓达富斯.德.拉瓦拉德"
+	country = BRA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L31009
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+31010 = {
+	name = "科埃略.内多"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L31010
+	add_trait = panzer_leader
+	history = {
+		1937.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+31011 = {
+	name = "科代罗.德.法里亚斯"
+	country = BRA
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L31011
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+31012 = {
+	name = "高斯塔.斯里法"
+	country = BRA
+	type = land
+	skill = 3
+	max_skill = 6
+	loyalty = 1.00
+	picture = L31012
+	add_trait = offensive_doctrine
+	history = {
+		1942.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 2 }
+		1949.1.1 = { rank = 3 }
+		1951.1.1 = { rank = 4 }
+	}
+}
+31013 = {
+	name = "德'艾琳柯尔特.丰塞卡"
+	country = BRA
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L31013
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+31014 = {
+	name = "达.贾马.利莫"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L31014
+	add_trait = panzer_leader
+	history = {
+		1937.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+31015 = {
+	name = "达.斯里法"
+	country = BRA
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L31015
+	add_trait = engineer
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+31016 = {
+	name = "德.阿西斯"
+	country = BRA
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L31016
+	add_trait = defensive_doctrine
+	history = {
+		1938.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 3 }
+	}
+}
+31017 = {
+	name = "德.索萨.丹塔斯.德.门罗"
+	country = BRA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L31017
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+31018 = {
+	name = "迪莱曼多.德.阿西斯"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L31018
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+31019 = {
+	name = "多.纳茨门托"
+	country = BRA
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 0.00
+	picture = L31019
+	add_trait = trickster
+	history = {
+		1941.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+31020 = {
+	name = "多.纳茨门托.林斯"
+	country = BRA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L31020
+	history = {
+		1930.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+31021 = {
+	name = "多斯.桑托斯"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L31021
+	add_trait = commando
+	history = {
+		1938.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+31022 = {
+	name = "法尔肯尼诺.达.库尼亚"
+	country = BRA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L31022
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+31023 = {
+	name = "费尔南斯.达.斯里法"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L31023
+	add_trait = commando
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+31024 = {
+	name = "菲格雷多"
+	country = BRA
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 0.00
+	picture = L31024
+	history = {
+		1937.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+31025 = {
+	name = "菲乌萨.德.卡斯特罗"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L31025
+	add_trait = offensive_doctrine
+	history = {
+		1938.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+31026 = {
+	name = "弗洛里亚诺.德.利马.巴尔"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L31026
+	add_trait = offensive_doctrine
+	history = {
+		1939.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+31027 = {
+	name = "加斯帕.杜特拉"
+	country = BRA
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L31027
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1930.1.1 = { rank = 4 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+31028 = {
+	name = "格莱乌贝尔.比埃拉"
+	country = BRA
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L31028
+	add_trait = fortress_buster
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+31029 = {
+	name = "戈埃斯.德普伊"
+	country = BRA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L31029
+	add_trait = commando
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+31030 = {
+	name = "戈埃斯.蒙泰罗"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L31030
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+31031 = {
+	name = "吉马良斯"
+	country = BRA
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 0.00
+	picture = L31031
+	add_trait = engineer
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+31032 = {
+	name = "克罗纳"
+	country = BRA
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L31032
+	add_trait = trickster
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1938.1.1 = { rank = 3 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+31033 = {
+	name = "克普"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L31033
+	add_trait = panzer_leader
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+31034 = {
+	name = "莱唐.德.卡瓦略"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L31034
+	add_trait = logistics_wizard
+	history = {
+		1937.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+31035 = {
+	name = "洛佩斯.韦拉"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L31035
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+31036 = {
+	name = "马斯卡雷尼亚斯.德.莫雷斯"
+	country = BRA
+	type = land
+	skill = 3
+	max_skill = 6
+	loyalty = 0.00
+	picture = L31036
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 3 }
+		1944.1.1 = { rank = 4 }
+	}
+}
+31037 = {
+	name = "纳波莱昂.波埃塔"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L31037
+	add_trait = fortress_buster
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+31038 = {
+	name = "内韦斯.达.丰托拉"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L31038
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+31039 = {
+	name = "牛顿.卡瓦尔坎蒂"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L31039
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+31040 = {
+	name = "佩尔达.皮雷斯"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L31040
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+31041 = {
+	name = "佩雷拉.达.科斯塔"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L31041
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+31042 = {
+	name = "普利尼奥.皮塔卢加"
+	country = BRA
+	type = land
+	skill = 2
+	max_skill = 7
+	loyalty = 1.00
+	picture = L31042
+	add_trait = logistics_wizard
+	history = {
+		1939.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 3 }
+	}
+}
+31043 = {
+	name = "拉莫斯.德.安德雷德"
+	country = BRA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L31043
+	add_trait = fortress_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+31044 = {
+	name = "鲁舍尔.瓦斯孔塞卢斯"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L31044
+	add_trait = commando
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+31045 = {
+	name = "塞.萨.塞朗"
+	country = BRA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L31045
+	add_trait = engineer
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+31046 = {
+	name = "索隆.里贝罗"
+	country = BRA
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L31046
+	add_trait = commando
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+31047 = {
+	name = "塔瓦雷斯.达.斯里法"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L31047
+	history = {
+		1930.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+31048 = {
+	name = "特谢拉.洛特"
+	country = BRA
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L31048
+	add_trait = offensive_doctrine
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 3 }
+	}
+}
+31049 = {
+	name = "瓦尔加斯.内韦斯"
+	country = BRA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L31049
+	add_trait = engineer
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+31050 = {
+	name = "泽诺比奥.达.科斯塔"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L31050
+	add_trait = fortress_buster
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+31051 = {
+	name = "阿尔瓦罗.阿尔贝托"
+	country = BRA
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L31051
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+31052 = {
+	name = "阿尔瓦罗.多.卡博"
+	country = BRA
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L31052
+	history = {
+		1941.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+31053 = {
+	name = "卡塔尼罗.达.斯里法"
+	country = BRA
+	type = sea
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L31053
+	add_trait = old_guard
+	add_trait = seawolf
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+31054 = {
+	name = "沙尼奥.德.安德雷德"
+	country = BRA
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L31054
+	history = {
+		1939.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+31055 = {
+	name = "多.古斯芒.卡马拉"
+	country = BRA
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L31055
+	history = {
+		1945.1.1 = { rank = 1 }
+		1950.1.1 = { rank = 2 }
+	}
+}
+31056 = {
+	name = "多.恩里克.别哈"
+	country = BRA
+	type = sea
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L31056
+	add_trait = old_guard
+	add_trait = blockade_runner
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+31057 = {
+	name = "费尔南德斯.佩雷拉"
+	country = BRA
+	type = sea
+	skill = 0
+	max_skill = 5
+	loyalty = 0.00
+	picture = L31057
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+31058 = {
+	name = "吉扬.多.马雷"
+	country = BRA
+	type = sea
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L31058
+	add_trait = superior_tactician
+	history = {
+		1938.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+31059 = {
+	name = "洛希.苏亚雷斯"
+	country = BRA
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L31059
+	add_trait = spotter
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+31060 = {
+	name = "马塞多.卡伦.皮托"
+	country = BRA
+	type = sea
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L31060
+	add_trait = spotter
+	history = {
+		1940.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+31061 = {
+	name = "莫拉埃什.雷戈"
+	country = BRA
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L31061
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+31062 = {
+	name = "帕迪利亚"
+	country = BRA
+	type = sea
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L31062
+	history = {
+		1930.1.1 = { rank = 1 }
+		1937.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+	}
+}
+31063 = {
+	name = "佩克西托"
+	country = BRA
+	type = sea
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L31063
+	add_trait = old_guard
+	add_trait = spotter
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1930.1.1 = { rank = 4 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+31064 = {
+	name = "平哈斯"
+	country = BRA
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L31064
+	add_trait = seawolf
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+31065 = {
+	name = "西蒙斯.达.斯里法"
+	country = BRA
+	type = sea
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L31065
+	add_trait = old_guard
+	add_trait = superior_tactician
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+31066 = {
+	name = "塔瓦雷斯.达.昆霍"
+	country = BRA
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L31066
+	add_trait = seawolf
+	history = {
+		1940.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+31067 = {
+	name = "比迪加尔"
+	country = BRA
+	type = sea
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L31067
+	history = {
+		1938.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+31068 = {
+	name = "阿利贝托.维埃拉"
+	country = BRA
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L31068
+	history = {
+		1940.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+31069 = {
+	name = "奥雷利奥.桑帕约"
+	country = BRA
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 0.00
+	picture = L31069
+	history = {
+		1937.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+31070 = {
+	name = "贝洛克"
+	country = BRA
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 0.00
+	picture = L31070
+	add_trait = superior_air_tactician
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+31071 = {
+	name = "德.阿梅达"
+	country = BRA
+	type = air
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L31071
+	add_trait = old_guard
+	add_trait = carpet_bomber
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+31072 = {
+	name = "德.梅代罗斯"
+	country = BRA
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L31072
+	history = {
+		1939.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+31073 = {
+	name = "多斯.桑托斯"
+	country = BRA
+	type = air
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L31073
+	add_trait = superior_air_tactician
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+31074 = {
+	name = "菲盖拉.德.阿尔梅达"
+	country = BRA
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L31074
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+31075 = {
+	name = "弗尔"
+	country = BRA
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L31075
+	add_trait = old_guard
+	add_trait = night_flyer
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+31076 = {
+	name = "戈门"
+	country = BRA
+	type = air
+	skill = 3
+	max_skill = 6
+	loyalty = 0.00
+	picture = L31076
+	add_trait = tank_buster
+	history = {
+		1937.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+		1944.1.1 = { rank = 4 }
+	}
+}
+31077 = {
+	name = "拉温克.范德雷"
+	country = BRA
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L31077
+	add_trait = fleet_destroyer
+	history = {
+		1940.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+31078 = {
+	name = "莫塔.帕埃斯"
+	country = BRA
+	type = air
+	skill = 2
+	max_skill = 4
+	loyalty = 1.00
+	picture = L31078
+	history = {
+		1942.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1949.1.1 = { rank = 3 }
+	}
+}
+31079 = {
+	name = "蒙特内哥罗.费尔"
+	country = BRA
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 0.00
+	picture = L31079
+	history = {
+		1941.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+31080 = {
+	name = "莫拉"
+	country = BRA
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L31080
+	history = {
+		1939.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+31081 = {
+	name = "内罗.莫拉"
+	country = BRA
+	type = air
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L31081
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+31082 = {
+	name = "奥利韦拉.戈麦斯"
+	country = BRA
+	type = air
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L31082
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+	}
+}
+31083 = {
+	name = "奥尔森.萨普卡亚"
+	country = BRA
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L31083
+	add_trait = night_flyer
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+31084 = {
+	name = "理查森.科代罗"
+	country = BRA
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L31084
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+31085 = {
+	name = "阿戈斯蒂纽.多斯.桑托斯"
+	country = BRA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L31085
+	add_trait = offensive_doctrine
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+31086 = {
+	name = "达.韦加.卡布拉尔"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L31086
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+31087 = {
+	name = "德.塞加达斯.维亚纳"
+	country = BRA
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L31087
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+31088 = {
+	name = "丹尼斯"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L31088
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+	}
+}
+31089 = {
+	name = "圣埃斯皮里图.桑托.卡多索"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L31089
+	add_trait = engineer
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+31090 = {
+	name = "埃斯蒂拉克.里尔"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L31090
+	add_trait = fortress_buster
+	history = {
+		1937.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+31091 = {
+	name = "克鲁埃尔"
+	country = BRA
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 1.00
+	picture = L31091
+	add_trait = panzer_leader
+	history = {
+		1941.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1948.1.1 = { rank = 3 }
+	}
+}
+31092 = {
+	name = "莱特.德.卡斯特罗"
+	country = BRA
+	type = land
+	skill = 2
+	max_skill = 3
+	loyalty = 1.00
+	picture = L31092
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 3 }
+	}
+}
+31093 = {
+	name = "瑟斯菲多.帕索斯"
+	country = BRA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L31093
+	add_trait = engineer
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+31094 = {
+	name = "德.诺罗尼亚"
+	country = BRA
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L31094
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 3 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+31095 = {
+	name = "法里亚.德.阿伦卡尔"
+	country = BRA
+	type = sea
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L31095
+	add_trait = old_guard
+	add_trait = spotter
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1941.1.1 = { rank = 0 }
+	}
+}

@@ -1,0 +1,423 @@
+300000 = {
+	name = "阿布恩.侯赛因"
+	country = IRQ
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L300000
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+300001 = {
+	name = "阿尔.艾尔沙特"
+	country = IRQ
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L300001
+	history = {
+		1944.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+300002 = {
+	name = "阿尔.哈桑"
+	country = IRQ
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L300002
+	add_trait = logistics_wizard
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+300003 = {
+	name = "阿尔.拉维"
+	country = IRQ
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L300003
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+300004 = {
+	name = "阿尔.奥马里"
+	country = IRQ
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L300004
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+300005 = {
+	name = "阿斯.萨巴格"
+	country = IRQ
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L300005
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+300006 = {
+	name = "阿斯.赛义德"
+	country = IRQ
+	type = land
+	skill = 2
+	max_skill = 3
+	loyalty = 1.00
+	picture = L300006
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 4 }
+	}
+}
+300007 = {
+	name = "贝克尔.西德奇"
+	country = IRQ
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L300007
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1938.1.1 = { rank = 0 }
+	}
+}
+300008 = {
+	name = "达夫尼"
+	country = IRQ
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 0.00
+	picture = L300008
+	add_trait = commando
+	history = {
+		1942.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+300009 = {
+	name = "戴维斯"
+	country = IRQ
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L300009
+	add_trait = commando
+	history = {
+		1941.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+300010 = {
+	name = "埃雷卡特"
+	country = IRQ
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L300010
+	add_trait = panzer_leader
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+300011 = {
+	name = "法齐"
+	country = IRQ
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L300011
+	add_trait = commando
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+300012 = {
+	name = "加齐一世"
+	country = IRQ
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L300012
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1930.1.1 = { rank = 4 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+300013 = {
+	name = "格拉布"
+	country = IRQ
+	type = land
+	skill = 3
+	max_skill = 6
+	loyalty = 1.00
+	picture = L300013
+	add_trait = logistics_wizard
+	add_trait = offensive_doctrine
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+300014 = {
+	name = "伊沙卡特"
+	country = IRQ
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L300014
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+300015 = {
+	name = "奥斯本.威尔金森"
+	country = IRQ
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L300015
+	add_trait = panzer_leader
+	history = {
+		1942.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+300016 = {
+	name = "皮克"
+	country = IRQ
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L300016
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+300017 = {
+	name = "沙'阿兰"
+	country = IRQ
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L300017
+	add_trait = fortress_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+	}
+}
+300018 = {
+	name = "沙克尔.本.扎伊德"
+	country = IRQ
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L300018
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+300019 = {
+	name = "肖卡特"
+	country = IRQ
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L300019
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+300020 = {
+	name = "桑希尔"
+	country = IRQ
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L300020
+	add_trait = engineer
+	history = {
+		1943.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+300021 = {
+	name = "阿斯.萨巴格"
+	country = IRQ
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L300021
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+	}
+}
+300022 = {
+	name = "奈"
+	country = IRQ
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L300022
+	history = {
+		1941.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+300023 = {
+	name = "塔顿.赛克斯"
+	country = IRQ
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L300023
+	add_trait = seawolf
+	history = {
+		1942.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+300024 = {
+	name = "蒂姆斯"
+	country = IRQ
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L300024
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+300025 = {
+	name = "阿尔.特尔"
+	country = IRQ
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L300025
+	history = {
+		1942.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+300026 = {
+	name = "本.贾瓦德"
+	country = IRQ
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L300026
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+300027 = {
+	name = "菲舍尔"
+	country = IRQ
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L300027
+	history = {
+		1942.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+300028 = {
+	name = "格兰特"
+	country = IRQ
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L300028
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+300029 = {
+	name = "罗林森"
+	country = IRQ
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L300029
+	add_trait = tank_buster
+	history = {
+		1940.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 0 }
+	}
+}

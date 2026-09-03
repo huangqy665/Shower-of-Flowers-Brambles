@@ -1,0 +1,94 @@
+division = {
+	name = "第15军团"
+	location = 9170
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+}
+corps = {
+	name = "第11军"
+	location = 9170
+	regiment = { type = hq_brigade name = "第11军司令部" historical_model = 0 }
+	division= {
+		name = "新编第7步兵师"
+		location = 9170
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "新编第7骑兵师"
+		location = 9170
+		regiment = { type = cavalry_brigade historical_model = 0 }
+		regiment = { type = cavalry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第10独立旅"
+		location = 9170
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+}
+corps = {
+	name = "新2军"
+	location = 9115
+	regiment = { type = hq_brigade name = "新2军指挥部" historical_model = 0 }
+	division= {
+		name = "新编第9步兵师"
+		location = 9115
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第1骑兵旅"
+		location = 9115
+		regiment = { type = cavalry_brigade historical_model = 0 }
+		regiment = { type = cavalry_brigade historical_model = 0 }
+	}
+}
+division = {
+	name = "回军"
+	location = 9115
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+division = {
+	name = "第3军"
+	location = 9115
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+}
+division = {
+	name = "第10军"
+	location = 9142
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+}
+division = {
+	name = "第15军"
+	location = 9170
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+}
+division = {
+	name = "第25军"
+	location = 9142
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+}
+division = {
+	name = "第31军"
+	location = 9198
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+}
+division = {
+	name = "第41军"
+	location = 9198
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+}
+division = {
+	name = "第25步兵师"
+	location = 9198
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+}

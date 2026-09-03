@@ -1,0 +1,274 @@
+corps = {
+	name = "地中海军团"
+	location = 3210
+	regiment = { type = hq_brigade name = "地中海军团指挥部" historical_model = 0 }
+	division= {
+		name = "第1步兵师"
+		location = 3210
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第3步兵师"
+		location = 3210
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+}
+corps = {
+	name = "本土军团"
+	location = 3965
+	regiment = { type = hq_brigade name = "本土军团指挥部" historical_model = 0 }
+	division= {
+		name = "第2步兵师"
+		location = 3965
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第4步兵师"
+		location = 3965
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第6步兵师"
+		location = 3965
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第7步兵师"
+		location = 3965
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第8步兵师"
+		location = 3965
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第1摩托化步兵师"
+		location = 3965
+		regiment = { type = motorized_brigade historical_model = 0 }
+		regiment = { type = motorized_brigade historical_model = 0 }
+		regiment = { type = motorized_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第3摩托化步兵师"
+		location = 3965
+		regiment = { type = motorized_brigade historical_model = 0 }
+		regiment = { type = motorized_brigade historical_model = 0 }
+		regiment = { type = motorized_brigade historical_model = 0 }
+	}
+}
+corps = {
+	name = "印度支那殖民军"
+	location = 6236
+	regiment = { type = hq_brigade name = "地中海军团指挥部" historical_model = 0 }
+	division= {
+		name = "东京师"
+		location = 5916
+		regiment = { type = infantry_brigade name = "第1步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第2步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第3步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "法属印度支那师"
+		location = 6236
+		regiment = { type = infantry_brigade name = "第11殖民地步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "越南轻步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第16殖民地步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "柬埔寨轻步兵团" historical_model = 0 }
+	}
+}
+corps = {
+	name = "非洲步兵军"
+	location = 9741
+	regiment = { type = hq_brigade name = "非洲步兵军司令部" historical_model = 0 }
+	division= {
+		name = "第1殖民地步兵师"
+		location = 9741
+		regiment = { type = infantry_brigade name = "第3殖民地步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第12塞内加尔轻步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第71塞内加尔轻步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "第2殖民地步兵师"
+		location = 9741
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第3殖民地步兵师"
+		location = 9741
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+}
+division = {
+	name = "利凡特卫戍部队"
+	location = 9125
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+division = {
+	name = "摩洛哥殖民步兵师"
+	location = 5412
+	regiment = { type = infantry_brigade name = "第1轻步兵团" historical_model = 1 }
+	regiment = { type = infantry_brigade name = "第2轻步兵团" historical_model = 1 }
+	regiment = { type = infantry_brigade name = "第7轻步兵团" historical_model = 1 }
+}
+division = {
+	name = "马达加斯加卫戍部队"
+	location = 10231
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+division = {
+	name = "吉布提步兵师"
+	location = 9867
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+division = {
+	name = "圭亚那卫戍部队"
+	location = 9934
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+division = {
+	name = "加蓬步兵师"
+	location = 9875
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+navy = {
+	name = "法兰西第1舰队"
+	base = 5160
+	location = 5160
+	ship = { type = light_cruiser name = "圣女贞德号" historical_model = 1 }
+	ship = { type = transport_ship name = "第1护航舰队" historical_model = 0 }
+}
+navy = {
+	name = "法兰西第2舰队"
+	base = 4229
+	location = 4229
+	ship = { type = battleship name = "普罗旺斯号" historical_model = 1 pride = yes }
+	ship = { type = heavy_cruiser name = "福煦号" historical_model = 1 }
+	ship = { type = destroyer name = "第4驱逐舰支队" historical_model = 1 }
+	ship = { type = destroyer name = "第5驱逐舰支队" historical_model = 2 }
+}
+navy = {
+	name = "法兰西第3舰队"
+	base = 4229
+	location = 4229
+	ship = { type = destroyer name = "第6驱逐舰支队" historical_model = 1 }
+	ship = { type = transport_ship name = "第2护航舰队" historical_model = 0 }
+}
+navy = {
+	name = "敦刻尔克号"
+	base = 4229
+	location = 4229
+	ship = { type = battlecruiser name = "敦刻尔克号" historical_model = 3 }
+}
+navy = {
+	name = "斯特拉斯堡号"
+	base = 4229
+	location = 4229
+	ship = { type = battlecruiser name = "斯特拉斯堡号" historical_model = 3 }
+}
+navy = {
+	name = "第1潜艇舰队"
+	base = 4229
+	location = 4229
+	ship = { type = submarine name = "第1潜艇支队" historical_model = 1 }
+	ship = { type = submarine name = "第2潜艇支队" historical_model = 1 }
+	ship = { type = submarine name = "第3潜艇支队" historical_model = 1 }
+	ship = { type = submarine name = "第4潜艇支队" historical_model = 2 }
+	ship = { type = submarine name = "第5潜艇支队" historical_model = 2 }
+	ship = { type = submarine name = "第6潜艇支队" historical_model = 2 }
+}
+navy = {
+	name = "非洲舰队"
+	base = 9741
+	location = 9741
+	ship = { type = light_cruiser name = "乔治·莱格号" historical_model = 3 }
+	ship = { type = light_cruiser name = "光荣号" historical_model = 3 }
+	ship = { type = light_cruiser name = "蒙卡尔姆号" historical_model = 3 }
+	ship = { type = transport_ship name = "第3护航舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第4护航舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第5护航舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第6护航舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第7护航舰队" historical_model = 0 }
+}
+air = {
+	name = "北部地区航空兵"
+	base = 3212
+	location = 3212
+	wing = { type = interceptor name = "第21截击机联队" historical_model = 1 }
+	wing = { type = interceptor name = "第23截击机联队" historical_model = 1 }
+	wing = { type = tactical_bomber name = "第1轰炸机大队" historical_model = 1 }
+}
+air = {
+	name = "北非战区"
+	base = 5134
+	location = 5134
+	wing = { type = interceptor name = "第24截击机联队" historical_model = 1 }
+	wing = { type = tactical_bomber name = "第2轰炸机大队" historical_model = 0 }
+	wing = { type = tactical_bomber name = "第18攻击机联队" historical_model = 0 }
+}
+air = {
+	name = "新喀里多尼亚空军司令部"
+	base = 9741
+	location = 9741
+	wing = { type = naval_bomber name = "第1海军轰炸机联队" historical_model = 2 }
+}
+air = {
+	name = "西非空军司令部"
+	base = 9741
+	location = 9741
+	wing = { type = naval_bomber name = "第2海军轰炸机联队" historical_model = 2 }
+}
+navy = {
+	name = "法兰西第1舰队"
+	base = 5160
+	location = 5160
+	ship = { type = heavy_cruiser name = "科尔贝尔号" historical_model = 1 }
+	ship = { type = heavy_cruiser name = "迪普莱克斯号" historical_model = 1 }
+	ship = { type = destroyer name = "第1驱逐舰支队" historical_model = 1 }
+	ship = { type = destroyer name = "第2驱逐舰支队" historical_model = 0 }
+	ship = { type = destroyer name = "第3驱逐舰支队" historical_model = 2 }
+	ship = { type = light_cruiser name = "拉莫特·皮克特号" historical_model = 1 }
+	ship = { type = light_cruiser name = "普里茅盖特号" historical_model = 1 }
+	ship = { type = heavy_cruiser name = "阿尔及利亚号" historical_model = 2 }
+	ship = { type = light_cruiser name = "埃米尔·贝尔汀号" historical_model = 2 }
+	ship = { type = light_cruiser name = "拉·加利索尼埃号" historical_model = 3 }
+	ship = { type = light_cruiser name = "让·德·维埃纳号" historical_model = 3 }
+	ship = { type = light_cruiser name = "马赛号" historical_model = 3 }
+}
+navy = {
+	name = "法兰西第2舰队"
+	base = 9741
+	location = 9741
+	ship = { type = carrier name = "贝亚恩号" historical_model = 1 air = { location = 9741 wing = { type = cag historical_model = 1 } } air = { location = 9741 wing = { type = cag historical_model = 1 } } }
+	ship = { type = battleship name = "黎塞留号" historical_model = 3 }
+	ship = { type = destroyer name = "第7驱逐舰支队" historical_model = 0 }
+	ship = { type = destroyer name = "第8驱逐舰支队" historical_model = 2 }
+}

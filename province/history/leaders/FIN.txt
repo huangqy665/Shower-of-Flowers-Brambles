@@ -1,0 +1,1123 @@
+9700 = {
+	name = "艾罗"
+	country = FIN
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L9700
+	history = {
+		1930.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+9701 = {
+	name = "阿福森"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L9701
+	add_trait = defensive_doctrine
+	add_trait = winter_specialist
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+9702 = {
+	name = "阿拿祖利"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L9702
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+9703 = {
+	name = "阿提"
+	country = FIN
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L9703
+	add_trait = logistics_wizard
+	add_trait = winter_specialist
+	history = {
+		1940.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+9704 = {
+	name = "布利克"
+	country = FIN
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L9704
+	add_trait = offensive_doctrine
+	add_trait = winter_specialist
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+9705 = {
+	name = "艾克伯格"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L9705
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+9706 = {
+	name = "法格那"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L9706
+	add_trait = winter_specialist
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+9707 = {
+	name = "格兰德尔"
+	country = FIN
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 1.00
+	picture = L9707
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+	}
+}
+9708 = {
+	name = "汉那尔"
+	country = FIN
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L9708
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+9709 = {
+	name = "汉努克塞拉"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L9709
+	add_trait = winter_specialist
+	add_trait = fortress_buster
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+9710 = {
+	name = "海因里希"
+	country = FIN
+	type = land
+	skill = 3
+	max_skill = 7
+	loyalty = 0.00
+	picture = L9710
+	add_trait = winter_specialist
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 3 }
+	}
+}
+9711 = {
+	name = "海斯凯恩.J.H."
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L9711
+	add_trait = winter_specialist
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+9712 = {
+	name = "海斯凯恩.K.A."
+	country = FIN
+	type = land
+	skill = 3
+	max_skill = 6
+	loyalty = 0.00
+	picture = L9712
+	add_trait = offensive_doctrine
+	add_trait = winter_specialist
+	history = {
+		1940.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 3 }
+	}
+}
+9713 = {
+	name = "赫萨罗"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L9713
+	add_trait = winter_specialist
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+9714 = {
+	name = "黑格伦"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L9714
+	add_trait = defensive_doctrine
+	add_trait = winter_specialist
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+9715 = {
+	name = "伊格纳修斯"
+	country = FIN
+	type = land
+	skill = 2
+	max_skill = 7
+	loyalty = 1.00
+	picture = L9715
+	add_trait = defensive_doctrine
+	add_trait = winter_specialist
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+9716 = {
+	name = "伊萨克森"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L9716
+	add_trait = winter_specialist
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+9717 = {
+	name = "格文恩"
+	country = FIN
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L9717
+	add_trait = winter_specialist
+	history = {
+		1940.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+9718 = {
+	name = "凯拉"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L9718
+	add_trait = winter_specialist
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+9719 = {
+	name = "K滗ri鋓nen"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L9719
+	add_trait = winter_specialist
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+9720 = {
+	name = "拉提凯勒"
+	country = FIN
+	type = land
+	skill = 3
+	max_skill = 7
+	loyalty = 0.00
+	picture = L9720
+	add_trait = offensive_doctrine
+	add_trait = winter_specialist
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+	}
+}
+9721 = {
+	name = "拉库斯"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 8
+	loyalty = 0.00
+	picture = L9721
+	add_trait = winter_specialist
+	add_trait = panzer_leader
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+9722 = {
+	name = "林德"
+	country = FIN
+	type = land
+	skill = 2
+	max_skill = 7
+	loyalty = 1.00
+	picture = L9722
+	add_trait = winter_specialist
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 3 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+9723 = {
+	name = "朗道阻尼"
+	country = FIN
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L9723
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 3 }
+	}
+}
+9724 = {
+	name = "马丁.温泽尔"
+	country = FIN
+	type = land
+	skill = 2
+	max_skill = 7
+	loyalty = 1.00
+	picture = L9724
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+9725 = {
+	name = "马多拉"
+	country = FIN
+	type = land
+	skill = 3
+	max_skill = 6
+	loyalty = 0.00
+	picture = L9725
+	add_trait = offensive_doctrine
+	add_trait = winter_specialist
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 3 }
+	}
+}
+9726 = {
+	name = "梅兰德"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L9726
+	add_trait = offensive_doctrine
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+9727 = {
+	name = "马凯恩"
+	country = FIN
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L9727
+	add_trait = winter_specialist
+	history = {
+		1938.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+9728 = {
+	name = "内诺恩"
+	country = FIN
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L9728
+	add_trait = fortress_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+	}
+}
+9729 = {
+	name = "奥斯克"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L9729
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+9730 = {
+	name = "奥诺恩"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L9730
+	add_trait = winter_specialist
+	add_trait = engineer
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+9731 = {
+	name = "帕鲁"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L9731
+	add_trait = winter_specialist
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+9732 = {
+	name = "帕亚里"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 7
+	loyalty = 0.00
+	picture = L9732
+	add_trait = winter_specialist
+	add_trait = trickster
+	history = {
+		1938.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+9733 = {
+	name = "帕尔莫斯"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L9733
+	add_trait = winter_specialist
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+9734 = {
+	name = "帕罗加维"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L9734
+	add_trait = winter_specialist
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+9735 = {
+	name = "拉帕纳"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L9735
+	add_trait = winter_specialist
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+9736 = {
+	name = "鲁斯"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L9736
+	add_trait = logistics_wizard
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+9737 = {
+	name = "西沃.A."
+	country = FIN
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L9737
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+	}
+}
+9738 = {
+	name = "西沃.J."
+	country = FIN
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L9738
+	add_trait = winter_specialist
+	history = {
+		1940.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 2 }
+	}
+}
+9739 = {
+	name = "西拉斯沃"
+	country = FIN
+	type = land
+	skill = 3
+	max_skill = 9
+	loyalty = 0.00
+	picture = L9739
+	add_trait = winter_specialist
+	add_trait = commando
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+9740 = {
+	name = "斯内尔曼"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L9740
+	add_trait = winter_specialist
+	add_trait = fortress_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+9741 = {
+	name = "萨德曼"
+	country = FIN
+	type = land
+	skill = 3
+	max_skill = 4
+	loyalty = 0.00
+	picture = L9741
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 3 }
+	}
+}
+9742 = {
+	name = "斯万希特尔"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L9742
+	add_trait = fortress_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+9743 = {
+	name = "斯文森"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L9743
+	add_trait = winter_specialist
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+9744 = {
+	name = "塔尔韦拉"
+	country = FIN
+	type = land
+	skill = 3
+	max_skill = 7
+	loyalty = 0.00
+	picture = L9744
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+	}
+}
+9745 = {
+	name = "塔帕拉"
+	country = FIN
+	type = land
+	skill = 3
+	max_skill = 5
+	loyalty = 0.00
+	picture = L9745
+	add_trait = defensive_doctrine
+	add_trait = winter_specialist
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+	}
+}
+9746 = {
+	name = "图姆珀"
+	country = FIN
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L9746
+	add_trait = offensive_doctrine
+	history = {
+		1939.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+9747 = {
+	name = "瓦维"
+	country = FIN
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L9747
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+9748 = {
+	name = "维赫玛"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L9748
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+9749 = {
+	name = "维尔加宁"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L9749
+	history = {
+		1940.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+9750 = {
+	name = "冯.曼纳海姆"
+	country = FIN
+	type = land
+	skill = 4
+	max_skill = 9
+	loyalty = 0.00
+	picture = L9750
+	add_trait = defensive_doctrine
+	add_trait = winter_specialist
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1930.1.1 = { rank = 4 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+9751 = {
+	name = "瓦尔登"
+	country = FIN
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L9751
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+9752 = {
+	name = "瓦勒尼斯"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L9752
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+9753 = {
+	name = "维卡马"
+	country = FIN
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L9753
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+9754 = {
+	name = "温内尔"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L9754
+	add_trait = winter_specialist
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+9755 = {
+	name = "阿奎斯特"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L9755
+	add_trait = winter_specialist
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+9756 = {
+	name = "乌特曼"
+	country = FIN
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L9756
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+9757 = {
+	name = "阿尔霍"
+	country = FIN
+	type = sea
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L9757
+	history = {
+		1943.1.1 = { rank = 1 }
+		1948.1.1 = { rank = 2 }
+	}
+}
+9758 = {
+	name = "埃罗"
+	country = FIN
+	type = sea
+	skill = 2
+	max_skill = 4
+	loyalty = 1.00
+	picture = L9758
+	add_trait = spotter
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+9759 = {
+	name = "哈库拉"
+	country = FIN
+	type = sea
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L9759
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+9760 = {
+	name = "哈罗拉"
+	country = FIN
+	type = sea
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L9760
+	add_trait = spotter
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+9761 = {
+	name = "加普瓦"
+	country = FIN
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L9761
+	add_trait = seawolf
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+9762 = {
+	name = "吉维梅尔"
+	country = FIN
+	type = sea
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L9762
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+9763 = {
+	name = "科伊维斯托"
+	country = FIN
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L9763
+	add_trait = spotter
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+9764 = {
+	name = "帕卡拉"
+	country = FIN
+	type = sea
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L9764
+	add_trait = seawolf
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+9765 = {
+	name = "保卡"
+	country = FIN
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L9765
+	add_trait = seawolf
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+9766 = {
+	name = "拉霍拉"
+	country = FIN
+	type = sea
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L9766
+	add_trait = blockade_runner
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+9767 = {
+	name = "贝格"
+	country = FIN
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L9767
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+9768 = {
+	name = "布雷默"
+	country = FIN
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L9768
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+9769 = {
+	name = "伊斯库拉"
+	country = FIN
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L9769
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+9770 = {
+	name = "贾比尔逊"
+	country = FIN
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L9770
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+9771 = {
+	name = "拉里奥"
+	country = FIN
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L9771
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+9772 = {
+	name = "洛伦茨"
+	country = FIN
+	type = air
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L9772
+	add_trait = superior_air_tactician
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+9773 = {
+	name = "伦德奎斯特"
+	country = FIN
+	type = air
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L9773
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+9774 = {
+	name = "马格内森"
+	country = FIN
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L9774
+	history = {
+		1937.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+9775 = {
+	name = "奥帕斯"
+	country = FIN
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L9775
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+9776 = {
+	name = "帕加里"
+	country = FIN
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L9776
+	add_trait = spotter
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+9777 = {
+	name = "沙尔科"
+	country = FIN
+	type = air
+	skill = 3
+	max_skill = 4
+	loyalty = 1.00
+	picture = L9777
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 3 }
+	}
+}
+9778 = {
+	name = "西伦"
+	country = FIN
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L9778
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+9779 = {
+	name = "索梅托"
+	country = FIN
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L9779
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}

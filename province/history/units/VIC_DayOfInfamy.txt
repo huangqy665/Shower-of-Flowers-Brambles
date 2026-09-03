@@ -1,0 +1,275 @@
+army = {
+	name = "本土军团"
+	location = 3965
+	regiment = { type = hq_brigade name = "本土军团指挥部" historical_model = 0 }
+	division= {
+		name = "第2步兵师"
+		location = 3485
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第4步兵师"
+		location = 4229
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第6步兵师"
+		location = 4031
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第7步兵师"
+		location = 3824
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第8步兵师"
+		location = 3965
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第1摩托化步兵师"
+		location = 3961
+		regiment = { type = motorized_brigade historical_model = 0 }
+		regiment = { type = motorized_brigade historical_model = 0 }
+		regiment = { type = motorized_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第3摩托化步兵师"
+		location = 3961
+		regiment = { type = motorized_brigade historical_model = 0 }
+		regiment = { type = motorized_brigade historical_model = 0 }
+		regiment = { type = motorized_brigade historical_model = 0 }
+	}
+}
+army = {
+	name = "非洲军团"
+	location = 5160 # Alger
+	regiment = { type = hq_brigade name = "非洲军团指挥部" historical_model = 0 }
+	corps = {
+		name = "摩洛哥殖民步兵师"
+		location = 5412 # Casablanca
+		regiment = { type = hq_brigade name = "摩洛哥卫戍部队指挥部" historical_model = 0 }
+		division = {
+			name = "卡萨布兰卡步兵师"
+			location = 5412 # Casablanca
+			regiment = { type = infantry_brigade name = "第1摩洛哥轻步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第6摩洛哥轻步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "摩洛哥殖民地步兵团" historical_model = 1 }
+		}
+		division = {
+			name = "菲兹步兵师"
+			location = 5373
+			regiment = { type = infantry_brigade name = "第4摩洛哥轻步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第5摩洛哥轻步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第11阿尔及利亚轻步兵团" historical_model = 1 }
+			regiment = { type = cavalry_brigade name = "第1外籍骑兵团" historical_model = 1 }
+		}
+		division = {
+			name = "马拉喀什步兵师"
+			location = 5458 # Marrakech
+			regiment = { type = infantry_brigade name = "第2摩洛哥轻步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第2外籍步兵团" historical_model = 1 }
+			regiment = { type = cavalry_brigade name = "第4摩洛哥骑兵团" historical_model = 1 }
+		}
+		division = {
+			name = "梅克内斯步兵师"
+			location = 5428
+			regiment = { type = infantry_brigade name = "第7摩洛哥轻步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第8摩洛哥轻步兵团" historical_model = 1 }
+			regiment = { type = cavalry_brigade name = "第3摩洛哥骑兵团" historical_model = 1 }
+		}
+	}
+	corps = {
+		name = "第XIX军区"
+		location = 5160 # Alger
+		regiment = { type = hq_brigade name = "第XIX军区指挥部" historical_model = 0 }
+		division = {
+			name = "预备队"
+			location = 5160 # Alger
+			regiment = { type = cavalry_brigade name = "第4阿尔及利亚骑兵团" historical_model = 1 }	
+			regiment = { type = infantry_brigade name = "第1外籍步兵团" historical_model = 1 }
+		} 
+		division = {
+			name = "奥兰师"
+			location = 5292 # Oran
+			regiment = { type = infantry_brigade name = "第2祖阿夫步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第2阿尔及利亚轻步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第6-2阿尔及利亚轻步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第16阿尔及利亚轻步兵团" historical_model = 1 }
+		}
+		division = {
+			name = "奥兰战斗群"
+			location = 5292 # Oran
+			regiment = { type = cavalry_brigade name = "第3阿尔及利亚骑兵团" historical_model = 1 }
+			regiment = { type = motorized_brigade name = "第2非洲轻步兵团" historical_model = 0 }
+			regiment = { type = motorized_brigade name = "第9非洲轻步兵团" historical_model = 0 }
+		}
+		division = {
+			name = "第1阿尔及利亚步兵师"
+			location = 5160 # Alger
+			regiment = { type = infantry_brigade name = "第1祖阿夫步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第1阿尔及利亚轻步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第5阿尔及利亚轻步兵团" historical_model = 1 }
+		}
+		division = {
+			name = "第2阿尔及利亚步兵师"
+			location = 5160 # Alger
+			regiment = { type = infantry_brigade name = "第9阿尔及利亚轻步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第13阿尔及利亚轻步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第29阿尔及利亚轻步兵团" historical_model = 1 }
+		}
+		division = {
+			name = "阿尔及利亚战斗群"
+			location = 5160 # Alger
+			regiment = { type = cavalry_brigade name = "第1阿尔及利亚骑兵团" historical_model = 1 }
+			regiment = { type = motorized_brigade name = "第5非洲轻步兵团" historical_model = 0 }
+		}
+		division = {
+			name = "康斯坦丁步兵师"
+			location = 5164
+			regiment = { type = infantry_brigade name = "第3祖阿夫步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第3阿尔及利亚轻步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第7阿尔及利亚轻步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第15塞内加尔轻步兵团" historical_model = 1 }
+		}
+		division = {
+			name = "康斯坦丁战斗群"
+			location = 5164
+			regiment = { type = cavalry_brigade name = "第3阿尔及利亚骑兵团" historical_model = 1 }
+			regiment = { type = motorized_brigade name = "第3非洲轻步兵团" historical_model = 0 }
+		}		
+	}
+	division = {
+		name = "突尼斯步兵师"
+		location = 5134 # Tunis
+		regiment = { type = infantry_brigade name = "第4祖阿夫步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第4突尼斯轻步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第43殖民地步兵团" historical_model = 1 }		
+	}
+	division = {
+		name = "突尼斯战斗群"
+		location = 5134 # Tunis
+		regiment = { type = cavalry_brigade name = "第4突尼斯骑兵团" historical_model = 1 }
+		regiment = { type = motorized_brigade name = "第4非洲轻步兵团" historical_model = 0 }
+	}
+}
+division = {
+	name = "吉布提步兵师"
+	location = 9867
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+division = {
+	name = "圭亚那卫戍部队"
+	location = 9934
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+division = {
+	name = "加蓬步兵师"
+	location = 9875
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+navy = {
+	name = "法兰西第1舰队"
+	base = 4229 # Marseille
+	location = 4229 # Marseille
+	ship = { type = battleship name = "普罗旺斯号" historical_model = 1 pride = yes }
+	ship = { type = battlecruiser name = "敦刻尔克号" historical_model = 3 }
+	ship = { type = battlecruiser name = "斯特拉斯堡号" historical_model = 3 } 
+	ship = { type = heavy_cruiser name = "福煦号" historical_model = 1 }
+	ship = { type = destroyer name = "第4驱逐舰支队" historical_model = 1 }
+	ship = { type = destroyer name = "第5驱逐舰支队" historical_model = 2 }
+	ship = { type = destroyer name = "第6驱逐舰支队" historical_model = 1 }
+	ship = { type = transport_ship name = "第2护航舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第4护航舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第5护航舰队" historical_model = 0 }
+}
+navy = {
+	name = "第1潜艇舰队"
+	base = 4229 # Marseille
+	location = 4229 # Marseille
+	ship = { type = submarine name = "第1潜艇支队" historical_model = 1 }
+	ship = { type = submarine name = "第2潜艇支队" historical_model = 1 }
+	ship = { type = submarine name = "第3潜艇支队" historical_model = 1 }
+	ship = { type = submarine name = "第4潜艇支队" historical_model = 2 }
+	ship = { type = submarine name = "第5潜艇支队" historical_model = 2 }
+	ship = { type = submarine name = "第6潜艇支队" historical_model = 2 }
+}
+navy = {
+	name = "非洲舰队"
+	base = 9741 # Dakar
+	location = 9741 # Dakar
+	ship = { type = light_cruiser name = "乔治·莱格号" historical_model = 3 }
+	ship = { type = light_cruiser name = "光荣号" historical_model = 3 }
+	ship = { type = light_cruiser name = "蒙卡尔姆号" historical_model = 3 }
+	
+}
+air = {
+	name = "北部地区航空兵"
+	base = 3961
+	location = 3212
+	wing = { type = interceptor name = "第21截击机联队" historical_model = 1 }
+	wing = { type = interceptor name = "第23截击机联队" historical_model = 1 }
+	wing = { type = tactical_bomber name = "第1轰炸机大队" historical_model = 1 }
+}
+air = {
+	name = "北非战区"
+	base = 5134
+	location = 5134
+	wing = { type = interceptor name = "第24截击机联队" historical_model = 1 }
+	wing = { type = tactical_bomber name = "第2轰炸机大队" historical_model = 0 }
+	wing = { type = tactical_bomber name = "第18攻击机联队" historical_model = 0 }
+}
+air = {
+	name = "西非空军司令部"
+	base = 9741
+	location = 9741
+	wing = { type = naval_bomber name = "第2海军轰炸机联队" historical_model = 2 }
+}
+navy = {
+	name = "法兰西第3舰队"
+	base = 5160 # Alger
+	location = 5160 # Alger
+	ship = { type = heavy_cruiser name = "科尔贝尔号" historical_model = 1 }
+	ship = { type = heavy_cruiser name = "迪普莱克斯号" historical_model = 1 }
+	ship = { type = heavy_cruiser name = "阿尔及利亚号" historical_model = 2 }
+	ship = { type = light_cruiser name = "拉莫特·皮克特号" historical_model = 1 }
+	ship = { type = light_cruiser name = "普里茅盖特号" historical_model = 1 }
+	ship = { type = light_cruiser name = "埃米尔·贝尔汀号" historical_model = 2 }
+	ship = { type = light_cruiser name = "拉·加利索尼埃号" historical_model = 3 }
+	ship = { type = light_cruiser name = "让·德·维埃纳号" historical_model = 3 }
+	ship = { type = light_cruiser name = "马赛号" historical_model = 3 }
+	ship = { type = light_cruiser name = "圣女贞德号" historical_model = 1 }
+	ship = { type = destroyer name = "第1驱逐舰支队" historical_model = 1 }
+	ship = { type = destroyer name = "第2驱逐舰支队" historical_model = 0 }
+	ship = { type = destroyer name = "第3驱逐舰支队" historical_model = 2 }
+	ship = { type = transport_ship name = "第1护航舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第3护航舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第6护航舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第7护航舰队" historical_model = 0 }
+}
+navy = {
+	name = "法兰西第2舰队"
+	base = 9741 # Dakar
+	location = 9741 # Dakar
+	ship = { type = carrier name = "贝亚恩号" historical_model = 1 air = { location = 9741 wing = { type = cag historical_model = 1 } } air = { location = 9741 wing = { type = cag historical_model = 1 } } }
+	ship = { type = battleship name = "黎塞留号" historical_model = 3 }
+	ship = { type = destroyer name = "第7驱逐舰支队" historical_model = 0 }
+	ship = { type = destroyer name = "第8驱逐舰支队" historical_model = 2 }
+}

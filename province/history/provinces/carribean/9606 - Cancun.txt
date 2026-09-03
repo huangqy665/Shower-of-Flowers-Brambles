@@ -1,0 +1,13 @@
+owner = MEX
+controller = MEX
+add_core = MEX
+
+infra = 6
+
+infra = 6
+
+infra = 6
+
+infra = 6
+
+infra = 6

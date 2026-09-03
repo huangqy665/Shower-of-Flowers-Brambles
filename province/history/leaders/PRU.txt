@@ -1,0 +1,767 @@
+260000 = {
+	name = "贝纳维德.拉雷亚"
+	country = PRU
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L260000
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1930.1.1 = { rank = 4 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+260001 = {
+	name = "卡罗.康斯坦丁尼"
+	country = PRU
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L260001
+	add_trait = engineer
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+260002 = {
+	name = "恰夫拉.莱昂"
+	country = PRU
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L260002
+	add_trait = commando
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+260003 = {
+	name = "达维拉.苏马埃塔"
+	country = PRU
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L260003
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+260004 = {
+	name = "德.拉.芬特"
+	country = PRU
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L260004
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+260005 = {
+	name = "吉拉尔迪"
+	country = PRU
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L260005
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+260006 = {
+	name = "冈萨雷斯.y.利昂"
+	country = PRU
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L260006
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+260007 = {
+	name = "瓜夫洛切.罗德里格斯"
+	country = PRU
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L260007
+	add_trait = logistics_wizard
+	history = {
+		1942.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+260008 = {
+	name = "埃雷迪亚.蒙塔涅"
+	country = PRU
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L260008
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+260009 = {
+	name = "韦尔塔.帕凯科"
+	country = PRU
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L260009
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 0 }
+	}
+}
+260010 = {
+	name = "伊格莱西亚斯"
+	country = PRU
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 0.00
+	picture = L260010
+	add_trait = panzer_leader
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+260011 = {
+	name = "希门尼斯.托里巴内"
+	country = PRU
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L260011
+	add_trait = defensive_doctrine
+	history = {
+		1940.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+260012 = {
+	name = "洛佩斯.特里戈索"
+	country = PRU
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 0.00
+	picture = L260012
+	add_trait = commando
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+260013 = {
+	name = "蒙塔涅.桑切斯"
+	country = PRU
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L260013
+	history = {
+		1937.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+260014 = {
+	name = "蒙特罗.罗雅斯"
+	country = PRU
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L260014
+	add_trait = panzer_leader
+	history = {
+		1938.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+260015 = {
+	name = "穆尼奥斯.迪亚兹"
+	country = PRU
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L260015
+	add_trait = panzer_leader
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+260016 = {
+	name = "诺里亚加.阿圭罗"
+	country = PRU
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L260016
+	history = {
+		1939.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 3 }
+	}
+}
+260017 = {
+	name = "奥德里亚.阿莫雷蒂"
+	country = PRU
+	type = land
+	skill = 3
+	max_skill = 6
+	loyalty = 0.00
+	picture = L260017
+	add_trait = logistics_wizard
+	history = {
+		1940.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 3 }
+		1946.1.1 = { rank = 4 }
+	}
+}
+260018 = {
+	name = "帕拉西奥斯.y.蒙特西诺斯"
+	country = PRU
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L260018
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+260019 = {
+	name = "佩雷斯.多库梅蒂斯"
+	country = PRU
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L260019
+	add_trait = commando
+	history = {
+		1944.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+260020 = {
+	name = "佩雷斯.多库梅蒂斯"
+	country = PRU
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L260020
+	add_trait = commando
+	history = {
+		1943.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+		1950.1.1 = { rank = 3 }
+	}
+}
+260021 = {
+	name = "佩雷斯.多库梅蒂斯"
+	country = PRU
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L260021
+	add_trait = defensive_doctrine
+	history = {
+		1940.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+260022 = {
+	name = "拉米雷斯.奥尔蒂斯"
+	country = PRU
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L260022
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+260023 = {
+	name = "拉蒙.卡斯蒂略"
+	country = PRU
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L260023
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1938.1.1 = { rank = 0 }
+	}
+}
+260024 = {
+	name = "罗德里格斯.萨瓦尔维亚斯科亚"
+	country = PRU
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L260024
+	add_trait = logistics_wizard
+	history = {
+		1946.1.1 = { rank = 1 }
+	}
+}
+260025 = {
+	name = "雷耶斯.塔韦拉"
+	country = PRU
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L260025
+	add_trait = offensive_doctrine
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+260026 = {
+	name = "萨恩斯.迪亚兹"
+	country = PRU
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L260026
+	add_trait = offensive_doctrine
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+260027 = {
+	name = "桑切斯.塞罗"
+	country = PRU
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L260027
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1937.1.1 = { rank = 0 }
+	}
+}
+260028 = {
+	name = "塔马约.德.拉.弗洛尔"
+	country = PRU
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L260028
+	add_trait = logistics_wizard
+	history = {
+		1942.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+260029 = {
+	name = "托里斯.冈萨雷斯"
+	country = PRU
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L260029
+	history = {
+		1945.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 2 }
+	}
+}
+260030 = {
+	name = "乌雷塔.蒙泰赫莫索"
+	country = PRU
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L260030
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1937.1.1 = { rank = 3 }
+		1938.1.1 = { rank = 0 }
+	}
+}
+260031 = {
+	name = "韦拉斯科.阿斯泰特"
+	country = PRU
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L260031
+	add_trait = panzer_leader
+	history = {
+		1941.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+260032 = {
+	name = "比纳特亚.鲁伊斯"
+	country = PRU
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 0.00
+	picture = L260032
+	add_trait = engineer
+	history = {
+		1939.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+260033 = {
+	name = "祖巴佐伊戈伊切亚"
+	country = PRU
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L260033
+	add_trait = fortress_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+260034 = {
+	name = "卡瓦亚尔.马丁内斯"
+	country = PRU
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L260034
+	add_trait = seawolf
+	history = {
+		1944.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+260035 = {
+	name = "希门尼斯.帕凯科"
+	country = PRU
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L260035
+	history = {
+		1938.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+260036 = {
+	name = "林德利.洛佩斯"
+	country = PRU
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L260036
+	history = {
+		1946.1.1 = { rank = 1 }
+		1950.1.1 = { rank = 2 }
+	}
+}
+260037 = {
+	name = "门多萨.乌里贝"
+	country = PRU
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L260037
+	add_trait = seawolf
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+260038 = {
+	name = "纳瓦雷特.拉.普吕尔"
+	country = PRU
+	type = sea
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L260038
+	add_trait = spotter
+	history = {
+		1940.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+260039 = {
+	name = "涅托"
+	country = PRU
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L260039
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+260040 = {
+	name = "帕蒂尼奥.克鲁萨蒂"
+	country = PRU
+	type = sea
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L260040
+	add_trait = spotter
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+260041 = {
+	name = "庞塞.迪亚兹"
+	country = PRU
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L260041
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+260042 = {
+	name = "罗克.萨尔迪亚斯"
+	country = PRU
+	type = sea
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L260042
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+260043 = {
+	name = "斯克罗思"
+	country = PRU
+	type = sea
+	skill = 0
+	max_skill = 5
+	loyalty = 0.00
+	picture = L260043
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+260044 = {
+	name = "阿贝拉尔多.基尼奥内斯"
+	country = PRU
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L260044
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+260045 = {
+	name = "贝尼特斯.卢纳"
+	country = PRU
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L260045
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+260046 = {
+	name = "坎波多尼科"
+	country = PRU
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L260046
+	history = {
+		1939.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+260047 = {
+	name = "德.博迪兹"
+	country = PRU
+	type = air
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L260047
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+260048 = {
+	name = "洛佩斯.弗洛雷斯"
+	country = PRU
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 0.00
+	picture = L260048
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+260049 = {
+	name = "纳瓦雷特.拉.普吕尔"
+	country = PRU
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L260049
+	add_trait = fleet_destroyer
+	history = {
+		1940.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+260050 = {
+	name = "波洛.希门尼斯"
+	country = PRU
+	type = air
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L260050
+	add_trait = night_flyer
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 0 }
+	}
+}
+260051 = {
+	name = "克萨达.布兰科"
+	country = PRU
+	type = air
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L260051
+	add_trait = carpet_bomber
+	history = {
+		1941.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+260052 = {
+	name = "塞卡达.维涅塔"
+	country = PRU
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L260052
+	add_trait = superior_air_tactician
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+260053 = {
+	name = "索拉诺.埃尔芒迪亚兹"
+	country = PRU
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L260053
+	add_trait = tank_buster
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+260054 = {
+	name = "雷沃雷多.伊格莱西亚斯"
+	country = PRU
+	type = air
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = M39142
+	add_trait = fleet_destroyer
+	history = {
+		1937.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}

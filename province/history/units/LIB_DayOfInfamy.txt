@@ -1,0 +1,22 @@
+corps = {
+	name = "利比里亚陆军"
+	location = 9952
+	regiment = { type = hq_brigade name = "利比里亚陆军指挥部" historical_model = 0 }
+	division= {
+		name = "共和国卫队第1师"
+		location = 9952
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = artillery_brigade historical_model = 0 }
+	}
+	division= {
+		name = "共和国卫队第2师"
+		location = 9952
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+}

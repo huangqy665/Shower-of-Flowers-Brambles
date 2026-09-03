@@ -1,0 +1,96 @@
+corps = {
+	name = "第1军"
+	location = 10082
+	regiment = { type = hq_brigade name = "第1指挥部旅" historical_model = 0 }
+	division= {
+		name = "第I步兵师"
+		location = 10082
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第II步兵师"
+		location = 10082
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第III步兵师"
+		location = 10082
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第IV步兵师"
+		location = 10082
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+}
+corps = {
+	name = "第2军"
+	location = 10199
+	regiment = { 
+		type = hq_brigade name = "第2指挥部旅" historical_model = 0 }
+		division= {
+		name = "第V步兵师"
+		location = 10199
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第LXVIII国民警卫师"
+		location = 10199
+		is_reserve = yes
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第LXIX国民警卫师"
+		location = 10199
+		is_reserve = yes
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第II骑兵师"
+		location = 10199
+		is_reserve = yes
+		regiment = { type = cavalry_brigade historical_model = 0 }
+		regiment = { type = cavalry_brigade historical_model = 0 }
+	}
+}
+navy = {
+	name = "运输舰队"
+	base = 10193
+	location = 10193
+	ship = { type = transport_ship name = "第1运输舰分队" historical_model = 0 }
+}
+navy = {
+	name = "海岸警卫舰队"
+	base = 7853
+	location = 7853
+	ship = { type = battleship name = "NRB 圣保罗" historical_model = 0 }
+	ship = { type = battleship name = "NRB 米纳斯吉拉斯" historical_model = 0 pride = yes }
+	ship = { type = light_cruiser name = "NRB 巴伊亚" historical_model = 0 }
+	ship = { type = light_cruiser name = "NRB 南里奥格兰德" historical_model = 0 }
+	ship = { type = submarine name = "第1潜艇大队" historical_model = 1 }
+}
+air = {
+	name = "国民警卫空军"
+	base = 10193
+	location = 10193
+	wing = { type = interceptor name = "第1战斗机大队" historical_model = 0 }
+}

@@ -1,0 +1,36 @@
+corps = {
+	name = "蒙古军团"
+	location = 4980
+	regiment = { type = hq_brigade name = "蒙古军团指挥部" historical_model = 0 }
+	division= {
+		name = "卫戍军"
+		location = 4980
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第1蒙古军"
+		location = 4980
+		regiment = { type = cavalry_brigade historical_model = 0 }
+		regiment = { type = cavalry_brigade historical_model = 0 }
+		regiment = { type = cavalry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第2蒙古军"
+		location = 4980
+		regiment = { type = cavalry_brigade historical_model = 0 }
+		regiment = { type = cavalry_brigade historical_model = 0 }
+		regiment = { type = cavalry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "西绥远联合军"
+		location = 4980
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+}
+
+
+

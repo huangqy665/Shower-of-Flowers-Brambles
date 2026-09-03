@@ -1,0 +1,284 @@
+corps = {
+	name = "°£Ë¹ÌØÀ×Âí¶ÅÀ­¾üÍÅ"
+	location = 4808									#Ciudad Real
+	regiment = { type = hq_brigade name = "°²´ïÂ¬Î÷ÑÇ¾üÍÅÖ¸»Ó²¿" historical_model = 0 }
+	division= {
+		name = "µÚIX¾ü"
+		location = 4755								#Herrera del Duque
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "µÚXXIII¾ü"
+		location = 4806								#Castuera
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+}
+corps = {
+	name = "ÖÐ²¿Â½¾ü"
+	location = 4540									#Madrid
+	regiment = { type = hq_brigade name = "ÖÐ²¿Â½¾üÖ¸»Ó²¿" historical_model = 0 }
+	division= {
+		name = "µÚI¾ü"
+		location = 4479								#Brihuega
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "µÚII¾ü"
+		location = 4541								#Alcalá de Henares
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "µÚIII¾ü"
+		location = 4540								#Madrid
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "µÚIV¾ü"
+		location = 4651								#Aranjuez
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "µÚ2¹ú¼Ê×Ý¶Ó"
+		location = 4705								#Toledo
+		regiment = { type = militia_brigade name = "µÚXI¹ú¼ÊÂÃ" historical_model = 2 }
+		regiment = { type = militia_brigade name = "µÚXII¹ú¼ÊÂÃ" historical_model = 2 }
+		regiment = { type = militia_brigade name = "µÚXIII¹ú¼ÊÂÃ" historical_model = 2 }
+	}
+	division= {
+		name = "µÚ2¹ú¼Ê×Ý¶Ó"
+		location = 4540								#Madrid
+		regiment = { type = militia_brigade name = "µÚXIV¹ú¼ÊÂÃ" historical_model = 2 }
+		regiment = { type = militia_brigade name = "µÚXV¹ú¼ÊÂÃ" historical_model = 2 }
+		regiment = { type = militia_brigade name = "µÚXXIX¹ú¼ÊÂÃ" historical_model = 2 }
+	}
+}
+corps = {
+	name = "°²´ïÂ¬Î÷ÑÇ¾üÍÅ"
+	location = 4955									#Linares
+	regiment = { type = hq_brigade name = "°£Ë¹ÌØÀ×Âí¶ÅÀ­¾üÍÅÖ¸»Ó²¿" historical_model = 0 }
+	division= {
+		name = "µÚVII¾ü"
+		location = 4954								#Montoro
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "µÚVIII¾ü"
+		location = 5070								#Iznalloz
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division = {
+		name = "µÚXXI¾ü"
+		location = 5158								#Vícar
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+}
+corps = {
+	name = "À³ÍòÌØ¾üÍÅ"
+	location = 4862									#Valencia
+	regiment = { type = hq_brigade name = "À³ÍòÌØ¾üÍÅÖ¸»Ó²¿" historical_model = 0 }
+	division= {
+		name = "µÚXIX¾ü"
+		location = 4811								#Landete
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "µÚXX¾ü"
+		location = 4761								#Villar del Arzobispo
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "µÚXXII¾ü"
+		location = 4813								#Sagunto
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+}
+corps = {
+	name = "¶«²¿Â½¾ü"
+	location = 4548									#Barcelona
+	regiment = { type = hq_brigade name = "¶«²¿Â½¾üÖ¸»Ó²¿" historical_model = 0 }
+	division= {
+		name = "µÚX¾ü"
+		location = 4482								#Lérida
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "µÚXI¾ü"
+		location = 4356								#Seo de Urgel
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "µÚXII¾ü"
+		location = 4355								#Balaguer
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "µÚXVIII¾ü"
+		location = 4357								#Ripoll
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division = {
+		name = "°£²¼ÂÞ¾ü"
+		location = 4602								#Tortosa
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "µÚXIII¾ü"
+		location = 4657								#Amposta
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+}
+corps = {
+	name = "±±·½Â½¾ü"
+	location = 4653									#Priego
+	regiment = { type = hq_brigade name = "±±·½Â½¾üÖ¸»Ó²¿" historical_model = 0 }
+	division= {
+		name = "µÚXIV¾ü"
+		location = 4542								#Sacedón
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "µÚXV¾ü"
+		location = 4599								#Tragacete
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division = {
+		name = "'¿âÂ³Âê¶ÅÈðÌá'Ê¦"
+		location = 4478								#Guadalajara
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+}
+corps = {
+	name = "GERCºó±¸¾üÍÅ"
+	location = 4707									#Cuenca
+	regiment = { type = hq_brigade name = "GERCºó±¸¾üÍÅÖ¸»Ó²¿" historical_model = 0 }
+	division= {
+		name = "µÚXVI¾ü"
+		location = 4707								#Cuenca
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "µÚXVII¾ü"
+		location = 4707								#Cuenca
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "µÚXXIV¾ü"
+		location = 4707								#Cuenca
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+}
+navy = {
+	name = "¿¨ËþºÕÄÉº£¾ü»ùµØ"
+	base = 5104									#Cartagena
+	location = 5104									#Cartagena
+	ship = { type = light_cruiser name = "ÈûÍòÌáË¹ºÅ" historical_model = 1 }
+	ship = { type = destroyer name = "»¤ÎÀ½¢¶Ó" historical_model = 1 }
+}
+navy = {
+	name = "ÃÅµÂË¹Å¬ÄùË¹½¢¶Ó"
+	base = 5104									#Cartagena
+	location = 5104									#Cartagena
+	ship = { type = light_cruiser name = "ARE ÃÅµÂË¹Å¬ÄùË¹ºÅ" historical_model = 1 }
+}
+navy = {
+	name = "¹²ºÍ¾ü½¢¶Ó"
+	base = 5104									#Cartagena
+	location = 5104									#Cartagena
+	ship = { type = light_cruiser name = "ARE ×ÔÓÉºÅ" historical_model = 1 }
+	ship = { type = transport_ship name = "µÚ1º£¾üÔËÊä·Ö¶Ó" historical_model = 0 }
+	ship = { type = transport_ship name = "µÚ2º£¾üÔËÊä·Ö¶Ó" historical_model = 0 }
+}
+navy = {
+	name = "º£¾ü»¤º½½¢¶Ó"
+	base = 5104									#Cartagena
+	location = 5104									#Cartagena
+	ship = { type = destroyer name = "º£¾üµÚ3ÇýÖð½¢Ö§¶Ó" historical_model = 1 }
+	ship = { type = transport_ship name = "µÚ3º£¾üÔËÊä·Ö¶Ó" historical_model = 0 }
+	ship = { type = transport_ship name = "µÚ4º£¾üÔËÊä·Ö¶Ó" historical_model = 0 }
+}
+navy = {
+	name = "C-Ö§¶Ó"
+	base = 5104									#Cartagena
+	location = 5104									#Cartagena
+	ship = { type = submarine name = "C-1 Ç±Í§·Ö¶Ó" historical_model = 0 }
+	ship = { type = submarine name = "C-3 Ç±Í§·Ö¶Ó" historical_model = 0 }
+}
+navy = {
+	name = "B-Ö§¶Ó"
+	base = 5104									#Cartagena
+	location = 5104									#Cartagena
+	ship = { type = submarine name = "B-1 Ç±Í§·Ö¶Ó" historical_model = 1 }
+	ship = { type = submarine name = "B-2 Ç±Í§·Ö¶Ó" historical_model = 1 }
+}
+air = {
+	name = "µÚ1º½¿Õ¶Ó"
+	base = 4540									#Madrid
+	location = 4540									#Madrid
+	wing = { type = tactical_bomber name = "µÚ1Õ½ÊõºäÕ¨Áª¶Ó" historical_model = 0 }
+	wing = { type = tactical_bomber name = "µÚ2Õ½ÊõºäÕ¨Áª¶Ó" historical_model = 0 }
+}
+navy = {
+	name = "µÚIº£¾ü½¢¶Ó"
+	base = 5104									#Cartagena
+	location = 5104									#Cartagena
+	ship = { type = battleship name = "ARE º£Ã·Ò»ÊÀºÅ" historical_model = 1 pride = yes }
+	ship = { type = destroyer name = "º£¾üµÚ1ÇýÖð½¢Ö§¶Ó" historical_model = 0 }
+	ship = { type = destroyer name = "º£¾üµÚ2ÇýÖð½¢Ö§¶Ó" historical_model = 1 }
+}
+navy = {
+	name = "µÚIIº£¾ü½¢¶Ó"
+	base = 5104									#Cartagena
+	location = 5104									#Cartagena
+	ship = { type = destroyer name = "º£¾üµÚ4ÇýÖð½¢Ö§¶Ó" historical_model = 2 }
+}
+
+
+

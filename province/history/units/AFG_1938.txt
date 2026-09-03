@@ -1,0 +1,70 @@
+corps = {
+	name = "阿富汗皇家军队"
+	location = 9191
+	regiment = { type = hq_brigade name = "阿富汗皇家军队指挥部" historical_model = 0 }
+	division= {
+		name = "皇家卫队"
+		location = 9191
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "法扎巴德民兵"
+		location = 9191
+		is_reserve = yes
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "加兹尼民兵"
+		location = 9191
+		is_reserve = yes
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+}
+corps = {
+	name = "赫拉特军"
+	location = 9191
+	regiment = { type = hq_brigade name = "赫拉特军指挥部" historical_model = 0 }
+	division= {
+		name = "赫拉特民兵"
+		location = 9191
+		is_reserve = yes
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "赫拉特骑兵"
+		location = 9191
+		is_reserve = yes
+		regiment = { type = cavalry_brigade historical_model = 0 }
+		regiment = { type = cavalry_brigade historical_model = 0 }
+		regiment = { type = cavalry_brigade historical_model = 0 }
+	}
+}
+corps = {
+	name = "坎大哈军"
+	location = 9316
+	regiment = { type = hq_brigade name = "坎大哈军指挥部" historical_model = 0 }
+	division= {
+		name = "贾拉拉巴德民兵"
+		location = 9316
+		is_reserve = yes
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "坎大哈民兵"
+		location = 9316
+		is_reserve = yes
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+}

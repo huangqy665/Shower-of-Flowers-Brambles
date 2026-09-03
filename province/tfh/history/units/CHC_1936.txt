@@ -1,0 +1,125 @@
+corps = {
+	name = "红1方面军"
+	location = 7417
+	regiment = { type = hq_brigade name = "红1方面军指挥部" experience = 20 historical_model = 0 }
+	division= {
+		name = "第1军团"
+		location = 7417
+		regiment = { type = bergsjaeger_brigade experience = 20 historical_model = 0 }
+		regiment = { type = bergsjaeger_brigade experience = 20 historical_model = 0 }
+		regiment = { type = bergsjaeger_brigade experience = 20 historical_model = 0 }
+	}
+	division= {
+		name = "第3军团"
+		location = 7417
+		regiment = { type = bergsjaeger_brigade experience = 20 historical_model = 0 }
+		regiment = { type = bergsjaeger_brigade experience = 20 historical_model = 0 }
+		regiment = { type = bergsjaeger_brigade experience = 20 historical_model = 0 }
+	}
+	division= {
+		name = "第5军团"
+		location = 7417
+		regiment = { type = bergsjaeger_brigade experience = 20 historical_model = 0 }
+		regiment = { type = bergsjaeger_brigade experience = 20 historical_model = 0 }
+		regiment = { type = bergsjaeger_brigade experience = 20 historical_model = 0 }
+	}
+	division= {
+		name = "第8军团"
+		location = 7417
+		regiment = { type = infantry_brigade experience = 20 historical_model = 1 }
+		regiment = { type = infantry_brigade experience = 20 historical_model = 1 }
+		regiment = { type = infantry_brigade experience = 20 historical_model = 1 }
+	}
+	division= {
+		name = "第9军团"
+		location = 7417
+		regiment = { type = infantry_brigade experience = 20 historical_model = 1 }
+		regiment = { type = infantry_brigade experience = 20 historical_model = 1 }
+		regiment = { type = infantry_brigade experience = 20 historical_model = 1 }
+	}
+}
+corps = {
+	name = "红2方面军"
+ 	location = 7398
+	regiment = { type = hq_brigade name = "红2方面军指挥部" experience = 20 historical_model = 0 }
+	division= {
+		name = "第2军团"
+		location = 7398
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+	}
+	division= {
+		name = "第6军团"
+		location = 7398
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+	}
+}
+corps = {
+	name = "红4方面军"
+	location = 7410
+	regiment = { type = hq_brigade name = "红4方面军指挥部" experience = 20 historical_model = 0 }
+	division= {
+		name = "第4军"
+		location = 7410
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+	}
+	division= {
+		name = "第9军"
+		location = 7410
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+	}
+	division= {
+		name = "第30军"
+		location = 5335
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+	}
+	division= {
+		name = "第31军"
+		location = 5335
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+	}
+}
+corps = {
+	name = "第15军团"
+	location = 5241
+	regiment = { type = hq_brigade name = "第15军团司令部" experience = 20 historical_model = 0 }
+	division= {
+		name = "第25军"
+		location = 5241
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+	}
+	division= {
+		name = "第26军"
+		location = 5241
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+	}
+	division= {
+		name = "第27军"
+		location = 7391
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+	}
+	division= {
+		name = "第28军"
+		location = 7391
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+		regiment = { type = militia_brigade experience = 20 historical_model = 1 }
+	}
+}

@@ -1,0 +1,936 @@
+58000 = {
+	name = "安德鲁斯"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58000
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+58001 = {
+	name = "阿瓦特雷"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L58001
+	add_trait = trickster
+	history = {
+		1941.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+58002 = {
+	name = "巴罗克拉夫"
+	country = NZL
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L58002
+	add_trait = offensive_doctrine
+	history = {
+		1940.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+58003 = {
+	name = "伯罗斯"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58003
+	history = {
+		1940.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+58004 = {
+	name = "克里弗顿"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L58004
+	add_trait = engineer
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+58005 = {
+	name = "库宁汉姆"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L58005
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+58006 = {
+	name = "杜伊甘"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58006
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+58007 = {
+	name = "法尔科内尔"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58007
+	add_trait = offensive_doctrine
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+58008 = {
+	name = "法拉"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 2
+	loyalty = 1.00
+	picture = L58008
+	add_trait = logistics_wizard
+	history = {
+		1938.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+58009 = {
+	name = "菲茨杰拉德"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58009
+	add_trait = commando
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+58010 = {
+	name = "弗赖伯格"
+	country = NZL
+	type = land
+	skill = 4
+	max_skill = 8
+	loyalty = 1.00
+	picture = L58010
+	add_trait = logistics_wizard
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1937.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 3 }
+	}
+}
+58011 = {
+	name = "金特里"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L58011
+	add_trait = fortress_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+58012 = {
+	name = "戈斯"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58012
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+58013 = {
+	name = "汉森"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L58013
+	add_trait = logistics_wizard
+	add_trait = engineer
+	history = {
+		1942.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+58014 = {
+	name = "哈格斯特"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L58014
+	add_trait = fortress_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+58015 = {
+	name = "亨特"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58015
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+58016 = {
+	name = "英格利斯"
+	country = NZL
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L58016
+	add_trait = panzer_leader
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+58017 = {
+	name = "詹姆森"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58017
+	add_trait = commando
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+58018 = {
+	name = "肯里克"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58018
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+58019 = {
+	name = "基彭贝格尔"
+	country = NZL
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L58019
+	add_trait = offensive_doctrine
+	history = {
+		1938.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+58020 = {
+	name = "梅森"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L58020
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+58021 = {
+	name = "麦肯齐"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58021
+	add_trait = commando
+	history = {
+		1939.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+58022 = {
+	name = "米德"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58022
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+58023 = {
+	name = "迈尔斯"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58023
+	add_trait = fortress_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+58024 = {
+	name = "米切尔"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58024
+	add_trait = engineer
+	history = {
+		1939.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+58025 = {
+	name = "尼科尔斯"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L58025
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+58026 = {
+	name = "帕克"
+	country = NZL
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58026
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+58027 = {
+	name = "帕金森"
+	country = NZL
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L58027
+	add_trait = fortress_buster
+	add_trait = panzer_leader
+	history = {
+		1940.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+58028 = {
+	name = "佩伦"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L58028
+	add_trait = commando
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+58029 = {
+	name = "普莱曾茨"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58029
+	add_trait = offensive_doctrine
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+58030 = {
+	name = "波里特"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L58030
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+58031 = {
+	name = "帕蒂克"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L58031
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+58032 = {
+	name = "凯雷"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58032
+	add_trait = defensive_doctrine
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+58033 = {
+	name = "罗曼斯"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58033
+	add_trait = logistics_wizard
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+58034 = {
+	name = "罗"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L58034
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+58035 = {
+	name = "鲁塞尔"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58035
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+58036 = {
+	name = "桑德斯"
+	country = NZL
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L58036
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+58037 = {
+	name = "辛克莱.伯吉斯"
+	country = NZL
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L58037
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1938.1.1 = { rank = 0 }
+	}
+}
+58038 = {
+	name = "史蒂文斯"
+	country = NZL
+	type = land
+	skill = 2
+	max_skill = 3
+	loyalty = 1.00
+	picture = L58038
+	history = {
+		1937.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+58039 = {
+	name = "斯图尔特"
+	country = NZL
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58039
+	add_trait = panzer_leader
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+58040 = {
+	name = "图克"
+	country = NZL
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L58040
+	add_trait = panzer_leader
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+58041 = {
+	name = "魏尔"
+	country = NZL
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L58041
+	add_trait = fortress_buster
+	history = {
+		1938.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+58042 = {
+	name = "德鲁蒙德"
+	country = NZL
+	type = sea
+	skill = 2
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58042
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+58043 = {
+	name = "福克纳"
+	country = NZL
+	type = sea
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L58043
+	add_trait = spotter
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+58044 = {
+	name = "菲尔德"
+	country = NZL
+	type = sea
+	skill = 2
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58044
+	history = {
+		1943.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+58045 = {
+	name = "希利亚德"
+	country = NZL
+	type = sea
+	skill = 2
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58045
+	add_trait = seawolf
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+58046 = {
+	name = "霍兰"
+	country = NZL
+	type = sea
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L58046
+	add_trait = superior_tactician
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+58047 = {
+	name = "拉克"
+	country = NZL
+	type = sea
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L58047
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+58048 = {
+	name = "麦克唐纳"
+	country = NZL
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58048
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+58049 = {
+	name = "麦克纳尔蒂"
+	country = NZL
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58049
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+58050 = {
+	name = "菲普斯"
+	country = NZL
+	type = sea
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L58050
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+58051 = {
+	name = "辛普森"
+	country = NZL
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58051
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+58052 = {
+	name = "斯特拉顿"
+	country = NZL
+	type = sea
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L58052
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 3 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+58053 = {
+	name = "贝利"
+	country = NZL
+	type = air
+	skill = 2
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58053
+	add_trait = fleet_destroyer
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+58054 = {
+	name = "布拉克"
+	country = NZL
+	type = air
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L58054
+	add_trait = fleet_destroyer
+	history = {
+		1943.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+58055 = {
+	name = "卡尔"
+	country = NZL
+	type = air
+	skill = 4
+	max_skill = 6
+	loyalty = 1.00
+	picture = L58055
+	add_trait = tank_buster
+	history = {
+		1938.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 4 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+58056 = {
+	name = "达尔.麦凯"
+	country = NZL
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58056
+	add_trait = superior_air_tactician
+	history = {
+		1942.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+58057 = {
+	name = "迪雷"
+	country = NZL
+	type = air
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L58057
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+58058 = {
+	name = "伊西特"
+	country = NZL
+	type = air
+	skill = 3
+	max_skill = 6
+	loyalty = 1.00
+	picture = L58058
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 3 }
+	}
+}
+58059 = {
+	name = "麦格雷戈"
+	country = NZL
+	type = air
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L58059
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+58060 = {
+	name = "牛顿"
+	country = NZL
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58060
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+58061 = {
+	name = "普莱耶"
+	country = NZL
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L58061
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+58062 = {
+	name = "鲁滨逊"
+	country = NZL
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L58062
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+58063 = {
+	name = "勒迪格"
+	country = NZL
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L58063
+	add_trait = carpet_bomber
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+58064 = {
+	name = "斯托特"
+	country = NZL
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L58064
+	add_trait = superior_air_tactician
+	history = {
+		1940.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+58065 = {
+	name = "斯特拉顿"
+	country = NZL
+	type = air
+	skill = 3
+	max_skill = 6
+	loyalty = 1.00
+	picture = L58065
+	history = {
+		1938.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+	}
+}
+58066 = {
+	name = "特鲁兹达尔"
+	country = NZL
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58066
+	add_trait = superior_air_tactician
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+58067 = {
+	name = "瓦茨"
+	country = NZL
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L58067
+	history = {
+		1941.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 0 }
+	}
+}

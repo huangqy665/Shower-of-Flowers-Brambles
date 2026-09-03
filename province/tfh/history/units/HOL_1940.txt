@@ -1,0 +1,227 @@
+theatre = {
+	name = "荷兰陆军"
+	location = 1910
+	regiment = { type = hq_brigade name = "荷兰陆军指挥部" historical_model = 0 }
+	regiment = { type = anti_air_brigade name = "阿姆斯特丹防空部队" historical_model = 0 }
+
+	#The I Legerkorps was the OLZ's strategic reserve and was located in the Vesting Holland, around The Hague, Leiden, Haarlem and in the Westland
+	corps = {
+		name = "第1军"
+		location = 2022
+		regiment = { type = hq_brigade name = "第1军指挥部" historical_model = 0 }
+		division= {
+			name = "第1师"
+			location = 2022
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "掷弹兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "雅格团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第4步兵团" historical_model = 0 }
+		}
+		division= {
+			name = "第3师"
+			location = 2022
+			is_reserve = yes
+			regiment = { type = infantry_brigade name ="第1步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第9步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第12步兵团" historical_model = 0 }
+		}
+	}
+	corps = {
+		name = "第2军"
+		location = 2025 #between apledoorn and arnem
+		regiment = { type = hq_brigade name = "第2军指挥部" historical_model = 0 }
+		division= {
+			name = "第2师"
+			location = 2025
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第10步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第15步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第22步兵团" historical_model = 0 }
+		}
+		division= {
+			name = "第4师"
+			location = 2025
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第8步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第11步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第19步兵团" historical_model = 0 }
+		}
+	}
+	corps = {
+		name = "第3军"
+		location = 2139 #between Tilburg and Hertogenbosch (Tilburg)
+		regiment = { type = hq_brigade name = "第3军指挥部" historical_model = 0 }
+		division= {
+			name = "第5师"
+			location = 2139 #Tilburg
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第2步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第13步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第17步兵团" historical_model = 0 }
+		}
+		division= {
+			name = "第6师"
+			location = 2139 #Tilburg
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第3步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第13步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第17步兵团" historical_model = 0 }
+		}
+		division= {
+			name = "光明师"
+			location = 2198 #Eindhoven
+			is_reserve = yes
+			regiment = { type = motorized_brigade name = "第1单车团" historical_model = 0 }
+			regiment = { type = motorized_brigade name = "第2单车团" historical_model = 0 }
+			regiment = { type = motorized_brigade name = "第2机动轻骑兵团" historical_model = 0 }
+		}
+		division= {
+			name = "皮尔师"
+			location = 2199 #Venlo
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "步兵团" historical_model = 0 }
+		}
+	}
+	corps = {
+		name = "第4军"
+		location = 1911 #Amersfoort
+		regiment = { type = hq_brigade name = "第4军指挥部" historical_model = 0 }
+		division= {
+			name = "第7师"
+			location = 1911 #Amersfoort
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第7步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第18步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第20步兵团" historical_model = 0 }
+		}
+		division= {
+			name = "第8师"
+			location = 1911 #Amersfoort
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第5步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第16步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第21步兵团" historical_model = 0 }
+		}
+	}
+
+	air = {
+		name = "第1机群"
+		base = 1910
+		location = 1910
+		wing = { type = interceptor name = "第1战斗机大队" experience = 15 historical_model = 1 }
+	}
+
+	# fleet in europe --------------------------------
+	navy = {
+		name = "皇家舰队"
+		base = 1910
+		location = 1910
+		ship = { type = light_cruiser name = "HrMs 雅克布凡赫姆斯客" historical_model = 2 strength = 88 } #commissioned on 10 May 1940 #she was not armed by that date
+		ship = { type = light_cruiser name = "亨德里克号" historical_model = 0 } #Decommissioned September 27 1968
+		ship = { type = light_cruiser name = "HrMs 苏门答腊" historical_model = 1 } #Laid down 15 Jun 1916. Commissioned	26 May 1926 
+		ship = { type = light_cruiser name = "范·希姆斯柯克号" historical_model = 0} #There was a light cruiser with the same name built later. Displacement: 4,920  tons #sunk in europe
+		ship = { type = destroyer name = "第1驱逐舰大队" historical_model = 1 }
+		ship = { type = transport_ship name = "第5运输船队" historical_model = 2 }
+		ship = { type = transport_ship name = "第6运输船队" historical_model = 1 }
+		ship = { type = transport_ship name = "第7运输船队" historical_model = 1 }
+		ship = { type = transport_ship name = "第8运输船队" historical_model = 1 }
+	}
+	navy = {
+		name = "皇家潜艇编队"
+		base = 1910
+		location = 1910
+		ship = { type = submarine name = "第6潜艇大队" historical_model = 0 }
+		ship = { type = submarine name = "第5潜艇大队" historical_model = 1 }
+		ship = { type = submarine name = "第3潜艇大队" historical_model = 2 }
+	}
+}
+
+theatre = {
+	name = "印度尼西亚战区"
+	location = 6507
+	regiment = { type = hq_brigade name = "印度尼西亚战区" historical_model = 0 }
+	army = {
+		name = "皇家荷兰东印度陆军"
+		location = 6507
+		regiment = { type = hq_brigade name = "荷兰殖民军" historical_model = 0 }
+
+		division= {
+			name = "爪哇第I师"
+			location = 6530
+			regiment = { type = infantry_brigade name = "第1团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第2团" historical_model = 0 }
+		}
+		division= {
+			name = "爪哇第II师"
+			location = 6531
+			regiment = { type = infantry_brigade name = "第4团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "步兵旅" historical_model = 0 }
+		}
+		division= {
+			name = "爪哇第III师"
+			location = 7799
+			regiment = { type = infantry_brigade name = "第6团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "VBS旅" historical_model = 0 }
+		}
+	}
+	
+	air = {
+		name = "第2机群"
+		base = 6507
+		location = 6507
+		wing = { type = tactical_bomber name = "第1轰炸机大队" historical_model = 0 }
+		wing = { type = interceptor name = "第2战斗机大队" historical_model = 0 }
+	}
+
+		
+	# East Indies fleet ------------------------------
+	navy = {
+		name = "皇家舰队"
+		base = 7793
+		location = 7793
+		ship = { type = light_cruiser name = "HrMs 德鲁特尔" historical_model = 2 pride = yes } #commissioned on 3 October 1936. 6,545 tons (biggest ship)
+		ship = { type = light_cruiser name = "HrMs 长鼻" historical_model = 2 } #commissioned on 18 August 1938. 4000 tons
+		ship = { type = light_cruiser name = "HrMs 爪哇" historical_model = 1 } #completed on May 1 1925
+		ship = { type = light_cruiser name = "苏腊巴亚号" historical_model = 0 } #commisioned on ctober 6 1910. 6,510 tons
+		ship = { type = destroyer name = "第2驱逐舰大队" historical_model = 1 }
+		ship = { type = destroyer name = "第3驱逐舰大队" historical_model = 1 }
+	}
+	navy = {
+		name = "潜艇编队"
+		base = 7793
+		location = 7793
+		ship = { type = submarine name = "第1潜艇大队" historical_model = 0 }
+		ship = { type = submarine name = "第2潜艇大队" historical_model = 2 }
+	}
+	navy = {
+		name = "德·施普瓦特号"
+		base = 7793
+		location = 7793
+		ship = { type = transport_ship name = "第1运输船队" historical_model = 1 }
+		ship = { type = transport_ship name = "第2运输船队" historical_model = 1 }
+		ship = { type = transport_ship name = "第3运输船队" historical_model = 1 }
+	}
+}
+
+
+military_construction = {
+	country = HOL
+	destroyer = {
+		name = "第3驱逐舰大队"
+		historical_model = 2
+	}
+	cost = 1.60
+	progress = 0
+	duration = 61
+}
+military_construction = {
+	country = HOL
+	submarine = {
+		name = "第4潜艇大队"
+		historical_model = 2
+	}
+	cost = 1.50
+	progress = 0
+	duration = 91
+}

@@ -1,0 +1,1764 @@
+4300 = {
+	name = "阿尔德亚"
+	country = ROM
+	type = land
+	skill = 3
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4300
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 3 }
+	}
+}
+4301 = {
+	name = "阿列克休"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4301
+	add_trait = defensive_doctrine
+	add_trait = fortress_buster
+	history = {
+		1941.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+4302 = {
+	name = "安东内斯库.I.A."
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4302
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+4303 = {
+	name = "安东内斯库.I.V."
+	country = ROM
+	type = land
+	skill = 4
+	max_skill = 7
+	loyalty = 0.00
+	picture = L4303
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1937.1.1 = { rank = 3 }
+		1939.1.1 = { rank = 4 }
+	}
+}
+4304 = {
+	name = "安东内斯库.P."
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4304
+	add_trait = fortress_buster
+	history = {
+		1941.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4305 = {
+	name = "阿尔杰谢亚努"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4305
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 3 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+4306 = {
+	name = "阿尔杰托亚努"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4306
+	history = {
+		1946.1.1 = { rank = 1 }
+	}
+}
+4307 = {
+	name = "阿夫拉梅斯库"
+	country = ROM
+	type = land
+	skill = 3
+	max_skill = 6
+	loyalty = 0.00
+	picture = L4307
+	add_trait = offensive_doctrine
+	history = {
+		1937.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 3 }
+	}
+}
+4308 = {
+	name = "伯德斯库"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4308
+	history = {
+		1944.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+4309 = {
+	name = "巴尔代斯库"
+	country = ROM
+	type = land
+	skill = 3
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4309
+	history = {
+		1938.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+4310 = {
+	name = "巴尔丹"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L4310
+	history = {
+		1941.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+4311 = {
+	name = "博伊采亚努"
+	country = ROM
+	type = land
+	skill = 3
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4311
+	add_trait = offensive_doctrine
+	history = {
+		1941.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 3 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+4312 = {
+	name = "布拉泰斯库"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4312
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+4313 = {
+	name = "巴克留"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4313
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+4314 = {
+	name = "卡洛泰斯库"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4314
+	history = {
+		1940.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4315 = {
+	name = "卡拉萨斯"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4315
+	history = {
+		1941.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4316 = {
+	name = "卡劳恩特"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4316
+	history = {
+		1941.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4317 = {
+	name = "恰乌苏"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4317
+	add_trait = fortress_buster
+	history = {
+		1939.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+4318 = {
+	name = "基尔诺阿加"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4318
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+4319 = {
+	name = "恰拉克"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4319
+	history = {
+		1941.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4320 = {
+	name = "丘佩尔卡"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L4320
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1938.1.1 = { rank = 3 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+4321 = {
+	name = "科德雷亚努.I."
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4321
+	add_trait = offensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+4322 = {
+	name = "康斯坦丁内斯库.克拉普斯"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 7
+	loyalty = 0.00
+	picture = L4322
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+4323 = {
+	name = "科斯马"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L4323
+	add_trait = engineer
+	add_trait = fortress_buster
+	history = {
+		1941.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+4324 = {
+	name = "德斯克列斯库"
+	country = ROM
+	type = land
+	skill = 3
+	max_skill = 6
+	loyalty = 0.00
+	picture = L4324
+	history = {
+		1936.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4325 = {
+	name = "迪米特留"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4325
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 3 }
+	}
+}
+4326 = {
+	name = "多布雷"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L4326
+	add_trait = panzer_leader
+	history = {
+		1945.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 2 }
+	}
+}
+4327 = {
+	name = "德拉加利纳"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4327
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4328 = {
+	name = "德拉戈米尔"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4328
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+4329 = {
+	name = "杜米特拉凯"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4329
+	add_trait = commando
+	history = {
+		1941.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4330 = {
+	name = "杜米特雷斯库"
+	country = ROM
+	type = land
+	skill = 3
+	max_skill = 7
+	loyalty = 1.00
+	picture = L4330
+	history = {
+		1930.1.1 = { rank = 1 }
+		1937.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+4331 = {
+	name = "埃夫迪米乌"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4331
+	history = {
+		1941.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+4332 = {
+	name = "埃内斯库"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4332
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+4333 = {
+	name = "弗洛雷斯库"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4333
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+4334 = {
+	name = "杰奥尔杰斯库.A.I.I."
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L4334
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+4335 = {
+	name = "杰奥尔杰斯库.I.G."
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4335
+	add_trait = fortress_buster
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4336 = {
+	name = "盖尔格"
+	country = ROM
+	type = land
+	skill = 3
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4336
+	add_trait = panzer_leader
+	history = {
+		1938.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4337 = {
+	name = "吉内拉鲁"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4337
+	add_trait = defensive_doctrine
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+4338 = {
+	name = "格利姆尼茨"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4338
+	add_trait = trickster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+4339 = {
+	name = "格洛戈扎努"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4339
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+4340 = {
+	name = "格雷恰努"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4340
+	add_trait = commando
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+4341 = {
+	name = "雅各比基"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4341
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 3 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+4342 = {
+	name = "伊利埃斯库"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4342
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+4343 = {
+	name = "伊尔库苏"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4343
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+4344 = {
+	name = "约阿尼丘"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4344
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+4345 = {
+	name = "约纳什库"
+	country = ROM
+	type = land
+	skill = 3
+	max_skill = 6
+	loyalty = 0.00
+	picture = L4345
+	add_trait = fortress_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 3 }
+	}
+}
+4346 = {
+	name = "约内斯库"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4346
+	add_trait = offensive_doctrine
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+4347 = {
+	name = "约内斯库.西奈亚"
+	country = ROM
+	type = land
+	skill = 3
+	max_skill = 6
+	loyalty = 0.00
+	picture = L4347
+	add_trait = commando
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 3 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+4348 = {
+	name = "科尔涅"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 7
+	loyalty = 0.00
+	picture = L4348
+	add_trait = offensive_doctrine
+	add_trait = panzer_leader
+	history = {
+		1942.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+4349 = {
+	name = "勒克图舒"
+	country = ROM
+	type = land
+	skill = 3
+	max_skill = 6
+	loyalty = 0.00
+	picture = L4349
+	add_trait = fortress_buster
+	add_trait = commando
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+4350 = {
+	name = "拉斯卡尔"
+	country = ROM
+	type = land
+	skill = 3
+	max_skill = 8
+	loyalty = 0.00
+	picture = L4350
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 3 }
+		1946.1.1 = { rank = 4 }
+	}
+}
+4351 = {
+	name = "莱奥韦亚努"
+	country = ROM
+	type = land
+	skill = 3
+	max_skill = 6
+	loyalty = 0.00
+	picture = L4351
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4352 = {
+	name = "莱文蒂"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4352
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+4353 = {
+	name = "林德艾纳"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L4353
+	add_trait = commando
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+4354 = {
+	name = "马契奇"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4354
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4355 = {
+	name = "马纳富"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L4355
+	history = {
+		1937.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+4356 = {
+	name = "默泽雷亚努"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4356
+	add_trait = commando
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+4357 = {
+	name = "马扎里尼"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4357
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+4358 = {
+	name = "米哈伊尔"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4358
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+4359 = {
+	name = "米特勒内斯库"
+	country = ROM
+	type = land
+	skill = 3
+	max_skill = 6
+	loyalty = 1.00
+	picture = L4359
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 3 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+4360 = {
+	name = "莫丘尔斯基"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4360
+	add_trait = commando
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+4361 = {
+	name = "莫西乌"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4361
+	add_trait = fortress_buster
+	history = {
+		1939.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+4362 = {
+	name = "纳斯塔"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4362
+	add_trait = fortress_buster
+	history = {
+		1941.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+4363 = {
+	name = "内德莱亚"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L4363
+	add_trait = logistics_wizard
+	add_trait = engineer
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+4364 = {
+	name = "尼古列斯库.科丘"
+	country = ROM
+	type = land
+	skill = 3
+	max_skill = 6
+	loyalty = 1.00
+	picture = L4364
+	history = {
+		1937.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+4365 = {
+	name = "欧普里什"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4365
+	history = {
+		1940.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+4366 = {
+	name = "珀伦贾努"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4366
+	history = {
+		1943.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+4367 = {
+	name = "潘塔济"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L4367
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+4368 = {
+	name = "帕斯库"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L4368
+	add_trait = commando
+	history = {
+		1941.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+4369 = {
+	name = "彼得雷斯库"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L4369
+	add_trait = engineer
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+4470 = {
+	name = "弗莱普斯"
+	country = ROM
+	type = land
+	skill = 4
+	max_skill = 8
+	loyalty = 1.00
+	picture = L4370
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1937.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+4371 = {
+	name = "波佩斯库.D."
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4371
+	add_trait = offensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+4372 = {
+	name = "波佩斯库.T.D."
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L4372
+	add_trait = offensive_doctrine
+	history = {
+		1941.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+4373 = {
+	name = "波托佩亚努"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4373
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+4374 = {
+	name = "拉科维策"
+	country = ROM
+	type = land
+	skill = 3
+	max_skill = 6
+	loyalty = 1.00
+	picture = L4374
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+4375 = {
+	name = "勒德斯库"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4375
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+4376 = {
+	name = "勒杜列斯库"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4376
+	add_trait = fortress_buster
+	history = {
+		1941.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4377 = {
+	name = "拉什库"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4377
+	history = {
+		1940.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+4378 = {
+	name = "罗塞蒂.伯勒内斯库"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4378
+	add_trait = fortress_buster
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+4379 = {
+	name = "罗津"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L4379
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4380 = {
+	name = "萨伊达克"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4380
+	history = {
+		1941.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+4381 = {
+	name = "瑟讷泰斯库"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 7
+	loyalty = 1.00
+	picture = L4381
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+4382 = {
+	name = "萨沃亚"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L4382
+	add_trait = offensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+4383 = {
+	name = "施密特"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4383
+	add_trait = panzer_leader
+	history = {
+		1941.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4384 = {
+	name = "施瓦布"
+	country = ROM
+	type = land
+	skill = 3
+	max_skill = 6
+	loyalty = 0.00
+	picture = L4384
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+4385 = {
+	name = "塞拉钦"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4385
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+4386 = {
+	name = "赛恩"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4386
+	add_trait = panzer_leader
+	history = {
+		1940.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+4387 = {
+	name = "索瓦"
+	country = ROM
+	type = land
+	skill = 3
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4387
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4388 = {
+	name = "斯塔夫拉特"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4388
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+4389 = {
+	name = "斯塔夫雷斯库"
+	country = ROM
+	type = land
+	skill = 3
+	max_skill = 6
+	loyalty = 1.00
+	picture = L4389
+	add_trait = offensive_doctrine
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 3 }
+	}
+}
+4390 = {
+	name = "施泰夫莱亚"
+	country = ROM
+	type = land
+	skill = 3
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4390
+	history = {
+		1937.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4391 = {
+	name = "斯托埃内斯库"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4391
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4392 = {
+	name = "斯托伊克内斯库"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4392
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+4393 = {
+	name = "特特拉努"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L4393
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4394 = {
+	name = "特特雷斯库"
+	country = ROM
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4394
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+4395 = {
+	name = "泰内斯库"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L4395
+	add_trait = defensive_doctrine
+	history = {
+		1942.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+4396 = {
+	name = "特奥多里尼"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4396
+	history = {
+		1941.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4397 = {
+	name = "特林库"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4397
+	add_trait = defensive_doctrine
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+4398 = {
+	name = "瓦西柳"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4398
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+4399 = {
+	name = "维萨里翁"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4399
+	history = {
+		1941.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+4400 = {
+	name = "沃伊库列斯库"
+	country = ROM
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4400
+	history = {
+		1941.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4401 = {
+	name = "扎哈雷斯库"
+	country = ROM
+	type = land
+	skill = 3
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4401
+	add_trait = engineer
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 3 }
+	}
+}
+4402 = {
+	name = "卡兰菲尔"
+	country = ROM
+	type = sea
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4402
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 3 }
+	}
+}
+4403 = {
+	name = "科列斯卡"
+	country = ROM
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4403
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+4404 = {
+	name = "杰奥尔杰斯库"
+	country = ROM
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4404
+	history = {
+		1942.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+4405 = {
+	name = "伊利埃斯卡"
+	country = ROM
+	type = sea
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4405
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+4406 = {
+	name = "马切拉留"
+	country = ROM
+	type = sea
+	skill = 3
+	max_skill = 6
+	loyalty = 0.00
+	picture = L4406
+	add_trait = blockade_runner
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 3 }
+	}
+}
+4407 = {
+	name = "尼古拉.杜卡.迪.西尔瓦尼亚"
+	country = ROM
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L4407
+	history = {
+		1930.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+4408 = {
+	name = "罗什卡"
+	country = ROM
+	type = sea
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L4408
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+4409 = {
+	name = "扎克利亚斯库"
+	country = ROM
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4409
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+4410 = {
+	name = "切勒雷亚努"
+	country = ROM
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4410
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+4411 = {
+	name = "达尔然"
+	country = ROM
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4411
+	add_trait = tank_buster
+	history = {
+		1938.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+4412 = {
+	name = "达维德斯库"
+	country = ROM
+	type = air
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L4412
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+4413 = {
+	name = "迪.切泽雷"
+	country = ROM
+	type = air
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4413
+	history = {
+		1939.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+4414 = {
+	name = "费尔楚"
+	country = ROM
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4414
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+4415 = {
+	name = "加夫里柳"
+	country = ROM
+	type = air
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4415
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+4416 = {
+	name = "乔治乌"
+	country = ROM
+	type = air
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4416
+	add_trait = superior_air_tactician
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+4417 = {
+	name = "约内斯库"
+	country = ROM
+	type = air
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L4417
+	add_trait = tank_buster
+	history = {
+		1943.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+4418 = {
+	name = "日耶内斯库"
+	country = ROM
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4418
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+4419 = {
+	name = "米卢"
+	country = ROM
+	type = air
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L4419
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+4420 = {
+	name = "帕斯库"
+	country = ROM
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4420
+	history = {
+		1939.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4421 = {
+	name = "波佩斯库.乔克内尔"
+	country = ROM
+	type = air
+	skill = 3
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4421
+	add_trait = tank_buster
+	history = {
+		1938.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+4422 = {
+	name = "桑杜"
+	country = ROM
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4422
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+4423 = {
+	name = "维赞特"
+	country = ROM
+	type = air
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4423
+	history = {
+		1939.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+4424 = {
+	name = "瓦西柳"
+	country = ROM
+	type = air
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4424
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+	}
+}

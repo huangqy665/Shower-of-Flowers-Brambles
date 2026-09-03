@@ -1,0 +1,64 @@
+division = {
+	name = "第5骑兵军"
+	location = 9112
+	regiment = { type = cavalry_brigade historical_model = 2 }
+	regiment = { type = cavalry_brigade historical_model = 2 }
+}
+corps = {
+	name = "第17军团"
+	location = 9143
+	regiment = { type = hq_brigade name = "第17军团司令部" historical_model = 0 }
+	division= {
+		name = "宁夏第1军"
+		location = 9143
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "宁夏第2军"
+		location = 9143
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "宁夏第3军"
+		location = 9143
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第11军"
+		location = 9143
+		regiment = { type = cavalry_brigade historical_model = 2 }
+		regiment = { type = cavalry_brigade historical_model = 2 }
+	}
+	division= {
+		name = "第81军"
+		location = 9143
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+}
+corps = {
+	name = "青海军"
+	location = 9115
+	regiment = { type = hq_brigade name = "青海军司令部" historical_model = 0 }
+	division= {
+		name = "第82军"
+		location = 9115
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "青海保安队"
+		location = 9115
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "青海骑兵"
+		location = 9115
+		regiment = { type = cavalry_brigade historical_model = 2 }
+		regiment = { type = cavalry_brigade historical_model = 2 }
+	}
+}

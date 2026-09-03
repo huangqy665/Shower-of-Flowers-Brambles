@@ -1,0 +1,214 @@
+theatre = {
+	name = "比利时军队" 
+	location = 2255
+	regiment = { type = hq_brigade name = "比利时军队指挥部" historical_model = 0 }
+	corps = {
+		name = "第1军"
+		location = 2489
+		regiment = { type = hq_brigade name = "第1军指挥部" historical_model = 0 }
+		division= {
+			name = "第4步兵师"
+			location = 2255
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第7步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第11步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第15步兵团" historical_model = 0 }
+		}
+		division= {
+			name = "第7步兵师"
+			location = 2254
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第2掷弹兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第2掷弹兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第18步兵团" historical_model = 0 }
+		}
+	}
+	corps = {
+		name = "第2军"
+		location = 2489
+		regiment = { type = hq_brigade name = "第2军指挥部" historical_model = 0 }
+		division = {
+			name = "第6步兵师"
+			location = 2254
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第1掷弹兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第1掷弹兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第9步兵团" historical_model = 0 }
+		}
+		division= {
+			name = "第9步兵师"
+			location = 2196
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第7猎兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第8猎兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第9猎兵团" historical_model = 0 }
+		}
+		division= {
+			name = "第11步兵师"
+			location = 2196
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第10猎兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第11猎兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第12猎兵团" historical_model = 0 }
+		}
+	}
+	corps = {
+		name = "第III军"
+		location = 2489
+		regiment = { type = hq_brigade name = "第III军指挥部" historical_model = 0 }
+		division= {
+			name = "第2步兵师"
+			location = 2312
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第5步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第6步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第28步兵团" historical_model = 0 }
+		}
+		division= {
+			name = "第3步兵师"
+			location = 2312
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第1步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第12步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第25步兵团" historical_model = 0 }
+		}
+	}
+	corps = {
+		name = "第IV军"
+		location = 2489
+		regiment = { type = hq_brigade name = "第IV军指挥部" historical_model = 0 }
+		division= {
+			name = "第12步兵师"
+			location = 2196
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第30步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第31步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第32步兵团" historical_model = 0 }
+		}
+		division= {
+			name = "第15步兵师"
+			location = 2196
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第20猎兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第21猎兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第22猎兵团" historical_model = 0 }
+		}
+		division= {
+			name = "第18步兵师"
+			location = 2196
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第33步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第34步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第35步兵团" historical_model = 0 }
+		}
+	}
+	corps = {
+		name = "第V军"
+		location = 2197
+		regiment = { type = hq_brigade name = "第V军指挥部" historical_model = 0 }
+		division= {
+			name = "第13步兵师"
+			location = 2197
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第36步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第37步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第38步兵团" historical_model = 0 }
+		}
+		division= {
+			name = "第17步兵师"
+			location = 2197
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第39步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第40步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第41步兵团" historical_model = 0 }
+		}
+	}
+	corps = {
+		name = "第VI军"
+		location = 2197
+		regiment = { type = hq_brigade name = "第VI军指挥部" historical_model = 0 }
+		division = {
+			name = "第5步兵师"
+			location = 2311
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第1猎兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第2猎兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第4猎兵团" historical_model = 0 }
+		}
+		division= {
+			name = "第10步兵师"
+			location = 2196
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第3猎兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第5猎兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第6猎兵团" historical_model = 0 }
+		}
+	}
+	corps = {
+		name = "第VII军"
+		location = 2197
+		regiment = { type = hq_brigade name = "第VII军指挥部" historical_model = 0 }
+		division = {
+			name = "第2阿登猎兵师"
+			location = 2370
+			is_reserve = yes
+			regiment = { type = motorized_brigade name = "第1阿登猎兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第2阿登猎兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第3阿登猎兵团" historical_model = 0 }
+		}
+		division= {
+			name = "第8步兵师"
+			location = 2369
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第13步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第19步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第21步兵团" historical_model = 0 }
+		}
+	}
+	corps = {
+		name = "骑兵军"
+		location = 2197
+		regiment = { type = hq_brigade name = "骑兵军指挥部" historical_model = 0 }
+			division = {
+			name = "第1步兵师"
+			location = 2255
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第3步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第4步兵团" historical_model = 0 }
+			regiment = { type = infantry_brigade name = "第24步兵团" historical_model = 0 }
+		}
+		
+		division= {
+			name = "第14骑兵师"
+			location = 2311
+			is_reserve = yes
+			regiment = { type = cavalry_brigade name = "第1枪骑兵团" historical_model = 1 }
+			regiment = { type = cavalry_brigade name = "第3枪骑兵团" historical_model = 1 }
+			regiment = { type = motorized_brigade name = "第1猎骑兵团" historical_model = 1 }
+			regiment = { type = armored_car_brigade name = "第1宪兵团" historical_model = 0 }
+		}
+		division= {
+			name = "第2骑兵师"
+			location = 2311
+			is_reserve = yes
+			regiment = { type = cavalry_brigade name = "第1教导团" historical_model = 1 }
+			regiment = { type = cavalry_brigade name = "第1枪骑兵团" historical_model = 1 }
+			regiment = { type = motorized_brigade name = "第2猎骑兵团" historical_model = 1 }
+			regiment = { type = armored_car_brigade name = "第3宪兵团" historical_model = 0 }
+		}
+	}
+	division = {
+		name = "殖民地皇家卫队"
+		location = 10113
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+}
+navy = {
+	name = "第1运输舰队"
+	base = 2137
+	location = 2137
+	ship = { type = transport_ship name = "第1运输分队" historical_model = 0 }
+	ship = { type = transport_ship name = "第2分队" historical_model = 0 }
+}

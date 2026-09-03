@@ -1,0 +1,328 @@
+556000 = {
+	name = "阿卜杜拉一世"
+	country = JOR
+	type = land
+	skill = 1
+	max_skill = 2
+	loyalty = 1.00
+	picture = M556008
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1930.1.1 = { rank = 4 }
+	}
+}
+556001 = {
+	name = "阿赫蒂"
+	country = JOR
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = M556029
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+	}
+}
+556002 = {
+	name = "阿尔.阿米尔"
+	country = JOR
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L556002
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+556003 = {
+	name = "阿尔.哈希米"
+	country = JOR
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L556003
+	add_trait = trickster
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+556004 = {
+	name = "阿尔.加法尔"
+	country = JOR
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = M556031
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+556005 = {
+	name = "阿尔.瓦利"
+	country = JOR
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = M556028
+	add_trait = defensive_doctrine
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+556006 = {
+	name = "本.贾米勒"
+	country = JOR
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L556006
+	add_trait = engineer
+	history = {
+		1938.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+556007 = {
+	name = "卡尔顿.史密斯"
+	country = JOR
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L556007
+	add_trait = panzer_leader
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+556008 = {
+	name = "科克斯.帕夏"
+	country = JOR
+	type = land
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = M556006
+	add_trait = logistics_wizard
+	add_trait = trickster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+556009 = {
+	name = "埃尔.尼扎尔.阿里"
+	country = JOR
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L556009
+	add_trait = commando
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+556010 = {
+	name = "埃尔.里哈茨"
+	country = JOR
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L556010
+	add_trait = panzer_leader
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+556011 = {
+	name = "格拉布.帕夏"
+	country = JOR
+	type = land
+	skill = 3
+	max_skill = 6
+	loyalty = 1.00
+	picture = M556024
+	add_trait = logistics_wizard
+	add_trait = offensive_doctrine
+	history = {
+		1939.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+556012 = {
+	name = "梅奇特.帕夏"
+	country = JOR
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = M556032
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+556013 = {
+	name = "纳伊夫"
+	country = JOR
+	type = land
+	skill = 2
+	max_skill = 3
+	loyalty = 1.00
+	picture = M556012
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+556014 = {
+	name = "奥斯普雷"
+	country = JOR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = M556027
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+556015 = {
+	name = "帕蒂森.史密斯"
+	country = JOR
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L556015
+	add_trait = fortress_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+556016 = {
+	name = "赛义德"
+	country = JOR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L556016
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+556017 = {
+	name = "埃尔.阿迪尔"
+	country = JOR
+	type = sea
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = M556034
+	add_trait = seawolf
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+556018 = {
+	name = "劳埃德.埃尔福德"
+	country = JOR
+	type = sea
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L1367
+	add_trait = old_guard
+	add_trait = superior_tactician
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+556019 = {
+	name = "斯托克斯"
+	country = JOR
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L1391
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+556020 = {
+	name = "阿尔.阿菲兹"
+	country = JOR
+	type = air
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = M556035
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+556021 = {
+	name = "阿尔.哈利克"
+	country = JOR
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = M556036
+	add_trait = carpet_bomber
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+556022 = {
+	name = "柯克布赖德"
+	country = JOR
+	type = air
+	skill = 2
+	max_skill = 4
+	loyalty = 1.00
+	picture = L1454
+	add_trait = tank_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+556023 = {
+	name = "里斯代尔"
+	country = JOR
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L556023
+	add_trait = superior_air_tactician
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}

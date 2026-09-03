@@ -1,0 +1,863 @@
+4500 = {
+	name = "阿尔马桑"
+	country = MEX
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4500
+	add_trait = engineer
+	history = {
+		1941.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+4501 = {
+	name = "阿尔瓦雷兹.阿尔格雷"
+	country = MEX
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4501
+	add_trait = panzer_leader
+	history = {
+		1930.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+4502 = {
+	name = "阿马罗.多明格斯"
+	country = MEX
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L4502
+	add_trait = trickster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+4503 = {
+	name = "阿维拉.卡马乔"
+	country = MEX
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4503
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4504 = {
+	name = "巴列斯特罗斯.米兰达"
+	country = MEX
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4504
+	add_trait = engineer
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+4505 = {
+	name = "卡勒.德尔.里奥"
+	country = MEX
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4505
+	add_trait = panzer_leader
+	history = {
+		1938.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4506 = {
+	name = "卡勒.普卢塔科"
+	country = MEX
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4506
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+4507 = {
+	name = "卡德纳斯.德尔.里奥"
+	country = MEX
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4507
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+4508 = {
+	name = "卡德纳斯.罗德里格斯"
+	country = MEX
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L4508
+	add_trait = commando
+	history = {
+		1942.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+4509 = {
+	name = "迪亚兹.奥瓦列"
+	country = MEX
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4509
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+4510 = {
+	name = "埃斯特拉达.雷诺索"
+	country = MEX
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L4510
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+4511 = {
+	name = "菲格罗亚.菲格罗亚"
+	country = MEX
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4511
+	add_trait = defensive_doctrine
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 3 }
+	}
+}
+4512 = {
+	name = "加西亚.巴拉甘"
+	country = MEX
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L4512
+	add_trait = commando
+	history = {
+		1942.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+4513 = {
+	name = "加尔扎.西勒"
+	country = MEX
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4513
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+4514 = {
+	name = "吉耶尔莫.比利亚西纳"
+	country = MEX
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4514
+	add_trait = logistics_wizard
+	history = {
+		1938.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+4515 = {
+	name = "埃尔南斯.克鲁姆"
+	country = MEX
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4515
+	add_trait = panzer_leader
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+4516 = {
+	name = "希尔"
+	country = MEX
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L4516
+	add_trait = offensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+4517 = {
+	name = "亚拉.科罗纳"
+	country = MEX
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4517
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+4518 = {
+	name = "拉拉.别霍"
+	country = MEX
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4518
+	add_trait = offensive_doctrine
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+4519 = {
+	name = "利蒙.马克斯"
+	country = MEX
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4519
+	add_trait = offensive_doctrine
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+4520 = {
+	name = "马恰斯.瓦伦祖埃拉"
+	country = MEX
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4520
+	history = {
+		1939.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+4521 = {
+	name = "穆吉卡.巴尔德斯"
+	country = MEX
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L4521
+	add_trait = trickster
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+4522 = {
+	name = "奥拉切亚.阿维莱斯"
+	country = MEX
+	type = land
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L4522
+	add_trait = commando
+	history = {
+		1943.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+4523 = {
+	name = "帕拉福斯"
+	country = MEX
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4523
+	add_trait = fortress_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1938.1.1 = { rank = 0 }
+	}
+}
+4524 = {
+	name = "普罗.迪亚兹"
+	country = MEX
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4524
+	add_trait = defensive_doctrine
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+4525 = {
+	name = "基罗加.埃斯卡米利亚"
+	country = MEX
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4525
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+4526 = {
+	name = "拉莫斯.桑托斯"
+	country = MEX
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4526
+	add_trait = logistics_wizard
+	history = {
+		1941.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+4527 = {
+	name = "罗雅斯.拉佐"
+	country = MEX
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4527
+	add_trait = panzer_leader
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+4528 = {
+	name = "萨尔加多.科德罗"
+	country = MEX
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4528
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+4529 = {
+	name = "塞拉诺"
+	country = MEX
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L4529
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+4530 = {
+	name = "乌尔基索.贝纳维德"
+	country = MEX
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4530
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4531 = {
+	name = "扎帕塔.薇拉"
+	country = MEX
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4531
+	add_trait = engineer
+	history = {
+		1938.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+4532 = {
+	name = "安杰尔.卡斯蒂略"
+	country = MEX
+	type = sea
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4532
+	history = {
+		1943.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+4533 = {
+	name = "科埃略.奥乔亚"
+	country = MEX
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4533
+	add_trait = seawolf
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+4534 = {
+	name = "科罗纳"
+	country = MEX
+	type = sea
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4534
+	history = {
+		1937.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+4535 = {
+	name = "德尔.梅尔卡多"
+	country = MEX
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4535
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+4536 = {
+	name = "戈梅.马凯奥"
+	country = MEX
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4536
+	history = {
+		1941.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+4537 = {
+	name = "马恰斯.阿尔瓦雷兹"
+	country = MEX
+	type = sea
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L4537
+	add_trait = old_guard
+	add_trait = spotter
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+4538 = {
+	name = "麦克薛罗.亚历杭德雷"
+	country = MEX
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4538
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+4539 = {
+	name = "年布罗.阿尔马桑"
+	country = MEX
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4539
+	add_trait = superior_tactician
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+4540 = {
+	name = "奥顿.布兰科"
+	country = MEX
+	type = sea
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L4540
+	add_trait = old_guard
+	add_trait = blockade_runner
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+4541 = {
+	name = "肖费贝格尔"
+	country = MEX
+	type = sea
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L4541
+	history = {
+		1944.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+4542 = {
+	name = "西尔达尔"
+	country = MEX
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4542
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+4543 = {
+	name = "托莱多.海勒姆"
+	country = MEX
+	type = sea
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L4543
+	add_trait = old_guard
+	add_trait = superior_tactician
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 3 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+4544 = {
+	name = "泽尔梅瑙.阿莱科"
+	country = MEX
+	type = sea
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4544
+	add_trait = superior_tactician
+	history = {
+		1941.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+4545 = {
+	name = "卡德纳斯.罗德里格斯"
+	country = MEX
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4545
+	history = {
+		1942.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+4546 = {
+	name = "卡兰萨.罗德里格斯"
+	country = MEX
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4546
+	add_trait = superior_air_tactician
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+4547 = {
+	name = "埃斯皮诺萨.芬特斯"
+	country = MEX
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4547
+	history = {
+		1942.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+4548 = {
+	name = "埃斯皮诺萨.加尔万"
+	country = MEX
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4548
+	add_trait = night_flyer
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+4549 = {
+	name = "费尔南德斯.洛佩斯.波蒂略"
+	country = MEX
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4549
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+4550 = {
+	name = "菲耶罗.比利亚洛沃斯"
+	country = MEX
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4550
+	history = {
+		1942.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+4551 = {
+	name = "戈里斯"
+	country = MEX
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4551
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+4552 = {
+	name = "吉耶尔莫.比利亚西纳"
+	country = MEX
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4552
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+4553 = {
+	name = "马恰斯.阿尔瓦雷兹"
+	country = MEX
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4553
+	add_trait = old_guard
+	add_trait = fleet_destroyer
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+4554 = {
+	name = "奥拉切亚.阿维莱斯"
+	country = MEX
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4554
+	history = {
+		1943.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+4555 = {
+	name = "罗雅斯.拉佐"
+	country = MEX
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4555
+	add_trait = tank_buster
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+4556 = {
+	name = "鲁伊斯.加维诺"
+	country = MEX
+	type = air
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L4556
+	add_trait = carpet_bomber
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+4557 = {
+	name = "萨利纳斯.卡米纳"
+	country = MEX
+	type = air
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4557
+	add_trait = superior_air_tactician
+	history = {
+		1937.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+	}
+}
+4558 = {
+	name = "萨利纳斯.卡拉萨"
+	country = MEX
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4558
+	history = {
+		1941.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+4559 = {
+	name = "西尔达尔"
+	country = MEX
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4559
+	add_trait = fleet_destroyer
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+4560 = {
+	name = "维加.桑坦德"
+	country = MEX
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4560
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}

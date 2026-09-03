@@ -1,0 +1,9 @@
+owner = SAL
+controller = SAL
+add_core = SAL
+points = 1
+air_base = 1
+naval_base = 1
+manpower = 3.00
+leadership = 0.30
+infra = 6

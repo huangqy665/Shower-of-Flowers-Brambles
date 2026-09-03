@@ -1,0 +1,265 @@
+460000 = {
+	name = "²¼¶û.°Í'i.ÈÕ¼ªÑÇ¶û²¨"
+	country = BHU
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L460000
+	add_trait = trickster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+460001 = {
+	name = "¼ª¸ñÃ·.¶à¼ª"
+	country = BHU
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L460001
+	add_trait = trickster
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+460002 = {
+	name = "¼ª¸ñÃ·.Íú³þ¿Ë"
+	country = BHU
+	type = land
+	skill = 1
+	max_skill = 1
+	loyalty = 1.00
+	picture = L460002
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1942.1.1 = { rank = 4 }
+	}
+}
+460003 = {
+	name = "¿¨Âê.¶à¼ª"
+	country = BHU
+	type = land
+	skill = 1
+	max_skill = 2
+	loyalty = 1.00
+	picture = L460003
+	history = {
+		1938.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+460004 = {
+	name = "ÄÚÄ·¸Ç.Íú³þ¿Ë"
+	country = BHU
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L460004
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+460005 = {
+	name = "ÄÉÄ·¼Ó¶û.°Í¹þ¶Å¶û"
+	country = BHU
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L460005
+	add_trait = panzer_leader
+	history = {
+		1938.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+460006 = {
+	name = "Ë÷ÄÏ.ÆÕÀ­¶Å¹þ"
+	country = BHU
+	type = land
+	skill = 2
+	max_skill = 2
+	loyalty = 1.00
+	picture = L460006
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+460007 = {
+	name = "Ê·µÙÎÄË¹"
+	country = BHU
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L460007
+	add_trait = commando
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+460008 = {
+	name = "Êæ¹þ¶û.°Í¹þ¶Å¶û"
+	country = BHU
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L460008
+	add_trait = winter_specialist
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+460009 = {
+	name = "ËÕ¿Ë.°Í¹þ¶Å¶û"
+	country = BHU
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L460009
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+460010 = {
+	name = "ÍÐÔóÒÁ"
+	country = BHU
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L460010
+	add_trait = engineer
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+460011 = {
+	name = "ÍþµÇ.¹Å¶ûµÂ"
+	country = BHU
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L460011
+	add_trait = offensive_doctrine
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+460012 = {
+	name = "°¢¿¨×È"
+	country = BHU
+	type = sea
+	skill = 0
+	max_skill = 1
+	loyalty = 1.00
+	picture = L460012
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+460013 = {
+	name = "¹Å¶ûµÂ"
+	country = BHU
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L460013
+	add_trait = seawolf
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+460014 = {
+	name = "°¢¿¨×È"
+	country = BHU
+	type = air
+	skill = 1
+	max_skill = 1
+	loyalty = 1.00
+	picture = L460014
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+460015 = {
+	name = "¹Å¶ûµÂ"
+	country = BHU
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L460015
+	add_trait = fleet_destroyer
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+460016 = {
+	name = "ÄÉÄ·¼Ó¶û.°Í¹þ¶Å¶û"
+	country = BHU
+	type = air
+	skill = 0
+	max_skill = 1
+	loyalty = 1.00
+	picture = L460016
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+460017 = {
+	name = "°Í¶û"
+	country = BHU
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L460017
+	add_trait = superior_air_tactician
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+460018 = {
+	name = "¿ÆÀûÌØ"
+	country = BHU
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L460018
+	add_trait = tank_buster
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}

@@ -1,0 +1,117 @@
+theatre = {					
+	name = "红军总指挥部"				
+	location = 7417 #Yan'an				
+	leader = 76331 # Mao Zhedong				
+	regiment = { type = hq_brigade name = "红军总指挥部" historical_model = 0 }				
+	army = {				
+		name = "第八路军"			
+		location = 7417			
+		leader = 76312 # Zhu De			
+		regiment = { type = hq_brigade name = "第8路军" historical_model = 0 }			
+		corps = {			
+			name = "第115步兵师"		
+			location = 7398		
+			regiment = { type = hq_brigade name = "第115师" historical_model = 0 }		
+			division= {		
+				name = "115师第1团"	
+				location = 7391	
+				regiment = { type = bergsjaeger_brigade name = "红1旅" historical_model = 1 }	
+				regiment = { type = bergsjaeger_brigade name = "红3旅" historical_model = 1 }	
+				regiment = { type = bergsjaeger_brigade name = "红15旅" historical_model = 1 }	
+			}		
+			division= {		
+				name = "115师第2团"	
+				location = 7391	
+				regiment = { type = militia_brigade name = "红18旅" historical_model = 0 }	
+				regiment = { type = militia_brigade name = "红19旅" historical_model = 0 }	
+				regiment = { type = militia_brigade name = "红22旅" historical_model = 0 }	
+			}		
+		}			
+		corps = {			
+			name = "第120步兵师"		
+			location = 7418		
+			regiment = { type = hq_brigade name = "第120师" historical_model = 0 }		
+			division= {		
+				name = "120师第1团"	
+				location = 7418	
+				regiment = { type = bergsjaeger_brigade name = "红4旅" historical_model = 1 }	
+				regiment = { type = bergsjaeger_brigade name = "红5旅" historical_model = 1 }	
+				regiment = { type = bergsjaeger_brigade name = "红16旅" historical_model = 1 }	
+			}		
+			division= {		
+				name = "120师第2团"	
+				location = 5385	
+				regiment = { type = militia_brigade name = "红20旅" historical_model = 0 }	
+				regiment = { type = militia_brigade name = "红21旅" historical_model = 0 }	
+				regiment = { type = militia_brigade name = "红25旅" historical_model = 0 }	
+			}		
+		}			
+		corps = {			
+			name = "第129步兵师"		
+			location = 7411		
+			regiment = { type = hq_brigade name = "第129师" historical_model = 0 }		
+			division= {		
+				name = "129师第1团"	
+				location = 7411	
+				regiment = { type = bergsjaeger_brigade name = "红2旅" historical_model = 1 }	
+				regiment = { type = bergsjaeger_brigade name = "红6旅" historical_model = 1 }	
+				regiment = { type = bergsjaeger_brigade name = "红17旅" historical_model = 1 }	
+			}		
+			division= {		
+				name = "129师第2团"	
+				location = 7405	
+				regiment = { type = militia_brigade name = "红23旅" historical_model = 0 }	
+				regiment = { type = militia_brigade name = "红24旅" historical_model = 0 }	
+				regiment = { type = militia_brigade name = "红26旅" historical_model = 0 }	
+			}		
+		}			
+	}				
+	division= {				
+		name = "新4军"			
+		location = 7417			
+		regiment = { type = infantry_brigade name = "红7旅" historical_model = 1 }			
+		regiment = { type = infantry_brigade name = "红8旅" historical_model = 1 }			
+		regiment = { type = infantry_brigade name = "红27旅" historical_model = 1 }			
+		regiment = { type = infantry_brigade name = "红28旅" historical_model = 1 }			
+	}				
+	army = {				
+		name = "决死队"			
+		location = 7417			
+		regiment = { type = hq_brigade name = "决死队" historical_model = 0 }			
+		division= {			
+			name = "决死队第1纵队"		
+			location = 7417		
+			regiment = { type = militia_brigade name = "红9旅" historical_model = 0 }		
+			regiment = { type = militia_brigade name = "红10旅" historical_model = 0 }		
+			regiment = { type = militia_brigade name = "红29旅" historical_model = 0 }		
+		}			
+		division= {			
+			name = "决死队第2纵队"		
+			location = 5335		
+			regiment = { type = militia_brigade name = "红11旅" historical_model = 0 }		
+			regiment = { type = militia_brigade name = "红12旅" historical_model = 0 }		
+			regiment = { type = militia_brigade name = "红30旅" historical_model = 0 }		
+		}			
+		division= {			
+			name = "决死队第3纵队"		
+			location = 7410		
+			regiment = { type = militia_brigade name = "红13旅" historical_model = 0 }		
+			regiment = { type = militia_brigade name = "红14旅" historical_model = 0 }		
+			regiment = { type = militia_brigade name = "红31旅" historical_model = 0 }		
+		}			
+		division= {			
+			name = "决死队第4纵队"		
+			location = 7410		
+			regiment = { type = militia_brigade name = "红40旅" historical_model = 0 }		
+			regiment = { type = militia_brigade name = "红41旅" historical_model = 0 }		
+			regiment = { type = militia_brigade name = "红42旅" historical_model = 0 }		
+		}			
+		division= {			
+			name = "决死队第5纵队"		
+			location = 7410		
+			regiment = { type = militia_brigade name = "红43旅" historical_model = 0 }		
+			regiment = { type = militia_brigade name = "红44旅" historical_model = 0 }		
+			regiment = { type = militia_brigade name = "红45旅" historical_model = 0 }		
+		}			
+	}				
+}					

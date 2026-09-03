@@ -1,0 +1,14 @@
+owner = POL
+controller = POL
+add_core = POL
+metal = 4.00
+energy = 17.00
+rare_materials = 2.00
+industry = 8
+infra = 8
+manpower = 3.00
+leadership = 0.90
+1940.5.10 = {
+	controller = GER
+
+}

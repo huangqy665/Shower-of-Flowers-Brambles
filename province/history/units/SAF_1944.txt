@@ -1,0 +1,88 @@
+division = {
+	name = "联合防御军团"
+	location = 8054
+	regiment = { type = motorized_brigade historical_model = 2 }
+	regiment = { type = motorized_brigade historical_model = 2 }
+	regiment = { type = motorized_brigade historical_model = 2 }
+}
+navy = {
+	name = "南非舰队"
+	base = 8054
+	location = 8054
+	ship = { type = transport_ship name = "第1运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第2运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第3运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第4运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第5运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第6运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第7运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第8运输舰队" historical_model = 0 }
+}
+air = {
+	name = "第1空军指挥部"
+	base = 4549
+	location = 4549
+	wing = { type = tactical_bomber name = "第15战术轰炸机大队" historical_model = 1 }
+	wing = { type = tactical_bomber name = "第21战术轰炸机大队" historical_model = 3 }
+}
+air = {
+	name = "第1航空联队"
+	base = 4549
+	location = 4549
+	wing = { type = interceptor name = "第1截击机大队" historical_model = 2 }
+	wing = { type = interceptor name = "第2截击机大队" historical_model = 2 }
+	wing = { type = interceptor name = "第3截击机大队" historical_model = 2 }
+	wing = { type = interceptor name = "第7截击机大队" historical_model = 2 }
+}
+air = {
+	name = "第2空军指挥部"
+	base = 4869
+	location = 4869
+	wing = { type = tactical_bomber name = "第17战术轰炸机大队" historical_model = 1 }
+	wing = { type = tactical_bomber name = "第21战术轰炸机大队" historical_model = 3 }
+}
+air = {
+	name = "第2航空联队"
+	base = 4869
+	location = 4869
+	wing = { type = interceptor name = "第4截击机大队" historical_model = 2 }
+	wing = { type = multi_role name = "第5截击机大队" historical_model = 2 }
+	wing = { type = interceptor name = "第11截击机大队" historical_model = 2 }
+	wing = { type = interceptor name = "第40截击机大队" historical_model = 2 }
+}
+air = {
+	name = "第16战术轰炸机大队"
+	base = 5586
+	location = 5586
+	wing = { type = tactical_bomber name = "第16战术轰炸机大队" historical_model = 2 }
+}
+air = {
+	name = "第22海军轰炸机大队"
+	base = 5191
+	location = 5191
+	wing = { type = naval_bomber name = "第22海军轰炸机大队" historical_model = 2 }
+}
+air = {
+	name = "第41截击机大队"
+	base = 5172
+	location = 5172
+	wing = { type = interceptor name = "第41截击机大队" historical_model = 4 }
+}
+air = {
+	name = "第24战术轰炸机大队"
+	base = 5484
+	location = 5484
+	wing = { type = tactical_bomber name = "第24战术轰炸机大队" historical_model = 3 }
+}
+air = {
+	name = "第25海军轰炸机大队"
+	base = 4869
+	location = 4869
+	wing = { type = naval_bomber name = "第25海军轰炸机大队" historical_model = 2 }
+}
+air = {
+	name = "第24海军轰炸机大队"
+	base = 5196
+	location = 5196
+	wing = { type = naval_bomber name = "第24海军轰炸机大队" historical_model = 2 }
+}

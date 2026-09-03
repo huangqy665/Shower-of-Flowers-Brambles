@@ -1,0 +1,27 @@
+division = {
+	name = "第6师"
+	location = 6671
+	regiment = { type = motorized_brigade name = "第13步兵旅" historical_model = 3 }
+	regiment = { type = motorized_brigade name = "第14步兵旅" historical_model = 3 }
+	regiment = { type = motorized_brigade name = "第15步兵旅" historical_model = 3 }
+}
+navy = {
+	name = "加拿大皇家舰队"
+	base = 6997
+	location = 6997
+	ship = { type = destroyer name = "第1驱逐舰支队" historical_model = 1 }
+	ship = { type = destroyer name = "第2驱逐舰支队" historical_model = 2 }
+	ship = { type = transport_ship name = "'日本皇后' 运输支队" historical_model = 0 }
+	ship = { type = transport_ship name = "'澳大利亚皇后' 运输支队" historical_model = 0 }
+	ship = { type = transport_ship name = "'俄国皇后' 运输支队" historical_model = 0 }	
+	ship = { type = transport_ship name = "'里士满公爵夫人'运输支队" historical_model = 0 }
+	ship = { type = transport_ship name = "'约克公爵夫人'运输支队" historical_model = 0 }
+}
+air = {
+	name = "第100空军编队"
+	base = 2078
+	location = 2078
+	wing = { type = tactical_bomber name = "第23空军编队" historical_model = 2 }
+	wing = { type = tactical_bomber name = "第157空军编队" historical_model = 1 }
+	wing = { type = strategic_bomber name = "第199空军编队" historical_model = 1 }
+}

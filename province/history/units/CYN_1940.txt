@@ -1,0 +1,66 @@
+corps = {
+	name = "第1军团"
+	location = 9476
+	regiment = { type = hq_brigade name = "第1军团司令部" historical_model = 0 }
+	division= {
+		name = "新3军"
+		location = 9476
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第58军"
+		location = 9476
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第60军"
+		location = 9476
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第32军"
+		location = 9476
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+}
+corps = {
+	name = "云南警备"
+	location = 7561
+	regiment = { type = hq_brigade name = "云南警备司令部" historical_model = 0 }
+	division= {
+		name = "云南预备军"
+		location = 7561
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "云南保安队"
+		location = 7561
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+}
+corps = {
+	name = "第5军"
+	location = 9414
+	regiment = { type = hq_brigade name = "第5军司令部" historical_model = 0 }
+	division= {
+		name = "第24军"
+		location = 9414
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "西康保安队"
+		location = 9414
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+}
+
+
+

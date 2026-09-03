@@ -1,0 +1,265 @@
+theatre = {
+	name ="大本营"
+	location = 739
+	leader = 9750 # Mannerheim
+	regiment = { type = hq_brigade name = "大本营指挥部" historical_model = 0 }
+	division= {
+		name = "第6师"
+		location = 580
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第16步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第17步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第18步兵团" historical_model = 1 }
+	}
+	division= {
+		name = "第21师"
+		location = 654
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第61步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第62步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第63步兵团" historical_model = 1 }
+	}
+	division= {
+		name = "第22师"
+		location = 234
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第64步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第65步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第66步兵团" historical_model = 1 }
+	}
+	division= {
+		name = "第23师"
+		location = 469
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第67步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第68步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第68步兵团" historical_model = 1 }
+	}
+	armygroup = {
+		name ="芬兰军"
+		location = 739
+		regiment = { type = hq_brigade name = "芬兰军指挥部" historical_model = 0 }
+		division = {
+			name = "芬兰预备役旅"
+			location = 739
+			regiment = { type = infantry_brigade name = "芬兰预备役旅" historical_model = 1 }
+		}
+		army = { 
+			name = "卡尔加兰军"
+			location = 698
+			regiment = {  type = hq_brigade name = "卡尔加兰军指挥部" historical_model = 0 }
+			division= {
+				name = "第1师"
+				location = 740
+				leader = 9720
+				regiment = { type = infantry_brigade name = "第1旅" historical_model = 1 }
+				regiment = { type = infantry_brigade name = "第2旅" historical_model = 1 }
+				regiment = { type = infantry_brigade name = "第3旅" historical_model = 1 }
+			}
+			division= {
+				name = "骑兵旅"
+				location = 580
+				regiment = { type = cavalry_brigade name = "骑兵旅" historical_model = 1 }
+			}
+			division = {
+				name = "RT3"
+				location = 542
+				regiment = { type = garrison_brigade name = "RT3" historical_model = 0 }
+			}
+			corps = {
+				name = "第II军"
+				location = 740
+				regiment = { type = hq_brigade name = "第II军指挥部" historical_model = 0 }
+				division= {
+					name = "第4师"
+					location = 740
+					regiment = { type = infantry_brigade name = "第10步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第11步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第12步兵团" historical_model = 1 }
+				}
+				division= {
+					name = "第5师"
+					location = 740
+					is_reserve = yes
+					regiment = { type = infantry_brigade name = "第13步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第14步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第15步兵团" historical_model = 1 }
+				}
+				division= {
+					name = "第11师"
+					location = 740
+					is_reserve = yes
+					regiment = { type = infantry_brigade name = "第31步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第32步兵团" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "第33步兵团" historical_model = 1 }
+				}
+			}
+		corps = {
+			name = "第III军"
+			location = 658
+			leader = 9710
+			regiment = { type = hq_brigade name = "第III军指挥部" historical_model = 0 }
+			division= {
+				name = "第8师"
+				location = 658
+				regiment = { type = infantry_brigade name = "第22步兵团" historical_model = 1 }
+				regiment = { type = infantry_brigade name = "第23步兵团" historical_model = 1 }
+				regiment = { type = infantry_brigade name = "第24步兵团" historical_model = 1 }
+			}
+			division= {
+				name = "第10师"
+				location = 658
+				is_reserve = yes
+				regiment = { type = infantry_brigade name = "第28步兵团" historical_model = 1 }
+				regiment = { type = infantry_brigade name = "第29步兵团" historical_model = 1 }
+				regiment = { type = infantry_brigade name = "第30步兵团" historical_model = 1 }
+			}
+		}
+		corps = {
+			name = "第IV军"
+			location = 470
+			leader = 9714
+			regiment = { type = hq_brigade name = "第IV军指挥部" historical_model = 0 }
+			division= {
+				name = "第12师"
+				location = 507
+				regiment = { type = infantry_brigade name = "第34步兵团" historical_model = 1 }
+				regiment = { type = infantry_brigade name = "第35步兵团" historical_model = 1 }
+				regiment = { type = infantry_brigade name = "第36步兵团" historical_model = 1 }
+			}
+			division= {
+				name = "第13师"
+				location = 472
+				is_reserve = yes
+				regiment = { type = infantry_brigade name = "第37步兵团" historical_model = 1 }
+				regiment = { type = infantry_brigade name = "第38步兵团" historical_model = 1 }
+				regiment = { type = infantry_brigade name = "第39步兵团" historical_model = 1 }
+			}
+		}
+		corps = {
+			name = "塔维拉集团" 
+			location = 375
+			leader = 9744
+			regiment = { type = hq_brigade name = "塔维拉集团指挥部" historical_model = 0 }
+			division = {
+				name = "塔维拉集团"
+				location = 375
+				regiment = { type = infantry_brigade name = "A战斗群" historical_model = 1 }
+				regiment = { type = infantry_brigade name = "马尔金战斗群" historical_model = 1 }			
+				regiment = { type = infantry_brigade name = "帕加里战斗群" historical_model = 1 }
+			}
+		}
+		corps = {
+			name = "海防集团"
+			location = 739
+			regiment = { type = hq_brigade name = "海防集团" historical_model = 0 }
+			division = {
+				name = "第1独立营"
+				location = 779
+				is_reserve = yes
+				regiment = { type = garrison_brigade name = "第1独立营" historical_model = 0 }
+			}
+			division = {
+				name = "第2独立营"
+				location = 697
+				is_reserve = yes
+				regiment = { type = garrison_brigade name = "第2独立营" historical_model = 0 }
+			}		
+			division = {
+				name = "RT1"
+				location = 739
+				is_reserve = yes
+				regiment = { type = garrison_brigade name = "RT1" historical_model = 0 }
+			}
+			division = {
+				name = "RT2"
+				location = 698
+				is_reserve = yes
+				regiment = { type = garrison_brigade name = "RT2" historical_model = 0 }
+			}	
+			division = {
+				name = "奥兰战斗群"
+				location = 778
+				is_reserve = yes
+				regiment = { type = garrison_brigade name = "奥兰战斗群" historical_model = 0 }
+			}		
+			division = {
+				name = "图尔库战斗群" 
+				location = 736
+				is_reserve = yes
+				regiment = { type = garrison_brigade name = "图尔库战斗群" historical_model = 0 }
+			}								
+		}
+		corps = {
+			name = "北芬兰集团" # Gen.mj Wiljo Tuompo
+			location = 252
+			regiment = { type = hq_brigade name = "北芬兰集团指挥部" historical_model = 0 }
+			division = {
+				name = "北芬兰集团"
+				location = 252
+				is_reserve = yes
+				regiment = { type = infantry_brigade name = "法格斯战斗群" historical_model = 1 }
+				regiment = { type = infantry_brigade name = "罗克斯战斗群" historical_model = 1 }
+				regiment = { type = infantry_brigade name = "马克梅尼战斗群" historical_model = 1 }
+			}
+			division= {
+				name = "第9师"
+				location = 219
+				is_reserve = no
+				regiment = { type = infantry_brigade name = "第25步兵团" historical_model = 1 }				
+				regiment = { type = infantry_brigade name = "第26步兵团" historical_model = 1 }		
+				regiment = { type = infantry_brigade name = "第27步兵团" historical_model = 1 }
+			}			
+		}
+		corps = {
+			name = "拉普兰集团"  # Gen.mj K.M Wallenius
+			location = 144
+			regiment = { type = hq_brigade name = "拉普兰集团指挥部" historical_model = 0 }
+			division = {
+				name = "拉普兰战斗群"
+				location = 144
+				is_reserve = yes
+				regiment = { type = infantry_brigade name = "第40步兵团" historical_model = 1 }
+				regiment = { type = infantry_brigade name = "拉普兰战斗群" historical_model = 1 }
+			}
+			division = {
+				name = "佩纳南战斗群"
+				location = 33
+				is_reserve = yes
+				regiment = { type = bergsjaeger_brigade name = "佩纳南战斗群" historical_model = 1 }
+			}
+		}
+	}
+}
+navy = {
+	name = "芬兰海军"
+	base = 736
+	location = 736
+	ship = { type = heavy_cruiser name = "伊尔玛利宁号" historical_model = 0 pride = yes }
+	ship = { type = heavy_cruiser name = "维纳莫伊宁号" historical_model = 0 }
+}
+navy = {
+	name = "潜艇部队"
+	base = 736
+	location = 736
+	ship = { type = submarine name = "第1潜艇大队" historical_model = 0 }
+}
+
+air = {
+	name = "第1航空团" # old Fighters, based near Viipuri, should be 100% strength
+	base = 698
+	location = 698
+	wing = { type = interceptor name = "第1航空团" historical_model = 0 }
+}
+air = {
+	name = "第2航空团"
+	base = 656
+	location = 656
+	wing = { type = interceptor name = "第2航空团" historical_model = 1 } # Fighters, based at Kouvola (Utti), should be 50% strength
+}
+air = {
+	name = "第4航空团"
+	base = 505
+	location = 505
+	wing = { type = tactical_bomber name = "第4航空团" historical_model = 1 } # Bombers, based at Immola, should be 25% strength
+

@@ -1,0 +1,80 @@
+corps = {
+	name = "第8军团"
+	location = 7417
+	regiment = { type = hq_brigade name = "第8路军指挥部" historical_model = 0 }
+	division= {
+		name = "第115步兵师"
+		location = 7417
+		regiment = { type = bergsjaeger_brigade historical_model = 0 }
+		regiment = { type = bergsjaeger_brigade historical_model = 0 }
+		regiment = { type = bergsjaeger_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第120步兵师"
+		location = 7418
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第129步兵师"
+		location = 7418
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第7旅"
+		location = 7411
+		regiment = { type = militia_brigade historical_model = 1 }
+		regiment = { type = militia_brigade historical_model = 1 }
+		regiment = { type = militia_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第93步兵师"
+		location = 7411
+		regiment = { type = militia_brigade historical_model = 1 }
+		regiment = { type = militia_brigade historical_model = 1 }
+		regiment = { type = militia_brigade historical_model = 1 }
+	}
+}
+corps = {
+	name = "新4军"
+	location = 5241
+	regiment = { type = hq_brigade name = "新4军指挥部" historical_model = 0 }
+	division= {
+		name = "第24步兵师"
+		location = 5241
+		regiment = { type = militia_brigade historical_model = 2 }
+		regiment = { type = militia_brigade historical_model = 2 }
+		regiment = { type = militia_brigade historical_model = 2 }
+	}
+	division= {
+		name = "第12步兵师"
+		location = 5241
+		regiment = { type = militia_brigade historical_model = 2 }
+		regiment = { type = militia_brigade historical_model = 2 }
+		regiment = { type = militia_brigade historical_model = 2 }
+	}
+	division= {
+		name = "第8旅"
+		location = 7378
+		regiment = { type = militia_brigade historical_model = 1 }
+		regiment = { type = militia_brigade historical_model = 1 }
+		regiment = { type = militia_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第9旅"
+		location = 7378
+		regiment = { type = militia_brigade historical_model = 1 }
+		regiment = { type = militia_brigade historical_model = 1 }
+		regiment = { type = militia_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第10旅"
+		location = 7378
+		regiment = { type = militia_brigade historical_model = 1 }
+		regiment = { type = militia_brigade historical_model = 1 }
+		regiment = { type = militia_brigade historical_model = 1 }
+	}
+}

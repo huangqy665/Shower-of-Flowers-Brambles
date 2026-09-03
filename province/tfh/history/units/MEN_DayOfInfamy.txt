@@ -1,0 +1,18 @@
+division= {					
+	name = "蒙疆骑兵军"				
+	location = 4885				
+	regiment = { type = cavalry_brigade name = "第1蒙疆骑兵旅" historical_model = 3 }				
+	regiment = { type = cavalry_brigade name = "第2蒙疆骑兵旅" historical_model = 3 }				
+}					
+division = {					
+	name = "第1蒙疆平定旅 "				
+	location = 7390				
+	regiment = { type = militia_brigade name = "第1旅" historical_model = 3 }				
+	regiment = { type = militia_brigade name = "第2旅" historical_model = 3 }				
+}					
+division = {					
+	name = "第2蒙疆平定旅 "				
+	location = 5017				
+	regiment = { type = militia_brigade name = "第3旅" historical_model = 3 }				
+	regiment = { type = militia_brigade name = "第4旅" historical_model = 3 }				
+}					

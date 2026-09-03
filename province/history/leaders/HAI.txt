@@ -1,0 +1,266 @@
+220000 = {
+	name = "查尔斯"
+	country = HAI
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L220000
+	add_trait = logistics_wizard
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+220001 = {
+	name = "德.阿隆德"
+	country = HAI
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L220001
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+220002 = {
+	name = "加罗"
+	country = HAI
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L220002
+	add_trait = commando
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+220003 = {
+	name = "拉沃"
+	country = HAI
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L220003
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 3 }
+	}
+}
+220004 = {
+	name = "莱斯科"
+	country = HAI
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L220004
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 3 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+220005 = {
+	name = "勒韦"
+	country = HAI
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L220005
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+220006 = {
+	name = "马格卢瓦尔"
+	country = HAI
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L220006
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+220007 = {
+	name = "努伊雷斯"
+	country = HAI
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L220007
+	history = {
+		1943.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+220008 = {
+	name = "罗伊.埃米尔"
+	country = HAI
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L220008
+	add_trait = panzer_leader
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+220009 = {
+	name = "维尔"
+	country = HAI
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L220009
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+220010 = {
+	name = "加罗"
+	country = HAI
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L220010
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+220011 = {
+	name = "莱热"
+	country = HAI
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L220011
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+220012 = {
+	name = "内穆尔"
+	country = HAI
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L220012
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+220013 = {
+	name = "圣.弗雷德里克"
+	country = HAI
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L220013
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+220014 = {
+	name = "巴罗斯"
+	country = HAI
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L220014
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+220015 = {
+	name = "埃查曼特"
+	country = HAI
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L220015
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+220016 = {
+	name = "福尔班"
+	country = HAI
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L220016
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+220017 = {
+	name = "纪尧姆"
+	country = HAI
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L220017
+	history = {
+		1943.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+220018 = {
+	name = "罗伊"
+	country = HAI
+	type = air
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L220018
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+220019 = {
+	name = "圣.弗雷德里克"
+	country = HAI
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L220019
+	add_trait = fleet_destroyer
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}

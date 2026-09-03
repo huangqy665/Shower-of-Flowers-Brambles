@@ -1,0 +1,66 @@
+corps = {
+	name = "葡萄牙陆军"
+	location = 4644
+	regiment = { type = hq_brigade name = "葡萄牙陆军指挥部" historical_model = 0 }
+	division= {
+		name = "第1步兵师"
+		location = 4086
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第6步兵团" historical_model = 2 }
+		regiment = { type = infantry_brigade name = "第8步兵团" historical_model = 2 }
+		regiment = { type = infantry_brigade name = "第13步兵团" historical_model = 2 }
+	}
+	division= {
+		name = "第2步兵师"
+		location = 4405
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第9步兵团" historical_model = 2 }
+		regiment = { type = infantry_brigade name = "第10步兵团" historical_model = 2 }
+		regiment = { type = infantry_brigade name = "第12步兵团" historical_model = 2 }
+		regiment = { type = infantry_brigade name = "第14步兵团" historical_model = 2 }
+	}
+	division= {
+		name = "第3步兵师"
+		location = 4534
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第5步兵团" historical_model = 2 }
+		regiment = { type = infantry_brigade name = "第7步兵团" historical_model = 2 }
+		regiment = { type = infantry_brigade name = "第15步兵团" historical_model = 2 }
+	}
+	division= {
+		name = "第4步兵师"
+		location = 4751
+		is_reserve = yes
+		regiment = { type = cavalry_brigade name = "第1骑兵旅" historical_model = 2 }
+		regiment = { type = infantry_brigade name = "第3步兵团" historical_model = 2 }
+	}
+	division= {
+		name = "GML.骑兵师"
+		location = 4644
+		is_reserve = yes
+		regiment = { type = cavalry_brigade name = "第2骑兵旅" historical_model = 2 }
+		regiment = { type = infantry_brigade name = "第1步兵团" historical_model = 2 }
+	}
+}
+navy = {
+	name = "葡萄牙海军"
+	base = 4644
+	location = 4644
+	ship = { type = destroyer name = "杜罗弗洛蒂亚" historical_model = 0 }
+	ship = { type = destroyer name = "维亚纳堡弗洛蒂亚" historical_model = 1 }
+	ship = { type = transport_ship name = "第1葡萄牙运输船队" historical_model = 0 }
+	ship = { type = transport_ship name = "第2葡萄牙运输船队" historical_model = 0 }
+	ship = { type = transport_ship name = "第3葡萄牙运输船队" historical_model = 0 }
+}
+navy = {
+	name = "葡萄牙第I舰队"
+	base = 4644
+	location = 4644
+	ship = { type = submarine name = "第1潜艇大队" historical_model = 1 }
+}
+air = {
+	name = "葡萄牙空军"
+	base = 4644
+	location = 4644
+	wing = { type = tactical_bomber name = "第1战术航空联队" historical_model = 0 }
+}

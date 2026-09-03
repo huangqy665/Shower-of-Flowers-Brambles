@@ -1,0 +1,125 @@
+theatre = {
+	name = "阿根廷陆军"
+	location = 7899
+	regiment = { type = hq_brigade name = "阿根廷陆军指挥部" historical_model = 0 }
+	corps = {
+		name = "第I军"
+		location = 7899
+		regiment = { type = hq_brigade name = "第I军指挥部" historical_model = 0 }
+		division= {
+			name = "第III'佩莱格里尼'旅"
+			location = 7899
+			is_reserve = yes
+			regiment = { type = infantry_brigade historical_model = 0 }
+			regiment = { type = infantry_brigade historical_model = 0 }
+			regiment = { type = infantry_brigade historical_model = 0 }
+		}
+		division= {
+			name = "第II'圣马丁'旅"
+			location = 7899
+			is_reserve = yes
+			regiment = { type = infantry_brigade historical_model = 0 }
+			regiment = { type = infantry_brigade historical_model = 0 }
+			regiment = { type = infantry_brigade historical_model = 0 }
+		}
+		division= {
+			name = "第I'卡拉尤斯'旅"
+			location = 7899
+			is_reserve = yes
+			regiment = { type = infantry_brigade historical_model = 0 }
+			regiment = { type = infantry_brigade historical_model = 0 }
+			regiment = { type = infantry_brigade historical_model = 0 }
+		}
+	}
+	corps = {
+		name = "第II军"
+		location = 7899
+		regiment = { type = hq_brigade name = "第II军指挥部" historical_model = 0 }
+		division= {
+			name = "第VI山地旅"
+			location = 7899
+			is_reserve = yes
+			regiment = { type = bergsjaeger_brigade historical_model = 0 }
+			regiment = { type = bergsjaeger_brigade historical_model = 0 }
+			regiment = { type = bergsjaeger_brigade historical_model = 0 }
+		}
+		division= {
+			name = "第IV步兵旅"
+			location = 7899
+			is_reserve = yes
+			regiment = { type = infantry_brigade historical_model = 0 }
+			regiment = { type = infantry_brigade historical_model = 0 }
+			regiment = { type = infantry_brigade historical_model = 0 }
+		}
+		division= {
+			name = "第VIII山地旅"
+			location = 10306
+			is_reserve = yes
+			regiment = { type = bergsjaeger_brigade historical_model = 0 }
+			regiment = { type = bergsjaeger_brigade historical_model = 0 }
+			regiment = { type = bergsjaeger_brigade historical_model = 0 }
+		}
+		division = {
+			name = "第XIII步兵旅"
+			location = 10487
+			is_reserve = yes
+			regiment = { type = infantry_brigade historical_model = 0 }
+			regiment = { type = infantry_brigade historical_model = 0 }
+			regiment = { type = infantry_brigade historical_model = 0 }
+		}
+	}
+	corps = {
+		name = "国家宪兵"
+		location = 10281
+		regiment = { type = hq_brigade name = "国家宪兵指挥部" historical_model = 0 }
+		division= {
+			name = "第IV'使命'分队"
+			location = 10281
+			is_reserve = yes
+			regiment = { type = militia_brigade historical_model = 0 }
+			regiment = { type = militia_brigade historical_model = 0 }
+			regiment = { type = militia_brigade historical_model = 0 }
+		}
+		division= {
+			name = "第VI'福尔摩沙'分队"
+			location = 10281
+			is_reserve = yes
+			regiment = { type = militia_brigade historical_model = 0 }
+			regiment = { type = militia_brigade historical_model = 0 }
+			regiment = { type = militia_brigade historical_model = 0 }
+		}
+	}
+}
+navy = {
+	name = "阿根廷海军"
+	base = 7945
+	location = 7945
+	ship = { type = heavy_cruiser name = "ARA 五号二十五日号" historical_model = 1 }
+	ship = { type = heavy_cruiser name = "ARA 布朗海军上将号" historical_model = 1 }
+	ship = { type = battleship name = "ARA 莫雷诺号" historical_model = 0 }
+	ship = { type = battleship name = "ARA 里瓦达维亚号" historical_model = 0 pride = yes }
+	ship = { type = heavy_cruiser name = "ARA 独立号" historical_model = 0 }
+	ship = { type = heavy_cruiser name = "ARA 自由号" historical_model = 0 }
+	ship = { type = light_cruiser name = "ARA 贝尔格拉诺号" historical_model = 0 }
+	ship = { type = light_cruiser name = "ARA 普雷艾东号" historical_model = 0 }
+	ship = { type = destroyer name = "第1驱逐支队" historical_model = 1 }
+	ship = { type = destroyer name = "第2驱逐支队" historical_model = 0 }
+	ship = { type = submarine name = "第1潜艇分队" historical_model = 1 }
+	ship = { type = light_cruiser name = "ARA 阿根廷号" historical_model = 2 }
+	ship = { type = destroyer name = "第3驱逐支队" historical_model = 1 }
+}
+air = {
+	name = "阿根廷空军"
+	base = 7899
+	location = 7899
+	wing = { type = interceptor name = "第1截击编队" historical_model = 0 }
+}
+air = {
+	name = "海军航空编队"
+	base = 7899
+	location = 7899
+	wing = { type = naval_bomber name = "第1海军轰炸编队" historical_model = 0 }
+}
+
+
+

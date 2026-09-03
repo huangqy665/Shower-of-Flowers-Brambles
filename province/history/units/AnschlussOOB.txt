@@ -1,0 +1,65 @@
+corps = {
+	name = "第XVII军"
+	location = 3026
+	regiment = { type = hq_brigade name = "第XVII军指挥部" historical_model = 0 }
+	division= {
+		name = "第44步兵师"
+		location = 3026 
+		is_reserve = yes
+		regiment = { type = infantry_brigade experience = 45 name = "第131步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade experience = 45 name = "第132步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade experience = 45 name = "第134步兵团" historical_model = 1 }
+	}
+	division= {
+		name = "第45步兵师"
+		location = 2956
+		is_reserve = yes
+		regiment = { type = infantry_brigade experience = 45 name = "第130步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade experience = 45 name = "第133步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade experience = 45 name = "第135步兵团" historical_model = 1 }		}
+	division= {
+		name = "第4轻装师"
+		location = 3026
+		is_reserve = yes
+		regiment = { type = motorized_brigade experience = 35 name = "第10骑兵团" historical_model = 1 }
+		regiment = { type = motorized_brigade experience = 35 name = "第11骑兵团" historical_model = 1 }
+		regiment = { type = armored_car_brigade experience = 35 name = "第9侦察团" historical_model = 1 }
+	}
+}
+
+corps = {
+	name = "第XVIII军"
+	location = 3090
+	regiment = { type = hq_brigade name = "第XVIII军指挥部" historical_model = 0 }
+	division= {
+		name = "山地2师"
+		location = 3289 
+		is_reserve = yes
+		regiment = { type = bergsjaeger_brigade experience = 45 name = "第136山地团" historical_model = 1 }
+		regiment = { type = bergsjaeger_brigade experience = 45 name = "第137山地团" historical_model = 1 }
+		regiment = { type = bergsjaeger_brigade experience = 45 name = "第140山地团" historical_model = 1 }
+	}
+	division= {
+		name = "山地3师"
+		location = 3227
+		is_reserve = yes
+		regiment = { type = bergsjaeger_brigade experience = 45 name = "第138山地团" historical_model = 1 }
+		regiment = { type = bergsjaeger_brigade experience = 45 name = "第139山地团" historical_model = 1 }
+	}
+}	
+
+division= {
+	name = "党卫队特别机动部队"
+	location = 3026
+	is_reserve = yes 
+	regiment = { type = waffen_brigade experience = 5 name = "党卫队第3元首分队" historical_model = 0 }
+}
+
+air = {
+	name = "第XVII航空军"
+	base = 3026
+	location = 3026
+	wing = { type = interceptor name = "第138战斗机联队" historical_model = 0 }
+}
+
+

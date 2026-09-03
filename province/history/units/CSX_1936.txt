@@ -1,0 +1,199 @@
+corps = {
+	name = "山西警备"
+	location = 5174
+	regiment = { type = hq_brigade name = "山西警备司令部" historical_model = 0 }
+	division= {
+		name = "第1独立旅"
+		location = 5174
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第1骑兵师"
+		location = 7399
+		regiment = { type = cavalry_brigade historical_model = 0 }
+		regiment = { type = cavalry_brigade historical_model = 0 }
+	}
+}
+corps = {
+	name = "第34军"
+	location = 5271
+	regiment = { type = hq_brigade name = "第34军司令部" historical_model = 0 }
+	division= {
+		name = "第66步兵师"
+		location = 5206
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第71步兵师"
+		location = 7418
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+}
+division = {
+	name = "第35军"
+	location = 4978
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+division = {
+	name = "绥远警备"
+	location = 7338
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+corps = {
+	name = "第29军"
+	location = 4979
+	regiment = { type = hq_brigade name = "第29军司令部" historical_model = 0 }
+	division= {
+		name = "第37步兵师"
+		location = 4979
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第37步兵师"
+		location = 4933
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第37步兵师"
+		location = 5018	
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第37步兵师"
+		location = 5019
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第9骑兵师"
+		location = 4979
+		regiment = { type = cavalry_brigade historical_model = 0 }
+		regiment = { type = cavalry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第39独立旅"
+		location = 5055
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+}
+division = {
+	name = "河北警备"
+	location = 5385
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+division = {
+	name = "察哈尔警备"
+	location = 5300
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+corps = {
+	name = "第3军团"
+	location = 5086
+	regiment = { type = hq_brigade name = "第3路军指挥部" historical_model = 0 }
+	division= {
+		name = "第22步兵师"
+		location = 5178
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第22步兵师"
+		location = 5144
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+}
+corps = {
+	name = "第12军"
+	location = 5240
+	regiment = { type = hq_brigade name = "第12军司令部" historical_model = 0 }
+	division= {
+		name = "第20步兵师"
+		location = 5208
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第81步兵师"
+		location = 5273
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+}
+division = {
+	name = "山东警备"
+	location = 5301
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+division = {
+	name = "第13军"
+	location = 7312
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+division = {
+	name = "第19军"
+	location = 5174
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+division = {
+	name = "第32军"
+	location = 5333
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+division = {
+	name = "第33军"
+	location = 7326
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+division = {
+	name = "第42军"
+	location = 4885
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+division = {
+	name = "第53军"
+	location = 7349
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+division = {
+	name = "第63军"
+	location = 7349
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+division = {
+	name = "东北骑兵军"
+	location = 5017
+	regiment = { type = cavalry_brigade historical_model = 0 }
+	regiment = { type = cavalry_brigade historical_model = 0 }
+}
+division = {
+	name = "冀查绥靖公署"
+	location = 7359
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+division = {
+	name = "山西保安队"
+	location = 5241
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}

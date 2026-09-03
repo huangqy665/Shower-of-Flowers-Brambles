@@ -1,0 +1,35 @@
+corps = {
+	name = "立陶宛第1军"
+	location = 1442
+	regiment = { type = hq_brigade name = "立陶宛第1军指挥部" historical_model = 0 }
+	division= {
+		name = "第I步兵旅"
+		location = 1442
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第II步兵旅"
+		location = 1442
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第III步兵旅"
+		location = 1442
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+}
+air = {
+	name = "立陶宛空军"
+	base = 1442
+	location = 1442
+	wing = { type = interceptor name = "第1截击编队" historical_model = 0 }
+}

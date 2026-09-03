@@ -1,0 +1,267 @@
+562000 = {
+	name = "奥古斯蒂斯"
+	country = GUY
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = M562008
+	add_trait = panzer_leader
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+562001 = {
+	name = "巴里斯特"
+	country = GUY
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L562001
+	add_trait = engineer
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+562002 = {
+	name = "比克伍德"
+	country = GUY
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = M562007
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+562003 = {
+	name = "卡彭特"
+	country = GUY
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L562003
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+562004 = {
+	name = "德鲁"
+	country = GUY
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 1.00
+	picture = L1111
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+562005 = {
+	name = "福里斯特"
+	country = GUY
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = M562025
+	add_trait = logistics_wizard
+	history = {
+		1938.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+562006 = {
+	name = "希尔顿.格林"
+	country = GUY
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L1164
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+	}
+}
+562007 = {
+	name = "莱特福德"
+	country = GUY
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L562007
+	add_trait = commando
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+562008 = {
+	name = "洛班"
+	country = GUY
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = M562027
+	add_trait = logistics_wizard
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+562009 = {
+	name = "威廉斯"
+	country = GUY
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L562009
+	add_trait = fortress_buster
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+562010 = {
+	name = "伍滕"
+	country = GUY
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L562010
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+562011 = {
+	name = "比奇洛"
+	country = GUY
+	type = sea
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = M562009
+	add_trait = seawolf
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+	}
+}
+562012 = {
+	name = "弗格森"
+	country = GUY
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L562012
+	add_trait = superior_tactician
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+562013 = {
+	name = "洛班"
+	country = GUY
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = M562027
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+562014 = {
+	name = "麦克墨菲"
+	country = GUY
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L562014
+	add_trait = blockade_runner
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+562015 = {
+	name = "巴克斯特"
+	country = GUY
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L562015
+	add_trait = night_flyer
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+562016 = {
+	name = "伯内特"
+	country = GUY
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = M562010
+	add_trait = fleet_destroyer
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+	}
+}
+562017 = {
+	name = "勒戈尔特"
+	country = GUY
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L562017
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+562018 = {
+	name = "莱特福德"
+	country = GUY
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L562007
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+562019 = {
+	name = "莱特富特"
+	country = GUY
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = M562031
+	add_trait = superior_air_tactician
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}

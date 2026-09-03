@@ -1,0 +1,153 @@
+corps = {
+	name = "第I军"
+	location = 4619
+	regiment = { type = hq_brigade name = "第I军指挥部" historical_model = 0 }
+	division= {
+		name = "第1步兵师"
+		location = 4619
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第3步兵师"
+		location = 4619
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+}
+division = {
+	name = "第5步兵师"
+	location = 4503
+	is_reserve = yes
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+}
+division = {
+	name = "第7步兵师"
+	location = 4615
+	is_reserve = yes
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+}
+corps = {
+	name = "第IV军"
+	location = 4623
+	regiment = { type = hq_brigade name = "第IV军指挥部" historical_model = 0 }
+	division= {
+		name = "第9步兵师"
+		location = 4623
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第21步兵师"
+		location = 4623
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+}
+division = {
+	name = "第11步兵师"
+	location = 4188
+	is_reserve = yes
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+}
+division = {
+	name = "第13步兵师"
+	location = 7269
+	is_reserve = yes
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+}
+division = {
+	name = "第15步兵师"
+	location = 7304
+	is_reserve = yes
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+}
+division = {
+	name = "第19步兵师"
+	location = 4513
+	is_reserve = yes
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+	regiment = { type = infantry_brigade historical_model = 0 }
+}
+division = {
+	name = "第1山地师"
+	location = 4624
+	is_reserve = yes
+	regiment = { type = bergsjaeger_brigade historical_model = 0 }
+	regiment = { type = bergsjaeger_brigade historical_model = 0 }
+	regiment = { type = bergsjaeger_brigade historical_model = 0 }
+}
+corps = {
+	name = "土耳其骑兵军"
+	location = 4927
+	regiment = { type = hq_brigade name = "土耳其骑兵军指挥部" historical_model = 0 }
+	division= {
+		name = "第1骑兵师"
+		location = 4927
+		is_reserve = yes
+		regiment = { type = cavalry_brigade historical_model = 0 }
+		regiment = { type = cavalry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第3骑兵师"
+		location = 4927
+		is_reserve = yes
+		regiment = { type = cavalry_brigade historical_model = 0 }
+		regiment = { type = cavalry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第5骑兵师"
+		location = 4927
+		is_reserve = yes
+		regiment = { type = cavalry_brigade historical_model = 0 }
+		regiment = { type = cavalry_brigade historical_model = 0 }
+	}
+}
+navy = {
+	name = "土耳其舰队"
+	base = 4441
+	location = 4441
+	ship = { type = light_cruiser name = "TDT '哈米迪'号" historical_model = 0 }
+	ship = { type = transport_ship name = "运输舰分队" historical_model = 0 }
+}
+air = {
+	name = "土耳其第I空军编队"
+	base = 4505
+	location = 4505
+	wing = { type = interceptor name = "第1战斗机联队" historical_model = 0 }
+	wing = { type = tactical_bomber name = "第1战术轰炸联队" historical_model = 0 }
+	wing = { type = interceptor name = "第2战斗机联队" historical_model = 0 }
+	wing = { type = tactical_bomber name = "第2战术轰炸联队" historical_model = 0 }
+}
+navy = {
+	name = "土耳其第1海军舰队"
+	base = 4441
+	location = 4441
+	ship = { type = battlecruiser name = "TDT '亚乌'号" historical_model = 0 pride = yes }
+	ship = { type = light_cruiser name = "TDT '梅得几迪'号" historical_model = 0 }
+	ship = { type = destroyer name = "第1.驱逐舰队" historical_model = 0 }
+	ship = { type = submarine name = "第1潜艇分队" historical_model = 0 }
+	ship = { type = submarine name = "第2潜艇分队" historical_model = 2 }
+}
+
+
+

@@ -1,0 +1,21 @@
+division = {
+	name = "蒙古卫戍部队"
+	location = 4885
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+division = {
+	name = "蒙古骑兵"
+	location = 5017
+	regiment = { type = cavalry_brigade historical_model = 0 }
+	regiment = { type = cavalry_brigade historical_model = 0 }
+	regiment = { type = cavalry_brigade historical_model = 0 }
+}
+division = {
+	name = "西绥远联合部队"
+	location = 4980
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}

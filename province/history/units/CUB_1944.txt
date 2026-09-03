@@ -1,0 +1,22 @@
+corps = {
+	name = "古巴军"
+	location = 7576
+	regiment = { type = hq_brigade name = "古巴军指挥部" historical_model = 0 }
+	division= {
+		name = "第1陆军旅"
+		location = 7576
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第1'福罗里达'骑兵旅"
+		location = 7576
+		is_reserve = yes
+		regiment = { type = cavalry_brigade historical_model = 1 }
+		regiment = { type = cavalry_brigade historical_model = 1 }
+	}
+}
+
+

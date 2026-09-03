@@ -1,0 +1,709 @@
+270000 = {
+	name = "奥乌罗.伯约恩"
+	country = VEN
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L270000
+	add_trait = engineer
+	add_trait = commando
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+270001 = {
+	name = "贝当古.贝洛"
+	country = VEN
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L270001
+	add_trait = offensive_doctrine
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+270002 = {
+	name = "卡德纳斯.阿里亚斯"
+	country = VEN
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L270002
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+270003 = {
+	name = "孔特雷拉斯.比利亚洛沃斯"
+	country = VEN
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L270003
+	add_trait = offensive_doctrine
+	history = {
+		1944.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+270004 = {
+	name = "德尔加多.查尔沃德"
+	country = VEN
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L270004
+	add_trait = logistics_wizard
+	history = {
+		1944.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+		1950.1.1 = { rank = 0 }
+	}
+}
+270005 = {
+	name = "德.拉.皮列"
+	country = VEN
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L270005
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+270006 = {
+	name = "埃利亚斯.吉特雷斯"
+	country = VEN
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 1.00
+	picture = L270006
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+270007 = {
+	name = "费尔南德斯.奥尔蒂斯"
+	country = VEN
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L270007
+	add_trait = commando
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+270008 = {
+	name = "加西亚.门多萨"
+	country = VEN
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L270008
+	add_trait = logistics_wizard
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+270009 = {
+	name = "冈萨雷斯.洛佩斯"
+	country = VEN
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L270009
+	add_trait = panzer_leader
+	history = {
+		1944.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+270010 = {
+	name = "吉拉尔.菲格罗亚"
+	country = VEN
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L270010
+	add_trait = offensive_doctrine
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+270011 = {
+	name = "拉腊萨瓦尔.乌格托"
+	country = VEN
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L270011
+	add_trait = panzer_leader
+	history = {
+		1945.1.1 = { rank = 1 }
+		1950.1.1 = { rank = 2 }
+		1952.1.1 = { rank = 3 }
+	}
+}
+270012 = {
+	name = "莱昂尼.奥特罗"
+	country = VEN
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L270012
+	history = {
+		1942.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+270013 = {
+	name = "洛佩斯.孔特雷拉斯"
+	country = VEN
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L270013
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+270014 = {
+	name = "洛佩斯.恩里克斯"
+	country = VEN
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L270014
+	add_trait = fortress_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+270015 = {
+	name = "洛佩斯.马里诺"
+	country = VEN
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L270015
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+270016 = {
+	name = "洛佩斯.佩雷斯"
+	country = VEN
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L270016
+	add_trait = commando
+	history = {
+		1942.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+270017 = {
+	name = "马尔凯洛.洛佩斯"
+	country = VEN
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L270017
+	history = {
+		1944.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 2 }
+	}
+}
+270018 = {
+	name = "梅迪纳.阿加里塔"
+	country = VEN
+	type = land
+	skill = 3
+	max_skill = 4
+	loyalty = 0.00
+	picture = L270018
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 3 }
+		1941.1.1 = { rank = 4 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+270019 = {
+	name = "蒙萨尔沃.马雷诺"
+	country = VEN
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L270019
+	history = {
+		1942.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+270020 = {
+	name = "蒙蒂拉"
+	country = VEN
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L270020
+	add_trait = fortress_buster
+	history = {
+		1941.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+270021 = {
+	name = "佩雷斯.希门尼斯"
+	country = VEN
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L270021
+	history = {
+		1942.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+270022 = {
+	name = "雷耶斯.沙莫拉"
+	country = VEN
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L270022
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+270023 = {
+	name = "鲁伊斯.图埃罗"
+	country = VEN
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L270023
+	add_trait = offensive_doctrine
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+270024 = {
+	name = "萨纳夫里亚.阿西亚"
+	country = VEN
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L270024
+	add_trait = logistics_wizard
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+270025 = {
+	name = "桑切斯.克罗斯"
+	country = VEN
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L270025
+	add_trait = engineer
+	history = {
+		1945.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+270026 = {
+	name = "塞贡多.迪亚兹"
+	country = VEN
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L270026
+	history = {
+		1941.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+270027 = {
+	name = "西蒙.里奥斯"
+	country = VEN
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L270027
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+270028 = {
+	name = "托罗.凯"
+	country = VEN
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L270028
+	add_trait = commando
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+270029 = {
+	name = "维森特.戈梅"
+	country = VEN
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L270029
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+270030 = {
+	name = "阿尔瓦雷兹.圣地亚哥"
+	country = VEN
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L270030
+	history = {
+		1941.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+270031 = {
+	name = "莫利纳.塔拉瓦约"
+	country = VEN
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L270031
+	history = {
+		1944.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+270032 = {
+	name = "蒙特兹.马库桑德里"
+	country = VEN
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L270032
+	history = {
+		1937.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+270033 = {
+	name = "拉莫斯.迪亚兹"
+	country = VEN
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L270033
+	add_trait = seawolf
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+270034 = {
+	name = "罗萨.桑切斯"
+	country = VEN
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L270034
+	add_trait = old_guard
+	add_trait = superior_tactician
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1938.1.1 = { rank = 0 }
+	}
+}
+270035 = {
+	name = "圣布里亚.维拉"
+	country = VEN
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L270035
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+270036 = {
+	name = "塔格埃瓦.米雷莱斯"
+	country = VEN
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L270036
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+270037 = {
+	name = "托罗.凯"
+	country = VEN
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L270037
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+270038 = {
+	name = "维拉.洛博斯"
+	country = VEN
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L270038
+	add_trait = superior_tactician
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+270039 = {
+	name = "博尼法斯.贝尼特斯"
+	country = VEN
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L270039
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+270040 = {
+	name = "孔特雷拉斯.比利亚洛沃斯"
+	country = VEN
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L270040
+	history = {
+		1943.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+270041 = {
+	name = "德.卢卡.瓦雷萨诺"
+	country = VEN
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L270041
+	add_trait = superior_air_tactician
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+270042 = {
+	name = "迪亚兹.弗赖莱"
+	country = VEN
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L270042
+	add_trait = carpet_bomber
+	history = {
+		1939.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+270043 = {
+	name = "洛佩斯.恩里克斯"
+	country = VEN
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L270043
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+270044 = {
+	name = "迈尔.巴尔多"
+	country = VEN
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L270044
+	add_trait = superior_air_tactician
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+270045 = {
+	name = "佩蒂特"
+	country = VEN
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L270045
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+270046 = {
+	name = "雷诺索.鲁克尔"
+	country = VEN
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L270046
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+270047 = {
+	name = "塞拉诺.佩雷斯"
+	country = VEN
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L270047
+	history = {
+		1940.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+270048 = {
+	name = "托里斯.维莱拉"
+	country = VEN
+	type = air
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L270048
+	add_trait = fleet_destroyer
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+270049 = {
+	name = "莫内德罗.萨尔萨"
+	country = VEN
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L270049
+	add_trait = commando
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+270050 = {
+	name = "略韦拉.佩茨"
+	country = VEN
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = M38086
+	history = {
+		1947.1.1 = { rank = 1 }
+		1948.1.1 = { rank = 2 }
+	}
+}

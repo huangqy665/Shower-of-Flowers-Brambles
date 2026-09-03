@@ -1,0 +1,401 @@
+corps = {
+	name = "第1步兵师"
+	location = 4540										#Madrid
+	regiment = { type = hq_brigade name = "第1步兵师指挥部" historical_model = 0 }
+	division= {
+		name = "第1步兵师1旅"
+		location = 4540									#Madrid
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第1'瓦德拉斯'团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第2'莱昂'团" historical_model = 0 }
+	}
+	division= {
+		name = "第2步兵师1旅"
+		location = 4647									#Badajoz (Monforte)
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第3'卡斯提尔'团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第4'卡福东阿'团" historical_model = 0 }
+	}
+}
+corps = {
+	name = "第2步兵师"
+	location = 5030										#Sevilla
+	regiment = { type = hq_brigade name = "第1步兵师指挥部" historical_model = 0 }
+	division= {
+		name = "第3步兵师2旅"
+		location = 5030									#Sevilla
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第5'勒班陀'团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第6'格拉纳达'团" historical_model = 0 }
+	}
+	division= {
+		name = "第4步兵师2旅"
+		location = 5129									#Granada
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第7'帕夫拉奥夫莱德'团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第8'维多利亚'团" historical_model = 0 }
+	}
+}
+corps = {
+	name = "第1骑兵师"
+	location = 4347										#Salamanca
+	regiment = { type = hq_brigade name = "第1骑兵师指挥部" historical_model = 0 }
+	division= {
+		name = "第1骑兵师1旅"
+		location = 4347									#Salamanca
+		is_reserve = yes
+		regiment = { type = cavalry_brigade name = "第1'维拉罗伯德'团" historical_model = 0 }
+		regiment = { type = cavalry_brigade name = "第2'卡拉特拉瓦'团" historical_model = 0 }
+	}
+	division= {
+		name = "第2骑兵师1旅"
+		location = 4548									#Barcelona
+		is_reserve = yes
+		regiment = { type = cavalry_brigade name = "第3'努曼西亚'团" historical_model = 0 }
+		regiment = { type = cavalry_brigade name = "第4'蒙特萨'团" historical_model = 0 }
+	}
+	division= {
+		name = "第3骑兵师1旅"
+		location = 4155									#Burgos
+		is_reserve = yes
+		regiment = { type = cavalry_brigade name = "第5'西班牙'团" historical_model = 0 }
+		regiment = { type = cavalry_brigade name = "第4'圣地亚哥'团" historical_model = 0 }
+	}
+}
+division= {
+	name = "第1装甲旅"
+	location = 4540										#Madrid
+	is_reserve = yes
+	regiment = { type = light_armor_brigade name = "第1装甲旅" historical_model = 0 }
+}
+division= {
+	name = "第2装甲旅"
+	location = 4353										#Zaragoza
+	is_reserve = yes
+	regiment = { type = light_armor_brigade name = "第2装甲旅" historical_model = 0 }
+}
+corps = {
+	name = "第3步兵师"
+	location = 4862										#Valencia
+	regiment = { type = hq_brigade name = "第3步兵师指挥部" historical_model = 0 }
+	division= {
+		name = "第5步兵师3旅"
+		location = 4862									#Valencia
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第9'奥土曼巴'团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第10'瓜达拉哈拉'团" historical_model = 0 }
+	}
+	division= {
+		name = "第6步兵师3旅"
+		location = 5001									#Alicante
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第11'塔里法'团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第12'比斯卡亚'团" historical_model = 0 }
+	}
+}
+corps = {
+	name = "第4步兵师"
+	location = 4548										#Barcelona
+	regiment = { type = hq_brigade name = "第4步兵师指挥部" historical_model = 0 }
+	division= {
+		name = "第7步兵师4旅"
+		location = 4548									#Barcelona
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第13'巴达霍斯'团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第14'阿兰卡拉'团" historical_model = 0 }
+	}
+	division= {
+		name = "第8步兵师4旅"
+		location = 4482									#L閞ida (Candasnos)
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第15'阿尔曼萨'团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第16'阿勒布拉'团" historical_model = 0 }
+	}
+}
+corps = {
+	name = "第5步兵师"
+	location = 4353										#Zaragoza
+	regiment = { type = hq_brigade name = "第5步兵师指挥部" historical_model = 0 }
+	division= {
+		name = "第9步兵师5旅"
+		location = 4353									#Zaragoza
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第17'阿拉贡'团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第18'赫罗纳'团" historical_model = 0 }
+	}
+	division= {
+		name = "第10步兵师5旅"
+		location = 4293									#Huesca
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第19'加利西亚'团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第20'巴利亚多利德'团" historical_model = 0 }
+	}
+}
+division= {
+	name = "第1山地旅"
+	location = 9506										#Gerona (Canary Islands)
+	is_reserve = yes
+	regiment = { type = bergsjaeger_brigade name = "第1山地团" historical_model = 0 }
+	regiment = { type = bergsjaeger_brigade name = "第2山地团" historical_model = 0 }
+}
+division= {
+	name = "第2山地旅"
+	location = 3884										#Bilbao
+	is_reserve = yes
+	regiment = { type = bergsjaeger_brigade name = "第3山地团" historical_model = 0 }
+	regiment = { type = bergsjaeger_brigade name = "第4山地团" historical_model = 0 }
+}
+division= {
+	name = "混合山地旅"
+	location = 3746										#Oviedo
+	is_reserve = yes
+	regiment = { type = bergsjaeger_brigade name = "第32团" historical_model = 0 }
+	regiment = { type = bergsjaeger_brigade name = "第40团" historical_model = 0 }
+}
+corps = {
+	name = "第6步兵师"
+	location = 4155										#Burgos
+	regiment = { type = hq_brigade name = "第6步兵师指挥部" historical_model = 0 }
+	division= {
+		name = "第11步兵师6旅"
+		location = 4155									#Burgos
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第21'瓦伦西亚'团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第22'圣马西尔'团" historical_model = 0 }
+	}
+	division= {
+		name = "第12步兵师6旅"
+		location = 4026									#Pamplona
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第23'美国'团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第24'拜伦'团" historical_model = 0 }
+	}
+}
+corps = {
+	name = "第7步兵师"
+	location = 4218										#Valladolid
+	regiment = { type = hq_brigade name = "第7步兵师指挥部" historical_model = 0 }
+	division= {
+		name = "第13步兵师7旅"
+		location = 4218									#Valladolid
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第13'巴利亚多利德'团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第14'萨拉曼卡'团" historical_model = 0 }
+	}
+	division= {
+		name = "第14步兵师7旅"
+		location = 4347									#Salamanca
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第27'阿尔及尔'团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第28'维多利亚'团" historical_model = 0 }
+	}
+}
+corps = {
+	name = "第8步兵师"
+	location = 3610										#La Coru馻
+	regiment = { type = hq_brigade name = "第8步兵师指挥部" historical_model = 0 }
+	division= {
+		name = "第15步兵师8旅"
+		location = 3610									#La Coru馻
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第29'萨莫拉'团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第30'萨拉戈萨'团" historical_model = 0 }
+	}
+	division= {
+		name = "第16步兵师8旅"
+		location = 3952									#Le髇
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第31'布尔戈斯'团" historical_model = 0 }
+	}
+}
+division= {
+	name = "第33团"
+	location = 5125										#C醖iz
+	is_reserve = yes
+	regiment = { type = infantry_brigade name = "第33'加的斯'团" historical_model = 0 }
+}
+division= {
+	name = "第34团"
+	location = 5104										#Cartagena
+	is_reserve = yes
+	regiment = { type = infantry_brigade name = "第34'塞维利亚'团" historical_model = 0 }
+}
+division= {
+	name = "第35团"
+	location = 3611										#Vivero (Foz)
+	is_reserve = yes
+	regiment = { type = infantry_brigade name = "第35'梅里达'团" historical_model = 0 }
+}
+division= {
+	name = "第7团"
+	location = 5030										#Sevilla
+	is_reserve = yes
+	regiment = { type = cavalry_brigade name = "第7'塔克斯蒂尔'团" historical_model = 0 }
+}
+division= {
+	name = "第8团"
+	location = 4862										#Valencia
+	is_reserve = yes
+	regiment = { type = cavalry_brigade name = "第8'卢西塔尼亚'团" historical_model = 0 }
+}
+division= {
+	name = "第9团"
+	location = 4353										#Zaragoza
+	is_reserve = yes
+	regiment = { type = cavalry_brigade name = "第9'卡斯特尔'团" historical_model = 0 }
+}
+division= {
+	name = "第10团"
+	location = 4218										#Valladolid
+	is_reserve = yes
+	regiment = { type = cavalry_brigade name = "第10'法尔内塞'团" historical_model = 0 }
+}
+division = {
+	name = "巴利阿里指挥部"
+	location = 4913										#Mallorca
+	is_reserve = yes
+	regiment = { type = infantry_brigade name = "第36'帕尔马'团" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "第37'巴利阿里团" historical_model = 0 }
+}
+division = {
+	name = "加纳利指挥部"
+	location = 10730									#Las Palmas (Fuerteventura)
+	is_reserve = yes
+	regiment = { type = infantry_brigade name = "第38'特内里费'团" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "第39'金丝雀'团" historical_model = 0 }
+}
+corps = {
+	name = "非洲军团"
+	location = 5289										#Ceuta
+	regiment = { type = hq_brigade name = "非洲军团指挥部" historical_model = 0 }
+	division= {
+		name = "西区部队"
+		location = 5289									#Ceuta
+		regiment = { type = infantry_brigade name = "'卡塔得土安'团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "'拉腊什'团" historical_model = 0 }
+	}
+	division= {
+		name = "东部部队"
+		location = 5323									#Melilla
+		regiment = { type = infantry_brigade name = "'猎人'团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "'国旗'团" historical_model = 0 }
+	}
+	division = {
+		name = "撒哈拉部队"
+		location = 9482									#El Aai鷑
+		regiment = { type = infantry_brigade name = "'撒哈拉西班牙'团" historical_model = 0 }
+	}
+}
+division = {
+	name = "殖民地卫队"
+	location = 10002									#Bata
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+navy = {
+	name = "加的斯海军基地"
+	base = 5125										#C醖iz
+	location = 5125										#C醖iz
+	ship = { type = light_cruiser name = "ARE 共和国号" historical_model = 0 }
+	ship = { type = destroyer name = "护卫舰队" historical_model = 1 }
+}
+navy = {
+	name = "门德斯努涅斯舰队"
+	base = 3676										#Ferrol
+	location = 3676										#Ferrol
+	ship = { type = light_cruiser name = "ARE 门德斯努涅斯号" historical_model = 0 }
+}
+navy = {
+	name = "战斗编队"
+	base = 4548										#Barcelona
+	location = 4548										#Barcelona
+	ship = { type = light_cruiser name = "ARE 塞万提斯号" historical_model = 1 }
+	ship = { type = transport_ship name = "第1海军运输分队" historical_model = 0 }
+	ship = { type = transport_ship name = "第2海军运输分队" historical_model = 0 }
+}
+navy = {
+	name = "殖民地海军"
+	base = 10730										#Las Palmas (Fuerteventura)
+	location = 10730									#Las Palmas (Fuerteventura)
+	ship = { type = destroyer name = "第3驱逐舰支队" historical_model = 1 }
+	ship = { type = transport_ship name = "第3海军运输分队" historical_model = 0 }
+	ship = { type = transport_ship name = "第4海军运输分队" historical_model = 0 }
+}
+navy = {
+	name = "C 编队"
+	base = 4862										#Valencia
+	location = 4862										#Valencia
+	ship = { type = submarine name = "S101 潜艇分队" historical_model = 0 }
+}
+navy = {
+	name = "B 编队"
+	base = 4862										#Valencia
+	location = 4862										#Valencia
+	ship = { type = submarine name = "S103 潜艇分队" historical_model = 1 }
+}
+navy = {
+	name = "ARE 自由号"
+	base = 4548										#Barcelona
+	location = 4548										#Barcelona
+	ship = { type = light_cruiser name = "ARE 自由号" historical_model = 1 }
+}
+air = {
+	name = "第1航空队"
+	base = 4540										#Madrid
+	location = 4540										#Madrid
+	wing = { type = tactical_bomber name = "第1战术轰炸机联队" historical_model = 0 }
+	wing = { type = tactical_bomber name = "第2战术轰炸机联队" historical_model = 0 }
+}
+air = {
+	name = "第2航空队"
+	base = 4548										#Barcelona
+	location = 4548										#Barcelona
+	wing = { type = interceptor name = "第1截击机联队" historical_model = 0 }
+	wing = { type = interceptor name = "第3截击机联队" historical_model = 0 }
+}
+air = {
+	name = "第3航空队"
+	base = 4862										#Valencia
+	location = 4862										#Valencia
+	wing = { type = strategic_bomber name = "第1战术轰炸机联队" historical_model = 0 }
+	wing = { type = strategic_bomber name = "第2战术轰炸机联队" historical_model = 0 }
+}
+air = {
+	name = "非洲空军"
+	base = 10730										#Las Palmas (Fuerteventura)
+	location = 10730									#Las Palmas (Fuerteventura)
+	wing = { type = tactical_bomber name = "第1战术轰炸机联队" historical_model = 0 }
+	wing = { type = interceptor name = "第2截击机联队" historical_model = 0 }
+}
+navy = {
+	name = "第I海军舰队"
+	base = 4548										#Barcelona
+	location = 4548										#Barcelona
+	ship = { type = battleship name = "ARE 海梅一世号" historical_model = 0 pride = yes }
+	ship = { type = battleship name = "ARE 西班牙号" historical_model = 0 }
+	ship = { type = light_cruiser name = "ARE 塞韦拉海军上将号" historical_model = 1 }
+	ship = { type = destroyer name = "第1驱逐舰支队" historical_model = 0 }
+	ship = { type = destroyer name = "第2驱逐舰支队" historical_model = 1 }
+}
+
+
+
+military_construction = {
+	country = SPR
+	heavy_cruiser = {
+		name = "ARE 金丝雀号"
+		historical_model = 1
+	}
+	cost = 5.00
+	progress = 0
+	duration = 61
+}
+military_construction = {
+	country = SPR
+	heavy_cruiser = {
+		name = "ARE 巴利阿里号"
+		historical_model = 1
+	}
+	cost = 5.00
+	progress = 0
+	duration = 151
+}

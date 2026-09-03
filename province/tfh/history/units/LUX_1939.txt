@@ -1,0 +1,15 @@
+#In 1938, with a new war looming, the tiny army was ordered expanded from 125 gendarmes and 140 volunteer soldiers to a force of some 425 all told
+#So Luxemburg had no army at hoi 3 scale. Single HQ can represent everything it had
+
+#division = {
+#	name = "卢森堡陆军"
+#	location = 2429
+#	is_reserve = yes
+#	regiment = { type = infantry_brigade historical_model = 0 }
+#}
+
+theatre = {
+	name = "刚果殖民军" 
+	location = 2429
+	regiment = { type = hq_brigade name = "刚果殖民军" historical_model = 0 }
+}

@@ -1,0 +1,41 @@
+corps = {
+	name = "新西兰国防军"
+	location = 7990 # Auckland
+	regiment = { type = hq_brigade name = "新西兰国防军指挥部" historical_model = 0 }
+	division = {
+		name = "北部军区"
+		location = 7990
+		regiment = { type = cavalry_brigade name = "第1骑马步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第1步兵旅" historical_model = 0 }
+	}
+	division = {
+		name = "中部军区"
+		location = 8070
+		regiment = { type = cavalry_brigade name = "第2骑马步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第2步兵旅" historical_model = 0 }
+	}
+	division = {
+		name = "南部军区"
+		location = 10485
+		regiment = { type = cavalry_brigade name = "第3骑马步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第3步兵旅" historical_model = 0 }
+	}
+}
+navy = {
+	name = "新西兰舰队"
+	base = 8070
+	location = 8070
+	ship = { type = light_cruiser name = "HMNZS 利安德号" historical_model = 2 pride = yes }
+	ship = { type = light_cruiser name = "HMNZS 阿基里斯号" historical_model = 2 }
+}
+navy = {
+	name = "新西兰海军"
+	base = 8070
+	location = 8070
+	ship = { type = transport_ship name = "第1运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第2运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第3运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第4运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第5运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第6运输舰队" historical_model = 0 }
+}

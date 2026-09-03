@@ -1,0 +1,84 @@
+division = {
+	name = "广西警备"
+	location = 7553
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+division = {
+	name = "安徽警备"
+	location = 5787
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+corps = {
+	name = "第21军团"
+	location = 5851
+	regiment = { type = hq_brigade name = "第21军团司令部" historical_model = 0 }
+	division= {
+		name = "第7军"
+		location = 5851
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第48军"
+		location = 5820
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "鄂东游击队"
+		location = 5820
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+}
+corps = {
+	name = "第11军团"
+	location = 5807
+	regiment = { type = hq_brigade name = "第11军团司令部" historical_model = 0 }
+	division= {
+		name = "第84军"
+		location = 5807
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第39军"
+		location = 5822
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+}
+corps = {
+	name = "第16军团"
+	location = 5818
+	regiment = { type = hq_brigade name = "第16军团司令部" historical_model = 0 }
+	division= {
+		name = "第46军"
+		location = 5818
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第31军"
+		location = 5819
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+}
+navy = {
+	name = "两广舰队"
+	base = 5834
+	location = 5834
+	ship = { type = destroyer name = "驱逐舰大队" historical_model = 0 }
+}

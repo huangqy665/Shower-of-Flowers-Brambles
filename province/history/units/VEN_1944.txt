@@ -1,0 +1,31 @@
+corps = {
+	name = "委内瑞拉陆军"
+	location = 9792
+	regiment = { type = hq_brigade name = "委内瑞拉陆军指挥部" historical_model = 0 }
+	division= {
+		name = "第1'爱德华多·布兰科'步兵师"
+		location = 9792
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第1国民警卫师"
+		location = 9792
+		is_reserve = yes
+		regiment = { type = militia_brigade historical_model = 1 }
+		regiment = { type = militia_brigade historical_model = 1 }
+		regiment = { type = militia_brigade historical_model = 1 }
+	}
+	division= {
+		name = "委内瑞拉骑兵部队"
+		location = 9792
+		is_reserve = yes
+		regiment = { type = cavalry_brigade historical_model = 1 }
+		regiment = { type = cavalry_brigade historical_model = 1 }
+	}
+}
+
+
+

@@ -1,0 +1,542 @@
+160000 = {
+	name = "°¢²·¶ÅÈÈºÏÂü"
+	country = SIK
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L160000
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+160001 = {
+	name = "ÕÅÏ£Á¼"
+	country = SIK
+	type = land
+	skill = 1
+	max_skill = 2
+	loyalty = 0.00
+	picture = L160001
+	add_trait = engineer
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1938.1.1 = { rank = 3 }
+	}
+}
+160002 = {
+	name = "½¯ÓĞ·Ò"
+	country = SIK
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L160002
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+160003 = {
+	name = "´ïÁĞÀïº¹"
+	country = SIK
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L160003
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+160004 = {
+	name = "·Ñ¾ÃÄşË¹»ù"
+	country = SIK
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L160004
+	add_trait = offensive_doctrine
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+160005 = {
+	name = "¸ÇÒÁ"
+	country = SIK
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L160005
+	add_trait = defensive_doctrine
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+160006 = {
+	name = "°¬Äá°ÍÍ¼Â³"
+	country = SIK
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L160006
+	add_trait = trickster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+160007 = {
+	name = "¹şÓñÁ¼"
+	country = SIK
+	type = land
+	skill = 1
+	max_skill = 2
+	loyalty = 0.00
+	picture = L160007
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+160008 = {
+	name = "ĞìÓĞĞË"
+	country = SIK
+	type = land
+	skill = 1
+	max_skill = 2
+	loyalty = 0.00
+	picture = L160008
+	add_trait = commando
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+160009 = {
+	name = "ºîÈüÅµ·ò"
+	country = SIK
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L160009
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+160010 = {
+	name = "ÒÁË¹¹ş¿Ë½­.ÄÂÄÇ¹ş¼ªÒ²·ò"
+	country = SIK
+	type = land
+	skill = 2
+	max_skill = 3
+	loyalty = 0.00
+	picture = L160010
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+160011 = {
+	name = "¿¨ÔúÁ¼"
+	country = SIK
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L160011
+	add_trait = trickster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+160012 = {
+	name = "ÁøÕıĞÀ"
+	country = SIK
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L160012
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+160013 = {
+	name = "Áõ±ó"
+	country = SIK
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L160013
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+160014 = {
+	name = "Âí»¢É½"
+	country = SIK
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L160014
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+160015 = {
+	name = "ÂéÄ¾Ìá"
+	country = SIK
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L160015
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+160016 = {
+	name = "ÎÚË¹Âú.°ÍÍ¼Â³"
+	country = SIK
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L160016
+	add_trait = offensive_doctrine
+	add_trait = trickster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+160017 = {
+	name = "°ÍÆ·¹ÅÌØ"
+	country = SIK
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L160017
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+160018 = {
+	name = "²¨ÀïÅµ·ò"
+	country = SIK
+	type = land
+	skill = 1
+	max_skill = 2
+	loyalty = 0.00
+	picture = L160018
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+160019 = {
+	name = "Èø·ÆÎÚÁÖ"
+	country = SIK
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L160019
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+160020 = {
+	name = "×æÅ©.Ì«Ò²·ò"
+	country = SIK
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L160020
+	add_trait = trickster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+160021 = {
+	name = "Èü¸£¶¦.°¬Ôò×Î"
+	country = SIK
+	type = land
+	skill = 2
+	max_skill = 3
+	loyalty = 0.00
+	picture = L160021
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+160022 = {
+	name = "É³Àï¸£º¹"
+	country = SIK
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L160022
+	add_trait = fortress_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+160023 = {
+	name = "Ê¢ÊÀæë"
+	country = SIK
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L160023
+	add_trait = panzer_leader
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+160024 = {
+	name = "Ê¢ÊÀ²Å"
+	country = SIK
+	type = land
+	skill = 1
+	max_skill = 2
+	loyalty = 1.00
+	picture = L160024
+	add_trait = trickster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1930.1.1 = { rank = 4 }
+	}
+}
+160025 = {
+	name = "ËïÇì÷ë"
+	country = SIK
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L160025
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+160026 = {
+	name = "TÌÀÖ´È¨"
+	country = SIK
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L160026
+	add_trait = commando
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+160027 = {
+	name = "´ŞÓ±´º"
+	country = SIK
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L160027
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+160028 = {
+	name = "ÎâÎõÖ¾"
+	country = SIK
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L160028
+	add_trait = panzer_leader
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+160029 = {
+	name = "ÓÈµÃÊ¤"
+	country = SIK
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L160029
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+160030 = {
+	name = "Ô·ÁèÔÆ"
+	country = SIK
+	type = land
+	skill = 2
+	max_skill = 3
+	loyalty = 0.00
+	picture = L160030
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+160031 = {
+	name = "ÇĞÁĞÅÁÅµ·ò"
+	country = SIK
+	type = sea
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L160031
+	add_trait = seawolf
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+160032 = {
+	name = "ÑÇÂŞÊ²"
+	country = SIK
+	type = sea
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L160032
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+160033 = {
+	name = "ÈøÕò±ù"
+	country = SIK
+	type = sea
+	skill = 1
+	max_skill = 2
+	loyalty = 0.00
+	picture = L160033
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+	}
+}
+160034 = {
+	name = "¸ñÀï²ÉÎ¤´Ä"
+	country = SIK
+	type = air
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L160034
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+160035 = {
+	name = "°Â¶ûÂå·ò"
+	country = SIK
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L160035
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+160036 = {
+	name = "À­»ô·ò"
+	country = SIK
+	type = air
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L160036
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+160037 = {
+	name = "ÀïÊ²»ù°²Åµ·ò"
+	country = SIK
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L160037
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+160038 = {
+	name = "Ğ»¶à·ò"
+	country = SIK
+	type = air
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L160038
+	history = {
+		1939.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}

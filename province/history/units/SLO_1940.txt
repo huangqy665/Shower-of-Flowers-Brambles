@@ -1,0 +1,18 @@
+corps = {
+	name = "斯洛伐克战斗编组"
+	location = 3027
+	regiment = { type = hq_brigade name = "斯洛伐克战斗编组指挥部" historical_model = 0 }
+	division= {
+		name = "国防军第1步兵师"
+		location = 2765
+		regiment = { type = infantry_brigade name = "第4步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第35步兵团" historical_model = 1 }
+	}
+	division= {
+		name = "国防军第2步兵师"
+		location = 3027
+		regiment = { type = infantry_brigade name = "第3步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第5步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第21步兵团" historical_model = 1 }
+	}
+}

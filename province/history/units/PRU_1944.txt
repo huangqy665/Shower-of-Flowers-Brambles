@@ -1,0 +1,46 @@
+corps = {
+	name = "秘鲁陆军"
+	location = 10079
+	regiment = { type = hq_brigade name = "秘鲁陆军指挥部" historical_model = 0 }
+	division= {
+		name = "第1'博洛尼斯'师"
+		location = 10079
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "秘鲁第2师"
+		location = 10079
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "秘鲁第3师"
+		location = 10079
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第1特种作战旅"
+		location = 10079
+		is_reserve = yes
+		regiment = { type = bergsjaeger_brigade historical_model = 0 }
+		regiment = { type = bergsjaeger_brigade historical_model = 0 }
+		regiment = { type = bergsjaeger_brigade historical_model = 0 }
+	}
+}
+navy = {
+	name = "秘鲁海军"
+	base = 10150
+	location = 10150
+	ship = { type = destroyer name = "第1驱逐舰队" historical_model = 0 }
+	ship = { type = light_cruiser name = "格劳海军上将号" historical_model = 0 }
+	ship = { type = light_cruiser name = "博洛尼斯上校号" historical_model = 0 }
+	ship = { type = submarine name = "第1潜艇编队" historical_model = 0 }
+}

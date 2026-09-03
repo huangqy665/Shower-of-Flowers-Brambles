@@ -1,0 +1,95 @@
+corps = {
+	name = "第2战区部队"
+	location = 7391
+	regiment = { type = hq_brigade name = "第2战区司令部" historical_model = 0 }
+	division= {
+		name = "第9军"
+		location = 7391
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "山西预备军"
+		location = 7391
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+}
+corps = {
+	name = "绥远警备"
+	location = 7418
+	regiment = { type = hq_brigade name = "绥远警备司令部" historical_model = 0 }
+	division= {
+		name = "绥远保安队"
+		location = 7418
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第35军"
+		location = 7418
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第6骑兵军"
+		location = 7418
+		regiment = { type = cavalry_brigade historical_model = 0 }
+		regiment = { type = cavalry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "绥远游击队"
+		location = 7418
+		regiment = { type = cavalry_brigade historical_model = 0 }
+		regiment = { type = cavalry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "满洲挺进军"
+		location = 7418
+		regiment = { type = cavalry_brigade historical_model = 0 }
+		regiment = { type = cavalry_brigade historical_model = 0 }
+		regiment = { type = cavalry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第2骑兵军"
+		location = 7418
+		regiment = { type = cavalry_brigade historical_model = 0 }
+		regiment = { type = cavalry_brigade historical_model = 0 }
+	}
+}
+corps = {
+	name = "第7军团"
+	location = 5241
+	regiment = { type = hq_brigade name = "第7军团司令部" historical_model = 0 }
+	division= {
+		name = "第83军"
+		location = 5241
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第1骑兵军"
+		location = 5241
+		regiment = { type = cavalry_brigade historical_model = 0 }
+		regiment = { type = cavalry_brigade historical_model = 0 }
+	}
+}
+corps = {
+	name = "第6/13军团"
+	location = 7398
+	regiment = { type = hq_brigade name = "第6/13军团司令部" historical_model = 0 }
+	division= {
+		name = "第19军"
+		location = 7398
+		regiment = { type = bergsjaeger_brigade historical_model = 0 }
+		regiment = { type = bergsjaeger_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第61军"
+		location = 7398
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+}
+

@@ -1,0 +1,43 @@
+corps = {
+	name = "伊拉克皇家陆军"
+	location = 4831
+	regiment = { type = hq_brigade name = "伊拉克皇家陆军指挥部" historical_model = 0 }
+	division= {
+		name = "伊拉克第1步兵师"
+		location = 4831
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "伊拉克第2步兵师"
+		location = 4831
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "伊拉克第3步兵师"
+		location = 4831
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = artillery_brigade historical_model = 0 }
+	}
+	division= {
+		name = "伊拉克第4步兵师"
+		location = 4831
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+}
+air = {
+	name = "伊拉克皇家空军"
+	base = 9213
+	location = 9213
+	wing = { type = interceptor name = "第1截击编队" historical_model = 0 }
+}
+
+
+

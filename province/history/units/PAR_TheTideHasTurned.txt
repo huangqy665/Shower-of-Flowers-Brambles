@@ -1,0 +1,21 @@
+corps = {
+	name = "巴拉圭陆军"
+	location = 10254
+	regiment = { type = hq_brigade name = "巴拉圭陆军司令部" historical_model = 0 }
+	division= {
+		name = "第I步兵师"
+		location = 10254
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "国民警备师"
+		location = 10254
+		is_reserve = yes
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+}

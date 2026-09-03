@@ -1,0 +1,11 @@
+division = {
+	name = "多米尼加共和国军"
+	location = 7662
+	is_reserve = yes
+	regiment = { type = infantry_brigade historical_model = 1 }
+	regiment = { type = infantry_brigade historical_model = 1 }
+	regiment = { type = infantry_brigade historical_model = 1 }
+}
+
+
+

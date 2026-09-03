@@ -1,0 +1,568 @@
+529000 = {
+	name = "°¢¶û.°¢²¼µÂ"
+	country = LEB
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L529000
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+529001 = {
+	name = "°¢¶û.°¢À­²®"
+	country = LEB
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L529001
+	add_trait = panzer_leader
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+529002 = {
+	name = "°¢¶û.¹þÎ÷Ææ"
+	country = LEB
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L529002
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+529003 = {
+	name = "°Â¶÷"
+	country = LEB
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L529003
+	add_trait = panzer_leader
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+529004 = {
+	name = "°¢ÔúÄ·"
+	country = LEB
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = M529057
+	add_trait = commando
+	history = {
+		1930.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+529005 = {
+	name = "°ÍÀ­¿¨ÌØ"
+	country = LEB
+	type = land
+	skill = 1
+	max_skill = 2
+	loyalty = 1.00
+	picture = L529005
+	add_trait = defensive_doctrine
+	history = {
+		1943.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+529006 = {
+	name = "±ÈËþ¶û"
+	country = LEB
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L529006
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+529007 = {
+	name = "¿¨¶ûÌ©ÄáÑÇ"
+	country = LEB
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L529007
+	add_trait = fortress_buster
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+529008 = {
+	name = "¿¨×ô"
+	country = LEB
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 1.00
+	picture = M529008
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 3 }
+	}
+}
+529009 = {
+	name = "Ð»¹þ²·.A."
+	country = LEB
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L529009
+	add_trait = engineer
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+529010 = {
+	name = "Ð»¹þ²·.F."
+	country = LEB
+	type = land
+	skill = 2
+	max_skill = 3
+	loyalty = 1.00
+	picture = M529056
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 3 }
+	}
+}
+529011 = {
+	name = "´ïÏ£¶û"
+	country = LEB
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L529011
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+529012 = {
+	name = "·ÆÄÚ"
+	country = LEB
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L529012
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+529013 = {
+	name = "¸»ÈÈÀ­"
+	country = LEB
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L529013
+	history = {
+		1938.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+529014 = {
+	name = "¼ÓÄáÄ·"
+	country = LEB
+	type = land
+	skill = 1
+	max_skill = 2
+	loyalty = 1.00
+	picture = M529053
+	add_trait = defensive_doctrine
+	history = {
+		1941.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+529015 = {
+	name = "¹þ¶û²·"
+	country = LEB
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = M529052
+	add_trait = logistics_wizard
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+529016 = {
+	name = "ÑÇµÂ"
+	country = LEB
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = M529059
+	add_trait = logistics_wizard
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+529017 = {
+	name = "ºÕÀ­ÌØ"
+	country = LEB
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L529017
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+529018 = {
+	name = "À­ºúµÂ"
+	country = LEB
+	type = land
+	skill = 1
+	max_skill = 2
+	loyalty = 1.00
+	picture = L529018
+	add_trait = trickster
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+529019 = {
+	name = "ÄÉÎÚ·¨ÒÁ"
+	country = LEB
+	type = land
+	skill = 1
+	max_skill = 2
+	loyalty = 1.00
+	picture = M529045
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+529020 = {
+	name = "°Â±´µÂ"
+	country = LEB
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L529020
+	add_trait = logistics_wizard
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+529021 = {
+	name = "Åå¶ûµÙ°£"
+	country = LEB
+	type = land
+	skill = 1
+	max_skill = 2
+	loyalty = 1.00
+	picture = M529007
+	history = {
+		1941.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+529022 = {
+	name = "À­Âí¶û"
+	country = LEB
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L529022
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+529023 = {
+	name = "Â³Ã×°²×ô·ò"
+	country = LEB
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = M529054
+	add_trait = commando
+	history = {
+		1939.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+529024 = {
+	name = "Èø°¢²·"
+	country = LEB
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L529024
+	add_trait = engineer
+	history = {
+		1942.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+529025 = {
+	name = "Ê²Ã·ÌØ"
+	country = LEB
+	type = land
+	skill = 1
+	max_skill = 2
+	loyalty = 1.00
+	picture = L529025
+	add_trait = offensive_doctrine
+	history = {
+		1944.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 2 }
+	}
+}
+529026 = {
+	name = "ËÕÀ³Âü"
+	country = LEB
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L529026
+	add_trait = offensive_doctrine
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+529027 = {
+	name = "Ëþ¸£Î÷°²"
+	country = LEB
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L529027
+	add_trait = commando
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+529028 = {
+	name = "ÑÅ¸÷²¼"
+	country = LEB
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L529028
+	add_trait = fortress_buster
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+529029 = {
+	name = "²é¶ûË¹"
+	country = LEB
+	type = sea
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L529029
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+529030 = {
+	name = "ÑÇµÂ"
+	country = LEB
+	type = sea
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = M529059
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+529031 = {
+	name = "À­ºúµÂ"
+	country = LEB
+	type = sea
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = M529055
+	add_trait = superior_tactician
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+529032 = {
+	name = "ÅåÀ×µÙ"
+	country = LEB
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = M529009
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+529033 = {
+	name = "ËÕÀ­"
+	country = LEB
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = M529010
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+529034 = {
+	name = "Í¼É³ÂÞÃ·"
+	country = LEB
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L529034
+	add_trait = seawolf
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+529035 = {
+	name = "²¼Ë¹ËþÄá"
+	country = LEB
+	type = air
+	skill = 2
+	max_skill = 3
+	loyalty = 1.00
+	picture = M529062
+	add_trait = spotter
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+529036 = {
+	name = "¼Ó²¼Àï"
+	country = LEB
+	type = air
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L529036
+	add_trait = carpet_bomber
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+529037 = {
+	name = "Âí´ïÀ­Äá"
+	country = LEB
+	type = air
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L529037
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+529038 = {
+	name = "ÄÂÍßÄÚ"
+	country = LEB
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L529038
+	add_trait = superior_air_tactician
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+529039 = {
+	name = "ÄÉÎÚ·¨ÒÁ"
+	country = LEB
+	type = air
+	skill = 1
+	max_skill = 2
+	loyalty = 1.00
+	picture = M529045
+	history = {
+		1930.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+529040 = {
+	name = "ÈøÀûÄ·"
+	country = LEB
+	type = air
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L529040
+	add_trait = tank_buster
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+529041 = {
+	name = "ËÕÀ­"
+	country = LEB
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = M529010
+	add_trait = fleet_destroyer
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+529042 = {
+	name = "Èø¶ûË÷¶û"
+	country = LEB
+	type = air
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L529042
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}

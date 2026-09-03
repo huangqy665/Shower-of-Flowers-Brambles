@@ -1,0 +1,24 @@
+division = {
+	name = "第1步兵师"
+	location = 1843
+	is_reserve = yes
+	regiment = { type = infantry_brigade name = "第1步兵旅" historical_model = 1 }
+	regiment = { type = infantry_brigade name = "第3步兵旅" historical_model = 1 }
+}
+division = {
+	name = "第2步兵师"
+	location = 1563
+	is_reserve = yes
+	regiment = { type = infantry_brigade name = "第2步兵旅" historical_model = 1 }
+	regiment = { type = infantry_brigade name = "第4步兵旅" historical_model = 1 }
+	regiment = { type = infantry_brigade name = "第6步兵旅" historical_model = 1 }
+}
+navy = {
+	name = "爱尔兰共和国海军"
+	base = 1563
+	location = 1563
+	ship = { type = transport_ship name = "第1运输舰队" historical_model = 0 }
+}
+
+
+

@@ -1,0 +1,53 @@
+corps = {
+	name = "秘鲁陆军"
+	location = 10079
+	regiment = { type = hq_brigade name = "秘鲁陆军指挥部" historical_model = 0 }
+	division= {
+		name = "第1'博洛尼斯'师"
+		location = 10079
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = anti_air_brigade historical_model = 0 }
+	}
+	division= {
+		name = "秘鲁第2师"
+		location = 10079
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "秘鲁第3师"
+		location = 10079
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "秘鲁第4师"
+		location = 10079
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "秘鲁第5师"
+		location = 10079
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+}
+navy = {
+	name = "秘鲁海军"
+	base = 10079
+	location = 10079
+	ship = { type = destroyer name = "苏里亚纳编队" historical_model = 0 }
+	ship = { type = light_cruiser name = "格劳海军上将号" historical_model = 0 }
+	ship = { type = light_cruiser name = "博洛尼斯上校号" historical_model = 0 }
+	ship = { type = submarine name = "塔克纳编队" historical_model = 0 }
+}
+
+
+

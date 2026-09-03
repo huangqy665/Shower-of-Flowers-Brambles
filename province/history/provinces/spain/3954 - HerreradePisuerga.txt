@@ -1,0 +1,12 @@
+owner = SPR
+controller = SPR
+add_core = SPR
+
+infra = 6
+
+infra = 6
+1936.7.18 = {
+	owner = SPA
+	controller = SPA
+	add_core = SPA
+}

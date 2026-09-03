@@ -1,0 +1,11 @@
+division = {
+	name = "也门皇家陆军"
+	location = 9750
+	is_reserve = yes
+	regiment = { type = cavalry_brigade historical_model = 0 }
+	regiment = { type = cavalry_brigade historical_model = 0 }
+	regiment = { type = cavalry_brigade historical_model = 0 }
+}
+
+
+

@@ -1,0 +1,59 @@
+corps = {
+	name = "荷兰殖民军"
+	location = 6507
+	regiment = { type = hq_brigade name = "荷兰殖民军指挥部" historical_model = 0 }
+	division= {
+		name = "爪哇第I师"
+		location = 6507
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "爪哇第II师"
+		location = 6507
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "爪哇第III师"
+		location = 6507
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+}
+navy = {
+	name = "荷兰殖民舰队"
+	base = 6507
+	location = 6507
+	ship = { type = light_cruiser name = "HrMs 长鼻" historical_model = 1 pride = yes }
+	ship = { type = light_cruiser name = "HrMs 雅克布凡赫姆斯客" historical_model = 1 }
+	ship = { type = transport_ship name = "第1运输大队" historical_model = 0 }
+	ship = { type = transport_ship name = "第2运输大队" historical_model = 0 }
+	ship = { type = transport_ship name = "第3运输大队" historical_model = 0 }
+	ship = { type = transport_ship name = "第4运输大队" historical_model = 0 }
+}
+air = {
+	name = "荷兰殖民空军"
+	base = 6507
+	location = 6507
+	wing = { type = interceptor name = "第1拦截机大队" historical_model = 1 }
+	wing = { type = tactical_bomber name = "第1轰炸机大队" historical_model = 1 }
+}
+navy = {
+	name = "皇家舰队"
+	base = 6507
+	location = 6507
+	ship = { type = light_cruiser name = "HrMs 德鲁特尔" historical_model = 1 }
+	ship = { type = light_cruiser name = "HrMs 爪哇" historical_model = 1 }
+	ship = { type = light_cruiser name = "HrMs 苏门答腊" historical_model = 1 }
+	ship = { type = destroyer name = "第1驱逐舰大队" historical_model = 1 }
+	ship = { type = destroyer name = "第2驱逐舰大队" historical_model = 1 }
+	ship = { type = destroyer name = "第3驱逐舰大队" historical_model = 2 }
+	ship = { type = submarine name = "第1潜艇大队" historical_model = 0 }
+	ship = { type = submarine name = "第2潜艇大队" historical_model = 1 }
+	ship = { type = submarine name = "第3潜艇大队" historical_model = 2 }
+	ship = { type = submarine name = "第4潜艇大队" historical_model = 2 }
+}

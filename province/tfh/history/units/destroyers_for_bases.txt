@@ -1,0 +1,11 @@
+navy = {
+	name = "美国驱逐舰舰队"
+	base = 4016
+	location = 4016
+	ship = { type = destroyer name = "美国驱逐舰舰队第1分队" builder = USA historical_model = 0 }
+	ship = { type = destroyer name = "美国驱逐舰舰队第2分队" builder = USA historical_model = 0 }
+	ship = { type = destroyer name = "美国驱逐舰舰队第3分队" builder = USA historical_model = 0 }
+	ship = { type = destroyer name = "美国驱逐舰舰队第4分队" builder = USA historical_model = 0 }
+	ship = { type = destroyer name = "美国驱逐舰舰队第5分队" builder = USA historical_model = 0 }
+}
+

@@ -1,0 +1,103 @@
+corps = {
+	name = "第8集团军"
+	location = 7417
+	regiment = { type = hq_brigade name = "第十八集团军指挥部" historical_model = 0 }
+	division= {
+		name = "第115步兵师"
+		location = 7418
+		regiment = { type = bergsjaeger_brigade name = "第343步兵旅" historical_model = 0 }
+		regiment = { type = bergsjaeger_brigade name = "第685步兵团" historical_model = 0 }
+		regiment = { type = bergsjaeger_brigade name = "第686步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "第115师2纵队"
+		location = 7418
+		regiment = { type = bergsjaeger_brigade name = "第344步兵旅" historical_model = 0 }
+		regiment = { type = bergsjaeger_brigade name = "第687步兵团" historical_model = 0 }
+		regiment = { type = bergsjaeger_brigade name = "第688步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "第115师独立纵队"
+		location = 7418
+		regiment = { type = bergsjaeger_brigade name = "第689步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "第120步兵师"
+		location = 7411
+		regiment = { type = militia_brigade name = "第358步兵旅" historical_model = 0 }
+		regiment = { type = militia_brigade name = "第715步兵团" historical_model = 0 }
+		regiment = { type = militia_brigade name = "第716步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "第120师2纵队"
+		location = 7411
+		regiment = { type = militia_brigade name = "第359步兵旅" historical_model = 0 }
+		regiment = { type = militia_brigade name = "第717步兵旅" historical_model = 0 }
+		regiment = { type = militia_brigade name = "第718步兵旅" historical_model = 0 }
+	}
+	division= {
+		name = "第129步兵师"
+		location = 7411
+		regiment = { type = militia_brigade name = "第385步兵旅" historical_model = 0 }
+		regiment = { type = militia_brigade name = "第769步兵团" historical_model = 0 }
+		regiment = { type = militia_brigade name = "第770步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "第129师2纵队"
+		location = 7411
+		regiment = { type = militia_brigade name = "第386步兵旅" historical_model = 0 }
+		regiment = { type = militia_brigade name = "第771步兵团" historical_model = 0 }
+		regiment = { type = militia_brigade name = "第772步兵团" historical_model = 0 }
+	}
+}
+corps = {
+	name = "新4军"
+	location = 7417
+	regiment = { type = hq_brigade name = "新4军指挥部" historical_model = 0 }
+	division= {
+		name = "第1步兵师"
+		location = 7391
+		regiment = { type = militia_brigade name = "第1步兵旅" historical_model = 0 }
+		regiment = { type = militia_brigade name = "第2步兵旅" historical_model = 0 }
+		regiment = { type = militia_brigade name = "第3步兵旅" historical_model = 0 }
+	}
+	division= {
+		name = "第2步兵师"
+		location = 7391
+		regiment = { type = militia_brigade name = "第4步兵旅" historical_model = 0 }
+		regiment = { type = militia_brigade name = "第5步兵旅" historical_model = 0 }
+		regiment = { type = militia_brigade name = "第6步兵旅" historical_model = 0 }
+	}
+	division= {
+		name = "第3步兵师"
+		location = 7391
+		regiment = { type = militia_brigade name = "第7步兵旅" historical_model = 0 }
+		regiment = { type = militia_brigade name = "第8步兵旅" historical_model = 0 }
+		regiment = { type = militia_brigade name = "第9步兵旅" historical_model = 0 }
+	}
+	division= {
+		name = "第4步兵师"
+		location = 7378
+		regiment = { type = militia_brigade name = "第10步兵旅" historical_model = 0 }
+		regiment = { type = militia_brigade name = "第11步兵旅" historical_model = 0 }
+		regiment = { type = militia_brigade name = "第12步兵旅" historical_model = 0 }
+	}
+	division= {
+		name = "第5步兵师"
+		location = 7378
+		regiment = { type = militia_brigade name = "第13步兵旅" historical_model = 0 }
+		regiment = { type = militia_brigade name = "第14步兵旅" historical_model = 0 }
+		regiment = { type = militia_brigade name = "第15步兵旅" historical_model = 0 }
+	}
+	division= {
+		name = "第6步兵师"
+		location = 7378
+		regiment = { type = militia_brigade name = "第16步兵旅" historical_model = 0 }
+		regiment = { type = militia_brigade name = "第18步兵旅" historical_model = 0 }
+	}
+	division= {
+		name = "第7步兵师"
+		location = 7378
+		regiment = { type = militia_brigade name = "第9步兵旅" historical_model = 0 }
+	}
+}

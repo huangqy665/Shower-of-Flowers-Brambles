@@ -1,0 +1,455 @@
+4900 = {
+	name = "布雷德"
+	country = EST
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4900
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+4901 = {
+	name = "海因策"
+	country = EST
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4901
+	add_trait = commando
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4902 = {
+	name = "海尔克"
+	country = EST
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4902
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+4903 = {
+	name = "雅克松"
+	country = EST
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4903
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+4904 = {
+	name = "耶尔万"
+	country = EST
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4904
+	add_trait = panzer_leader
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+4905 = {
+	name = "琼森"
+	country = EST
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4905
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+4906 = {
+	name = "克尔马"
+	country = EST
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4906
+	add_trait = fortress_buster
+	history = {
+		1939.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4907 = {
+	name = "卡塞坎普"
+	country = EST
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4907
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+4908 = {
+	name = "考勒"
+	country = EST
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4908
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+4909 = {
+	name = "克鲁斯"
+	country = EST
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4909
+	history = {
+		1937.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+4910 = {
+	name = "库尔维茨"
+	country = EST
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4910
+	add_trait = engineer
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+4911 = {
+	name = "莱多纳"
+	country = EST
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4911
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+4912 = {
+	name = "努吉塞克斯"
+	country = EST
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4912
+	add_trait = offensive_doctrine
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+4913 = {
+	name = "列巴涅"
+	country = EST
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4913
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+4914 = {
+	name = "雷克"
+	country = EST
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4914
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 3 }
+	}
+}
+4915 = {
+	name = "里帕鲁"
+	country = EST
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4915
+	add_trait = trickster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+4916 = {
+	name = "辛卡"
+	country = EST
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4916
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+4917 = {
+	name = "托尔莫夫"
+	country = EST
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4917
+	add_trait = winter_specialist
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+4918 = {
+	name = "托姆萨尔"
+	country = EST
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4918
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4919 = {
+	name = "特拉克斯马"
+	country = EST
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4919
+	history = {
+		1939.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+4920 = {
+	name = "图伊斯克"
+	country = EST
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4920
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+4921 = {
+	name = "图林"
+	country = EST
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4921
+	add_trait = logistics_wizard
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+4922 = {
+	name = "文特"
+	country = EST
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4922
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4923 = {
+	name = "韦尔梅特"
+	country = EST
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L4923
+	history = {
+		1938.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+4924 = {
+	name = "尼尔克"
+	country = EST
+	type = sea
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4924
+	add_trait = seawolf
+	history = {
+		1938.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+4925 = {
+	name = "梅雷"
+	country = EST
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4925
+	history = {
+		1945.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 2 }
+	}
+}
+4926 = {
+	name = "皮特卡"
+	country = EST
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4926
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+4927 = {
+	name = "施特赖曼"
+	country = EST
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4927
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+4928 = {
+	name = "劳德"
+	country = EST
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4928
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+4929 = {
+	name = "蒂多"
+	country = EST
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4929
+	history = {
+		1938.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+4930 = {
+	name = "通贝格"
+	country = EST
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L4930
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+4931 = {
+	name = "特尼松"
+	country = EST
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L4931
+	add_trait = carpet_bomber
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+4932 = {
+	name = "冯.萨尔扎"
+	country = EST
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L4932
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 0 }
+	}
+}

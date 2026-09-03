@@ -1,0 +1,351 @@
+armygroup= {
+	name = "西班牙陆军"
+	location = 4540
+	regiment = { type = hq_brigade name = "西班牙陆军指挥部" historical_model = 0 }
+	corps = {
+		name = "瓜达拉马军"
+		location = 4540
+		regiment = { type = hq_brigade name = "瓜达拉马军指挥部" historical_model = 0 }
+		division= {
+			name = "第11步兵师"
+			location = 4540
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第1'太古'团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第5'卡福东阿'团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第38'莱昂'团" historical_model = 1 }
+		}
+		division= {
+			name = "第12步兵师"
+			location = 4702
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第27'阿尔及尔'团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第16'卡斯蒂利亚'团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第37'军令'团" historical_model = 1 }
+		}
+		division= {
+			name = "第13步兵师"
+			location = 4540
+			is_reserve = yes
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+		}
+	}
+	corps = {
+		name = "安达卢西亚军"
+		location = 5030
+		regiment = { type = hq_brigade name = "安达卢西亚军指挥部" historical_model = 0 }
+		division= {
+			name = "第21步兵师"
+			location = 5030
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第2'勒班陀'团"historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第9'索里亚'团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第34'格兰达'团" historical_model = 1 }
+		}
+		division= {
+			name = "第22步兵师"
+			location = 5030
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第15'努力'团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第19'帕维亚'团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第22'阿拉瓦'团" historical_model = 1 }
+		}
+		division= {
+			name = "第23步兵师"
+			location = 5030
+			is_reserve = yes
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+		}
+	}
+	corps = {
+		name = "图里亚军"
+		location = 4862
+		regiment = { type = hq_brigade name = "图里亚军指挥部" historical_model = 0 }
+		division= {
+			name = "第31步兵师"
+			location = 4862
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第14'得土安'团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第18'西班牙'团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第20'瓜达拉哈拉'团" historical_model = 1 }
+		}
+		division= {
+			name = "第32步兵师"
+			location = 5001
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第11'圣佛兰德'团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第13'马洛卡'团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第21'比斯卡亚'团" historical_model = 1 }
+		}
+	}
+	corps = {
+		name = "乌戈尔军"
+		location = 4548
+		regiment = { type = hq_brigade name = "乌戈尔军指挥部" historical_model = 0 }
+		division= {
+			name = "第41步兵师"
+			location = 4548
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第25'哈恩'团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第26'巴达霍斯'团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第33'阿尔坎塔拉'团" historical_model = 1 }
+		}
+		division= {
+			name = "第42步兵师"
+			location = 4548
+			is_reserve = yes
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+		}
+		division= {
+			name = "第43步兵师"
+			location = 4548
+			is_reserve = yes
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+		}
+	}
+	corps = {
+		name = "阿拉贡军"
+		location = 4353
+		regiment = { type = hq_brigade name = "阿拉贡军指挥部" historical_model = 0 }
+		division= {
+			name = "第51步兵师"
+			location = 4353
+			is_reserve = yes
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+		}
+		division= {
+			name = "第52步兵师"
+			location = 4353
+			is_reserve = yes
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+		}
+	}
+	corps = {
+		name = "纳瓦拉军"
+		location = 4155
+		regiment = { type = hq_brigade name = "纳瓦拉军指挥部" historical_model = 0 }
+		division= {
+			name = "第61步兵师"
+			location = 4155
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第7'圣马西尔'团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第23'瓦伦西亚'团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第30'弗兰德斯'团" historical_model = 1 }
+		}
+		division= {
+			name = "第62步兵师"
+			location = 4155
+			is_reserve = yes
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+		}
+	}
+	corps = {
+		name = "卡斯蒂利亚军"
+		location = 3952
+		regiment = { type = hq_brigade name = "卡斯蒂利亚军指挥部" historical_model = 0 }
+		division= {
+			name = "第71步兵师"
+			location = 3952
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第28'维多利亚'团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第32'圣金廷'团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第35'托莱多'团" historical_model = 1 }
+		}
+		division= {
+			name = "第72步兵师"
+			location = 3952
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第3'米兰'团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第4'希洪'团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第36'布尔戈斯'团" historical_model = 1 }
+		}
+	}
+	corps = {
+		name = "加利西亚军"
+		location = 3610
+		regiment = { type = hq_brigade name = "加利西亚军指挥部" historical_model = 0 }
+		division= {
+			name = "第81步兵师"
+			location = 3610
+			is_reserve = yes
+			regiment = { type = infantry_brigade name = "第8'萨莫拉'团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第12'萨拉戈萨'团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第29'伊莎贝尔拉天主教'团" historical_model = 1 }
+		}
+		division= {
+			name = "第82步兵师"
+			location = 3610
+			is_reserve = yes
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+		}
+	}
+	corps = {
+		name = "摩洛哥军"
+		location = 5319
+		regiment = { type = hq_brigade name = "摩洛哥军指挥部" historical_model = 0 }
+		division= {
+			name = "第91步兵师"
+			location = 5319
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+		}
+		division= {
+			name = "第92步兵师"
+			location = 5319
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+		}
+		division= {
+			name = "第93步兵师"
+			location = 5319
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+		}
+		division= {
+			name = "外籍军团"
+			location = 5319
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+		}
+		division= {
+			name = "土著部队"
+			location = 5319
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+		}
+	}
+	corps = {
+		name = "马斯特拉兹格军"
+		location = 4762
+		regiment = { type = hq_brigade name = "马斯特拉兹格军指挥部" historical_model = 0 }
+		division= {
+			name = "第101步兵师"
+			location = 4762
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+		}
+		division= {
+			name = "第102步兵师"
+			location = 4762
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+			regiment = { type = infantry_brigade historical_model = 1 }
+		}
+	}
+	division = {
+		name = "巴利阿里指指挥部"
+		location = 4913
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第36步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第37步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第60步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第61步兵团" historical_model = 1 }
+	}
+	division = {
+		name = "加纳利指挥部"
+		location = 10729
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第38步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第39步兵团" historical_model = 1 }
+	}
+	corps = {
+		name = "骑兵军团"
+		location = 4540
+		regiment = { type = hq_brigade name = "骑兵军团指挥部" historical_model = 0 }
+		division= {
+			name = "第1骑兵师"
+			location = 4540
+			is_reserve = yes
+			regiment = { type = cavalry_brigade historical_model = 1 }
+			regiment = { type = cavalry_brigade historical_model = 1 }
+		}
+		division= {
+			name = "第1'布鲁内特'装甲师"
+			location = 4540
+			is_reserve = yes
+			regiment = { type = armor_brigade historical_model = 1 }
+			regiment = { type = motorized_brigade historical_model = 1 }
+		}
+	}
+}
+navy = {
+	name = "西班牙海军"
+	base = 4548
+	location = 4548
+	ship = { type = light_cruiser name = "ARNE 纳瓦拉号" historical_model = 0 }
+	ship = { type = destroyer name = "第1驱逐舰支队" historical_model = 1 }
+	ship = { type = transport_ship name = "'维利帕德'运输分队" historical_model = 0 }
+	ship = { type = transport_ship name = "'本文德'运输分队" historical_model = 0 }
+	ship = { type = transport_ship name = "'萨那布里'运输分队" historical_model = 0 }
+}
+navy = {
+	name = "第I海军舰队"
+	base = 4548
+	location = 4548
+	ship = { type = light_cruiser name = "ARNE 门德斯努涅斯号" historical_model = 0 }
+	ship = { type = light_cruiser name = "ARNE 塞万提斯号" historical_model = 1 }
+	ship = { type = light_cruiser name = "ARNE 塞韦拉海军上将号" historical_model = 1 }
+	ship = { type = destroyer name = "第2驱逐舰支队" historical_model = 0 }
+	ship = { type = destroyer name = "第3驱逐舰支队" historical_model = 1 }
+	ship = { type = destroyer name = "第4驱逐舰支队" historical_model = 1 }
+	ship = { type = destroyer name = "第5驱逐舰支队" historical_model = 2 }
+	ship = { type = submarine name = "第1潜艇分队" historical_model = 1 }
+	ship = { type = light_cruiser name = "ARNE 金丝雀号" historical_model = 2 }
+	ship = { type = light_cruiser name = "ARNE 加利西亚号" historical_model = 1 }
+}
+air = {
+	name = "中部地区空军"
+	base = 4540
+	location = 4540
+	wing = { type = strategic_bomber name = "FAN 1-G-40 战略轰炸机联队" historical_model = 0 }
+	wing = { type = interceptor name = "FAN 5-G-5 截击机联队" historical_model = 0 }
+}
+air = {
+	name = "海峡地区空军"
+	base = 4548
+	location = 4548
+	wing = { type = strategic_bomber name = "FAN 2-G-40 战略轰炸机联队" historical_model = 0 }
+	wing = { type = interceptor name = "FAN 7-G-5 截击机联队" historical_model = 1 }
+}
+air = {
+	name = "东部地区空军"
+	base = 4548
+	location = 4548
+	wing = { type = tactical_bomber name = "FAN 战术轰炸机联队" historical_model = 0 }
+	wing = { type = interceptor name = "FAN 截击机联队" historical_model = 0 }
+}
+air = {
+	name = "比利牛斯地区空军"
+	base = 3610
+	location = 3610
+	wing = { type = tactical_bomber name = "FAN 战术轰炸机联队" historical_model = 0 }
+	wing = { type = interceptor name = "FAN 截击机联队" historical_model = 0 }
+}
+air = {
+	name = "大西洋地区空军"
+	base = 3610
+	location = 3610
+	wing = { type = strategic_bomber name = "FAN 轰炸机联队" historical_model = 0 }
+	wing = { type = interceptor name = "FAN 截击机联队" historical_model = 0 }
+}

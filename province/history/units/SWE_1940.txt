@@ -1,0 +1,152 @@
+last_election = 1936.9.20
+division = {
+	name = "第1军"
+	location = 317
+	is_reserve = yes
+	regiment = { type = infantry_brigade name = "北斯坎雅团" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "南斯坎雅团" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "克鲁努贝里团" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "延雪平-卡玛尔团" historical_model = 0 }
+}
+division = {
+	name = "第2军"
+	location = 613
+	is_reserve = yes
+	regiment = { type = infantry_brigade name = "约特兰来复枪团" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "海尔辛团" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "西诺兰团" historical_model = 0 }
+}
+division = {
+	name = "第3军"
+	location = 1056
+	is_reserve = yes
+	regiment = { type = infantry_brigade name = "艾尔夫斯堡团" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "哈兰团" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "博斯兰团" historical_model = 0 }
+}
+division = {
+	name = "第4军"
+	location = 862
+	is_reserve = yes
+	regiment = { type = infantry_brigade name = "斯维雅-利夫加德团" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "利夫掷弹猎兵团" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "乌普兰团" historical_model = 0 }
+}
+division = {
+	name = "第5军"
+	location = 901
+	is_reserve = yes
+	regiment = { type = infantry_brigade name = "韦姆兰团" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "利夫掷弹猎兵团" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "达尔团" historical_model = 0 }
+}
+division = {
+	name = "第6军"
+	location = 193
+	is_reserve = yes
+	regiment = { type = infantry_brigade name = "北博滕团" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "斯基德团" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "西博滕团" historical_model = 0 }
+}
+division = {
+	name = "第7军"
+	location = 1135
+	is_reserve = yes
+	regiment = { type = infantry_brigade name = "哥特兰团" historical_model = 0 }
+}
+navy = {
+	name = "本土舰队"
+	base = 862
+	location = 862
+	ship = { type = light_cruiser name = "哥特兰号" historical_model = 1 }
+	ship = { type = transport_ship name = "第1运输舰队" historical_model = 0 }
+}
+navy = {
+	name = "奥兰海舰队"
+	base = 862
+	location = 862
+	ship = { type = heavy_cruiser name = "荣誉号" historical_model = 0 pride = yes }
+	ship = { type = heavy_cruiser name = "刚毅号" historical_model = 0 }
+}
+navy = {
+	name = "卡尔斯克鲁纳舰队"
+	base = 1349
+	location = 1349
+	ship = { type = heavy_cruiser name = "奥斯卡二世号" historical_model = 0 }
+	ship = { type = submarine name = "第1潜艇编队" historical_model = 0 }
+}
+navy = {
+	name = "哥特堡舰队"
+	base = 1171
+	location = 1171
+	ship = { type = heavy_cruiser name = "勇敢号" historical_model = 0 }
+	ship = { type = submarine name = "第2潜艇编队" historical_model = 1 }
+}
+air = {
+	name = "第1空军联队"
+	base = 862
+	location = 862
+	wing = { type = tactical_bomber name = "第11/12/13轰炸机中队" historical_model = 1 }
+}
+air = {
+	name = "第2空军联队"
+	base = 862
+	location = 862
+	wing = { type = cas name = "第41/42/43轰炸机中队" historical_model = 0 }
+}
+air = {
+	name = "第3空军联队"
+	base = 862
+	location = 862
+	wing = { type = interceptor name = "第81/82/83战斗机中队" historical_model = 0 }
+}
+navy = {
+	name = "第1舰队"
+	base = 862
+	location = 862
+	ship = { type = battlecruiser name = "瑞典号" historical_model = 0 }
+	ship = { type = battlecruiser name = "维多利亚公主号" historical_model = 0 }
+	ship = { type = battlecruiser name = "古斯塔夫五世号" historical_model = 0 }
+	ship = { type = destroyer name = "第1驱逐舰队" historical_model = 0 }
+}
+
+military_construction = {
+	country = SWE
+	light_cruiser = {
+		name = "克拉斯·弗雷明号"
+		historical_model = 1
+	}
+	cost = 1.00
+	progress = 0
+	duration = 301
+}
+military_construction = {
+	country = SWE
+	heavy_cruiser = {
+		name = "菲尔吉亚号"
+		historical_model = 1
+	}
+	cost = 3.00
+	progress = 0
+	duration = 571
+}
+military_construction = {
+	country = SWE
+	destroyer = {
+		name = "第6驱逐舰队"
+		historical_model = 1
+	}
+	cost = 1.00
+	progress = 0
+	duration = 481
+}
+military_construction = {
+	country = SWE
+	submarine = {
+		name = "第5潜艇编队"
+		historical_model = 1
+	}
+	cost = 1.00
+	progress = 0
+	duration = 271
+}

@@ -1,0 +1,424 @@
+564000 = {
+	name = "°¢ÓÈ²¼.º¹"
+	country = PAK
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L505005
+	add_trait = logistics_wizard
+	history = {
+		1936.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 3 }
+	}
+}
+564001 = {
+	name = "µÂ.ÑÇ²®ÀÕ.±´ÌØÉ­"
+	country = PAK
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L564001
+	add_trait = trickster
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+564002 = {
+	name = "´ï·Æ¶ûµÂ.ÀµÌØ"
+	country = PAK
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = M564007
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+564003 = {
+	name = "´÷¶û"
+	country = PAK
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = M564008
+	add_trait = logistics_wizard
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+564004 = {
+	name = "¿ËÀ­ÌØ°Í¿Ë"
+	country = PAK
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L1078
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+564005 = {
+	name = "Ï£Ì©.º¹"
+	country = PAK
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L505046
+	add_trait = trickster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+564006 = {
+	name = "ÑÇÅ¦.º¹"
+	country = PAK
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L564006
+	add_trait = fortress_buster
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+564007 = {
+	name = "ÄÉÍß²·.ºº¼ª"
+	country = PAK
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L564007
+	add_trait = winter_specialist
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+564008 = {
+	name = "ÄÉÍß²·.ÂíÅµÍß¶û"
+	country = PAK
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = M564014
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+564009 = {
+	name = "ÄÉÍß²·.ÎÚµÂ.¶Å°¢À­"
+	country = PAK
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = M564034
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+564010 = {
+	name = "ÄÉÍß×È.º¹"
+	country = PAK
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L505065
+	add_trait = trickster
+	history = {
+		1943.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 2 }
+	}
+}
+564011 = {
+	name = "¼ÓÒ¢Ä·.º¹"
+	country = PAK
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L505067
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+564012 = {
+	name = "À­¿ËÉ³¿Ë"
+	country = PAK
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L564012
+	add_trait = panzer_leader
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+564013 = {
+	name = "Ð»Àï·ò.º¹"
+	country = PAK
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L505070
+	add_trait = trickster
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+564014 = {
+	name = "Ê²ÀïÂü°ËÊÀ"
+	country = PAK
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = M564031
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+	}
+}
+564015 = {
+	name = "ÊæÑÇ.ÎÚ¶û.ÄÂ¶û¿Ë"
+	country = PAK
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = M564012
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+564016 = {
+	name = "Î¤¶ûµÂ.¸£ÀïË¹ÌØ"
+	country = PAK
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L564016
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+564017 = {
+	name = "Ò¶º£ÑÇ.º¹"
+	country = PAK
+	type = land
+	skill = 3
+	max_skill = 5
+	loyalty = 1.00
+	picture = L505086
+	add_trait = panzer_leader
+	history = {
+		1940.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+564018 = {
+	name = "¿¨ÀûÄÂÀ­"
+	country = PAK
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L564018
+	add_trait = superior_tactician
+	history = {
+		1943.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+564019 = {
+	name = "ÄÉÍß²·.ºº¼ª"
+	country = PAK
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L564007
+	add_trait = blockade_runner
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+564020 = {
+	name = "À×Âü.º¹"
+	country = PAK
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L505113
+	history = {
+		1941.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+564021 = {
+	name = "Ëþ¶û²©ÌØ.ÈøÎ¬ÄáÑÇ¿Ë.¹þ¶û"
+	country = PAK
+	type = sea
+	skill = 3
+	max_skill = 6
+	loyalty = 1.00
+	picture = L1394
+	add_trait = seawolf
+	history = {
+		1936.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 3 }
+	}
+}
+564022 = {
+	name = "°¢Àï.Ã×¶û"
+	country = PAK
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L564022
+	add_trait = superior_air_tactician
+	history = {
+		1944.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 2 }
+	}
+}
+564023 = {
+	name = "°¢Ë¹¼Ó¶û.º¹"
+	country = PAK
+	type = air
+	skill = 2
+	max_skill = 4
+	loyalty = 1.00
+	picture = L505127
+	history = {
+		1938.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 3 }
+	}
+}
+564024 = {
+	name = "ºàµÂÀï¿ËÉ­"
+	country = PAK
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = M564010
+	add_trait = fleet_destroyer
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+564025 = {
+	name = "¿Â¿Ë²¼ÀµµÂ"
+	country = PAK
+	type = air
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L1454
+	add_trait = tank_buster
+	history = {
+		1936.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+564026 = {
+	name = "ÄÉÍß²·.ÂíÅµÍß¶û"
+	country = PAK
+	type = air
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = M564014
+	add_trait = superior_air_tactician
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+564027 = {
+	name = "Àï¸Ê"
+	country = PAK
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L1472
+	add_trait = fleet_destroyer
+	history = {
+		1930.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+564028 = {
+	name = "°¬¹þÂõµÂ.ÎÚ¶û.ÄÂ¶û¿Ë"
+	country = PAK
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = M564038
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+564029 = {
+	name = "Íß¹þ²·.º¹"
+	country = PAK
+	type = air
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = M564047
+	history = {
+		1945.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 2 }
+		1951.1.1 = { rank = 3 }
+	}
+}

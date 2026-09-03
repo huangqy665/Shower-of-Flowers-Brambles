@@ -1,0 +1,20 @@
+owner = MANcontroller = MANadd_core = MAN
+infra = 3
+
+infra = 3
+
+infra = 3
+
+infra = 3
+
+infra = 3
+
+infra = 3
+
+infra = 3
+
+infra = 3
+
+infra = 3
+
+infra = 3

@@ -1,0 +1,22 @@
+corps = {
+	name = "菲律宾军队"
+	location = 6142
+	regiment = { type = hq_brigade name = "菲律宾军队指挥部" historical_model = 0 }
+	division= {
+		name = "菲律宾警察部队"
+		location = 6142
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "菲律宾侦查部队"
+		location = 6142
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+}
+
+
+

@@ -1,0 +1,5834 @@
+506000 = {
+	name = "阿布特"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506000
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506001 = {
+	name = "阿德洛克"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506001
+	add_trait = commando
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506002 = {
+	name = "阿尔特里赫特"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506002
+	add_trait = commando
+	history = {
+		1937.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506003 = {
+	name = "安德斯"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506003
+	add_trait = logistics_wizard
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506004 = {
+	name = "安德森"
+	country = DFR
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L3
+	add_trait = engineer
+	history = {
+		1941.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+506005 = {
+	name = "阿宁"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506005
+	add_trait = defensive_doctrine
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506006 = {
+	name = "奥多什"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506006
+	add_trait = engineer
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506007 = {
+	name = "巴赫林"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506007
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506008 = {
+	name = "巴克"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506008
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506009 = {
+	name = "巴德"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506009
+	add_trait = panzer_leader
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506010 = {
+	name = "巴德尔"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506010
+	add_trait = panzer_leader
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506011 = {
+	name = "巴丁斯基"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506011
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506012 = {
+	name = "巴恩"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506012
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506013 = {
+	name = "巴尔特"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506013
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506014 = {
+	name = "巴青"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506014
+	add_trait = engineer
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506015 = {
+	name = "贝彻"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506015
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506016 = {
+	name = "贝希勒"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506016
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506017 = {
+	name = "贝希特"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506017
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506018 = {
+	name = "贝克"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506018
+	add_trait = winter_specialist
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506019 = {
+	name = "贝克尔.F."
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506019
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506020 = {
+	name = "贝克尔.F.E."
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506020
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506021 = {
+	name = "比利茨"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506021
+	add_trait = defensive_doctrine
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506022 = {
+	name = "贝尼克"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506022
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506023 = {
+	name = "本泰克"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506023
+	add_trait = engineer
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506024 = {
+	name = "贝格"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506024
+	add_trait = engineer
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506025 = {
+	name = "贝塞尔"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506025
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506026 = {
+	name = "比克尔"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506026
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506027 = {
+	name = "比贝尔"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506027
+	add_trait = engineer
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506028 = {
+	name = "比林格"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506028
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506029 = {
+	name = "比斯勒"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506029
+	add_trait = fortress_buster
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506030 = {
+	name = "布莱克温"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506030
+	add_trait = commando
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506031 = {
+	name = "布莱尔"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506031
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506032 = {
+	name = "布洛克"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506032
+	add_trait = offensive_doctrine
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506033 = {
+	name = "博克.冯.维尔芬根"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506033
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506034 = {
+	name = "伯尔曼.孔布林克"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506034
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506035 = {
+	name = "博恩施泰特"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506035
+	add_trait = panzer_leader
+	history = {
+		1936.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+506036 = {
+	name = "博伊厄"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506036
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506037 = {
+	name = "博尔歇斯"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506037
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506038 = {
+	name = "博恩朔伊尔"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506038
+	add_trait = commando
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506039 = {
+	name = "布尔坎"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506039
+	add_trait = commando
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506040 = {
+	name = "布拉班德尔"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506040
+	history = {
+		1937.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506041 = {
+	name = "布劳尔"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506041
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506042 = {
+	name = "布鲁克曼"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506042
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506043 = {
+	name = "布鲁恩"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506043
+	add_trait = logistics_wizard
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506044 = {
+	name = "布伦斯"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506044
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506045 = {
+	name = "布吕克尔"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506045
+	add_trait = trickster
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506046 = {
+	name = "布吕宁"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506046
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506047 = {
+	name = "布尔克"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506047
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506048 = {
+	name = "布尔泽"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506048
+	add_trait = panzer_leader
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506049 = {
+	name = "布施曼"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506049
+	history = {
+		1936.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+506050 = {
+	name = "比洛韦乌斯"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506050
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506051 = {
+	name = "比尔基"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506051
+	add_trait = defensive_doctrine
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506052 = {
+	name = "班特奇"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506052
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506053 = {
+	name = "巴斯勒"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506053
+	history = {
+		1938.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506054 = {
+	name = "伯海姆"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506054
+	add_trait = winter_specialist
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506055 = {
+	name = "伯尔克"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506055
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506056 = {
+	name = "伯默斯"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506056
+	history = {
+		1938.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506057 = {
+	name = "伯林格"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506057
+	add_trait = engineer
+	history = {
+		1938.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506058 = {
+	name = "奇尔"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506058
+	add_trait = logistics_wizard
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506059 = {
+	name = "康拉德"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506059
+	add_trait = offensive_doctrine
+	history = {
+		1937.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1990.1.1 = { rank = 0 }
+	}
+}
+506060 = {
+	name = "康拉迪"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506060
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506061 = {
+	name = "康策"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506061
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506062 = {
+	name = "科雷蒂"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506062
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506063 = {
+	name = "科拉托"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506063
+	add_trait = panzer_leader
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506064 = {
+	name = "达尔曼"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506064
+	add_trait = commando
+	history = {
+		1937.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506065 = {
+	name = "达梅"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506065
+	add_trait = panzer_leader
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506066 = {
+	name = "达泽尔"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506066
+	add_trait = panzer_leader
+	history = {
+		1938.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506067 = {
+	name = "德代克"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506067
+	add_trait = defensive_doctrine
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506068 = {
+	name = "德根"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506068
+	add_trait = trickster
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506069 = {
+	name = "德莫尔"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506069
+	add_trait = offensive_doctrine
+	history = {
+		1937.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+506070 = {
+	name = "登普沃尔夫"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506070
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506071 = {
+	name = "登克特"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506071
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506072 = {
+	name = "多马根"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506072
+	add_trait = engineer
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506073 = {
+	name = "多恩"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506073
+	add_trait = defensive_doctrine
+	add_trait = winter_specialist
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506074 = {
+	name = "德雷斯莱尔"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506074
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506075 = {
+	name = "德林.曼陀菲尔"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506075
+	add_trait = fortress_buster
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506076 = {
+	name = "德尔"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506076
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506077 = {
+	name = "埃贝丁"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506077
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506078 = {
+	name = "埃克霍特"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506078
+	add_trait = trickster
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506079 = {
+	name = "埃勒特"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506079
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506080 = {
+	name = "埃里格"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506080
+	add_trait = panzer_leader
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506081 = {
+	name = "艾森巴赫"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506081
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506082 = {
+	name = "埃费尔德"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506082
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506083 = {
+	name = "埃尔斯特尔"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506083
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506084 = {
+	name = "恩格尔哈特"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506084
+	add_trait = panzer_leader
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506085 = {
+	name = "恩克"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506085
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506086 = {
+	name = "埃德曼"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506086
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506087 = {
+	name = "埃克斯莱本"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506087
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506088 = {
+	name = "埃韦特"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506088
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506089 = {
+	name = "丹豪泽"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506089
+	add_trait = offensive_doctrine
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506090 = {
+	name = "德克特"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506090
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506091 = {
+	name = "德特兰"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506091
+	history = {
+		1937.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506092 = {
+	name = "德维茨"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506092
+	add_trait = defensive_doctrine
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506093 = {
+	name = "迪特尔"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506093
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506094 = {
+	name = "迪塞纳"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506094
+	add_trait = panzer_leader
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506095 = {
+	name = "多恩贝格尔"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506095
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506096 = {
+	name = "法比翁克"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506096
+	add_trait = engineer
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506097 = {
+	name = "福伊希廷格尔"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506097
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506098 = {
+	name = "菲希特纳"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506098
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506099 = {
+	name = "菲德勒"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506099
+	add_trait = engineer
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506100 = {
+	name = "菲舍尔.G."
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506100
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506101 = {
+	name = "菲舍尔.G.W."
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506101
+	add_trait = logistics_wizard
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506102 = {
+	name = "弗里贝"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506102
+	add_trait = trickster
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506103 = {
+	name = "弗朗茨"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506103
+	history = {
+		1937.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506104 = {
+	name = "弗勒利希"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506104
+	add_trait = winter_specialist
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506105 = {
+	name = "菲尔巴赫"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506105
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506106 = {
+	name = "法肯斯特德"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506106
+	add_trait = offensive_doctrine
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506107 = {
+	name = "高尔"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506107
+	add_trait = engineer
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506108 = {
+	name = "格鲍尔"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506108
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506109 = {
+	name = "格伦"
+	country = DFR
+	type = land
+	skill = 2
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506109
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+506110 = {
+	name = "格奥尔基"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506110
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506111 = {
+	name = "格克"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506111
+	add_trait = engineer
+	history = {
+		1937.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506112 = {
+	name = "格拉赫.A."
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506112
+	add_trait = logistics_wizard
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506113 = {
+	name = "格拉赫.E."
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506113
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506114 = {
+	name = "格施万特纳"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506114
+	add_trait = offensive_doctrine
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506115 = {
+	name = "吉尔"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506115
+	add_trait = panzer_leader
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506116 = {
+	name = "吉特纳"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506116
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506117 = {
+	name = "格拉斯勒"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506117
+	add_trait = logistics_wizard
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506118 = {
+	name = "格罗布霍兹"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506118
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506119 = {
+	name = "格勒舒普"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506119
+	history = {
+		1936.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+506120 = {
+	name = "G格罗特"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506120
+	add_trait = commando
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506121 = {
+	name = "贡德拉赫"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506121
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506122 = {
+	name = "京贝尔"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506122
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506123 = {
+	name = "格德克"
+	country = DFR
+	type = land
+	skill = 2
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506123
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+506124 = {
+	name = "格德"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506124
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506125 = {
+	name = "格尔比格"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506125
+	add_trait = offensive_doctrine
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506126 = {
+	name = "哈尔贝施塔特"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506126
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506127 = {
+	name = "汉森"
+	country = DFR
+	type = land
+	skill = 3
+	max_skill = 6
+	loyalty = 1.00
+	picture = L118
+	add_trait = offensive_doctrine
+	history = {
+		1941.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 4 }
+	}
+}
+506128 = {
+	name = "哈特曼"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506128
+	add_trait = engineer
+	history = {
+		1938.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506129 = {
+	name = "哈特曼"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506129
+	add_trait = panzer_leader
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506130 = {
+	name = "哈泽洛夫"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 0.00
+	picture = L506130
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506131 = {
+	name = "Hass"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506131
+	add_trait = offensive_doctrine
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506132 = {
+	name = "豪格"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506132
+	add_trait = offensive_doctrine
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506133 = {
+	name = "豪舒尔兹"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506133
+	add_trait = offensive_doctrine
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506134 = {
+	name = "豪泽"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506134
+	add_trait = logistics_wizard
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506135 = {
+	name = "哈克斯"
+	country = DFR
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506135
+	history = {
+		1941.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+506136 = {
+	name = "黑克尔"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506136
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506137 = {
+	name = "黑德里希"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506137
+	history = {
+		1938.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506138 = {
+	name = "海姆"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506138
+	add_trait = trickster
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506139 = {
+	name = "赫曼"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506139
+	add_trait = offensive_doctrine
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506140 = {
+	name = "亨里奇"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506140
+	add_trait = defensive_doctrine
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506141 = {
+	name = "赫伯特"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506141
+	add_trait = fortress_buster
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506142 = {
+	name = "赫尔曼.P."
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506142
+	add_trait = trickster
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506143 = {
+	name = "赫尔曼.P.R."
+	country = DFR
+	type = land
+	skill = 2
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506143
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+506144 = {
+	name = "霍伊克"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506144
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506145 = {
+	name = "霍伊辛格"
+	country = DFR
+	type = land
+	skill = 3
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506145
+	add_trait = defensive_doctrine
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+		1946.1.1 = { rank = 4 }
+	}
+}
+506146 = {
+	name = "海登赖希"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506146
+	add_trait = engineer
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506147 = {
+	name = "海涅"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506147
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506148 = {
+	name = "海泽"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506148
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506149 = {
+	name = "希尔德布兰特"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506149
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506150 = {
+	name = "希尔德布兰德"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506150
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506151 = {
+	name = "希尔德曼"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506151
+	add_trait = trickster
+	history = {
+		1937.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506152 = {
+	name = "霍夫曼.F."
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506152
+	add_trait = logistics_wizard
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506153 = {
+	name = "霍夫曼.R."
+	country = DFR
+	type = land
+	skill = 2
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506153
+	add_trait = offensive_doctrine
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+506154 = {
+	name = "霍夫曼"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506154
+	add_trait = logistics_wizard
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506155 = {
+	name = "霍夫曼.舍恩博恩"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506155
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506156 = {
+	name = "霍夫迈斯特"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506156
+	add_trait = defensive_doctrine
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506157 = {
+	name = "霍尔姆"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 8
+	loyalty = 1.00
+	picture = L506157
+	add_trait = panzer_leader
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506158 = {
+	name = "霍尔斯特"
+	country = DFR
+	type = land
+	skill = 2
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506158
+	add_trait = offensive_doctrine
+	add_trait = panzer_leader
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+506159 = {
+	name = "许布纳.K."
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506159
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506160 = {
+	name = "许布纳.R."
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506160
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506161 = {
+	name = "欣滕"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506161
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506162 = {
+	name = "许特"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506162
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506163 = {
+	name = "汉施克"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506163
+	history = {
+		1938.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506164 = {
+	name = "赫费尔"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506164
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506165 = {
+	name = "雅各比"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506165
+	history = {
+		1937.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506166 = {
+	name = "约翰"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506166
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506167 = {
+	name = "乔拉斯"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506167
+	add_trait = defensive_doctrine
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506168 = {
+	name = "乔丹"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506168
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506169 = {
+	name = "容克"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506169
+	add_trait = winter_specialist
+	history = {
+		1939.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506170 = {
+	name = "尤佩"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506170
+	add_trait = engineer
+	history = {
+		1936.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+506171 = {
+	name = "卡德吉恩"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506171
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506172 = {
+	name = "卡勒"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506172
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506173 = {
+	name = "卡列比"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506173
+	add_trait = engineer
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506174 = {
+	name = "卡尔"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506174
+	history = {
+		1936.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+506175 = {
+	name = "凯尔"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506175
+	history = {
+		1938.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506176 = {
+	name = "凯佩尔.L."
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506176
+	add_trait = fortress_buster
+	history = {
+		1937.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506177 = {
+	name = "凯佩尔.W."
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506177
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506178 = {
+	name = "克特纳"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506178
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506179 = {
+	name = "克罗"
+	country = DFR
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506179
+	add_trait = commando
+	history = {
+		1940.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+506180 = {
+	name = "克雷默"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506180
+	add_trait = fortress_buster
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506181 = {
+	name = "克彭"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506181
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506182 = {
+	name = "利希滕贝格尔"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506182
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506183 = {
+	name = "洛曼"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506183
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506184 = {
+	name = "洛伦茨"
+	country = DFR
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506184
+	history = {
+		1936.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+506185 = {
+	name = "卢奇尼"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506185
+	add_trait = fortress_buster
+	history = {
+		1938.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506186 = {
+	name = "帕维尔"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506186
+	add_trait = offensive_doctrine
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506187 = {
+	name = "皮尔曼"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506187
+	add_trait = fortress_buster
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506188 = {
+	name = "申普夫"
+	country = DFR
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506188
+	add_trait = commando
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+506189 = {
+	name = "施雷德"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506189
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506190 = {
+	name = "塞弗特"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506190
+	history = {
+		1936.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+506191 = {
+	name = "施派德尔"
+	country = DFR
+	type = land
+	skill = 4
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506191
+	add_trait = logistics_wizard
+	history = {
+		1938.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 4 }
+	}
+}
+506192 = {
+	name = "福伊特尔"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506192
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506193 = {
+	name = "范.德尔.霍普"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506193
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506194 = {
+	name = "冯.阿尔芬"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506194
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506195 = {
+	name = "冯.阿尔贝蒂"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506195
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506196 = {
+	name = "冯.阿曼"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506196
+	add_trait = fortress_buster
+	history = {
+		1936.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+506197 = {
+	name = "冯.阿尼姆.F."
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506197
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506198 = {
+	name = "v冯.阿尼姆.F.A."
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506198
+	add_trait = logistics_wizard
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506199 = {
+	name = "冯.阿谢贝格"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506199
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506200 = {
+	name = "冯.奥洛克"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506200
+	add_trait = offensive_doctrine
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506201 = {
+	name = "冯.比滕费尔德"
+	country = DFR
+	type = land
+	skill = 2
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506201
+	history = {
+		1936.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+506202 = {
+	name = "冯.巴泽维施"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506202
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506203 = {
+	name = "冯.贝尔.H."
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506203
+	history = {
+		1936.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+506204 = {
+	name = "v冯.贝尔.H.E."
+	country = DFR
+	type = land
+	skill = 2
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506204
+	add_trait = trickster
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+506205 = {
+	name = "冯.贝尔肯"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506205
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506206 = {
+	name = "冯.博根"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506206
+	add_trait = winter_specialist
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506207 = {
+	name = "冯.布洛克"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506207
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506208 = {
+	name = "冯.博尔滕斯特恩.W."
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506208
+	add_trait = winter_specialist
+	history = {
+		1936.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+506209 = {
+	name = "冯.博尔滕斯特恩.W.E."
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506209
+	add_trait = engineer
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506210 = {
+	name = "冯.布里耶桑"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506210
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506211 = {
+	name = "冯.布罗伊希"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506211
+	add_trait = trickster
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506212 = {
+	name = "冯.布登布洛克"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506212
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506213 = {
+	name = "冯.布特拉尔"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506213
+	add_trait = offensive_doctrine
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506214 = {
+	name = "冯.克莱尔"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506214
+	add_trait = defensive_doctrine
+	history = {
+		1938.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506215 = {
+	name = "冯.科拉尼"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506215
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506216 = {
+	name = "冯.德尔.格勒本"
+	country = DFR
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506216
+	history = {
+		1941.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+506217 = {
+	name = "冯.迪特富特"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506217
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506218 = {
+	name = "冯.德雷贝尔"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506218
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506219 = {
+	name = "冯.艾森哈特.罗特"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506219
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506220 = {
+	name = "冯.法布里斯.法尔克"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506220
+	history = {
+		1938.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506221 = {
+	name = "冯.费尔伯特"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506221
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506222 = {
+	name = "冯.盖特纳"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506222
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506223 = {
+	name = "冯.格斯多夫.G."
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506223
+	add_trait = engineer
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506224 = {
+	name = "冯.格斯多夫.R.C."
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506224
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506225 = {
+	name = "冯.盖索"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506225
+	add_trait = engineer
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506226 = {
+	name = "冯.格雷韦尼兹"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506226
+	history = {
+		1938.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506227 = {
+	name = "冯.于尔登费尔德.G."
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506227
+	add_trait = defensive_doctrine
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506228 = {
+	name = "冯.于尔登费尔德.H."
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506228
+	add_trait = engineer
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506229 = {
+	name = "冯.京德尔"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506229
+	add_trait = commando
+	history = {
+		1937.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506230 = {
+	name = "冯.汉施泰因"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506230
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506231 = {
+	name = "冯.海格尔"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506231
+	add_trait = trickster
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506232 = {
+	name = "冯.黑勒曼"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506232
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506233 = {
+	name = "冯.亨宁"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506233
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506234 = {
+	name = "冯.海根多夫"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506234
+	history = {
+		1939.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506235 = {
+	name = "冯.霍夫曼"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506235
+	add_trait = engineer
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506236 = {
+	name = "冯.霍尔琛多夫"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506236
+	add_trait = winter_specialist
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506237 = {
+	name = "冯.霍尔韦德"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506237
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506238 = {
+	name = "冯.霍恩"
+	country = DFR
+	type = land
+	skill = 4
+	max_skill = 8
+	loyalty = 1.00
+	picture = L506238
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+		1946.1.1 = { rank = 4 }
+	}
+}
+506239 = {
+	name = "冯.许尔森.B."
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506239
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506240 = {
+	name = "冯.许尔森.H.H."
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506240
+	add_trait = commando
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506241 = {
+	name = "冯.许尔斯特"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506241
+	add_trait = engineer
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506242 = {
+	name = "冯.赫斯林"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506242
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506243 = {
+	name = "冯.伊尔塞曼.H."
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506243
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506244 = {
+	name = "冯.伊尔塞曼.I."
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506244
+	add_trait = panzer_leader
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506245 = {
+	name = "冯.卡尔梅"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506245
+	history = {
+		1937.1.1 = { rank = 1 }
+	}
+}
+506246 = {
+	name = "冯.卡尼茨"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506246
+	add_trait = defensive_doctrine
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506247 = {
+	name = "冯.路德维格"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506247
+	add_trait = fortress_buster
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506248 = {
+	name = "冯.洛德雷尔"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506248
+	add_trait = fortress_buster
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506249 = {
+	name = "冯.维岑多夫"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506249
+	history = {
+		1939.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506250 = {
+	name = "冯.察贝恩贝格"
+	country = DFR
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506250
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506251 = {
+	name = "瓦格纳"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506251
+	history = {
+		1936.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+506252 = {
+	name = "沃尔夫"
+	country = DFR
+	type = land
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506252
+	add_trait = defensive_doctrine
+	add_trait = fortress_buster
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506253 = {
+	name = "安克尔"
+	country = DFR
+	type = sea
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506253
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 3 }
+	}
+}
+506254 = {
+	name = "本达"
+	country = DFR
+	type = sea
+	skill = 2
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506254
+	history = {
+		1936.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 3 }
+	}
+}
+506255 = {
+	name = "布劳内"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506255
+	history = {
+		1937.1.1 = { rank = 1 }
+	}
+}
+506256 = {
+	name = "比尔克纳"
+	country = DFR
+	type = sea
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506256
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506257 = {
+	name = "克劳森"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506257
+	history = {
+		1937.1.1 = { rank = 1 }
+	}
+}
+506258 = {
+	name = "埃尔哈特"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506258
+	add_trait = seawolf
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506259 = {
+	name = "恩格尔哈特"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506259
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506260 = {
+	name = "艾森"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506260
+	history = {
+		1937.1.1 = { rank = 1 }
+	}
+}
+506261 = {
+	name = "法因"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506261
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506262 = {
+	name = "弗里克"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506262
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506263 = {
+	name = "弗里修斯"
+	country = DFR
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506263
+	history = {
+		1938.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506264 = {
+	name = "菲尔布林格"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506264
+	add_trait = superior_tactician
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506265 = {
+	name = "根斯基"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506265
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506266 = {
+	name = "格拉赫"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506266
+	add_trait = spotter
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506267 = {
+	name = "戈特"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506267
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506268 = {
+	name = "古特雅尔"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506268
+	add_trait = seawolf
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506269 = {
+	name = "哈梅劳"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506269
+	add_trait = superior_tactician
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506270 = {
+	name = "亨贝格"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506270
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506271 = {
+	name = "亨内克"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506271
+	add_trait = seawolf
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506272 = {
+	name = "亨里奇"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506272
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506273 = {
+	name = "欣茨曼"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506273
+	add_trait = seawolf
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506274 = {
+	name = "霍梅尔"
+	country = DFR
+	type = sea
+	skill = 3
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506274
+	history = {
+		1936.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+506275 = {
+	name = "哈克尔"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506275
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506276 = {
+	name = "许夫迈尔"
+	country = DFR
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506276
+	history = {
+		1939.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506277 = {
+	name = "约翰内松"
+	country = DFR
+	type = sea
+	skill = 3
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506277
+	add_trait = spotter
+	history = {
+		1941.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+506278 = {
+	name = "约翰森"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506278
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506279 = {
+	name = "容克尔"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506279
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506280 = {
+	name = "考夫曼"
+	country = DFR
+	type = sea
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506280
+	add_trait = superior_tactician
+	history = {
+		1936.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506281 = {
+	name = "克尔汉"
+	country = DFR
+	type = sea
+	skill = 4
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506281
+	add_trait = old_guard
+	add_trait = spotter
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 4 }
+	}
+}
+506282 = {
+	name = "克吕贝尔"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506282
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506283 = {
+	name = "克诺贝洛赫"
+	country = DFR
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506283
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 3 }
+	}
+}
+506284 = {
+	name = "科伯"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506284
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506285 = {
+	name = "科普"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506285
+	add_trait = superior_tactician
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506286 = {
+	name = "克拉斯特尔"
+	country = DFR
+	type = sea
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506286
+	history = {
+		1936.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506287 = {
+	name = "克劳斯"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506287
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506288 = {
+	name = "利布坦兹"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506288
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506289 = {
+	name = "林德瑙"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506289
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506290 = {
+	name = "卢赫特"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506290
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506291 = {
+	name = "马特斯"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506291
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506292 = {
+	name = "马蒂亚"
+	country = DFR
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506292
+	history = {
+		1937.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506293 = {
+	name = "迈克斯纳"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506293
+	add_trait = superior_tactician
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506294 = {
+	name = "迈尔"
+	country = DFR
+	type = sea
+	skill = 3
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506294
+	add_trait = spotter
+	history = {
+		1936.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+506295 = {
+	name = "米夏埃雷斯"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506295
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506296 = {
+	name = "米罗"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506296
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506297 = {
+	name = "穆茨"
+	country = DFR
+	type = sea
+	skill = 3
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506297
+	history = {
+		1936.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+506298 = {
+	name = "米勒"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506298
+	add_trait = spotter
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506299 = {
+	name = "默塞尔"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506299
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506300 = {
+	name = "帕奇希"
+	country = DFR
+	type = sea
+	skill = 2
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506300
+	add_trait = blockade_runner
+	history = {
+		1936.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+506301 = {
+	name = "保罗"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506301
+	history = {
+		1937.1.1 = { rank = 1 }
+	}
+}
+506302 = {
+	name = "彼得斯"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506302
+	add_trait = seawolf
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506303 = {
+	name = "彼得森"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 8
+	loyalty = 1.00
+	picture = L506303
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506304 = {
+	name = "普拉特"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506304
+	add_trait = spotter
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506305 = {
+	name = "莱茵"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506305
+	add_trait = superior_tactician
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506306 = {
+	name = "里夫"
+	country = DFR
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506306
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506307 = {
+	name = "罗特.罗特"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506307
+	add_trait = seawolf
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506308 = {
+	name = "罗特尔"
+	country = DFR
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506308
+	history = {
+		1936.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+506309 = {
+	name = "舍费尔"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506309
+	add_trait = spotter
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506310 = {
+	name = "舍尼茨基"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506310
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506311 = {
+	name = "席尔默"
+	country = DFR
+	type = sea
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506311
+	history = {
+		1936.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+506312 = {
+	name = "舒尔特"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506312
+	history = {
+		1938.1.1 = { rank = 1 }
+		1990.1.1 = { rank = 0 }
+	}
+}
+506313 = {
+	name = "舒尔特.蒙廷"
+	country = DFR
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506313
+	add_trait = superior_tactician
+	history = {
+		1939.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506314 = {
+	name = "舒尔策"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506314
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506315 = {
+	name = "舒马赫"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506315
+	add_trait = seawolf
+	history = {
+		1936.1.1 = { rank = 1 }
+	}
+}
+506316 = {
+	name = "斯莱福格特"
+	country = DFR
+	type = sea
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506316
+	history = {
+		1936.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+506317 = {
+	name = "佐尔格"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506317
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506318 = {
+	name = "施蒂希林"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506318
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506319 = {
+	name = "斯托赫瓦塞尔"
+	country = DFR
+	type = sea
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506319
+	history = {
+		1936.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+506320 = {
+	name = "施特劳赫"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506320
+	add_trait = blockade_runner
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506321 = {
+	name = "施特雷勒"
+	country = DFR
+	type = sea
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506321
+	history = {
+		1936.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+506322 = {
+	name = "斯廷博克"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506322
+	add_trait = spotter
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506323 = {
+	name = "施图梅尔"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506323
+	add_trait = superior_tactician
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506324 = {
+	name = "塔肯贝格"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506324
+	add_trait = seawolf
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506325 = {
+	name = "泰特尔"
+	country = DFR
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506325
+	history = {
+		1936.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+506326 = {
+	name = "托普"
+	country = DFR
+	type = sea
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506326
+	history = {
+		1939.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506327 = {
+	name = "冯.阿恩斯瓦尔德"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506327
+	add_trait = superior_tactician
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506328 = {
+	name = "冯.布雷多"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506328
+	add_trait = seawolf
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506329 = {
+	name = "冯.德尔.福斯特"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506329
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506330 = {
+	name = "冯.格拉赫"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506330
+	add_trait = seawolf
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506331 = {
+	name = "冯.格策"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506331
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506332 = {
+	name = "冯.霍恩霍斯特"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506332
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506333 = {
+	name = "冯.施图德尼茨"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506333
+	add_trait = seawolf
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506334 = {
+	name = "冯.特雷斯科"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506334
+	add_trait = seawolf
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506335 = {
+	name = "沃斯"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506335
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506336 = {
+	name = "瓦格纳.G."
+	country = DFR
+	type = sea
+	skill = 3
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506336
+	add_trait = blockade_runner
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+506337 = {
+	name = "瓦格纳.H."
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506337
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506338 = {
+	name = "韦伯"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506338
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506339 = {
+	name = "文内克"
+	country = DFR
+	type = sea
+	skill = 3
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506339
+	history = {
+		1936.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 3 }
+	}
+}
+506340 = {
+	name = "温特"
+	country = DFR
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506340
+	add_trait = seawolf
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506341 = {
+	name = "阿德勒"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506341
+	add_trait = superior_air_tactician
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506342 = {
+	name = "巴森格"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506342
+	add_trait = superior_air_tactician
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506343 = {
+	name = "博内尔"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506343
+	add_trait = superior_air_tactician
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506344 = {
+	name = "布拉科特"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506344
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506345 = {
+	name = "布劳米勒"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506345
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506346 = {
+	name = "布赫霍尔茨"
+	country = DFR
+	type = air
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506346
+	add_trait = fleet_destroyer
+	history = {
+		1937.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506347 = {
+	name = "伯默尔"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506347
+	add_trait = fleet_destroyer
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506348 = {
+	name = "比洛韦乌斯"
+	country = DFR
+	type = air
+	skill = 5
+	max_skill = 8
+	loyalty = 1.00
+	picture = L431
+	add_trait = tank_buster
+	history = {
+		1937.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 4 }
+	}
+}
+506349 = {
+	name = "卡巴尼斯"
+	country = DFR
+	type = air
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506349
+	add_trait = night_flyer
+	history = {
+		1936.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506350 = {
+	name = "克莱斯"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506350
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506351 = {
+	name = "采奇"
+	country = DFR
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506351
+	add_trait = spotter
+	history = {
+		1937.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506352 = {
+	name = "戴希曼"
+	country = DFR
+	type = air
+	skill = 3
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506352
+	history = {
+		1938.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+506353 = {
+	name = "德鲁姆"
+	country = DFR
+	type = air
+	skill = 3
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506353
+	history = {
+		1937.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 3 }
+	}
+}
+506354 = {
+	name = "迪尔"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506354
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506355 = {
+	name = "埃德曼"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506355
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506356 = {
+	name = "埃克斯"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506356
+	add_trait = tank_buster
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506357 = {
+	name = "菲舍尔"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506357
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506358 = {
+	name = "菲策"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506358
+	add_trait = tank_buster
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506359 = {
+	name = "丰克"
+	country = DFR
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506359
+	add_trait = carpet_bomber
+	history = {
+		1937.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506360 = {
+	name = "格罗施"
+	country = DFR
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506360
+	add_trait = night_flyer
+	history = {
+		1937.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506361 = {
+	name = "格伦德"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506361
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506362 = {
+	name = "汉特尔曼"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506362
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506363 = {
+	name = "哈尔托赫"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506363
+	history = {
+		1937.1.1 = { rank = 1 }
+	}
+}
+506364 = {
+	name = "海登赖希"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506364
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506365 = {
+	name = "希尔格斯"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506365
+	history = {
+		1937.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506366 = {
+	name = "霍尔农"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506366
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506367 = {
+	name = "胡特"
+	country = DFR
+	type = air
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L446
+	add_trait = superior_air_tactician
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+506368 = {
+	name = "伊贝尔"
+	country = DFR
+	type = air
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506368
+	add_trait = carpet_bomber
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+506369 = {
+	name = "雅各比"
+	country = DFR
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506369
+	history = {
+		1939.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506370 = {
+	name = "卡姆胡伯"
+	country = DFR
+	type = air
+	skill = 5
+	max_skill = 7
+	loyalty = 1.00
+	picture = L448
+	add_trait = night_flyer
+	history = {
+		1936.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 4 }
+	}
+}
+506371 = {
+	name = "卡普斯特"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506371
+	add_trait = superior_air_tactician
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506372 = {
+	name = "克特姆贝尔"
+	country = DFR
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506372
+	history = {
+		1937.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506373 = {
+	name = "基弗"
+	country = DFR
+	type = air
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506373
+	history = {
+		1936.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+506374 = {
+	name = "克勒梅"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506374
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506375 = {
+	name = "克勒斯"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506375
+	add_trait = carpet_bomber
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506376 = {
+	name = "科蒂姆"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506376
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506377 = {
+	name = "克劳斯"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506377
+	add_trait = tank_buster
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506378 = {
+	name = "克赖珀"
+	country = DFR
+	type = air
+	skill = 2
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506378
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+506379 = {
+	name = "克鲁格"
+	country = DFR
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506379
+	add_trait = superior_air_tactician
+	history = {
+		1939.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506380 = {
+	name = "克吕格尔"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506380
+	add_trait = fleet_destroyer
+	history = {
+		1937.1.1 = { rank = 1 }
+	}
+}
+506381 = {
+	name = "屈塞"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506381
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506382 = {
+	name = "屈内"
+	country = DFR
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506382
+	history = {
+		1936.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+506383 = {
+	name = "劳曼"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506383
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506384 = {
+	name = "马斯"
+	country = DFR
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506384
+	add_trait = superior_air_tactician
+	history = {
+		1937.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506385 = {
+	name = "迈斯特"
+	country = DFR
+	type = air
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506385
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 3 }
+	}
+}
+506386 = {
+	name = "门申"
+	country = DFR
+	type = air
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506386
+	history = {
+		1936.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506387 = {
+	name = "梅茨"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506387
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506388 = {
+	name = "梅茨纳"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506388
+	add_trait = night_flyer
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506389 = {
+	name = "米斯费尔德"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506389
+	add_trait = carpet_bomber
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506390 = {
+	name = "蒙特"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506390
+	add_trait = spotter
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506391 = {
+	name = "奥弗迪克"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506391
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506392 = {
+	name = "彼得森"
+	country = DFR
+	type = air
+	skill = 1
+	max_skill = 8
+	loyalty = 1.00
+	picture = L506392
+	add_trait = superior_air_tactician
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506393 = {
+	name = "彼得劳施克"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506393
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506394 = {
+	name = "普洛歇尔"
+	country = DFR
+	type = air
+	skill = 2
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506394
+	add_trait = spotter
+	history = {
+		1939.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+506395 = {
+	name = "普雷斯廷"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506395
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506396 = {
+	name = "普林茨"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506396
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506397 = {
+	name = "普罗克尔"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506397
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506398 = {
+	name = "蓬泽尔特"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506398
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506399 = {
+	name = "赖特尔"
+	country = DFR
+	type = air
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506399
+	history = {
+		1938.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506400 = {
+	name = "拉特"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506400
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506401 = {
+	name = "劳赫"
+	country = DFR
+	type = air
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506401
+	add_trait = fleet_destroyer
+	history = {
+		1938.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506402 = {
+	name = "赖因沙根"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506402
+	add_trait = superior_air_tactician
+	add_trait = tank_buster
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506403 = {
+	name = "勒普纳克"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506403
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506404 = {
+	name = "勒施"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506404
+	history = {
+		1937.1.1 = { rank = 1 }
+	}
+}
+506405 = {
+	name = "萨克斯"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506405
+	history = {
+		1940.1.1 = { rank = 1 }
+		1960.1.1 = { rank = 2 }
+		1960.1.1 = { rank = 3 }
+		1960.1.1 = { rank = 4 }
+	}
+}
+506406 = {
+	name = "绍尔"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506406
+	add_trait = tank_buster
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506407 = {
+	name = "施莱希"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506407
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506408 = {
+	name = "舒尔茨"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506408
+	add_trait = night_flyer
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506409 = {
+	name = "舒马赫"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506409
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506410 = {
+	name = "施罗德"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506410
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506411 = {
+	name = "施罗德.措林格"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506411
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506412 = {
+	name = "舒伯特"
+	country = DFR
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506412
+	history = {
+		1936.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+506413 = {
+	name = "舒勒"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506413
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506414 = {
+	name = "舒尔策.朗霍夫"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506414
+	history = {
+		1937.1.1 = { rank = 1 }
+	}
+}
+506415 = {
+	name = "舒尔茨"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506415
+	add_trait = fleet_destroyer
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506416 = {
+	name = "塞德曼"
+	country = DFR
+	type = air
+	skill = 3
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506416
+	history = {
+		1938.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+506417 = {
+	name = "施图尔姆"
+	country = DFR
+	type = air
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506417
+	add_trait = carpet_bomber
+	history = {
+		1937.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506418 = {
+	name = "特雷特纳"
+	country = DFR
+	type = air
+	skill = 2
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506418
+	add_trait = night_flyer
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+506419 = {
+	name = "特林德尔"
+	country = DFR
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506419
+	add_trait = tank_buster
+	history = {
+		1936.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+506420 = {
+	name = "彻尔奇"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506420
+	history = {
+		1937.1.1 = { rank = 1 }
+	}
+}
+506421 = {
+	name = "冯.阿尼姆"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506421
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506422 = {
+	name = "冯.克赖尔斯海姆"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506422
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506423 = {
+	name = "冯.克里格恩"
+	country = DFR
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506423
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506424 = {
+	name = "冯.法尔肯施泰因"
+	country = DFR
+	type = air
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506424
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+506425 = {
+	name = "冯.菲希特"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506425
+	add_trait = tank_buster
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506426 = {
+	name = "冯.弗尔克桑布"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506426
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506427 = {
+	name = "冯.格罗瑙"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506427
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506428 = {
+	name = "冯.希佩尔"
+	country = DFR
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506428
+	add_trait = night_flyer
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+506429 = {
+	name = "冯.詹尼"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L506429
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506430 = {
+	name = "冯.卡特"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506430
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506431 = {
+	name = "冯.卢克纳"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506431
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506432 = {
+	name = "冯.马索"
+	country = DFR
+	type = air
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506432
+	history = {
+		1939.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+506433 = {
+	name = "冯.罗登"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506433
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506434 = {
+	name = "冯.舍恩贝克"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506434
+	add_trait = spotter
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506435 = {
+	name = "冯.塞德尔"
+	country = DFR
+	type = air
+	skill = 2
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506435
+	add_trait = spotter
+	history = {
+		1936.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+506436 = {
+	name = "冯.滕普斯基"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506436
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506437 = {
+	name = "冯.特吕奇勒.苏姆.法尔肯施泰因"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506437
+	add_trait = fleet_destroyer
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506438 = {
+	name = "冯.福格特朗德"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506438
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506439 = {
+	name = "冯.维利希"
+	country = DFR
+	type = air
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506439
+	history = {
+		1936.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+506440 = {
+	name = "弗尔克"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506440
+	add_trait = night_flyer
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506441 = {
+	name = "福瓦尔德"
+	country = DFR
+	type = air
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L506441
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+506442 = {
+	name = "魏尔"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506442
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506443 = {
+	name = "魏特库斯"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506443
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+506444 = {
+	name = "维夏德"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506444
+	add_trait = fleet_destroyer
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506445 = {
+	name = "维乔尔德"
+	country = DFR
+	type = air
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506445
+	add_trait = fleet_destroyer
+	history = {
+		1936.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+506446 = {
+	name = "威兰"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506446
+	add_trait = tank_buster
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+506447 = {
+	name = "维尔克"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506447
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506448 = {
+	name = "武佩曼"
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506448
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506449 = {
+	name = "策希.O."
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L506449
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+506450 = {
+	name = "策希.W."
+	country = DFR
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L506450
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+506451 = {
+	name = "乌贝"
+	country = DFR
+	type = air
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L506451
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}

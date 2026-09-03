@@ -1,0 +1,45 @@
+corps = {
+	name = "智利陆军"
+	location = 10336
+	regiment = { type = hq_brigade name = "智利陆军指挥部" historical_model = 0 }
+	division= {
+		name = "第1步兵师"
+		location = 10336
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第2步兵师"
+		location = 10336
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第1'智利'山地师"
+		location = 10336
+		is_reserve = yes
+		regiment = { type = bergsjaeger_brigade historical_model = 1 }
+		regiment = { type = bergsjaeger_brigade historical_model = 1 }
+		regiment = { type = bergsjaeger_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第1骑兵师"
+		location = 10336
+		is_reserve = yes
+		regiment = { type = cavalry_brigade historical_model = 1 }
+		regiment = { type = cavalry_brigade historical_model = 1 }
+	}
+}
+navy = {
+	name = "智利舰队"
+	base = 10336
+	location = 10336
+	ship = { type = destroyer name = "第1驱逐舰舰队" historical_model = 0 }
+	ship = { type = destroyer name = "第2驱逐舰舰队" historical_model = 0 }
+	ship = { type = battleship name = "BACH 拉托雷海军上将号" historical_model = 0 pride = yes }
+	ship = { type = light_cruiser name = "BACH 阿劳卡号" historical_model = 0 }
+}

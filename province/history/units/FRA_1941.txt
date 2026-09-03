@@ -1,0 +1,39 @@
+division = {
+	name = "自由法兰西第1师"
+	location = 5332
+	regiment = { type = militia_brigade name = "东方旅" historical_model = 0 }
+	regiment = { type = cavalry_brigade name = "切尔克斯骑兵旅" historical_model = 0 }
+}
+division = {
+	name = "新喀里多尼亚步兵师"
+	location = 6616
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+division = {
+	name = "乍得步兵师"
+	location = 9749
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+navy = {
+	name = "地中海舰队"
+	base = 5535
+	location = 5535
+	ship = { type = submarine name = "第1潜艇支队" historical_model = 1 }
+	ship = { type = submarine name = "第2潜艇支队" historical_model = 1 }
+	ship = { type = submarine name = "第3潜艇支队" historical_model = 2 }
+	ship = { type = submarine name = "第4潜艇支队" historical_model = 2 }
+	ship = { type = battleship name = "洛林号" historical_model = 1 pride = yes }
+	ship = { type = light_cruiser name = "迪盖·特鲁安号" historical_model = 1 }
+	ship = { type = heavy_cruiser name = "萨福伦号" historical_model = 1 }
+	ship = { type = heavy_cruiser name = "迪凯纳号" historical_model = 1 }
+	ship = { type = heavy_cruiser name = "图尔维尔号" historical_model = 1 }
+	ship = { type = destroyer name = "第1驱逐舰支队" historical_model = 2 }
+	ship = { type = destroyer name = "第2驱逐舰支队" historical_model = 2 }
+}
+air = {
+	name = "中东航空司令部"
+	base = 5535
+	location = 5535
+	wing = { type = interceptor name = "第21截击机联队" historical_model = 2 }
+	wing = { type = tactical_bomber name = "第1战术轰炸机联队" historical_model = 1 }
+}

@@ -1,0 +1,4059 @@
+6000 = {
+	name = "阿道尔贝托.杜卡.迪.贝尔加莫"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6000
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+	}
+}
+6001 = {
+	name = "阿尔伯特"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6001
+	add_trait = fortress_buster
+	history = {
+		1944.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+6002 = {
+	name = "阿戈"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6002
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+	}
+}
+6003 = {
+	name = "安布罗西奥"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6003
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1938.1.1 = { rank = 3 }
+	}
+}
+6004 = {
+	name = "阿梅迪奥.杜卡.德利.阿布鲁兹"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6004
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+6005 = {
+	name = "阿米科"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6005
+	add_trait = fortress_buster
+	history = {
+		1937.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+6006 = {
+	name = "安东内利"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L6006
+	history = {
+		1938.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+6007 = {
+	name = "阿蒂托"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6007
+	history = {
+		1946.1.1 = { rank = 1 }
+	}
+}
+6008 = {
+	name = "阿雷纳"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6008
+	add_trait = panzer_leader
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+6009 = {
+	name = "阿尔梅利尼.Q."
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6009
+	add_trait = commando
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+6010 = {
+	name = "阿希纳利.迪.贝尔内泽"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6010
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+6011 = {
+	name = "巴比尼"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6011
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+6012 = {
+	name = "布尔扎利"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6012
+	add_trait = commando
+	history = {
+		1941.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+6013 = {
+	name = "佩特罗.巴多格里奥"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L6013
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1930.1.1 = { rank = 4 }
+	}
+}
+6014 = {
+	name = "巴伊斯特罗基"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6014
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+6015 = {
+	name = "巴尔博"
+	country = ITA
+	type = land
+	skill = 3
+	max_skill = 7
+	loyalty = 1.00
+	picture = L6015
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1930.1.1 = { rank = 4 }
+	}
+}
+6016 = {
+	name = "巴利斯蒂"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6016
+	add_trait = offensive_doctrine
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+6017 = {
+	name = "巴洛科"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6017
+	history = {
+		1938.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+	}
+}
+6018 = {
+	name = "巴尔巴塞蒂.迪.普兰"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6018
+	add_trait = logistics_wizard
+	add_trait = panzer_leader
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+	}
+}
+6019 = {
+	name = "巴比里"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6019
+	add_trait = panzer_leader
+	history = {
+		1937.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+6020 = {
+	name = "巴索"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6020
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+6021 = {
+	name = "巴斯蒂科"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6021
+	add_trait = offensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1942.1.1 = { rank = 4 }
+	}
+}
+6022 = {
+	name = "巴蒂斯蒂"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6022
+	add_trait = winter_specialist
+	add_trait = commando
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 3 }
+	}
+}
+6023 = {
+	name = "贝尔奥多.迪.普拉罗莫"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6023
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+6024 = {
+	name = "贝尔贡佐利"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6024
+	add_trait = panzer_leader
+	history = {
+		1937.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+	}
+}
+6025 = {
+	name = "贝尔蒂"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6025
+	add_trait = engineer
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1938.1.1 = { rank = 3 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+6026 = {
+	name = "贝托尼"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6026
+	add_trait = winter_specialist
+	history = {
+		1941.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+6027 = {
+	name = "比安奇"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6027
+	add_trait = engineer
+	history = {
+		1938.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+6028 = {
+	name = "比格纳尼"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6028
+	add_trait = commando
+	history = {
+		1941.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+6029 = {
+	name = "博尔盖塞"
+	country = ITA
+	type = sea
+	skill = 3
+	max_skill = 7
+	loyalty = 1.00
+	picture = L6029
+	add_trait = seawolf
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+6030 = {
+	name = "布鲁内蒂"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6030
+	add_trait = fortress_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+6031 = {
+	name = "布鲁诺"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L6031
+	add_trait = defensive_doctrine
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+6032 = {
+	name = "卡多尔纳"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6032
+	add_trait = offensive_doctrine
+	history = {
+		1941.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+6033 = {
+	name = "卡尔维.迪.贝尔格罗"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6033
+	add_trait = offensive_doctrine
+	add_trait = panzer_leader
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+6034 = {
+	name = "卡纳莱"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6034
+	add_trait = commando
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+6035 = {
+	name = "卡拉乔洛.迪.费罗莱托"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6035
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1937.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 3 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+6036 = {
+	name = "卡尔博尼"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6036
+	add_trait = offensive_doctrine
+	add_trait = panzer_leader
+	add_trait = commando
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+6037 = {
+	name = "卡尔塔"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6037
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+6038 = {
+	name = "卡鲁索"
+	country = ITA
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6038
+	history = {
+		1938.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+6039 = {
+	name = "卡西诺"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6039
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+6040 = {
+	name = "卡斯特拉诺"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6040
+	history = {
+		1930.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+6041 = {
+	name = "卡瓦莱罗"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L6041
+	add_trait = offensive_doctrine
+	add_trait = old_guard
+	history = {
+		1937.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 3 }
+		1942.1.1 = { rank = 4 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+6042 = {
+	name = "卡维格利亚"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L6042
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1930.1.1 = { rank = 4 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+6043 = {
+	name = "塞里奥"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6043
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+6044 = {
+	name = "科皮"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6044
+	add_trait = panzer_leader
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+6045 = {
+	name = "塞伊"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6045
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+6046 = {
+	name = "西加拉.弗尔高斯"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6046
+	add_trait = panzer_leader
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+6047 = {
+	name = "克莱里西"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6047
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+6048 = {
+	name = "科纳"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6048
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+6049 = {
+	name = "科特罗内伊"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6049
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+6050 = {
+	name = "克雷"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6050
+	add_trait = winter_specialist
+	add_trait = commando
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+6051 = {
+	name = "达尔.奥拉"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6051
+	add_trait = logistics_wizard
+	add_trait = panzer_leader
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+6052 = {
+	name = "达尔马佐"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6052
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+6053 = {
+	name = "达皮诺"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6053
+	add_trait = logistics_wizard
+	add_trait = commando
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+6054 = {
+	name = "德.博诺"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6054
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1930.1.1 = { rank = 4 }
+	}
+}
+6055 = {
+	name = "德.卡罗里斯"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6055
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+6056 = {
+	name = "德.卡斯提格利昂尼"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L6056
+	add_trait = commando
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+6057 = {
+	name = "德.奇亚"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6057
+	add_trait = winter_specialist
+	add_trait = commando
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+6058 = {
+	name = "德.西蒙尼"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6058
+	add_trait = panzer_leader
+	history = {
+		1938.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+	}
+}
+6059 = {
+	name = "德.斯特尼斯"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6059
+	add_trait = offensive_doctrine
+	add_trait = fortress_buster
+	add_trait = panzer_leader
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+	}
+}
+6060 = {
+	name = "德.韦基.迪.瓦尔.西斯蒙"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6060
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+6061 = {
+	name = "迪.哈维特"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6061
+	add_trait = defensive_doctrine
+	add_trait = commando
+	history = {
+		1938.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+	}
+}
+6062 = {
+	name = "迪.尼西奥"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6062
+	add_trait = logistics_wizard
+	add_trait = commando
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+6063 = {
+	name = "杜.庞特"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6063
+	add_trait = fortress_buster
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+6064 = {
+	name = "埃米利奥"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6064
+	add_trait = commando
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+6065 = {
+	name = "埃斯珀斯托"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6065
+	add_trait = commando
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+6066 = {
+	name = "费尔梅"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6066
+	add_trait = engineer
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+6067 = {
+	name = "费拉里.奥尔西"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6067
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+6068 = {
+	name = "菲利贝托.杜卡.迪.皮斯托亚"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 2
+	loyalty = 0.00
+	picture = L6068
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1938.1.1 = { rank = 3 }
+	}
+}
+6069 = {
+	name = "弗朗哥"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6069
+	add_trait = winter_specialist
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+6070 = {
+	name = "弗兰佐西"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6070
+	add_trait = commando
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+6071 = {
+	name = "弗拉蒂尼"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L6071
+	add_trait = engineer
+	add_trait = commando
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+6072 = {
+	name = "弗里西奥内"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6072
+	add_trait = logistics_wizard
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+6073 = {
+	name = "弗鲁希"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6073
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+	}
+}
+6074 = {
+	name = "甘巴拉"
+	country = ITA
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L6074
+	add_trait = winter_specialist
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+6075 = {
+	name = "加姆贝利"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6075
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+6076 = {
+	name = "甘蒂恩"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6076
+	add_trait = winter_specialist
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+6077 = {
+	name = "加利波尔蒂"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6077
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 3 }
+	}
+}
+6078 = {
+	name = "杰洛索"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6078
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 3 }
+	}
+}
+6079 = {
+	name = "格尔兹"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6079
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+6080 = {
+	name = "吉奥达"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6080
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+6081 = {
+	name = "吉奥瓦内利"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6081
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+6082 = {
+	name = "贡扎加.德尔.沃迪斯"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6082
+	add_trait = defensive_doctrine
+	add_trait = fortress_buster
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+6083 = {
+	name = "格拉塔罗拉"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6083
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+6084 = {
+	name = "格拉齐亚尼"
+	country = ITA
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L6084
+	add_trait = logistics_wizard
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1936.1.1 = { rank = 4 }
+	}
+}
+6085 = {
+	name = "格拉齐奥利"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6085
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+	}
+}
+6086 = {
+	name = "格罗西"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6086
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+6087 = {
+	name = "盖伊"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6087
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+6088 = {
+	name = "古佐尼"
+	country = ITA
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L6088
+	add_trait = commando
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+	}
+}
+6089 = {
+	name = "莱昂内"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L6089
+	add_trait = logistics_wizard
+	history = {
+		1944.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+6090 = {
+	name = "利希.F."
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6090
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+6091 = {
+	name = "利希.Fr."
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6091
+	add_trait = fortress_buster
+	history = {
+		1946.1.1 = { rank = 1 }
+	}
+}
+6092 = {
+	name = "洛伦泽利"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6092
+	add_trait = commando
+	history = {
+		1940.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+6093 = {
+	name = "洛伦齐尼"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6093
+	history = {
+		1937.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+6094 = {
+	name = "马格里"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6094
+	add_trait = panzer_leader
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+6095 = {
+	name = "马莱蒂"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6095
+	history = {
+		1938.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+6096 = {
+	name = "曼奇内利"
+	country = ITA
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6096
+	add_trait = logistics_wizard
+	history = {
+		1937.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+6097 = {
+	name = "马尔吉诺蒂"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6097
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+6098 = {
+	name = "马里内蒂"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6098
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+6099 = {
+	name = "马拉斯"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6099
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+6100 = {
+	name = "马蒂纳"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L6100
+	add_trait = winter_specialist
+	add_trait = commando
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+6101 = {
+	name = "马西纳"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6101
+	add_trait = logistics_wizard
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+6102 = {
+	name = "梅塞"
+	country = ITA
+	type = land
+	skill = 4
+	max_skill = 8
+	loyalty = 1.00
+	picture = L6102
+	add_trait = defensive_doctrine
+	add_trait = panzer_leader
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 3 }
+		1943.1.1 = { rank = 4 }
+	}
+}
+6103 = {
+	name = "莫伊佐"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6103
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+6104 = {
+	name = "莫里梅罗"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6104
+	add_trait = panzer_leader
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+6105 = {
+	name = "莫利纳里"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6105
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+6106 = {
+	name = "蒙特姆罗"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6106
+	add_trait = engineer
+	history = {
+		1938.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+6107 = {
+	name = "纳瓦拉.韦贾尼"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6107
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+6108 = {
+	name = "纳斯"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6108
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+	}
+}
+6109 = {
+	name = "内格罗"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6109
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+6110 = {
+	name = "尼古里尼"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6110
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+6111 = {
+	name = "奥兰多"
+	country = ITA
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6111
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+6112 = {
+	name = "帕里亚尼"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L6112
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1938.1.1 = { rank = 4 }
+	}
+}
+6113 = {
+	name = "佩利格拉"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6113
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+6114 = {
+	name = "帕鲁基"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6114
+	add_trait = commando
+	history = {
+		1939.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+6115 = {
+	name = "佩斯卡托里"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6115
+	add_trait = logistics_wizard
+	history = {
+		1938.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+6116 = {
+	name = "皮亚洛尔西"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6116
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+6117 = {
+	name = "平托尔"
+	country = ITA
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L6117
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+6118 = {
+	name = "皮尔齐奥.比罗利"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6118
+	add_trait = trickster
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+	}
+}
+6119 = {
+	name = "皮塔古拉"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6119
+	history = {
+		1940.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+6120 = {
+	name = "波尔奇纳里"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6120
+	history = {
+		1941.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+6121 = {
+	name = "拉斯特雷利"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6121
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+6122 = {
+	name = "雷韦尔贝里"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6122
+	add_trait = commando
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+6123 = {
+	name = "里卡诺"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L6123
+	add_trait = winter_specialist
+	add_trait = commando
+	history = {
+		1937.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+6124 = {
+	name = "瑞奇"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6124
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+6125 = {
+	name = "瑞奇.U."
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6125
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+6126 = {
+	name = "罗阿塔"
+	country = ITA
+	type = land
+	skill = 2
+	max_skill = 8
+	loyalty = 1.00
+	picture = L6126
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+6127 = {
+	name = "罗梅罗"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6127
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+	}
+}
+6128 = {
+	name = "罗西.A."
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6128
+	add_trait = fortress_buster
+	history = {
+		1937.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+	}
+}
+6129 = {
+	name = "罗西.R."
+	country = ITA
+	type = land
+	skill = 2
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6129
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 3 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+6130 = {
+	name = "萨拉"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L6130
+	add_trait = commando
+	history = {
+		1942.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+6131 = {
+	name = "斯卡蒂尼"
+	country = ITA
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6131
+	add_trait = commando
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+6132 = {
+	name = "斯科蒂"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6132
+	add_trait = logistics_wizard
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+6133 = {
+	name = "索杜"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L6133
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1949.1.1 = { rank = 0 }
+	}
+}
+6134 = {
+	name = "斯特里波利"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6134
+	add_trait = commando
+	history = {
+		1943.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+6135 = {
+	name = "塔尔塔利亚"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6135
+	add_trait = offensive_doctrine
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+6136 = {
+	name = "泰尔齐亚尼"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6136
+	add_trait = defensive_doctrine
+	history = {
+		1938.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+6137 = {
+	name = "托尼"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6137
+	add_trait = fortress_buster
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+6138 = {
+	name = "特雷扎尼"
+	country = ITA
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6138
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+6139 = {
+	name = "特里科利"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6139
+	add_trait = fortress_buster
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+6140 = {
+	name = "恩贝托.普林西佩.迪.皮耶蒙特"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6140
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1942.1.1 = { rank = 4 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+6141 = {
+	name = "乌蒂利"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6141
+	add_trait = offensive_doctrine
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+6142 = {
+	name = "瓦卡.马吉奥里尼"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6142
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+6143 = {
+	name = "韦基亚雷利"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6143
+	add_trait = commando
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+6144 = {
+	name = "韦尔切利诺"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6144
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+6145 = {
+	name = "凡尔纳"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6145
+	add_trait = logistics_wizard
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+6146 = {
+	name = "维斯康蒂.普拉斯卡"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6146
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+6147 = {
+	name = "维瓦尔迪"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6147
+	add_trait = commando
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+6148 = {
+	name = "沃尔皮尼"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6148
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+6149 = {
+	name = "津科内"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6149
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+6150 = {
+	name = "津加莱斯"
+	country = ITA
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6150
+	add_trait = logistics_wizard
+	add_trait = offensive_doctrine
+	add_trait = panzer_leader
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+6151 = {
+	name = "埃蒙尼.迪.萨沃亚.奥斯塔"
+	country = ITA
+	type = sea
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L6151
+	add_trait = seawolf
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+	}
+}
+6152 = {
+	name = "巴尔萨莫"
+	country = ITA
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6152
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+6153 = {
+	name = "贝尔加米尼"
+	country = ITA
+	type = sea
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6153
+	add_trait = superior_tactician
+	history = {
+		1938.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+		1943.1.1 = { rank = 4 }
+	}
+}
+6154 = {
+	name = "比安切里"
+	country = ITA
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6154
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+6155 = {
+	name = "比利沃恩斯"
+	country = ITA
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6155
+	add_trait = superior_tactician
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+6156 = {
+	name = "卡西奥波"
+	country = ITA
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6156
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+6157 = {
+	name = "坎皮奥尼.A.D."
+	country = ITA
+	type = sea
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6157
+	add_trait = superior_tactician
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 4 }
+	}
+}
+6158 = {
+	name = "坎皮奥尼.I."
+	country = ITA
+	type = sea
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L6158
+	add_trait = superior_tactician
+	add_trait = spotter
+	history = {
+		1937.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+6159 = {
+	name = "卡塔尼奥"
+	country = ITA
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6159
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+6160 = {
+	name = "卡瓦尼亚利"
+	country = ITA
+	type = sea
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L6160
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+6161 = {
+	name = "加莱阿佐.齐亚诺"
+	country = ITA
+	type = sea
+	skill = 2
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6161
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 3 }
+	}
+}
+6162 = {
+	name = "达.扎拉"
+	country = ITA
+	type = sea
+	skill = 3
+	max_skill = 6
+	loyalty = 1.00
+	picture = L6162
+	add_trait = superior_tactician
+	history = {
+		1939.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+6163 = {
+	name = "邓兹.阿玛瑞蒂"
+	country = ITA
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6163
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+	}
+}
+6164 = {
+	name = "迪.科萨塔"
+	country = ITA
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6164
+	add_trait = seawolf
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+6165 = {
+	name = "德.科尔登"
+	country = ITA
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6165
+	history = {
+		1938.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+6166 = {
+	name = "德.劳伦蒂斯"
+	country = ITA
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6166
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+6167 = {
+	name = "德.马蒂诺"
+	country = ITA
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6167
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+6168 = {
+	name = "费迪南多.迪.萨沃亚"
+	country = ITA
+	type = sea
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L6168
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+	}
+}
+6169 = {
+	name = "菲奥伦兹韦拉"
+	country = ITA
+	type = sea
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L6169
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+6170 = {
+	name = "加莱蒂"
+	country = ITA
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6170
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+6171 = {
+	name = "加斯帕里"
+	country = ITA
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6171
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+6172 = {
+	name = "加维埃里"
+	country = ITA
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6172
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+6173 = {
+	name = "加扎纳"
+	country = ITA
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6173
+	add_trait = seawolf
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+6174 = {
+	name = "盖"
+	country = ITA
+	type = sea
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L6174
+	add_trait = old_guard
+	add_trait = superior_tactician
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+6175 = {
+	name = "伊亚基诺"
+	country = ITA
+	type = sea
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6175
+	add_trait = superior_tactician
+	add_trait = spotter
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 3 }
+	}
+}
+6176 = {
+	name = "因特里托"
+	country = ITA
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6176
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+6177 = {
+	name = "隆巴尔蒂"
+	country = ITA
+	type = sea
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6177
+	history = {
+		1944.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+6178 = {
+	name = "马蒂嫩戈"
+	country = ITA
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6178
+	add_trait = superior_tactician
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+6179 = {
+	name = "马斯切尔帕"
+	country = ITA
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6179
+	add_trait = spotter
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+6180 = {
+	name = "米姆波利"
+	country = ITA
+	type = sea
+	skill = 3
+	max_skill = 7
+	loyalty = 1.00
+	picture = L6180
+	history = {
+		1948.1.1 = { rank = 1 }
+	}
+}
+6181 = {
+	name = "奥里瓦"
+	country = ITA
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6181
+	add_trait = old_guard
+	add_trait = spotter
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+6182 = {
+	name = "帕拉蒂诺"
+	country = ITA
+	type = sea
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6182
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+6183 = {
+	name = "帕罗纳"
+	country = ITA
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6183
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+6184 = {
+	name = "奎利奇"
+	country = ITA
+	type = sea
+	skill = 2
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6184
+	add_trait = blockade_runner
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 3 }
+	}
+}
+6185 = {
+	name = "拉法埃利"
+	country = ITA
+	type = sea
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6185
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+6186 = {
+	name = "里卡尔迪"
+	country = ITA
+	type = sea
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L6186
+	add_trait = old_guard
+	add_trait = spotter
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+	}
+}
+6187 = {
+	name = "里佐"
+	country = ITA
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6187
+	history = {
+		1937.1.1 = { rank = 1 }
+	}
+}
+6188 = {
+	name = "塔昂.迪.雷韦尔"
+	country = ITA
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6188
+	add_trait = old_guard
+	add_trait = spotter
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1946.1.1 = { rank = 4 }
+	}
+}
+6189 = {
+	name = "托里西"
+	country = ITA
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6189
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+6190 = {
+	name = "托斯卡纳"
+	country = ITA
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6190
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+6191 = {
+	name = "蒂尔"
+	country = ITA
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6191
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+6192 = {
+	name = "瓦萨雷拉"
+	country = ITA
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6192
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+6193 = {
+	name = "阿杰莫尼"
+	country = ITA
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6193
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+6194 = {
+	name = "巴尔博"
+	country = ITA
+	type = air
+	skill = 3
+	max_skill = 7
+	loyalty = 1.00
+	picture = L6194
+	add_trait = fleet_destroyer
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1930.1.1 = { rank = 4 }
+	}
+}
+6195 = {
+	name = "贝尔纳斯科尼"
+	country = ITA
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6195
+	history = {
+		1937.1.1 = { rank = 1 }
+	}
+}
+6196 = {
+	name = "比安奇"
+	country = ITA
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L6196
+	history = {
+		1938.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+6197 = {
+	name = "比塞奥"
+	country = ITA
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6197
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+6198 = {
+	name = "博托"
+	country = ITA
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6198
+	history = {
+		1942.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+6199 = {
+	name = "布雷甘迪"
+	country = ITA
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6199
+	add_trait = fleet_destroyer
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+6200 = {
+	name = "布斯卡利亚"
+	country = ITA
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6200
+	add_trait = fleet_destroyer
+	history = {
+		1937.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+6201 = {
+	name = "卡尼亚"
+	country = ITA
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6201
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+6202 = {
+	name = "塞鲁蒂"
+	country = ITA
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6202
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+6203 = {
+	name = "康蒂"
+	country = ITA
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6203
+	add_trait = superior_air_tactician
+	history = {
+		1943.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+6204 = {
+	name = "科尔兹"
+	country = ITA
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6204
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 3 }
+	}
+}
+6205 = {
+	name = "克瑞米"
+	country = ITA
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6205
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+6206 = {
+	name = "迪.费罗"
+	country = ITA
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6206
+	add_trait = fleet_destroyer
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+6207 = {
+	name = "迪.蒙特格纳科"
+	country = ITA
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6207
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+6208 = {
+	name = "法格吉奥尼"
+	country = ITA
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6208
+	add_trait = tank_buster
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+6209 = {
+	name = "弗吉尔"
+	country = ITA
+	type = air
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L6209
+	add_trait = tank_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 3 }
+	}
+}
+6210 = {
+	name = "加蒙迪"
+	country = ITA
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6210
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+6211 = {
+	name = "格拉齐亚尼.朱利奥"
+	country = ITA
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6211
+	add_trait = fleet_destroyer
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+6212 = {
+	name = "伊拉里"
+	country = ITA
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6212
+	history = {
+		1939.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+6213 = {
+	name = "克林格尔"
+	country = ITA
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6213
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+6214 = {
+	name = "里奥塔"
+	country = ITA
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6214
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+6215 = {
+	name = "朗格"
+	country = ITA
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6215
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+6216 = {
+	name = "卢奇尼"
+	country = ITA
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6216
+	add_trait = superior_air_tactician
+	history = {
+		1938.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+6217 = {
+	name = "马尔基"
+	country = ITA
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L6217
+	add_trait = superior_air_tactician
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+6218 = {
+	name = "梅科齐"
+	country = ITA
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6218
+	add_trait = tank_buster
+	history = {
+		1937.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+6219 = {
+	name = "南尼尼"
+	country = ITA
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6219
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+6220 = {
+	name = "帕帕莱奥"
+	country = ITA
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6220
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+6221 = {
+	name = "佩莱格里尼"
+	country = ITA
+	type = air
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6221
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+6222 = {
+	name = "佩齐"
+	country = ITA
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6222
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+6223 = {
+	name = "皮亚琴蒂尼"
+	country = ITA
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6223
+	add_trait = fleet_destroyer
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+6224 = {
+	name = "波利"
+	country = ITA
+	type = air
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6224
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 3 }
+	}
+}
+6225 = {
+	name = "波罗"
+	country = ITA
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6225
+	add_trait = old_guard
+	add_trait = carpet_bomber
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+6226 = {
+	name = "普里科洛"
+	country = ITA
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L6226
+	add_trait = superior_air_tactician
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+6227 = {
+	name = "兰扎"
+	country = ITA
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6227
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+6228 = {
+	name = "雷扎"
+	country = ITA
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6228
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+6229 = {
+	name = "里奇"
+	country = ITA
+	type = air
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L6229
+	add_trait = fleet_destroyer
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+6230 = {
+	name = "罗马尼奥利"
+	country = ITA
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6230
+	add_trait = superior_air_tactician
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+6231 = {
+	name = "桑达利"
+	country = ITA
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6231
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 3 }
+	}
+}
+6232 = {
+	name = "桑蒂尼"
+	country = ITA
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L6232
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+	}
+}
+6233 = {
+	name = "桑托罗"
+	country = ITA
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6233
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+6234 = {
+	name = "席尔维斯特里"
+	country = ITA
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6234
+	add_trait = night_flyer
+	history = {
+		1939.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+6235 = {
+	name = "索弗里蒂"
+	country = ITA
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L6235
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+6236 = {
+	name = "乌尔巴尼"
+	country = ITA
+	type = air
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L6236
+	history = {
+		1941.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+6237 = {
+	name = "维斯康蒂"
+	country = ITA
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L6237
+	add_trait = superior_air_tactician
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+6238 = {
+	name = "维森蒂尼"
+	country = ITA
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6238
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+6239 = {
+	name = "拉.费拉"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L6239
+	add_trait = logistics_wizard
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+6240 = {
+	name = "乔治斯"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6240
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+6241 = {
+	name = "乔治斯"
+	country = ITA
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6240
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+6242 = {
+	name = "普廖雷"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L6242
+	add_trait = offensive_doctrine
+	history = {
+		1939.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+6243 = {
+	name = "贝托斯"
+	country = ITA
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L6243
+	add_trait = logistics_wizard
+	add_trait = offensive_doctrine
+	add_trait = panzer_leader
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+6244 = {
+	name = "阿尔利诺.泰斯特罗"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6244
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+6245 = {
+	name = "艾莫尼诺"
+	country = ITA
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6245
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+6246 = {
+	name = "贝纳蒂"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6246
+	add_trait = fortress_buster
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+6247 = {
+	name = "卡尔卡尼奥"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6247
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1953.1.1 = { rank = 0 }
+	}
+}
+6248 = {
+	name = "坎帕尼亚"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6248
+	add_trait = fortress_buster
+	history = {
+		1944.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+6249 = {
+	name = "西科内蒂"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6249
+	history = {
+		1945.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 2 }
+	}
+}
+6250 = {
+	name = "克雷米"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6250
+	history = {
+		1945.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+6251 = {
+	name = "迪.奥罗"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6251
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+6252 = {
+	name = "德.皮尼耶"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L6252
+	add_trait = fortress_buster
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+6253 = {
+	name = "德尔.朱迪斯"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6253
+	add_trait = logistics_wizard
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+6254 = {
+	name = "迪.贝内德托"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6254
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+6255 = {
+	name = "法里纳西"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6255
+	history = {
+		1938.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+6256 = {
+	name = "法乌提利"
+	country = ITA
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L6256
+	add_trait = fortress_buster
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 3 }
+	}
+}
+6257 = {
+	name = "加尔比亚蒂"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6257
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+6258 = {
+	name = "加尔洛"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L6258
+	add_trait = panzer_leader
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+6259 = {
+	name = "甘迪尼"
+	country = ITA
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L6259
+	history = {
+		1941.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 3 }
+	}
+}
+6260 = {
+	name = "古伊莱特"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L6260
+	add_trait = logistics_wizard
+	add_trait = trickster
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+6261 = {
+	name = "因凡特"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6261
+	add_trait = panzer_leader
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+6262 = {
+	name = "莱奥纳尔迪"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L6262
+	history = {
+		1939.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+6263 = {
+	name = "曼内里尼"
+	country = ITA
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6263
+	add_trait = logistics_wizard
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+6264 = {
+	name = "莫纳奇"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6264
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+6265 = {
+	name = "蒙塔尼亚"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6265
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+6266 = {
+	name = "莫里吉"
+	country = ITA
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L6266
+	add_trait = defensive_doctrine
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+6267 = {
+	name = "纳瓦里尼"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L6267
+	history = {
+		1939.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+6268 = {
+	name = "尼科洛西"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6268
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+	}
+}
+6269 = {
+	name = "奥克西利亚"
+	country = ITA
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L6269
+	add_trait = fortress_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+6270 = {
+	name = "帕里尼"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6270
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+6271 = {
+	name = "皮亚蒂.德尔.波佐"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6271
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+6272 = {
+	name = "皮格内蒂"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6272
+	add_trait = engineer
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+6273 = {
+	name = "雷"
+	country = ITA
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L6273
+	add_trait = fortress_buster
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+6274 = {
+	name = "罗梅贾利"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6274
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+6275 = {
+	name = "斯福尔扎"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6275
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+6276 = {
+	name = "席尔维斯特里"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6276
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+6277 = {
+	name = "泰莱拉"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6277
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+6278 = {
+	name = "特林加利"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6278
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+6279 = {
+	name = "沃尔德梅拉.加比尼"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6279
+	add_trait = winter_specialist
+	history = {
+		1941.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+6280 = {
+	name = "布兰迪马尔特"
+	country = ITA
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6280
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+6281 = {
+	name = "格雷洛"
+	country = ITA
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L6281
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+6282 = {
+	name = "博诺米"
+	country = ITA
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6282
+	add_trait = tank_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+6283 = {
+	name = "泰萨雷"
+	country = ITA
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6283
+	history = {
+		1938.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+6284 = {
+	name = "安乔内"
+	country = ITA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6284
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+6285 = {
+	name = "迪.巴尔代瑟罗"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6285
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+6286 = {
+	name = "巴扎尼"
+	country = ITA
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6286
+	add_trait = carpet_bomber
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+6291 = {
+	name = "法兰戈拉"
+	country = ITA
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6291
+	add_trait = seawolf
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1990.1.1 = { rank = 0 }
+	}
+}
+6293 = {
+	name = "莱尼亚尼"
+	country = ITA
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6293
+	add_trait = seawolf
+	history = {
+		1939.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1990.1.1 = { rank = 0 }
+	}
+}
+6295 = {
+	name = "马泰乌奇"
+	country = ITA
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6295
+	history = {
+		1939.1.1 = { rank = 1 }
+		1990.1.1 = { rank = 0 }
+	}
+}
+6299 = {
+	name = "阿皮奥蒂"
+	country = ITA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L6299
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1990.1.1 = { rank = 0 }
+	}
+}

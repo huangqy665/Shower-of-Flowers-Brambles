@@ -1,0 +1,3 @@
+owner = BUL
+controller = BUL
+add_core = BUL

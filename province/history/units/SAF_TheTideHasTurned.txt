@@ -1,0 +1,26 @@
+division = {
+	name = "第3南非装甲师"
+	location = 7978
+	regiment = { type = armor_brigade historical_model = 1 }
+	regiment = { type = armor_brigade historical_model = 1 }
+	regiment = { type = motorized_brigade historical_model = 1 }
+}
+division = {
+	name = "第6南非装甲师"
+	location = 8054
+	regiment = { type = armor_brigade name = "第11装甲旅" historical_model = 1 }
+	regiment = { type = armor_brigade name = "第12装甲旅" historical_model = 1 }
+	regiment = { type = motorized_brigade name = "第13摩托化旅" historical_model = 1 }
+	regiment = { type = infantry_brigade name = "本土警备第24步兵旅" historical_model = 1 }
+}
+navy = {
+	name = "南非海军"
+	base = 8054
+	location = 8054
+	ship = { type = transport_ship name = "第1运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第2运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第3运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第4运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第5运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第6运输舰队" historical_model = 0 }
+}

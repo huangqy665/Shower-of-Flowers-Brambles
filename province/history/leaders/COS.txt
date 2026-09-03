@@ -1,0 +1,360 @@
+350000 = {
+	name = "德.拉.埃斯普利亚拉"
+	country = COS
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L350000
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+350001 = {
+	name = "菲格雷斯.费雷尔"
+	country = COS
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L350001
+	add_trait = offensive_doctrine
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+350002 = {
+	name = "洛伦佐.布雷内斯"
+	country = COS
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L350002
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+350003 = {
+	name = "马歇尔.希门尼斯"
+	country = COS
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L350003
+	add_trait = commando
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+350004 = {
+	name = "马滕.沙瓦里亚"
+	country = COS
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L350004
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+350005 = {
+	name = "纳瓦伊斯.格尔"
+	country = COS
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L350005
+	add_trait = trickster
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+350006 = {
+	name = "奥尔利奇.博尔马里奇"
+	country = COS
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L350006
+	add_trait = panzer_leader
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+350007 = {
+	name = "奥图诺.萨夫拉多"
+	country = COS
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L350007
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+350008 = {
+	name = "拉米雷斯.阿尔坎塔拉"
+	country = COS
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L350008
+	add_trait = logistics_wizard
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+350009 = {
+	name = "拉米雷斯.y.拉米雷斯"
+	country = COS
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L350009
+	add_trait = fortress_buster
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+350010 = {
+	name = "罗森多.阿尔盖洛"
+	country = COS
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L350010
+	add_trait = logistics_wizard
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+350011 = {
+	name = "罗斯.卡多诺.E."
+	country = COS
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L350011
+	add_trait = offensive_doctrine
+	history = {
+		1939.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+350012 = {
+	name = "罗斯.卡多诺.S."
+	country = COS
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L350012
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+350013 = {
+	name = "圣.雷纳尔多"
+	country = COS
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L350013
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+350014 = {
+	name = "西纳亚.卡卢法"
+	country = COS
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L350014
+	history = {
+		1945.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+350015 = {
+	name = "蒂诺科"
+	country = COS
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L350015
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+350016 = {
+	name = "博略.希门尼斯"
+	country = COS
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L350016
+	add_trait = panzer_leader
+	history = {
+		1938.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+350017 = {
+	name = "萨莫拉.A."
+	country = COS
+	type = land
+	skill = 2
+	max_skill = 3
+	loyalty = 0.00
+	picture = L350017
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+350018 = {
+	name = "萨莫拉.E."
+	country = COS
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L350018
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+350019 = {
+	name = "阿布雷乌.卡斯特罗"
+	country = COS
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L350019
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+350020 = {
+	name = "华雷斯.坎波西诺"
+	country = COS
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L350020
+	history = {
+		1939.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+350021 = {
+	name = "西德勒.门多萨"
+	country = COS
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L350021
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+350022 = {
+	name = "瓦凯扎.科尔特斯"
+	country = COS
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L350022
+	add_trait = seawolf
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+350023 = {
+	name = "马乔.努涅斯"
+	country = COS
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L350023
+	add_trait = spotter
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+350024 = {
+	name = "帕迪利亚.塞利恩"
+	country = COS
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L350024
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+350025 = {
+	name = "乌里贝.阿尔波维达"
+	country = COS
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L350025
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+350026 = {
+	name = "萨莫拉"
+	country = COS
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L350026
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+	}
+}

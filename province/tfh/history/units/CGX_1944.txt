@@ -1,0 +1,6 @@
+division = {					
+	name = "桂林警备队"				
+	location = 7553				
+	regiment = { type = garrison_brigade name = "第1团" historical_model = 0 }				
+	regiment = { type = garrison_brigade name = "第2团" historical_model = 0 }				
+}					

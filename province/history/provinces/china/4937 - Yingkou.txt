@@ -1,0 +1,5 @@
+owner = MAN
+controller = MAN
+add_core = MAN
+industry = 3
+infra = 6

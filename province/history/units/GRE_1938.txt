@@ -1,0 +1,181 @@
+corps = {
+	name = "希腊第1军"
+	location = 5076
+	regiment = { type = hq_brigade name = "希腊第1军指挥部" historical_model = 0 }
+	division= {
+		name = "第2步兵师"
+		location = 5076
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第1团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第20团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第34团" historical_model = 0 }
+	}
+	division= {
+		name = "第3步兵师"
+		location = 5106
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第6团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第12团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第39团" historical_model = 0 }
+	}
+	division= {
+		name = "第4步兵师"
+		location = 5137
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第8团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第9团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第11团" historical_model = 0 }
+	}
+}
+corps = {
+	name = "希腊第2军"
+	location = 4873
+	regiment = { type = hq_brigade name = "希腊第2军指挥部" historical_model = 0 }
+	division= {
+		name = "第1步兵师"
+		location = 4873
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第2团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第4团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第5团" historical_model = 0 }
+	}
+	division= {
+		name = "第9步兵师"
+		location = 4771
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第27团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第32团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第33团" historical_model = 0 }
+	}
+}
+corps = {
+	name = "希腊第3军"
+	location = 4720
+	regiment = { type = hq_brigade name = "希腊第3军指挥部" historical_model = 0 }
+	division= {
+		name = "第6步兵师"
+		location = 4612
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第19步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第20步兵团" historical_model = 0 }
+		regiment = { type = artillery_brigade name = "第VI炮兵团" historical_model = 0 }
+	}
+	division= {
+		name = "第10步兵师"
+		location = 4719
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第16步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第30步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第65步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "第11步兵师"
+		location = 4720
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第31步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第50步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "希腊第1边防司令部"
+		location = 4612
+		is_reserve = yes
+		regiment = { type = garrison_brigade name = "第VI边防司令部" historical_model = 0 }
+		regiment = { type = garrison_brigade name = "第XI边防司令部" historical_model = 0 }
+	}
+}
+corps = {
+	name = "希腊第4军"
+	location = 4613
+	regiment = { type = hq_brigade name = "希腊第4军指挥部" historical_model = 0 }
+	division= {
+		name = "第7步兵师"
+		location = 4613
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第25步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第26步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "第14步兵师"
+		location = 4613
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第37步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "希腊第2边防司令部"
+		location = 4613
+		is_reserve = yes
+		regiment = { type = garrison_brigade name = "第XIV边防司令部" historical_model = 0 }
+		regiment = { type = garrison_brigade name = "第VII边防司令部" historical_model = 0 }
+	}
+}
+corps = {
+	name = "希腊第5军"
+	location = 4614
+	regiment = { type = hq_brigade name = "希腊第5军指挥部" historical_model = 0 }
+	division= {
+		name = "第12步兵师"
+		location = 4614
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第29步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第81步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "第13步兵师"
+		location = 5077
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第18步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第22步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第23步兵团" historical_model = 0 }
+	}
+}
+division= {
+	name = "第5步兵师"
+	location = 5379
+	is_reserve = yes
+	regiment = { type = infantry_brigade name = "第14步兵团" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "第43步兵团" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "第44步兵团" historical_model = 0 }
+}
+division= {
+	name = "第8步兵师"
+	location = 4819
+	is_reserve = yes
+	regiment = { type = infantry_brigade name = "第10步兵团" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "第15步兵团" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "第24步兵团" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "第40步兵团" historical_model = 0 }
+}
+division= {
+	name = "第1骑兵师"
+	location = 4720
+	is_reserve = yes
+	regiment = { type = cavalry_brigade name = "第1骑兵旅" historical_model = 0 }
+	regiment = { type = motorized_brigade name = "塞萨洛尼卡团" historical_model = 0 }
+
+}
+navy = {
+	name = "巴斯里克港舰队"
+	base = 5076
+	location = 5076
+	ship = { type = light_cruiser name = "乔治奥斯·阿维奥夫号" historical_model = 0 }
+	ship = { type = transport_ship name = "第1运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第2运输舰队" historical_model = 0 }
+}
+air = {
+	name = "希腊空军"
+	base = 5076
+	location = 5076
+	wing = { type = interceptor name = "战斗机部队" historical_model = 0 }
+	wing = { type = tactical_bomber name = "轰炸机部队" historical_model = 0 }
+}
+navy = {
+	name = "第II巴斯里克港舰队"
+	base = 5076
+	location = 5076
+	ship = { type = destroyer name = "第1驱逐舰队" historical_model = 0 }
+	ship = { type = destroyer name = "第2驱逐舰队" historical_model = 1 }
+	ship = { type = submarine name = "第1潜艇编队" historical_model = 0 }
+}
+
+
+

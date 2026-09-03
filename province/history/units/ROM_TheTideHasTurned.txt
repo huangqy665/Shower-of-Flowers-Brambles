@@ -1,0 +1,94 @@
+armygroup= {
+	name = "罗马尼亚集团军群指挥部"
+	location = 3917
+	regiment = { type = hq_brigade name = "罗马尼亚集团军群指挥部" historical_model = 1 }
+	corps = {
+		name = "第1骑兵军"
+		location = 3444
+		regiment = { type = hq_brigade name = "第1骑兵军指挥部" historical_model = 0 }
+		division= {
+			name = "第19步兵师"
+			location = 3444
+			regiment = { type = infantry_brigade name = "第94步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第95步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第96步兵团" historical_model = 1 }
+		}
+		division= {
+			name = "第4骑兵师"
+			location = 3444
+			regiment = { type = cavalry_brigade name = "第10龙骑兵团" historical_model = 0 }
+			regiment = { type = cavalry_brigade name = "第3轻骑兵团" historical_model = 0 }
+			regiment = { type = cavalry_brigade name = "第11轻骑兵团" historical_model = 0 }
+		}
+		division= {
+			name = "第9骑兵师"
+			location = 3444
+			regiment = { type = cavalry_brigade name = "第3龙骑兵团" historical_model = 0 }
+			regiment = { type = cavalry_brigade name = "第5龙骑兵团" historical_model = 0 }
+			regiment = { type = cavalry_brigade name = "第13轻骑兵团" historical_model = 0 }
+		}
+	}
+	corps = {
+		name = "第11军团"
+		location = 3917
+		regiment = { type = hq_brigade name = "第11军团指挥部" historical_model = 0 }
+		division= {
+			name = "第21步兵师"
+			location = 3917
+			regiment = { type = infantry_brigade name = "第11步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第12步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第24步兵团" historical_model = 1 }
+		}
+	}
+	corps = {
+		name = "第1山地军"
+		location = 3444
+		regiment = { type = hq_brigade name = "第1山地军指挥部" historical_model = 0 }
+		division= {
+			name = "第1山地师"
+			location = 3444
+			regiment = { type = bergsjaeger_brigade historical_model = 0 }
+			regiment = { type = bergsjaeger_brigade historical_model = 0 }
+		}
+		division= {
+			name = "第4山地师"
+			location = 3444
+			regiment = { type = bergsjaeger_brigade historical_model = 0 }
+			regiment = { type = bergsjaeger_brigade historical_model = 0 }
+		}
+	}
+	division= {
+		name = "第1卫戍师"
+		location = 3917
+		regiment = { type = infantry_brigade name = "第6步兵团" historical_model = 3 }
+		regiment = { type = infantry_brigade name = "第2猎兵团" historical_model = 3 }
+		regiment = { type = infantry_brigade name = "第9猎兵团" historical_model = 3 }
+	}
+	division= {
+		name = "第2卫戍师"
+		location = 3917
+		regiment = { type = infantry_brigade name = "第2禁卫团" historical_model = 3 }
+		regiment = { type = infantry_brigade name = "第3禁卫团" historical_model = 3 }
+		regiment = { type = infantry_brigade name = "第4禁卫团" historical_model = 3 }
+	}
+}
+navy = {
+	name = "罗马尼亚海军舰队"
+	base = 3919
+	location = 3919
+	ship = { type = destroyer name = "斐迪南国王号" historical_model = 0 }
+	ship = { type = submarine name = "海豚号" historical_model = 1 }
+}
+air = {
+	name = "战斗航空集群"
+	base = 3917
+	location = 3917
+	wing = { type = interceptor name = "第1战斗机大队" historical_model = 2 }
+	wing = { type = tactical_bomber name = "第1战术轰炸机大队" historical_model = 1 }
+}
+air = {
+	name = "第1海军轰炸机大队"
+	base = 3919
+	location = 3919
+	wing = { type = naval_bomber name = "第1海军轰炸机大队" historical_model = 0 }
+}

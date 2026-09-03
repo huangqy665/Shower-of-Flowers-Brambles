@@ -1,0 +1,369 @@
+last_election = 1936.9.15
+army {
+    name = "ÈğµäÂ½¾ü"
+    location = 862 # Stockholm
+    regiment = { type = hq_brigade name = "ÈğµäÂ½¾üÖ¸»Ó²¿" historical_model = 0 }
+    corps = {
+        name = "µÚ1¾ü"
+        location = 901
+        regiment = { type = hq_brigade name = "µÚ1¾üÖ¸»Ó²¿" historical_model = 0 }
+        division = {
+            name = "µÚXVI¾ü"
+            location = 901
+            regiment = { type = infantry_brigade name = "Î¤Ä·À¼ÍÅ" historical_model = 1 }
+            regiment = { type = infantry_brigade name = "Àû·òÖÀµ¯ÁÔ±øÍÅ" historical_model = 1 }
+            regiment = { type = infantry_brigade name = "´ï¶ûÍÅ" historical_model = 1 }
+        }
+    }
+    corps = {
+        name = "µÚ2¾ü"
+        location = 1055 # Vänersborg 
+        regiment = { type = hq_brigade name = "µÚ2¾üÖ¸»Ó²¿" historical_model = 0}
+        division = {
+            name = "µÚIII¾ü"
+            location = 1055
+            regiment = { type = infantry_brigade name = "°¬¶û·òË¹±¤ÍÅ" historical_model = 1 }
+            regiment = { type = infantry_brigade name = "¹şÀ¼ÍÅ" historical_model = 1 }
+            regiment = { type = infantry_brigade name = "²©Ë¹À¼ÍÅ" historical_model = 1 }
+        }
+    }
+    corps = {
+        name = "µÚ3¾ü"
+        location = 1392 # Helsingborg
+        regiment = { type = hq_brigade name = "µÚ3¾üÖ¸»Ó²¿" historical_model = 0}
+        division = {
+            name = "µÚI¾ü"
+            location = 1484 # Ystad
+            regiment = { type = infantry_brigade name = "±±Ë¹¿²ÑÅÍÅ" historical_model = 1 }
+            regiment = { type = infantry_brigade name = "¿ËÂ³Å¬±´ÀïÍÅ" historical_model = 1 }
+            regiment = { type = infantry_brigade name = "ÑÓÑ©Æ½-¿¨Âê¶ûÍÅ" historical_model = 1 }
+        }
+        division = {
+            name = "µÚXI¾ü"
+            location = 1392 # Helsingborg
+            regiment = { type = infantry_brigade name = "Âí¶ûÄ¬ÍÅ" historical_model = 1 }
+            regiment = { type = infantry_brigade name = "²¼À³½ğ¶òÍÅ" historical_model = 1 }
+            regiment = { type = infantry_brigade name = "±±Ë¹ÂíÀ¼ÍÅ" historical_model = 1 }
+        }
+    }
+    corps = {
+        name = "±±ÅµÀ¼¾ü"
+        location = 206
+        regiment = { type = hq_brigade name = "±±ÅµÀ¼¾üÖ¸»Ó²¿" historical_model = 0}
+        division = {
+            name = "µÚXV¾ü"
+            location = 206
+            regiment = { type = infantry_brigade name = "±±²©ëøÍÅ" historical_model = 1 }
+            regiment = { type = infantry_brigade name = "Î÷²©ëøÍÅ" historical_model = 1 }
+            regiment = { type = infantry_brigade name = "À­ÆÕÀ¼ÍÅ" historical_model = 1 }
+        }
+    }
+	corps = {
+		name = "Ô¼ÌØÀ¼¾ü"
+		location = 365 # Östersund
+		regiment = { type = hq_brigade name = "Ô¼ÌØÀ¼¾üÖ¸»Ó²¿" historical_model = 0}
+		division = {
+	name = "µÚ1¾ü"
+	location = 341
+	regiment = { type = infantry_brigade name = "Ô¼ÌØÀ¼À´¸´Ç¹ÍÅ" historical_model = 1 }
+	regiment = { type = infantry_brigade name = "Î÷ÅµÀ¼ÍÅ" historical_model = 1 }
+
+	}
+ division = {
+ name = "µÚ1¾ü·Ö¶Ó"
+	location = 274	regiment = { type = infantry_brigade name = "Î÷ÅµÀ¼ÂÃ" historical_model = 2 }
+
+	}	division = {
+			name = "µÚXII¾ü"
+			location = 365 # Östersund
+			regiment = { type = infantry_brigade name = "º£¶ûĞÁÍÅ" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "¼ÓË¹ÌØÀï¿ËÍÅ" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "ÎÌ¶òÂüÀ¼ÍÅ" historical_model = 1 }
+		}
+	}
+	division = {
+		name = "Ë¹µÂ¸ç¶ûÄ¦ÎÀÊù²¿¶Ó"
+		location = 862 # Stockholm
+		regiment = { type = infantry_brigade name = "Ë¹Î¬ÑÅ-Àû·ò¼ÓµÂÍÅ" historical_model = 1 }    
+	}
+	division = {
+		name = "¸çÌØÀ¼¾ü"
+		location = 1135 # Visby
+		regiment = { type = infantry_brigade name = "¸çÌØÀ¼ÍÅ" historical_model = 1 }
+	}
+	# Strategiska reserven (Strategic reserves)
+    corps = {
+		is_reserve = yes
+        name = "Õ½ÂÔÔ¤±¸¶Ó"
+        location = 862 # Stockholm
+        regiment = { type = hq_brigade name = "Õ½ÂÔÔ¤±¸¶ÓÖ¸»Ó²¿" historical_model = 0}
+        division = {
+			is_reserve = yes
+            name = "µÚIV¾ü"
+            location = 1058 # Linköping
+            regiment = { type = infantry_brigade name = "Àû·òÖÀµ¯ÁÔ±øÍÅ" historical_model = 1 }
+            regiment = { type = infantry_brigade name = "ÎÚÆÕÀ¼ÍÅ" historical_model = 1 }
+            regiment = { type = infantry_brigade name = "Ë¹µÂ¸ç¶ûÄ¦ÍÅ" historical_model = 1 }
+        }
+        division = {
+			is_reserve = yes
+            name = "µÚXIV¾ü"
+            location = 942 # Örebro
+            regiment = { type = infantry_brigade name = "ÄÎÀï¿ËË¹ÍÅ" historical_model = 1 } 
+            regiment = { type = infantry_brigade name = "¶«¸çÌØÍÅ" historical_model = 1 }
+            regiment = { type = infantry_brigade name = "ÂŞË¹À­¸ùÍÅ" historical_model = 1 }
+        }
+        division = {
+			is_reserve = yes
+            name = "µÚXIII¾ü"
+            location = 1056 # Skövde
+            regiment = { type = infantry_brigade name = "Î÷¸çÌØÍÅ" historical_model = 1 }
+            regiment = { type = infantry_brigade name = "Íß¶û±´ÀïÍÅ" historical_model = 1 }
+            regiment = { type = infantry_brigade name = "¸çëø±¤ÍÅ" historical_model = 1 }
+        }
+        division = {
+			is_reserve = yes
+            name = "»Ê¼ÒÕ½ÂÔÔ¤±¸¶Ó"
+            location = 1303 # Ljungby
+            regiment = { type = light_armor_brigade name = "Ë¹¿¨À­²®¸ñÍÅ" historical_model = 1 }
+            regiment = { type = light_armor_brigade name = "ÈûÂüÀ¼ÍÅ" historical_model = 1 }
+            regiment = { type = motorized_brigade name = "µÚ8Ä¦ÍĞ»¯ÂÃ" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "ÄÏË¹¿²ÑÅ²½±øÍÅ" historical_model = 1 }
+        }
+    }
+}
+corps = {
+	name = "ÄÏ·½Ô¤±¸ÒÛ²¿¶Ó"
+	location = 317 # Kristianstad
+	regiment = { type = hq_brigade name = "ÄÏ·½Ô¤±¸ÒÛ²¿¶ÓÖ¸»Ó²¿" historical_model = 0 }
+	division = {
+		name = "µÚ6±¾µØÔ¤±¸ÒÛÍÅ"
+		location = 1392 # Helsingborg
+		regiment = { type = garrison_brigade name = "µÚ6±¾µØÔ¤±¸ÒÛÍÅ" historical_model = 1 }
+	}
+	division = {
+		name = "µÚ7±¾µØÔ¤±¸ÒÛÍÅ"
+		location = 1438 # Malmö
+		regiment = { type = garrison_brigade name = "µÚ7±¾µØÔ¤±¸ÒÛÍÅ" historical_model = 1 }
+	}
+	division = {
+		name = "µÚ11±¾µØÔ¤±¸ÒÛÍÅ"
+		location = 1394 # Karlshamn
+		regiment = { type = garrison_brigade name = "µÚ11±¾µØÔ¤±¸ÒÛÍÅ" historical_model = 1 }
+	}
+	division = {
+		name = "µÚ12±¾µØÔ¤±¸ÒÛÍÅ"
+		location = 1215 # Nässjö
+		regiment = { type = garrison_brigade name = "µÚ12±¾µØÔ¤±¸ÒÛÍÅ" historical_model = 1 }
+	}
+	division = {
+		name = "µÚ111±¾µØÔ¤±¸ÒÛÍÅ"
+		location = 1305 # Kalmar
+		regiment = { type = garrison_brigade name = "µÚ111±¾µØÔ¤±¸ÒÛÍÅ" historical_model = 1 }
+	}
+}
+corps = {
+	name = "±±·½Ô¤±¸ÒÛ²¿¶Ó"
+	location = 365 # Östersund
+	regiment = { type = hq_brigade name = "±±·½Ô¤±¸ÒÛ²¿¶ÓÖ¸»Ó²¿" historical_model = 0}
+	division = {
+		name = "µÚ5±¾µØÔ¤±¸ÒÛÍÅ"
+		location = 365 # Östersund
+		regiment = { type = garrison_brigade name = "µÚ5±¾µØÔ¤±¸ÒÛÍÅ" historical_model = 1 }
+	}
+	division = {
+		name = "µÚ8±¾µØÔ¤±¸ÒÛÍÅ"
+		location = 499 # Hudiksvall
+		regiment = { type = garrison_brigade name = "µÚ8±¾µØÔ¤±¸ÒÛÍÅ" historical_model = 1 }
+	}
+	division = {
+		name = "µÚ21±¾µØÔ¤±¸ÒÛÍÅ"
+		location = 395 # Härnösand
+		regiment = { type = garrison_brigade name = "µÚ21±¾µØÔ¤±¸ÒÛÍÅ" historical_model = 1 }
+	}
+	division = {
+		name = "µÚ14±¾µØÔ¤±¸ÒÛÍÅ"
+		location = 651 # Gävle
+		regiment = { type = garrison_brigade name = "µÚ14±¾µØÔ¤±¸ÒÛÍÅ" historical_model = 1 }
+	}
+	division = {
+		name = "µÚ201±¾µØÔ¤±¸ÒÛÍÅ"
+		location = 651 # Gävle
+		regiment = { type = garrison_brigade name = "µÚ201±¾µØÔ¤±¸ÒÛÍÅ" historical_model = 1 }
+	}
+}
+corps = {
+	name = "¶«²¿Ô¤±¸ÒÛ²¿¶Ó"
+	location = 1056 # Skövde
+	regiment = { type = hq_brigade name = "¶«²¿Ô¤±¸ÒÛ²¿¶ÓÖ¸»Ó²¿" historical_model = 0}
+	division = {
+		name = "µÚ2±¾µØÔ¤±¸ÒÛÍÅ"
+		location = 1056 # Uddevalla
+		regiment = { type = garrison_brigade name = "µÚ2±¾µØÔ¤±¸ÒÛÍÅ" historical_model = 1 }
+	}
+	division = {
+		name = "µÚ9±¾µØÔ¤±¸ÒÛÍÅ"
+		location = 1056 # Skövde
+		regiment = { type = garrison_brigade name = "µÚ9±¾µØÔ¤±¸ÒÛÍÅ" historical_model = 1 }
+	}
+	division = {
+		name = "µÚ15±¾µØÔ¤±¸ÒÛÍÅ"
+		location = 1172 # Borås
+		regiment = { type = garrison_brigade name = "µÚ15±¾µØÔ¤±¸ÒÛÍÅ" historical_model = 1 }
+	}
+	division = {
+		name = "µÚ16±¾µØÔ¤±¸ÒÛÍÅ"
+		location = 1302 # Halmstad
+		regiment = { type = garrison_brigade name = "µÚ16±¾µØÔ¤±¸ÒÛÍÅ" historical_model = 1 }
+	}
+	division = {
+		name = "µÚ17±¾µØÔ¤±¸ÒÛÍÅ"
+		location = 1171 # Göteborg
+		regiment = { type = garrison_brigade name = "µÚ17±¾µØÔ¤±¸ÒÛÍÅ" historical_model = 1 }
+	}
+}
+corps = {
+	name = "Î÷²¿Ô¤±¸ÒÛ²¿¶Ó"
+	location = 862 # Stockholm
+	regiment = { type = hq_brigade name = "Î÷²¿Ô¤±¸ÒÛ²¿¶ÓÖ¸»Ó²¿" historical_model = 0}
+	division = {
+		name = "µÚ1±¾µØÔ¤±¸ÒÛÍÅ"
+		location = 862 # Stockholm
+		regiment = { type = garrison_brigade name = "µÚ1±¾µØÔ¤±¸ÒÛÍÅ" historical_model = 1 }
+		regiment = { type = garrison_brigade name = "µÚ410±¾µØÔ¤±¸ÒÛÍÅ" historical_model = 1 }
+	}
+	division = {
+		name = "µÚ3±¾µØÔ¤±¸ÒÛÍÅ"
+		location = 942 # Örebro
+		regiment = { type = garrison_brigade name = "µÚ3±¾µØÔ¤±¸ÒÛÍÅ" historical_model = 1 }
+	}
+	division = {
+		name = "µÚ4±¾µØÔ¤±¸ÒÛÍÅ"
+		location = 1134 # Västervik
+		regiment = { type = garrison_brigade name = "µÚ4±¾µØÔ¤±¸ÒÛÍÅ" historical_model = 1 }
+	}
+	division = {
+		name = "µÚ10±¾µØÔ¤±¸ÒÛÍÅ"
+		location = 944 # Nyköping
+		regiment = { type = garrison_brigade name = "µÚ10±¾µØÔ¤±¸ÒÛÍÅ" historical_model = 1 }
+	}
+	division = {
+		name = "µÚ404±¾µØÔ¤±¸ÒÛÍÅ"
+		location = 1059 # Norrköping
+		regiment = { type = garrison_brigade name = "µÚ404±¾µØÔ¤±¸ÒÛÍÅ" historical_model = 1 }
+	}
+	division = {
+		name = "µÚ410±¾µØÔ¤±¸ÒÛÍÅ"
+		location = 1059 # Norrköping
+		regiment = { type = anti_air_brigade name = "µÚ401±¾µØÔ¤±¸ÒÛÍÅ" historical_model = 1 }
+	}
+}
+corps = {
+	name = "±±ÎÖÌØÀ­Ô¤±¸ÒÛ²¿¶Ó"
+	location = 901 # Karlstad
+	regiment = { type = hq_brigade name = "±±ÎÖÌØÀ­Ô¤±¸ÒÛ²¿¶ÓÖ¸»Ó²¿" historical_model = 0}
+	division = {
+		name = "µÚ13±¾µØÔ¤±¸ÒÛÍÅ"
+		location = 650 # Falun
+		regiment = { type = garrison_brigade name = "µÚ13±¾µØÔ¤±¸ÒÛÍÅ" historical_model = 1 }
+	}
+}
+corps = {
+	name = "±±ÅµÀ¼Ô¤±¸ÒÛ²¿¶Ó"
+	location = 206 # Boden
+	regiment = { type = hq_brigade name = "±±ÅµÀ¼Ô¤±¸ÒÛ²¿¶ÓÖ¸»Ó²¿" historical_model = 0}
+	division = {
+		name = "µÚ19±¾µØÔ¤±¸ÒÛÍÅ"
+		location = 193 # Luleå
+		regiment = { type = garrison_brigade name = "µÚ19±¾µØÔ¤±¸ÒÛÍÅ" historical_model = 1 }
+	}
+	division = {
+		name = "µÚ20±¾µØÔ¤±¸ÒÛÍÅ"
+		location = 322 # Umeå
+		regiment = { type = garrison_brigade name = "µÚ20±¾µØÔ¤±¸ÒÛÍÅ" historical_model = 1 }
+	}
+}
+navy = {
+    name = "±¾ÍÁ½¢¶Ó"
+    base = 862
+    location = 862
+    ship = { type = battlecruiser name = "ÈğµäºÅ" historical_model = 0 pride = yes }
+    ship = { type = battlecruiser name = "Î¬¶àÀûÑÇ¹«Ö÷ºÅ" historical_model = 0 }
+    ship = { type = battlecruiser name = "¹ÅË¹Ëş·òÎåÊÀºÅ" historical_model = 0 }
+	ship = { type = light_cruiser name = "·Æ¶û¼ªÑÇºÅ" historical_model = 1 }
+    ship = { type = light_cruiser name = "¸çÌØÀ¼ºÅ" historical_model = 1 }
+    ship = { type = destroyer name = "µÚ1ÇıÖğ½¢¶Ó" historical_model = 0 }
+    ship = { type = destroyer name = "µÚ2ÇıÖğ½¢¶Ó" historical_model = 1 }
+}
+navy = {
+    name = "ÌØÀ×¸ñ½¢¶Ó"
+    base = 862
+    location = 862
+    ship = { type = light_cruiser name = "¸¥À³Ã¢ÈËºÅ" historical_model = 0 }
+    ship = { type = transport_ship name = "µÚ1ÔËÊä½¢¶Ó" historical_model = 0 }
+}
+navy = {
+    name = "°ÂÀ¼º£½¢¶Ó"
+    base = 862
+    location = 862
+    ship = { type = heavy_cruiser name = "ÈÙÓşºÅ" historical_model = 0 }
+    ship = { type = heavy_cruiser name = "¸ÕÒãºÅ" historical_model = 0 }
+}
+navy = {
+    name = "¿¨¶ûË¹¿ËÂ³ÄÉ½¢¶Ó"
+    base = 1349
+    location = 1349
+    ship = { type = heavy_cruiser name = "°ÂË¹¿¨¶şÊÀºÅ" historical_model = 0 }
+    ship = { type = submarine name = "µÚ1Ç±Í§±à¶Ó" historical_model = 0 }
+    ship = { type = submarine name = "µÚ3Ç±Í§±à¶Ó" historical_model = 1 }
+}
+navy = {
+    name = "¸çÌØ±¤½¢¶Ó"
+    base = 1171
+    location = 1171
+    ship = { type = heavy_cruiser name = "ÓÂ¸ÒºÅ" historical_model = 0 }
+    ship = { type = submarine name = "µÚ2Ç±Í§±à¶Ó" historical_model = 1 }
+    ship = { type = submarine name = "µÚ4Ç±Í§±à¶Ó" historical_model = 1 }
+}
+air = {
+    name = "µÚ1º½¿ÕÁª¶Ó"
+    base = 862
+    location = 862
+    wing = { type = tactical_bomber name = "µÚ11/12/13ºäÕ¨»úÖĞ¶Ó" historical_model = 1 }
+}
+air = {
+    name = "µÚ4º½¿ÕÁª¶Ó"
+    base = 862
+    location = 862
+    wing = { type = cas name = "µÚ41/42/43ºäÕ¨»úÖĞ¶Ó" historical_model = 0 }
+}
+air = {
+    name = "µÚ6º½¿ÕÁª¶Ó"
+    base = 1171
+    location = 1171
+    wing = { type = cas name = "µÚ61/62/63ºäÕ¨»úÖĞ¶Ó" historical_model = 0 }
+}
+air = {
+    name = "µÚ7º½¿ÕÁª¶Ó"
+    base = 1171
+    location = 1171
+    wing = { type = tactical_bomber name = "µÚ71/72ºäÕ¨»úÖĞ¶Ó" historical_model = 1 }
+}
+air = {
+    name = "µÚ8º½¿ÕÁª¶Ó"
+    base = 862
+    location = 862
+    wing = { type = interceptor name = "µÚ81/82/83Õ½¶·»úÖĞ¶Ó" historical_model = 1 } #J9
+}
+air = {
+    name = "µÚ9º½¿ÕÁª¶Ó"
+    base = 1171
+    location = 1171
+    wing = { type = interceptor name = "µÚ91/92/93Õ½¶·»úÖĞ¶Ó" historical_model = 0 } #J11
+}
+air = {
+    name = "µÚ10º½¿ÕÁª¶Ó"
+    base = 1349
+    location = 1349
+    wing = { type = interceptor name = "µÚ101/102/103Õ½¶·»úÖĞ¶Ó" historical_model = 2 } #J20
+}

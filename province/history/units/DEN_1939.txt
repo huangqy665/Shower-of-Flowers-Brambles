@@ -1,0 +1,30 @@
+division = {
+	name = "第1西兰岛师"
+	location = 1482
+	is_reserve = yes
+	regiment = { type = infantry_brigade name = "近卫兵团" historical_model = 0 }
+	regiment = { type = cavalry_brigade name = "轻骑兵卫队团" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "第1团" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "第4团" historical_model = 0 }
+}
+division = {
+	name = "第2日德兰师"
+	location = 1256
+	is_reserve = yes
+	regiment = { type = infantry_brigade name = "第2团" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "第3团" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "第6团" historical_model = 0 }
+	regiment = { type = infantry_brigade name = "第7团" historical_model = 0 }
+}
+navy = {
+	name = "丹麦皇家海军"
+	base = 1482
+	location = 1482
+	ship = { type = heavy_cruiser name = "HDMS 尼尔斯朱埃尔" historical_model = 0 pride = yes }
+	ship = { type = heavy_cruiser name = "HDMS 佩德尔斯克拉姆" historical_model = 0 }
+	ship = { type = submarine name = "第1潜艇大队" historical_model = 0 }
+	ship = { type = submarine name = "第2潜艇大队" historical_model = 0 }
+}
+
+
+

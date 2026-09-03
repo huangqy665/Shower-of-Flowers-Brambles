@@ -1,0 +1,157 @@
+guarantee = {
+	first = ENG
+	second = BEL
+	start_date = 1936.1.1
+	end_date = 1948.1.1
+}
+
+guarantee = {
+	first = ENG
+	second = LUX
+	start_date = 1936.1.1
+	end_date = 1948.1.1
+}
+
+
+guarantee = {
+	first = ENG
+	second = HOL
+	start_date = 1936.1.1
+	end_date = 1948.1.1
+}
+
+guarantee = {
+	first = ENG
+	second = SAU
+	start_date = 1936.1.1
+	end_date = 1948.1.1
+}
+
+
+
+guarantee = {
+	first = USA
+	second = CAN
+	start_date = 1936.1.1
+	end_date = 1948.1.1
+}
+
+guarantee = {
+	first = USA
+	second = MEX
+	start_date = 1936.1.1
+	end_date = 1948.1.1
+}
+
+guarantee = {
+	first = USA
+	second = GUA
+	start_date = 1936.1.1
+	end_date = 1948.1.1
+}
+
+guarantee = {
+	first = USA
+	second = SAL
+	start_date = 1936.1.1
+	end_date = 1948.1.1
+}
+
+guarantee = {
+	first = USA
+	second = HON
+	start_date = 1936.1.1
+	end_date = 1948.1.1
+}
+
+guarantee = {
+	first = USA
+	second = NIC
+	start_date = 1936.1.1
+	end_date = 1948.1.1
+}
+
+guarantee = {
+	first = USA
+	second = COS
+	start_date = 1936.1.1
+	end_date = 1948.1.1
+}
+
+guarantee = {
+	first = USA
+	second = PAN
+	start_date = 1936.1.1
+	end_date = 1948.1.1
+}
+
+guarantee = {
+	first = USA
+	second = COL
+	start_date = 1936.1.1
+	end_date = 1948.1.1
+}
+
+guarantee = {
+	first = USA
+	second = VEN
+	start_date = 1936.1.1
+	end_date = 1948.1.1
+}
+
+guarantee = {
+	first = USA
+	second = PRU
+	start_date = 1936.1.1
+	end_date = 1948.1.1
+}
+
+guarantee = {
+	first = USA
+	second = BOL
+	start_date = 1936.1.1
+	end_date = 1948.1.1
+}
+
+guarantee = {
+	first = USA
+	second = BRA
+	start_date = 1936.1.1
+	end_date = 1948.1.1
+}
+
+guarantee = {
+	first = USA
+	second = CHL
+	start_date = 1936.1.1
+	end_date = 1948.1.1
+}
+
+guarantee = {
+	first = USA
+	second = ARG
+	start_date = 1936.1.1
+	end_date = 1948.1.1
+}
+
+guarantee = {
+	first = USA
+	second = URU
+	start_date = 1936.1.1
+	end_date = 1948.1.1
+}
+
+guarantee = {
+	first = USA
+	second = PAR
+	start_date = 1936.1.1
+	end_date = 1948.1.1
+}
+
+# Nationalist China - Shanxi
+guarantee = {
+	first = CHI
+	second = CSX
+	start_date = 1935.1.1
+	end_date = 1945.9.2
+}

@@ -1,0 +1,46 @@
+corps = {
+	name = "拉脱维亚军"
+	location = 1178
+	regiment = { type = hq_brigade name = "拉脱维亚军指挥部" historical_model = 0 }
+	division= {
+		name = "库尔兰步兵师"
+		location = 1178
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "维德泽美斯步兵师"
+		location = 1178
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "泽高斯步兵师"
+		location = 1178
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "兰盖奥斯步兵师"
+		location = 1178
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+}
+navy = {
+	name = "拉脱维亚海军"
+	base = 1178
+	location = 1178
+	ship = { type = submarine name = "第1潜艇分队" historical_model = 0 }
+}
+
+
+

@@ -1,0 +1,178 @@
+armygroup= {
+	is_reserve = yes
+	name = "本土指挥部"
+	location = 8057
+	regiment = { type = hq_brigade name = "本土指挥部" historical_model = 1 }
+	division = {
+		name = "北方指挥部"
+		location = 7923
+		is_reserve = yes
+		regiment = { type = motorized_brigade name = "第7步兵旅" historical_model = 2 }
+		regiment = { type = garrison_brigade name = "第11步兵旅" historical_model = 0 }
+		regiment = { type = garrison_brigade name = "第29步兵旅" historical_model = 0 }
+	}
+	corps = {
+		is_reserve = yes
+		name = "东部指挥部"
+		location = 7989
+		regiment = { type = hq_brigade name = "东部指挥部" historical_model = 0 }
+		division= {
+			name = "澳大利亚第1摩托化师"
+			location = 7989
+			is_reserve = yes
+			regiment = { type = motorized_brigade name = "第2骑兵旅" historical_model = 2 }
+			regiment = { type = motorized_brigade name = "第4骑兵旅"historical_model = 2 }
+		}
+		division= {
+			name = "澳大利亚第1师"
+			location = 7989
+			is_reserve = yes
+			regiment = { type = garrison_brigade name = "第1步兵旅" historical_model = 0 }
+			regiment = { type = garrison_brigade name = "第9步兵旅" historical_model = 0 }
+			regiment = { type = garrison_brigade name = "第28步兵旅"historical_model = 0 }
+		}
+		division= {
+			name = "澳大利亚第2师"
+			location = 7989
+			is_reserve = yes
+			regiment = { type = garrison_brigade name = "第5步兵旅" historical_model = 0 }
+			regiment = { type = garrison_brigade name = "第8步兵旅" historical_model = 0 }
+			regiment = { type = garrison_brigade name = "第14步兵旅" historical_model = 0 }
+		}
+	}
+	corps = {
+		is_reserve = yes
+		name = "南方指挥部"
+		location = 8049
+		regiment = { type = hq_brigade name = "南方指挥部" historical_model = 0 }
+		division= {
+			name = "澳大利亚第2摩托化师"
+			location = 8057
+			is_reserve = yes
+			regiment = { type = motorized_brigade name = "第3步兵旅" historical_model = 2 }
+		}
+		division= {
+			name = "澳大利亚第3师"
+			location = 8057
+			is_reserve = yes
+			regiment = { type = garrison_brigade name = "第4步兵旅" historical_model = 0 }
+			regiment = { type = garrison_brigade name = "第10步兵旅" historical_model = 0 }
+			regiment = { type = garrison_brigade name = "第15步兵旅" historical_model = 0 }
+		}
+		division= {
+			name = "澳大利亚第4师"
+			location = 8057
+			is_reserve = yes
+			regiment = { type = garrison_brigade name = "第2步兵旅" historical_model = 0 }
+			regiment = { type = garrison_brigade name = "第6步兵旅" historical_model = 0 }
+		}
+	}
+	division = {
+		is_reserve = yes
+		name = "西部指挥部"
+		location = 7950
+		regiment = { type = garrison_brigade name = "第13步兵旅" historical_model = 0 }
+	}
+	division = {
+		name = "澳大利亚第8师"
+		location = 6394
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第22步兵旅" historical_model = 2 }
+		regiment = { type = infantry_brigade name = "第27步兵旅" historical_model = 2 }
+	}
+	division = {
+		name = "达尔文卫戍部队"
+		location = 6596
+		regiment = { type = garrison_brigade name = "达尔文机动部队第19团" historical_model = 1 }
+	}
+	division = {
+		is_reserve = yes
+		name = "莫尔斯比港驻军"
+		location = 6566
+		regiment = { type = garrison_brigade name = "新几内亚志愿步兵团" historical_model = 1 }
+		regiment = { type = garrison_brigade name = "第49团" historical_model = 1 }
+	}
+}
+navy = {
+	name = "澳大利亚海军编队"
+	base = 7989
+	location = 7989
+	ship = { type = heavy_cruiser name = "HMAS 澳大利亚号" historical_model = 1 pride = yes }
+	ship = { type = heavy_cruiser name = "HMAS 堪培拉号" historical_model = 1 }
+	ship = { type = light_cruiser name = "HMAS 悉尼号" historical_model = 2 }
+	ship = { type = light_cruiser name = "HMAS 阿德莱德号" historical_model = 0 }
+	ship = { type = destroyer name = "第2驱逐支队" historical_model = 1 }
+	ship = { type = destroyer name = "第3驱逐支队" historical_model = 1 }
+}
+navy = {
+	name = "第1运输舰队"
+	base = 7989
+	location = 7989
+	ship = { type = transport_ship name = "HMAS '卡尼布拉' 支队" historical_model = 0 }
+	ship = { type = transport_ship name = "HMAS '马努拉' 支队" historical_model = 0 }
+	ship = { type = transport_ship name = "HMAS '西瑞拉' 支队" historical_model = 0 }
+}
+navy = {
+	name = "第2运输舰队"
+	base = 7989
+	location = 8057
+	ship = { type = transport_ship name = "'摩顿湾'支队" historical_model = 0 }
+	ship = { type = transport_ship name = "'阿拉瓦'支队" historical_model = 0 }
+	ship = { type = transport_ship name = "'奥兰提'支队" historical_model = 0 }
+}
+navy = {
+	name = "HMAS 珀斯号"
+	base = 1091
+	location = 1091
+	ship = { type = light_cruiser name = "HMAS 珀斯号" historical_model = 2 }
+}
+navy = {
+	name = "'废铁'驱逐支队"
+	base = 6394
+	location = 6394
+	ship = { type = destroyer name = "'废铁'驱逐支队" historical_model = 0 }
+}
+navy = {
+	name = "地中海编队"
+	base = 5586
+	location = 5586
+	ship = { type = light_cruiser name = "HMAS 霍巴特号" historical_model = 2 }
+	ship = { type = destroyer name = "第1驱逐支队" historical_model = 1 }
+}
+air = {
+	name = "'拉弗顿'空军编队"
+	base = 8062
+	location = 8062
+	wing = { type = interceptor name = "第6战术轰炸编队" historical_model = 2 }
+}
+air = {
+	name = "'里士满'空军编队"
+	base = 7989
+	location = 7989
+	wing = { type = tactical_bomber name = "第5战术轰炸编队" historical_model = 1 }
+}
+air = {
+	name = "中东空军指挥部"
+	base = 5535
+	location = 5535
+	wing = { type = interceptor name = "第3战术轰炸编队" historical_model = 1 }
+}
+air = {
+	name = "新加坡空军指挥部"
+	base = 6394
+	location = 6394
+	wing = { type = tactical_bomber name = "第1战术轰炸编队" historical_model = 1 }
+	wing = { type = interceptor name = "第4战术轰炸编队" historical_model = 1 }
+}
+air = {
+	name = "'达尔文'空军编队"
+	base = 6596
+	location = 6596
+	wing = { type = naval_bomber name = "第2战术轰炸编队" historical_model = 0 }
+}
+air = {
+	name = "'汤斯维尔'空军编队"
+	base = 7923
+	location = 7923
+	wing = { type = naval_bomber name = "第7战术轰炸编队" historical_model = 0 }
+}

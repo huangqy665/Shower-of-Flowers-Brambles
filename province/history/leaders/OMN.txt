@@ -1,0 +1,271 @@
+310000 = {
+	name = "阿卜杜勒.卡迪尔"
+	country = OMN
+	type = land
+	skill = 1
+	max_skill = 2
+	loyalty = 1.00
+	picture = L310000
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+	}
+}
+310001 = {
+	name = "道格拉斯.汉密尔顿"
+	country = OMN
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L310001
+	add_trait = offensive_doctrine
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+310002 = {
+	name = "达格代尔"
+	country = OMN
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L310002
+	add_trait = defensive_doctrine
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+310003 = {
+	name = "哈桑.伊本.铁木尔"
+	country = OMN
+	type = land
+	skill = 1
+	max_skill = 2
+	loyalty = 1.00
+	picture = L310003
+	history = {
+		1940.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+310004 = {
+	name = "哈桑.伊本.扎耶德"
+	country = OMN
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L310004
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+310005 = {
+	name = "琼斯"
+	country = OMN
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L310005
+	add_trait = commando
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+310006 = {
+	name = "哈利勒.伊本.铁木尔"
+	country = OMN
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L310006
+	add_trait = trickster
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+310007 = {
+	name = "林斯登"
+	country = OMN
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L310007
+	add_trait = panzer_leader
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+310008 = {
+	name = "曼"
+	country = OMN
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L310008
+	add_trait = fortress_buster
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+310009 = {
+	name = "马丁"
+	country = OMN
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L310009
+	add_trait = engineer
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+310010 = {
+	name = "穆罕默德.伊本.铁木尔"
+	country = OMN
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L310010
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+310011 = {
+	name = "赛义德.伊本.铁木尔"
+	country = OMN
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L310011
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1930.1.1 = { rank = 4 }
+	}
+}
+310012 = {
+	name = "赖特"
+	country = OMN
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L310012
+	add_trait = logistics_wizard
+	history = {
+		1941.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+310013 = {
+	name = "伯松"
+	country = OMN
+	type = sea
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L310013
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+310014 = {
+	name = "克莱顿"
+	country = OMN
+	type = sea
+	skill = 1
+	max_skill = 2
+	loyalty = 1.00
+	picture = L310014
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+310015 = {
+	name = "利夫"
+	country = OMN
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L310015
+	history = {
+		1943.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+310016 = {
+	name = "阿布达拉.伊本.铁木尔"
+	country = OMN
+	type = air
+	skill = 1
+	max_skill = 2
+	loyalty = 1.00
+	picture = L310016
+	history = {
+		1944.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+310017 = {
+	name = "哈桑.伊本.扎耶德"
+	country = OMN
+	type = air
+	skill = 0
+	max_skill = 1
+	loyalty = 1.00
+	picture = L310017
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+310018 = {
+	name = "利夫"
+	country = OMN
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L310018
+	add_trait = fleet_destroyer
+	history = {
+		1943.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+310019 = {
+	name = "马丁"
+	country = OMN
+	type = air
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L310019
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}

@@ -1,0 +1,548 @@
+200000 = {
+	name = "安德拉德.弗洛雷斯"
+	country = ECU
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L200000
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+200001 = {
+	name = "巴克里索.达维拉"
+	country = ECU
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L200001
+	history = {
+		1938.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+200002 = {
+	name = "布兰科.格韦拉"
+	country = ECU
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L200002
+	add_trait = panzer_leader
+	history = {
+		1941.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+200003 = {
+	name = "卡布雷拉.塞维利亚.y.马尔科"
+	country = ECU
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L200003
+	add_trait = offensive_doctrine
+	history = {
+		1941.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+200004 = {
+	name = "恩达拉.帕乔斯"
+	country = ECU
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L200004
+	add_trait = trickster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+200005 = {
+	name = "恩里克斯.加洛"
+	country = ECU
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L200005
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1938.1.1 = { rank = 4 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+200006 = {
+	name = "埃斯特雷拉.桑谢斯"
+	country = ECU
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L200006
+	history = {
+		1943.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+200007 = {
+	name = "方凯尔.德尔.蓬特"
+	country = ECU
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L200007
+	add_trait = offensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+200008 = {
+	name = "弗莱雷.波索"
+	country = ECU
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L200008
+	add_trait = panzer_leader
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 3 }
+	}
+}
+200009 = {
+	name = "冈达拉.恩里克斯"
+	country = ECU
+	type = land
+	skill = 2
+	max_skill = 3
+	loyalty = 0.00
+	picture = L200009
+	add_trait = logistics_wizard
+	history = {
+		1941.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 3 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+200010 = {
+	name = "冈萨雷斯.布拉沃"
+	country = ECU
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L200010
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1937.1.1 = { rank = 0 }
+	}
+}
+200011 = {
+	name = "伊达尔戈.加西亚"
+	country = ECU
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L200011
+	add_trait = winter_specialist
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+200012 = {
+	name = "伊巴涅斯.y.伊迪加拉斯"
+	country = ECU
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L200012
+	add_trait = fortress_buster
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 3 }
+	}
+}
+200013 = {
+	name = "拉雷亚.阿尔巴"
+	country = ECU
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L200013
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+200014 = {
+	name = "马尔多纳多.阿尔瓦雷兹"
+	country = ECU
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L200014
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 0 }
+	}
+}
+200015 = {
+	name = "曼切诺.卡亚斯"
+	country = ECU
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 0.00
+	picture = L200015
+	add_trait = offensive_doctrine
+	history = {
+		1945.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+200016 = {
+	name = "马丁内斯.伊瓜尔特"
+	country = ECU
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L200016
+	add_trait = logistics_wizard
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+200017 = {
+	name = "奥利娃.奥赫达"
+	country = ECU
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L200017
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+200018 = {
+	name = "雷内拉.巴尔巴托"
+	country = ECU
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L200018
+	add_trait = panzer_leader
+	history = {
+		1940.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 3 }
+	}
+}
+200019 = {
+	name = "卡斯特罗.科尔特斯"
+	country = ECU
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L200019
+	add_trait = seawolf
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+200020 = {
+	name = "恩达拉.佩尼亚埃雷拉"
+	country = ECU
+	type = sea
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L200020
+	history = {
+		1938.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 3 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+200021 = {
+	name = "埃斯科韦多.迪阿尔泰"
+	country = ECU
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L200021
+	history = {
+		1941.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 2 }
+	}
+}
+200022 = {
+	name = "吉耶.萨尔维安"
+	country = ECU
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L200022
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+200023 = {
+	name = "马克斯.斯特凡内尔"
+	country = ECU
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L200023
+	add_trait = old_guard
+	add_trait = blockade_runner
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1938.1.1 = { rank = 0 }
+	}
+}
+200024 = {
+	name = "莫兰.瓦尔韦德"
+	country = ECU
+	type = sea
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L200024
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+200025 = {
+	name = "佩雷斯.纪尧姆"
+	country = ECU
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L200025
+	add_trait = old_guard
+	add_trait = superior_tactician
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1938.1.1 = { rank = 3 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+200026 = {
+	name = "帕基拉.y.桑托斯"
+	country = ECU
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L200026
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+200027 = {
+	name = "金塔尼利亚.奥赫达"
+	country = ECU
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L200027
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+200028 = {
+	name = "拉蒙.卡斯特罗"
+	country = ECU
+	type = sea
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L200028
+	history = {
+		1941.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 3 }
+	}
+}
+200029 = {
+	name = "B巴亚尔多.托巴尔"
+	country = ECU
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L200029
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+200030 = {
+	name = "卡斯特罗.吉约恩"
+	country = ECU
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L200030
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+200031 = {
+	name = "冈达拉.恩里克斯"
+	country = ECU
+	type = air
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L200031
+	history = {
+		1941.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 3 }
+	}
+}
+200032 = {
+	name = "伊达尔戈.加西亚"
+	country = ECU
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L200032
+	add_trait = carpet_bomber
+	history = {
+		1944.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+200033 = {
+	name = "蓬斯.特鲁西略"
+	country = ECU
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L200033
+	add_trait = superior_air_tactician
+	history = {
+		1942.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+200034 = {
+	name = "雷内拉.巴尔巴托"
+	country = ECU
+	type = air
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L200034
+	history = {
+		1940.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 3 }
+	}
+}
+200035 = {
+	name = "萨韦德拉.克鲁茨"
+	country = ECU
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L200035
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 0 }
+	}
+}
+200036 = {
+	name = "萨利姆.加莱戈斯"
+	country = ECU
+	type = air
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L200036
+	history = {
+		1941.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+200037 = {
+	name = "瓦尔德斯.金塔尼利亚"
+	country = ECU
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L200037
+	add_trait = night_flyer
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}

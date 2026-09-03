@@ -1,0 +1,1330 @@
+3400 = {
+	name = "阿隆索"
+	country = SPA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L3400
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 0 }
+	}
+}
+3401 = {
+	name = "阿隆索.维加"
+	country = SPA
+	type = land
+	skill = 3
+	max_skill = 7
+	loyalty = 1.00
+	picture = L3401
+	add_trait = trickster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+3402 = {
+	name = "阿尔瓦雷兹.阿雷纳斯"
+	country = SPA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L3402
+	history = {
+		1930.1.1 = { rank = 1 }
+		1937.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+3403 = {
+	name = "阿兰达.马塔"
+	country = SPA
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L3403
+	add_trait = engineer
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+3404 = {
+	name = "阿雷斯.马格拉"
+	country = SPA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L3404
+	history = {
+		1941.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+3405 = {
+	name = "阿森西奥.卡瓦尼利亚斯"
+	country = SPA
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L3405
+	history = {
+		1930.1.1 = { rank = 1 }
+		1937.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+3406 = {
+	name = "阿兹纳尔.格尔纳"
+	country = SPA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L3406
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+3407 = {
+	name = "包蒂斯塔.桑谢斯"
+	country = SPA
+	type = land
+	skill = 0
+	max_skill = 7
+	loyalty = 1.00
+	picture = L3407
+	add_trait = fortress_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+3408 = {
+	name = "巴雷拉"
+	country = SPA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L3408
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1938.1.1 = { rank = 0 }
+	}
+}
+3409 = {
+	name = "巴龙.奥尔蒂斯"
+	country = SPA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3409
+	add_trait = defensive_doctrine
+	history = {
+		1937.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+3410 = {
+	name = "巴罗索.桑切斯.格拉"
+	country = SPA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L3410
+	history = {
+		1938.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+3411 = {
+	name = "贝格韦德尔.阿蒂恩萨"
+	country = SPA
+	type = land
+	skill = 3
+	max_skill = 6
+	loyalty = 1.00
+	picture = L3411
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+3412 = {
+	name = "本胡梅亚"
+	country = SPA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3412
+	add_trait = commando
+	history = {
+		1937.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+3413 = {
+	name = "贝尔贡佐利"
+	country = SPA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L3413
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+3414 = {
+	name = "卡瓦内利亚斯.费雷尔"
+	country = SPA
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L3414
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1938.1.1 = { rank = 0 }
+	}
+}
+3415 = {
+	name = "卡斯特容.埃斯皮诺萨"
+	country = SPA
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3415
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+3416 = {
+	name = "卡瓦尔坎蒂"
+	country = SPA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L3416
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+	}
+}
+3417 = {
+	name = "奎斯塔.莫内雷奥"
+	country = SPA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L3417
+	history = {
+		1930.1.1 = { rank = 1 }
+		1937.1.1 = { rank = 0 }
+	}
+}
+3418 = {
+	name = "戴维拉.阿隆多"
+	country = SPA
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3418
+	history = {
+		1930.1.1 = { rank = 1 }
+		1937.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+3419 = {
+	name = "德.拉达"
+	country = SPA
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3419
+	add_trait = trickster
+	history = {
+		1937.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+3420 = {
+	name = "德.博尔邦.Y.德.拉.托雷"
+	country = SPA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L3420
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+3421 = {
+	name = "德.哈考特"
+	country = SPA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L3421
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+3422 = {
+	name = "埃尔.米齐安"
+	country = SPA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L3422
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+3423 = {
+	name = "凡胡尔.戈尼"
+	country = SPA
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3423
+	add_trait = engineer
+	history = {
+		1930.1.1 = { rank = 1 }
+		1937.1.1 = { rank = 0 }
+	}
+}
+3424 = {
+	name = "费尔南德斯.布列尔"
+	country = SPA
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3424
+	history = {
+		1930.1.1 = { rank = 1 }
+		1937.1.1 = { rank = 0 }
+	}
+}
+3425 = {
+	name = "费尔南德斯.奎斯塔"
+	country = SPA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L3425
+	history = {
+		1937.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+	}
+}
+3426 = {
+	name = "弗朗哥.巴哈蒙德"
+	country = SPA
+	type = land
+	skill = 3
+	max_skill = 7
+	loyalty = 1.00
+	picture = L3426
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1937.1.1 = { rank = 4 }
+	}
+}
+3427 = {
+	name = "甘巴拉"
+	country = SPA
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L3427
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+3428 = {
+	name = "加西亚.埃斯卡梅斯"
+	country = SPA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3428
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+3429 = {
+	name = "加西亚.戈麦斯.卡米内罗"
+	country = SPA
+	type = land
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L3429
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1937.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+3430 = {
+	name = "加西亚.巴利尼奥"
+	country = SPA
+	type = land
+	skill = 3
+	max_skill = 8
+	loyalty = 1.00
+	picture = L3430
+	add_trait = trickster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+		1947.1.1 = { rank = 4 }
+	}
+}
+3431 = {
+	name = "加西亚诺.戈尼"
+	country = SPA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L3431
+	history = {
+		1937.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+3432 = {
+	name = "吉.尤斯特"
+	country = SPA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L3432
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+3433 = {
+	name = "戈代德.略皮斯"
+	country = SPA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3433
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1937.1.1 = { rank = 0 }
+	}
+}
+3434 = {
+	name = "戈麦斯.阿斯帕尔"
+	country = SPA
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3434
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 0 }
+	}
+}
+3435 = {
+	name = "戈麦斯.约尔达纳.Y.苏泽"
+	country = SPA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3435
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+3436 = {
+	name = "埃迪利亚.拉雷"
+	country = SPA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L3436
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+3437 = {
+	name = "因方特斯"
+	country = SPA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L3437
+	add_trait = engineer
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+3438 = {
+	name = "拉韦尔塔"
+	country = SPA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L3438
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+3439 = {
+	name = "洛佩斯.平托.贝里佐"
+	country = SPA
+	type = land
+	skill = 2
+	max_skill = 7
+	loyalty = 1.00
+	picture = L3439
+	add_trait = fortress_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 3 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+3440 = {
+	name = "梅尔廷.莫雷诺"
+	country = SPA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L3440
+	history = {
+		1937.1.1 = { rank = 1 }
+	}
+}
+3441 = {
+	name = "马丁内斯.阿尼多"
+	country = SPA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L3441
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1938.1.1 = { rank = 0 }
+	}
+}
+3442 = {
+	name = "米连.阿斯特莱.Y.特雷罗斯"
+	country = SPA
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L3442
+	add_trait = trickster
+	add_trait = commando
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+3443 = {
+	name = "莫拉.维达尔"
+	country = SPA
+	type = land
+	skill = 4
+	max_skill = 8
+	loyalty = 1.00
+	picture = L3443
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1930.1.1 = { rank = 4 }
+		1937.1.1 = { rank = 0 }
+	}
+}
+3444 = {
+	name = "莫纳斯泰里奥.伊图阿尔特"
+	country = SPA
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L3444
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+3445 = {
+	name = "莫雷诺.卡尔德龙"
+	country = SPA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L3445
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+3446 = {
+	name = "莫雷诺.梅尔廷"
+	country = SPA
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3446
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1938.1.1 = { rank = 0 }
+	}
+}
+3447 = {
+	name = "莫斯卡多.伊图阿尔特"
+	country = SPA
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L3447
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+	}
+}
+3448 = {
+	name = "穆尼奥斯.格兰德斯"
+	country = SPA
+	type = land
+	skill = 3
+	max_skill = 8
+	loyalty = 1.00
+	picture = L3448
+	add_trait = offensive_doctrine
+	add_trait = winter_specialist
+	history = {
+		1937.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 3 }
+		1946.1.1 = { rank = 4 }
+	}
+}
+3449 = {
+	name = "奥尔加斯.约尔迪"
+	country = SPA
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 0.00
+	picture = L3449
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+3450 = {
+	name = "奥尔蒂斯.德.萨拉特.洛佩斯"
+	country = SPA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L3450
+	add_trait = engineer
+	history = {
+		1930.1.1 = { rank = 1 }
+		1937.1.1 = { rank = 0 }
+	}
+}
+3451 = {
+	name = "凯波.德.利亚诺.Y.谢拉"
+	country = SPA
+	type = land
+	skill = 2
+	max_skill = 8
+	loyalty = 0.00
+	picture = L3451
+	add_trait = trickster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+	}
+}
+3452 = {
+	name = "雷东多.奥尔特加"
+	country = SPA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L3452
+	history = {
+		1930.1.1 = { rank = 1 }
+		1937.1.1 = { rank = 0 }
+	}
+}
+3453 = {
+	name = "里德鲁埃霍"
+	country = SPA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L3453
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+3454 = {
+	name = "里奥斯.卡帕佩"
+	country = SPA
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L3454
+	history = {
+		1937.1.1 = { rank = 1 }
+	}
+}
+3455 = {
+	name = "罗阿塔"
+	country = SPA
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L3455
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+3456 = {
+	name = "萨恩斯.德.布鲁阿加"
+	country = SPA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3456
+	add_trait = panzer_leader
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+3457 = {
+	name = "萨利克特.苏梅塔"
+	country = SPA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3457
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1938.1.1 = { rank = 3 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+3458 = {
+	name = "桑乔.戴维拉"
+	country = SPA
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L3458
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+3459 = {
+	name = "索尔查加.萨拉"
+	country = SPA
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 0.00
+	picture = L3459
+	history = {
+		1937.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+3460 = {
+	name = "圣胡尔霍.萨卡内利"
+	country = SPA
+	type = land
+	skill = 2
+	max_skill = 7
+	loyalty = 1.00
+	picture = L3460
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1930.1.1 = { rank = 4 }
+		1937.1.1 = { rank = 0 }
+	}
+}
+3461 = {
+	name = "泰拉"
+	country = SPA
+	type = land
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L3461
+	add_trait = commando
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+3462 = {
+	name = "温格里亚.希门尼斯"
+	country = SPA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3462
+	add_trait = panzer_leader
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+3463 = {
+	name = "巴尔德斯.卡瓦尼列斯"
+	country = SPA
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L3463
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1938.1.1 = { rank = 0 }
+	}
+}
+3464 = {
+	name = "瓦雷拉.伊格莱西亚斯"
+	country = SPA
+	type = land
+	skill = 2
+	max_skill = 7
+	loyalty = 0.00
+	picture = L3464
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 3 }
+	}
+}
+3465 = {
+	name = "比贡.苏埃罗迪亚斯"
+	country = SPA
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3465
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+	}
+}
+3466 = {
+	name = "福尔克曼"
+	country = SPA
+	type = land
+	skill = 2
+	max_skill = 7
+	loyalty = 0.00
+	picture = L3466
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+	}
+}
+3467 = {
+	name = "亚格.布兰科"
+	country = SPA
+	type = land
+	skill = 3
+	max_skill = 8
+	loyalty = 1.00
+	picture = L3467
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+3468 = {
+	name = "阿加西诺.阿马斯"
+	country = SPA
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L3468
+	add_trait = blockade_runner
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+3469 = {
+	name = "巴雷达.特里"
+	country = SPA
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L3469
+	add_trait = seawolf
+	history = {
+		1930.1.1 = { rank = 1 }
+		1937.1.1 = { rank = 0 }
+	}
+}
+3470 = {
+	name = "卡雷罗.布兰科"
+	country = SPA
+	type = sea
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L3470
+	history = {
+		1943.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 3 }
+	}
+}
+3471 = {
+	name = "切尔韦拉.巴尔德拉马"
+	country = SPA
+	type = sea
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3471
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+3472 = {
+	name = "德.别尔纳.贝隆多"
+	country = SPA
+	type = sea
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3472
+	history = {
+		1937.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+3473 = {
+	name = "德.波尔塔戈.卡贝扎.德.巴卡"
+	country = SPA
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L3473
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 0 }
+	}
+}
+3474 = {
+	name = "埃斯特拉达.阿奈斯"
+	country = SPA
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L3474
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 0 }
+	}
+}
+3475 = {
+	name = "弗朗哥.巴哈蒙德"
+	country = SPA
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L3475
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+3476 = {
+	name = "丰滕拉.马里斯塔尼"
+	country = SPA
+	type = sea
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3476
+	history = {
+		1942.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+3477 = {
+	name = "莫雷诺.费尔南德斯.F."
+	country = SPA
+	type = sea
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3477
+	add_trait = spotter
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+	}
+}
+3478 = {
+	name = "莫雷诺.费尔南德斯.S."
+	country = SPA
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L3478
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+3479 = {
+	name = "努涅斯.德.奥拉涅塔"
+	country = SPA
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L3479
+	add_trait = seawolf
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+3480 = {
+	name = "阿圭雷.维拉"
+	country = SPA
+	type = air
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3480
+	add_trait = spotter
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+3481 = {
+	name = "阿方索.奥尔良.Y.博尔邦"
+	country = SPA
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L3481
+	history = {
+		1930.1.1 = { rank = 1 }
+		1937.1.1 = { rank = 0 }
+	}
+}
+3482 = {
+	name = "卡尔德龙.加斯特卢"
+	country = SPA
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3482
+	add_trait = fleet_destroyer
+	history = {
+		1937.1.1 = { rank = 1 }
+	}
+}
+3483 = {
+	name = "德.阿亚.冈萨雷斯"
+	country = SPA
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L3483
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+3484 = {
+	name = "弗朗哥.巴哈蒙德"
+	country = SPA
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3484
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 0 }
+	}
+}
+3485 = {
+	name = "加西亚.莫拉托.卡斯塔尼奥"
+	country = SPA
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3485
+	add_trait = tank_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+3486 = {
+	name = "金德兰.Y.杜阿尼"
+	country = SPA
+	type = air
+	skill = 3
+	max_skill = 7
+	loyalty = 0.00
+	picture = L3486
+	add_trait = carpet_bomber
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1937.1.1 = { rank = 3 }
+		1942.1.1 = { rank = 4 }
+	}
+}
+3487 = {
+	name = "穆尼奥斯.希门尼斯.米亚"
+	country = SPA
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L3487
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+3488 = {
+	name = "朗博.戈马"
+	country = SPA
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3488
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+	}
+}
+3489 = {
+	name = "萨拉斯.拉兰萨瓦尔"
+	country = SPA
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3489
+	add_trait = superior_air_tactician
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+3490 = {
+	name = "比贡.苏埃罗迪亚斯"
+	country = SPA
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3490
+	history = {
+		1930.1.1 = { rank = 1 }
+		1937.1.1 = { rank = 2 }
+	}
+}
+3491 = {
+	name = "比韦斯.卡米诺"
+	country = SPA
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L3491
+	history = {
+		1937.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+3492 = {
+	name = "冯.莫罗"
+	country = SPA
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 0.00
+	picture = L3492
+	add_trait = night_flyer
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+3493 = {
+	name = "冯.里希特霍芬"
+	country = SPA
+	type = air
+	skill = 3
+	max_skill = 9
+	loyalty = 0.00
+	picture = L3493
+	add_trait = superior_air_tactician
+	add_trait = carpet_bomber
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+3494 = {
+	name = "冯.斯佩尔"
+	country = SPA
+	type = air
+	skill = 3
+	max_skill = 9
+	loyalty = 0.00
+	picture = L3494
+	add_trait = tank_buster
+	add_trait = carpet_bomber
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}

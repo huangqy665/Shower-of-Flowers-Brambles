@@ -1,0 +1,245 @@
+504000 = {
+	name = "德米尔金"
+	country = CXB
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L504000
+	add_trait = commando
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+504001 = {
+	name = "科尔尼金"
+	country = CXB
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L504001
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+504002 = {
+	name = "克雷斯尼科夫"
+	country = CXB
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L504002
+	add_trait = winter_specialist
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+504003 = {
+	name = "库洛夫"
+	country = CXB
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L504003
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+504004 = {
+	name = "马鸿逵"
+	country = CXB
+	type = land
+	skill = 2
+	max_skill = 3
+	loyalty = 0.00
+	picture = L50235
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+	}
+}
+504005 = {
+	name = "马鸿宾"
+	country = CXB
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L50236
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+504006 = {
+	name = "马步芳"
+	country = CXB
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 0.00
+	picture = L50237
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+504007 = {
+	name = "马步青"
+	country = CXB
+	type = land
+	skill = 1
+	max_skill = 2
+	loyalty = 1.00
+	picture = L504007
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+	}
+}
+504008 = {
+	name = "米尔金"
+	country = CXB
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L504008
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+504009 = {
+	name = "奥斯特罗莫夫"
+	country = CXB
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L504009
+	add_trait = panzer_leader
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+504010 = {
+	name = "斯赫斯坚科"
+	country = CXB
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L504010
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+504011 = {
+	name = "德米尔金"
+	country = CXB
+	type = sea
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L504000
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+504012 = {
+	name = "马鸿宾"
+	country = CXB
+	type = sea
+	skill = 0
+	max_skill = 1
+	loyalty = 0.00
+	picture = L50236
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+504013 = {
+	name = "马步芳"
+	country = CXB
+	type = sea
+	skill = 0
+	max_skill = 1
+	loyalty = 0.00
+	picture = L50237
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+504014 = {
+	name = "德米尔金"
+	country = CXB
+	type = air
+	skill = 1
+	max_skill = 2
+	loyalty = 1.00
+	picture = L504000
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+504015 = {
+	name = "德拉维拉哲"
+	country = CXB
+	type = air
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L504015
+	add_trait = superior_air_tactician
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+504016 = {
+	name = "普连斯基"
+	country = CXB
+	type = air
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L504016
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+504017 = {
+	name = "马鸿逵"
+	country = CXB
+	type = air
+	skill = 2
+	max_skill = 2
+	loyalty = 0.00
+	picture = L50235
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+	}
+}

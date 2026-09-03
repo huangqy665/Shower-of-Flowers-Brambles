@@ -1,0 +1,39 @@
+corps = {
+	name = "加拿大皇家军队"
+	location = 3342
+	regiment = { type = hq_brigade name = "加拿大皇家军队指挥部" historical_model = 0 }
+	division= {
+		name = "加拿大第1步兵师"
+		location = 3342
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "加拿大第1步兵旅" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "加拿大第2步兵旅" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "加拿大第3步兵旅" historical_model = 0 }
+	}
+}
+navy = {
+	name = "加拿大皇家海军"
+	base = 6997
+	location = 6997
+	ship = { type = destroyer name = "第1驱逐舰支队" historical_model = 1 }
+	ship = { type = destroyer name = "第2驱逐舰支队" historical_model = 1 }
+	ship = { type = transport_ship name = "'大卫王子'运输支队" historical_model = 0 }
+	ship = { type = transport_ship name = "'罗伯特王子'运输支队" historical_model = 0 }
+	ship = { type = transport_ship name = "'亨利王子'运输支队" historical_model = 0 }
+}
+air = {
+	name = "温哥华皇家空军基地"
+	base = 6671
+	location = 6671
+	wing = { type = naval_bomber name = "第6鱼雷轰炸机编队" historical_model = 0 }
+}
+air = {
+	name = "加拿大皇家空军"
+	base = 3342
+	location = 3342
+	wing = { type = tactical_bomber name = "第3轰炸机编队" historical_model = 1 }
+	wing = { type = interceptor name = "第1战斗机编队" historical_model = 1 }
+}
+
+
+

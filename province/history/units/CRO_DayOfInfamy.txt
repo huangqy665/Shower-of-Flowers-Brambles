@@ -1,0 +1,80 @@
+army = {
+	is_reserve = yes
+	name = "克罗地亚陆军"
+	location = 3633 # Zagreb
+	leader = 44609 # Laxa
+	regiment = { type = hq_brigade name = "克罗地亚陆军指挥部" historical_model = 0 }
+	corps = {
+		is_reserve = yes
+		name = "第I军"
+		location = 3700 # Sisak
+		regiment = { type = hq_brigade name = "第I军指挥部" historical_model = 0 }
+		division= {
+			is_reserve = yes
+			name = "第1步兵师"
+			location = 3633 # Zagreb
+			regiment = { type = infantry_brigade name = "第1步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第2步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第11步兵团" historical_model = 1 }
+		}
+		division= {
+			is_reserve = yes
+			name = "第2步兵师"
+			location = 3700 # Sisak
+			regiment = { type = infantry_brigade name = "第3步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第12步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第15步兵团" historical_model = 1 }
+		}
+	}
+	corps = {
+		is_reserve = yes
+		name = "第II军"
+		location = 3838 # Slavonski Brod
+		regiment = { type = hq_brigade name = "第II军指挥部" historical_model = 0 }
+		division= {
+			is_reserve = yes
+			name = "第3步兵师"
+			location = 3838 # Slavonski Brod
+			regiment = { type = infantry_brigade name = "第4步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第6步兵团" historical_model = 1 }
+		}
+		division= {
+			is_reserve = yes
+			name = "第4步兵师"
+			location = 3838 # Slavonski Brod
+			regiment = { type = infantry_brigade name = "第5步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第8步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第10步兵团" historical_model = 1 }
+		}
+	}
+	corps = {
+		is_reserve = yes
+		name = "第III军"
+		location = 4174 # Sarajevo
+		regiment = { type = hq_brigade name = "第III军指挥部" historical_model = 0 }
+		division= {
+			is_reserve = yes
+			name = "第5步兵师"
+			location = 4174 # Sarajevo
+			regiment = { type = infantry_brigade name = "第7步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第9步兵团" historical_model = 1 }
+		}
+		division= {
+			is_reserve = yes
+			name = "第6步兵师"
+			location = 4174 # Sarajevo
+			regiment = { type = infantry_brigade name = "第13步兵团" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第14步兵团" historical_model = 1  }
+			regiment = { type = militia_brigade name = "第1民兵团" historical_model = 1 }
+		}	
+		division= {
+			is_reserve = yes
+			name = "第1山地师"
+			location = 4174 # Sarajevo
+			regiment = { type = bergsjaeger_brigade name = "第1山地旅" historical_model = 0  }
+			regiment = { type = bergsjaeger_brigade name = "第2山地旅" historical_model = 0  }
+			regiment = { type = bergsjaeger_brigade name = "第3山地旅" historical_model = 0  }
+			regiment = { type = bergsjaeger_brigade name = "第4山地旅" historical_model = 0  }
+		}
+	}
+}

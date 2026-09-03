@@ -1,0 +1,49 @@
+army = {		
+	name = "自由法国非洲集团军"	
+	location = 10037	
+	regiment = { type = hq_brigade name = "自由法国非洲集团军司令部" historical_model = 0 }
+	division = {
+		name = "自由法国第1步兵师"
+		location = 9943
+		regiment = { type = infantry_brigade name = "第1海军陆战队团" historical_model = 1 }
+		regiment = { type = marine_brigade name = "海军陆战队太平洋步兵营" historical_model = 1 }
+	}
+	division = {
+		name = "勒克莱尔特遣队"
+		location = 9986
+		regiment = { type = motorized_brigade name = "乍得塞内加尔步兵团" historical_model = 1 }
+	}
+	division = {
+		name = "贝鲁特步兵师"
+		location = 5299
+		regiment = { type = militia_brigade name = "贝鲁特驻军" historical_model = 0 }
+	}
+	division = {
+		name = "大马士革步兵师"
+		location = 5532
+		regiment = { type = cavalry_brigade name = "第1北非骑兵团" historical_model = 1 }
+	}
+}
+division = {
+	name = "新喀里多尼亚步兵师"
+	location = 6616	
+    regiment = { type = garrison_brigade name = "努美阿驻军" historical_model = 1 }
+}
+navy = {
+	name = "自由法国海军舰队"
+	base = 5299
+	location = 5299
+	ship = { type = submarine name = "第1潜艇支队" historical_model = 1 }
+	ship = { type = submarine name = "第2潜艇支队" historical_model = 1 }
+	ship = { type = submarine name = "第3潜艇支队" historical_model = 2 }
+	ship = { type = submarine name = "第4潜艇支队" historical_model = 2 }
+	ship = { type = destroyer name = "第1驱逐舰支队" historical_model = 2 }
+	ship = { type = destroyer name = "第2驱逐舰支队" historical_model = 2 }
+}
+air = {
+	name = "自由法国空军"
+	base = 5299
+	location = 5299
+	wing = { type = interceptor name = "'阿尔萨斯'截击机联队" historical_model = 2 }
+ 	wing = { type = tactical_bomber name = "'洛林'轰炸机联队" historical_model = 1 }
+}

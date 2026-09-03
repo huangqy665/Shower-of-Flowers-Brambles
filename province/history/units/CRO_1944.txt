@@ -1,0 +1,57 @@
+army = {
+	name = "克罗地亚陆军"
+	location = 3633
+	regiment = { type = hq_brigade name = "克罗地亚陆军指挥部" historical_model = 0 }
+	corps = {
+		name = "第1军"
+		location = 3633
+		regiment = { type = hq_brigade name = "第1军指挥部" historical_model = 0 }
+		division= {
+			name = "第1山地师"
+			location = 3633
+			regiment = { type = bergsjaeger_brigade name = "第1山地旅" historical_model = 1 }
+			regiment = { type = bergsjaeger_brigade name = "第3山地旅" historical_model = 1 }
+			regiment = { type = bergsjaeger_brigade name = "第4山地旅" historical_model = 1 }
+		}
+		division= {
+			name = "第1卫戍师"
+			location = 3633
+			regiment = { type = garrison_brigade name = "第1卫戍旅" historical_model = 1 }
+			regiment = { type = garrison_brigade name = "第2卫戍旅" historical_model = 1 }
+			regiment = { type = garrison_brigade name = "第3卫戍旅" historical_model = 1 }
+			regiment = { type = garrison_brigade name = "第4卫戍旅" historical_model = 1 }
+		}
+	}
+	corps = {
+		name = "第2军"
+		location = 3979
+		regiment = { type = hq_brigade name = "第2军指挥部" historical_model = 0 }
+		division= {
+			name = "第1步兵师"
+			location = 3979
+			regiment = { type = infantry_brigade name = "第1步兵旅" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第3步兵旅" historical_model = 1 }
+			regiment = { type = infantry_brigade name = "第4步兵旅" historical_model = 1 }
+		}
+		division= {
+			name = "第2卫戍师"
+			location = 3979
+			regiment = { type = garrison_brigade name = "第5卫戍旅" historical_model = 1 }
+			regiment = { type = garrison_brigade name = "第6卫戍旅" historical_model = 1 }
+			regiment = { type = garrison_brigade name = "第7卫戍旅" historical_model = 1 }
+			regiment = { type = garrison_brigade name = "第10卫戍旅" historical_model = 1 }
+		}
+	}
+	corps = {
+		name = "第3军"
+		location = 3634
+		regiment = { type = hq_brigade name = "第3军指挥部" historical_model = 0 }
+		division= {
+			name = "第3卫戍师"
+			location = 3634
+			regiment = { type = bergsjaeger_brigade name = "第2山地旅" historical_model = 1 }
+			regiment = { type = garrison_brigade name = "第8卫戍旅" historical_model = 1 }
+			regiment = { type = garrison_brigade name = "第9卫戍旅" historical_model = 1 }
+		}
+	}
+}

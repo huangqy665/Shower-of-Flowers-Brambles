@@ -1,0 +1,98 @@
+army = {
+	name = "本土军团"
+	location = 3965
+	regiment = { type = hq_brigade name = "本土军团指挥部" historical_model = 0 }
+	division= {
+		name = "第1步兵师"
+		location = 3210
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第2步兵师"
+		location = 3965
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第3步兵师"
+		location = 3210
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第4步兵师"
+		location = 3965
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第6步兵师"
+		location = 3965
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第7步兵师"
+		location = 3965
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第8步兵师"
+		location = 3965
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第1摩托化步兵师"
+		location = 3965
+		regiment = { type = motorized_brigade historical_model = 0 }
+		regiment = { type = motorized_brigade historical_model = 0 }
+		regiment = { type = motorized_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第3摩托化步兵师"
+		location = 3965
+		regiment = { type = motorized_brigade historical_model = 0 }
+		regiment = { type = motorized_brigade historical_model = 0 }
+		regiment = { type = motorized_brigade historical_model = 0 }
+	}
+}
+division = {
+	name = "圭亚那卫戍部队"
+	location = 9934
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+navy = {
+	name = "法兰西第2舰队"
+	base = 4229
+	location = 4229
+	ship = { type = battleship name = "普罗旺斯号" historical_model = 1 pride = yes }
+	ship = { type = destroyer name = "第4驱逐舰支队" historical_model = 1 }
+	ship = { type = destroyer name = "第5驱逐舰支队" historical_model = 2 }
+}
+navy = {
+	name = "法兰西第3舰队"
+	base = 4229
+	location = 4229
+	ship = { type = destroyer name = "第6驱逐舰支队" historical_model = 1 }
+	ship = { type = transport_ship name = "第2护航舰队" historical_model = 0 }
+}
+air = {
+	name = "北部地区航空兵"
+	base = 3418
+	location = 3418
+	wing = { type = interceptor name = "第21截击机联队" historical_model = 1 }
+	wing = { type = interceptor name = "第23截击机联队" historical_model = 1 }
+	wing = { type = tactical_bomber name = "第1轰炸机大队" historical_model = 1 }
+}

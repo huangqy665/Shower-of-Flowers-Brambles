@@ -1,0 +1,51 @@
+division = {
+	name = "第1奉天军团"
+	location = 4685
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+corps = {
+	name = "第2吉林军团"
+	location = 4685
+	regiment = { type = hq_brigade name = "第2吉林军团指挥部" historical_model = 0 }
+	division= {
+		name = "第8满洲师"
+		location = 4685
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第2满洲骑兵师"
+		location = 4685
+		regiment = { type = cavalry_brigade historical_model = 1 }
+		regiment = { type = cavalry_brigade historical_model = 1 }
+		regiment = { type = cavalry_brigade historical_model = 1 }
+		regiment = { type = artillery_brigade historical_model = 0 }
+	}
+}
+division = {
+	name = "第3齐齐哈尔军团"
+	location = 7095
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+division = {
+	name = "第4哈尔滨军团"
+	location = 7139
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+division = {
+	name = "第5承德军团"
+	location = 7098
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+
+
+

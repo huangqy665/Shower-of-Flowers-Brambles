@@ -1,0 +1,31 @@
+corps = {
+	name = "波斯陆军"
+	location = 9158
+	regiment = { type = hq_brigade name = "波斯陆军指挥部" historical_model = 0 }
+	division= {
+		name = "第1步兵师"
+		location = 9158
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+		regiment = { type = infantry_brigade historical_model = 1 }
+	}
+	division= {
+		name = "第2步兵师"
+		location = 9158
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第1骑兵师"
+		location = 9158
+		is_reserve = yes 
+		regiment = { type = cavalry_brigade historical_model = 1 }
+		regiment = { type = cavalry_brigade historical_model = 1 }
+	}
+}
+
+
+

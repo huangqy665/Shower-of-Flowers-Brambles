@@ -1,0 +1,509 @@
+170000 = {
+	name = "阿兰多斯.维拉"
+	country = BOL
+	type = land
+	skill = 0
+	max_skill = 2
+	loyalty = 1.00
+	picture = L170000
+	add_trait = commando
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+170001 = {
+	name = "博基维嘉.罗哈斯"
+	country = BOL
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L170001
+	add_trait = fortress_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 3 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+170002 = {
+	name = "毕尔巴.罗加"
+	country = BOL
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L170002
+	add_trait = commando
+	history = {
+		1939.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+170003 = {
+	name = "布兰科.加林多"
+	country = BOL
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L170003
+	add_trait = panzer_leader
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+170004 = {
+	name = "布希.贝瑟拉"
+	country = BOL
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L170004
+	add_trait = trickster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+170005 = {
+	name = "查格.莫拉莱斯"
+	country = BOL
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L170005
+	add_trait = commando
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+170006 = {
+	name = "爱德华多.桑吉"
+	country = BOL
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L170006
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+170007 = {
+	name = "弗兰科.瑞夫"
+	country = BOL
+	type = land
+	skill = 2
+	max_skill = 3
+	loyalty = 0.00
+	picture = L170007
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 3 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+170008 = {
+	name = "孔特"
+	country = BOL
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L170008
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1938.1.1 = { rank = 0 }
+	}
+}
+170009 = {
+	name = "连尼.兰萨"
+	country = BOL
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L170009
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 3 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+170010 = {
+	name = "洛佩斯.伊.洛佩斯"
+	country = BOL
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L170010
+	add_trait = logistics_wizard
+	history = {
+		1943.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+170011 = {
+	name = "马里扎纳.雷门"
+	country = BOL
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L170011
+	add_trait = engineer
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+170012 = {
+	name = "蒙赫.吉特雷斯"
+	country = BOL
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L170012
+	add_trait = offensive_doctrine
+	history = {
+		1942.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 3 }
+	}
+}
+170013 = {
+	name = "蒙塔尔沃.鲁伊兹"
+	country = BOL
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L170013
+	add_trait = logistics_wizard
+	history = {
+		1938.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+170014 = {
+	name = "莫拉莱斯.贾雷吉"
+	country = BOL
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L170014
+	history = {
+		1937.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+170015 = {
+	name = "奥万多.坎迪亚"
+	country = BOL
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L170015
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+170016 = {
+	name = "帕斯托.波德迪维斯奥"
+	country = BOL
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L170016
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+170017 = {
+	name = "佩鲁兰得.德尔.卡斯蒂略"
+	country = BOL
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L170017
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1940.1.1 = { rank = 4 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+170018 = {
+	name = "皮图.桑谢斯"
+	country = BOL
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L170018
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+170019 = {
+	name = "金塔尼利亚.基罗加"
+	country = BOL
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L170019
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+170020 = {
+	name = "萨利纳斯.阿尔罗马约"
+	country = BOL
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L170020
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+170021 = {
+	name = "托罗.鲁伊诺法"
+	country = BOL
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L170021
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+170022 = {
+	name = "威尔拉.古铁雷斯"
+	country = BOL
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L170022
+	add_trait = commando
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+170023 = {
+	name = "比利亚罗埃尔.洛佩斯"
+	country = BOL
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L170023
+	add_trait = engineer
+	history = {
+		1938.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+170024 = {
+	name = "阿兰查.巴素托"
+	country = BOL
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L170024
+	add_trait = seawolf
+	history = {
+		1944.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+170025 = {
+	name = "阿兰多斯.威尔拉"
+	country = BOL
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L170025
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+170026 = {
+	name = "伊瓦拉.华雷斯"
+	country = BOL
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L170026
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+170027 = {
+	name = "马尔扎拉.雷门"
+	country = BOL
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L170027
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+170028 = {
+	name = "阿兰查.巴素托"
+	country = BOL
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L170028
+	add_trait = fleet_destroyer
+	history = {
+		1943.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+170029 = {
+	name = "毕尔包.罗亚"
+	country = BOL
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L170029
+	add_trait = tank_buster
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+170030 = {
+	name = "格拉范尼夫.格吉"
+	country = BOL
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L170030
+	add_trait = tank_buster
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+170031 = {
+	name = "伊瓦拉.华瑞兹"
+	country = BOL
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L170031
+	add_trait = fleet_destroyer
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+170032 = {
+	name = "佐德.阿曼若"
+	country = BOL
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L170032
+	add_trait = carpet_bomber
+	history = {
+		1941.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+170033 = {
+	name = "帕文.奥乔亚"
+	country = BOL
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L170033
+	add_trait = superior_air_tactician
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+170034 = {
+	name = "萨拉莱吉.桑吉"
+	country = BOL
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L170034
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+170035 = {
+	name = "威尔拉.古铁雷斯"
+	country = BOL
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L170035
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}

@@ -1,0 +1,709 @@
+68000 = {
+	name = "巴斯廷"
+	country = BEL
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L68000
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+68001 = {
+	name = "贝尔内特斯"
+	country = BEL
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68001
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+68002 = {
+	name = "沙尔多内"
+	country = BEL
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 0.00
+	picture = L68002
+	add_trait = commando
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+68003 = {
+	name = "科林斯"
+	country = BEL
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 1.00
+	picture = L68003
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1938.1.1 = { rank = 3 }
+	}
+}
+68004 = {
+	name = "多弗雷纳.德.拉.舍瓦莱里"
+	country = BEL
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68004
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+68005 = {
+	name = "德.布叙.沃尔考特"
+	country = BEL
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68005
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+68006 = {
+	name = "德.格雷弗"
+	country = BEL
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68006
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+68007 = {
+	name = "德.克拉厄"
+	country = BEL
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68007
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+68008 = {
+	name = "德方丹"
+	country = BEL
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68008
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+	}
+}
+68009 = {
+	name = "丹尼斯"
+	country = BEL
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68009
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1937.1.1 = { rank = 2 }
+	}
+}
+68010 = {
+	name = "德斯坎佩"
+	country = BEL
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L68010
+	add_trait = logistics_wizard
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+68011 = {
+	name = "德鲁贝尔"
+	country = BEL
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L68011
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+68012 = {
+	name = "迪托伊"
+	country = BEL
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68012
+	add_trait = fortress_buster
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+68013 = {
+	name = "杰拉尔德"
+	country = BEL
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L68013
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+68014 = {
+	name = "让森斯"
+	country = BEL
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68014
+	add_trait = logistics_wizard
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+68015 = {
+	name = "凯亚尔茨"
+	country = BEL
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L68015
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+68016 = {
+	name = "利布雷希特"
+	country = BEL
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68016
+	add_trait = panzer_leader
+	history = {
+		1937.1.1 = { rank = 1 }
+	}
+}
+68017 = {
+	name = "米谢"
+	country = BEL
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68017
+	add_trait = panzer_leader
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+	}
+}
+68018 = {
+	name = "米希尔斯"
+	country = BEL
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L68018
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+68019 = {
+	name = "纳伊滕"
+	country = BEL
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L68019
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+68020 = {
+	name = "皮尔"
+	country = BEL
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L68020
+	add_trait = trickster
+	history = {
+		1937.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+68021 = {
+	name = "皮龙"
+	country = BEL
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L68021
+	add_trait = panzer_leader
+	history = {
+		1939.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+68022 = {
+	name = "塞利耶.德.莫兰维勒"
+	country = BEL
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68022
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+68023 = {
+	name = "西克斯"
+	country = BEL
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68023
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+68024 = {
+	name = "斯特赖敦克.德.比克尔"
+	country = BEL
+	type = land
+	skill = 3
+	max_skill = 5
+	loyalty = 1.00
+	picture = L68024
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1930.1.1 = { rank = 4 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+68025 = {
+	name = "的里雅斯特"
+	country = BEL
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68025
+	add_trait = fortress_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+68026 = {
+	name = "范.科贝尔"
+	country = BEL
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L68026
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+68027 = {
+	name = "范.德恩.伯根"
+	country = BEL
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68027
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+	}
+}
+68028 = {
+	name = "范.德尔.霍夫斯塔特"
+	country = BEL
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L68028
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1937.1.1 = { rank = 2 }
+	}
+}
+68029 = {
+	name = "范.德尔.韦肯"
+	country = BEL
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L68029
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+68030 = {
+	name = "范.奥弗斯特拉滕"
+	country = BEL
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L68030
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+68031 = {
+	name = "范.朗格霍弗"
+	country = BEL
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68031
+	add_trait = engineer
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+68032 = {
+	name = "范.帕里斯"
+	country = BEL
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68032
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+68033 = {
+	name = "维比尔"
+	country = BEL
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68033
+	history = {
+		1937.1.1 = { rank = 1 }
+	}
+}
+68034 = {
+	name = "比勒特"
+	country = BEL
+	type = sea
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L68034
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+68035 = {
+	name = "布拉辛"
+	country = BEL
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68035
+	add_trait = seawolf
+	history = {
+		1930.1.1 = { rank = 1 }
+	}
+}
+68036 = {
+	name = "多默里"
+	country = BEL
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68036
+	history = {
+		1930.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+68037 = {
+	name = "杰卢伊肯斯"
+	country = BEL
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L68037
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+68038 = {
+	name = "戈瑟尔斯"
+	country = BEL
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68038
+	history = {
+		1944.1.1 = { rank = 1 }
+		1990.1.1 = { rank = 0 }
+	}
+}
+68039 = {
+	name = "埃勒曼"
+	country = BEL
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68039
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+68040 = {
+	name = "蒂默曼斯"
+	country = BEL
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68040
+	add_trait = blockade_runner
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+68041 = {
+	name = "多默里"
+	country = BEL
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L68041
+	add_trait = fleet_destroyer
+	history = {
+		1930.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+68042 = {
+	name = "德.黑姆里考特.德.格伦内"
+	country = BEL
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L68042
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+68043 = {
+	name = "杜.蒙克鲁"
+	country = BEL
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68043
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+68044 = {
+	name = "杜.菲菲尔"
+	country = BEL
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68044
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+68045 = {
+	name = "纪尧姆"
+	country = BEL
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68045
+	history = {
+		1938.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+68046 = {
+	name = "伊塞朗唐"
+	country = BEL
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L68046
+	add_trait = superior_air_tactician
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+	}
+}
+68047 = {
+	name = "勒布特"
+	country = BEL
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L68047
+	history = {
+		1939.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+68048 = {
+	name = "利埃纳尔"
+	country = BEL
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68048
+	add_trait = tank_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+	}
+}
+68049 = {
+	name = "奥芬贝格"
+	country = BEL
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68049
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+68050 = {
+	name = "范.罗尔格赫姆"
+	country = BEL
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L68050
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+68051 = {
+	name = "武泰"
+	country = BEL
+	type = air
+	skill = 2
+	max_skill = 4
+	loyalty = 1.00
+	picture = L68051
+	add_trait = superior_air_tactician
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 3 }
+	}
+}

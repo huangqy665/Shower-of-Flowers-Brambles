@@ -1,0 +1,3 @@
+owner = TIB
+controller = TIB
+add_core = TIB

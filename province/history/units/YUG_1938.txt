@@ -1,0 +1,258 @@
+corps = {
+	name = "南斯拉夫皇家陆军第IV军"
+	location = 3633
+	regiment = { type = hq_brigade name = "南斯拉夫皇家陆军第IV军指挥部" historical_model = 0 }
+	division = {
+		name = "第27萨瓦河步兵师"
+		location = 3700
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第35步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第53步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第104步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "第40斯洛文尼亚步兵师"
+		location = 3500
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第42步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第43步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第108步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "第42穆拉步兵师"
+		location = 3433
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第36步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第105步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第126步兵团" historical_model = 0 }
+	}
+}
+corps = {
+	name = "南斯拉夫皇家陆军第VII军"
+	location = 3699
+	regiment = { type = hq_brigade name = "南斯拉夫皇家陆军第VII军指挥部" historical_model = 0 }
+	division= {
+		name = "第32特里格拉夫河省步兵师"
+		location = 3565
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第39步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第40步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第110步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "特里格拉夫河山地师"
+		location = 3497
+		is_reserve = yes
+		regiment = { type = bergsjaeger_brigade name = "第2山地步兵团" historical_model = 0 }
+		regiment = { type = bergsjaeger_brigade name = "第4山地步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "第1义勇骑兵师"
+		location = 3699
+		is_reserve = yes
+		regiment = { type = cavalry_brigade name = "第2骑兵团" historical_model = 0 }
+		regiment = { type = cavalry_brigade name = "第6骑兵团" historical_model = 0 }
+		regiment = { type = cavalry_brigade name = "第8骑兵团" historical_model = 0 }
+	}
+}
+corps = {
+	name = "南斯拉夫皇家陆军第I军"
+	location = 3700
+	regiment = { type = hq_brigade name = "南斯拉夫皇家陆军第I军指挥部" historical_model = 0 }
+	division= {
+		name = "第7波蒂河步兵师"
+		location = 3770
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第25步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第34步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第51步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "第3义勇骑兵师"
+		location = 3703
+		is_reserve = yes
+		regiment = { type = cavalry_brigade name = "第3骑兵团" historical_model = 0 }
+		regiment = { type = cavalry_brigade name = "第4骑兵团" historical_model = 0 }
+		regiment = { type = motorized_brigade name = "第3摩托化团" historical_model = 0 }
+	}
+}
+corps = {
+	name = "南斯拉夫皇家陆军第II军"
+	location = 4174
+	regiment = { type = hq_brigade name = "南斯拉夫皇家陆军第II军指挥部" historical_model = 0 }
+	division= {
+		name = "第10波斯尼亚步兵师"
+		location = 4174
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第10步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第15步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第60步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "第17弗尔巴斯河步兵师"
+		location = 3979
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第33步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第89步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第90步兵团" historical_model = 0 }
+	}
+}
+corps = {
+	name = "南斯拉夫皇家陆军第III军"
+	location = 4555
+	regiment = { type = hq_brigade name = "南斯拉夫皇家陆军第III军指挥部" historical_model = 0 }
+	division= {
+		name = "第13黑塞哥维那步兵师"
+		location = 4303
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第29步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第61步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第87步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "第15泽塔河步兵师"
+		location = 4429
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第38步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第61步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第87步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "第25瓦达河步兵师"
+		location = 4495
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第21步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第46步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第50步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "第31科索沃步兵师"
+		location = 4431
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第30步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第31步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第56步兵团" historical_model = 0 }
+	}
+}
+corps = {
+	name = "南斯拉夫皇家卫队第III军"
+	location = 4664
+	regiment = { type = hq_brigade name = "南斯拉夫皇家卫队第III军指挥部" historical_model = 0 }
+	division= {
+		name = "第5苏马迪河步兵师"
+		location = 4664
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第19步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第59步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第72步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "第20贝尔格莱德步兵师"
+		location = 4664
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第23步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第28步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第49步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "第22伊巴斯卡步兵师"
+		location = 4307
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第23步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第28步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第49步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "第46摩拉瓦河步兵师"
+		location = 4307
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第1步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第62步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第92步兵团" historical_model = 0 }
+	}
+}
+corps = {
+	name = "克罗地亚第V军"
+	location = 3912
+	regiment = { type = hq_brigade name = "克罗地亚第V军指挥部" historical_model = 0 }
+	division= {
+		name = "第8喀津斯卡步兵师"
+		location = 3984
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第9步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第74步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第76步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "第9提摩卡步兵师"
+		location = 4052
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第14步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第20步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第75步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "第34托普里卡步兵师"
+		location = 4117
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第3步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第12步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第16步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "第50德林斯卡步兵师"
+		location = 3841
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第5步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第63步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第65步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "第2义勇骑兵师"
+		location = 3912
+		is_reserve = yes
+		regiment = { type = cavalry_brigade name = "第1骑兵团" historical_model = 0 }
+		regiment = { type = cavalry_brigade name = "第5骑兵团" historical_model = 0 }
+		regiment = { type = cavalry_brigade name = "第7骑兵团" historical_model = 0 }
+	}
+}
+corps = {
+	name = "克罗地亚第VI军"
+	location = 3840
+	regiment = { type = hq_brigade name = "克罗地亚第VI军指挥部" historical_model = 0 }
+	division= {
+		name = "第3多瑙河步兵师"
+		location = 3570
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第8步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第18步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第57步兵团" historical_model = 0 }
+	}
+	division= {
+		name = "第49斯雷姆斯卡步兵师"
+		location = 3910
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第2步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第7步兵团" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "第70步兵团" historical_model = 0 }
+	}
+}
+navy = {
+	name = "南斯拉夫皇家海军"
+	base = 4236
+	location = 4236
+	ship = { type = destroyer name = "第1驱逐舰队" historical_model = 1 }
+	ship = { type = submarine name = "第1潜艇编队" historical_model = 0 }
+}
+air = {
+	name = "南斯拉夫皇家空军"
+	base = 3912
+	location = 3912
+	wing = { type = interceptor name = "第2战斗机大队" historical_model = 0 }
+	wing = { type = multi_role name = "第4战斗机大队" historical_model = 0 }
+	wing = { type = tactical_bomber name = "第26战术轰炸机大队" historical_model = 0 }
+	wing = { type = strategic_bomber name = "第1战略轰炸机大队" historical_model = 0 }
+}
+
+
+

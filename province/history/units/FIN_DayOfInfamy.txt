@@ -1,0 +1,220 @@
+theatre = {
+	name = "大本营" 
+	location = 739
+	leader = 9750 # Mannerheim
+	regiment = { type = hq_brigade name = "大本营" historical_model = 0 }
+	armygroup= {
+		name = "卡尔加兰军"
+		location = 739
+		leader = 9710 # Heinrichs
+		regiment = { type = hq_brigade name = "卡尔加兰军指挥部" historical_model = 1 }
+		army= {
+			name = "马赛克军团"
+			location = 580
+			leader = 9720 # Laatikainen
+			regiment = { type = hq_brigade name = "马赛克军团指挥部" historical_model = 0 }
+			division = {
+				name = "第14师"
+				location = 405
+				leader = 9735 # Raapanna
+				regiment = { type = infantry_brigade name = "第10步兵团" historical_model = 2 }
+				regiment = { type = infantry_brigade name = "第31步兵团"  historical_model = 2 }
+				regiment = { type = infantry_brigade name = "第32步兵团"  historical_model = 2 }
+			}
+			corps = {
+				name = "第II军"
+				location = 405
+				leader = 9714 # Hagglund
+				regiment = { type = hq_brigade name = "第II军指挥部" historical_model = 0 }
+				division= {
+					name = "第8师"
+					location = 405
+					leader = 9754 # Winkell
+					regiment = { type = infantry_brigade name = "第4步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第24步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第45步兵团" historical_model = 2 }
+				}
+			}
+			corps = {
+				name = "第VII军"
+				location = 472
+				regiment = { type = hq_brigade name = "第VII军指挥部" historical_model = 0 }
+				division= {
+					name = "第4师"
+					location = 472
+					leader = 9749 # Viljanen
+					regiment = { type = infantry_brigade name = "第5步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第25步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第46步兵团" historical_model = 2 }
+				}
+				division= {
+					name = "山地师"
+					location = 435
+					leader = 9730 # Oinonen
+					regiment = { type = bergsjaeger_brigade name = "第1山地步兵旅" historical_model = 1 }
+					regiment = { type = bergsjaeger_brigade name = "第2山地步兵旅" historical_model = 1 }
+					regiment = { type = cavalry_brigade name = "第1骑兵旅" historical_model = 1 }
+				}
+			}
+		}
+		army= {
+			name = "奥努斯军团"
+			location = 620
+			leader = 9729 # Oesch
+			regiment = { type = hq_brigade name = "奥努斯军团指挥部" historical_model = 0 }
+			corps = {
+				name = "第V军"
+				location = 583
+				regiment = { type = hq_brigade name = "第V军指挥部" historical_model = 0 }
+				division= {
+					name = "第7师"
+					location = 583
+					leader = 9743 # Svensson
+					regiment = { type = infantry_brigade name = "第9步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第30步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第51步兵团" historical_model = 2 }
+				}
+				division= {
+					name = "第11师"
+					location = 621
+					leader = 9712 # Heiskanen K.A.
+					regiment = { type = infantry_brigade name = "第8步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第29步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第50步兵团" historical_model = 2 }
+				}
+	       }
+			corps = {
+				name = "第VI军"
+				location = 620
+				leader = 9744 # Talvela
+				regiment = { type = hq_brigade name = "第VI军指挥部" historical_model = 0 }
+				division= {
+					name = "第5师"
+					location = 620
+					regiment = { type = infantry_brigade name = "第2步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第23步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第44步兵团" historical_model = 2 }
+				}
+				division = {
+					name = "第17师"
+					location = 620
+					leader = 9740 # Snellman
+					regiment = { type = infantry_brigade name = "第13步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第34步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第61步兵团" historical_model = 2 }
+				}
+				division= {
+					expeditionary_owner = GER
+					name = "第163步兵师"
+					location = 620
+					leader = 595 # Engelbrecht
+					regiment = { type = infantry_brigade name = "第307步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第310步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第324步兵团" historical_model = 2 }
+				}
+			}
+		}
+		army= {
+			name = "芬兰军"
+			location = 698
+			leader = 9755 # 謍quist
+			regiment = { type = hq_brigade name = "芬兰军指挥部" historical_model = 0 }
+			corps = {
+				name = "第IV军"
+				location = 740
+				regiment = { type = hq_brigade name = "第IV军指挥部" historical_model = 0 }
+				division= {
+					name = "第15师"
+					location = 740
+					leader = 9713 # Hersalo
+					regiment = { type = infantry_brigade name = "第15步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第36步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第57步兵团" historical_model = 2 }
+				}
+				division= {
+					name = "第10师"
+					location = 740
+					leader = 9738 # Sihvo J.
+					regiment = { type = infantry_brigade name = "第1步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第22步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第43步兵团" historical_model = 2 }
+				}
+				division= {
+					name = "第19师"
+					location = 740
+					leader = 9709 # Hannuksela
+					regiment = { type = infantry_brigade name = "第16步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第37步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第58步兵团" historical_model = 2 }
+				}
+			}
+			corps = {
+				name = "第I军"
+				location = 658
+				leader = 9727 # M鋕inen
+				regiment = { type = hq_brigade name = "第I军指挥部" historical_model = 0 }
+				division= {
+					name = "第2师"
+					location = 658
+					leader = 9704 # Blick
+					regiment = { type = infantry_brigade name = "第7步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第28步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第46步兵团" historical_model = 2 }
+				}
+				division= {
+					name = "第12师"
+					location = 658
+					leader = 9748 # Vihma
+					regiment = { type = infantry_brigade name = "第26步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第47步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第55步兵团" historical_model = 2 }
+				}
+				division= {
+					name = "第18师"
+					location = 658
+					leader = 9732 # Pajari
+					regiment = { type = infantry_brigade name = "第6步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第7步兵团" historical_model = 2 }
+					regiment = { type = infantry_brigade name = "第48步兵团" historical_model = 2 }
+				}	
+			}
+		} 
+	}
+	division = {
+		name = "预备队"
+		is_reserve = yes
+		location = 698
+		leader = 9731 # Paalu
+		regiment = { type = infantry_brigade name = "第35步兵团" historical_model = 2 }
+		regiment = { type = infantry_brigade name = "第56步兵团" historical_model = 2 }
+		regiment = { type = infantry_brigade name = "第60步兵团" historical_model = 2 }
+	}
+	division = {
+		name = "独立师"
+		location = 739
+		regiment = { type = bergsjaeger_brigade name = "第3山地步兵旅" historical_model = 1 }
+		regiment = { type = bergsjaeger_brigade name = "第4山地步兵旅" historical_model = 1 }
+	}
+}
+navy = {
+	name = "芬兰海军"
+	base = 739
+	location = 739
+	ship = { type = heavy_cruiser name = "伊尔玛利宁号" historical_model = 0 pride = yes }
+	ship = { type = heavy_cruiser name = "维纳莫伊宁号" historical_model = 0 }
+	ship = { type = submarine name = "第1潜艇大队" historical_model = 0 }
+}
+
+air = {
+	name = "第2航空团"
+	base = 739
+	location = 739
+	wing = { type = interceptor name = "第2航空团" historical_model = 2 }
+}
+air = {
+	name = "第4航空团"
+	base = 739
+	leader = 9779 # Somerto
+	location = 739
+	wing = { type = tactical_bomber name = "第4航空团" historical_model = 2 }
+}

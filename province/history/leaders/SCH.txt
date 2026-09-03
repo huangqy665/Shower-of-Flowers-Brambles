@@ -1,0 +1,661 @@
+129000 = {
+	name = "比歇尔"
+	country = SCH
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 0.00
+	picture = L129000
+	history = {
+		1938.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+129001 = {
+	name = "博雷尔"
+	country = SCH
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L129001
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+129002 = {
+	name = "布伦纳"
+	country = SCH
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L129002
+	add_trait = offensive_doctrine
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+129003 = {
+	name = "卡斯泰利"
+	country = SCH
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L129003
+	add_trait = panzer_leader
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+129004 = {
+	name = "康斯塔姆"
+	country = SCH
+	type = land
+	skill = 1
+	max_skill = 7
+	loyalty = 1.00
+	picture = L129004
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+129005 = {
+	name = "德.克劳萨斯"
+	country = SCH
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L129005
+	add_trait = commando
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+129006 = {
+	name = "弗吕基格"
+	country = SCH
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L129006
+	history = {
+		1937.1.1 = { rank = 1 }
+	}
+}
+129007 = {
+	name = "古杰尔"
+	country = SCH
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L129007
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+129008 = {
+	name = "吉桑"
+	country = SCH
+	type = land
+	skill = 2
+	max_skill = 8
+	loyalty = 1.00
+	picture = L129008
+	add_trait = defensive_doctrine
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+	}
+}
+129009 = {
+	name = "胡贝尔.J."
+	country = SCH
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L129009
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+129010 = {
+	name = "胡贝尔.J.I."
+	country = SCH
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L129010
+	add_trait = logistics_wizard
+	add_trait = defensive_doctrine
+	history = {
+		1938.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 3 }
+	}
+}
+129011 = {
+	name = "伊斯勒"
+	country = SCH
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L129011
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+129012 = {
+	name = "雅恩"
+	country = SCH
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L129012
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+129013 = {
+	name = "延内"
+	country = SCH
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L129013
+	add_trait = trickster
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+129014 = {
+	name = "富勒"
+	country = SCH
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L129014
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+129015 = {
+	name = "卡梅尔"
+	country = SCH
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L129015
+	add_trait = fortress_buster
+	history = {
+		1940.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+129016 = {
+	name = "拉布哈特"
+	country = SCH
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L129016
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+129017 = {
+	name = "拉德利"
+	country = SCH
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L129017
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+129018 = {
+	name = "列.皮埃尔"
+	country = SCH
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L129018
+	add_trait = logistics_wizard
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+129019 = {
+	name = "马明"
+	country = SCH
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L129019
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+129020 = {
+	name = "马尔考德"
+	country = SCH
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L129020
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+129021 = {
+	name = "马松"
+	country = SCH
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L129021
+	history = {
+		1946.1.1 = { rank = 1 }
+	}
+}
+129022 = {
+	name = "马蒂勒"
+	country = SCH
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L129022
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+129023 = {
+	name = "莫西曼"
+	country = SCH
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L129023
+	add_trait = defensive_doctrine
+	history = {
+		1941.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+129024 = {
+	name = "米勒"
+	country = SCH
+	type = land
+	skill = 0
+	max_skill = 6
+	loyalty = 1.00
+	picture = L129024
+	add_trait = winter_specialist
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+129025 = {
+	name = "妮古拉"
+	country = SCH
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L129025
+	add_trait = panzer_leader
+	history = {
+		1940.1.1 = { rank = 1 }
+	}
+}
+129026 = {
+	name = "普里西"
+	country = SCH
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L129026
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+129027 = {
+	name = "罗斯特"
+	country = SCH
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L129027
+	add_trait = engineer
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+129028 = {
+	name = "伦齐"
+	country = SCH
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L129028
+	add_trait = commando
+	history = {
+		1939.1.1 = { rank = 1 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+129029 = {
+	name = "沙伊布利"
+	country = SCH
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L129029
+	add_trait = logistics_wizard
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+129030 = {
+	name = "舍雷尔"
+	country = SCH
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L129030
+	add_trait = commando
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+129031 = {
+	name = "施瓦茨"
+	country = SCH
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L129031
+	add_trait = defensive_doctrine
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+129032 = {
+	name = "松德雷格"
+	country = SCH
+	type = land
+	skill = 1
+	max_skill = 6
+	loyalty = 1.00
+	picture = L129032
+	add_trait = offensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+129033 = {
+	name = "斯特里克勒"
+	country = SCH
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L129033
+	history = {
+		1943.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}
+129034 = {
+	name = "冯.格拉芬里德"
+	country = SCH
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L129034
+	history = {
+		1939.1.1 = { rank = 1 }
+	}
+}
+129035 = {
+	name = "魏贝尔"
+	country = SCH
+	type = land
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L129035
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+129036 = {
+	name = "维勒"
+	country = SCH
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L129036
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+129037 = {
+	name = "弗吕基格"
+	country = SCH
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L129037
+	history = {
+		1937.1.1 = { rank = 1 }
+	}
+}
+129038 = {
+	name = "普里西"
+	country = SCH
+	type = sea
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L129038
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+129039 = {
+	name = "冯.格拉芬里德"
+	country = SCH
+	type = sea
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L129039
+	history = {
+		1939.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+	}
+}
+129040 = {
+	name = "班迪"
+	country = SCH
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L129040
+	history = {
+		1938.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+129041 = {
+	name = "巴尔代"
+	country = SCH
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L129041
+	history = {
+		1941.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+129042 = {
+	name = "比德"
+	country = SCH
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L129042
+	add_trait = superior_air_tactician
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+129043 = {
+	name = "莱曼"
+	country = SCH
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L129043
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+129044 = {
+	name = "普里莫"
+	country = SCH
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L129044
+	add_trait = spotter
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+129045 = {
+	name = "里尔"
+	country = SCH
+	type = air
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L129045
+	add_trait = tank_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+129046 = {
+	name = "里赫纳"
+	country = SCH
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L129046
+	history = {
+		1942.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+	}
+}
+129047 = {
+	name = "施勒皮"
+	country = SCH
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L129047
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+129048 = {
+	name = "范.巴埃伦"
+	country = SCH
+	type = air
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L129048
+	history = {
+		1946.1.1 = { rank = 1 }
+	}
+}

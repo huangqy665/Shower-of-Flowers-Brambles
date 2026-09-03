@@ -1,0 +1,26 @@
+corps = {
+	name = "新疆第1军团"
+	location = 8955
+	regiment = { type = hq_brigade name = "新疆第1军团司令部" historical_model = 0 }
+	division= {
+		name = "新疆第1师"
+		location = 8955
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "新疆第7旅"
+		location = 9006
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "新疆第8旅"
+		location = 9006
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+}

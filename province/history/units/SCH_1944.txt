@@ -1,0 +1,105 @@
+corps = {
+	name = "第I军团"
+	location = 3554
+	regiment = { type = hq_brigade name = "第I军团司令部" historical_model = 0 }
+	division= {
+		name = "第1步兵师"
+		location = 3554
+		regiment = { type = infantry_brigade historical_model = 2 }
+		regiment = { type = infantry_brigade historical_model = 2 }
+		regiment = { type = infantry_brigade historical_model = 2 }
+	}
+	division= {
+		name = "第2步兵师"
+		location = 3554
+		regiment = { type = infantry_brigade historical_model = 2 }
+		regiment = { type = infantry_brigade historical_model = 2 }
+		regiment = { type = infantry_brigade historical_model = 2 }
+	}
+}
+corps = {
+	name = "第II军团"
+	location = 3217
+	regiment = { type = hq_brigade name = "第II军团司令部" historical_model = 0 }
+	division= {
+		name = "第3步兵师"
+		location = 3217
+		regiment = { type = infantry_brigade historical_model = 2 }
+		regiment = { type = infantry_brigade historical_model = 2 }
+		regiment = { type = infantry_brigade historical_model = 2 }
+	}
+	division= {
+		name = "第8步兵师"
+		location = 3217
+		regiment = { type = infantry_brigade historical_model = 2 }
+		regiment = { type = infantry_brigade historical_model = 2 }
+		regiment = { type = infantry_brigade historical_model = 2 }
+	}
+}
+corps = {
+	name = "第III山地军团"
+	location = 3219
+	regiment = { type = hq_brigade name = "第III山地军团司令部" historical_model = 0 }
+	division= {
+		name = "山地5师"
+		location = 3219
+		regiment = { type = bergsjaeger_brigade historical_model = 2 }
+		regiment = { type = bergsjaeger_brigade historical_model = 2 }
+		regiment = { type = bergsjaeger_brigade historical_model = 2 }
+	}
+	division= {
+		name = "山地6师"
+		location = 3219
+		regiment = { type = bergsjaeger_brigade historical_model = 2 }
+		regiment = { type = bergsjaeger_brigade historical_model = 2 }
+		regiment = { type = bergsjaeger_brigade historical_model = 2 }
+	}
+}
+corps = {
+	name = "第IV军团"
+	location = 3422
+	regiment = { type = hq_brigade name = "第IV军团司令部" historical_model = 0 }
+	division= {
+		name = "第4步兵师"
+		location = 3422
+		regiment = { type = infantry_brigade historical_model = 2 }
+		regiment = { type = infantry_brigade historical_model = 2 }
+		regiment = { type = infantry_brigade historical_model = 2 }
+	}
+	division= {
+		name = "第7步兵师"
+		location = 3422
+		regiment = { type = infantry_brigade historical_model = 2 }
+		regiment = { type = infantry_brigade historical_model = 2 }
+		regiment = { type = infantry_brigade historical_model = 2 }
+	}
+}
+corps = {
+	is_reserve = yes
+	name = "瑞士总司令部"
+	location = 3554
+	regiment = { type = hq_brigade name = "瑞士总司令部" historical_model = 0 }
+	division= {
+		is_reserve = yes
+		name = "总司令部预备役步兵"
+		location = 3554
+		regiment = { type = infantry_brigade historical_model = 2 }
+		regiment = { type = infantry_brigade historical_model = 2 }
+		regiment = { type = infantry_brigade historical_model = 2 }
+	}
+	division= {
+		is_reserve = yes
+		name = "总司令部预备役山地步兵"
+		location = 3554
+		regiment = { type = bergsjaeger_brigade historical_model = 2 }
+		regiment = { type = bergsjaeger_brigade historical_model = 2 }
+		regiment = { type = bergsjaeger_brigade historical_model = 2 }
+	}
+}
+air = {
+	name = "瑞士空军"
+	base = 3422
+	location = 3422
+	wing = { type = tactical_bomber name = "第1轰炸机联队" historical_model = 1 }
+	wing = { type = interceptor name = "第1战斗机联队" historical_model = 1 }
+}

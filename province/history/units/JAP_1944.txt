@@ -1,0 +1,1566 @@
+theatre = {
+	name = "南方派遣军" 
+	location = 6236
+	regiment = { type = hq_brigade name = "南方派遣军司令部" historical_model = 0 }
+	division= {
+		name = "第17师团"
+		location = 6236
+		regiment = { type = infantry_brigade name = "第53步兵团" historical_model = 4 }
+		regiment = { type = infantry_brigade name = "第54步兵团" historical_model = 4 }
+		regiment = { type = infantry_brigade name = "第81步兵团" historical_model = 4 }
+	}
+	army= {
+		name = "第14军团"
+		location = 6142
+		regiment = { type = hq_brigade name = "第14军团司令部" historical_model = 1 }
+		division= {
+			name = "第4师团"
+			location = 6142
+			regiment = { type = infantry_brigade name = "第8步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第37步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第61步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第16师团"
+			location = 6142
+			regiment = { type = infantry_brigade name = "第9步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第20步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第33步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第30师团"
+			location = 6142
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+		}
+		division= {
+			name = "第32师团"
+			location = 6142
+			regiment = { type = infantry_brigade name = "第210步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第211步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第212步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第56师团"
+			location = 6142
+			regiment = { type = infantry_brigade name = "第113步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第146步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第148步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第100师团"
+			location = 6142
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+		}
+		division= {
+			name = "第102师团"
+			location = 6142
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+		}
+		division= {
+			name = "第103师团"
+			location = 6142
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+		}
+	}
+	army = {
+		name = "第15军团"
+		location = 6070
+		regiment = { type = hq_brigade name = "第15军团司令部" historical_model = 0 }
+		division= {
+			name = "第15师团"
+			location = 7601
+			regiment = { type = infantry_brigade name = "第51步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第60步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第67步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第31师团"
+			location = 7571
+			regiment = { type = infantry_brigade name = "第58步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第124步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第138步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第33师团"
+			location = 7571
+			regiment = { type = infantry_brigade name = "第213步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第214步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第215步兵团" historical_model = 4 }
+		}
+	}
+	army = {
+		name = "第17军团"
+		location = 6467
+		regiment = { type = hq_brigade name = "第17军团司令部" historical_model = 0 }
+		division= {
+			name = "第6师团"
+			location = 6498
+			regiment = { type = infantry_brigade name = "第13步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第23步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第45步兵团" historical_model = 4 }
+		}
+	}
+	army = {
+		name = "第18军团"
+		location = 7744
+		regiment = { type = hq_brigade name = "第18军团司令部" historical_model = 1 }
+		division= {
+			name = "第20师团"
+			location = 6398
+			regiment = { type = infantry_brigade name = "第77步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第78步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第79步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第41师团"
+			location = 7744
+			regiment = { type = infantry_brigade name = "第237步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第238步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第239步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第51师团"
+			location = 7744
+			regiment = { type = infantry_brigade name = "第66步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第102步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第115步兵团" historical_model = 4 }
+		}
+	}
+	army= {
+		name = "第25军团"
+		location = 6394
+		regiment = { type = hq_brigade name = "第25军团司令部" historical_model = 1 }
+		division= {
+			name = "第5师团"
+			location = 6394
+			regiment = { type = motorized_brigade name = "第11步兵团" historical_model = 4 }
+			regiment = { type = motorized_brigade name = "第41步兵团" historical_model = 4 }
+			regiment = { type = motorized_brigade name = "第21步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第56师团"
+			location = 6394
+			regiment = { type = infantry_brigade name = "第113步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第146步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第148步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第2近卫师团"
+			location = 6394
+			regiment = { type = garrison_brigade name = "第3近卫步兵联队" historical_model = 1 }
+			regiment = { type = garrison_brigade name = "第4近卫步兵联队" historical_model = 1 }
+			regiment = { type = garrison_brigade name = "第5近卫步兵联队" historical_model = 1 }
+		}
+	}
+	army = {
+		name = "第28军团"
+		location = 6095
+		regiment = { type = hq_brigade name = "第28军团司令部" historical_model = 0 }
+		division= {
+			name = "第2师团"
+			location = 6095
+			regiment = { type = infantry_brigade name = "第4步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第16步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第29步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第54师团"
+			location = 9525
+			regiment = { type = infantry_brigade name = "第111步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第121步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第154步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第55师团"
+			location = 9525
+			regiment = { type = infantry_brigade name = "第112步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第114步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第143步兵团" historical_model = 4 }
+		}
+	}
+	army = {
+		name = "第29军团"
+		location = 6359
+		regiment = { type = hq_brigade name = "第29军团司令部" historical_model = 0 }
+		division= {
+			name = "第94师团"
+			location = 6359
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+		}
+	}
+	army = {
+		name = "第33军团"
+		location = 6071
+		regiment = { type = hq_brigade name = "第33军团司令部" historical_model = 0 }
+		division= {
+			name = "第18师团"
+			location = 6071
+			regiment = { type = infantry_brigade name = "第55步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第56步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第114步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第56师团"
+			location = 7583
+			regiment = { type = infantry_brigade name = "第113步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第146步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第148步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第53师团"
+			location = 9562
+			regiment = { type = infantry_brigade name = "第119步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第128步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第151步兵团" historical_model = 4 }
+		}
+	}
+}
+theatre = {
+	name = "中国派遣军" 
+	location = 5494
+	regiment = { type = hq_brigade name = "中国派遣军司令部" historical_model = 0 }
+	army = {
+		name = "第11军团"
+		location = 7508
+		regiment = { type = hq_brigade name = "第11军团司令部" historical_model = 0 }
+		division= {
+			name = "第3师团"
+			location = 5648
+			regiment = { type = infantry_brigade name = "第6步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第34步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第68步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第13师团"
+			location = 5661
+			regiment = { type = infantry_brigade name = "第65步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第104步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第116步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第27师团"
+			location = 5648
+			regiment = { type = infantry_brigade name = "第1步兵联队" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第2步兵联队" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第3步兵联队" historical_model = 4 }
+		}
+		division= {
+			name = "第34师团"
+			location = 5636
+			regiment = { type = infantry_brigade name = "第216步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第217步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第218步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第40师团"
+			location = 7511
+			regiment = { type = infantry_brigade name = "第234步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第235步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第236步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第58师团"
+			location = 5686
+			regiment = { type = infantry_brigade name = "第51步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第52步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+		}
+		division= {
+			name = "第68师团"
+			location = 7515
+			regiment = { type = infantry_brigade name = "第57步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第58步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+		}
+		division= {
+			name = "第64师团"
+			location = 7553
+			regiment = { type = infantry_brigade name = "第69步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第70步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+		}
+		division= {
+			name = "第101师团"
+			location = 7529
+			regiment = { type = infantry_brigade name = "第101步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第102步兵团" historical_model = 4 }
+		}
+	}
+	army = {
+		name = "第13军团"
+		location = 5542
+		regiment = { type = hq_brigade name = "第13军团司令部" historical_model = 1 }
+		division= {
+			name = "第22师团"
+			location = 7601
+			regiment = { type = infantry_brigade name = "第84步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第85步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第86步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第60师团"
+			location = 5539
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+		}
+		division= {
+			name = "第61师团"
+			location = 5570
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+		}
+		division= {
+			name = "第65师团"
+			location = 5540
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+		}
+	}
+	army = {
+		name = "第23军团"
+		location = 5793
+		regiment = { type = hq_brigade name = "第23军团司令部" historical_model = 1 }
+		division= {
+			name = "第104师团"
+			location = 5776
+			regiment = { type = infantry_brigade name = "第108步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第137步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第161步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第129师团"
+			location = 5787
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+		}
+		division= {
+			name = "第130师团"
+			location = 5764
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+		}
+	}
+}
+theatre = {
+	name = "北中国派遣军司令部" 
+	location = 7544
+	regiment = { type = hq_brigade name = "北中国派遣军司令部" historical_model = 0 }
+	army = {
+		name = "第1军团"
+		location = 5300
+		regiment = { type = hq_brigade name = "第1军团司令部" historical_model = 0 }
+		division= {
+			name = "第36师团"
+			location = 5300
+			regiment = { type = infantry_brigade name = "第222步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第223步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第224步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第69师团"
+			location = 5333
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+		}
+		division= {
+			name = "第70师团"
+			location = 5333
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+		}
+		division= {
+			name = "第3独立混成旅团"
+			location = 7447
+			regiment = { type = infantry_brigade name = "第3步兵旅" historical_model = 2 }
+			regiment = { type = artillery_brigade name = "第2炮兵混成联队" historical_model = 2 }
+			regiment = { type = engineer_brigade name = "第2工兵混成联队" historical_model = 2 }
+		}
+		division= {
+			name = "第4独立混成旅团"
+			location = 5418
+			regiment = { type = infantry_brigade name = "第4步兵旅" historical_model = 2 }
+			regiment = { type = artillery_brigade name = "第4炮兵混成联队" historical_model = 2 }
+			regiment = { type = engineer_brigade name = "第4工兵混成联队" historical_model = 2 }
+		}
+		division= {
+			name = "第9独立混成旅团"
+			location = 5400
+			regiment = { type = infantry_brigade name = "第9步兵旅团" historical_model = 2 }
+			regiment = { type = artillery_brigade name = "第9炮兵混成联队" historical_model = 2 }
+			regiment = { type = engineer_brigade name = "第9工兵混成联队" historical_model = 2 }
+		}
+		division= {
+			name = "第16独立混成旅团"
+			location = 5400
+			regiment = { type = infantry_brigade name = "第16步兵旅团" historical_model = 2 }
+			regiment = { type = artillery_brigade name = "第16炮兵混成联队" historical_model = 2 }
+			regiment = { type = engineer_brigade name = "第16工兵混成联队" historical_model = 2 }
+		}
+	}
+	army = {
+		name = "第12军团"
+		location = 5362
+		regiment = { type = hq_brigade name = "第12军团司令部" historical_model = 0 }
+		division= {
+			name = "第37师团"
+			location = 5400
+			regiment = { type = infantry_brigade name = "第225步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第226步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第227步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第62师团"
+			location = 5383
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+		}
+		division= {
+			name = "第110师团"
+			location = 5469
+			regiment = { type = infantry_brigade name = "第110步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第139步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第163步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第3坦克师团"
+			location = 5384
+			regiment = { type = armor_brigade name = "第6装甲团" historical_model = 2 }
+			regiment = { type = armor_brigade name = "第7装甲团" historical_model = 2 }
+			regiment = { type = armor_brigade name = "第10装甲团" historical_model = 2 }
+		}
+		division= {
+			name = "第4骑兵师"
+			location = 5417
+			regiment = { type = cavalry_brigade historical_model = 4 }
+			regiment = { type = cavalry_brigade historical_model = 4 }
+			regiment = { type = cavalry_brigade historical_model = 4 }
+		}
+	}
+	army = {
+		name = "蒙古驻屯军"
+		location = 7368
+		regiment = { type = hq_brigade name = "蒙古驻屯军司令部" historical_model = 0 }
+		division= {
+			name = "第26师团"
+			location = 7368
+			regiment = { type = infantry_brigade name = "第11步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第12步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第13步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第2独立混成旅团"
+			location = 7368
+			regiment = { type = infantry_brigade name = "第2步兵旅" historical_model = 2 }
+			regiment = { type = artillery_brigade name = "第2炮兵混成联队" historical_model = 2 }
+			regiment = { type = engineer_brigade name = "第2工兵混成联队" historical_model = 2 }
+		}
+		division= {
+			name = "第1蒙古骑兵旅团"
+			location = 4977
+			regiment = { type = cavalry_brigade historical_model = 2 }
+			regiment = { type = cavalry_brigade historical_model = 2 }
+		}
+		division= {
+			name = "第2蒙古骑兵旅团"
+			location = 4977
+			regiment = { type = cavalry_brigade historical_model = 2 }
+			regiment = { type = cavalry_brigade historical_model = 2 }
+		}
+		division= {
+			name = "第3蒙古骑兵旅团"
+			location = 4977
+			regiment = { type = cavalry_brigade historical_model = 2 }
+			regiment = { type = cavalry_brigade historical_model = 2 }
+		}
+		division= {
+			name = "第4蒙古骑兵旅团"
+			location = 7399
+			regiment = { type = cavalry_brigade historical_model = 2 }
+			regiment = { type = cavalry_brigade historical_model = 2 }
+		}
+		division= {
+			name = "第5蒙古骑兵旅团"
+			location = 7399
+			regiment = { type = cavalry_brigade historical_model = 2 }
+			regiment = { type = cavalry_brigade historical_model = 2 }
+		}
+		division= {
+			name = "第6蒙古骑兵旅团"
+			location = 7399
+			regiment = { type = cavalry_brigade historical_model = 2 }
+			regiment = { type = cavalry_brigade historical_model = 2 }
+		}
+		division= {
+			name = "第7蒙古骑兵旅团"
+			location = 4979
+			regiment = { type = cavalry_brigade historical_model = 2 }
+			regiment = { type = cavalry_brigade historical_model = 2 }
+		}
+		division= {
+			name = "第8蒙古骑兵旅团"
+			location = 4979
+			regiment = { type = cavalry_brigade historical_model = 2 }
+			regiment = { type = cavalry_brigade historical_model = 2 }
+		}
+		division= {
+			name = "第9蒙古骑兵旅团"
+			location = 4979
+			regiment = { type = cavalry_brigade historical_model = 2 }
+			regiment = { type = cavalry_brigade historical_model = 2 }
+		}
+	}
+}
+theatre= {
+	name = "关东军"
+	location = 4691
+	regiment = { type = hq_brigade name = "关东军司令部" historical_model = 1 }
+	division= {
+		name = "第10师团"
+		location = 4128
+		regiment = { type = infantry_brigade name = "第10步兵团" historical_model = 4 }
+		regiment = { type = infantry_brigade name = "第39步兵团" historical_model = 4 }
+		regiment = { type = infantry_brigade name = "第63步兵团" historical_model = 4 }
+	}
+	division= {
+		name = "第28师团"
+		location = 4128
+		regiment = { type = infantry_brigade name = "第3步兵团" historical_model = 4 }
+		regiment = { type = infantry_brigade name = "第30步兵团" historical_model = 4 }
+		regiment = { type = infantry_brigade name = "第36步兵团" historical_model = 4 }
+	}
+	army = {
+		name = "第2军团"
+		location = 5020
+		regiment = { type = hq_brigade name = "第2军团司令部" historical_model = 0 }
+		division= {
+			name = "第35师团"
+			location = 5020
+			regiment = { type = infantry_brigade name = "第219步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第220步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第221步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第71师团"
+			location = 5020
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+		}
+	}
+	army = {
+		name = "第3军团"
+		location = 4455
+		regiment = { type = hq_brigade name = "第3军团司令部" historical_model = 0 }
+		division= {
+			name = "第9师团"
+			location = 4455
+			regiment = { type = infantry_brigade name = "第7步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第19步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第35步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第12师团"
+			location = 4389
+			regiment = { type = infantry_brigade name = "第24步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第46步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第48步兵团" historical_model = 4 }
+		}
+	}
+	army = {
+		name = "第4军团"
+		location = 7544
+		regiment = { type = hq_brigade name = "第4军团司令部" historical_model = 0 }
+		division= {
+			name = "第1师团"
+			location = 7524
+			regiment = { type = infantry_brigade name = "第1步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第49步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第57步兵团" historical_model = 3 }
+		}
+		division= {
+			name = "第2边境警备师团"
+			location = 7519
+			regiment = { type = garrison_brigade name = "第5边境警备联队" historical_model = 3 }
+			regiment = { type = garrison_brigade name = "第6边境警备联队" historical_model = 3 }
+			regiment = { type = garrison_brigade name = "第7边境警备联队" historical_model = 3 }
+		}
+		division= {
+			name = "第3边境警备师团"
+			location = 7574
+			regiment = { type = garrison_brigade name = "第13边境警备联队" historical_model = 3 }
+			regiment = { type = garrison_brigade name = "第5守备联队" historical_model = 3 }
+			regiment = { type = garrison_brigade name = "第8边境警备联队" historical_model = 3 }
+		}
+		division= {
+			name = "第57师团"
+			location = 4389
+			regiment = { type = infantry_brigade name = "第52步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第57步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第117步兵团" historical_model = 4 }
+		}
+	}
+	army = {
+		name = "第5军团"
+		location = 4633
+		regiment = { type = hq_brigade name = "第5军团司令部" historical_model = 0 }
+		division= {
+			name = "第11师团"
+			location = 4633
+			regiment = { type = infantry_brigade name = "第11步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第12步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第43步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第24师团"
+			location = 4633
+			regiment = { type = infantry_brigade name = "第22步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第32步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第89步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第2坦克师团"
+			location = 4633
+			regiment = { type = light_armor_brigade name = "第6装甲团" historical_model = 3 }
+			regiment = { type = light_armor_brigade name = "第7装甲团" historical_model = 3 }
+			regiment = { type = light_armor_brigade name = "第10装甲团" historical_model = 3 }
+		}
+		division= {
+			name = "第4边境警备师团"
+			location = 4327
+			regiment = { type = garrison_brigade name = "第4边境警备联队" historical_model = 3 }
+			regiment = { type = garrison_brigade name = "第12边境警备联队" historical_model = 3 }
+			regiment = { type = garrison_brigade name = "第6守备联队" historical_model = 3 }
+		}
+		division= {
+			name = "第3满洲骑兵旅团"
+			location = 4327
+			regiment = { type = cavalry_brigade name = "第23骑兵团" historical_model = 1 }
+			regiment = { type = cavalry_brigade name = "第24骑兵团" historical_model = 1 }
+		}
+	}
+	army = {
+		name = "第6军团"
+		location = 8850
+		regiment = { type = hq_brigade name = "第6军团司令部" historical_model = 0 }
+		division= {
+			name = "第23师团"
+			location = 8826
+			regiment = { type = infantry_brigade name = "第64步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第71步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第72步兵团" historical_model = 4 }
+		}
+	}
+	army = {
+		name = "第20军团"
+		location = 4260
+		regiment = { type = hq_brigade name = "第20军团司令部" historical_model = 0 }
+		division= {
+			name = "第25师团"
+			location = 4194
+			regiment = { type = infantry_brigade name = "第14步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第40步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第70步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第2边境警备师团"
+			location = 4327
+			regiment = { type = garrison_brigade name = "第3边境警备联队" historical_model = 1 }
+			regiment = { type = garrison_brigade name = "第10边境警备联队" historical_model = 1 }
+			regiment = { type = garrison_brigade name = "第11边境警备联队" historical_model = 1 }
+		}
+		division= {
+			name = "第8师团"
+			location = 6142
+			regiment = { type = infantry_brigade name = "第5步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第17步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第31步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第116师团"
+			location = 7516
+			regiment = { type = infantry_brigade name = "第109步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第120步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第133步兵团" historical_model = 4 }
+		}
+	}
+	army = {
+		name = "第44军团"
+		location = 4685
+		regiment = { type = hq_brigade name = "第44军团司令部" historical_model = 0 }
+		division= {
+			name = "第63师团"
+			location = 4685
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+		}
+		division= {
+			name = "第107师团"
+			location = 4685
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+		}
+		division= {
+			name = "第117师团"
+			location = 4685
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+		}
+	}	
+}
+theatre = {
+	name = "帝国大本营"
+	location = 5315
+	regiment = { type = hq_brigade name = "帝国大本营" historical_model = 0 }
+	army = {
+		name = "北方军团司令部"
+		location = 7238
+		regiment = { type = hq_brigade name = "北方军团司令部" historical_model = 0 }
+		division= {
+			name = "第7师团"
+			location = 7238
+			regiment = { type = infantry_brigade name = "第26步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第27步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第28步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第57师团"
+			location = 7238
+			regiment = { type = infantry_brigade name = "第52步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第117步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第132步兵团" historical_model = 4 }
+		}
+	}
+	army = {
+		name = "中部军团"
+		location = 5370
+		regiment = { type = hq_brigade name = "中部军团司令部" historical_model = 0 }
+		division= {
+			name = "第53师团"
+			location = 5370
+			regiment = { type = infantry_brigade name = "第119步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第128步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第151步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第3后备师团"
+			location = 5370
+			regiment = { type = infantry_brigade historical_model = 2 }
+			regiment = { type = infantry_brigade historical_model = 2 }
+			regiment = { type = infantry_brigade historical_model = 2 }
+		}
+		division= {
+			name = "第4后备师团"
+			location = 5370
+			regiment = { type = infantry_brigade historical_model = 2 }
+			regiment = { type = infantry_brigade historical_model = 2 }
+			regiment = { type = infantry_brigade historical_model = 2 }
+		}
+	}
+	army = {
+		name = "西部军团"
+		location = 5497
+		regiment = { type = hq_brigade name = "西部军团司令部" historical_model = 0 }
+		division= {
+			name = "第5后备师团"
+			location = 5497
+			regiment = { type = infantry_brigade historical_model = 2 }
+			regiment = { type = infantry_brigade historical_model = 2 }
+			regiment = { type = infantry_brigade historical_model = 2 }
+		}
+		division= {
+			name = "第6后备师团"
+			location = 5497
+			regiment = { type = infantry_brigade historical_model = 2 }
+			regiment = { type = infantry_brigade historical_model = 2 }
+			regiment = { type = infantry_brigade historical_model = 2 }
+		}
+		division= {
+			name = "第7后备师团"
+			location = 5497
+			regiment = { type = infantry_brigade historical_model = 2 }
+			regiment = { type = infantry_brigade historical_model = 2 }
+			regiment = { type = infantry_brigade historical_model = 2 }
+		}
+		division= {
+			name = "第8后备师团"
+			location = 5497
+			regiment = { type = infantry_brigade historical_model = 2 }
+			regiment = { type = infantry_brigade historical_model = 2 }
+			regiment = { type = infantry_brigade historical_model = 2 }
+		}
+		division= {
+			name = "第86师团"
+			location = 5497
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+		}
+	}
+	army = {
+		name = "东部军团"
+		location = 5315	
+		regiment = { type = hq_brigade name = "东部军团司令部" historical_model = 0 }
+		division= {
+			name = "第1近卫师团"
+			location = 5315
+			regiment = { type = garrison_brigade name = "第1近卫步兵联队" historical_model = 1 }
+			regiment = { type = garrison_brigade name = "第2近卫步兵联队" historical_model = 1 }
+			regiment = { type = garrison_brigade name = "第6近卫步兵联队" historical_model = 1 }
+		}
+		division= {
+			name = "第2后备师团"
+			location = 5315
+			regiment = { type = garrison_brigade historical_model = 1 }
+			regiment = { type = garrison_brigade historical_model = 1 }
+			regiment = { type = garrison_brigade historical_model = 1 }
+		}
+		division= {
+			name = "第51后备师团"
+			location = 5315
+			regiment = { type = garrison_brigade historical_model = 1 }
+			regiment = { type = garrison_brigade historical_model = 1 }
+			regiment = { type = garrison_brigade historical_model = 1 }
+		}
+		division= {
+			name = "第72师团"
+			location = 5315
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+		}
+	}
+	army = {
+		name = "第5军团"
+		location = 4633
+		regiment = { type = hq_brigade name = "第5军团司令部" historical_model = 0 }
+		division= {
+			name = "第42师团"
+			location = 4633
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+		}
+		division= {
+			name = "第91师团"
+			location = 4633
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+		}
+	}
+	army = {
+		name = "第31军团"
+		location = 10653
+		regiment = { type = hq_brigade name = "第31军团司令部" historical_model = 0 }
+		division= {
+			name = "第14师团"
+			location = 8850
+			regiment = { type = infantry_brigade name = "第2步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第15步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第59步兵团" historical_model = 4 }
+		}
+		division= {
+			name = "第29师团"
+			location = 10653
+			regiment = { type = infantry_brigade name = "第38步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第50步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade historical_model = 4 }
+		}
+		division= {
+			name = "第52师团"
+			location = 10653
+			regiment = { type = infantry_brigade name = "第69步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第107步兵团" historical_model = 4 }
+			regiment = { type = infantry_brigade name = "第150步兵团" historical_model = 4 }
+		}
+	}
+	division= {
+		name = "马库斯岛守备部队"
+		location = 10643
+		regiment = { type = garrison_brigade name = "马库斯岛守备联队" historical_model = 0 }
+	}
+	division= {
+		name = "雅浦岛守备部队"
+		location = 10645
+		regiment = { type = garrison_brigade name = "雅浦岛守备联队" historical_model = 0 }
+	}
+	division= {
+		name = "萨塔万守备部队"
+		location = 10652
+		regiment = { type = garrison_brigade name = "萨塔万守备联队" historical_model = 0 }
+	}
+	division= {
+		name = "那霸守备部队"
+		location = 5759
+		regiment = { type = garrison_brigade name = "那霸守备联队" historical_model = 0 }
+	}
+	division= {
+		name = "幌筵岛守备部队"
+		location = 6875
+		regiment = { type = garrison_brigade name = "幌筵岛守备联队" historical_model = 0 }
+	}
+	division= {
+		name = "波纳佩岛守备部队"
+		location = 10653
+		regiment = { type = garrison_brigade name = "波纳佩岛守备联队" historical_model = 0 }
+	}
+	division= {
+		name = "特鲁克守备部队"
+		location = 10651
+		regiment = { type = garrison_brigade name = "特鲁克守备联队" historical_model = 0 }
+	}
+}
+division = {
+	name = "硫磺岛守备部队"
+	location = 10642
+	regiment = { type = infantry_brigade historical_model = 4 }
+	regiment = { type = infantry_brigade historical_model = 4 }
+	regiment = { type = infantry_brigade historical_model = 4 }
+}
+division = {
+	name = "威克岛守备部队"
+	location = 10664
+	regiment = { type = marine_brigade historical_model = 4 }
+	regiment = { type = marine_brigade historical_model = 4 }
+	regiment = { type = marine_brigade historical_model = 4 }
+}
+division= {
+	name = "帕劳守备部队"
+	location = 6291
+	regiment = { type = infantry_brigade historical_model = 4 }
+	regiment = { type = infantry_brigade historical_model = 4 }
+	regiment = { type = infantry_brigade historical_model = 4 }
+}
+division= {
+	name = "关岛守备部队"
+	location = 6119
+	regiment = { type = infantry_brigade historical_model = 4 }
+	regiment = { type = infantry_brigade historical_model = 4 }
+	regiment = { type = infantry_brigade historical_model = 4 }
+}
+division = {
+	name = "联合舰队陆战队"
+	location = 5641
+	regiment = { type = marine_brigade historical_model = 3 }
+	regiment = { type = marine_brigade historical_model = 3 }
+	regiment = { type = marine_brigade historical_model = 3 }
+}
+division = {
+	name = "萨哈林守备部队"
+	location = 7009
+	regiment = { type = garrison_brigade historical_model = 2 }
+	regiment = { type = garrison_brigade historical_model = 2 }
+	regiment = { type = garrison_brigade historical_model = 2 }
+}
+division= {
+	name = "拉包尔守备部队"
+	location = 6467
+	regiment = { type = infantry_brigade historical_model = 3 }
+	regiment = { type = infantry_brigade historical_model = 3 }
+	regiment = { type = infantry_brigade historical_model = 3 }
+}
+division = {
+	name = "南昌守备部队"
+	location = 5681
+	regiment = { type = garrison_brigade historical_model = 2 }
+	regiment = { type = garrison_brigade historical_model = 2 }
+	regiment = { type = garrison_brigade historical_model = 2 }
+	regiment = { type = police_brigade historical_model = 0 }
+}
+division = {
+	name = "保定守备部队"
+	location = 5143
+	regiment = { type = garrison_brigade historical_model = 2 }
+	regiment = { type = garrison_brigade historical_model = 2 }
+	regiment = { type = garrison_brigade historical_model = 2 }
+	regiment = { type = police_brigade historical_model = 0 }
+}
+division = {
+	name = "济南守备部队"
+	location = 5275
+	regiment = { type = garrison_brigade historical_model = 2 }
+	regiment = { type = garrison_brigade historical_model = 2 }
+	regiment = { type = garrison_brigade historical_model = 2 }
+	regiment = { type = police_brigade historical_model = 0 }
+}
+division = {
+	name = "合肥守备部队"
+	location = 5515
+	regiment = { type = garrison_brigade historical_model = 2 }
+	regiment = { type = garrison_brigade historical_model = 2 }
+	regiment = { type = garrison_brigade historical_model = 2 }
+	regiment = { type = police_brigade historical_model = 0 }
+}
+division = {
+	name = "厦门守备部队"
+	location = 5757
+	regiment = { type = garrison_brigade historical_model = 2 }
+	regiment = { type = garrison_brigade historical_model = 2 }
+	regiment = { type = garrison_brigade historical_model = 2 }
+	regiment = { type = police_brigade historical_model = 0 }
+}
+division = {
+	name = "福州守备部队"
+	location = 5728
+	regiment = { type = garrison_brigade historical_model = 2 }
+	regiment = { type = garrison_brigade historical_model = 2 }
+	regiment = { type = garrison_brigade historical_model = 2 }
+	regiment = { type = police_brigade historical_model = 0 }
+}
+division = {
+	name = "朝鲜守备部队"
+	location = 5116
+	regiment = { type = garrison_brigade historical_model = 2 }
+	regiment = { type = garrison_brigade historical_model = 2 }
+	regiment = { type = garrison_brigade historical_model = 2 }
+	regiment = { type = police_brigade historical_model = 0 }
+}
+corps = {
+	name = "西贡守备部队"
+	location = 6236
+	regiment = { type = hq_brigade name = "西贡守备司令部" historical_model = 0 }
+	division= {
+		name = "第21师团"
+		location = 5916
+		regiment = { type = infantry_brigade name = "第228步兵团" historical_model = 4 }
+		regiment = { type = infantry_brigade name = "第229步兵团" historical_model = 4 }
+		regiment = { type = infantry_brigade name = "第230步兵团" historical_model = 4 }
+	}
+	division= {
+		name = "第1印度支那守备师团"
+		location = 6236
+		regiment = { type = garrison_brigade historical_model = 2 }
+		regiment = { type = garrison_brigade historical_model = 2 }
+		regiment = { type = garrison_brigade historical_model = 2 }
+	}
+}
+navy = {
+	name = "第1战列舰队"
+	base = 5315
+	location = 5315
+	ship = { type = battleship name = "山城号" historical_model = 2 }
+	ship = { type = battleship name = "日向号" historical_model = 2 }
+	ship = { type = battleship name = "伊势号" historical_model = 2 }
+}
+navy = {
+	name = "C航母舰队"
+	base = 5315
+	location = 5315
+	ship = { type = escort_carrier name = "瑞凤号" air = { location = 5315 wing = { type = cag historical_model = 3 } } historical_model = 3 }
+	ship = { type = escort_carrier name = "千代田号" air = { location = 5315 wing = { type = cag historical_model = 3 } } historical_model = 3 }
+}
+navy = {
+	name = "第1轻巡洋舰队"
+	base = 5315
+	location = 5315
+	ship = { type = light_cruiser name = "名取号" historical_model = 1 }
+	ship = { type = light_cruiser name = "五十铃号" historical_model = 1 }
+	ship = { type = light_cruiser name = "长良号" historical_model = 1 }
+	ship = { type = light_cruiser name = "鹿岛号" historical_model = 1 }
+	ship = { type = light_cruiser name = "鬼怒川号" historical_model = 1 }
+	ship = { type = light_cruiser name = "北上号" historical_model = 1 }
+	ship = { type = light_cruiser name = "大井号" historical_model = 1 }
+	ship = { type = light_cruiser name = "八十岛号" historical_model = 1 }
+	ship = { type = light_cruiser name = "能代号" historical_model = 2 }
+	ship = { type = light_cruiser name = "矢矧号" historical_model = 2 }
+	ship = { type = light_cruiser name = "丰田号" historical_model = 2 }
+}
+navy = {
+	name = "第1驱逐舰队"
+	base = 5315
+	location = 5315
+	ship = { type = destroyer name = "第1驱逐舰支队" historical_model = 1 }
+	ship = { type = destroyer name = "第2驱逐舰支队" historical_model = 1 }
+	ship = { type = destroyer name = "第3驱逐舰支队" historical_model = 1 }
+	ship = { type = destroyer name = "第11驱逐舰支队" historical_model = 2 }
+	ship = { type = destroyer name = "第12驱逐舰支队" historical_model = 2 }
+	ship = { type = destroyer name = "第13驱逐舰支队" historical_model = 3 }
+}
+navy = {
+	name = "第2潜艇舰队"
+	base = 5315
+	location = 5315
+	ship = { type = submarine name = "第7潜艇分队" historical_model = 2 }
+	ship = { type = submarine name = "第8潜艇分队" historical_model = 2 }
+	ship = { type = submarine name = "第9潜艇分队" historical_model = 2 }
+	ship = { type = submarine name = "第5潜艇分队" historical_model = 2 }
+	ship = { type = submarine name = "第6潜艇分队" historical_model = 2 }
+}
+navy = {
+	name = "第1重巡洋舰队"
+	base = 7238
+	location = 7238
+	ship = { type = heavy_cruiser name = "那智号" historical_model = 2 }
+	ship = { type = heavy_cruiser name = "足柄号" historical_model = 2 }
+}
+navy = {
+	name = "第2轻巡洋舰队"
+	base = 7238
+	location = 7238
+	ship = { type = light_cruiser name = "木曾号" historical_model = 2 }
+	ship = { type = light_cruiser name = "多摩号" historical_model = 2 }
+	ship = { type = light_cruiser name = "阿武隈号" historical_model = 2 }
+	ship = { type = destroyer name = "第4驱逐舰支队" historical_model = 2 }
+}
+navy = {
+	name = "第1潜艇舰队"
+	base = 10642
+	location = 10642
+	ship = { type = submarine name = "第1潜艇分队" historical_model = 2 }
+	ship = { type = submarine name = "第2潜艇分队" historical_model = 2 }
+	ship = { type = submarine name = "第3潜艇分队" historical_model = 2 }
+}
+navy = {
+	name = "第3潜艇舰队"
+	base = 6326
+	location = 6326
+	ship = { type = submarine name = "第4潜艇分队" historical_model = 3 }
+}
+navy = {
+	name = "第4战队"
+	base = 6326
+	location = 6326
+	ship = { type = battleship name = "扶桑号" historical_model = 1 }
+	ship = { type = heavy_cruiser name = "青叶号" historical_model = 1 }
+	ship = { type = light_cruiser name = "香椎号" historical_model = 1 }
+	ship = { type = destroyer name = "第5驱逐舰支队" historical_model = 1 }
+}
+navy = {
+	name = "C航母舰队"
+	base = 6246
+	location = 6246
+	ship = { type = carrier name = "瑞鹤号" air = { location = 6246 wing = { type = cag historical_model = 3 } } air = { location = 6246 wing = { type = cag historical_model = 3 } } historical_model = 3 }
+}
+navy = {
+	name = "D航母舰队"
+	base = 6246
+	location = 6246
+	ship = { type = carrier name = "隼鹰号" air = { location = 6246 wing = { type = cag historical_model = 3 } } air = { location = 6246 wing = { type = cag historical_model = 3 } } historical_model = 3 }
+	ship = { type = carrier name = "飞鹰号" air = { location = 6246 wing = { type = cag historical_model = 3 } } air = { location = 6246 wing = { type = cag historical_model = 3 } } historical_model = 3 }
+}
+navy = {
+	name = "F航母舰队"
+	base = 6246
+	location = 6246
+	ship = { type = carrier name = "龙凤号" air = { location = 6246 wing = { type = cag historical_model = 3 } } air = { location = 6246 wing = { type = cag historical_model = 3 } } historical_model = 3 }
+	ship = { type = escort_carrier name = "千岁号" air = { location = 6246 wing = { type = cag historical_model = 3 } } historical_model = 3 }
+}
+navy = {
+	name = "第2战列舰队"
+	base = 6246
+	location = 6246
+	ship = { type = super_heavy_battleship name = "大和号" historical_model = 0 pride = yes }
+	ship = { type = super_heavy_battleship name = "武藏号" historical_model = 0 }
+}
+navy = {
+	name = "第3战列舰队"
+	base = 6246
+	location = 6246
+	ship = { type = battleship name = "长门号" historical_model = 2 }
+	ship = { type = battlecruiser name = "榛名号" historical_model = 1 }
+	ship = { type = battlecruiser name = "金刚号" historical_model = 1 }
+}
+navy = {
+	name = "第2重巡洋舰队"
+	base = 6246
+	location = 6246
+	ship = { type = heavy_cruiser name = "妙高号" historical_model = 2 }
+	ship = { type = heavy_cruiser name = "羽黑号" historical_model = 2 }
+	ship = { type = heavy_cruiser name = "摩耶号" historical_model = 3 }
+	ship = { type = heavy_cruiser name = "高雄号" historical_model = 3 }
+}
+navy = {
+	name = "第3重巡洋舰队"
+	base = 6246
+	location = 6246
+	ship = { type = heavy_cruiser name = "爱宕号" historical_model = 3 }
+	ship = { type = heavy_cruiser name = "鸟海号" historical_model = 3 }
+	ship = { type = heavy_cruiser name = "最上号" historical_model = 3 }
+	ship = { type = heavy_cruiser name = "铃谷号" historical_model = 3 }
+}
+navy = {
+	name = "第4重巡洋舰队"
+	base = 6246
+	location = 6246
+	ship = { type = heavy_cruiser name = "熊野号" historical_model = 3 }
+	ship = { type = heavy_cruiser name = "筑摩号" historical_model = 3 }
+	ship = { type = heavy_cruiser name = "利根号" historical_model = 3 }
+}
+navy = {
+	name = "第2驱逐舰队"
+	base = 6246
+	location = 6246
+	ship = { type = destroyer name = "第6驱逐舰支队" historical_model = 2 }
+	ship = { type = destroyer name = "第7驱逐舰支队" historical_model = 2 }
+	ship = { type = destroyer name = "第8驱逐舰支队" historical_model = 2 }
+}
+navy = {
+	name = "第4潜艇舰队"
+	base = 6246
+	location = 6246
+	ship = { type = submarine name = "第10潜艇分队" historical_model = 3 }
+	ship = { type = submarine name = "第11潜艇分队" historical_model = 3 }
+	ship = { type = submarine name = "第12潜艇分队" historical_model = 3 }
+}
+navy = {
+	name = "第5潜艇舰队"
+	base = 6291
+	location = 6291
+	ship = { type = submarine name = "第13潜艇分队" historical_model = 3 }
+	ship = { type = submarine name = "第14潜艇分队" historical_model = 3 }
+	ship = { type = submarine name = "第15潜艇分队" historical_model = 3 }
+	ship = { type = submarine name = "第16潜艇分队" historical_model = 3 }
+}
+navy = {
+	name = "第6潜艇舰队"
+	base = 6467
+	location = 6467
+	ship = { type = submarine name = "第17潜艇分队" historical_model = 2 }
+}
+navy = {
+	name = "第7潜艇舰队"
+	base = 6394
+	location = 6394
+	ship = { type = submarine name = "第18潜艇分队" historical_model = 2 }
+}
+navy = {
+	name = "第1运输舰队"
+	base = 6394
+	location = 6394
+	ship = { type = transport_ship name = "第1运输舰分队" historical_model = 0 }
+	ship = { type = transport_ship name = "第2运输舰分队" historical_model = 0 }
+	ship = { type = transport_ship name = "第3运输舰分队" historical_model = 0 }
+	ship = { type = transport_ship name = "第4运输舰分队" historical_model = 0 }
+	ship = { type = transport_ship name = "第5运输舰分队" historical_model = 0 }
+	ship = { type = transport_ship name = "第6运输舰分队" historical_model = 0 }
+}
+navy = {
+	name = "第2运输舰队"
+	base = 5315
+	location = 5315
+	ship = { type = transport_ship name = "第7运输舰分队" historical_model = 0 }
+	ship = { type = transport_ship name = "第8运输舰分队" historical_model = 0 }
+	ship = { type = transport_ship name = "第9运输舰分队" historical_model = 0 }
+	ship = { type = transport_ship name = "第10运输舰分队" historical_model = 0 }
+	ship = { type = transport_ship name = "第11运输舰分队" historical_model = 0 }
+	ship = { type = transport_ship name = "第12运输舰分队" historical_model = 0 }
+	ship = { type = transport_ship name = "第13运输舰分队" historical_model = 0 }
+	ship = { type = transport_ship name = "第14运输舰分队" historical_model = 0 }
+	ship = { type = transport_ship name = "第15运输舰分队" historical_model = 0 }
+}
+air = {
+	name = "帝国大本营直属航空兵"
+	base = 5315
+	location = 5315
+	wing = { type = interceptor name = "第70/71飞行战队" historical_model = 3 }
+	wing = { type = interceptor name = "第5/56飞行战队" historical_model = 3 }
+	wing = { type = interceptor name = "第244/582飞行战队" historical_model = 3 }
+}
+air = {
+	name = "帝国大本营直属航空兵"
+	base = 5370
+	location = 5370
+	wing = { type = interceptor name = "第244/246飞行战队" historical_model = 3 }
+}
+air = {
+	name = "北海舰队直属航空兵"
+	base = 7238
+	location = 7238
+	wing = { type = interceptor name = "第Z1/Z3 752飞行战队" historical_model = 3 }
+	wing = { type = interceptor name = "第28/78飞行战队" historical_model = 3 }
+}
+air = {
+	name = "关东军航空兵"
+	base = 5057
+	location = 5057
+	wing = { type = interceptor name = "第9/48飞行战队" historical_model = 3 }
+	wing = { type = cas name = "第3/6飞行战队" historical_model = 1 }
+}
+air = {
+	name = "北中国航空兵"
+	base = 5057
+	location = 5057
+	wing = { type = interceptor name = "第25/85飞行战队" historical_model = 3 }
+	wing = { type = cas name = "第32/79飞行战队" historical_model = 1 }
+	wing = { type = tactical_bomber name = "第39/49飞行战队" historical_model = 2 }
+	wing = { type = tactical_bomber name = "第7/74飞行战队" historical_model = 2 }
+}
+air = {
+	name = "南中国航空兵"
+	base = 5918
+	location = 5918
+	wing = { type = interceptor name = "第57/254飞行战队" historical_model = 3 }
+	wing = { type = tactical_bomber name = "第34/35飞行战队" historical_model = 2 }
+	wing = { type = tactical_bomber name = "第36/37飞行战队" historical_model = 2 }
+	wing = { type = tactical_bomber name = "第58/247飞行战队" historical_model = 2 }
+}
+air = {
+	name = "第15飞行团"
+	base = 6070
+	location = 6070
+	wing = { type = interceptor name = "第1/21飞行战队" historical_model = 3 }
+	wing = { type = tactical_bomber name = "第60/75飞行战队" historical_model = 2 }
+	wing = { type = tactical_bomber name = "第90/98飞行战队" historical_model = 2 }
+}
+air = {
+	name = "第15飞行团"
+	base = 7610
+	location = 7610
+	wing = { type = interceptor name = "第64/68飞行战队" historical_model = 3 }
+	wing = { type = interceptor name = "第11/157飞行战队" historical_model = 3 }
+}
+air = {
+	name = "第2战区飞行团"
+	base = 6508
+	location = 6508
+	wing = { type = interceptor name = "第381/153飞行战队" historical_model = 3 }
+	wing = { type = interceptor name = "第251/753飞行战队" historical_model = 3 }
+}
+air = {
+	name = "第18飞行团"
+	base = 7746
+	location = 7746
+	wing = { type = interceptor name = "第77/78飞行战队" historical_model = 3 }
+	wing = { type = interceptor name = "第301/603飞行战队" historical_model = 3 }
+	wing = { type = naval_bomber name = "第732/751飞行战队" historical_model = 2 }
+}
+air = {
+	name = "第1飞行团"
+	base = 6326
+	location = 6326
+	wing = { type = interceptor name = "第52/331/201飞行战队" historical_model = 3 }
+	wing = { type = interceptor name = "第19/17/65飞行战队" historical_model = 3 }
+}
+air = {
+	name = "第1飞行团"
+	base = 6124
+	location = 6124
+	wing = { type = interceptor name = "第20/30/45飞行战队" historical_model = 3 }
+	wing = { type = interceptor name = "第1/18/73飞行战队" historical_model = 3 }
+}
+air = {
+	name = "第1飞行团"
+	base = 6124
+	location = 6124
+	wing = { type = interceptor name = "第22/51飞行战队" historical_model = 3 }
+	wing = { type = interceptor name = "第26/33飞行战队" historical_model = 3 }
+	wing = { type = tactical_bomber name = "第8/14飞行战队" historical_model = 2 }
+	wing = { type = tactical_bomber name = "第16/245飞行战队" historical_model = 2 }
+}
+air = {
+	name = "第10飞行团"
+	base = 5737
+	location = 5737
+	wing = { type = interceptor name = "第13/29/67飞行战队" historical_model = 3 }
+	wing = { type = cas name = "第10/76飞行战队" historical_model = 1 }
+}
+air = {
+	name = "A 舰队航空兵"
+	base = 6119
+	location = 6119
+	wing = { type = interceptor name = "第T11/T12飞行战队" historical_model = 3 }
+	wing = { type = cas name = "第523/121飞行战队" historical_model = 1 }
+	wing = { type = naval_bomber name = "第521/761飞行战队" historical_model = 2 }
+}
+air = {
+	name = "B 舰队航空兵"
+	base = 6291
+	location = 6291
+	wing = { type = interceptor name = "第265/Hyo飞行战队" historical_model = 3 }
+	wing = { type = cas name = "第121/253飞行战队" historical_model = 1 }
+}
+air = {
+	name = "南海舰队航空兵"
+	base = 6291
+	location = 6291
+	wing = { type = interceptor name = "第K11/K12飞行战队" historical_model = 3 }
+	wing = { type = naval_bomber name = "第151/503飞行战队" historical_model = 2 }
+	wing = { type = naval_bomber name = "第313/551飞行战队" historical_model = 2 }
+}
+air = {
+	name = "帝国大本营直属航空兵"
+	base = 5543
+	location = 5543
+	wing = { type = interceptor name = "第4/59飞行战队" historical_model = 3 }
+}
+military_construction = {
+	country = JAP
+	carrier = {
+		name = "信浓号"
+		historical_model = 5
+	}
+	cost = 7.70
+	progress = 0
+	duration = 150
+}
+military_construction = {
+	country = JAP
+	cag = {
+		name = "信浓号第1飞行战队"
+		historical_model = 4
+	}
+	cost = 10.42
+	progress = 0
+	duration = 150
+}
+military_construction = {
+	country = JAP
+	cag = {
+		name = "信浓号第2飞行战队"
+		historical_model = 4
+	}
+	cost = 10.42
+	progress = 0
+	duration = 150
+}
+military_construction = {
+	country = JAP
+	carrier = {
+		name = "云龙号"
+		historical_model = 2
+	}
+	cost = 4.60
+	progress = 0
+	duration = 47
+}
+military_construction = {
+	country = JAP
+	cag = {
+		name = "云龙号第1飞行战队"
+		historical_model = 4
+	}
+	cost = 10.42
+	progress = 0
+	duration = 314
+}
+military_construction = {
+	country = JAP
+	cag = {
+		name = "云龙号第2飞行战队"
+		historical_model = 4
+	}
+	cost = 10.42
+	progress = 0
+	duration = 314
+}
+military_construction = {
+	country = JAP
+	carrier = {
+		name = "天城号"
+		historical_model = 2
+	}
+	cost = 4.60
+	progress = 0
+	duration = 51
+}
+military_construction = {
+	country = JAP
+	cag = {
+		name = "天城号第1飞行战队"
+		historical_model = 4
+	}
+	cost = 10.42
+	progress = 0
+	duration = 51
+}
+military_construction = {
+	country = JAP
+	cag = {
+		name = "天城号第2飞行战队"
+		historical_model = 4
+	}
+	cost = 10.42
+	progress = 0
+	duration = 51
+}
+military_construction = {
+	country = JAP
+	carrier = {
+		name = "葛城号"
+		historical_model = 2
+	}
+	cost = 4.60
+	progress = 0
+	duration = 116
+}
+military_construction = {
+	country = JAP
+	cag = {
+		name = "葛城号第1飞行战队"
+		historical_model = 4
+	}
+	cost = 10.42
+	progress = 0
+	duration = 116
+}
+military_construction = {
+	country = JAP
+	cag = {
+		name = "葛城号第2飞行战队"
+		historical_model = 4
+	}
+	cost = 10.42
+	progress = 0
+	duration = 116
+}
+military_construction = {
+	country = JAP
+	light_cruiser = {
+		name = "酒丐号"
+		historical_model = 2
+	}
+	cost = 4.60
+	progress = 0
+	duration = 160
+}
+military_construction = {
+	country = JAP
+	destroyer = {
+		name = "第9驱逐舰支队"
+		historical_model = 3
+	}
+	cost = 2.40
+	progress = 0
+	duration = 102
+}
+military_construction = {
+	country = JAP
+	submarine = {
+		name = "第19潜艇分队"
+		historical_model = 2
+	}
+	cost = 1.50
+	progress = 0
+	duration = 42
+}
+military_construction = {
+	country = JAP
+	submarine = {
+		name = "第20潜艇分队"
+		historical_model = 3
+	}
+	cost = 2.30
+	progress = 0
+	duration = 72
+}

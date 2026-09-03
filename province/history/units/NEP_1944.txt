@@ -1,0 +1,24 @@
+corps = {
+	name = "尼泊尔皇家军团"
+	location = 9471
+	regiment = { type = hq_brigade name = "尼泊尔皇家军团指挥部" historical_model = 0 }
+	division= {
+		name = "尼泊尔皇家禁卫师"
+		location = 9471
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "皇家步兵师"
+		location = 9471
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+}
+
+
+

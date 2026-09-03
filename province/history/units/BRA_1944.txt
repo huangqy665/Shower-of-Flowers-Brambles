@@ -1,0 +1,105 @@
+army = {
+	name = "巴西陆军"
+	location = 10193
+	regiment = { type = hq_brigade name = "巴西陆军指挥部" historical_model = 1 }
+	division = {
+		name = "巴西远征军"
+		location = 10193
+		regiment = { type = infantry_brigade historical_model = 2 }
+		regiment = { type = infantry_brigade historical_model = 2 }
+		regiment = { type = infantry_brigade historical_model = 2 }
+	}
+	corps = {
+		name = "第1军"
+		location = 10193
+		regiment = { type = hq_brigade name = "第1指挥部旅" historical_model = 0 }
+		division= {
+			name = "第2步兵师"
+			location = 10193
+			regiment = { type = infantry_brigade historical_model = 2 }
+			regiment = { type = infantry_brigade historical_model = 2 }
+			regiment = { type = infantry_brigade historical_model = 2 }
+		}
+		division= {
+			name = "第3步兵师"
+			location = 10193
+			regiment = { type = infantry_brigade historical_model = 2 }
+			regiment = { type = infantry_brigade historical_model = 2 }
+			regiment = { type = infantry_brigade historical_model = 2 }
+		}
+		division= {
+			name = "第4步兵师"
+			location = 10193
+			regiment = { type = infantry_brigade historical_model = 2 }
+			regiment = { type = infantry_brigade historical_model = 2 }
+			regiment = { type = infantry_brigade historical_model = 2 }
+		}
+	}
+	corps = {
+		name = "第2军"
+		location = 10242
+		regiment = { type = hq_brigade name = "第2指挥部旅" historical_model = 0 }
+		division= {
+			name = "第5步兵师"
+			location = 10242
+			regiment = { type = infantry_brigade historical_model = 2 }
+			regiment = { type = infantry_brigade historical_model = 2 }
+			regiment = { type = infantry_brigade historical_model = 2 }
+		}
+		division= {
+			name = "第6步兵师"
+			location = 10242
+			regiment = { type = militia_brigade historical_model = 1 }
+			regiment = { type = militia_brigade historical_model = 1 }
+			regiment = { type = militia_brigade historical_model = 1 }
+		}
+		division= {
+			name = "第7步兵师"
+			location = 10242
+			regiment = { type = militia_brigade historical_model = 1 }
+			regiment = { type = militia_brigade historical_model = 1 }
+			regiment = { type = militia_brigade historical_model = 1 }
+		}
+		division= {
+			name = "第1骑兵师"
+			location = 10242
+			regiment = { type = cavalry_brigade historical_model = 2 }
+			regiment = { type = cavalry_brigade historical_model = 2 }
+			regiment = { type = cavalry_brigade historical_model = 2 }
+		}
+	}
+}
+navy = {
+	name = "巴西海军"
+	base = 10193
+	location = 10193
+	ship = { type = light_cruiser name = "NRB 巴伊亚" historical_model = 0 }
+	ship = { type = light_cruiser name = "NRB 南里奥格兰德" historical_model = 0 }
+	ship = { type = destroyer name = "1. 驱逐舰队" historical_model = 0 }
+	ship = { type = destroyer name = "2. 驱逐舰队" historical_model = 0 }
+	ship = { type = destroyer name = "3. 驱逐舰队" historical_model = 1 }
+	ship = { type = transport_ship name = "第1运输舰分队" historical_model = 0 }
+	ship = { type = transport_ship name = "第2运输舰分队" historical_model = 0 }
+	ship = { type = transport_ship name = "第3运输舰分队" historical_model = 0 }
+	ship = { type = transport_ship name = "第4运输舰分队" historical_model = 0 }
+	ship = { type = transport_ship name = "第5运输舰分队" historical_model = 0 }
+	ship = { type = transport_ship name = "第6运输舰分队" historical_model = 0 }
+	ship = { type = transport_ship name = "第7运输舰分队" historical_model = 0 }
+	ship = { type = transport_ship name = "第8运输舰分队" historical_model = 0 }
+	ship = { type = transport_ship name = "第9运输舰分队" historical_model = 0 }
+}
+air = {
+	name = "国民警卫空军"
+	base = 10193
+	location = 10193
+	wing = { type = interceptor name = "第1本土航空师" historical_model = 1 }
+	wing = { type = interceptor name = "第2本土航空师" historical_model = 1 }
+}
+navy = {
+	name = "巴西第I舰队"
+	base = 10193
+	location = 10193
+	ship = { type = battleship name = "NRB 圣保罗" historical_model = 1 }
+	ship = { type = battleship name = "NRB 米纳斯吉拉斯" historical_model = 1 pride = yes }
+	ship = { type = submarine name = "第1潜艇大队" historical_model = 1 }
+}

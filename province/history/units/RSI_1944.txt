@@ -1,0 +1,24 @@
+division= {
+	name = "第1'蒙泰罗萨'山地师"
+	location = 3559
+	regiment = { type = bergsjaeger_brigade name = "第1山地团" historical_model = 1 }
+	regiment = { type = bergsjaeger_brigade name = "第2山地团" historical_model = 1 }
+}
+division= {
+	name = "第2'利托里奥'装甲师"
+	location = 3559
+	regiment = { type = infantry_brigade name = "第3步兵团" historical_model = 1 }
+	regiment = { type = bergsjaeger_brigade name = "第4山地团" historical_model = 1 }
+}
+division = {
+	name = "第3'圣马可'师"
+	location = 3559
+	regiment = { type = marine_brigade name = "第5步兵团" historical_model = 1 }
+	regiment = { type = marine_brigade name = "第6步兵团" historical_model = 1 }
+}
+division = {
+	name = "第4'意大利'师"
+	location = 3559
+	regiment = { type = motorized_brigade name = "第7贝尔萨格里步兵团" historical_model = 1 }
+	regiment = { type = infantry_brigade name = "第8步兵团" historical_model = 1 }
+}

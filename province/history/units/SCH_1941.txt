@@ -1,0 +1,110 @@
+corps = {
+	name = "第I军团"
+	location = 3488
+	regiment = { type = hq_brigade name = "第I军团司令部" historical_model = 0 }
+	division= {
+		name = "第9步兵师"
+		location = 3488
+		is_reserve = yes
+		regiment = { type = bergsjaeger_brigade name = "第12山地团" historical_model = 1 }
+		regiment = { type = bergsjaeger_brigade name = "第29山地团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第65步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第78步兵团" historical_model = 1 }
+	}
+	division= {
+		name = "阿尔卑斯山地猎人师"
+		location = 3488
+		is_reserve = yes
+		regiment = { type = bergsjaeger_brigade name = "第10山地团" historical_model = 1 }
+		regiment = { type = bergsjaeger_brigade name = "第11山地团" historical_model = 1 }
+	}
+}
+corps = {
+	name = "第II军团"
+	location = 3217
+	regiment = { type = hq_brigade name = "第II军团司令部" historical_model = 0 }
+	division= {
+		name = "第3步兵师"
+		location = 3217
+		is_reserve = yes
+		regiment = { type = bergsjaeger_brigade name = "第14山地团" historical_model = 1 }
+		regiment = { type = bergsjaeger_brigade name = "第15山地团" historical_model = 1 }
+		regiment = { type = bergsjaeger_brigade name = "第16山地团" historical_model = 1 }
+	}
+	division= {
+		name = "第4步兵师"
+		location = 3217
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第11步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第21步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第22步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第76步兵团" historical_model = 1 }
+	}
+	division= {
+		name = "第5步兵师"
+		location = 3217
+		is_reserve = yes
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第4步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第23步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第24步兵团" historical_model = 1 }
+	}
+}
+corps = {
+	name = "第III军团"
+	location = 3219
+	regiment = { type = hq_brigade name = "第III军团司令部" historical_model = 0 }
+	division= {
+		name = "第1步兵师"
+		location = 3219
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第3步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第2步兵团" historical_model = 1 }
+		regiment = { type = bergsjaeger_brigade name = "第7山地团" historical_model = 1 }
+	}
+	division= {
+		name = "第6步兵师"
+		location = 3219
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第25步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第27步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第28步兵团" historical_model = 1 }
+	}
+	division= {
+		name = "第8阿尔卑斯猎兵师"
+		location = 3219
+		is_reserve = yes
+		regiment = { type = bergsjaeger_brigade name = "第19山地团" historical_model = 1 }
+		regiment = { type = bergsjaeger_brigade name = "第20山地团" historical_model = 1 }
+		regiment = { type = bergsjaeger_brigade name = "第37山地团" historical_model = 1 }
+		regiment = { type = bergsjaeger_brigade name = "第44山地团" historical_model = 1 }
+	}
+}
+corps = {
+	name = "第IV军团"
+	location = 3219
+	regiment = { type = hq_brigade name = "第IV军团司令部" historical_model = 0 }
+	division= {
+		name = "第7步兵师"
+		location = 3219
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "第31步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第33步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第34步兵团" historical_model = 1 }
+	}
+}
+division= {
+	is_reserve = yes	
+	name = "第2步兵师"
+	location = 3219
+	regiment = { type = infantry_brigade name = "第1步兵团" historical_model = 1 }
+	regiment = { type = infantry_brigade name = "第8步兵团" historical_model = 1 }
+	regiment = { type = infantry_brigade name = "第13步兵团" historical_model = 1 }
+}
+air = {
+	name = "黑尔空军第1航空队"
+	base = 3422
+	location = 3422
+	wing = { type = tactical_bomber name = "第1战术轰炸机联队" historical_model = 1 }
+	wing = { type = interceptor name = "第1战斗机中队" historical_model = 1 }
+}

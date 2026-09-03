@@ -1,0 +1,15 @@
+division = {
+	name = "蒙古绥靖部队"
+	location = 4885
+	regiment = { type = militia_brigade name = "第1旅" historical_model = 0 }
+	regiment = { type = militia_brigade name = "第2旅" historical_model = 0 }
+	regiment = { type = militia_brigade name = "第3旅" historical_model = 0 }
+}
+division = {
+	name = "蒙古骑兵师"
+	location = 4885
+	regiment = { type = cavalry_brigade historical_model = 0 }
+	regiment = { type = cavalry_brigade historical_model = 0 }
+	regiment = { type = cavalry_brigade historical_model = 0 }
+	regiment = { type = cavalry_brigade historical_model = 0 }
+}

@@ -1,0 +1,32 @@
+corps = {
+	name = "西藏第1军"
+	location = 9377
+	regiment = { type = hq_brigade name = "西藏第1军指挥部" historical_model = 0 }
+	division= {
+		name = "藏军第1师"
+		location = 9377
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "藏军第10旅"
+		location = 9377
+		is_reserve = yes
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "藏军第17旅"
+		location = 9377
+		is_reserve = yes
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+}
+
+
+

@@ -1,0 +1,237 @@
+theatre = {
+	name ="´ó±¾Óª"
+	location = 739
+	leader = 9750 # Mannerheim
+	regiment = { type = hq_brigade name = "´ó±¾ÓªÖ¸»Ó²¿" historical_model = 0 }
+	division= {
+		name = "µÚ6Ê¦"
+		location = 575
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "µÚ16²½±øÍÅ" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "µÚ17²½±øÍÅ" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "µÚ18²½±øÍÅ" historical_model = 1 }
+	}
+	division= {
+		name = "µÚ9Ê¦"
+		location = 234
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "µÚ25²½±øÍÅ" historical_model = 1 }				
+		regiment = { type = infantry_brigade name = "µÚ26²½±øÍÅ" historical_model = 1 }		
+		regiment = { type = infantry_brigade name = "µÚ27²½±øÍÅ" historical_model = 1 }
+	}
+	division= {
+		name = "µÚ21Ê¦"
+		location = 654
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "µÚ61²½±øÍÅ" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "µÚ62²½±øÍÅ" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "µÚ63²½±øÍÅ" historical_model = 1 }
+	}
+	 division= {
+		name = "µÚ22Ê¦"
+		location = 234
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "µÚ64²½±øÍÅ" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "µÚ65²½±øÍÅ" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "µÚ66²½±øÍÅ" historical_model = 1 }
+	}
+	division= {
+		name = "µÚ23Ê¦"
+		location = 469
+		is_reserve = yes
+		regiment = { type = infantry_brigade name = "µÚ67²½±øÍÅ" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "µÚ68²½±øÍÅ" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "µÚ68²½±øÍÅ" historical_model = 1 }
+	}
+	armygroup = {
+		name ="·ÒÀ¼¾ü"
+		location = 739
+		regiment = { type = hq_brigade name = "·ÒÀ¼¾üÖ¸»Ó²¿" historical_model = 0 }
+		army = { 
+			name = "¿¨À×Àû°¢µØÏ¿¾ü"
+			location = 698
+			regiment = {  type = hq_brigade name = "¿¨À×Àû°¢µØÏ¿¾üÖ¸»Ó²¿" historical_model = 0 }
+			division= {
+				name = "Æï±øÂÃ"
+				location = 658
+				regiment = { type = cavalry_brigade name = "Æï±øÂÃ" historical_model = 1 }
+			}
+			division = {
+				name = "RT3"
+				location = 542
+				regiment = { type = garrison_brigade name = "RT3" historical_model = 0 }
+			}
+			corps = {
+				name = "µÚII¾ü"
+				location = 740
+				regiment = { type = hq_brigade name = "µÚII¾üÖ¸»Ó²¿" historical_model = 0 }
+				division= {
+					name = "µÚ1Ê¦"
+					location = 740
+					leader = 9720
+					regiment = { type = infantry_brigade name = "µÚ35²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ56²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ60²½±øÍÅ" historical_model = 1 }
+				}
+				division= {
+					name = "µÚ11Ê¦"
+					location = 697
+					is_reserve = yes
+					regiment = { type = infantry_brigade name = "µÚ31²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ32²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ33²½±øÍÅ" historical_model = 1 }
+				}
+				division= {
+					name = "µÚ4Ê¦"
+					location = 739
+					is_reserve = yes
+					regiment = { type = infantry_brigade name = "µÚ10²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ11²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ12²½±øÍÅ" historical_model = 1 }
+				}
+				division= {
+					name = "µÚ5Ê¦" # Turku
+					location = 736
+					is_reserve = yes
+					regiment = { type = infantry_brigade name = "µÚ13²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ14²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ15²½±øÍÅ" historical_model = 1 }
+				}
+			}
+			corps = {
+				name = "µÚIII¾ü"
+				location = 658
+				leader = 9710
+				regiment = { type = hq_brigade name = "µÚIII¾üÖ¸»Ó²¿" historical_model = 0 }
+				division= {
+					name = "µÚ8Ê¦"
+					location = 369
+					is_reserve = yes
+					regiment = { type = infantry_brigade name = "µÚ22²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ23²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ24²½±øÍÅ" historical_model = 1 }
+				}
+				division= {
+					name = "µÚ10Ê¦" # Col. Kauppila (Jyväskylä)
+					location = 503
+					is_reserve = yes
+					regiment = { type = infantry_brigade name = "µÚ28²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ29²½±øÍÅ" historical_model = 1 }
+					regiment = { type = infantry_brigade name = "µÚ30²½±øÍÅ" historical_model = 1 }			
+				}
+			}
+		}
+		corps = {
+			name = "µÚIV¾ü"
+			location = 507
+			leader = 9714
+			regiment = { type = hq_brigade name = "µÚIV¾üÖ¸»Ó²¿" historical_model = 0 }
+			division= {
+				name = "µÚ12Ê¦"
+				location = 470
+				is_reserve = yes
+				regiment = { type = infantry_brigade name = "µÚ34²½±øÍÅ" historical_model = 1 }
+				regiment = { type = infantry_brigade name = "µÚ35²½±øÍÅ" historical_model = 1 }
+				regiment = { type = infantry_brigade name = "µÚ36²½±øÍÅ" historical_model = 1 }
+			}
+			division= {
+				name = "µÚ13Ê¦"
+				location = 401
+				is_reserve = yes
+				regiment = { type = infantry_brigade name = "µÚ37²½±øÍÅ" historical_model = 1 }
+				regiment = { type = infantry_brigade name = "µÚ38²½±øÍÅ" historical_model = 1 }
+				regiment = { type = infantry_brigade name = "µÚ39²½±øÍÅ" historical_model = 1 }
+			}
+		}
+		corps = {
+			name = "·ÒÀ¼¶«ÄÏ¼¯ÍÅ" 
+			location = 375
+			regiment = { type = hq_brigade name = "·ÒÀ¼¶«ÄÏ¼¯ÍÅÖ¸»Ó²¿" historical_model = 0 }
+			division = {
+				name = "11-13¶ÀÁ¢´ó¶Ó"
+				location = 375
+				regiment = { type = infantry_brigade name = "11-13¶ÀÁ¢´ó¶Ó" historical_model = 1 }
+			}
+			division = {
+				name = "8-10¶ÀÁ¢´ó¶Ó"
+				location = 472
+				regiment = { type = infantry_brigade name = "8-10¶ÀÁ¢´ó¶Ó" historical_model = 1 }
+			}
+		}
+		corps = {
+			name = "º£·À¼¯ÍÅ"
+			location = 739
+			regiment = { type = hq_brigade name = "º£·À¼¯ÍÅ" historical_model = 0 }
+			division = {
+				name = "µÚ1¶ÀÁ¢Óª" # Coastal fortress infantry
+				location = 779
+				is_reserve = yes
+				regiment = { type = garrison_brigade name = "µÚ1¶ÀÁ¢Óª" historical_model = 0 }
+			}
+			division = {
+				name = "µÚ2¶ÀÁ¢Óª" # Coastal fortress infantry
+				location = 697
+				is_reserve = yes
+				regiment = { type = garrison_brigade name = "µÚ2¶ÀÁ¢Óª" historical_model = 0 }
+			}		
+			division = {
+				name = "RT1" # Coastal fortress infantry
+				location = 739
+				regiment = { type = garrison_brigade name = "RT1" historical_model = 0 }
+			}
+			division = {
+				name = "RT2" # Coastal fortress infantry
+				location = 698
+				regiment = { type = garrison_brigade name = "RT2" historical_model = 0 }
+			}
+		}
+		corps = {
+			name = "±±·ÒÀ¼¼¯ÍÅ" 
+			location = 252
+			regiment = { type = hq_brigade name = "±±·ÒÀ¼¼¯ÍÅÖ¸»Ó²¿" historical_model = 0 }
+			division = {
+				name = "14-16¶ÀÁ¢´ó¶Ó"
+				location = 252
+				is_reserve = yes
+				regiment = { type = infantry_brigade name = "14-16¶ÀÁ¢´ó¶Ó" historical_model = 1 }
+			}
+		}
+		corps = {
+			name = "À­ÆÕÀ¼¼¯ÍÅ"  
+			location = 144
+			regiment = { type = hq_brigade name = "À­ÆÕÀ¼¼¯ÍÅÖ¸»Ó²¿" historical_model = 0 }
+			division = {
+				name = "16-17¶ÀÁ¢´ó¶Ó"
+				location = 144
+				is_reserve = yes
+				regiment = { type = infantry_brigade name = "16-17¶ÀÁ¢´ó¶Ó" historical_model = 1 }
+			}
+			division = {
+				name = "Æ¤²éÄ¦ÊØ±¸²¿¶Ó"
+				location = 33
+				is_reserve = yes
+				regiment = { type = bergsjaeger_brigade name = "µÚ10¶ÀÁ¢´ó¶Ó" historical_model = 1 }
+			}
+		}
+	}
+}
+navy = {
+	name = "·ÒÀ¼º£¾ü"
+	base = 736
+	location = 736
+	ship = { type = heavy_cruiser name = "ÒÁ¶ûÂêÀûÄþºÅ" historical_model = 0 pride = yes }
+	ship = { type = heavy_cruiser name = "Î¬ÄÉÄªÒÁÄþºÅ" historical_model = 0 }
+}
+navy = {
+	name = "Ç±Í§²¿¶Ó"
+	base = 736
+	location = 736
+	ship = { type = submarine name = "µÚ1Ç±Í§´ó¶Ó" historical_model = 0 }
+}
+
+air = {
+	name = "µÚ1º½¿ÕÍÅ" # old Fighters, based at Kouvola (Utti)
+	base = 656
+	location = 656
+	wing = { type = interceptor name = "µÚ1º½¿ÕÍÅ" historical_model = 0 }
+

@@ -1,0 +1,73 @@
+army = {
+	name = "加拿大第1集团军"
+	location = 1731
+	regiment = { type = hq_brigade name = "加拿大皇家军队指挥部" historical_model = 0 }
+	division= {
+		name = "加拿大第1步兵师"
+		location = 1731
+		regiment = { type = infantry_brigade name = "加拿大第1步兵旅" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "加拿大第2步兵旅" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "加拿大第3步兵旅" historical_model = 0 }
+	}
+	division= {
+		name = "加拿大第2步兵师"
+		location = 1731
+		regiment = { type = infantry_brigade name = "加拿大第4步兵旅" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "加拿大第5步兵旅" historical_model = 0 }
+		regiment = { type = infantry_brigade name = "加拿大第6步兵旅" historical_model = 0 }
+	}
+	division= {
+		name = "加拿大第3步兵师"
+		location = 1731
+		regiment = { type = infantry_brigade name = "加拿大第7步兵旅" historical_model = 2 }
+		regiment = { type = infantry_brigade name = "加拿大第8步兵旅" historical_model = 2 }
+		regiment = { type = infantry_brigade name = "加拿大第9步兵旅" historical_model = 2 }
+	}
+	division= {
+		name = "加拿大第4装甲师"
+		location = 1731
+		regiment = { type = armor_brigade name = "加拿大第4装甲旅" historical_model = 2 }
+		regiment = { type = infantry_brigade name = "加拿大第10步兵旅" historical_model = 2 }
+	}
+	division= {
+		name = "加拿大第5装甲师"
+		location = 1731
+		regiment = { type = armor_brigade name = "加拿大第5装甲旅" historical_model = 2 }
+		regiment = { type = infantry_brigade name = "加拿大第11步兵旅" historical_model = 2 }
+	}
+}
+corps = {
+	name = "本土指挥部"
+	location = 6905
+	regiment = { type = hq_brigade name = "本土指挥部" historical_model = 0 }
+	division= {
+		name = "加拿大第6步兵师"
+		location = 6675
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "加拿大第7步兵师"
+		location = 6997
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+}
+navy = {
+	name = "加拿大运输舰队"
+	base = 6905
+	location = 6905
+	ship = { type = transport_ship name = "'苏格兰皇后'运输支队" historical_model = 0 }
+	ship = { type = transport_ship name = "'澳大利亚皇后' 运输支队" historical_model = 0 }
+	ship = { type = transport_ship name = "'俄国皇后' 运输支队" historical_model = 0 }
+	ship = { type = transport_ship name = "'里士满公爵夫人'运输支队" historical_model = 0 }
+	ship = { type = transport_ship name = "'约克公爵夫人'运输支队" historical_model = 0 }
+}
+navy = {
+	name = "加拿大皇家海军"
+	base = 6905
+	location = 6905
+	ship = { type = destroyer name = "第1驱逐舰支队" historical_model = 1 }
+}

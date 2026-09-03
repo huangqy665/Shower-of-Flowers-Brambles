@@ -1,0 +1,40 @@
+division= {
+		name = "'萨瓦'步兵师"
+		location = 3633
+		regiment = { type = infantry_brigade name = "第1步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第2步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第3步兵团" historical_model = 1 }
+}
+division= {
+		name = "'奥西耶克'步兵师"
+		location = 3770
+		regiment = { type = infantry_brigade name = "第4步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第5步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第6步兵团" historical_model = 1 }
+}
+division= {
+		name = "'波斯尼亚'步兵师"
+		location = 4174
+		regiment = { type = infantry_brigade name = "第7步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第8步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第9步兵团" historical_model = 1 }
+}
+division= {
+		name = "'维巴斯'步兵师"
+		location = 3979
+		regiment = { type = infantry_brigade name = "第10步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第11步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第12步兵团" historical_model = 1 }
+}
+division= {
+		name = "'贾德兰'步兵师"
+		location = 4303
+		regiment = { type = infantry_brigade name = "第13步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第14步兵团" historical_model = 1 }
+		regiment = { type = infantry_brigade name = "第15步兵团" historical_model = 1 }
+}
+division= {
+	name = "第1骑兵师"
+	location = 3633
+	regiment = { type = cavalry_brigade name = "第13骑兵团" historical_model = 0 }
+}

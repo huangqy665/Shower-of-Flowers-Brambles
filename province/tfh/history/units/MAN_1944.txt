@@ -1,0 +1,191 @@
+corps = {					
+	name = "第1奉天军"				
+	location = 7164				
+	regiment = { type = hq_brigade name = "第1方面军" historical_model = 0 }				
+	division= {				
+		name = "第1奉天步兵师"			
+		location = 7164			
+		regiment = { type = militia_brigade name = "第1步兵旅" historical_model = 4 }			
+		regiment = { type = militia_brigade name = "第2步兵旅" historical_model = 4 }			
+	}				
+	division= {				
+		name = "第1奉天混成支队"			
+		location = 7164			
+		regiment = { type = militia_brigade name = "第9混成旅" historical_model = 4 }			
+		regiment = { type = militia_brigade name = "第10混成旅" historical_model = 4 }			
+	}				
+	division= {				
+		name = "第1奉天骑兵师"			
+		location = 4386			
+		regiment = { type = cavalry_brigade name = "第3骑兵旅" historical_model = 4 }			
+		regiment = { type = cavalry_brigade name = "第6骑兵旅" historical_model = 4 }			
+	}				
+}					
+corps = {					
+	name = "第2吉林军"				
+	location = 4386				
+	regiment = { type = hq_brigade name = "第2方面军" historical_model = 0 }				
+	division= {				
+		name = "第2吉林步兵师"			
+		location = 4386			
+		regiment = { type = militia_brigade name = "第4步兵旅" historical_model = 4 }			
+		regiment = { type = militia_brigade name = "第5步兵旅" historical_model = 4 }			
+	}				
+	division= {				
+		name = "第2吉林混成支队"			
+		location = 4386			
+		regiment = { type = militia_brigade name = "第11混成旅" historical_model = 4 }			
+		regiment = { type = militia_brigade name = "第12混成旅" historical_model = 4 }			
+	}				
+	division= {				
+		name = "第2吉林骑兵师"			
+		location = 4386			
+		regiment = { type = cavalry_brigade name = "第1骑兵旅" historical_model = 4 }			
+		regiment = { type = cavalry_brigade name = "第2骑兵旅" historical_model = 4 }			
+	}				
+}					
+corps = {					
+	name = "第3齐齐哈尔军"				
+	location = 7095				
+	regiment = { type = hq_brigade name = "第3方面军" historical_model = 0 }				
+	division= {				
+		name = "第3齐齐哈尔步兵师"			
+		location = 7095			
+		regiment = { type = militia_brigade name = "第7步兵旅" historical_model = 4 }			
+		regiment = { type = militia_brigade name = "第8步兵旅" historical_model = 4 }			
+	}				
+	division= {				
+		name = "第3齐齐哈尔混成支队"			
+		location = 7095			
+		regiment = { type = militia_brigade name = "第13混成旅" historical_model = 4 }			
+		regiment = { type = militia_brigade name = "第14混成旅" historical_model = 4 }			
+	}				
+}					
+corps = {					
+	name = "第4哈尔滨军"				
+	location = 7139				
+	regiment = { type = hq_brigade name = "第4方面军" historical_model = 0 }				
+	division= {				
+		name = "第4哈尔滨步兵师"			
+		location = 7139			
+		regiment = { type = militia_brigade name = "第9步兵旅" historical_model = 4 }			
+		regiment = { type = militia_brigade name = "第10步兵旅" historical_model = 4 }			
+	}				
+	division= {				
+		name = "第4哈尔滨混成支队"			
+		location = 7139			
+		regiment = { type = militia_brigade name = "第15混成旅" historical_model = 4 }			
+		regiment = { type = militia_brigade name = "第16混成旅" historical_model = 4 }			
+	}				
+}					
+corps = {					
+	name = "第5承德军"				
+	location = 4785				
+	regiment = { type = hq_brigade name = "第5方面军" historical_model = 0 }				
+	division = {				
+		name = "第5承德步兵师"			
+		location = 4785			
+		regiment = { type = militia_brigade name = "第13步兵旅" historical_model = 4 }			
+		regiment = { type = militia_brigade name = "第14步兵旅" historical_model = 4 }			
+	}				
+	division= {				
+		name = "第5承德混成支队"			
+		location = 4785			
+		regiment = { type = militia_brigade name = "第17混成旅" historical_model = 4 }			
+		regiment = { type = militia_brigade name = "第18混成旅" historical_model = 4 }			
+	}				
+	division= {				
+		name = "第5承德骑兵师"			
+		location = 4785			
+		regiment = { type = cavalry_brigade name = "第4骑兵旅" historical_model = 4 }			
+		regiment = { type = cavalry_brigade name = "第5骑兵旅" historical_model = 4 }			
+	}				
+}					
+army = {					
+	name = "满洲国陆军"				
+	location = 5275				
+	regiment = { type = hq_brigade name = "满洲国指挥部" historical_model = 0 }				
+	division = {				
+		name = "第1近卫旅"			
+		location = 5275			
+		regiment = { type = infantry_brigade name = "第1近卫旅" historical_model = 3 }			
+		regiment = { type = infantry_brigade name = "第2近卫旅" historical_model = 3 }			
+	}				
+	division = {				
+		name = "第1满洲步兵师"			
+		location = 5275			
+		regiment = { type = infantry_brigade name = "第3步兵旅" historical_model = 3 }			
+		regiment = { type = infantry_brigade name = "第6步兵旅" historical_model = 3 }			
+		regiment = { type = infantry_brigade name = "第11步兵旅" historical_model = 3 }			
+	}				
+	division= {				
+		name = "第1满洲骑兵师"			
+		location = 5336			
+		regiment = { type = cavalry_brigade name = "第7骑兵旅" historical_model = 4 }			
+		regiment = { type = cavalry_brigade name = "第8骑兵旅" historical_model = 4 }			
+	}				
+	division = {				
+		name = "第1独立旅"			
+		location = 5336			
+		regiment = { type = infantry_brigade name = "第15步兵旅" historical_model = 3 }			
+		regiment = { type = infantry_brigade name = "第16步兵旅" historical_model = 3 }			
+	}				
+}					
+army = {					
+	name = "山西绥靖部队"				
+	location = 5143				
+	regiment = { type = hq_brigade name = "绥靖总部" historical_model = 0 }				
+	division = {				
+		name = "第1混成支队"			
+		location = 5143			
+		regiment = { type = militia_brigade name = "第1混成旅" historical_model = 4 }			
+		regiment = { type = militia_brigade name = "第1混成旅" historical_model = 4 }			
+	}				
+	division = {				
+		name = "第2混成支队"			
+		location = 7368			
+		regiment = { type = militia_brigade name = "第3混成旅" historical_model = 4 }			
+		regiment = { type = militia_brigade name = "第4混成旅" historical_model = 4 }			
+	}				
+	division = {				
+		name = "第3混成支队"			
+		location = 4979			
+		regiment = { type = garrison_brigade name = "第5混成旅" historical_model = 4 }			
+		regiment = { type = garrison_brigade name = "第6混成旅" historical_model = 4 }			
+	}				
+	division = {				
+		name = "第4混成支队"			
+		location = 5054			
+		regiment = { type = garrison_brigade name = "第7混成旅" historical_model = 4 }			
+		regiment = { type = garrison_brigade name = "第8混成旅" historical_model = 4 }			
+	}				
+}					
+army = {					
+	name = "江苏绥靖部队"				
+	location = 5246				
+	regiment = { type = hq_brigade name = "绥靖总部" historical_model = 0 }				
+	division = {				
+		name = "第5混成支队"			
+		location = 5246			
+		regiment = { type = militia_brigade name = "第19混成旅" historical_model = 4 }			
+		regiment = { type = militia_brigade name = "第20混成旅" historical_model = 4 }			
+	}				
+	division = {				
+		name = "第6混成支队"			
+		location = 5180			
+		regiment = { type = militia_brigade name = "第21混成旅" historical_model = 4 }			
+		regiment = { type = militia_brigade name = "第22混成旅" historical_model = 4 }			
+	}				
+	division = {				
+		name = "第7混成支队"			
+		location = 5246			
+		regiment = { type = garrison_brigade name = "第23混成旅" historical_model = 4 }			
+		regiment = { type = garrison_brigade name = "第24混成旅" historical_model = 4 }			
+	}				
+	division = {				
+		name = "第8混成支队"			
+		location = 5180			
+		regiment = { type = garrison_brigade name = "第25混成旅" historical_model = 4 }			
+		regiment = { type = garrison_brigade name = "第26混成旅" historical_model = 4 }			
+	}				
+}					

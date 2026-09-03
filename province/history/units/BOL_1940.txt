@@ -1,0 +1,36 @@
+corps = {
+	name = "玻利维亚陆军"
+	location = 10151
+	regiment = { type = hq_brigade name = "玻利维亚陆军指挥部" historical_model = 0 }
+	division= {
+		name = "玻利维亚第1步兵旅"
+		location = 10151
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "玻利维亚第1民兵大队"
+		location = 10151
+		is_reserve = yes
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "玻利维亚第2民兵大队"
+		location = 10151
+		is_reserve = yes
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division= {
+		name = "'查科'第1骑兵旅"
+		location = 10151
+		is_reserve = yes
+		regiment = { type = cavalry_brigade historical_model = 0 }
+		regiment = { type = cavalry_brigade historical_model = 0 }
+	}
+}

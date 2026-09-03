@@ -1,0 +1,11 @@
+division = {
+	name = "危地马拉军"
+	location = 9713
+	is_reserve = yes
+	regiment = { type = infantry_brigade historical_model = 1 }
+	regiment = { type = infantry_brigade historical_model = 1 }
+	regiment = { type = infantry_brigade historical_model = 1 }
+}
+
+
+

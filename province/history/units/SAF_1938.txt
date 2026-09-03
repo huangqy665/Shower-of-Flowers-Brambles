@@ -1,0 +1,35 @@
+division = {
+	name = "开普敦司令部"
+	location = 8054
+	is_reserve = yes
+	regiment = { type = garrison_brigade name = "第1南非旅" historical_model = 0 }
+	regiment = { type = garrison_brigade name = "第7南非旅" historical_model = 0 }
+	regiment = { type = garrison_brigade name = "第9南非旅" historical_model = 0 }
+}
+division = {
+	name = "金山（约翰内斯堡）司令部"
+	location = 7978
+	is_reserve = yes
+	regiment = { type = garrison_brigade name = "第5南非旅" historical_model = 0 }
+	regiment = { type = garrison_brigade name = "第6南非旅" historical_model = 0 }
+	regiment = { type = garrison_brigade name = "第9南非旅" historical_model = 0 }
+}
+division = {
+	name = "纳塔尔司令部"
+	location = 7965
+	is_reserve = yes
+	regiment = { type = garrison_brigade name = "第2南非旅" historical_model = 0 }
+	regiment = { type = garrison_brigade name = "第3南非旅" historical_model = 0 }
+	regiment = { type = garrison_brigade name = "第4南非旅" historical_model = 0 }
+}
+navy = {
+	name = "南非海军"
+	base = 8054
+	location = 8054
+	ship = { type = transport_ship name = "第1运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第2运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第3运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第4运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第5运输舰队" historical_model = 0 }
+	ship = { type = transport_ship name = "第6运输舰队" historical_model = 0 }
+}

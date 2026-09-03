@@ -1,0 +1,46 @@
+army = {		
+	name = "自由法国非洲集团军"	
+	location = 10037	
+	regiment = { type = hq_brigade name = "自由法国非洲集团军司令部" historical_model = 0 }
+	division = {
+		name = "阿勒颇步兵师"
+		location = 7374
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+	division = {
+		name = "贝鲁特步兵师"
+		location = 5299
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+		regiment = { type = militia_brigade historical_model = 0 }
+	}
+}
+division = {
+	name = "新喀里多尼亚步兵师"
+	location = 6616
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+	regiment = { type = militia_brigade historical_model = 0 }
+}
+navy = {
+	name = "地中海舰队"
+	base = 5299
+	location = 5299
+	ship = { type = submarine name = "第1潜艇支队" historical_model = 1 }
+	ship = { type = submarine name = "第2潜艇支队" historical_model = 1 }
+	ship = { type = submarine name = "第3潜艇支队" historical_model = 2 }
+	ship = { type = submarine name = "第4潜艇支队" historical_model = 2 }
+	ship = { type = battlecruiser name = "孤拔号" historical_model = 3 pride = yes }
+	ship = { type = heavy_cruiser name = "图尔维尔号" historical_model = 1 }
+	ship = { type = destroyer name = "第1驱逐舰支队" historical_model = 2 }
+	ship = { type = destroyer name = "第2驱逐舰支队" historical_model = 2 }
+}
+air = {
+	name = "中东航空司令部"
+	base = 5299
+	location = 5299
+	wing = { type = interceptor name = "第21截击机联队" historical_model = 2 }
+	wing = { type = tactical_bomber name = "第1战术轰炸机联队" historical_model = 1 }
+}

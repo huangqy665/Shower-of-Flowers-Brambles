@@ -1,0 +1,3 @@
+owner = SIK
+controller = SIK
+add_core = SIK

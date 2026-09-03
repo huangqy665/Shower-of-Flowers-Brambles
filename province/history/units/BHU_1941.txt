@@ -1,0 +1,24 @@
+corps = {
+	name = "不丹皇家军队"
+	location = 9472
+	regiment = { type = hq_brigade name = "不丹皇家军队指挥部" historical_model = 0 }
+	division= {
+		name = "禁卫师"
+		location = 9472
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "皇家师"
+		location = 9472
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+}
+
+
+

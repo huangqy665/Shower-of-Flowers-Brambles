@@ -1,0 +1,55 @@
+corps = {
+	name = "本土军"
+	location = 6905 # Quebec
+	regiment = { type = hq_brigade name = "本土军指挥部" historical_model = 0 }
+	division= {
+		name = "加拿大第4步兵师"
+		location = 6997 # Halifax 
+		regiment = { type = infantry_brigade name = "加拿大第10步兵旅" historical_model = 2 }
+		regiment = { type = infantry_brigade name = "加拿大第11步兵旅" historical_model = 2 }
+		regiment = { type = infantry_brigade name = "加拿大第12步兵旅" historical_model = 2 }
+	}
+	division= {
+		name = "第13旅"
+		location =  6905 # Vancouver 
+		regiment = { type = infantry_brigade name = "加拿大第13步兵旅" historical_model = 2 }
+	}
+	division= {
+		name = "第14旅"
+		location = 3541 # Toronto
+		regiment = { type = infantry_brigade name = "加拿大第14步兵旅" historical_model = 2 }
+	} 
+	division= {
+		name = "第15旅"
+		location = 6905 # Quebec
+		regiment = { type = infantry_brigade name = "加拿大第15步兵旅" historical_model = 2 }
+	}
+}
+air = {
+	name = "东部空军司令部"
+	base = 6997 # Halifax 
+	location = 6997 # Halifax
+	wing = { type = tactical_bomber name = "第1空军编队" historical_model = 0 }
+}
+air = {
+	name = "西部空军司令部"
+	base = 6905 # Vancouver 
+	location = 6905 # Vancouver
+	wing = { type = tactical_bomber name = "西部空军司令部" historical_model = 0 }
+}
+navy = {
+	name = "加拿大运输舰队"
+	base = 6905
+	location = 6905
+	ship = { type = transport_ship name = "'亚洲皇后' 运输支队" historical_model = 0 }
+	ship = { type = transport_ship name = "'俄国皇后' 运输支队" historical_model = 0 }
+	ship = { type = transport_ship name = "'澳大利亚皇后' 运输支队" historical_model = 0 }
+	ship = { type = transport_ship name = "'加拿大皇后' 运输支队" historical_model = 0 }
+	ship = { type = transport_ship name = "'日本皇后' 运输支队" historical_model = 0 }
+}
+navy = {
+	name = "加拿大皇家海军"
+	base = 6905
+	location = 6905
+	ship = { type = destroyer name = "第1驱逐舰支队" historical_model = 1 }
+}

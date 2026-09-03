@@ -1,0 +1,10 @@
+division = {
+	name = "伊拉克皇家陆军"
+	location = 9213
+	regiment = { type = infantry_brigade historical_model = 1 }
+	regiment = { type = infantry_brigade historical_model = 1 }
+	regiment = { type = infantry_brigade historical_model = 1 }
+}
+
+
+

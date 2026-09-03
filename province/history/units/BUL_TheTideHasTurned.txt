@@ -1,0 +1,73 @@
+armygroup= {
+	name = "保加利亚最高指挥部"
+	location = 4371
+	regiment = { type = hq_brigade name = "保加利亚最高指挥部" historical_model = 1 }
+	army = {
+		name = "第5军"
+		location = 4369
+		regiment = { type = hq_brigade name = "第5军指挥部" historical_model = 2 }
+		corps = {
+			name = "塞尔维亚军团司令部"
+			location = 4369
+			regiment = { type = hq_brigade name = "塞尔维亚军团指挥部" historical_model = 0 }
+			division= {
+				name = "第1'索菲亚'步兵师"
+				location = 4369
+				regiment = { type = infantry_brigade name = "第1步兵团" historical_model = 1 }
+				regiment = { type = infantry_brigade name = "第6步兵团" historical_model = 1 }
+				regiment = { type = infantry_brigade name = "第16步兵团" historical_model = 1 }
+				regiment = { type = engineer_brigade name = "第1工兵营" historical_model = 0 }
+			}
+			division= {
+				name = "第6'布丁斯卡'步兵师"
+				location = 4369
+				regiment = { type = infantry_brigade name = "第3步兵团" historical_model = 1 }
+				regiment = { type = infantry_brigade name = "第15步兵团" historical_model = 1 }
+				regiment = { type = infantry_brigade name = "第35步兵团" historical_model = 1 }
+			}
+		}
+		corps = {
+			name = "马其顿军团司令部"
+			location = 4555
+			regiment = { type = hq_brigade name = "马其顿军团指挥部" historical_model = 0 }
+			division= {
+				name = "第14'斯库帕斯卡'步兵师"
+				location = 4555
+				regiment = { type = infantry_brigade name = "第51步兵团" historical_model = 2 }
+				regiment = { type = infantry_brigade name = "第52步兵团" historical_model = 2 }
+				regiment = { type = infantry_brigade name = "第53步兵团" historical_model = 2 }
+			}
+			division= {
+				name = "第15'奥瑞德斯卡'步兵师"
+				location = 4555
+				regiment = { type = infantry_brigade name = "第45步兵团" historical_model = 2 }
+				regiment = { type = infantry_brigade name = "第54步兵团" historical_model = 2 }
+				regiment = { type = infantry_brigade name = "第55步兵团" historical_model = 2 }
+			}
+		}
+	}
+}
+air = {
+	name = "第1航空大队"
+	base = 4371
+	location = 4371
+	wing = { type = interceptor name = "第1航空大队" historical_model = 1 }
+}
+air = {
+	name = "第2航空大队"
+	base = 4371
+	location = 4371
+	wing = { type = interceptor name = "第2航空大队" historical_model = 0 }
+}
+air = {
+	name = "第5战术轰炸大队"
+	base = 4123
+	location = 4123
+	wing = { type = tactical_bomber name = "第5战术轰炸大队" historical_model = 1 }
+}
+air = {
+	name = "第6截击机大队"
+	base = 4123
+	location = 4123
+	wing = { type = interceptor name = "第6截击机大队" historical_model = 1 }
+}

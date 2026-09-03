@@ -1,0 +1,38 @@
+corps = {
+	name = "爱沙尼亚第1军"
+	location = 906
+	regiment = { type = hq_brigade name = "爱沙尼亚第1军指挥部" historical_model = 0 }
+	division= {
+		name = "第I步兵师"
+		location = 906
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第II步兵师"
+		location = 906
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+	division= {
+		name = "第III步兵师"
+		location = 906
+		is_reserve = yes
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+		regiment = { type = infantry_brigade historical_model = 0 }
+	}
+}
+navy = {
+	name = "爱沙尼亚海军"
+	base = 906
+	location = 906
+	ship = { type = submarine name = "第1潜艇大队" historical_model = 0 }
+}
+
+
+

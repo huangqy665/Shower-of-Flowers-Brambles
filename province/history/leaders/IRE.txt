@@ -1,0 +1,511 @@
+77000 = {
+	name = "阿彻"
+	country = IRE
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L77000
+	add_trait = offensive_doctrine
+	history = {
+		1941.1.1 = { rank = 1 }
+	}
+}
+77001 = {
+	name = "布伦南"
+	country = IRE
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L77001
+	add_trait = offensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+77002 = {
+	name = "布赖恩"
+	country = IRE
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L77002
+	add_trait = defensive_doctrine
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+77003 = {
+	name = "柯林斯.鲍威尔"
+	country = IRE
+	type = land
+	skill = 0
+	max_skill = 5
+	loyalty = 1.00
+	picture = L77003
+	add_trait = panzer_leader
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+77004 = {
+	name = "科斯特洛"
+	country = IRE
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L77004
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+	}
+}
+77005 = {
+	name = "菲策梅特"
+	country = IRE
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L77005
+	add_trait = defensive_doctrine
+	add_trait = old_guard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+77006 = {
+	name = "菲茨罗伊"
+	country = IRE
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L77006
+	add_trait = panzer_leader
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+77007 = {
+	name = "弗林"
+	country = IRE
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L77007
+	history = {
+		1945.1.1 = { rank = 1 }
+	}
+}
+77008 = {
+	name = "汉拉恩"
+	country = IRE
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L77008
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+77009 = {
+	name = "凯利"
+	country = IRE
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L77009
+	add_trait = fortress_buster
+	history = {
+		1940.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+77010 = {
+	name = "基兰尼"
+	country = IRE
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L77010
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+77011 = {
+	name = "金南"
+	country = IRE
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L77011
+	add_trait = fortress_buster
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+77012 = {
+	name = "麦克尼尔"
+	country = IRE
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L77012
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+77013 = {
+	name = "麦凯布"
+	country = IRE
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L77013
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+77014 = {
+	name = "麦克纳"
+	country = IRE
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L77014
+	add_trait = trickster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+77015 = {
+	name = "麦克劳克林"
+	country = IRE
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L77015
+	history = {
+		1939.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+77016 = {
+	name = "麦克纳利"
+	country = IRE
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L77016
+	add_trait = engineer
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+	}
+}
+77017 = {
+	name = "穆尔"
+	country = IRE
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L77017
+	history = {
+		1937.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+77018 = {
+	name = "墨菲"
+	country = IRE
+	type = land
+	skill = 2
+	max_skill = 3
+	loyalty = 1.00
+	picture = L77018
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 3 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+77019 = {
+	name = "O'康纳"
+	country = IRE
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L77019
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+77020 = {
+	name = "O'达菲"
+	country = IRE
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 0.00
+	picture = L77020
+	add_trait = engineer
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 0 }
+	}
+}
+77021 = {
+	name = "O'苏利万"
+	country = IRE
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L77021
+	history = {
+		1940.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+77022 = {
+	name = "塞利亚"
+	country = IRE
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L77022
+	add_trait = logistics_wizard
+	history = {
+		1938.1.1 = { rank = 1 }
+	}
+}
+77023 = {
+	name = "斯坦斯"
+	country = IRE
+	type = land
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L77023
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+77024 = {
+	name = "格林"
+	country = IRE
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L77024
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 3 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+77025 = {
+	name = "杰尔姆"
+	country = IRE
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L77025
+	history = {
+		1942.1.1 = { rank = 1 }
+	}
+}
+77026 = {
+	name = "劳勒"
+	country = IRE
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L77026
+	add_trait = spotter
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+77027 = {
+	name = "麦克斯威尼"
+	country = IRE
+	type = sea
+	skill = 0
+	max_skill = 4
+	loyalty = 1.00
+	picture = L77027
+	add_trait = superior_tactician
+	history = {
+		1943.1.1 = { rank = 1 }
+	}
+}
+77028 = {
+	name = "O'穆伊里斯"
+	country = IRE
+	type = sea
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L77028
+	add_trait = seawolf
+	history = {
+		1939.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+77029 = {
+	name = "普雷斯顿"
+	country = IRE
+	type = sea
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L77029
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 3 }
+	}
+}
+77030 = {
+	name = "德拉米尔"
+	country = IRE
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L77030
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+77031 = {
+	name = "麦克纳利"
+	country = IRE
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L77031
+	history = {
+		1944.1.1 = { rank = 1 }
+	}
+}
+77032 = {
+	name = "穆尔卡希"
+	country = IRE
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 1.00
+	picture = L77032
+	add_trait = superior_air_tactician
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 0 }
+	}
+}
+77033 = {
+	name = "O'哈拉"
+	country = IRE
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L77033
+	add_trait = superior_air_tactician
+	history = {
+		1943.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+	}
+}
+77034 = {
+	name = "O'苏利万"
+	country = IRE
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L77034
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+	}
+}
+77035 = {
+	name = "奎因"
+	country = IRE
+	type = air
+	skill = 0
+	max_skill = 3
+	loyalty = 1.00
+	picture = L77035
+	add_trait = tank_buster
+	history = {
+		1937.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+77036 = {
+	name = "鲁塞尔"
+	country = IRE
+	type = air
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L77036
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+	}
+}

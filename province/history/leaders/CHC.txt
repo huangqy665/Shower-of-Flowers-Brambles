@@ -1,0 +1,1036 @@
+76300 = {
+	name = "ÀîµÂ"
+	country = CHC
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76300
+	add_trait = fortress_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+76301 = {
+	name = "ÕÅÇÙÇï"
+	country = CHC
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76301
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+76302 = {
+	name = "ÕÅ¹úìâ"
+	country = CHC
+	type = land
+	skill = 4
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76302
+	history = {
+		1938.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+		1944.1.1 = { rank = 4 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76303 = {
+	name = "ÕÅ¶¦³É"
+	country = CHC
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76303
+	history = {
+		1941.1.1 = { rank = 1 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76304 = {
+	name = "ÕÅÔÆÒÝ"
+	country = CHC
+	type = land
+	skill = 3
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76304
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 3 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76305 = {
+	name = "ÕÔÉÐÖ¾"
+	country = CHC
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76305
+	history = {
+		1930.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+76306 = {
+	name = "ÕÔÒ»Âü"
+	country = CHC
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L76306
+	history = {
+		1939.1.1 = { rank = 1 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76307 = {
+	name = "³Â²ýºÆ"
+	country = CHC
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L76307
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1939.1.1 = { rank = 3 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76308 = {
+	name = "³ÂâÙ"
+	country = CHC
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76308
+	history = {
+		1941.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76309 = {
+	name = "³Â¹â"
+	country = CHC
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76309
+	add_trait = offensive_doctrine
+	history = {
+		1940.1.1 = { rank = 1 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76310 = {
+	name = "³ÂÒã"
+	country = CHC
+	type = land
+	skill = 3
+	max_skill = 7
+	loyalty = 0.00
+	picture = L76310
+	add_trait = offensive_doctrine
+	add_trait = fortress_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76311 = {
+	name = "ÖÜ¶÷À´"
+	country = CHC
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76311
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76312 = {
+	name = "ÖìµÂ"
+	country = CHC
+	type = land
+	skill = 4
+	max_skill = 8
+	loyalty = 0.00
+	picture = L76312
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1946.1.1 = { rank = 4 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76313 = {
+	name = "ºØÁú"
+	country = CHC
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L76313
+	history = {
+		1942.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76314 = {
+	name = "ÏîÓ¢"
+	country = CHC
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76314
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+76315 = {
+	name = "Ðìº£¶«"
+	country = CHC
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76315
+	history = {
+		1938.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76316 = {
+	name = "ÐìÏòÇ°"
+	country = CHC
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76316
+	history = {
+		1940.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76317 = {
+	name = "Ðì¹â´ï"
+	country = CHC
+	type = land
+	skill = 3
+	max_skill = 5
+	loyalty = 0.00
+	picture = L76317
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 3 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76318 = {
+	name = "»Æ¿Ë³Ï"
+	country = CHC
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76318
+	history = {
+		1940.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76319 = {
+	name = "¸ß¸Ú"
+	country = CHC
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76319
+	add_trait = trickster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+76320 = {
+	name = "½ðÈÕ³É"
+	country = CHC
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76320
+	history = {
+		1940.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+76321 = {
+	name = "ÀîÕê"
+	country = CHC
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76321
+	add_trait = trickster
+	history = {
+		1943.1.1 = { rank = 1 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76322 = {
+	name = "ÀîÏÈÄî"
+	country = CHC
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76322
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1940.1.1 = { rank = 3 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76323 = {
+	name = "ÀîÓÑ°î"
+	country = CHC
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76323
+	add_trait = logistics_wizard
+	history = {
+		1938.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+76324 = {
+	name = "ÁÖ±ë"
+	country = CHC
+	type = land
+	skill = 5
+	max_skill = 8
+	loyalty = 0.00
+	picture = L76324
+	add_trait = defensive_doctrine
+	add_trait = trickster
+	history = {
+		1938.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1955.1.1 = { rank = 3 }
+		1957.1.1 = { rank = 4 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76325 = {
+	name = "ÁõÖ¾µ¤"
+	country = CHC
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76325
+	add_trait = logistics_wizard
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+76326 = {
+	name = "Áõ²®³Ð"
+	country = CHC
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76326
+	add_trait = logistics_wizard
+	add_trait = offensive_doctrine
+	history = {
+		1939.1.1 = { rank = 1 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76327 = {
+	name = "ÂÞÈðÇä"
+	country = CHC
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76327
+	history = {
+		1945.1.1 = { rank = 1 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76328 = {
+	name = "ÂÞÈÙ»¸"
+	country = CHC
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76328
+	history = {
+		1938.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76329 = {
+	name = "ÂÞ±þ»Ô"
+	country = CHC
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L76329
+	history = {
+		1930.1.1 = { rank = 1 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76330 = {
+	name = "Âí±¾Õ«"
+	country = CHC
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76330
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 0 }
+	}
+}
+76331 = {
+	name = "Ã«Ôó¶«"
+	country = CHC
+	type = land
+	skill = 3
+	max_skill = 5
+	loyalty = 1.00
+	picture = L76331
+	add_trait = trickster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1930.1.1 = { rank = 4 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76332 = {
+	name = "½ðÎäÍ¤"
+	country = CHC
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 1.00
+	picture = L76332
+	add_trait = fortress_buster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 2 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76333 = {
+	name = "ÄôÈÙÕé"
+	country = CHC
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L76333
+	add_trait = logistics_wizard
+	add_trait = offensive_doctrine
+	history = {
+		1941.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76334 = {
+	name = "ºúÖ¾Ã÷"
+	country = CHC
+	type = land
+	skill = 3
+	max_skill = 7
+	loyalty = 0.00
+	picture = L76334
+	add_trait = trickster
+	history = {
+		1930.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 0 }
+	}
+}
+76335 = {
+	name = "ÅíÑ©·ã"
+	country = CHC
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76335
+	add_trait = defensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 0 }
+	}
+}
+76336 = {
+	name = "ÅíµÂ»³"
+	country = CHC
+	type = land
+	skill = 2
+	max_skill = 6
+	loyalty = 0.00
+	picture = L76336
+	add_trait = commando
+	history = {
+		1939.1.1 = { rank = 1 }
+		1942.1.1 = { rank = 2 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76337 = {
+	name = "ËÚÔ£"
+	country = CHC
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76337
+	add_trait = offensive_doctrine
+	history = {
+		1941.1.1 = { rank = 1 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76338 = {
+	name = "°×ÉÆìÇ"
+	country = CHC
+	type = land
+	skill = 1
+	max_skill = 5
+	loyalty = 1.00
+	picture = L76338
+	add_trait = trickster
+	history = {
+		1939.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+76339 = {
+	name = "Ì·Õþ"
+	country = CHC
+	type = land
+	skill = 3
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76339
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1947.1.1 = { rank = 3 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76340 = {
+	name = "µËÐ¡Æ½"
+	country = CHC
+	type = land
+	skill = 3
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76340
+	add_trait = trickster
+	history = {
+		1938.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76341 = {
+	name = "ëø´úÔ¶"
+	country = CHC
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76341
+	add_trait = logistics_wizard
+	history = {
+		1938.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 0 }
+	}
+}
+76342 = {
+	name = "¶¡Áá"
+	country = CHC
+	type = land
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L76342
+	history = {
+		1939.1.1 = { rank = 1 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76343 = {
+	name = "×óÈ¨"
+	country = CHC
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76343
+	history = {
+		1930.1.1 = { rank = 1 }
+		1938.1.1 = { rank = 2 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+76344 = {
+	name = "ÎÚÀ¼·ò"
+	country = CHC
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76344
+	add_trait = offensive_doctrine
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+76345 = {
+	name = "Íõ¼ÚÏé"
+	country = CHC
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76345
+	history = {
+		1930.1.1 = { rank = 1 }
+		1930.1.1 = { rank = 2 }
+		1930.1.1 = { rank = 3 }
+		1940.1.1 = { rank = 0 }
+	}
+}
+76346 = {
+	name = "ÍõÊ÷Éù"
+	country = CHC
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76346
+	history = {
+		1942.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76347 = {
+	name = "Î¤¹úÇå"
+	country = CHC
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76347
+	history = {
+		1945.1.1 = { rank = 1 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76348 = {
+	name = "Ñî¾¸Óî"
+	country = CHC
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76348
+	history = {
+		1930.1.1 = { rank = 1 }
+		1939.1.1 = { rank = 0 }
+	}
+}
+76349 = {
+	name = "ÑîÉÐÀ¥"
+	country = CHC
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76349
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76350 = {
+	name = "Ò¶½£Ó¢"
+	country = CHC
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76350
+	history = {
+		1938.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76351 = {
+	name = "Ò¶Í¦"
+	country = CHC
+	type = land
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76351
+	history = {
+		1930.1.1 = { rank = 1 }
+		1943.1.1 = { rank = 2 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76352 = {
+	name = "ÕÅ°®Æ¼"
+	country = CHC
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L76352
+	history = {
+		1942.1.1 = { rank = 1 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76353 = {
+	name = "ÕÅÑ§Ë¼"
+	country = CHC
+	type = sea
+	skill = 2
+	max_skill = 3
+	loyalty = 0.00
+	picture = L76353
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76354 = {
+	name = "Ö£µÀ¼Ã"
+	country = CHC
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L76354
+	add_trait = seawolf
+	history = {
+		1930.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 0 }
+	}
+}
+76355 = {
+	name = "Ð¤¾¢¹â"
+	country = CHC
+	type = sea
+	skill = 3
+	max_skill = 3
+	loyalty = 0.00
+	picture = L76355
+	history = {
+		1938.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76356 = {
+	name = "ÂÞÏæÌÎ"
+	country = CHC
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L76356
+	history = {
+		1943.1.1 = { rank = 1 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76357 = {
+	name = "ÌÕÓÂ"
+	country = CHC
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L76357
+	history = {
+		1930.1.1 = { rank = 1 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76358 = {
+	name = "Ì·ÕðÁÖ"
+	country = CHC
+	type = sea
+	skill = 2
+	max_skill = 3
+	loyalty = 0.00
+	picture = L76358
+	history = {
+		1937.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 0 }
+	}
+}
+76359 = {
+	name = "µË×Ó»Ö"
+	country = CHC
+	type = sea
+	skill = 3
+	max_skill = 5
+	loyalty = 0.00
+	picture = L76359
+	add_trait = superior_tactician
+	history = {
+		1943.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1945.1.1 = { rank = 3 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76360 = {
+	name = "Ò¶·É"
+	country = CHC
+	type = sea
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L76360
+	history = {
+		1945.1.1 = { rank = 1 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76361 = {
+	name = "°²Ö¾Ãô"
+	country = CHC
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L76361
+	history = {
+		1942.1.1 = { rank = 1 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76362 = {
+	name = "³£Ç¬À¤"
+	country = CHC
+	type = air
+	skill = 2
+	max_skill = 3
+	loyalty = 0.00
+	picture = L76362
+	history = {
+		1937.1.1 = { rank = 1 }
+		1944.1.1 = { rank = 2 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76363 = {
+	name = "³ÂÎõ"
+	country = CHC
+	type = air
+	skill = 2
+	max_skill = 3
+	loyalty = 0.00
+	picture = L76363
+	history = {
+		1942.1.1 = { rank = 1 }
+		1945.1.1 = { rank = 2 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76364 = {
+	name = "·½»±"
+	country = CHC
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L76364
+	history = {
+		1943.1.1 = { rank = 1 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76365 = {
+	name = "·½×ÓÒí"
+	country = CHC
+	type = air
+	skill = 2
+	max_skill = 4
+	loyalty = 0.00
+	picture = L76365
+	history = {
+		1930.1.1 = { rank = 1 }
+		1940.1.1 = { rank = 2 }
+		1942.1.1 = { rank = 3 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76366 = {
+	name = "ÏÄ²®Ñ«"
+	country = CHC
+	type = air
+	skill = 2
+	max_skill = 3
+	loyalty = 0.00
+	picture = L76366
+	history = {
+		1930.1.1 = { rank = 1 }
+		1941.1.1 = { rank = 2 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76367 = {
+	name = "ÁõÕð"
+	country = CHC
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L76367
+	history = {
+		1944.1.1 = { rank = 1 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76368 = {
+	name = "ÁõÑÇÂ¥"
+	country = CHC
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L76368
+	history = {
+		1946.1.1 = { rank = 1 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76369 = {
+	name = "ÂÀÀèÆ½"
+	country = CHC
+	type = air
+	skill = 1
+	max_skill = 5
+	loyalty = 0.00
+	picture = L76369
+	add_trait = superior_air_tactician
+	history = {
+		1930.1.1 = { rank = 1 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76370 = {
+	name = "Ô¬±ò"
+	country = CHC
+	type = air
+	skill = 1
+	max_skill = 3
+	loyalty = 0.00
+	picture = L76370
+	history = {
+		1942.1.1 = { rank = 1 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76371 = {
+	name = "Ñ¦ÔÀ"
+	country = CHC
+	type = land
+	skill = 1
+	max_skill = 4
+	loyalty = 1.00
+	picture = L76371
+	add_trait = trickster
+	history = {
+		1945.1.1 = { rank = 1 }
+		1970.1.1 = { rank = 0 }
+	}
+}
+76372 = {
+	name = "Àî×ÚÈÊ"
+	country = CHC
+	type = land
+	skill = 2
+	max_skill = 5
+	loyalty = 1.00
+	picture = L76372
+	add_trait = winter_specialist
+	history = {
+		1943.1.1 = { rank = 1 }
+		1946.1.1 = { rank = 2 }
+		1970.1.1 = { rank = 0 }
+	}
+}

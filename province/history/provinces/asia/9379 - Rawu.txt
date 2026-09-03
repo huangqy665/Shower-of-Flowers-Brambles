@@ -1,0 +1,13 @@
+owner = TIB
+controller = TIB
+add_core = TIB
+
+infra = 3
+
+infra = 3
+
+infra = 3
+
+infra = 3
+
+infra = 3

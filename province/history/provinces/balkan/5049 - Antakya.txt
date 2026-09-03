@@ -1,0 +1,11 @@
+owner = FRA
+controller = FRA
+add_core = FRA
+
+1939.6.29 = {
+	owner = TUR
+	controller = TUR
+	add_core = TUR
+	remove_core = FRA
+}
+infra = 6

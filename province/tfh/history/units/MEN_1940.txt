@@ -1,0 +1,6 @@
+division= {					
+	name = "ÃÉ½®Æï±ø¾ü"				
+	location = 4980				
+	regiment = { type = cavalry_brigade name = "µÚ1ÃÉ½®Æï±øÂÃ" historical_model = 2 }				
+	regiment = { type = cavalry_brigade name = "µÚ2ÃÉ½®Æï±øÂÃ" historical_model = 2 }				
+}					
