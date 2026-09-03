@@ -54,6 +54,20 @@ struct MapRendererOptions
     // match, which is the part that has to exist for this to be more than a
     // flag.
     bool resizable = true;
+    // Whether to keep the (u,v) attachment MapPointAt reads.
+    //
+    // Off by default, and the default is the honest one: the shipped viewer
+    // anchors its zoom on the PROVINCE under the cursor, which comes from the
+    // id attachment and a centroid table, so nothing in the product path asks
+    // where a pixel is on the map. Writing a third render target every frame
+    // for a question nobody asks costs memory and bandwidth for nothing.
+    //
+    // It stays available because it is the only exact answer to "what map
+    // point is this pixel" -- inverting the morph at an arbitrary bend is not
+    // possible -- and the renderer's own gates use it to check that the wrap
+    // puts the camera's longitude under the middle of the screen. A diagnostic
+    // with a stated purpose, rather than a target nobody could account for.
+    bool mapPointReadback = false;
 };
 
 // One frame of input, already reduced to what a map viewer asks about.
@@ -208,6 +222,20 @@ public:
     // because that is what the id attachment holds.
     kernel::EntityId PickEntityAt(std::uint32_t x, std::uint32_t y);
     kernel::EntityId LastPickedEntity() const noexcept;
+
+    // The map point under a window pixel. False when the pixel is off the map.
+    //
+    // Read out of a render target rather than computed, for the same reason
+    // picking is: inverting the morph analytically is not possible at an
+    // arbitrary bend, and a value the fragment shader already had is exact by
+    // construction. It is what lets a wheel zoom towards the cursor instead of
+    // towards the middle of the screen.
+    bool MapPointAt(
+        std::uint32_t x,
+        std::uint32_t y,
+        double& u,
+        double& v
+    );
 
     // The colour at a window pixel, 0xAABBGGRR, read from the default
     // framebuffer -- so before DrawOverlay it is the map and after it is what

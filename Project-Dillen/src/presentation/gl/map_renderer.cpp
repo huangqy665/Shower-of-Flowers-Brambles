@@ -63,6 +63,10 @@ constexpr GLenum GL_READ_FRAMEBUFFER = 0x8CA8;
 constexpr GLenum GL_DRAW_FRAMEBUFFER = 0x8CA9;
 constexpr GLenum GL_COLOR_ATTACHMENT0 = 0x8CE0;
 constexpr GLenum GL_COLOR_ATTACHMENT1 = 0x8CE1;
+constexpr GLenum GL_COLOR_ATTACHMENT2 = 0x8CE2;
+constexpr GLenum GL_RG16 = 0x822C;
+constexpr GLenum GL_RG = 0x8227;
+constexpr GLenum GL_NONE = 0;
 constexpr GLenum GL_DEPTH_ATTACHMENT = 0x8D00;
 constexpr GLenum GL_RENDERBUFFER = 0x8D41;
 constexpr GLenum GL_DEPTH_COMPONENT24 = 0x81A6;
@@ -117,6 +121,7 @@ struct Api
     void (*UniformMatrix4fv)(
         GLint, GLsizei, GLboolean, const GLfloat*) = nullptr;
     void (*Uniform1i)(GLint, GLint) = nullptr;
+    void (*Uniform1f)(GLint, GLfloat) = nullptr;
     void (*Uniform2f)(GLint, GLfloat, GLfloat) = nullptr;
     void (*Uniform1ui)(GLint, GLuint) = nullptr;
     void (*Uniform4f)(GLint, GLfloat, GLfloat, GLfloat, GLfloat)
@@ -187,16 +192,35 @@ const char* kFragmentShader = R"(#version 330 core
 in vec2 vTexture;
 layout(location = 0) out vec4 oColour;
 layout(location = 1) out uint oIndex;
+// The map coordinate this pixel came from, kept so a host can ask what is
+// under the cursor. The fragment already has it; recovering it afterwards
+// would mean inverting the morph, which is not possible at an arbitrary bend.
+layout(location = 2) out vec2 oMapPoint;
 uniform usampler2D uIndexTexture;
 uniform sampler2D uPalette;
 uniform vec2 uIndexSize;
 uniform uint uSelected;
 uniform int uPaletteSide;
+// How far the map is turned under the grid.
+//
+// The grid is built centred on the camera, so its own u runs -1/2 .. +1/2 with
+// the viewer at 0. The MAP coordinate is that plus this offset, wrapped -- and
+// the wrap is the whole seam fix: the cut edge of the cylinder sits at the far
+// end of the grid, which is behind the viewer, always. A province the cut
+// passes through is drawn at both ends of the grid, twice, and both copies
+// carry the same index -- so it is one province rendered twice, not two
+// provinces.
+uniform float uMapOffset;
 void main()
 {
-    ivec2 texel = ivec2(clamp(vTexture, vec2(0.0), vec2(1.0)) * (uIndexSize - vec2(1.0)));
+    vec2 mapPoint = vec2(
+        fract(vTexture.x + uMapOffset),
+        clamp(vTexture.y, 0.0, 1.0)
+    );
+    ivec2 texel = ivec2(mapPoint * (uIndexSize - vec2(1.0)));
     uint index = texelFetch(uIndexTexture, texel, 0).r;
     oIndex = index;
+    oMapPoint = mapPoint;
     // The palette is square rather than a single row: GL 3.3 only guarantees
     // a maximum texture size of 1024, so a 16384-wide strip is not a texture
     // anywhere. The side is a uniform because it is computed from how many
@@ -269,6 +293,8 @@ struct MapRenderer::Impl
     GLuint framebuffer = 0;
     GLuint colourTarget = 0;
     GLuint idTarget = 0;
+    GLuint mapPointTarget = 0;
+    bool mapPointReadback = false;
     GLuint depthTarget = 0;
     GLint viewProjectionUniform = -1;
     GLint indexTextureUniform = -1;
@@ -276,6 +302,7 @@ struct MapRenderer::Impl
     GLint indexSizeUniform = -1;
     GLint selectedUniform = -1;
     GLint paletteSideUniform = -1;
+    GLint mapOffsetUniform = -1;
     // Side of the square palette texture, in texels. Chosen at Open from the
     // province count rather than fixed, so the map's size decides it and the
     // renderer imposes no ceiling of its own.
@@ -394,6 +421,7 @@ MapRendererStatus MapRenderer::Open(
     impl_->rows = options.gridRows;
     impl_->windowWidth = options.windowWidth;
     impl_->windowHeight = options.windowHeight;
+    impl_->mapPointReadback = options.mapPointReadback;
     impl_->rasterWidth = raster.width;
     impl_->rasterHeight = raster.height;
 
@@ -430,6 +458,7 @@ MapRendererStatus MapRenderer::Open(
         && Load(api.GetUniformLocation, "glGetUniformLocation")
         && Load(api.UniformMatrix4fv, "glUniformMatrix4fv")
         && Load(api.Uniform1i, "glUniform1i")
+        && Load(api.Uniform1f, "glUniform1f")
         && Load(api.Uniform2f, "glUniform2f")
         && Load(api.Uniform1ui, "glUniform1ui")
         && Load(api.Uniform4f, "glUniform4f")
@@ -620,6 +649,8 @@ MapRendererStatus MapRenderer::Open(
         api.GetUniformLocation(impl_->program, "uSelected");
     impl_->paletteSideUniform =
         api.GetUniformLocation(impl_->program, "uPaletteSide");
+    impl_->mapOffsetUniform =
+        api.GetUniformLocation(impl_->program, "uMapOffset");
 
     // --- the overlay program ---
     const GLuint overlayVertex =
@@ -791,7 +822,10 @@ bool MapRenderer::BuildTargets()
         api.DeleteRenderbuffers(1, &impl_->depthTarget);
         impl_->depthTarget = 0;
     }
-    for (GLuint* target : {&impl_->colourTarget, &impl_->idTarget})
+    for (GLuint* target : {
+            &impl_->colourTarget,
+            &impl_->idTarget,
+            &impl_->mapPointTarget})
     {
         if (*target != 0)
         {
@@ -808,6 +842,18 @@ bool MapRenderer::BuildTargets()
     );
     api.TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     api.TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    if (impl_->mapPointReadback)
+    {
+        api.GenTextures(1, &impl_->mapPointTarget);
+        api.BindTexture(GL_TEXTURE_2D, impl_->mapPointTarget);
+        api.TexImage2D(
+            GL_TEXTURE_2D, 0, static_cast<GLint>(GL_RG16),
+            width, height, 0, GL_RG, GL_UNSIGNED_SHORT, nullptr
+        );
+        api.TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        api.TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    }
 
     api.GenTextures(1, &impl_->idTarget);
     api.BindTexture(GL_TEXTURE_2D, impl_->idTarget);
@@ -833,12 +879,25 @@ bool MapRenderer::BuildTargets()
         GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D,
         impl_->idTarget, 0
     );
+    if (impl_->mapPointReadback)
+    {
+        api.FramebufferTexture2D(
+            GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D,
+            impl_->mapPointTarget, 0
+        );
+    }
     api.FramebufferRenderbuffer(
         GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER,
         impl_->depthTarget
     );
-    const GLenum targets[2] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1};
-    api.DrawBuffers(2, targets);
+    // GL_NONE for a slot the shader still writes: the write is discarded, so
+    // one shader serves both configurations rather than two that could drift.
+    const GLenum targets[3] = {
+        GL_COLOR_ATTACHMENT0,
+        GL_COLOR_ATTACHMENT1,
+        impl_->mapPointReadback ? GL_COLOR_ATTACHMENT2 : GL_NONE
+    };
+    api.DrawBuffers(3, targets);
     const bool complete =
         api.CheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;
     api.BindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -963,11 +1022,12 @@ void MapRenderer::Close()
         }
         if (api.DeleteTextures != nullptr)
         {
-            const GLuint textures[5] = {
+            const GLuint textures[6] = {
                 impl_->indexTexture,
                 impl_->paletteTexture,
                 impl_->colourTarget,
                 impl_->idTarget,
+                impl_->mapPointTarget,
                 impl_->atlasTexture
             };
             for (const GLuint texture : textures)
@@ -1037,6 +1097,45 @@ void MapRenderer::Close()
     }
 }
 
+bool MapRenderer::MapPointAt(
+    std::uint32_t x,
+    std::uint32_t y,
+    double& u,
+    double& v
+)
+{
+    if (impl_ == nullptr
+        || !impl_->mapPointReadback
+        || x >= impl_->windowWidth
+        || y >= impl_->windowHeight)
+    {
+        return false;
+    }
+    // Off the map reads back as the cleared zero, which is also a legitimate
+    // corner of the map -- so the id attachment is what says whether the pixel
+    // is on the surface at all, and this only says where.
+    if (PickAt(x, y) == 0)
+    {
+        return false;
+    }
+    Api& api = impl_->api;
+    api.BindFramebuffer(GL_READ_FRAMEBUFFER, impl_->framebuffer);
+    api.ReadBuffer(GL_COLOR_ATTACHMENT2);
+    std::uint16_t pixel[2] = {0, 0};
+    const GLint row =
+        static_cast<GLint>(impl_->windowHeight) - 1 - static_cast<GLint>(y);
+    api.PixelStorei(GL_PACK_ALIGNMENT, 1);
+    api.ReadPixels(
+        static_cast<GLint>(x), row, 1, 1,
+        GL_RG, GL_UNSIGNED_SHORT, pixel
+    );
+    api.PixelStorei(GL_PACK_ALIGNMENT, 4);
+    api.BindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+    u = static_cast<double>(pixel[0]) / 65535.0;
+    v = static_cast<double>(pixel[1]) / 65535.0;
+    return true;
+}
+
 std::uint32_t MapRenderer::PaletteSide() const noexcept
 {
     return impl_ == nullptr ? 0 : impl_->paletteSide;
@@ -1084,6 +1183,17 @@ void MapRenderer::Draw(
     }
     Api& api = impl_->api;
 
+    // The grid is generated CENTRED ON THE CAMERA, not on u = 0.
+    //
+    // Below a full sphere the surface is an open cylinder with a cut edge, and
+    // a grid pinned to u = 0 puts that edge at a fixed longitude -- so turning
+    // the map far enough swings it into view. Building the grid around the
+    // camera instead puts the edge at the far end of the strip, which is
+    // behind the viewer whatever the camera does. Nothing has to be clamped
+    // and no longitude is out of reach.
+    //
+    // It depends only on the bend, so it is still rebuilt only when the bend
+    // moves: turning the map changes the map OFFSET, which is a uniform.
     if (impl_->uploadedBend != camera.bend)
     {
         const std::uint32_t columns = impl_->columns + 1;
@@ -1116,7 +1226,12 @@ void MapRenderer::Draw(
         impl_->uploadedBend = camera.bend;
     }
 
-    const MapViewMatrix view = BuildMapViewMatrix(projection, camera);
+    // The camera sits at the middle of the grid by construction; the real
+    // longitude is carried by uMapOffset.
+    const MapViewMatrix view = BuildMapViewMatrix(
+        projection,
+        CameraInGridSpace(camera)
+    );
     const double aspect = static_cast<double>(impl_->windowWidth)
         / static_cast<double>(impl_->windowHeight);
     const double fov = 45.0 * 3.14159265358979323846 / 180.0;
@@ -1148,8 +1263,12 @@ void MapRenderer::Draw(
     }
 
     api.BindFramebuffer(GL_FRAMEBUFFER, impl_->framebuffer);
-    const GLenum targets[2] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1};
-    api.DrawBuffers(2, targets);
+    const GLenum targets[3] = {
+        GL_COLOR_ATTACHMENT0,
+        GL_COLOR_ATTACHMENT1,
+        impl_->mapPointReadback ? GL_COLOR_ATTACHMENT2 : GL_NONE
+    };
+    api.DrawBuffers(3, targets);
     api.Viewport(
         0,
         0,
@@ -1184,6 +1303,12 @@ void MapRenderer::Draw(
     api.Uniform1i(
         impl_->paletteSideUniform,
         static_cast<GLint>(impl_->paletteSide)
+    );
+    // The map's own longitude, minus the grid's centre.
+    const double offset = camera.lookAtU - 0.5;
+    api.Uniform1f(
+        impl_->mapOffsetUniform,
+        static_cast<float>(offset - std::floor(offset))
     );
     api.BindVertexArray(impl_->vao);
     api.DrawElements(

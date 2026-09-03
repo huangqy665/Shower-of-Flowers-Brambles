@@ -109,6 +109,11 @@ if(DILLEN_BUILD_STANDALONE_RUNTIME)
             dillen::presentation
         )
         dillen_add_probe(world_map_content_probe dillen::adapter)
+    dillen_add_probe(
+        province_map_emitter_probe
+        dillen::adapter
+        dillen::host
+    )
         dillen_add_probe(
             text_atlas_probe
             dillen::host
@@ -133,6 +138,26 @@ if(DILLEN_BUILD_STANDALONE_RUNTIME)
         )
         dillen_add_probe(presentation_binding_probe dillen::host)
         dillen_add_probe(map_view_probe dillen::presentation)
+        dillen_add_probe(
+            map_camera_controller_probe
+            dillen::presentation
+        )
+        dillen_add_probe(
+            province_centroids_probe
+            dillen::presentation
+        )
+        dillen_add_probe(
+            presentation_lifecycle_probe
+            dillen::host
+            dillen::presentation
+            dillen::persistence
+        )
+        dillen_add_probe(
+            world_map_durability_probe
+            dillen::host
+            dillen::presentation
+            dillen::persistence
+        )
         # The GL smoke target.
         #
         # It IS registered with CTest, but with a skip code rather than a pass: on
@@ -153,6 +178,7 @@ if(DILLEN_BUILD_STANDALONE_RUNTIME)
                     dillen::host
                     dillen::presentation
                     dillen::presentation::gl
+                    dillen::persistence
             )
             add_test(NAME map_renderer_smoke COMMAND map_renderer_smoke)
             set_tests_properties(

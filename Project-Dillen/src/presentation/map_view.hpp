@@ -117,11 +117,45 @@ struct MapCamera
     // uses (the unit sphere has radius 1 at b = 1).
     double distance = 3.0;
     double bend = 1.0;
+
+    // Whether the camera keeps a fixed direction while the look-at moves.
+    //
+    // A globe is ORBITED: moving the look-at turns the camera with it, because
+    // the surface normal is what it stares down and the normal turns. Once the
+    // map starts unfolding that stops being what a player wants -- an
+    // unrolling map is read like a map, by sliding it about, not by tumbling
+    // it -- so the direction is frozen and moving the look-at TRANSLATES the
+    // view instead.
+    //
+    // Longitude needs no anchor because the backend rebuilds its grid centred
+    // on the camera, so turning east already slides the map underneath a
+    // camera that has not moved relative to the geometry. Latitude does: the
+    // normal at a different parallel points somewhere else, and following it
+    // would tilt the view.
+    bool orientationLocked = false;
+    double orientationV = 0.5;
 };
 
 // Row-major 4x4, the usual right-handed look-at: the camera sits at
 // lookAt + distance * normal and stares back down it.
 using MapViewMatrix = std::array<double, 16>;
+
+// The camera as a backend that centres its grid on the viewer builds it.
+//
+// Below a full sphere the surface has a cut edge, and a grid pinned to a fixed
+// longitude puts that edge somewhere a turn could bring into view. The backend
+// therefore generates its grid around the camera: the grid's own longitude
+// runs -1/2 .. +1/2 with the viewer at the middle, and the map's real
+// longitude is carried separately as an offset into the raster.
+//
+// So the camera the view matrix is built from always sits at u = 1/2. Stated
+// here rather than inside the backend because a probe that wants to assert
+// what the viewer sees has to build the same matrix the viewer does, and a
+// convention that lives in one call site is one a test can only guess at.
+//
+// It also makes horizontal panning pure translation for free: the camera does
+// not move relative to the geometry at all, the map slides underneath it.
+MapCamera CameraInGridSpace(const MapCamera& camera) noexcept;
 
 MapViewMatrix BuildMapViewMatrix(
     const MapProjection& projection,

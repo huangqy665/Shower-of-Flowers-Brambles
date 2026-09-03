@@ -9,6 +9,8 @@ dillen_add_component(
         map_command.hpp
         mechanism_panel.cpp
         mechanism_panel.hpp
+        map_camera_controller.cpp
+        map_camera_controller.hpp
         map_entity_index.cpp
         map_entity_index.hpp
         map_index_raster.cpp
@@ -25,6 +27,8 @@ dillen_add_component(
         presentation_schema.hpp
         presentation_view.cpp
         presentation_view.hpp
+        province_centroids.cpp
+        province_centroids.hpp
         province_projection.cpp
         province_projection.hpp
         text_atlas.cpp

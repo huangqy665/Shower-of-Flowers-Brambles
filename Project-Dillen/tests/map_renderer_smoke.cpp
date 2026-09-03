@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cstdint>
 #include <filesystem>
 #include <iostream>
@@ -16,6 +17,7 @@
 #include "presentation_compiler.hpp"
 #include "presentation_schema.hpp"
 #include "province_projection.hpp"
+#include "runtime_persistence.hpp"
 #include "text_atlas.hpp"
 #include "standalone_session.hpp"
 
@@ -175,6 +177,10 @@ int main()
     options.visible = false;
     options.windowWidth = 640;
     options.windowHeight = 360;
+    // The (u,v) attachment is off in the product path; this probe is the one
+    // thing that asks for it, to check that the wrap puts the camera's
+    // longitude under the middle of the screen.
+    options.mapPointReadback = true;
 
     presentation::gl::MapRenderer renderer;
     const presentation::gl::MapRendererStatus opened =
@@ -242,15 +248,15 @@ int main()
         // The centre of the screen is the look-at point, which is the middle
         // of the map. Whatever province is there, the pick must name it, and
         // it must be a province the world actually has.
-        const std::uint16_t picked = renderer.PickAt(
+        const std::uint16_t atCentre = renderer.PickAt(
             options.windowWidth / 2,
             options.windowHeight / 2
         );
-        Check(picked <= raster.provinceCount,
-            "picked index " + std::to_string(picked)
+        Check(atCentre <= raster.provinceCount,
+            "atCentre index " + std::to_string(atCentre)
                 + " is above the province count at bend "
                 + std::to_string(bend));
-        if (picked != 0)
+        if (atCentre != 0)
         {
             ++hits;
         }
@@ -552,6 +558,110 @@ int main()
             "the widget's asynchronous Entity disagrees with its own index");
     }
 
+    // --- the map point under a pixel ----------------------------------
+    //
+    // A third attachment carries (u,v), because inverting the morph at an
+    // arbitrary bend is not possible and the fragment shader already had the
+    // value. It is what lets the wheel zoom towards the cursor.
+    {
+        const std::uint32_t x = options.windowWidth / 2;
+        const std::uint32_t y = options.windowHeight / 2;
+        double u = -1.0;
+        double v = -1.0;
+        Check(renderer.MapPointAt(x, y, u, v),
+            "the centre of the screen has no map point");
+        Check(u >= 0.0 && u <= 1.0 && v >= 0.0 && v <= 1.0,
+            "the map point is outside the map: " + std::to_string(u) + ", "
+                + std::to_string(v));
+        // It has to be the point that was DRAWN there, not just any point.
+        // The province the id attachment names for the same pixel is the one
+        // the raster holds at that (u,v), and the two are written by the same
+        // fragment invocation.
+        const std::uint16_t atPixel = renderer.PickAt(x, y);
+        const std::uint32_t column = std::min(
+            static_cast<std::uint32_t>(u * (raster.width - 1)),
+            raster.width - 1
+        );
+        const std::uint32_t rasterRow = std::min(
+            static_cast<std::uint32_t>(v * (raster.height - 1)),
+            raster.height - 1
+        );
+        Check(raster.indices[
+                static_cast<std::size_t>(rasterRow) * raster.width + column]
+                == atPixel,
+            "the map point and the picked province disagree about the pixel");
+        // A pixel off the map has no map point rather than a default one.
+        Check(!renderer.MapPointAt(0, 0, u, v)
+                || renderer.PickAt(0, 0) != 0,
+            "a pixel off the map returned a map point anyway");
+    }
+
+    // --- the cut edge is behind the camera, and costs nothing but pixels
+    //
+    // The grid is built centred on the camera, so the cylinder's cut is always
+    // at the far end of the strip. Two things follow and both are checked:
+    // every longitude is reachable while partly unfolded, and a province the
+    // cut passes through is drawn TWICE without becoming two provinces -- both
+    // copies carry the same index, so a pick on either resolves to one Entity.
+    {
+        presentation::MapCamera roaming;
+        roaming.lookAtV = 0.5;
+        roaming.distance = 0.8;
+        roaming.bend = 0.5;
+        const std::uint32_t midX = options.windowWidth / 2;
+        const std::uint32_t midY = options.windowHeight / 2;
+
+        std::size_t onMap = 0;
+        std::size_t agreed = 0;
+        for (int step = 0; step < 16; ++step)
+        {
+            roaming.lookAtU = static_cast<double>(step) / 16.0;
+            renderer.Draw(map, roaming);
+            ++drawn;
+            const std::uint16_t centre = renderer.PickAt(midX, midY);
+            double u = 0.0;
+            double v = 0.0;
+            if (centre == 0)
+            {
+                continue;
+            }
+            ++onMap;
+            // The map point under the middle of the screen has to be the
+            // longitude the camera is looking at, whatever the offset -- that
+            // is the wrap working. A cut left at a fixed longitude would put a
+            // hole here for some of these.
+            Check(renderer.MapPointAt(midX, midY, u, v),
+                "no map point at the centre while turned to "
+                    + std::to_string(roaming.lookAtU));
+            const double delta = std::abs(u - roaming.lookAtU);
+            if (std::min(delta, 1.0 - delta) < 0.02)
+            {
+                ++agreed;
+            }
+            // Whatever is drawn at the far edges of the screen is still a
+            // province of this world rather than a wrapped index of its own.
+            for (const std::uint32_t x : {0u, options.windowWidth - 1u})
+            {
+                const std::uint16_t edge = renderer.PickAt(x, midY);
+                Check(edge <= raster.provinceCount,
+                    "the edge of a turned map picked index "
+                        + std::to_string(edge));
+                Check(edge == 0
+                        || static_cast<bool>(entityIndex.EntityFor(edge)),
+                    "a province drawn at the wrapped edge resolves to no "
+                    "Entity");
+            }
+        }
+        Check(onMap >= 12,
+            "only " + std::to_string(onMap)
+                + " of 16 longitudes put the map under the centre of the "
+                  "screen; the cut is not staying behind the camera");
+        Check(agreed == onMap,
+            "the centre of the screen showed the camera's longitude on only "
+                + std::to_string(agreed) + " of " + std::to_string(onMap)
+                + " turns");
+    }
+
     // --- resizing rebuilds the offscreen targets ----------------------
     //
     // The window used to be fixed size, and the attachments were created once
@@ -609,6 +719,122 @@ int main()
                 + std::to_string(exact));
     }
 
+    // --- the windowed Host and a headless run land on the same save ------
+    //
+    // The last gate section 4.4.4 asks for, and the one that can only be
+    // checked here: everything else in this suite compares two HEADLESS paths,
+    // which says nothing about whether drawing changes a world.
+    //
+    // It could. A backend reads a snapshot every frame, and a renderer that
+    // held a mutable reference, or that ticked to get one, or that picked up a
+    // command of its own, would produce a world that depends on how often
+    // somebody looked at it. The claim is that it does not, and the way to
+    // check it is to run the same commands twice -- once with a window drawing
+    // every tick, once with nothing looking -- and compare the bytes.
+    {
+        host::StandaloneSession headless;
+        host::StandaloneSessionReport headlessReport;
+        if (!headless.Start(config, headlessReport))
+        {
+            Check(false, "the headless comparison world did not load");
+        }
+        else
+        {
+            host::StandaloneSession windowed;
+            host::StandaloneSessionReport windowedReport;
+            Check(windowed.Start(config, windowedReport),
+                "the windowed comparison world did not load");
+
+            // One command log, authored once from the compiled view so both
+            // runs submit exactly the same transactions.
+            presentation::MapCommandTranslator parityTranslator;
+            presentation::PresentationView parityView;
+            parityView.Advance(
+                std::make_shared<const runtime::WorldQuerySnapshot>(
+                    windowed.Runtime().Query()
+                )
+            );
+            Check(parityTranslator.Bind(
+                      windowed.Catalog(),
+                      presentation::MapCommandSpec{
+                          tree.Definition(), tree.SubjectRole()},
+                      message)
+                    == presentation::MapCommandStatus::Ok,
+                "the parity translator did not bind");
+            parityTranslator.Resolve(parityView);
+
+            std::vector<kernel::WorldTransaction> log;
+            for (const std::uint32_t index : {1u, 4096u, 9000u, 14187u})
+            {
+                presentation::MapIntent intent;
+                intent.entity = entityIndex.EntityFor(index);
+                intent.capability = kernel::StableCapabilityId(
+                    "dillen.map.site_development");
+                intent.capabilityVersion = 1;
+                intent.field = tree.View().boundFieldSlots.front();
+                intent.delta = 1 + static_cast<std::int64_t>(index % 7);
+                kernel::WorldTransaction transaction;
+                Check(parityTranslator.Translate(intent, transaction)
+                        == presentation::MapCommandStatus::Ok,
+                    "a parity intent did not translate");
+                log.push_back(std::move(transaction));
+            }
+
+            presentation::MapCamera parityCamera;
+            parityCamera.distance = 1.2;
+            for (std::uint64_t tick = 1; tick <= 10; ++tick)
+            {
+                if (tick == 3 || tick == 6)
+                {
+                    for (const kernel::WorldTransaction& transaction : log)
+                    {
+                        kernel::WorldTransaction a = transaction;
+                        kernel::WorldTransaction b = transaction;
+                        headless.Runtime().Enqueue(std::move(a), tick, 0);
+                        windowed.Runtime().Enqueue(std::move(b), tick, 0);
+                    }
+                }
+                Check(static_cast<bool>(headless.Runtime().RunTick(tick)),
+                    "a headless tick failed");
+                Check(static_cast<bool>(windowed.Runtime().RunTick(tick)),
+                    "a windowed tick failed");
+
+                // The window does what a window does, every tick: read the
+                // new snapshot, recolour, draw, pick, present.
+                parityView.Advance(
+                    std::make_shared<const runtime::WorldQuerySnapshot>(
+                        windowed.Runtime().Query()
+                    )
+                );
+                parityCamera.lookAtU = static_cast<double>(tick) / 10.0;
+                parityCamera.bend = 1.0 - static_cast<double>(tick) / 20.0;
+                renderer.Draw(map, parityCamera);
+                renderer.PickAt(
+                    options.windowWidth / 2, options.windowHeight / 2);
+                renderer.Present();
+                ++drawn;
+            }
+
+            const persistence::RuntimePersistenceService persistence;
+            std::vector<std::uint8_t> headlessSave;
+            std::vector<std::uint8_t> windowedSave;
+            Check(static_cast<bool>(
+                    persistence.Save(headless.Runtime(), headlessSave)),
+                "the headless world could not be saved");
+            Check(static_cast<bool>(
+                    persistence.Save(windowed.Runtime(), windowedSave)),
+                "the windowed world could not be saved");
+            Check(!headlessSave.empty() && headlessSave == windowedSave,
+                "a world that was drawn ten times differs from one that was "
+                "not: " + std::to_string(windowedSave.size())
+                    + " bytes against "
+                    + std::to_string(headlessSave.size()));
+            std::cout << "  host parity: " << windowedSave.size()
+                      << " identical save bytes with and without a window"
+                      << std::endl;
+        }
+    }
+
     renderer.Close();
 
     if (failures != 0)
@@ -620,6 +846,6 @@ int main()
               << raster.height << " index texture, " << projection.Count()
               << " palette entries, " << drawn << " frames, " << hits
               << " picks, one pick-command-tick-redraw loop, "
-              << "a highlight, a drawn panel, three resizes and an async pick)\n";
+              << "a highlight, a drawn panel, three resizes, an async pick and a windowed/headless save comparison)\n";
     return 0;
 }

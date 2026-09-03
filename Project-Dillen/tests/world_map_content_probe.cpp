@@ -117,8 +117,13 @@ int main()
         && std::string(regenerate) == "1";
 
     adapter::ProvinceContentOptions options;
-    options.fontPath = fs::path("Dillen-Game/presentation/fonts")
+    // The demo's gameplay, asked for by name. Leaving it out emits a plain
+    // map -- regions, borders, a raster and an id table -- which is what
+    // province_map_emitter_probe loads.
+    adapter::DemoProductionSlice slice;
+    slice.fontPath = fs::path("Dillen-Game/presentation/fonts")
         / "RobotoMono-Regular.ttf";
+    options.slice = slice;
     options.root = rewriting
         ? kGameRoot
         : fs::temp_directory_path() / "dillen_world_map_check";

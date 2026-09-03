@@ -169,6 +169,13 @@ MapPoint MapNorth(
     };
 }
 
+MapCamera CameraInGridSpace(const MapCamera& camera) noexcept
+{
+    MapCamera centred = camera;
+    centred.lookAtU = 0.5;
+    return centred;
+}
+
 MapViewMatrix BuildMapViewMatrix(
     const MapProjection& projection,
     const MapCamera& camera
@@ -180,16 +187,25 @@ MapViewMatrix BuildMapViewMatrix(
         camera.lookAtV,
         camera.bend
     );
+    // The direction the camera stares down, and which way is up in frame.
+    //
+    // Taken at the look-at while orbiting a globe, and at a frozen parallel
+    // once the map is unfolding -- so the same drag that turns a globe slides
+    // a flattening map without tilting it. `target` still moves; only the
+    // basis is held.
+    const double basisV = camera.orientationLocked
+        ? camera.orientationV
+        : camera.lookAtV;
     const MapPoint normal = MapNormal(
         projection,
         camera.lookAtU,
-        camera.lookAtV,
+        basisV,
         camera.bend
     );
     const MapPoint north = MapNorth(
         projection,
         camera.lookAtU,
-        camera.lookAtV,
+        basisV,
         camera.bend
     );
 

@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <filesystem>
+#include <optional>
 #include <string>
 
 #include "province_raster_import.hpp"
@@ -21,6 +22,47 @@ namespace dillen::adapter {
 // emitter; it sees Dillen Content like any other, and the Package's content
 // digest seals it.
 
+// The demo's own gameplay, kept apart from the map.
+//
+// WHY THIS IS A SEPARATE STRUCT AND AN OPTIONAL ONE
+//
+// What a province raster gives you is geography: regions, the borders between
+// them, and the picture. That is general, it is what any map needs, and it is
+// what this emitter can honestly claim to be an Adapter FOR.
+//
+// A production site on every region, an algorithm that multiplies its level by
+// its corpus id, a Capability Contract called site_development and a panel
+// with two buttons are none of those things. They are one demo's gameplay, and
+// an emitter that always produced them would be a demo generator wearing the
+// name of a map Adapter -- every future map would arrive with a production
+// mechanic welded on, and the only way to find that out would be to read nine
+// hundred lines.
+//
+// So the slice is optional and named for what it is. Leave it out and the
+// output is a map: contracts, regions, borders, a raster and an id table, a
+// Ruleset that loads them, and NOTHING ELSE -- no mechanism package, no
+// spawns, no interface. province_map_emitter_probe loads exactly that and
+// checks the world comes up with zero mechanism instances, which is the only
+// way "the general half stands on its own" is a fact rather than a claim.
+struct DemoProductionSlice
+{
+    std::string mechanismPackageName = "dillen.map.production";
+    std::string mechanismName = "dillen.map.production_site";
+    std::string mechanismDefinitionName = "dillen.map.site";
+    std::string algorithmName = "dillen.map.production_algorithm";
+    std::string spawnPrefix = "dillen.map.site_";
+    // The role through which a site claims its region. Named once here and
+    // declared to the Presentation Package, so a host never has to know it.
+    std::string subjectRoleName = "province";
+    std::string capabilityName = "dillen.map.site_development";
+    std::string capabilityOperation = "adjust_level";
+    std::string fontAssetName = "dillen.map.ui_font";
+    // The UI font, copied into the Presentation Package with a digest of its
+    // own. Optional even within the slice: leave it empty and the interface
+    // has no captions rather than failing to emit.
+    std::filesystem::path fontPath;
+};
+
 struct ProvinceContentOptions
 {
     // Root of a Dillen game tree. The emitter owns only map/contracts,
@@ -38,21 +80,9 @@ struct ProvinceContentOptions
     std::string relationNamePrefix = "dillen.map.border_";
     std::string presentationPackageName = "dillen.map.world.presentation";
     std::string rasterAssetName = "dillen.map.world_raster";
-    std::string mechanismPackageName = "dillen.map.production";
-    std::string mechanismName = "dillen.map.production_site";
-    std::string mechanismDefinitionName = "dillen.map.site";
-    std::string algorithmName = "dillen.map.production_algorithm";
-    std::string spawnPrefix = "dillen.map.site_";
-    // The role through which a site claims its region. Named once here and
-    // declared to the Presentation Package, so a host never has to know it.
-    std::string subjectRoleName = "province";
-    std::string capabilityName = "dillen.map.site_development";
-    std::string capabilityOperation = "adjust_level";
-    std::string fontAssetName = "dillen.map.ui_font";
-    // The UI font, copied into the Presentation Package with a digest of its
-    // own. Optional: leave it empty and the Package simply has no font, which
-    // is what a corpus with no interface should produce.
-    std::filesystem::path fontPath;
+
+    // Absent for a plain map. See DemoProductionSlice.
+    std::optional<DemoProductionSlice> slice;
 };
 
 enum class ProvinceContentStatus

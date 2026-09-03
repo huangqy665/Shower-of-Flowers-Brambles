@@ -8,6 +8,7 @@
 
 #include "client_state.hpp"
 #include "control_tree.hpp"
+#include "map_camera_controller.hpp"
 #include "map_command.hpp"
 #include "map_entity_index.hpp"
 #include "map_index_raster.hpp"
@@ -17,6 +18,7 @@
 #include "overlay.hpp"
 #include "presentation_compiler.hpp"
 #include "presentation_schema.hpp"
+#include "province_centroids.hpp"
 #include "province_projection.hpp"
 #include "standalone_session.hpp"
 #include "text_atlas.hpp"
@@ -49,31 +51,6 @@ const fs::path kMapPresentationRoot = kGameRoot / "presentation/map_world";
 
 constexpr std::int32_t kPanelWidth = 260;
 constexpr std::int32_t kStatusHeight = 22;
-
-// The zoom range, measured from the surface along its normal.
-//
-// At the far end the eye sits one map radius clear of a globe and sees the
-// whole of it; at the near end it is a fifth of a radius up and a province
-// fills a good part of the window.
-constexpr double kZoomNear = 0.05;
-constexpr double kZoomFar = 2.7;
-
-// Curvature as a function of zoom.
-//
-// One wheel, two things, because they are not really two things: a globe seen
-// from far away and a plane seen from close up are the same surface at two
-// ends of one parameter, and that is the claim this whole map geometry makes.
-// Tying them together is what lets a person feel it rather than be told it.
-//
-// Logarithmic in the distance because the zoom itself is multiplicative -- a
-// wheel notch scales rather than adds -- so a linear map would spend almost
-// all of the curvature in the last few notches.
-double CurvatureForZoom(double distance)
-{
-    const double span = std::log(kZoomFar / kZoomNear);
-    const double at = std::log(distance / kZoomNear) / span;
-    return at < 0.0 ? 0.0 : (at > 1.0 ? 1.0 : at);
-}
 
 // A line of text the application draws itself, under the panel the Package
 // declares.
@@ -366,6 +343,16 @@ int main()
     // The widget resolves picks to Entities itself from here on.
     renderer.SetEntityIndex(&entityIndex);
 
+    // Where each province sits, so the wheel can settle on one. Built from the
+    // raster already in memory; one pass over 12 million pixels, once.
+    presentation::ProvinceCentroids centroids;
+    if (!centroids.Build(raster))
+    {
+        std::cerr << "map viewer: province centroids could not be built"
+                  << std::endl;
+        return 4;
+    }
+
     // Sized by the renderer from the map's province count. A fixed 128x128
     // was a rendering ceiling of 16383 regions that no content could see.
     std::vector<std::uint32_t> palette(renderer.PaletteSize(), 0u);
@@ -386,11 +373,20 @@ int main()
     };
     refreshPalette();
 
+    presentation::MapCameraController controller(
+        presentation::MapProjection{raster.width, raster.height}
+    );
+    {
+        presentation::MapCamera start;
+        start.lookAtU = 0.5;
+        start.lookAtV = 0.5;
+        start.distance = controller.Limits().farDistance;
+        start.bend = 1.0;
+        controller.Reset(start);
+    }
+
     presentation::ClientState client;
-    client.camera.lookAtU = 0.5;
-    client.camera.lookAtV = 0.5;
-    client.camera.distance = kZoomFar;
-    client.camera.bend = CurvatureForZoom(client.camera.distance);
+    client.camera = controller.Camera();
     client.viewportWidth = options.windowWidth;
     client.viewportHeight = options.windowHeight;
 
@@ -398,20 +394,27 @@ int main()
     tree.Layout(kPanelWidth, static_cast<std::int32_t>(options.windowHeight));
 
     std::cout
-        << "\n  wheel         zoom, and the curvature with it:\n"
-        << "                zoomed out is a globe, zoomed in is a plane\n"
-        << "  middle-drag   turn the map\n"
-        << "  1 .. 9, 0     pin the curvature by hand (1 flat, 0 globe);\n"
-        << "                [ and ] nudge it; the wheel takes it back\n"
+        << "\n  One surface, held three ways.\n\n"
+        << "  GLOBE       middle-drag turns it; the wheel moves in and out.\n"
+        << "              Away from the equator the wheel does NOT flatten\n"
+        << "              the map -- an equirectangular map cannot be\n"
+        << "              unrolled at high latitude without stretching\n"
+        << "              longitude without bound -- so pan to the equator\n"
+        << "              first. The status line says [pinned] when it is\n"
+        << "              holding.\n"
+        << "  UNFOLDING   inside 15 degrees of the equator, the wheel drives\n"
+        << "              the curvature. Where you started is latched, and\n"
+        << "              the map's cut edge is kept behind the camera, so\n"
+        << "              the drag becomes horizontal only.\n"
+        << "  PLANE       drag pans, the wheel is an ordinary map zoom.\n\n"
+        << "  The wheel zooms towards whatever is under the cursor.\n"
+        << "  1 .. 9, 0 and [ ]  set the curvature by hand -- refused away\n"
+        << "                from the equator, exactly as the wheel is, and\n"
+        << "                the view does not move at all while they act\n"
         << "  click a province to select it; +1 / -1 in the panel command it\n"
         << "  arrows/WASD   pan       space  run one tick       esc  quit\n\n";
 
     std::uint64_t tick = 0;
-    // Curvature follows the zoom until someone says otherwise, and a wheel
-    // notch takes it back. Keeping the manual override is not indecision: the
-    // two limits of this geometry are worth being able to sit at and look at,
-    // and the coupling never quite reaches either.
-    bool curvatureFollowsZoom = true;
     bool running = true;
     while (running)
     {
@@ -419,58 +422,54 @@ int main()
         running = !input.quit;
 
         // --- camera ---
+        //
+        // Every rule here lives in MapCameraController, which is arithmetic on
+        // doubles and gated in map_camera_controller_probe. What this loop
+        // does is feed it input: a globe turns, an unfolding map slides along
+        // its parallel, a flat map pans, and the wheel means distance or
+        // curvature depending on where the camera is looking.
         if (input.bendPreset >= 0.0)
         {
-            client.camera.bend = input.bendPreset;
-            curvatureFollowsZoom = false;
+            controller.SetBend(input.bendPreset);
         }
         if (input.bend != 0)
         {
-            client.camera.bend += input.bend * 0.01;
-            curvatureFollowsZoom = false;
+            controller.NudgeBend(input.bend * 0.01);
         }
-        if (client.camera.bend < 0.0)
+        if (input.dragX != 0 || input.dragY != 0)
         {
-            client.camera.bend = 0.0;
+            controller.Drag(
+                static_cast<double>(input.dragX),
+                static_cast<double>(input.dragY)
+            );
         }
-        if (client.camera.bend > 1.0)
+        if (input.panX != 0 || input.panY != 0)
         {
-            client.camera.bend = 1.0;
-        }
-        // A drag turns the map under the cursor. The step shrinks with the
-        // camera's distance so the ground keeps up with the pointer at every
-        // zoom instead of tearing away when close in.
-        const double dragScale = 0.0009 * client.camera.distance;
-        client.camera.lookAtU +=
-            input.panX * 0.004 - input.dragX * dragScale;
-        client.camera.lookAtV +=
-            input.panY * 0.004 - input.dragY * dragScale;
-        client.camera.lookAtU -= std::floor(client.camera.lookAtU);
-        if (client.camera.lookAtV < 0.0)
-        {
-            client.camera.lookAtV = 0.0;
-        }
-        if (client.camera.lookAtV > 1.0)
-        {
-            client.camera.lookAtV = 1.0;
+            controller.Pan(input.panX * 0.004, input.panY * 0.004);
         }
         if (input.wheel != 0.0)
         {
-            client.camera.distance *= std::pow(0.9, input.wheel);
-            if (client.camera.distance < kZoomNear)
+            // Towards the PROVINCE under the cursor, not the pixel under it.
+            //
+            // A strategy map zooms onto a region. Anchoring on the exact map
+            // point would settle on whichever corner of a large province the
+            // pointer happened to be over, and two zooms from two pixels of
+            // one province would end up somewhere different -- so the camera
+            // drifts instead of settling.
+            double anchorU = 0.0;
+            double anchorV = 0.0;
+            bool anchored = false;
+            const std::uint16_t under = renderer.PickAt(
+                static_cast<std::uint32_t>(std::max(input.mouseX, 0)),
+                static_cast<std::uint32_t>(std::max(input.mouseY, 0))
+            );
+            if (under != 0)
             {
-                client.camera.distance = kZoomNear;
+                anchored = centroids.Find(under, anchorU, anchorV);
             }
-            if (client.camera.distance > kZoomFar)
-            {
-                client.camera.distance = kZoomFar;
-            }
-            curvatureFollowsZoom = true;
+            controller.Zoom(input.wheel, anchored, anchorU, anchorV);
         }
-        if (curvatureFollowsZoom)
-        {
-            client.camera.bend = CurvatureForZoom(client.camera.distance);
-        }
+        client.camera = controller.Camera();
 
         // --- hover and click ---
         //
@@ -575,17 +574,21 @@ int main()
                 - 3 * kStatusHeight - 8;
         AppendStatusLine(
             atlas,
-            "curvature " + Fixed2(client.camera.bend)
-                + (client.camera.bend <= 0.0
-                    ? " plane"
-                    : (client.camera.bend >= 1.0 ? " globe" : ""))
-                + (curvatureFollowsZoom ? "" : " *"),
+            std::string(
+                controller.Mode() == presentation::MapCameraMode::Globe
+                    ? "globe"
+                    : (controller.Mode() == presentation::MapCameraMode::Flat
+                        ? "plane"
+                        : "unfolding"))
+                + "  bend " + Fixed2(client.camera.bend)
+                + (controller.CurvatureIsUnlocked() ? "" : "  [pinned]"),
             statusTop,
             quads
         );
         AppendStatusLine(
             atlas,
             "zoom " + Fixed2(client.camera.distance)
+                + "   lat " + Fixed2(controller.LookAtLatitudeDegrees())
                 + "   tick " + std::to_string(tick),
             statusTop + kStatusHeight,
             quads
