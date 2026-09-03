@@ -1,0 +1,1463 @@
+color = { 242  205  94 }
+graphical_culture = Generic
+
+last_election = 1932.2.16
+duration = 48
+
+default_templates = {
+	generic_infantry = {
+		infantry_brigade
+		infantry_brigade
+		infantry_brigade
+	}
+	generic_milita = {
+		militia_brigade
+		militia_brigade
+		militia_brigade
+	}
+	generic_armoured = {
+		armor_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	generic_cavalry = {
+		cavalry_brigade
+		cavalry_brigade
+	}
+}
+
+unit_names = {
+	infantry_brigade = {
+		"第1步兵师" "第2步兵师" "第3步兵师" "第4步兵师" "第5步兵师" "第6步兵师" "第7步兵师" "第8步兵师" "第9步兵师" "第10步兵师" "东部选区" 
+		"西部选区" "撒哈拉军团" "第11步兵师" "第12步兵师" "第13步兵师" "第14步兵师" "第15步兵师" "第16步兵师" "第17步兵师" "第18步兵师" "第19步兵师" 
+		"第20步兵师" "第21步兵师" "第22步兵师" "第23步兵师" "第24步兵师" "第25步兵师" "第26步兵师" "第27步兵师" "第28步兵师" "第29步兵师" "第30步兵师" 
+			}
+	cavalry_brigade = {
+		"第1骑兵师" "第2骑兵师" "第3骑兵师" "第4骑兵师" "第5骑兵师" "第6骑兵师" "第7骑兵师" "第8骑兵师" "第9骑兵师" "第10骑兵师" 
+	}
+	motorized_brigade = {
+		"第1摩托化师" "第2摩托化师" "第3摩托化师" "第4摩托化师" "第5摩托化师" "第6摩托化师" "第7摩托化师" "第8摩托化师" "第9摩托化师" "第10摩托化师" "第11摩托化师" 
+		"第12摩托化师" "第13摩托化师" "第14摩托化师" "第15摩托化师" "第16摩托化师" "第17摩托化师" "第18摩托化师" "第19摩托化师" "第20摩托化师" 
+	}
+	mechanized_brigade = {
+		"第1机械化师" "第2机械化师" "第3机械化师" "第4机械化师" "第5机械化师" "第6机械化师" "第7机械化师" "第8机械化师" "第9机械化师" "第10机械化师" "第11机械化师" 
+		"第12机械化师" "第13机械化师" "第14机械化师" "第15机械化师" "第16机械化师" "第17机械化师" "第18机械化师" "第19机械化师" "第20机械化师" 
+	}
+	light_armor_brigade = {
+		"自行机枪-炮兵师" "第1装甲师" "第2装甲师" "第3装甲师" "第4装甲师" "第5装甲师" "第6装甲师" "第7装甲师" "第8装甲师" "第9装甲师" "第10装甲师" 
+		"第11装甲师" "第12装甲师" "第13装甲师" "第14装甲师" "第15装甲师" "第16装甲师" "第17装甲师" "第18装甲师" "第19装甲师" "第20装甲师" 
+	}
+	armor_brigade = {
+		"自行机枪-炮兵师" "第1装甲师" "第2装甲师" "第3装甲师" "第4装甲师" "第5装甲师" "第6装甲师" "第7装甲师" "第8装甲师" "第9装甲师" "第10装甲师" 
+		"第11装甲师" "第12装甲师" "第13装甲师" "第14装甲师" "第15装甲师" "第16装甲师" "第17装甲师" "第18装甲师" "第19装甲师" "第20装甲师" 
+	}
+	paratrooper_brigade = {
+		"第1伞兵师" "第2伞兵师" "第3伞兵师" "第4伞兵师" "第5伞兵师" "第6伞兵师" "第7伞兵师" "第8伞兵师" "第9伞兵师" "第10伞兵师" 
+	}
+	marine_brigade = {
+		"第1海军陆战师" "第2海军陆战师" "第3海军陆战师" "第4海军陆战师" "第5海军陆战师" "第6海军陆战师" "第7海军陆战师" "第8海军陆战师" "第9海军陆战师" "第10海军陆战师" 
+	}
+	bergsjaeger_brigade = {
+		"第1山地师" "第2山地师 'X.29'" "第3山地师" "第4山地师" "第5山地师" "第6山地师" "第7山地师" "第8山地师" "第9山地师" "第10山地师" 
+	}
+	garrison_brigade = {
+		"第1步兵师" "第2步兵师" "第3步兵师" "第4步兵师" "第5步兵师" "第6步兵师" "第7步兵师" "第8步兵师" "第9步兵师" "第10步兵师" "东部选区" 
+		"西部选区" "撒哈拉军团" "第11步兵师" "第12步兵师" "第13步兵师" "第14步兵师" "第15步兵师" "第16步兵师" "第17步兵师" "第18步兵师" "第19步兵师" 
+		"第20步兵师" "第21步兵师" "第22步兵师" "第23步兵师" "第24步兵师" "第25步兵师" "第26步兵师" "第27步兵师" "第28步兵师" "第29步兵师" "第30步兵师" 
+			}
+	hq_brigade = {
+		"第一集团军" "第二集团军" "第三集团军" "第四集团军" "第五集团军" "第六集团军" "第七集团军" "第八集团军" "第九集团军" "第十集团军" 
+	}
+	militia_brigade = {
+		"杜卢迪纵队" "阿斯卡索纵队" "德.西尔罗纵队" "罗吉勒格拉纵队" "噶尔隆纵队" "里科纵队" "曼伽达纵队" "自由纵队" "巴塞尔纵队" "卡瓦达纵队" "恩西索纵队" 
+		"帕拉西奥斯纵队" "克莱伯纵队" "比诺纵队" "塞西.弗朗西斯卡" "共和国卫队第1师" "共和国卫队第2师" "共和国卫队第3师" "共和国卫队第4师" "共和国卫队第5师" "共和国卫队第6师" "共和国卫队第7师"   
+		"共和国卫队第8师" "共和国卫队第9师" "共和国卫队第10师" "共和国卫队第11师" "共和国卫队第12师" "共和国卫队第13师" "共和国卫队第14师" "共和国卫队第15师" 
+	}
+	multi_role = {
+		"第1战斗机联队 '阿尔拉斯 赤色分子'" "第1战斗机联队 '雷昂斯 赤色分子'" "第3战斗机联队 '马尔罗'" "第4战斗机联队" "第5战斗机联队" "第6战斗机联队" "第7战斗机联队" "第8战斗机联队" "第9战斗机联队" "第10战斗机联队" "第11战斗机联队" 
+		"第12战斗机联队" "第13战斗机联队" "第14战斗机联队" "第15战斗机联队" "第16战斗机联队" "第17战斗机联队" "第18战斗机联队" "第19战斗机联队" "第20战斗机联队" 
+	}
+	interceptor = {
+		"第1战斗机联队 '阿尔拉斯 赤色分子'" "第1战斗机联队 '雷昂斯 赤色分子'" "第3战斗机联队 '马尔罗'" "第4战斗机联队" "第5战斗机联队" "第6战斗机联队" "第7战斗机联队" "第8战斗机联队" "第9战斗机联队" "第10战斗机联队" "第11战斗机联队" 
+		"第12战斗机联队" "第13战斗机联队" "第14战斗机联队" "第15战斗机联队" "第16战斗机联队" "第17战斗机联队" "第18战斗机联队" "第19战斗机联队" "第20战斗机联队" 
+	}
+	strategic_bomber = {
+		"第1战略轰炸机联队" "第2战略轰炸机联队" "第3战略轰炸机联队" "第6战略轰炸机联队" "第7战略轰炸机联队" "第8战略轰炸机联队" "第9战略轰炸机联队" "第10战略轰炸机联队" "第11战略轰炸机联队" 
+		"第12战略轰炸机联队" "第13战略轰炸机联队" "第14战略轰炸机联队" "第15战略轰炸机联队" 
+	}
+	tactical_bomber = {
+		"第1战术轰炸机联队" "第2战术轰炸机联队" "第3战术轰炸机联队" "第6战术轰炸机联队" "第7战术轰炸机联队" "第8战术轰炸机联队" "第9战术轰炸机联队" "第10战术轰炸机联队" "第11战术轰炸机联队" 
+		"第12战术轰炸机联队" "第13战术轰炸机联队" "第14战术轰炸机联队" "第15战术轰炸机联队" "第16战术轰炸机联队" "第17战术轰炸机联队" "第20战术轰炸机联队" 
+	}
+	naval_bomber = {
+		"第1海军轰炸机联队" "第2海军轰炸机联队" "第3海军轰炸机联队" "第4海军轰炸机联队" "第5海军轰炸机联队" "第6海军轰炸机联队" "第7海军轰炸机联队" "第8海军轰炸机联队" "第9海军轰炸机联队" "第10海军轰炸机联队" "第11海军轰炸机联队" 
+		"第12海军轰炸机联队" "第13海军轰炸机联队" "第14海军轰炸机联队" "第15海军轰炸机联队" 
+	}
+	cas = {
+		"第1攻击机联队" "第2攻击机联队" "第3攻击机联队" "第4攻击机联队" "第5攻击机联队" "第6攻击机联队" "第7攻击机联队" "第8攻击机联队" "第9攻击机联队" "第10攻击机联队" "第11攻击机联队"  
+		"第12攻击机联队" "第13攻击机联队" "第14攻击机联队" "第15攻击机联队" "第16攻击机联队" "第17攻击机联队" "第18攻击机联队" "第19攻击机联队" "第20攻击机联队" 
+	}
+	transport_plane = {
+		"第1运输机联队" "第2运输机联队" "第3运输机联队" "第4运输机联队" "第5运输机联队" "第6运输机联队" "第7运输机联队" "第8运输机联队" "第9运输机联队" "第10运输机联队" 
+	}
+	battleship = {
+		"ARE 勒班陀" "ARE 拜伦" "ARE 自由" 
+	}
+	light_cruiser = {
+		"ARE 巴利阿里" "ARE 塞维拉海军上将" "ARE 米格尔 德 塞万提斯" "ARE 加那利" "ARE 巴尔斯 德 勒索" "ARE 门德斯 努涅斯" "ARE 塞维利亚" "ARE 维尔瓦" "ARE 比斯开" "ARE 格兰纳达" 
+	}
+	heavy_cruiser = {
+		"ARE 巴利阿里" "ARE 塞维拉海军上将" "ARE 米格尔 德 塞万提斯" "ARE 加那利" "ARE 巴尔斯 德 勒索" "ARE 门德斯 努涅斯" "ARE 塞维利亚" "ARE 维尔瓦" "ARE 比斯开" "ARE 格兰纳达" 
+	}
+	battlecruiser = {
+		"ARE 勒班托" "ARE 拜伦" "ARE 自由" 
+	}
+	destroyer = {
+		"护卫舰支队" "第1驱逐舰支队" "第2驱逐舰支队" "第3驱逐舰支队" "第4驱逐舰支队" "第5驱逐舰支队" "第6驱逐舰支队" "第7驱逐舰支队" "第8驱逐舰支队" "第9驱逐舰支队" "第10驱逐舰支队" "第11驱逐舰支队" 
+		"第12驱逐舰支队" "第13驱逐舰支队" "第14驱逐舰支队" "第15驱逐舰支队" 
+	}
+	carrier = {
+		"ARE 共和国" "ARE 维多利亚" 
+	}
+	submarine = {
+		"S101 舰队" "S102 舰队" "S103 舰队" "S104 舰队" "S105 舰队" "S106 舰队" "S107 舰队" "S108 舰队" "S109 舰队" "S110 舰队" "S111 舰队" 
+		"S112 舰队" "S113 舰队" "S114 舰队" "S115 舰队" 
+	}
+	transport_ship = {
+		"第1运输舰支队" "第2运输舰支队" "第3运输舰支队" "第4运输舰支队" "第5运输舰支队" "第6运输舰支队" "第7运输舰支队" "第8运输舰支队" "第9运输舰支队" "第10运输舰支队" "第11运输舰支队" 
+		"第12运输舰支队" "第13运输舰支队" "第14运输舰支队" "第15运输舰支队" 
+	}
+
+}
+
+ministers = {
+	11001 = {
+		name = "尼塞托·阿尔卡拉·萨莫拉"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M11001
+		head_of_state = weary_stiff_neck
+		foreign_minister = great_compromiser
+		start_date = 1936.1.1
+	}
+	11002 = {
+		name = "曼纽尔·波特拉·瓦尔德拉斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M11002
+		head_of_government = naive_optimist
+		minister_of_security = silent_lawyer
+		head_of_government = naive_optimist
+		start_date = 1936.1.1
+	}
+	11003 = {
+		name = "华金·乌尔塞斯·卡达瓦尔"
+		ideology = market_liberal
+		loyalty = 0.50
+		picture = M11003
+		foreign_minister = apologetic_clerk
+		start_date = 1936.1.1
+	}
+	11004 = {
+		name = "何塞·门迪萨瓦尔·y·博尼拉"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M11004
+		armament_minister = infantry_proponent
+		start_date = 1936.1.1
+	}
+	11006 = {
+		name = "胡安·赫尔南德斯·萨拉比亚"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M11006
+		minister_of_intelligence = technical_specialist
+		minister_of_intelligence = technical_specialist
+		chief_of_staff = school_of_fire_support
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1936.1.1
+	}
+	11007 = {
+		name = "何塞·米亚哈·梅南特"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M11007
+		chief_of_staff = school_of_mass_combat
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1936.1.1
+	}
+	11008 = {
+		name = "尼克拉斯·莫雷诺·罗伯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M11008
+		chief_of_army = static_defence_doctrine
+		start_date = 1936.1.1
+	}
+	11009 = {
+		name = "安东尼奥·阿萨洛拉·格雷斯隆"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M11009
+		chief_of_navy = indirect_approach_doctrine
+		start_date = 1936.1.1
+	}
+	11010 = {
+		name = "米格尔·努涅兹·德·普拉多"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M11010
+		chief_of_air = naval_aviation_doctrine
+		armament_minister = air_to_sea_proponent
+		start_date = 1936.1.1
+	}
+	11033 = {
+		name = "曼纽尔·阿萨尼亚·迪亚斯"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M11033
+		head_of_state = pig_headed_isolationist
+		head_of_government = silent_workhorse
+		foreign_minister = iron_fisted_brute
+		armament_minister = theoretical_scientist
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1936.1.1
+	}
+	11034 = {
+		name = "奥古斯托·巴西亚·特雷尔斯"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M11034
+		head_of_state = insignificant_layman
+		foreign_minister = ideological_crusader
+		start_date = 1936.1.1
+	}
+	11038 = {
+		name = "阿尔瓦罗·德·阿尔伯努兹·利米年纳"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M11038
+		head_of_state = power_hungry_demagogue
+		start_date = 1938.1.1
+	}
+	11039 = {
+		name = "弗朗西斯科·拉格·卡巴雷罗"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M11039
+		head_of_state = barking_buffoon
+		head_of_government = smiling_oilman
+		armament_minister = resource_industrialist
+		start_date = 1938.1.1
+	}
+	11040 = {
+		name = "CNT-FAI中央委员会"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M11040
+		head_of_state = insignificant_layman
+		start_date = 1938.1.1
+	}
+	11041 = {
+		name = "迭戈·马丁内斯·巴里奥"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M11041
+		head_of_state = benevolent_gentleman
+		head_of_government = backroom_backstabber
+		foreign_minister = the_cloak_n_dagger_schemer
+		minister_of_security = prince_of_terror
+		start_date = 1939.1.1
+	}
+	11042 = {
+		name = "何塞·迪亚斯·拉莫斯"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M11021
+		head_of_state = barking_buffoon
+		head_of_government = ambitious_union_boss
+		minister_of_security = man_of_the_people
+		start_date = 1939.1.1
+	}
+	11044 = {
+		name = "朱利安·贝斯特尔洛·费尔南德斯"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M11044
+		head_of_state = insignificant_layman
+		foreign_minister = apologetic_clerk
+		start_date = 1945.1.1
+	}
+	11046 = {
+		name = "胡安·内格林·洛佩斯"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M11046
+		head_of_state = die_hard_reformer
+		head_of_government = naive_optimist
+		armament_minister = administrative_genius
+		start_date = 1936.1.1
+	}
+	11049 = {
+		name = "道拉斯·伊伯日·戈麦斯"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M11049
+		head_of_state = ruthless_powermonger
+		foreign_minister = iron_fisted_brute
+		minister_of_security = efficient_sociopath
+		start_date = 1942.1.1
+	}
+	11051 = {
+		name = "亚历山德罗·卢尔楼·加西亚"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M11051
+		head_of_state = insignificant_layman
+		armament_minister = administrative_genius
+		minister_of_security = crooked_kleptocrat
+		minister_of_intelligence = dismal_enigma
+		start_date = 1942.1.1
+	}
+	11053 = {
+		name = "胡安三世"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M11011
+		head_of_state = benevolent_gentleman
+		head_of_state = benevolent_gentleman
+		start_date = 1944.1.1
+	}
+	11059 = {
+		name = "圣地亚哥·卡里洛·索拉尔斯"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M11059
+		head_of_government = political_protege
+		foreign_minister = the_cloak_n_dagger_schemer
+		minister_of_security = prince_of_terror
+		minister_of_intelligence = political_specialist
+		start_date = 1942.1.1
+	}
+	11061 = {
+		name = "华金·阿斯卡索·布达亚"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M11061
+		head_of_government = happy_amateur
+		armament_minister = military_entrepreneur
+		start_date = 1938.1.1
+	}
+	11063 = {
+		name = "路易斯·希梅内斯·德·阿苏"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M11063
+		head_of_government = ambitious_union_boss
+		start_date = 1939.1.1
+	}
+	11065 = {
+		name = "因达雷西奥·普列托·图埃罗"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M11065
+		head_of_government = political_protege
+		armament_minister = military_entrepreneur
+		start_date = 1939.1.1
+	}
+	11066 = {
+		name = "圣地亚哥·卡萨雷斯·奎罗加"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M11066
+		head_of_government = corporate_suit
+		foreign_minister = apologetic_clerk
+		armament_minister = submarine_proponent
+		minister_of_security = prince_of_terror
+		chief_of_navy = power_projection_doctrine
+		start_date = 1936.1.1
+	}
+	11067 = {
+		name = "何塞·吉拉·佩雷拉"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M11067
+		head_of_government = naive_optimist
+		foreign_minister = biased_intellectual
+		armament_minister = battle_fleet_proponent
+		minister_of_intelligence = technical_specialist
+		chief_of_navy = open_seas_doctrine
+		start_date = 1936.1.1
+	}
+	11071 = {
+		name = "何塞·玛丽亚·吉尔-罗伯斯·奎诺内斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M11012
+		head_of_government = political_protege
+		head_of_government = flamboyant_tough_guy
+		armament_minister = military_entrepreneur
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1936.1.1
+	}
+	11072 = {
+		name = "克劳迪奥·桑切斯·阿尔伯努兹"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M11072
+		head_of_government = smiling_oilman
+		foreign_minister = ideological_crusader
+		start_date = 1939.1.1
+	}
+	11073 = {
+		name = "米格尔·莫拉·加马泽"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M11073
+		head_of_government = corporate_suit
+		minister_of_security = compassionate_gentleman
+		chief_of_navy = decisive_naval_battle_doctrine
+		start_date = 1942.1.1
+	}
+	11075 = {
+		name = "吉瑟斯·赫尔南德斯·y·托马斯"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M11023
+		foreign_minister = ideological_crusader
+		armament_minister = theoretical_scientist
+		minister_of_intelligence = technical_specialist
+		start_date = 1936.1.1
+	}
+	11077 = {
+		name = "玛格丽特·尼尔肯"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M11077
+		foreign_minister = biased_intellectual
+		minister_of_security = compassionate_gentleman
+		start_date = 1939.1.1
+	}
+	11078 = {
+		name = "胡里奥·阿尔瓦雷斯·德·瓦伊"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M11078
+		foreign_minister = ideological_crusader
+		foreign_minister = ideological_crusader
+		start_date = 1940.1.1
+	}
+	11080 = {
+		name = "安德鲁·尼恩·i·佩雷斯"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M11080
+		foreign_minister = the_cloak_n_dagger_schemer
+		minister_of_security = compassionate_gentleman
+		start_date = 1936.1.1
+	}
+	11081 = {
+		name = "华金·茂林·朱利亚"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M11081
+		foreign_minister = ideological_crusader
+		armament_minister = tank_proponent
+		start_date = 1937.1.1
+	}
+	11082 = {
+		name = "爱德华多·德·古兹曼"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M11082
+		foreign_minister = great_compromiser
+		minister_of_security = silent_lawyer
+		start_date = 1938.1.1
+	}
+	11083 = {
+		name = "何塞·佩雷兹"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M11083
+		foreign_minister = apologetic_clerk
+		start_date = 1939.1.1
+	}
+	11084 = {
+		name = "迭戈·阿巴德·德·桑蒂利安"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M11084
+		foreign_minister = biased_intellectual
+		start_date = 1940.1.1
+	}
+	11085 = {
+		name = "费尔南多·德·洛斯·利奥斯·乌尔鲁蒂"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M11085
+		foreign_minister = the_cloak_n_dagger_schemer
+		armament_minister = strategic_air_proponent
+		start_date = 1936.1.1
+	}
+	11086 = {
+		name = "维多利亚·肯特"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M11086
+		foreign_minister = great_compromiser
+		minister_of_security = man_of_the_people
+		start_date = 1938.1.1
+	}
+	11088 = {
+		name = "阿尔瓦罗·德·阿尔伯努兹·利米年纳"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M11045
+		foreign_minister = biased_intellectual
+		minister_of_intelligence = dismal_enigma
+		start_date = 1940.1.1
+	}
+	11091 = {
+		name = "奥林匹克·i·乔维尔"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M11091
+		foreign_minister = iron_fisted_brute
+		chief_of_navy = decisive_naval_battle_doctrine
+		chief_of_air = naval_aviation_doctrine
+		start_date = 1937.1.1
+	}
+	11093 = {
+		name = "赛巴斯蒂安·博泽斯·佩雷亚"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M11093
+		foreign_minister = general_staffer
+		minister_of_security = crime_fighter
+		chief_of_staff = school_of_defence
+		chief_of_army = static_defence_doctrine
+		start_date = 1939.1.1
+	}
+	11095 = {
+		name = "比比亚诺·费尔南德斯·奥索里奥"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M11095
+		foreign_minister = great_compromiser
+		armament_minister = infantry_proponent
+		start_date = 1940.1.1
+	}
+	11101 = {
+		name = "迭戈·伊达尔戈·杜兰"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M11101
+		foreign_minister = general_staffer
+		armament_minister = military_entrepreneur
+		minister_of_intelligence = technical_specialist
+		chief_of_air = air_superiority_doctrine
+		start_date = 1939.1.1
+	}
+	11102 = {
+		name = "萨尔瓦多·德·马达里亚加"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M11102
+		foreign_minister = great_compromiser
+		start_date = 1940.1.1
+	}
+	11103 = {
+		name = "F.·洛佩斯·切亚·因乔兰蒂厄塔"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M11103
+		foreign_minister = ideological_crusader
+		start_date = 1941.1.1
+	}
+	11104 = {
+		name = "里卡多·桑佩尔·艾贝尼兹"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M11104
+		foreign_minister = biased_intellectual
+		minister_of_intelligence = political_specialist
+		start_date = 1943.1.1
+	}
+	11105 = {
+		name = "安赫尔·奥索里奥·y·加拉多"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M11105
+		foreign_minister = biased_intellectual
+		armament_minister = theoretical_scientist
+		minister_of_security = prince_of_terror
+		start_date = 1936.1.1
+	}
+	11107 = {
+		name = "曼纽尔·德·伊鲁乔·y·欧雷"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M11107
+		foreign_minister = the_cloak_n_dagger_schemer
+		minister_of_security = man_of_the_people
+		start_date = 1938.1.1
+	}
+	11108 = {
+		name = "亚梅·埃格德·y·米洛"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M11108
+		foreign_minister = apologetic_clerk
+		start_date = 1939.1.1
+	}
+	11110 = {
+		name = "何塞·马丁内斯·德·贝拉斯科"
+		ideology = paternal_autocrat
+		loyalty = 0.50
+		picture = M11110
+		foreign_minister = iron_fisted_brute
+		minister_of_security = crime_fighter
+		start_date = 1936.1.1
+	}
+	11111 = {
+		name = "曼纽尔·吉梅内斯·费尔南德斯"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M11013
+		foreign_minister = the_cloak_n_dagger_schemer
+		start_date = 1941.1.1
+	}
+	11112 = {
+		name = "埃米利奥·德·帕拉西奥斯·y·法奥"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M11112
+		foreign_minister = ideological_crusader
+		start_date = 1943.1.1
+	}
+	11113 = {
+		name = "路易斯·卢西亚·卢西亚"
+		ideology = paternal_autocrat
+		loyalty = 0.50
+		picture = M11113
+		foreign_minister = biased_intellectual
+		armament_minister = resource_industrialist
+		minister_of_intelligence = industrial_specialist
+		start_date = 1945.1.1
+	}
+	11114 = {
+		name = "维森特·乌里贝·加尔德阿诺"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M11114
+		armament_minister = administrative_genius
+		minister_of_security = man_of_the_people
+		chief_of_navy = base_control_doctrine
+		chief_of_air = vertical_envelopment_doctrine
+		start_date = 1936.1.1
+	}
+	11115 = {
+		name = "胡安·克莫内拉·y·苏拉"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M11026
+		armament_minister = resource_industrialist
+		minister_of_intelligence = dismal_enigma
+		start_date = 1938.1.1
+	}
+	11116 = {
+		name = "厄特尔维诺·维加·马丁内斯"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M11116
+		armament_minister = tank_proponent
+		chief_of_army = armoured_spearhead_doctrine
+		start_date = 1939.1.1
+	}
+	11117 = {
+		name = "恩里克·卡斯特罗·德尔加多"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M11024
+		armament_minister = infantry_proponent
+		start_date = 1941.1.1
+	}
+	11119 = {
+		name = "胡安·洛佩兹·桑切斯"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M11119
+		armament_minister = resource_industrialist
+		minister_of_intelligence = industrial_specialist
+		chief_of_navy = indirect_approach_doctrine
+		chief_of_air = army_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	11120 = {
+		name = "安赫尔·佩斯塔纳"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M11120
+		armament_minister = air_to_ground_proponent
+		minister_of_intelligence = political_specialist
+		start_date = 1937.1.1
+	}
+	11123 = {
+		name = "胡安·佩尔诺·贝里斯"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M11123
+		armament_minister = administrative_genius
+		chief_of_navy = base_control_doctrine
+		chief_of_air = carpet_bombing_doctrine
+		start_date = 1942.1.1
+	}
+	11124 = {
+		name = "菲德利卡·蒙斯特里·玛内"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M11124
+		armament_minister = theoretical_scientist
+		minister_of_intelligence = technical_specialist
+		start_date = 1943.1.1
+	}
+	11125 = {
+		name = "里卡多·桑兹·加西亚"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M11125
+		armament_minister = infantry_proponent
+		minister_of_intelligence = research_specialist
+		start_date = 1944.1.1
+	}
+	11127 = {
+		name = "贝拉米诺·托马斯·阿尔瓦雷斯"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M11127
+		armament_minister = resource_industrialist
+		start_date = 1938.1.1
+	}
+	11132 = {
+		name = "菲利克斯·格登·奥达斯"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M11132
+		armament_minister = laissez_faires_capitalist
+		minister_of_intelligence = industrial_specialist
+		start_date = 1943.1.1
+	}
+	11133 = {
+		name = "托多佛·洛佩斯·费尔南德斯"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M11133
+		armament_minister = infantry_proponent
+		start_date = 1944.1.1
+	}
+	11135 = {
+		name = "弗朗西斯科·门德斯·阿斯佩"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M11135
+		armament_minister = resource_industrialist
+		minister_of_intelligence = political_specialist
+		start_date = 1938.1.1
+	}
+	11139 = {
+		name = "何塞·拉拉斯·洛佩斯"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M11139
+		armament_minister = tank_proponent
+		start_date = 1941.1.1
+	}
+	11140 = {
+		name = "何塞·普拉特·加西亚"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M11140
+		armament_minister = laissez_faires_capitalist
+		start_date = 1942.1.1
+	}
+	11142 = {
+		name = "查尔斯·皮·i·苏内"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M11142
+		armament_minister = administrative_genius
+		start_date = 1945.1.1
+	}
+	11144 = {
+		name = "贝纳多·吉内·德·洛斯·李奥斯·加西亚"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M11144
+		armament_minister = theoretical_scientist
+		start_date = 1937.1.1
+	}
+	11145 = {
+		name = "埃米利奥·赫雷拉"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M11145
+		armament_minister = air_superiority_proponent
+		chief_of_air = army_aviation_doctrine
+		start_date = 1939.1.1
+	}
+	11146 = {
+		name = "路易斯·尼克劳·德欧维"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M11146
+		armament_minister = resource_industrialist
+		start_date = 1940.1.1
+	}
+	11150 = {
+		name = "何塞·扬瓜斯·梅西亚"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M11150
+		armament_minister = administrative_genius
+		start_date = 1936.1.1
+	}
+	11152 = {
+		name = "曼纽尔·卡拉斯科·i·佛米格拉"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M11152
+		armament_minister = laissez_faires_capitalist
+		start_date = 1938.1.1
+	}
+	11155 = {
+		name = "华金·卡帕佩雷特·托雷格萨"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M11155
+		armament_minister = resource_industrialist
+		minister_of_intelligence = industrial_specialist
+		start_date = 1945.1.1
+	}
+	11156 = {
+		name = "何塞·卡尔沃-所特罗"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M11014
+		armament_minister = laissez_faires_capitalist
+		start_date = 1936.1.1
+	}
+	11159 = {
+		name = "何塞·玛里亚·奎诺尼斯·德·利昂"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M11159
+		armament_minister = tank_proponent
+		minister_of_security = prince_of_terror
+		start_date = 1938.1.1
+	}
+	11160 = {
+		name = "胡安·马切·奥迪纳斯"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M11160
+		armament_minister = administrative_genius
+		minister_of_intelligence = dismal_enigma
+		start_date = 1939.1.1
+	}
+	11163 = {
+		name = "瓦伦丁·冈萨雷斯·冈萨雷斯"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M11163
+		minister_of_security = back_stabber
+		start_date = 1938.1.1
+	}
+	11166 = {
+		name = "安东尼奥·米吉"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M11166
+		minister_of_security = prince_of_terror
+		start_date = 1941.1.1
+	}
+	11167 = {
+		name = "华金·基奥·加西亚"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M11167
+		minister_of_security = efficient_sociopath
+		start_date = 1942.1.1
+	}
+	11169 = {
+		name = "何塞·伊克波塞托·莱瓦"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M11169
+		minister_of_security = silent_lawyer
+		start_date = 1936.1.1
+	}
+	11170 = {
+		name = "梅切·罗德里格斯·德·加尔蒂阿诺"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M11170
+		minister_of_security = crime_fighter
+		start_date = 1937.1.1
+	}
+	11174 = {
+		name = "胡安·加西亚·奥里弗"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M11174
+		minister_of_security = man_of_the_people
+		start_date = 1942.1.1
+	}
+	11175 = {
+		name = "布韦纳文图拉·杜鲁提·杜曼格"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M11175
+		minister_of_security = prince_of_terror
+		chief_of_staff = school_of_defence
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1945.1.1
+	}
+	11176 = {
+		name = "朱里安·祖加扎格提亚·门迭塔"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M11176
+		minister_of_security = compassionate_gentleman
+		start_date = 1936.1.1
+	}
+	11177 = {
+		name = "安赫尔·加拉尔扎·y·加戈"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M11177
+		minister_of_security = prince_of_terror
+		start_date = 1936.1.1
+	}
+	11178 = {
+		name = "安东尼奥·奥尔特加·古铁雷斯"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M11178
+		minister_of_security = efficient_sociopath
+		start_date = 1937.1.1
+	}
+	11179 = {
+		name = "雷蒙·冈萨雷斯·佩纳"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M11179
+		minister_of_security = crime_fighter
+		start_date = 1938.1.1
+	}
+	11181 = {
+		name = "温瑟斯劳·卡里略·弗加多"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M11181
+		minister_of_security = man_of_the_people
+		start_date = 1941.1.1
+	}
+	11183 = {
+		name = "阿莫斯·萨尔瓦多·卡雷卡特"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M11183
+		minister_of_security = man_of_the_people
+		start_date = 1938.1.1
+	}
+	11185 = {
+		name = "马塞利诺·多明哥·桑胡安"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M11185
+		minister_of_security = compassionate_gentleman
+		start_date = 1943.1.1
+	}
+	11188 = {
+		name = "胡里奥·洛佩斯·奥里弗"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M11188
+		minister_of_security = back_stabber
+		start_date = 1938.1.1
+	}
+	11189 = {
+		name = "帕布洛·德·阿卡拉特·y·弗洛雷斯"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M11189
+		minister_of_security = man_of_the_people
+		start_date = 1938.1.1
+	}
+	11194 = {
+		name = "费德里科·伊斯科菲特·阿尔西纳"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M11194
+		minister_of_security = crime_fighter
+		start_date = 1941.1.1
+	}
+	11197 = {
+		name = "马里亚诺·戈麦斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M11197
+		minister_of_security = crime_fighter
+		start_date = 1946.1.1
+	}
+	11198 = {
+		name = "托马斯·加西诺·格尼"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M11015
+		minister_of_security = compassionate_gentleman
+		start_date = 1936.1.1
+	}
+	11200 = {
+		name = "拉菲尔·巴迪利亚·卢比奥"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M11200
+		minister_of_intelligence = industrial_specialist
+		start_date = 1936.1.1
+	}
+	11203 = {
+		name = "丹尼尔·奥尔特加·马丁内斯"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M11203
+		minister_of_intelligence = research_specialist
+		start_date = 1941.1.1
+	}
+	11206 = {
+		name = "马里亚诺·巴斯克斯·罗德里格斯"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M11206
+		minister_of_intelligence = dismal_enigma
+		chief_of_air = air_superiority_doctrine
+		start_date = 1937.1.1
+	}
+	11209 = {
+		name = "朱里安·格金·戈麦斯·加西亚"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M11209
+		minister_of_intelligence = naval_intelligence_specialist
+		start_date = 1943.1.1
+	}
+	11211 = {
+		name = "古斯塔沃·杜兰·马丁内斯"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M11211
+		minister_of_intelligence = research_specialist
+		chief_of_staff = school_of_psychology
+		chief_of_army = armoured_spearhead_doctrine
+		start_date = 1936.1.1
+	}
+	11215 = {
+		name = "曼纽尔·托雷斯·坎帕纳"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M11215
+		minister_of_intelligence = industrial_specialist
+		start_date = 1936.1.1
+	}
+	11217 = {
+		name = "本杰明·巴尔博亚·洛佩斯"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M11217
+		minister_of_intelligence = naval_intelligence_specialist
+		start_date = 1938.1.1
+	}
+	11218 = {
+		name = "胡安·塔拉德拉斯·y·琼"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M11218
+		minister_of_intelligence = industrial_specialist
+		start_date = 1939.1.1
+	}
+	11221 = {
+		name = "曼纽尔·艾斯特拉达·曼琼"
+		ideology = social_liberal
+		loyalty = 0.50
+		picture = M11219
+		minister_of_intelligence = research_specialist
+		chief_of_staff = school_of_psychology
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1936.1.1
+	}
+	11228 = {
+		name = "曼纽尔·玛塔拉那·戈麦斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M11228
+		minister_of_intelligence = research_specialist
+		start_date = 1941.1.1
+	}
+	11230 = {
+		name = "路易斯·奥尔加斯·约尔迪"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M11016
+		minister_of_intelligence = research_specialist
+		start_date = 1936.1.1
+	}
+	11234 = {
+		name = "弗兰克·赖安"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M11234
+		chief_of_staff = school_of_mass_combat
+		start_date = 1936.1.1
+	}
+	11235 = {
+		name = "埃米利奥·克雷柏"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M11235
+		chief_of_staff = school_of_defence
+		start_date = 1937.1.1
+	}
+	11236 = {
+		name = "恩里克·里斯特·弗金"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M11236
+		chief_of_staff = school_of_psychology
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1938.1.1
+	}
+	11237 = {
+		name = "胡安·莫德斯托·杰罗托"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M11237
+		chief_of_staff = school_of_mass_combat
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1938.1.1
+	}
+	11238 = {
+		name = "安东尼奥·科东·加西亚"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M11238
+		chief_of_staff = school_of_defence
+		chief_of_army = static_defence_doctrine
+		start_date = 1938.1.1
+	}
+	11239 = {
+		name = "曼纽尔·塔格纳·拉科特"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M11027
+		chief_of_staff = school_of_manoeuvre
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1939.1.1
+	}
+	11240 = {
+		name = "弗朗西斯科·加兰·罗德里格斯"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M11240
+		chief_of_staff = school_of_fire_support
+		chief_of_navy = open_seas_doctrine
+		start_date = 1939.1.1
+	}
+	11241 = {
+		name = "维森特·古尔内·巴班克斯"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M11241
+		chief_of_staff = school_of_fire_support
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1936.1.1
+	}
+	11242 = {
+		name = "米格尔·Garc韆·巴班克斯"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M11242
+		chief_of_staff = school_of_manoeuvre
+		chief_of_army = armoured_spearhead_doctrine
+		start_date = 1937.1.1
+	}
+	11243 = {
+		name = "弗朗西斯科·阿斯卡索·布达亚"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M11243
+		chief_of_staff = school_of_mass_combat
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1938.1.1
+	}
+	11244 = {
+		name = "希普里亚诺·麦拉·桑兹"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M11244
+		chief_of_staff = school_of_psychology
+		chief_of_army = static_defence_doctrine
+		start_date = 1941.1.1
+	}
+	11247 = {
+		name = "维森特·罗赫·鲁切"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M11247
+		chief_of_staff = school_of_manoeuvre
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1937.1.1
+	}
+	11249 = {
+		name = "阿图罗·麦拉·罗伊格"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M11249
+		chief_of_staff = school_of_mass_combat
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1938.1.1
+	}
+	11250 = {
+		name = "胡安·佩雷亚·卡布里诺"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M11250
+		chief_of_staff = school_of_defence
+		chief_of_army = static_defence_doctrine
+		start_date = 1939.1.1
+	}
+	11253 = {
+		name = "恩里克·胡拉多·巴里奥"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M11253
+		chief_of_staff = school_of_fire_support
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1938.1.1
+	}
+	11254 = {
+		name = "卡洛斯·马斯切雷特·拉卡西"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M11254
+		chief_of_staff = school_of_defence
+		chief_of_army = static_defence_doctrine
+		start_date = 1941.1.1
+	}
+	11255 = {
+		name = "路易斯·卡斯特罗·潘托加"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M11255
+		chief_of_staff = school_of_psychology
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1945.1.1
+	}
+	11256 = {
+		name = "托利比奥·马丁内斯·卡布雷拉"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M11252
+		chief_of_staff = school_of_mass_combat
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1936.1.1
+	}
+	11262 = {
+		name = "多明哥·巴特·梅斯特"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M11262
+		chief_of_staff = school_of_psychology
+		chief_of_army = armoured_spearhead_doctrine
+		start_date = 1940.1.1
+	}
+	11264 = {
+		name = "路易斯·奥尔加斯·约尔迪"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M11016
+		chief_of_staff = school_of_defence
+		start_date = 1942.1.1
+	}
+	11265 = {
+		name = "华金·范胡尔·哥尼"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M11265
+		chief_of_staff = school_of_psychology
+		chief_of_army = static_defence_doctrine
+		start_date = 1943.1.1
+	}
+	11290 = {
+		name = "何塞·安东尼奥·德·阿杰雷·y·雷库伯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M11290
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1936.1.1
+	}
+	11294 = {
+		name = "安东尼奥·阿兰达·马塔"
+		ideology = paternal_autocrat
+		loyalty = 0.50
+		picture = M11018
+		chief_of_army = static_defence_doctrine
+		start_date = 1936.1.1
+	}
+	11299 = {
+		name = "佩德罗·费尔南德斯·切卡"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M11299
+		chief_of_navy = decisive_naval_battle_doctrine
+		chief_of_air = army_aviation_doctrine
+		start_date = 1938.1.1
+	}
+	11301 = {
+		name = "佩德罗·普拉多·门迪萨瓦尔"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M11301
+		chief_of_navy = indirect_approach_doctrine
+		start_date = 1939.1.1
+	}
+	11304 = {
+		name = "布鲁诺·阿隆索"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M11304
+		chief_of_navy = base_control_doctrine
+		start_date = 1936.1.1
+	}
+	11305 = {
+		name = "华金·胡里奥·茂林"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M11305
+		chief_of_navy = power_projection_doctrine
+		start_date = 1937.1.1
+	}
+	11306 = {
+		name = "Lu韘·冈萨雷斯·乌维塔"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M11306
+		chief_of_navy = indirect_approach_doctrine
+		start_date = 1938.1.1
+	}
+	11307 = {
+		name = "因达莱西奥·普列托·图洛"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M11307
+		chief_of_navy = open_seas_doctrine
+		chief_of_air = army_aviation_doctrine
+		start_date = 1939.1.1
+	}
+	11308 = {
+		name = "安德鲁斯·萨沃里特·克洛梅"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M11308
+		chief_of_navy = decisive_naval_battle_doctrine
+		start_date = 1940.1.1
+	}
+	11314 = {
+		name = "安东尼奥·路易兹·弗内斯-加西亚"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M11314
+		chief_of_navy = base_control_doctrine
+		start_date = 1939.1.1
+	}
+	11316 = {
+		name = "米格尔·布扎·帕拉西奥斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M11311
+		chief_of_navy = indirect_approach_doctrine
+		start_date = 1936.1.1
+	}
+	11319 = {
+		name = "弗朗西斯科·努涅斯·德·奥拉内塔"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M11019
+		chief_of_navy = base_control_doctrine
+		start_date = 1936.1.1
+	}
+	11321 = {
+		name = "伊格纳西奥·伊达尔戈·德·西斯内罗斯"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M11030
+		chief_of_air = air_superiority_doctrine
+		start_date = 1936.1.1
+	}
+	11326 = {
+		name = "文图拉·加索尔·洛维拉"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M11326
+		chief_of_air = vertical_envelopment_doctrine
+		start_date = 1939.1.1
+	}
+	11329 = {
+		name = "特冯·戈麦斯·圣·胡安"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M11329
+		chief_of_air = vertical_envelopment_doctrine
+		start_date = 1937.1.1
+	}
+	11332 = {
+		name = "菲利浦·迪亚兹·桑蒂诺"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M11332
+		chief_of_air = army_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	11334 = {
+		name = "安赫尔·卡马乔·贝尼特斯"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M11334
+		chief_of_air = air_superiority_doctrine
+		start_date = 1938.1.1
+	}
+	11335 = {
+		name = "胡里奥·朱斯·吉梅诺"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M11335
+		chief_of_air = vertical_envelopment_doctrine
+		start_date = 1941.1.1
+	}
+	11336 = {
+		name = "马里亚·拉贾尔拉加·德·马丁内斯"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M11336
+		chief_of_air = carpet_bombing_doctrine
+		start_date = 1943.1.1
+	}
+	11340 = {
+		name = "阿尔弗雷多·金德兰·杜阿尼"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M11020
+		chief_of_air = carpet_bombing_doctrine
+		start_date = 1936.1.1
+	}
+}
+

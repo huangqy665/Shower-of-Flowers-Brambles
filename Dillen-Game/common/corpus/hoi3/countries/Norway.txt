@@ -1,0 +1,773 @@
+color = { 111  71  71 }
+graphical_culture = Generic
+
+last_election = 1933.10.8
+duration = 36
+
+default_templates = {
+	generic_infantry = {
+		infantry_brigade
+		infantry_brigade
+		infantry_brigade
+	}
+	generic_milita = {
+		militia_brigade
+		militia_brigade
+		militia_brigade
+	}
+	generic_armoured = {
+		armor_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	generic_cavalry = {
+		cavalry_brigade
+		cavalry_brigade
+	}
+}
+
+unit_names = {
+	infantry_brigade = {
+		"第1步兵师" "第2步兵师" "第3步兵师" "第4步兵师" "第5步兵师" "第6步兵师" "第7步兵师" "第8步兵师" "第9步兵师" "第10步兵师" "第11步兵师" 
+		"第12步兵师" "第13步兵师" "第14步兵师" "第15步兵师" "第16步兵师" "第17步兵师" "第18步兵师" "第19步兵师" "第20步兵师" "第21步兵师" "第22步兵师" 
+		"第23步兵师" "第24步兵师" "第25步兵师" "第26步兵师" "第27步兵师" "第28步兵师" "第29步兵师" "第30步兵师" 
+	}
+	cavalry_brigade = {
+		"第1骑兵师" "第2骑兵师" "第3骑兵师" "第4骑兵师" "第5骑兵师" "第6骑兵师" "第7骑兵师" "第8骑兵师" "第9骑兵师" "第10骑兵师" 
+	}
+	motorized_brigade = {
+		"第1摩托化步兵师" "第2摩托化步兵师" "第3摩托化步兵师" "第4摩托化步兵师" "第5摩托化步兵师" "第6摩托化步兵师" "第7摩托化步兵师" "第8摩托化步兵师" "第9摩托化步兵师" "第10摩托化步兵师" "第11摩托化步兵师" 
+		"第12摩托化步兵师" "第13摩托化步兵师" "第14摩托化步兵师" "第15摩托化步兵师" 
+	}
+	mechanized_brigade = {
+		"第1机械化步兵师" "第2机械化步兵师" "第3机械化步兵师" "第4机械化步兵师" "第5机械化步兵师" "第6机械化步兵师" "第7机械化步兵师" "第8机械化步兵师" "第9机械化步兵师" "第10机械化步兵师" "第11机械化步兵师" 
+		"第12机械化步兵师" "第13机械化步兵师" "第14机械化步兵师" "第15机械化步兵师" 
+	}
+	light_armor_brigade = {
+		"第1装甲师" "第2装甲师" "第3装甲师" "第4装甲师" "第5装甲师" "第6装甲师" "第7装甲师" "第8装甲师" "第9装甲师" "第10装甲师" "第11装甲师" 
+		"第12装甲师" "第13装甲师" "第14装甲师" "第15装甲师" 
+	}
+	armor_brigade = {
+		"第1装甲师" "第2装甲师" "第3装甲师" "第4装甲师" "第5装甲师" "第6装甲师" "第7装甲师" "第8装甲师" "第9装甲师" "第10装甲师" "第11装甲师" 
+		"第12装甲师" "第13装甲师" "第14装甲师" "第15装甲师" 
+	}
+	paratrooper_brigade = {
+		"第1空降师" "第2空降师" "第3空降师" "第4空降师" "第5空降师" "第6空降师" "第7空降师" "第8空降师" "第9空降师" "第10空降师" 
+	}
+	marine_brigade = {
+		"第1海军陆战师" "第2海军陆战师" "第3海军陆战师" "第4海军陆战师" "第5海军陆战师" "第6海军陆战师" "第7海军陆战师" "第8海军陆战师" "第9海军陆战师" "第10海军陆战师" "第11海军陆战师" 
+		"第12海军陆战师" "第13海军陆战师" "第14海军陆战师" 
+	}
+	bergsjaeger_brigade = {
+		"第1山地师" "第2山地师" "第3山地师" "第4山地师" "第5山地师" "第6山地师" "第7山地师" "第8山地师" "第9山地师" "第10山地师" "第11山地师" 
+		"第12山地师" "第13山地师" "第14山地师" "第15山地师" "第16山地师" "第17山地师" "第18山地师" "第19山地师" "第20山地师" 
+	}
+	garrison_brigade = {
+		"第1卫戍师" "第2卫戍师" "第3卫戍师" "第4卫戍师" "第5卫戍师" "第6卫戍师" "第7卫戍师" "第8卫戍师" "第9卫戍师" "第10卫戍师" "第11卫戍师" 
+		"第12卫戍师" "第13卫戍师" "第14卫戍师" "第15卫戍师" "第16卫戍师" "第17卫戍师" "第18卫戍师" "第19卫戍师" "第20卫戍师" "第21卫戍师" "第22卫戍师" 
+		"第23卫戍师" "第24卫戍师" "第25卫戍师" "第26卫戍师" "第27卫戍师" "第28卫戍师" "第29卫戍师" "第30卫戍师" 
+	}
+	hq_brigade = {
+		"第1指挥部" "第2指挥部" "第3指挥部" "第4指挥部" "第5指挥部" "第6指挥部" "第7指挥部" "第8指挥部" 
+	}
+	militia_brigade = {
+		"第1民兵师" "第2民兵师" "第3民兵师" "第4民兵师" "第5民兵师" "第6民兵师" "第7民兵师" "第8民兵师" "第9民兵师" "第10民兵师" "第11民兵师" 
+		"第12民兵师" "第13民兵师" "第14民兵师" "第15民兵师" "第16民兵师" "第17民兵师" "第18民兵师" "第19民兵师" "第20民兵师" 
+	}
+	multi_role = {
+		"第1战斗机联队" "第2战斗机联队" "第3战斗机联队" "第4战斗机联队" "第5战斗机联队" "第6战斗机联队" "第7战斗机联队" "第8战斗机联队" "第9战斗机联队" "第10战斗机联队" 
+	}
+	interceptor = {
+		"第1战斗机联队" "第2战斗机联队" "第3战斗机联队" "第4战斗机联队" "第5战斗机联队" "第6战斗机联队" "第7战斗机联队" "第8战斗机联队" "第9战斗机联队" "第10战斗机联队" 
+	}
+	strategic_bomber = {
+		"第1战略炸机联队" "第2战略炸机联队" "第3战略炸机联队" "第4战略炸机联队" "第5战略炸机联队" "第6战略炸机联队" "第7战略炸机联队" "第8战略炸机联队" "第9战略炸机联队" "第10战略炸机联队" 
+	}
+	tactical_bomber = {
+		"第1战术炸机联队" "第2战术炸机联队" "第3战术炸机联队" "第4战术炸机联队" "第5战术炸机联队" "第6战术炸机联队" "第7战术炸机联队" "第8战术炸机联队" "第9战术炸机联队" "第10战术炸机联队" 
+	}
+	naval_bomber = {
+		"第1海军轰炸机联队" "第2海军轰炸机联队" "第3海军轰炸机联队" "第4海军轰炸机联队" "第5海军轰炸机联队" "第6海军轰炸机联队" "第7海军轰炸机联队" "第8海军轰炸机联队" "第9海军轰炸机联队" "第10海军轰炸机联队" "第1鱼雷炸机联队" 
+		"第2鱼雷炸机联队" "第3鱼雷炸机联队" "第4鱼雷炸机联队" "第5鱼雷炸机联队" "第6鱼雷炸机联队" "第7鱼雷炸机联队" "第8鱼雷炸机联队" "第9鱼雷炸机联队" "第10鱼雷炸机联队" 
+	}
+	cas = {
+		"第1俯冲轰炸机联队" "第2俯冲轰炸机联队" "第3俯冲轰炸机联队" "第4俯冲轰炸机联队" "第5俯冲轰炸机联队" "第6俯冲轰炸机联队" "第7俯冲轰炸机联队" "第8俯冲轰炸机联队" "第9俯冲轰炸机联队" "第10俯冲轰炸机联队" 
+	}
+	transport_plane = {
+		"第1运输机联队" "第2运输机联队" "第3运输机联队" "第4运输机联队" "第5运输机联队" 
+	}
+	battleship = {
+		"KNM 挪威西部号" "KNM 芬马克号" "KNM 挪威号" "KNM 艾德森沃尔德号" "KNM 阿克斯胡斯号" "KNM 伯尔根号" "KNM 尼达罗斯号" "KNM 纳尔维克号" "KNM 托德斯克号" "KNM 哈罗德金发号" 
+	}
+	light_cruiser = {
+		"KNM 挪威号" "KNM 艾德森沃尔德号" "KNM 阿克斯胡斯号" "KNM 伯尔根号" "KNM 尼达罗斯号" "KNM 纳尔维克号" "KNM 托德斯克号" "KNM 哈罗德金发号" 
+	}
+	heavy_cruiser = {
+		"KNM 挪威号" "KNM 艾德森沃尔德号" "KNM 阿克斯胡斯号" "KNM 伯尔根号" "KNM 尼达罗斯号" "KNM 纳尔维克号" "KNM 托德斯克号" "KNM 哈罗德金发号" 
+	}
+	battlecruiser = {
+		"KNM 挪威西部号" "KNM 芬马克号" "KNM 挪威号" "KNM 艾德森沃尔德号" "KNM 阿克斯胡斯号" "KNM 伯尔根号" "KNM 尼达罗斯号" "KNM 纳尔维克号" "KNM 托德斯克号" "KNM 哈罗德金发号" 
+	}
+	destroyer = {
+		"第1驱逐舰支队" "第2驱逐舰支队" "第3驱逐舰支队" "第4驱逐舰支队" "第5驱逐舰支队" "第6驱逐舰支队" "第7驱逐舰支队" "第8驱逐舰支队" "第9驱逐舰支队" "第10驱逐舰支队" "第11驱逐舰支队" 
+		"第12驱逐舰支队" "第13驱逐舰支队" "第14驱逐舰支队" "第15驱逐舰支队" "第16驱逐舰支队" "第17驱逐舰支队" "第18驱逐舰支队" "第19驱逐舰支队" "第20驱逐舰支队" 
+	}
+	carrier = {
+		"KNM 艾德森沃尔德号" "KNM 奥拉夫号" "KNM 哈康哈克森号" "KNM 十字军号" "KNM 挪威号" "KNM 艾德森沃尔德号" "KNM 阿克斯胡斯号" "KNM 伯尔根号" "KNM 尼达罗斯号" "KNM 纳尔维克号" "KNM 托德斯克号" 
+		"KNM 哈罗德金发号" 
+	}
+	escort_carrier = {
+		"KNM 无惧号" "KNM 乌拉号" "KNM 尤特萨瑞号" "KNM 乌特斯坦号" "KNM 乌特号" "KNM 乌特奥格号" 
+	}
+	submarine = {
+		"第1潜艇支队" "第2潜艇支队" "第3潜艇支队" "第4潜艇支队" "第5潜艇支队" "第6潜艇支队" "第7潜艇支队" "第8潜艇支队" "第9潜艇支队" "第10潜艇支队" "第11潜艇支队" 
+		"第12潜艇支队" "第13潜艇支队" "第14潜艇支队" "第15潜艇支队" "第16潜艇支队" "第17潜艇支队" "第18潜艇支队" "第19潜艇支队" "第20潜艇支队" 
+	}
+	transport_ship = {
+		"第1海军运输队" "第2海军运输队" "第3海军运输队" "第4海军运输队" "第5海军运输队" "第6海军运输队" "第7海军运输队" "第8海军运输队" "第9海军运输队" "第10海军运输队" "第11海军运输队" 
+		"第12海军运输队" "第13海军运输队" "第14海军运输队" "第15海军运输队" "第16海军运输队" "第17海军运输队" "第18海军运输队" "第19海军运输队" "第20海军运输队" 
+	}
+
+}
+
+ministers = {
+	14001 = {
+		name = "哈康七世"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M14001
+		head_of_state = pig_headed_isolationist
+		start_date = 1936.1.1
+	}
+	14002 = {
+		name = "约翰 尼高斯沃尔"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M14002
+		head_of_government = ambitious_union_boss
+		start_date = 1936.1.1
+	}
+	14003 = {
+		name = "哈尔夫丹 库特"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M14003
+		foreign_minister = biased_intellectual
+		start_date = 1936.1.1
+	}
+	14004 = {
+		name = "阿道夫 伊德瑞布"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M14004
+		armament_minister = resource_industrialist
+		start_date = 1936.1.1
+	}
+	14005 = {
+		name = "特里格韦 H. 赖伊"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M14005
+		minister_of_security = man_of_the_people
+		foreign_minister = iron_fisted_brute
+		start_date = 1936.1.1
+	}
+	14006 = {
+		name = "阿尔弗雷德 罗瑟尔-路德"
+		ideology = social_democrat
+		loyalty = 0.50
+		picture = M14006
+		minister_of_intelligence = research_specialist
+		start_date = 1936.1.1
+	}
+	14007 = {
+		name = "奥托 路格"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M14075
+		chief_of_staff = school_of_defence
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1936.1.1
+	}
+	14008 = {
+		name = "克利斯坦 K. 莱克"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M14008
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1936.1.1
+	}
+	14009 = {
+		name = "加克博 冯 德 李普"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M14009
+		chief_of_navy = indirect_approach_doctrine
+		chief_of_air = army_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	14034 = {
+		name = "艾尔宁 萨登贝格"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M14014
+		head_of_state = autocratic_charmer
+		armament_minister = infantry_proponent
+		minister_of_security = compassionate_gentleman
+		start_date = 1945.1.1
+	}
+	14036 = {
+		name = "C.J. 哈姆博"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M14036
+		head_of_government = silent_workhorse
+		foreign_minister = great_compromiser
+		start_date = 1937.1.1
+	}
+	14037 = {
+		name = "恩尼亚 基哈德森"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M14037
+		head_of_government = political_protege
+		start_date = 1941.1.1
+	}
+	14038 = {
+		name = "阿道夫 沃姆-梅勒"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M14038
+		head_of_government = happy_amateur
+		start_date = 1941.1.1
+	}
+	14039 = {
+		name = "帕尔 贝格"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M14039
+		head_of_government = backroom_backstabber
+		foreign_minister = great_compromiser
+		start_date = 1945.1.1
+	}
+	14040 = {
+		name = "安德斯 兰格"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M14040
+		head_of_government = happy_amateur
+		start_date = 1945.1.1
+	}
+	14042 = {
+		name = "哈尔瓦德 曼瑟伊 兰格"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M14042
+		foreign_minister = general_staffer
+		start_date = 1945.1.1
+	}
+	14043 = {
+		name = "J. L. 默温克尔"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M14043
+		foreign_minister = ideological_crusader
+		start_date = 1936.1.1
+	}
+	14045 = {
+		name = "艾瑞克 安德瑞斯 克班"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M14045
+		foreign_minister = great_compromiser
+		start_date = 1938.1.1
+	}
+	14047 = {
+		name = "罗夫 安德沃德"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M14047
+		foreign_minister = apologetic_clerk
+		start_date = 1945.1.1
+	}
+	14048 = {
+		name = "阿尔贝特 维拉加姆 哈格宁"
+		ideology = fascistic
+		loyalty = 0.50
+		picture = M14048
+		foreign_minister = biased_intellectual
+		armament_minister = tank_proponent
+		start_date = 1942.1.1
+	}
+	14049 = {
+		name = "阿达曼 艾格德 尼森"
+		ideology = stalinist
+		loyalty = 0.50
+		picture = M14021
+		foreign_minister = iron_fisted_brute
+		head_of_state = insignificant_layman
+		start_date = 1941.1.1
+	}
+	14050 = {
+		name = "芬 哈格鲁普"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M14050
+		armament_minister = submarine_proponent
+		start_date = 1937.1.1
+	}
+	14051 = {
+		name = "奥斯卡 F. 特洛普"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M14051
+		armament_minister = resource_industrialist
+		head_of_government = smiling_oilman
+		start_date = 1939.1.1
+	}
+	14052 = {
+		name = "弗瑞德克 蒙森"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M14052
+		armament_minister = tank_proponent
+		start_date = 1940.1.1
+	}
+	14053 = {
+		name = "吉恩斯 克里斯汀 哈格"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M14053
+		armament_minister = military_entrepreneur
+		start_date = 1940.1.1
+	}
+	14054 = {
+		name = "艾瑞克 博罗弗斯"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M14054
+		armament_minister = air_superiority_proponent
+		start_date = 1945.1.1
+	}
+	14055 = {
+		name = "弗瑞德瑞克 贝彻汉姆"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M14055
+		armament_minister = infantry_proponent
+		start_date = 1936.1.1
+	}
+	14056 = {
+		name = "约汉 H. 安德森"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M14056
+		armament_minister = resource_industrialist
+		start_date = 1938.1.1
+	}
+	14057 = {
+		name = "本加明 沃格特"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M14057
+		armament_minister = battle_fleet_proponent
+		start_date = 1940.1.1
+	}
+	14058 = {
+		name = "米歇尔 汉森"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M14058
+		armament_minister = strategic_air_proponent
+		start_date = 1941.1.1
+	}
+	14060 = {
+		name = "古纳 加赫"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M14060
+		armament_minister = laissez_faires_capitalist
+		minister_of_intelligence = industrial_specialist
+		start_date = 1945.1.1
+	}
+	14062 = {
+		name = "弗瑞德瑞克 皮兹"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M14062
+		armament_minister = submarine_proponent
+		start_date = 1942.1.1
+	}
+	14063 = {
+		name = "卡尔 弗瑞德里希 汉森"
+		ideology = fascistic
+		loyalty = 0.50
+		picture = M14063
+		armament_minister = military_entrepreneur
+		minister_of_intelligence = industrial_specialist
+		start_date = 1943.1.1
+	}
+	14064 = {
+		name = "艾米尔 拉利恩"
+		ideology = stalinist
+		loyalty = 0.50
+		picture = M14022
+		armament_minister = military_entrepreneur
+		head_of_government = smiling_oilman
+		start_date = 1945.1.1
+	}
+	14065 = {
+		name = "特瑞杰 沃德"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M14065
+		minister_of_security = silent_lawyer
+		start_date = 1939.1.1
+	}
+	14066 = {
+		name = "阿斯贝吉恩 布伊赫"
+		ideology = social_democrat
+		loyalty = 0.50
+		picture = M14066
+		minister_of_security = crime_fighter
+		start_date = 1943.1.1
+	}
+	14067 = {
+		name = "哈克 李"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M14067
+		minister_of_security = prince_of_terror
+		start_date = 1945.1.1
+	}
+	14068 = {
+		name = "阿瑞恩 苏恩德"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M14068
+		minister_of_security = silent_lawyer
+		start_date = 1937.1.1
+	}
+	14070 = {
+		name = "罗尔夫 弗格勒桑"
+		ideology = fascistic
+		loyalty = 0.25
+		picture = M14070
+		minister_of_security = efficient_sociopath
+		start_date = 1942.1.1
+	}
+	14071 = {
+		name = "贝特拉姆 德伊比瓦德 博彻汉姆"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M14071
+		minister_of_intelligence = dismal_enigma
+		start_date = 1936.1.1
+	}
+	14072 = {
+		name = "维廉汉姆 艾旺"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M14072
+		minister_of_intelligence = political_specialist
+		start_date = 1943.1.1
+	}
+	14074 = {
+		name = "卡尔 A. 曼森"
+		ideology = national_socialist
+		loyalty = 0.50
+		picture = M14074
+		minister_of_intelligence = dismal_enigma
+		start_date = 1944.1.1
+	}
+	14075 = {
+		name = "比瑞格 利居恩贝格"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M14007
+		chief_of_staff = school_of_defence
+		start_date = 1936.1.1
+	}
+	14076 = {
+		name = "比瑞格 弗瑞德瑞克 莫特泽菲德"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M14076
+		chief_of_staff = school_of_manoeuvre
+		start_date = 1944.1.1
+	}
+	14077 = {
+		name = "约汉 贝彻汉姆"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M14077
+		chief_of_staff = school_of_mass_combat
+		start_date = 1942.1.1
+	}
+	14078 = {
+		name = "威廉汉姆 冯 坦根-汉斯特恩"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M14078
+		chief_of_staff = school_of_fire_support
+		start_date = 1946.1.1
+	}
+	14079 = {
+		name = "哈尔沃 汉森"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M14079
+		chief_of_staff = school_of_psychology
+		start_date = 1946.1.1
+	}
+	14081 = {
+		name = "奥拉夫 乌 诺格"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M14081
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1943.1.1
+	}
+	14082 = {
+		name = "吉根 巴克"
+		ideology = national_socialist
+		loyalty = 0.75
+		picture = M14082
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1942.1.1
+	}
+	14083 = {
+		name = "亨瑞 迪森"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M14083
+		chief_of_navy = open_seas_doctrine
+		start_date = 1937.1.1
+	}
+	14084 = {
+		name = "古恩 霍夫德纳克"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M14084
+		chief_of_navy = decisive_naval_battle_doctrine
+		start_date = 1941.1.1
+	}
+	14085 = {
+		name = "克瑞斯托夫 梅伊"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M14085
+		chief_of_navy = base_control_doctrine
+		start_date = 1938.1.1
+	}
+	14086 = {
+		name = "汉斯 克瑞留森"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M14086
+		chief_of_navy = indirect_approach_doctrine
+		start_date = 1941.1.1
+	}
+	14087 = {
+		name = "托雷弗 费尔德斯塔德"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M14087
+		chief_of_navy = indirect_approach_doctrine
+		start_date = 1941.1.1
+	}
+	14088 = {
+		name = "克吉尔德 斯图布 伊瑞根斯"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M14088
+		chief_of_navy = decisive_naval_battle_doctrine
+		start_date = 1942.1.1
+	}
+	14089 = {
+		name = "哈加尔玛 瑞瑟尔-拉森"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M14089
+		chief_of_air = army_aviation_doctrine
+		start_date = 1937.1.1
+	}
+	14090 = {
+		name = "贝加恩 卡恩"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M14090
+		chief_of_air = vertical_envelopment_doctrine
+		start_date = 1945.1.1
+	}
+	14091 = {
+		name = "哈拉德 贝鲁斯加登"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M14091
+		chief_of_air = naval_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	14092 = {
+		name = "卡尔 古利斯克森"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M14092
+		chief_of_air = air_superiority_doctrine
+		start_date = 1937.1.1
+	}
+	14093 = {
+		name = "屈格夫 克宁根贝格"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M14093
+		chief_of_air = army_aviation_doctrine
+		start_date = 1937.1.1
+	}
+	14094 = {
+		name = "奥勒 瑞斯塔德"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M14094
+		chief_of_air = carpet_bombing_doctrine
+		start_date = 1939.1.1
+	}
+	14011 = {
+		name = "约瑟夫 特瑞博温"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M14011
+		head_of_state = resigned_generalissimo
+		start_date = 1936.1.1
+	}
+	14012 = {
+		name = "维德库恩 屈斯宁"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M14012
+		head_of_government = corporate_suit
+		foreign_minister = the_cloak_n_dagger_schemer
+		start_date = 1936.1.1
+	}
+	14015 = {
+		name = "乔纳斯 李"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M14015
+		minister_of_security = crime_fighter
+		start_date = 1936.1.1
+	}
+	14016 = {
+		name = "奥利弗 马斯塔德"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M14016
+		minister_of_intelligence = dismal_enigma
+		start_date = 1936.1.1
+	}
+	14017 = {
+		name = "斯维瑞 利斯恩"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M14017
+		chief_of_staff = school_of_defence
+		start_date = 1936.1.1
+	}
+	14018 = {
+		name = "康拉德 苏德罗"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M14018
+		chief_of_army = static_defence_doctrine
+		start_date = 1936.1.1
+	}
+	14019 = {
+		name = "贝瑞特尔 布恩"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M14019
+		chief_of_navy = open_seas_doctrine
+		start_date = 1936.1.1
+	}
+	14020 = {
+		name = "屈格夫 加安"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M14020
+		chief_of_air = air_superiority_doctrine
+		start_date = 1936.1.1
+	}
+	14023 = {
+		name = "皮德 弗瑞博特恩"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M14023
+		foreign_minister = ideological_crusader
+		start_date = 1936.1.1
+	}
+	14024 = {
+		name = "亨瑞 威廉汉姆 克利斯坦森"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M14024
+		armament_minister = military_entrepreneur
+		start_date = 1936.1.1
+	}
+	14025 = {
+		name = "萨姆勒 悌勒斯塔德"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M14025
+		minister_of_security = prince_of_terror
+		start_date = 1936.1.1
+	}
+	14026 = {
+		name = "阿斯贝吉恩 苏恩德"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M14026
+		minister_of_intelligence = political_specialist
+		start_date = 1936.1.1
+	}
+	14027 = {
+		name = "阿瑞恩 加斯尔"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M14027
+		chief_of_staff = school_of_defence
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1936.1.1
+	}
+	14029 = {
+		name = "斯库勒 斯托瑞赫尔"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M14029
+		chief_of_navy = decisive_naval_battle_doctrine
+		start_date = 1936.1.1
+	}
+	14030 = {
+		name = "亨瑞克 诺比"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M14030
+		chief_of_air = carpet_bombing_doctrine
+		start_date = 1936.1.1
+	}
+	14097 = {
+		name = "尼尔斯 兰格赫勒"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M14097
+		armament_minister = resource_industrialist
+		start_date = 1951.1.1
+	}
+	14098 = {
+		name = "奥斯卡 C. 古德森"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M14098
+		minister_of_security = silent_lawyer
+		start_date = 1946.1.1
+	}
+}

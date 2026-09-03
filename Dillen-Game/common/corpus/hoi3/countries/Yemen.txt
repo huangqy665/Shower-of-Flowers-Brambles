@@ -1,0 +1,243 @@
+color = { 183  148  145 }
+graphical_culture = Generic
+
+default_templates = {
+	generic_infantry = {
+		infantry_brigade
+		infantry_brigade
+		infantry_brigade
+	}
+	generic_milita = {
+		militia_brigade
+		militia_brigade
+		militia_brigade
+	}
+	generic_armoured = {
+		armor_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	generic_cavalry = {
+		cavalry_brigade
+		cavalry_brigade
+	}
+}
+
+unit_names = {
+	infantry_brigade = {
+		"也门卫戍1师" "也门步兵2师" "也门步兵3师" "也门步兵4师" "也门步兵5师" "也门步兵6师" "也门步兵7师" "也门步兵8师" "也门步兵9师" "也门步兵10师" "也门步兵12师" 
+		"也门步兵13师" "也门步兵14师" "也门步兵15师" "也门步兵16师" "也门步兵17师" "也门步兵18师" "也门步兵19师" "也门步兵20师" 
+	}
+	cavalry_brigade = {
+		"也门骑兵1师" "也门骑兵2师" "也门骑兵3师" "也门骑兵4师" "也门骑兵5师" "也门骑兵6师" "也门骑兵7师" "也门骑兵8师" "也门骑兵9师" "也门骑兵10师" "也门骑兵11师" 
+		"也门骑兵12师" "也门骑兵13师" "也门骑兵14师" "也门骑兵15师" 
+	}
+	motor师zed_brigade = {
+		"也门摩步1师" "也门摩步2师" "也门摩步3师" "也门摩步4师" "也门摩步5师" "也门摩步6师" "也门摩步7师" "也门摩步8师" "也门摩步9师" "也门摩步10师" "也门摩步12师" 
+		"也门摩步13师" "也门摩步14师" "也门摩步15师" "也门摩步16师" "也门摩步17师" "也门摩步18师" "也门摩步19师" "也门摩步20师" 
+	}
+	mechanized_brigade = {
+		"也门机步1师" "也门机步2师" "也门机步3师" "也门机步4师" "也门机步5师" "也门机步6师" "也门机步7师" "也门机步8师" "也门机步9师" "也门机步10师" "也门机步12师" 
+		"也门机步13师" "也门机步14师" "也门机步15师" "也门机步16师" "也门机步17师" "也门机步18师" "也门机步19师" "也门机步20师" 
+	}
+	light_armor_brigade = {
+		"也门轻装甲1师" "也门轻装甲2师" "也门轻装甲3师" "也门轻装甲4师" "也门轻装甲5师" "也门轻装甲6师" "也门轻装甲7师" "也门轻装甲8师" "也门轻装甲9师" "也门轻装甲10师" 
+	}
+	armor_brigade = {
+		"也门装甲1师" "也门装甲2师" "也门装甲3师" "也门装甲4师" "也门装甲5师" "也门装甲6师" "也门装甲7师" "也门装甲8师" "也门装甲9师" "也门装甲10师" 
+	}
+	paratrooper_brigade = {
+		"也门空降兵20师" "也门空降兵21师" "也门空降兵22师" "也门空降兵23师" "也门空降兵24师" "也门空降兵25师" "也门空降兵26师" "也门空降兵27师" "也门空降兵28师" "也门空降兵29师" "也门空降兵30师" 
+			}
+	marine_brigade = {
+		"也门海军陆战20师" "也门海军陆战21师" "也门海军陆战22师" "也门海军陆战23师" "也门海军陆战24师" "也门海军陆战25师" "也门海军陆战26师" "也门海军陆战27师" "也门海军陆战28师" "也门海军陆战29师" "也门海军陆战30师" 
+			}
+	bergsjaeger_brigade = {
+		"也门山地20师" "也门山地21师" "也门山地22师" "也门山地23师" "也门山地24师" "也门山地25师" "也门山地26师" "也门山地27师" "也门山地28师" "也门山地29师" "也门山地30师" 
+			}
+	garrison_brigade = {
+		"也门卫戍1师" "也门卫戍2师" "也门卫戍3师" "也门卫戍4师" "也门卫戍5师" "也门卫戍6师" "也门卫戍7师" "也门卫戍8师" "也门卫戍9师" "也门卫戍10师" "也门卫戍12师" 
+		"也门卫戍13师" "也门卫戍14师" "也门卫戍15师" "也门卫戍16师" "也门卫戍17师" "也门卫戍18师" "也门卫戍19师" "也门卫戍20师" 
+	}
+	hq_brigade = {
+		"1st军" "2nd军" "3rd军" "4th军" "5th军" 
+	}
+	militia_brigade = {
+		"也门民兵1师" "也门民兵2师" "也门民兵3师" "也门民兵4师" "也门民兵5师" "也门民兵6师" "也门民兵7师" "也门民兵8师" "也门民兵9师" "也门民兵10师" "也门民兵11师" 
+		"也门民兵12师" "也门民兵13师" "也门民兵14师" "也门民兵15师" "也门民兵16师" "也门民兵17师" "也门民兵18师" "也门民兵19师" "也门民兵20师" "也门民兵21师" "也门民兵22师" 
+		"也门民兵23师" "也门民兵24师" "也门民兵25师" 
+	}
+	multi_role = {
+		"1.战斗机联队" "2.战斗机联队" "3.战斗机联队" "4.战斗机联队" "5.战斗机联队" "6.战斗机联队" "7.战斗机联队" "8.战斗机联队" "9.战斗机联队" "10.战斗机联队" 
+	}
+	interceptor = {
+		"1.截击机联队" "2.截击机联队" "3.截击机联队" "4.截击机联队" "5.截击机联队" "6.截击机联队" "7.截击机联队" "8.截击机联队" "9.截击机联队" "10.截击机联队" "1.截击机联队" 
+		"2.截击机联队" "3.截击机联队" "4.截击机联队" "5.截击机联队" "6.截击机联队" "7.截击机联队" "8.截击机联队" "9.截击机联队" "10.截击机联队" 
+	}
+	strategic_bomber = {
+		"11.战略轰炸机联队" "12.战略轰炸机联队" "13.战略轰炸机联队" "14.战略轰炸机联队" "15.战略轰炸机联队" "16.战略轰炸机联队" 
+	}
+	tactical_bomber = {
+		"21.战术轰炸机联队" "22.战术轰炸机联队" "23.战术轰炸机联队" "24.战术轰炸机联队" "25.战术轰炸机联队" "26.战术轰炸机联队" 
+	}
+	naval_bomber = {
+		"41.海军轰炸机联队" "42.海军轰炸机联队" "43.海军轰炸机联队" "44.海军轰炸机联队" "45.海军轰炸机联队" "51.海军鱼雷机联队" "52.海军鱼雷机联队" "53.海军鱼雷机联队" "54.海军鱼雷机联队" "55.海军鱼雷机联队" "56.海军鱼雷机联队" 
+			}
+	cas = {
+		"31.俯冲轰炸机联队" "32.俯冲轰炸机联队" "33.俯冲轰炸机联队" "34.俯冲轰炸机联队" "35.俯冲轰炸机联队" 
+	}
+	transport_plane = {
+		"61.运输机联队" "62.运输机联队" "63.运输机联队" "64.运输机联队" 
+	}
+	battleship = {
+		"RYNS 萨拉" "RYNS Al 荷台达" 
+	}
+	light_cruiser = {
+		"RYNS 塞拉莱" "RYNS 雷伊舒特" "RYNS 米尔吧哈" "RYNS 撒沃奇拉" 
+	}
+	heavy_cruiser = {
+		"RYNS Al 脸" "RYNS 扎彼得" "RYNS 胡特" "RYNS 撒大荷" "RYNS 玛理博" 
+	}
+	battlecruiser = {
+		"RYNS al·其哈拉" "RYNS 萨拉·亚丁" "RYNS 门呵门特 阿里" 
+	}
+	destroyer = {
+		"驱逐舰大队1" "驱逐舰大队2" "驱逐舰大队3" "驱逐舰大队4" "驱逐舰大队5" "驱逐舰大队6" "驱逐舰大队7" "驱逐舰大队8" "驱逐舰大队9" "驱逐舰大队10" 
+	}
+	carrier = {
+		"RYNS Al 也门" "RYNS 塔伊兹" 
+	}
+	submarine = {
+		"也门潜艇1大队" "也门潜艇2大队" "也门潜艇3大队" "也门潜艇4大队" "也门潜艇5大队" "也门潜艇6大队" "也门潜艇7大队" "也门潜艇8大队" "也门潜艇9大队" "也门潜艇10大队" 
+	}
+	transport_ship = {
+		"也门运兵1大队" "也门运兵2大队" "也门运兵3大队" "也门运兵4大队" "也门运兵5大队" "也门运兵6大队" "也门运兵7大队" "也门运兵8大队" "也门运兵9大队" "也门运兵10大队" 
+	}
+
+}
+
+ministers = {
+	93001 = {
+		name = "叶海亚·阿尔·哈米德"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M93001
+		head_of_state = stern_imperialist
+		head_of_government = smiling_oilman
+		foreign_minister = general_staffer
+		minister_of_security = prince_of_terror
+		chief_of_staff = school_of_defence
+		start_date = 1936.1.1
+	}
+	93004 = {
+		name = "艾哈迈德·阿尔·哈米德"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M93004
+		armament_minister = corrupt_kleptocrat
+		minister_of_intelligence = dismal_enigma
+		chief_of_army = armoured_spearhead_doctrine
+		start_date = 1936.1.1
+	}
+	93009 = {
+		name = "曼苏尔·阿尔·巴德"
+		ideology = paternal_autocrat
+		loyalty = 0.50
+		picture = M93009
+		chief_of_navy = power_projection_doctrine
+		chief_of_air = army_aviation_doctrine
+		minister_of_security = crooked_kleptocrat
+		start_date = 1936.1.1
+	}
+	93011 = {
+		name = "R.J.·麦克内尔·柯兴登"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M93011
+		foreign_minister = great_compromiser
+		start_date = 1939.1.1
+	}
+	93013 = {
+		name = "亚历山大·罗维代伊"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M93013
+		armament_minister = infantry_proponent
+		start_date = 1940.1.1
+	}
+	93014 = {
+		name = "亨利·R.·多布斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M93014
+		armament_minister = resource_industrialist
+		start_date = 1941.1.1
+	}
+	93015 = {
+		name = "A.H.C.里弗斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M93015
+		armament_minister = administrative_genius
+		start_date = 1942.1.1
+	}
+	93017 = {
+		name = "莱奥纳德·A.·莱奥"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M93017
+		minister_of_security = silent_lawyer
+		start_date = 1938.1.1
+	}
+	93019 = {
+		name = "塞西尔·巴灵顿·赫斯特"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M93019
+		minister_of_intelligence = technical_specialist
+		start_date = 1940.1.1
+	}
+	93020 = {
+		name = "R.·蒙哥马利·克利弗斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M93020
+		chief_of_staff = school_of_mass_combat
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1939.1.1
+	}
+	93021 = {
+		name = "阿布德·阿尔·胡瑟尼"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M93021
+		chief_of_staff = school_of_fire_support
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1945.1.1
+	}
+	93023 = {
+		name = "特德·波因特"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M93023
+		chief_of_army = decisive_battle_doctrine
+		chief_of_air = air_superiority_doctrine
+		start_date = 1942.1.1
+	}
+	93025 = {
+		name = "伊恩·特里劳尼"
+		ideology = social_conservative
+		loyalty = 0.50
+		picture = M93025
+		chief_of_navy = open_seas_doctrine
+		start_date = 1940.1.1
+	}
+	93027 = {
+		name = "阿里·哈鲁科赫"
+		ideology = paternal_autocrat
+		loyalty = 0.50
+		picture = M93027
+		chief_of_air = vertical_envelopment_doctrine
+		start_date = 1945.1.1
+	}
+}

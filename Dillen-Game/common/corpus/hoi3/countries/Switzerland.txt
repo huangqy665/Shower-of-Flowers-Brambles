@@ -1,0 +1,764 @@
+color = { 92  50  34 }
+graphical_culture = Generic
+
+last_election = 1935.10.20
+duration = 48
+
+default_templates = {
+	generic_infantry = {
+		infantry_brigade
+		infantry_brigade
+		infantry_brigade
+	}
+	generic_milita = {
+		militia_brigade
+		militia_brigade
+		militia_brigade
+	}
+	generic_armoured = {
+		armor_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	generic_cavalry = {
+		cavalry_brigade
+		cavalry_brigade
+	}
+}
+
+unit_names = {
+	infantry_brigade = {
+		"第1步兵师" "第2步兵师" "第3步兵师" "第4步兵师" "第5步兵师" "第6步兵师" "第7步兵师" "第8步兵师" "第9步兵师" "第10步兵师" "第11步兵师" 
+		"第12步兵师" "第13步兵师" "第14步兵师" "第15步兵师" "第16步兵师" "第17步兵师" "第18步兵师" "第19步兵师" "第20步兵师" "第21步兵师" "第22步兵师" 
+		"第23步兵师" "第24步兵师" "第25步兵师" "第26步兵师" "第27步兵师" "第28步兵师" "第29步兵师" "第30步兵师" 
+	}
+	cavalry_brigade = {
+		"第1骑兵师" "第2骑兵师" "第3骑兵师" "第4骑兵师" "第5骑兵师" "第6骑兵师" "第7骑兵师" "第8骑兵师" "第9骑兵师" "第10骑兵师" "第11骑兵师" 
+		"第12骑兵师" 
+	}
+	motorized_brigade = {
+		"第1摩步师" "第2摩步师" "第3摩步师" "第4摩步师" "第5摩步师" "第6摩步师" "第7摩步师" "第8摩步师" "第9摩步师" "第10摩步师" "第11摩步师" 
+		"第12摩步师" "第13摩步师" "第14摩步师" "第15摩步师" "第16摩步师" "第17摩步师" "第18摩步师" 
+	}
+	mechanized_brigade = {
+		"第1机步师" "第2机步师" "第3机步师" "第4机步师" "第5机步师" "第6机步师" "第7机步师" "第8机步师" "第9机步师" "第10机步师" "第11机步师" 
+		"第12机步师" "第13机步师" "第14机步师" "第15机步师" "第16机步师" "第17机步师" "第18机步师" 
+	}
+	light_armor_brigade = {
+		"第1装甲师" "第2装甲师" "第3装甲师" "第4装甲师" "第5装甲师" "第6装甲师" "第7装甲师" "第8装甲师" "第9装甲师" "第10装甲师" "第11装甲师" 
+		"第12装甲师" "第13装甲师" "第14装甲师" "第15装甲师" 
+	}
+	armor_brigade = {
+		"第1装甲师" "第2装甲师" "第3装甲师" "第4装甲师" "第5装甲师" "第6装甲师" "第7装甲师" "第8装甲师" "第9装甲师" "第10装甲师" "第11装甲师" 
+		"第12装甲师" "第13装甲师" "第14装甲师" "第15装甲师" 
+	}
+	paratrooper_brigade = {
+		"第1伞兵师" "第2伞兵师" "第3伞兵师" "第4伞兵师" "第5伞兵师" "第6伞兵师" "第7伞兵师" "第8伞兵师" "第9伞兵师" "第10伞兵师" "第11伞兵师" 
+		"第12伞兵师" 
+	}
+	marine_brigade = {
+		"第1海军陆战师" "第2海军陆战师" "第3海军陆战师" "第4海军陆战师" "第5海军陆战师" "第6海军陆战师" "第7海军陆战师" "第8海军陆战师" "第9海军陆战师" "第10海军陆战师" "第11海军陆战师" 
+		"第12海军陆战师" 
+	}
+	bergsjaeger_brigade = {
+		"第1山地师" "第2山地师" "第3山地师" "第4山地师" "第5山地师" "第6山地师" "第7山地师" "第8山地师" "第9山地师" "第10山地师" "第11山地师" 
+		"第12山地师" "第13山地师" "第14山地师" "第15山地师" "第16山地师" "第17山地师" "第18山地师" "第19山地师" "第20山地师" "第21山地师" "第22山地师" 
+		"第23山地师" "第24山地师" "第25山地师" "第26山地师" "第27山地师" "第28山地师" "第29山地师" "第30山地师" 
+	}
+	garrison_brigade = {
+		"第1卫戍师" "第2卫戍师" "第3卫戍师" "第4卫戍师" "第5卫戍师" "第6卫戍师" "第7卫戍师" "第8卫戍师" "第9卫戍师" "第10卫戍师" "第11卫戍师" 
+		"第12卫戍师" "第13卫戍师" "第14卫戍师" "第15卫戍师" "第16卫戍师" "第17卫戍师" "第18卫戍师" "第19卫戍师" "第20卫戍师" "第21卫戍师" "第22卫戍师" 
+		"第23卫戍师" "第24卫戍师" "第25卫戍师" "第26卫戍师" "第27卫戍师" "第28卫戍师" "第29卫戍师" "第30卫戍师" 
+	}
+	hq_brigade = {
+		"第1野战集团军" "第2野战集团军" "第3野战集团军" "第4野战集团军" "第5野战集团军" "第6野战集团军" "第7野战集团军" "第8野战集团军" "第9野战集团军" "第10野战集团军" "第11野战集团军" 
+		"第12野战集团军" 
+	}
+	militia_brigade = {
+		"第1国民警卫师" "第2国民警卫师" "第3国民警卫师" "第4国民警卫师" "第5国民警卫师" "第6国民警卫师" "第7国民警卫师" "第8国民警卫师" "第9国民警卫师" "第10国民警卫师" "第11国民警卫师" 
+		"第12国民警卫师" "第13国民警卫师" "第14国民警卫师" "第15国民警卫师" "第16国民警卫师" "第17国民警卫师" "第18国民警卫师" "第19国民警卫师" "第20国民警卫师" "第21国民警卫师" "第22国民警卫师" 
+		"第23国民警卫师" "第24国民警卫师" "第25国民警卫师" "第26国民警卫师" "第27国民警卫师" "第28国民警卫师" "第29国民警卫师" "第30国民警卫师" 
+	}
+	multi_role = {
+		"第1战斗机联队" "第2战斗机联队" "第3战斗机联队" "第4战斗机联队" "第5战斗机联队" "第6战斗机联队" "第7战斗机联队" "第8战斗机联队" "第9战斗机联队" "第10战斗机联队" "第11战斗机联队" 
+		"第12战斗机联队" "第13战斗机联队" "第14战斗机联队" "第15战斗机联队" 
+	}
+	interceptor = {
+		"第1拦截机联队" "第2拦截机联队" "第3拦截机联队" "第4拦截机联队" "第5拦截机联队" "第6拦截机联队" "第7拦截机联队" "第8拦截机联队" "第9拦截机联队" "第10拦截机联队" "第11拦截机联队" 
+		"第12拦截机联队" "第13拦截机联队" "第14拦截机联队" "第15拦截机联队" 
+	}
+	strategic_bomber = {
+		"第1战略轰炸联队" "第2战略轰炸联队" "第3战略轰炸联队" "第4战略轰炸联队" "第5战略轰炸联队" "第6战略轰炸联队" "第7战略轰炸联队" "第8战略轰炸联队" "第9战略轰炸联队" "第10战略轰炸联队" "第11战略轰炸联队" 
+		"第12战略轰炸联队" "第13战略轰炸联队" "第14战略轰炸联队" "第15战略轰炸联队" 
+	}
+	tactical_bomber = {
+		"第1战术轰炸联队" "第2战术轰炸联队" "第3战术轰炸联队" "第4战术轰炸联队" "第5战术轰炸联队" "第6战术轰炸联队" "第7战术轰炸联队" "第8战术轰炸联队" "第9战术轰炸联队" "第10战术轰炸联队" "第11战术轰炸联队" 
+		"第12战术轰炸联队" "第13战术轰炸联队" "第14战术轰炸联队" "第15战术轰炸联队" 
+	}
+	naval_bomber = {
+		"第1海军轰炸联队" "第2海军轰炸联队" "第3海军轰炸联队" "第4海军轰炸联队" "第5海军轰炸联队" "第6海军轰炸联队" "第7海军轰炸联队" "第8海军轰炸联队" "第9海军轰炸联队" "第10海军轰炸联队" "第11海军轰炸联队" 
+		"第12海军轰炸联队" "第13海军轰炸联队" "第14海军轰炸联队" "第15海军轰炸联队" "第1鱼雷轰炸联队" "第2鱼雷轰炸联队" "第3鱼雷轰炸联队" "第4鱼雷轰炸联队" "第5鱼雷轰炸联队" "第6鱼雷轰炸联队" "第7鱼雷轰炸联队" 
+		"第8鱼雷轰炸联队" "第9鱼雷轰炸联队" "第10鱼雷轰炸联队" "第11鱼雷轰炸联队" "第12鱼雷轰炸联队" "第13鱼雷轰炸联队" "第14鱼雷轰炸联队" "第15鱼雷轰炸联队" 
+	}
+	cas = {
+		"第1俯冲轰炸联队" "第2俯冲轰炸联队" "第3俯冲轰炸联队" "第4俯冲轰炸联队" "第5俯冲轰炸联队" "第6俯冲轰炸联队" "第7俯冲轰炸联队" "第8俯冲轰炸联队" "第9俯冲轰炸联队" "第10俯冲轰炸联队" "第11俯冲轰炸联队" 
+		"第12俯冲轰炸联队" "第13俯冲轰炸联队" "第14俯冲轰炸联队" "第15俯冲轰炸联队" 
+	}
+	transport_plane = {
+		"第1运输机联队" "第2运输机联队" "第3运输机联队" "第4运输机联队" "第5运输机联队" "第6运输机联队" 
+	}
+	battleship = {
+		"RSN 阿德勒号" "RSN 多芬号" "RSN 象号" "RSN 格雷夫号" "RSN 桑塞尔号" "RSN 韦尔梅" "RSN 陶布号" "RSN 佛兰西丝号" "RSN 虎号" "RSN 沃格尔号" "RSN 无敌号" 
+		"RSN 皇帝号" 
+	}
+	destroyer = {
+		"第1雷击舰编队" "第2雷击舰编队" "第3雷击舰编队" "第4雷击舰编队" "第5雷击舰编队" "第6雷击舰编队" "第7雷击舰编队" "第8雷击舰编队" "第9雷击舰编队" "第10雷击舰编队" "第11雷击舰编队" 
+		"第12雷击舰编队" "第13雷击舰编队" "第14雷击舰编队" "第15雷击舰编队" 
+	}
+	submarine = {
+		"第1潜艇编队" "第2潜艇编队" "第3潜艇编队" "第4潜艇编队" "第5潜艇编队" "第6潜艇编队" "第7潜艇编队" "第8潜艇编队" "第9潜艇编队" "第10潜艇编队" "第11潜艇编队" 
+		"第12潜艇编队" "第13潜艇编队" "第14潜艇编队" "第15潜艇编队" 
+	}
+	transport_ship = {
+		"第1运输舰编队" "第2运输舰编队" "第3运输舰编队" "第4运输舰编队" "第5运输舰编队" "第6运输舰编队" "第7运输舰编队" "第8运输舰编队" "第9运输舰编队" "第10运输舰编队" "第11运输舰编队" 
+		"第12运输舰编队" "第13运输舰编队" "第14运输舰编队" "第15运输舰编队" 
+	}
+
+}
+
+ministers = {
+	17001 = {
+		name = "阿尔伯特 迈尔"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M17001
+		head_of_state = pig_headed_isolationist
+		head_of_government = silent_workhorse
+		armament_minister = laissez_faires_capitalist
+		start_date = 1936.1.1
+	}
+	17003 = {
+		name = "朱塞佩 莫塔"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M17003
+		foreign_minister = apologetic_clerk
+		head_of_state = pig_headed_isolationist
+		head_of_government = silent_workhorse
+		start_date = 1936.1.1
+	}
+	17005 = {
+		name = "约翰内斯 鲍曼"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M17005
+		minister_of_security = compassionate_gentleman
+		head_of_state = pig_headed_isolationist
+		head_of_government = ambitious_union_boss
+		start_date = 1936.1.1
+	}
+	17006 = {
+		name = "罗杰 马松"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M17006
+		minister_of_intelligence = industrial_specialist
+		start_date = 1936.1.1
+	}
+	17007 = {
+		name = "雅各布 I 胡贝尔"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M17007
+		chief_of_staff = school_of_fire_support
+		foreign_minister = general_staffer
+		armament_minister = infantry_proponent
+		start_date = 1936.1.1
+	}
+	17008 = {
+		name = "约翰 奥古斯特 祖特尔"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M17008
+		chief_of_army = static_defence_doctrine
+		start_date = 1936.1.1
+	}
+	17009 = {
+		name = "勒内 冯 格拉芬里德"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M17009
+		chief_of_navy = base_control_doctrine
+		start_date = 1936.1.1
+	}
+	17010 = {
+		name = "奥斯卡 比德"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M17010
+		chief_of_air = air_superiority_doctrine
+		start_date = 1936.1.1
+	}
+	17033 = {
+		name = "菲利普 埃特"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M17033
+		head_of_state = pig_headed_isolationist
+		head_of_government = flamboyant_tough_guy
+		minister_of_security = crime_fighter
+		start_date = 1939.1.1
+	}
+	17034 = {
+		name = "马塞尔 皮莱-戈拉"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M17034
+		head_of_state = pig_headed_isolationist
+		head_of_government = political_protege
+		foreign_minister = great_compromiser
+		start_date = 1940.1.1
+	}
+	17035 = {
+		name = "恩斯特 韦特尔"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M17035
+		head_of_state = pig_headed_isolationist
+		head_of_government = backroom_backstabber
+		armament_minister = resource_industrialist
+		start_date = 1941.1.1
+	}
+	17037 = {
+		name = "恩里科 切利奥"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M17037
+		head_of_state = pig_headed_isolationist
+		head_of_government = corporate_suit
+		foreign_minister = ideological_crusader
+		start_date = 1943.1.1
+	}
+	17038 = {
+		name = "瓦尔特 施滕普夫利"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M17038
+		head_of_state = pig_headed_isolationist
+		head_of_government = naive_optimist
+		foreign_minister = iron_fisted_brute
+		start_date = 1944.1.1
+	}
+	17039 = {
+		name = "爱德华 冯 施泰格尔"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M17039
+		head_of_state = pig_headed_isolationist
+		head_of_government = smiling_oilman
+		minister_of_security = silent_lawyer
+		head_of_government = corporate_suit
+		start_date = 1945.1.1
+	}
+	17040 = {
+		name = "卡尔 科贝尔特"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M17040
+		head_of_state = pig_headed_isolationist
+		head_of_government = happy_amateur
+		armament_minister = infantry_proponent
+		start_date = 1946.1.1
+	}
+	17054 = {
+		name = "马克斯 珀蒂皮埃尔"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M17054
+		foreign_minister = iron_fisted_brute
+		head_of_state = pig_headed_isolationist
+		head_of_government = political_protege
+		start_date = 1945.1.1
+	}
+	17055 = {
+		name = "鲁道夫 赫尔普克"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M17055
+		foreign_minister = ideological_crusader
+		start_date = 1936.1.1
+	}
+	17056 = {
+		name = "保罗 乌斯泰里"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M17056
+		foreign_minister = ideological_crusader
+		start_date = 1937.1.1
+	}
+	17058 = {
+		name = "尼古拉斯 勒热纳"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M17058
+		foreign_minister = apologetic_clerk
+		start_date = 1940.1.1
+	}
+	17059 = {
+		name = "奥托 比斯"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M17059
+		foreign_minister = iron_fisted_brute
+		start_date = 1941.1.1
+	}
+	17060 = {
+		name = "卡尔 策尔特纳"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M17060
+		foreign_minister = the_cloak_n_dagger_schemer
+		start_date = 1941.1.1
+	}
+	17061 = {
+		name = "贾斯特斯 施特克林"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M17061
+		foreign_minister = great_compromiser
+		start_date = 1938.1.1
+	}
+	17064 = {
+		name = "马克斯 考夫曼"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M17064
+		foreign_minister = biased_intellectual
+		start_date = 1944.1.1
+	}
+	17065 = {
+		name = "保罗 曼茨"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M17065
+		foreign_minister = great_compromiser
+		start_date = 1945.1.1
+	}
+	17066 = {
+		name = "弗里德里克 特劳戈特-瓦伦"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M17066
+		armament_minister = resource_industrialist
+		start_date = 1940.1.1
+	}
+	17067 = {
+		name = "阿尔伯特 爱因斯坦"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M17067
+		armament_minister = theoretical_scientist
+		minister_of_intelligence = technical_specialist
+		start_date = 1936.1.1
+	}
+	17068 = {
+		name = "海因里希 汉德申"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M17068
+		armament_minister = laissez_faires_capitalist
+		start_date = 1937.1.1
+	}
+	17069 = {
+		name = "雅各布 莫西曼"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M17069
+		armament_minister = military_entrepreneur
+		start_date = 1937.1.1
+	}
+	17072 = {
+		name = "恩斯特 韦伯"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M17072
+		armament_minister = administrative_genius
+		start_date = 1941.1.1
+	}
+	17073 = {
+		name = "莱昂纳多 卡斯泰利"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M17073
+		armament_minister = tank_proponent
+		start_date = 1942.1.1
+	}
+	17074 = {
+		name = "恩斯特 诺布斯"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M17074
+		armament_minister = resource_industrialist
+		head_of_state = pig_headed_isolationist
+		head_of_government = happy_amateur
+		start_date = 1944.1.1
+	}
+	17075 = {
+		name = "奥托 加斯"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M17075
+		armament_minister = air_to_ground_proponent
+		start_date = 1938.1.1
+	}
+	17076 = {
+		name = "约翰 吉纽"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M17076
+		armament_minister = resource_industrialist
+		start_date = 1942.1.1
+	}
+	17077 = {
+		name = "维尔纳 詹尼"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M17077
+		armament_minister = tank_proponent
+		start_date = 1940.1.1
+	}
+	17078 = {
+		name = "利奥 施魏策尔"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M17078
+		armament_minister = administrative_genius
+		start_date = 1944.1.1
+	}
+	17079 = {
+		name = "鲁道夫 明格尔"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M17079
+		armament_minister = administrative_genius
+		start_date = 1944.1.1
+	}
+	17080 = {
+		name = "克莱门斯 施特克利"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M17080
+		minister_of_security = silent_lawyer
+		start_date = 1944.1.1
+	}
+	17081 = {
+		name = "恩斯特 洛利格"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M17081
+		minister_of_security = man_of_the_people
+		start_date = 1944.1.1
+	}
+	17082 = {
+		name = "海因里希 罗特蒙德"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M17082
+		minister_of_security = crime_fighter
+		start_date = 1940.1.1
+	}
+	17083 = {
+		name = "汉斯 勒平"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M17083
+		minister_of_security = back_stabber
+		start_date = 1940.1.1
+	}
+	17084 = {
+		name = "保罗 弗吕蒂格"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M17084
+		minister_of_security = silent_lawyer
+		start_date = 1942.1.1
+	}
+	17085 = {
+		name = "吉多 米舍尔"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M17085
+		minister_of_security = prince_of_terror
+		start_date = 1938.1.1
+	}
+	17086 = {
+		name = "海因里希 阿贝格"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M17086
+		minister_of_security = crime_fighter
+		start_date = 1936.1.1
+	}
+	17087 = {
+		name = "古斯塔夫 阿杜尔"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M17087
+		minister_of_security = man_of_the_people
+		start_date = 1936.1.1
+	}
+	17088 = {
+		name = "费利克 卡隆德尔"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M17088
+		minister_of_security = back_stabber
+		start_date = 1936.1.1
+	}
+	17089 = {
+		name = "埃德蒙 舒尔特海斯"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M17089
+		minister_of_security = prince_of_terror
+		start_date = 1938.1.1
+	}
+	17090 = {
+		name = "贡扎贵 德 雷诺"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M17090
+		minister_of_security = compassionate_gentleman
+		start_date = 1937.1.1
+	}
+	17091 = {
+		name = "胡戈 克施温德"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M17091
+		minister_of_security = crime_fighter
+		start_date = 1939.1.1
+	}
+	17093 = {
+		name = "马克斯 魏贝尔"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M17093
+		minister_of_security = efficient_sociopath
+		minister_of_intelligence = dismal_enigma
+		start_date = 1942.1.1
+	}
+	17094 = {
+		name = "特劳戈特 迈尔"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M17025
+		minister_of_security = man_of_the_people
+		chief_of_staff = school_of_fire_support
+		head_of_government = man_of_the_people
+		start_date = 1943.1.1
+	}
+	17096 = {
+		name = "威廉 拉帕德"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M17096
+		minister_of_intelligence = industrial_specialist
+		start_date = 1938.1.1
+	}
+	17097 = {
+		name = "吉勒斯 列 皮埃尔"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M17097
+		minister_of_intelligence = research_specialist
+		start_date = 1939.1.1
+	}
+	17098 = {
+		name = "汉斯 康拉德 松德雷格"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M17098
+		minister_of_intelligence = industrial_specialist
+		start_date = 1940.1.1
+	}
+	17100 = {
+		name = "汉斯 马克斯 胡贝尔"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M17100
+		chief_of_staff = school_of_psychology
+		start_date = 1937.1.1
+	}
+	17101 = {
+		name = "亨利 吉桑"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M17101
+		chief_of_staff = school_of_mass_combat
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1938.1.1
+	}
+	17102 = {
+		name = "保罗 居特勒"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M17102
+		chief_of_staff = school_of_psychology
+		start_date = 1942.1.1
+	}
+	17103 = {
+		name = "恩斯特 劳尔"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M17103
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1936.1.1
+	}
+	17105 = {
+		name = "保罗 罗西"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M17105
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1941.1.1
+	}
+	17106 = {
+		name = "汉斯 彼得 比克塞尔-佐恩"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M17106
+		chief_of_navy = open_seas_doctrine
+		start_date = 1938.1.1
+	}
+	17107 = {
+		name = "J D 德 蒙泰纳什"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M17107
+		chief_of_air = vertical_envelopment_doctrine
+		start_date = 1937.1.1
+	}
+	17108 = {
+		name = "弗里茨 里赫纳"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M17108
+		chief_of_air = army_aviation_doctrine
+		start_date = 1938.1.1
+	}
+	17109 = {
+		name = "卡尔 布尔克哈特 德 雷诺"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M17109
+		chief_of_air = vertical_envelopment_doctrine
+		start_date = 1941.1.1
+	}
+	17110 = {
+		name = "艾蒂安 普里莫"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M17110
+		chief_of_air = air_superiority_doctrine
+		start_date = 1944.1.1
+	}
+	17011 = {
+		name = "弗朗茨 布里"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M17011
+		head_of_state = pig_headed_isolationist
+		head_of_government = old_admiral
+		minister_of_security = crooked_kleptocrat
+		start_date = 1936.1.1
+	}
+	17013 = {
+		name = "雅各布 洛伦茨"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M17013
+		foreign_minister = iron_fisted_brute
+		start_date = 1936.1.1
+	}
+	17014 = {
+		name = "汉斯 厄勒"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M17014
+		armament_minister = military_entrepreneur
+		chief_of_navy = decisive_naval_battle_doctrine
+		start_date = 1936.1.1
+	}
+	17016 = {
+		name = "阿尔弗雷德 萨拉赞"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M17016
+		minister_of_intelligence = dismal_enigma
+		chief_of_air = naval_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	17017 = {
+		name = "欧根 比歇尔"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M17017
+		chief_of_staff = school_of_psychology
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1936.1.1
+	}
+	17021 = {
+		name = "约瑟夫 维克托 威德曼"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M17021
+		head_of_state = pig_headed_isolationist
+		head_of_government = ambitious_union_boss
+		chief_of_air = naval_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	17023 = {
+		name = "赫尔曼 黑塞尔-洛伦茨"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M17023
+		foreign_minister = the_cloak_n_dagger_schemer
+		chief_of_navy = indirect_approach_doctrine
+		start_date = 1936.1.1
+	}
+	17024 = {
+		name = "埃米尔 弗赖"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M17024
+		armament_minister = infantry_proponent
+		chief_of_army = armoured_spearhead_doctrine
+		start_date = 1936.1.1
+	}
+	17026 = {
+		name = "特奥 迈尔"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M17026
+		minister_of_intelligence = technical_specialist
+		start_date = 1936.1.1
+	}
+	17113 = {
+		name = "奥斯卡 莱姆格鲁伯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M17113
+		head_of_government = smiling_oilman
+		start_date = 1944.1.1
+	}
+	17114 = {
+		name = "查尔斯 奥泽"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M17114
+		head_of_government = corporate_suit
+		start_date = 1951.1.1
+	}
+}
+

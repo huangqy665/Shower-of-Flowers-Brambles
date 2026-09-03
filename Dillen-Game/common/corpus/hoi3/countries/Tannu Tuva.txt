@@ -1,0 +1,216 @@
+color = { 181  130  137 }
+graphical_culture = Soviet
+
+default_templates = {
+	generic_infantry = {
+		infantry_brigade
+		infantry_brigade
+		infantry_brigade
+	}
+	generic_milita = {
+		militia_brigade
+		militia_brigade
+		militia_brigade
+	}
+	generic_armoured = {
+		armor_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	generic_cavalry = {
+		cavalry_brigade
+		cavalry_brigade
+	}
+}
+
+unit_names = {
+	infantry_brigade = {
+		"第1步兵师" "第2步兵师" "第3步兵师" "第4步兵师" "第5步兵师" "第6步兵师" "第8步兵师" "第10步兵师" "1第1步兵师" "1第2步兵师" "1第3步兵师" 
+		"1第4步兵师" "1第6步兵师" "1第7步兵师" "1第9步兵师" "2第1步兵师" "2第2步兵师" "2第3步兵师" "2第4步兵师" "2第5步兵师" 
+	}
+	cavalry_brigade = {
+		"第1骑兵师" "第2骑兵师" "第3骑兵师" "第4骑兵师" "第5骑兵师" "第6骑兵师" "第7骑兵师" "第8骑兵师" "第9骑兵师" "第10骑兵师" 
+	}
+	motorized_brigade = {
+		"第1摩步师" "第2摩步师" "第3摩步师" "第4摩步师" "第5摩步师" "第6摩步师" "第8摩步师" "第10摩步师" "1第2摩步师" "1第5摩步师" 
+	}
+	mechanized_brigade = {
+		"第1机步师" "第2机步师" "第3机步师" "第4机步师" "第5机步师" "第6机步师" "第8机步师" "第10机步师" "1第1机步师" "1第2机步师" "1第3机步师" 
+			}
+	light_armor_brigade = {
+		"第1轻装甲师" "第2轻装甲师" "第3轻装甲师" "第4轻装甲师" "第5轻装甲师" "第6轻装甲师" "第7轻装甲师" "第8轻装甲师" "第9轻装甲师" "第10轻装甲师" 
+	}
+	armor_brigade = {
+		"第1装甲师" "第2装甲师" "第3装甲师" "第4装甲师" "第5装甲师" "第6装甲师" "第7装甲师" "第8装甲师" "第9装甲师" "第10装甲师" 
+	}
+	paratrooper_brigade = {
+		"第1伞兵师" "第2伞兵师" "第3伞兵师" "第4伞兵师" "第5伞兵师" "第6伞兵师" "第7伞兵师" "第8伞兵师" "第9伞兵师" "第10伞兵师" 
+	}
+	marine_brigade = {
+		"第1海军陆战师" "第2海军陆战师" "第3海军陆战师" "第4海军陆战师" "第5海军陆战师" "第6海军陆战师" "第7海军陆战师" "第8海军陆战师" "第9海军陆战师" "第10海军陆战师" 
+	}
+	bergsjaeger_brigade = {
+		"第1山地师" "第2山地师" "第3山地师" "第4山地师" "第5山地师" "第6山地师" "第8山地师" "第10山地师" "1第1山地师" "1第2山地师" "1第3山地师" 
+		"1第4山地师" "1第6山地师" 
+	}
+	garrison_brigade = {
+		"第1卫戍师" "第2卫戍师" "第3卫戍师" "第4卫戍师" "第5卫戍师" "第6卫戍师" "第8卫戍师" "第10卫戍师" "1第1卫戍师" "1第2卫戍师" "1第3卫戍师" 
+		"1第4卫戍师" "1第6卫戍师" "1第7卫戍师" "1第9卫戍师" "2第1卫戍师" "2第2卫戍师" "2第3卫戍师" "2第4卫戍师" "2第5卫戍师" 
+	}
+	hq_brigade = {
+		"1st军" "2nd军" "3rd军" "4th军" "5th军" 
+	}
+	militia_brigade = {
+		"第1民兵师" "第2民兵师" "第3民兵师" "第4民兵师" "第5民兵师" "第6民兵师" "第8民兵师" "第10民兵师" "1第1民兵师" "1第2民兵师" "1第3民兵师" 
+		"1第4民兵师" "1第6民兵师" "1第7民兵师" "1第9民兵师" "2第1民兵师" "2第2民兵师" "2第3民兵师" "2第4民兵师" "2第5民兵师" 
+	}
+	multi_role = {
+		"第1战斗机联队" "第2战斗机联队" "第3战斗机联队" "第4战斗机联队" "第5战斗机联队" "第6战斗机联队" "第7战斗机联队" "第8战斗机联队" "第10战斗机联队" "1第1战斗机联队" 
+	}
+	interceptor = {
+		"第1截击机联队" "第2截击机联队" "第3截击机联队" "第4截击机联队" "第5截击机联队" "第6截击机联队" "第7截击机联队" "第8截击机联队" "第10截击机联队" "1第1截击机联队" 
+	}
+	strategic_bomber = {
+		"第1战略轰炸机联队" "第2战略轰炸机联队" "第3战略轰炸机联队" "第4战略轰炸机联队" "第5战略轰炸机联队" "第6战略轰炸机联队" "第7战略轰炸机联队" "第8战略轰炸机联队" "第9战略轰炸机联队" "第10战略轰炸机联队" 
+	}
+	tactical_bomber = {
+		"第1战术轰炸机联队" "第2战术轰炸机联队" "第3战术轰炸机联队" "第4战术轰炸机联队" "第5战术轰炸机联队" "第6战术轰炸机联队" "第7战术轰炸机联队" "第8战术轰炸机联队" "第9战术轰炸机联队" "第10战术轰炸机联队" 
+	}
+	naval_bomber = {
+		"第1海军轰炸机联队" "第2海军轰炸机联队" "第3海军轰炸机联队" "第4海军轰炸机联队" "第5海军轰炸机联队" "第6海军轰炸机联队" "第7海军轰炸机联队" "第8海军轰炸机联队" "第9海军轰炸机联队" "第10海军轰炸机联队" "第1鱼雷轰炸机联队" 
+		"第2鱼雷轰炸机联队" "第3鱼雷轰炸机联队" "第4鱼雷轰炸机联队" "第5鱼雷轰炸机联队" "第6鱼雷轰炸机联队" "第7鱼雷轰炸机联队" "第8鱼雷轰炸机联队" "第9鱼雷轰炸机联队" "第10鱼雷轰炸机联队" 
+	}
+	cas = {
+		"第23俯冲轰炸机联队" "第46俯冲轰炸机联队" "第77俯冲轰炸机联队" "第25俯冲轰炸机联队" "第72俯冲轰炸机联队" "第9俯冲轰炸机联队" "第10俯冲轰炸机联队" "第11俯冲轰炸机联队" "第1俯冲轰炸机联队" "第2俯冲轰炸机联队" 
+	}
+	transport_plane = {
+		"第1运输机联队" "第2运输机联队" "第3运输机联队" "第4运输机联队" "第5运输机联队" 
+	}
+	battleship = {
+		"奇列尔" "巴加 哈格" 
+	}
+	light_cruiser = {
+		"埃尔因" "撒英格 色普" "萨克拉" "卡丹" "多夫拉格" 
+	}
+	heavy_cruiser = {
+		"埃尔因" "撒英格 色普" "萨克拉" "卡丹" "多夫拉格" 
+	}
+	battlecruiser = {
+		"奇列尔" "巴加 哈格" 
+	}
+	destroyer = {
+		"第1驱逐舰大队" "第2驱逐舰大队" "第3驱逐舰大队" "第4驱逐舰大队" "第5驱逐舰大队" "第6驱逐舰大队" "第7驱逐舰大队" "第8驱逐舰大队" "第9驱逐舰大队" "第10驱逐舰大队" 
+	}
+	carrier = {
+		"巴尔加因" "萨马加塔加" 
+	}
+	submarine = {
+		"第1潜艇大队" "第2潜艇大队" "第3潜艇大队" "第4潜艇大队" "第5潜艇大队" "第6潜艇大队" "第7潜艇大队" "第8潜艇大队" "第9潜艇大队" "第10潜艇大队" 
+	}
+	transport_ship = {
+		"第1运输船大队" "第2运输船大队" "第3运输船大队" "第4运输船大队" "第5运输船大队" "第6运输船大队" "第7运输船大队" "第8运输船大队" "第9运输船大队" "第10运输船大队" 
+	}
+
+}
+
+ministers = {
+	71001 = {
+		name = "萨勒察·吉尔米台"
+		ideology = stalinist
+		loyalty = 0.70
+		picture = M71001
+		head_of_state = insignificant_layman
+		foreign_minister = apologetic_clerk
+		start_date = 1936.1.1
+	}
+	71002 = {
+		name = "肯赤克·沃"
+		ideology = stalinist
+		loyalty = 0.30
+		picture = M71002
+		head_of_government = smiling_oilman
+		foreign_minister = ideological_crusader
+		start_date = 1936.1.1
+	}
+	71004 = {
+		name = "S.T.·佩里林科"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M71004
+		armament_minister = corrupt_kleptocrat
+		start_date = 1936.1.1
+	}
+	71005 = {
+		name = "A.D.·克拉夫琴科"
+		ideology = stalinist
+		loyalty = 0.50
+		picture = M71005
+		minister_of_security = back_stabber
+		start_date = 1936.1.1
+	}
+	71006 = {
+		name = "瓦勒里·梅伊劳克"
+		ideology = stalinist
+		loyalty = 0.50
+		picture = M71006
+		minister_of_intelligence = political_specialist
+		start_date = 1936.1.1
+	}
+	71007 = {
+		name = "坦察·绍马"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M71007
+		chief_of_staff = school_of_defence
+		chief_of_army = static_defence_doctrine
+		start_date = 1936.1.1
+	}
+	71009 = {
+		name = "V.I.··库利科夫斯基"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M71009
+		chief_of_navy = indirect_approach_doctrine
+		start_date = 1936.1.1
+	}
+	71010 = {
+		name = "I.P.·卢加林斯基"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M71010
+		chief_of_air = army_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	71011 = {
+		name = "弗拉迪米尔·珀腾金"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M71011
+		foreign_minister = iron_fisted_brute
+		start_date = 1941.1.1
+	}
+	71013 = {
+		name = "索德蒙·巴尔秋"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M71013
+		foreign_minister = great_compromiser
+		start_date = 1938.1.1
+	}
+	71014 = {
+		name = "弗拉迪米尔·索科利勒"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M71014
+		armament_minister = resource_industrialist
+		start_date = 1941.1.1
+	}
+	71015 = {
+		name = "弗拉迪米尔·奥罗斯科维奇"
+		ideology = stalinist
+		loyalty = 0.50
+		picture = M71015
+		minister_of_security = silent_lawyer
+		start_date = 1936.1.1
+	}
+}

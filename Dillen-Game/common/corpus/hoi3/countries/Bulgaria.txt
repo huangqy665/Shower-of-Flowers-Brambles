@@ -1,0 +1,888 @@
+color = { 66  113  69 }
+graphical_culture = Generic
+
+default_templates = {
+	generic_infantry = {
+		infantry_brigade
+		infantry_brigade
+		infantry_brigade
+	}
+	generic_milita = {
+		militia_brigade
+		militia_brigade
+		militia_brigade
+	}
+	generic_armoured = {
+		armor_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	generic_cavalry = {
+		cavalry_brigade
+		cavalry_brigade
+	}
+}
+
+unit_names = {
+	infantry_brigade = {
+		"第1步兵师 '索菲亚'" "第2步兵师 '色雷斯'" "第3步兵师 '巴尔干'" "第4步兵师 '普雷斯拉夫'" "第5步兵师 '多瑙河'" "第6步兵师 '维丁'" "第7步兵师 '里拉'" "第8步兵师 '登萨'" "第9步兵师 '普列文'" "第10步兵师 '多罗彼'" "第11步兵师" 
+		"第12步兵师 '多布罗加'" "第14步兵师 '斯科普里'" "1第5步兵师 '奥赫里德'" "第16步兵师 '白海'" "第17步兵师 '比托拉'" "第20后备步兵师" "第21后备步兵师" "第22后备步兵师" "第24后备步兵师" "第25后备步兵师" "第27后备步兵师" 
+		"第13后备步兵师" "第18步兵师" "第20步兵师" "第23步兵师" "第26步兵师" "第28步兵师" "第29步兵师" "第30步兵师" 
+	}
+	cavalry_brigade = {
+		"第1骑兵师" "第2骑兵师" "第3骑兵师" "第4骑兵师" "第5骑兵师" "第6骑兵师" "第7骑兵师" "第8骑兵师" "第9骑兵师" "第10骑兵师" 
+	}
+	motorized_brigade = {
+		"第1摩步师" "第2摩步师" "第3摩步师" "第4摩步师" "第5摩步师" "第6摩步师" "第7摩步师" "第8摩步师" "第9摩步师" 
+	}
+	mechanized_brigade = {
+		"第1机步师" "第2机步师" "第3机步师" "第4机步师" "第5机步师" "第6机步师" "第7机步师" "第8机步师" "第9机步师" 
+	}
+	light_armor_brigade = {
+		"第1装甲师" "第2装甲师" "第3装甲师" "第4坦克师" "第5坦克师" "第6坦克师" "第7装甲师" "第8装甲师" "第9装甲师" "第10装甲师" 
+	}
+	armor_brigade = {
+		"第1装甲师" "第2装甲师" "第3装甲师" "第4坦克师" "第5坦克师" "第6坦克师" "第7装甲师" "第8装甲师" "第9装甲师" "第10装甲师" 
+	}
+	paratrooper_brigade = {
+		"第1伞兵师" "第2伞兵师" "第3伞兵师" "第4伞兵师" "第5伞兵师" "第6伞兵师" 
+	}
+	marine_brigade = {
+		"第1海军陆战师" "第2海军陆战师" "第3海军陆战师" "第4海军陆战师" "第5海军陆战师" "第6海军陆战师" 
+	}
+	bergsjaeger_brigade = {
+		"第1机动师" "第2机动师" "第3山地师" "第4山地师" "第5山地师" "第6山地师" "第7山地师" "第8山地师" 
+	}
+	garrison_brigade = {
+		"第1步兵师 '索菲亚'" "第2步兵师 '色雷斯'" "第3步兵师 '巴尔干'" "第4步兵师 '普雷斯拉夫'" "第5步兵师 '多瑙河'" "第6步兵师 '维丁'" "第7步兵师 '里拉'" "第8步兵师 '登萨'" "第9步兵师 '普列文'" "第10步兵师 '多罗彼'" "第11步兵师" 
+		"第12步兵师 '多布罗加'" "第14步兵师 '斯科普里'" "1第5步兵师 '奥赫里德'" "第16步兵师 '白海'" "第17步兵师 '比托拉'" "第20后备步兵师" "第21后备步兵师" "第22后备步兵师" "第24后备步兵师" "第25后备步兵师" "第27后备步兵师" 
+		"第13后备步兵师" "第18步兵师" "第20步兵师" "第23步兵师" "第26步兵师" "第28步兵师" "第29步兵师" "第30步兵师" 
+	}
+	hq_brigade = {
+		"保加利亚陆军总参谋部" "第1集团军" "第2集团军" "第3集团军" "第4集团军" "第5集团军" "第6集团军" "第7集团军" "第8集团军" "第9集团军" "第10集团军" 
+		"第15集团军" 
+	}
+	militia_brigade = {
+		"第20后备步兵师" "第21后备步兵师" "第22后备步兵师" "第24后备步兵师" "第25后备步兵师" "第27后备步兵师" "第29后备步兵师" "第'索伯纳'后备步兵师" "第23后备步兵师" "第26后备步兵师" "第28后备步兵师" 
+			}
+	multi_role = {
+		"第6战斗机联队" "第1战斗机联队" "第2战斗机联队" "第3战斗机联队" "第4战斗机联队" "第5战斗机联队" "第7战斗机联队" "第8战斗机联队" "第9战斗机联队" "第10战斗机联队" 
+	}
+	interceptor = {
+		"第6截击机联队" "第1截击机联队" "第2截击机联队" "第3截击机联队" "第4截击机联队" "第5截击机联队" "第7截击机联队" "第8截击机联队" "第9截击机联队" "第10截击机联队" 
+	}
+	strategic_bomber = {
+		"第1战略轰炸联队" "第2战略轰炸联队" "第3战略轰炸联队" "第4战略轰炸联队" "第5战略轰炸联队" "第6战略轰炸联队" "第7战略轰炸联队" "第8战略轰炸联队" "第9战略轰炸联队" "第10战略轰炸联队" 
+	}
+	tactical_bomber = {
+		"第2战术轰炸联队" "第5战术轰炸联队" "第1战术轰炸联队" "第3战术轰炸联队" "第4战术轰炸联队" "第6战术轰炸联队" "第7战术轰炸联队" "第8战术轰炸联队" "第9战术轰炸联队" "第10战术轰炸联队" 
+	}
+	naval_bomber = {
+		"第1海军轰炸联队" "第2海军轰炸联队" "第3海军轰炸联队" "第4海军轰炸联队" "第5海军轰炸联队" "第6海军轰炸联队" "第7海军轰炸联队" "第8海军轰炸联队" "第9海军轰炸联队" "第10海军轰炸联队" "第1鱼雷轰炸联队" 
+		"第2鱼雷轰炸联队" "第3鱼雷轰炸联队" "第4鱼雷轰炸联队" "第5鱼雷轰炸联队" "第8鱼雷轰炸联队" "第6鱼雷轰炸联队" "第7鱼雷轰炸联队" "第9鱼雷轰炸联队" "第10鱼雷轰炸联队" 
+	}
+	cas = {
+		"第2攻击机联队" "第1攻击机联队" "第3攻击机联队" "第4攻击机联队" "第5攻击机联队" "第6攻击机联队" "第7攻击机联队" "第8攻击机联队" "第9攻击机联队" "第10攻击机联队" 
+	}
+	transport_plane = {
+		"第1运输机联队" "第2运输机联队" "第3运输机联队" "第4运输机联队" "第5运输机联队" 
+	}
+	battleship = {
+		"德尔日奇号" "热列兹尼亚科夫号" 
+	}
+	light_cruiser = {
+		"索菲亚号" "佩尔尼克号" "斯沃盖号" "斯利夫尼察号" "布雷兹尼克号" "拉多米号" 
+	}
+	heavy_cruiser = {
+		"索菲亚号" "佩尔尼克号" "斯沃盖号" "斯利夫尼察号" "布雷兹尼克号" "拉多米号"
+	}
+	battlecruiser = {
+		"德尔日奇号" "热列兹尼亚科夫号" 
+	}
+	destroyer = {
+		"第1驱逐舰编队" "第2驱逐舰编队" "第3驱逐舰编队" "第4驱逐舰编队" "第5驱逐舰编队" "第6驱逐舰编队" "第7驱逐舰编队" "第8驱逐舰编队" "第9驱逐舰编队" "第10驱逐舰编队" 
+	}
+	carrier = {
+		"娜杰日达号" "斯特鲁玛号" 
+	}
+	escort_carrier = {
+		"索菲亚号" "普罗夫迪夫号" "瓦尔纳号" "布尔加斯号" "鲁塞号" "旧札戈拉号" "普列文号" 
+	}
+	submarine = {
+		"第1潜艇编队" "第2潜艇编队" "第3潜艇编队" "第4潜艇编队" "第5潜艇编队" "第6潜艇编队" "第7潜艇编队" "第8潜艇编队" "第9潜艇编队" "第10潜艇编队" 
+	}
+	transport_ship = {
+		"第1运输舰编队" "第2运输舰编队" "第3运输舰编队" "第4运输舰编队" "第5运输舰编队" "第6运输舰编队" "第7运输舰编队" "第8运输舰编队" "第9运输舰编队" "第10运输舰编队" 
+	}
+
+}
+
+
+ministers = {
+	19001 = {
+		name = "鲍里斯 三世"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M19001
+		head_of_state = autocratic_charmer
+		head_of_government = backroom_backstabber
+		start_date = 1936.1.1
+	}
+	19002 = {
+		name = "格奥尔基 基奥塞瓦诺夫"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M19002
+		head_of_government = backroom_backstabber
+		foreign_minister = biased_intellectual
+		start_date = 1936.1.1
+	}
+	19004 = {
+		name = "基里尔 古内夫"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M19004
+		armament_minister = administrative_genius
+		minister_of_intelligence = naval_intelligence_specialist
+		start_date = 1936.1.1
+	}
+	19005 = {
+		name = "格奥尔基 萨波夫"
+		ideology = paternal_autocrat
+		loyalty = 0.50
+		picture = M19005
+		minister_of_security = crime_fighter
+		armament_minister = corrupt_kleptocrat
+		start_date = 1936.1.1
+	}
+	19006 = {
+		name = "迪米塔尔 佩舍夫"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M19006
+		minister_of_intelligence = dismal_enigma
+		minister_of_security = compassionate_gentleman
+		start_date = 1936.1.1
+	}
+	19007 = {
+		name = "赫里斯托 卢科夫"
+		ideology = paternal_autocrat
+		loyalty = 0.50
+		picture = M19007
+		chief_of_staff = school_of_defence
+		chief_of_army = static_defence_doctrine
+		start_date = 1936.1.1
+	}
+	19008 = {
+		name = "托多尔 格奥尔基耶夫"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M19008
+		chief_of_army = static_defence_doctrine
+		chief_of_staff = school_of_manoeuvre
+		start_date = 1936.1.1
+	}
+	19009 = {
+		name = "萨瓦 伊万诺夫"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M19009
+		chief_of_navy = open_seas_doctrine
+		start_date = 1936.1.1
+	}
+	19010 = {
+		name = "瓦西尔 博伊戴夫"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M19010
+		chief_of_air = air_superiority_doctrine
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1936.1.1
+	}
+	19042 = {
+		name = "基里尔 德 普雷斯拉夫"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M19042
+		head_of_state = stern_imperialist
+		head_of_state = stern_imperialist
+		head_of_state = stern_imperialist
+		start_date = 1943.1.1
+	}
+	19044 = {
+		name = "亚历山杜尔 灿科夫"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M19021
+		head_of_state = barking_buffoon
+		head_of_government = backroom_backstabber
+		foreign_minister = ideological_crusader
+		start_date = 1943.1.1
+	}
+	19047 = {
+		name = "尼古拉 佩特科夫"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M19047
+		head_of_state = die_hard_reformer
+		head_of_government = flamboyant_tough_guy
+		foreign_minister = the_cloak_n_dagger_schemer
+		start_date = 1945.1.1
+	}
+	19049 = {
+		name = "科姆雷德 鲍里斯 科堡"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M19001
+		head_of_state = autocratic_charmer
+		start_date = 1939.1.1
+	}
+	19050 = {
+		name = "格奥尔基 迪米特罗夫"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M19032
+		head_of_state = power_hungry_demagogue
+		head_of_government = political_protege
+		armament_minister = military_entrepreneur
+		start_date = 1943.1.1
+	}
+	19051 = {
+		name = "瓦西尔 科拉罗夫"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M19031
+		head_of_state = weary_stiff_neck
+		foreign_minister = ideological_crusader
+		foreign_minister = ideological_crusader
+		head_of_government = flamboyant_tough_guy
+		start_date = 1945.1.1
+	}
+	19052 = {
+		name = "波格丹 菲洛夫"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M19024
+		head_of_government = political_protege
+		foreign_minister = biased_intellectual
+		armament_minister = infantry_proponent
+		start_date = 1939.1.1
+	}
+	19053 = {
+		name = "多布里 博伊洛夫"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M19053
+		head_of_government = corporate_suit
+		armament_minister = infantry_proponent
+		start_date = 1943.1.1
+	}
+	19054 = {
+		name = "伊万 巴格莱恩诺夫"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M19054
+		head_of_government = old_general
+		foreign_minister = iron_fisted_brute
+		start_date = 1944.1.1
+	}
+	19056 = {
+		name = "彼得 加布罗夫斯基"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M19022
+		head_of_government = naive_optimist
+		minister_of_security = back_stabber
+		start_date = 1943.1.1
+	}
+	19057 = {
+		name = "康斯坦丁 穆拉维耶夫"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M19012
+		head_of_government = happy_amateur
+		foreign_minister = apologetic_clerk
+		start_date = 1939.1.1
+	}
+	19059 = {
+		name = "基蒙 格奥尔基耶夫"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M19059
+		head_of_government = naive_optimist
+		foreign_minister = general_staffer
+		start_date = 1944.1.1
+	}
+	19061 = {
+		name = "伊万 波波夫"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M19061
+		foreign_minister = biased_intellectual
+		start_date = 1939.1.1
+	}
+	19062 = {
+		name = "亚历山大 尼古拉耶夫"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M19062
+		foreign_minister = ideological_crusader
+		start_date = 1939.1.1
+	}
+	19064 = {
+		name = "迪米塔尔 希什马诺夫"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M19064
+		foreign_minister = the_cloak_n_dagger_schemer
+		start_date = 1943.1.1
+	}
+	19066 = {
+		name = "皮尔万 德拉加诺夫"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M19066
+		foreign_minister = general_staffer
+		start_date = 1944.1.1
+	}
+	19068 = {
+		name = "阿塔纳斯 布罗夫"
+		ideology = social_conservative
+		loyalty = 0.50
+		picture = M19068
+		foreign_minister = great_compromiser
+		armament_minister = laissez_faires_capitalist
+		minister_of_intelligence = industrial_specialist
+		start_date = 1939.1.1
+	}
+	19069 = {
+		name = "格奥尔基 布拉索夫"
+		ideology = social_conservative
+		loyalty = 0.50
+		picture = M19069
+		foreign_minister = biased_intellectual
+		start_date = 1943.1.1
+	}
+	19072 = {
+		name = "佩特科 斯塔伊诺夫"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M19072
+		foreign_minister = biased_intellectual
+		start_date = 1944.1.1
+	}
+	19073 = {
+		name = "格奥尔基 库利切夫"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M19073
+		foreign_minister = the_cloak_n_dagger_schemer
+		minister_of_security = crime_fighter
+		minister_of_intelligence = naval_intelligence_specialist
+		head_of_state = popular_figurehead
+		head_of_government = happy_amateur
+		start_date = 1945.1.1
+	}
+	19075 = {
+		name = "格奥尔基 达米亚诺夫"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M19075
+		foreign_minister = iron_fisted_brute
+		start_date = 1944.1.1
+	}
+	19079 = {
+		name = "萨瓦 基洛夫"
+		ideology = paternal_autocrat
+		loyalty = 0.50
+		picture = M19079
+		armament_minister = laissez_faires_capitalist
+		minister_of_intelligence = industrial_specialist
+		start_date = 1941.1.1
+	}
+	19080 = {
+		name = "斯坦科 尼古拉多罗夫"
+		ideology = paternal_autocrat
+		loyalty = 0.50
+		picture = M19080
+		armament_minister = corrupt_kleptocrat
+		start_date = 1944.1.1
+	}
+	19082 = {
+		name = "亚历山大 格尔吉诺夫"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M19014
+		armament_minister = resource_industrialist
+		minister_of_security = silent_lawyer
+		start_date = 1939.1.1
+	}
+	19084 = {
+		name = "迪米塔尔 萨沃夫"
+		ideology = social_conservative
+		loyalty = 0.50
+		picture = M19084
+		armament_minister = tank_proponent
+		start_date = 1944.1.1
+	}
+	19085 = {
+		name = "伊万 盖迪米特里夫"
+		ideology = social_conservative
+		loyalty = 0.50
+		picture = M19085
+		armament_minister = strategic_air_proponent
+		start_date = 1945.1.1
+	}
+	19086 = {
+		name = "佩特科 斯托亚诺夫"
+		ideology = left_wing_radical
+		loyalty = 0.50
+		picture = M19086
+		armament_minister = theoretical_scientist
+		start_date = 1944.1.1
+	}
+	19087 = {
+		name = "斯坦乔 乔拉科夫"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M19087
+		armament_minister = administrative_genius
+		start_date = 1945.1.1
+	}
+	19089 = {
+		name = "伊万 斯特凡诺夫"
+		ideology = leninist
+		loyalty = 0.50
+		picture = M19034
+		armament_minister = battle_fleet_proponent
+		start_date = 1944.1.1
+	}
+	19090 = {
+		name = "佩特科 库宁"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M19090
+		armament_minister = air_to_ground_proponent
+		start_date = 1945.1.1
+	}
+	19091 = {
+		name = "伊万 克拉斯诺夫斯基"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M19091
+		minister_of_security = efficient_sociopath
+		start_date = 1937.1.1
+	}
+	19092 = {
+		name = "尼古拉 尼古拉耶夫"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M19092
+		minister_of_security = crime_fighter
+		start_date = 1938.1.1
+	}
+	19093 = {
+		name = "尼古拉 内德夫"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M19093
+		minister_of_security = silent_lawyer
+		start_date = 1939.1.1
+	}
+	19094 = {
+		name = "多霍 赫里斯托夫"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M19094
+		minister_of_security = crooked_kleptocrat
+		start_date = 1943.1.1
+	}
+	19095 = {
+		name = "亚历山代尔 斯塔尼舍夫"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M19095
+		minister_of_security = prince_of_terror
+		start_date = 1944.1.1
+	}
+	19099 = {
+		name = "赖茨霍 佩基莫夫"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M19099
+		minister_of_security = efficient_sociopath
+		start_date = 1943.1.1
+	}
+	19100 = {
+		name = "弗吉尔 迪莫夫"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M19100
+		minister_of_security = man_of_the_people
+		head_of_state = insignificant_layman
+		head_of_state = insignificant_layman
+		head_of_government = silent_workhorse
+		head_of_government = silent_workhorse
+		start_date = 1944.1.1
+	}
+	19101 = {
+		name = "尼古拉 穆沙诺夫"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M19015
+		minister_of_security = compassionate_gentleman
+		start_date = 1945.1.1
+	}
+	19103 = {
+		name = "武尔科 切尔文科夫"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M19103
+		minister_of_security = prince_of_terror
+		head_of_state = stern_imperialist
+		head_of_government = happy_amateur
+		start_date = 1939.1.1
+	}
+	19104 = {
+		name = "安东 尤戈夫"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M19035
+		minister_of_security = prince_of_terror
+		start_date = 1944.1.1
+	}
+	19106 = {
+		name = "斯特凡 诺伊科夫"
+		ideology = paternal_autocrat
+		loyalty = 0.50
+		picture = M19106
+		minister_of_intelligence = political_specialist
+		start_date = 1943.1.1
+	}
+	19108 = {
+		name = "基里尔 斯坦切夫"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M19026
+		minister_of_intelligence = dismal_enigma
+		chief_of_army = armoured_spearhead_doctrine
+		start_date = 1939.1.1
+	}
+	19109 = {
+		name = "伊万 罗格扎尔斯基"
+		ideology = national_socialist
+		loyalty = 0.75
+		picture = M19109
+		minister_of_intelligence = research_specialist
+		start_date = 1944.1.1
+	}
+	19110 = {
+		name = "鲍里斯 博坦"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M19110
+		minister_of_intelligence = naval_intelligence_specialist
+		start_date = 1939.1.1
+	}
+	19113 = {
+		name = "特莱乔 科斯托夫"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M19036
+		minister_of_intelligence = research_specialist
+		start_date = 1939.1.1
+	}
+	19114 = {
+		name = "明乔 奈切夫"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M19114
+		minister_of_intelligence = political_specialist
+		foreign_minister = the_cloak_n_dagger_schemer
+		start_date = 1945.1.1
+	}
+	19115 = {
+		name = "特奥多西 达斯卡洛夫"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M19115
+		chief_of_staff = school_of_defence
+		start_date = 1939.1.1
+	}
+	19116 = {
+		name = "尼古拉 米霍夫"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M19116
+		chief_of_staff = school_of_fire_support
+		start_date = 1942.1.1
+	}
+	19117 = {
+		name = "鲁西 鲁塞夫"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M19117
+		chief_of_staff = school_of_mass_combat
+		start_date = 1943.1.1
+	}
+	19119 = {
+		name = "伊万 沃尔科夫"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M19027
+		chief_of_staff = school_of_defence
+		start_date = 1939.1.1
+	}
+	19120 = {
+		name = "伊万 马里诺夫"
+		ideology = social_conservative
+		loyalty = 0.25
+		picture = M19017
+		chief_of_staff = school_of_manoeuvre
+		chief_of_army = static_defence_doctrine
+		start_date = 1939.1.1
+	}
+	19121 = {
+		name = "格奥尔基 佩佐夫"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M19019
+		chief_of_staff = school_of_defence
+		chief_of_navy = base_control_doctrine
+		start_date = 1943.1.1
+	}
+	19122 = {
+		name = "达米扬 韦尔切尔"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M19122
+		chief_of_staff = school_of_psychology
+		start_date = 1944.1.1
+	}
+	19123 = {
+		name = "赫里斯托 米哈伊洛夫"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M19037
+		chief_of_staff = school_of_mass_combat
+		start_date = 1939.1.1
+	}
+	19124 = {
+		name = "阿森 格列科夫"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M19124
+		chief_of_staff = school_of_manoeuvre
+		start_date = 1945.1.1
+	}
+	19125 = {
+		name = "约尔丹 佩耶夫"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M19125
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1937.1.1
+	}
+	19126 = {
+		name = "尼古拉 哈齐佩科夫"
+		ideology = paternal_autocrat
+		loyalty = 0.50
+		picture = M19126
+		chief_of_army = static_defence_doctrine
+		start_date = 1939.1.1
+	}
+	19128 = {
+		name = "康斯坦丁 卢卡什"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M19128
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1943.1.1
+	}
+	19131 = {
+		name = "特里丰 特里福诺夫"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M19131
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1944.1.1
+	}
+	19133 = {
+		name = "赖茨霍 斯拉夫科夫"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M19018
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1944.1.1
+	}
+	19134 = {
+		name = "米哈伊尔 明采夫"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M19134
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1944.1.1
+	}
+	19135 = {
+		name = "米哈伊尔 明采夫"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M19038
+		chief_of_army = decisive_battle_doctrine
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1939.1.1
+	}
+	19136 = {
+		name = "伊万 基诺夫"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M19136
+		chief_of_army = armoured_spearhead_doctrine
+		start_date = 1944.1.1
+	}
+	19137 = {
+		name = "伊万 瓦里克列什科夫"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M19137
+		chief_of_navy = base_control_doctrine
+		start_date = 1938.1.1
+	}
+	19138 = {
+		name = "阿森 托舍夫v"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M19138
+		chief_of_navy = open_seas_doctrine
+		start_date = 1939.1.1
+	}
+	19139 = {
+		name = "阿塔纳斯 沙拉帕托夫"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M19029
+		chief_of_navy = decisive_naval_battle_doctrine
+		start_date = 1939.1.1
+	}
+	19141 = {
+		name = "拉乔 巴塔诺夫"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M19141
+		chief_of_navy = open_seas_doctrine
+		start_date = 1944.1.1
+	}
+	19142 = {
+		name = "基里尔 哈拉采夫"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M19039
+		chief_of_navy = indirect_approach_doctrine
+		start_date = 1939.1.1
+	}
+	19143 = {
+		name = "斯特凡 查涅夫"
+		ideology = stalinist
+		loyalty = 0.25
+		picture = M19143
+		chief_of_navy = decisive_naval_battle_doctrine
+		start_date = 1945.1.1
+	}
+	19145 = {
+		name = "迪米塔尔 艾尔亚诺夫"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M19145
+		chief_of_air = air_superiority_doctrine
+		start_date = 1941.1.1
+	}
+	19146 = {
+		name = "丘多米尔 托普洛多尔斯基"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M19030
+		chief_of_air = vertical_envelopment_doctrine
+		start_date = 1939.1.1
+	}
+	19147 = {
+		name = "丘多米尔 托普洛多尔斯基"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M19020
+		chief_of_air = air_superiority_doctrine
+		start_date = 1939.1.1
+	}
+	19148 = {
+		name = "格奥尔基 德雷尼科夫"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M19148
+		chief_of_air = carpet_bombing_doctrine
+		start_date = 1944.1.1
+	}
+	19149 = {
+		name = "瓦西尔 维尔科夫"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M19149
+		chief_of_air = vertical_envelopment_doctrine
+		start_date = 1944.1.1
+	}
+	19150 = {
+		name = "扎哈里 扎哈里耶夫"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M19150
+		chief_of_air = vertical_envelopment_doctrine
+		start_date = 1939.1.1
+	}
+	19159 = {
+		name = "弗拉迪米尔 波普托莫夫"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M19159
+		foreign_minister = iron_fisted_brute
+		start_date = 1949.1.1
+	}
+	19161 = {
+		name = "格奥尔基 达米扬诺夫"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M19161
+		armament_minister = tank_proponent
+		start_date = 1946.1.1
+	}
+	19162 = {
+		name = "彼得 潘切夫斯基"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M19162
+		armament_minister = military_entrepreneur
+		start_date = 1949.1.1
+	}
+	19163 = {
+		name = "鲁西 赫里斯托佐夫"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M19163
+		minister_of_security = back_stabber
+		start_date = 1949.1.1
+	}
+	19164 = {
+		name = "格奥尔基 昌科夫"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M19164
+		minister_of_security = crooked_kleptocrat
+		start_date = 1951.1.1
+	}
+	19165 = {
+		name = "佩特科 库宁"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M19165
+		minister_of_intelligence = industrial_specialist
+		start_date = 1950.1.1
+	}
+}
+

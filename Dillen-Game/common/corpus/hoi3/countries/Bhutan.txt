@@ -1,0 +1,308 @@
+color = { 225  131  148 }
+graphical_culture = Japanese
+
+default_templates = {
+	generic_infantry = {
+		infantry_brigade
+		infantry_brigade
+		infantry_brigade
+	}
+	generic_milita = {
+		militia_brigade
+		militia_brigade
+		militia_brigade
+	}
+	generic_armoured = {
+		armor_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	generic_cavalry = {
+		cavalry_brigade
+		cavalry_brigade
+	}
+}
+
+unit_names = {
+	infantry_brigade = {
+		"王室卫队" "皇家卫队" "第1 不丹步兵师" "第2 不丹步兵师" "第3 不丹步兵师" "第4 不丹步兵师" "第5 不丹步兵师" "第6 不丹步兵师" "第7 不丹步兵师" "第8 不丹步兵师" "第9 不丹步兵师" 
+		"第10 不丹步兵师" "第11 不丹步兵师" "第12 不丹步兵师" "第13 不丹步兵师" "1第4 不丹步兵师" "1第5 不丹步兵师" "1第6 不丹步兵师" "1第7 不丹步兵师" "1第8 不丹步兵师" "1第9 不丹步兵师" "20th 不丹步兵师" 
+			}
+	cavalry_brigade = {
+		"第1 不丹骑兵师" "第2 不丹骑兵师" "第3 不丹骑兵师" "第4 不丹骑兵师" "第5 不丹骑兵师" "第6 不丹骑兵师" "第7 不丹骑兵师" "第8 不丹骑兵师" "第9 不丹骑兵师" "第10 不丹骑兵师" 
+	}
+	motorized_brigade = {
+		"第1 不丹摩步师" "第2 不丹摩步师" "第3 不丹摩步师" "第4 不丹摩步师" "第5 不丹摩步师" "第6 不丹摩步师" "第7 不丹摩步师" "第8 不丹摩步师" "第9 不丹摩步师" "第10 不丹摩步师" 
+	}
+	mechanized_brigade = {
+		"第1 不丹机步师" "第2 不丹机步师" "第3 不丹机步师" "第4 不丹机步师" "第5 不丹机步师" "第6 不丹机步师" "第7 不丹机步师" "第8 不丹机步师" "第9 不丹机步师" "第10 不丹机步师" 
+	}
+	light_armor_brigade = {
+		"第1 不丹轻装甲师" "第2 不丹轻装甲师" "第3 不丹轻装甲师" "第4 不丹轻装甲师" "第5 不丹轻装甲师" "第6 不丹轻装甲师" "第7 不丹轻装甲师" "第8 不丹轻装甲师" "第9 不丹轻装甲师" "第10 不丹轻装甲师" "第11 不丹轻装甲师" 
+		"第12 不丹轻装甲师" "1第4 不丹轻装甲师" "1第5 不丹轻装甲师" 
+	}
+	armor_brigade = {
+		"第1 不丹装甲师" "第2 不丹装甲师" "第3 不丹装甲师" "第4 不丹装甲师" "第5 不丹装甲师" "第6 不丹装甲师" "第7 不丹装甲师" "第8 不丹装甲师" "第9 不丹装甲师" "第10 不丹装甲师" "第11 不丹装甲师" 
+		"第12 不丹装甲师" "1第4 不丹装甲师" "1第5 不丹装甲师" 
+	}
+	paratrooper_brigade = {
+		"第1 不丹空降师" "第2 不丹空降师" "第3 不丹空降师" "第4 不丹空降师" "第5 不丹空降师" "第6 不丹空降师" "第7 不丹空降师" "第8 不丹空降师" "第9 不丹空降师" "第10 不丹空降师" 
+	}
+	marine_brigade = {
+		"第1 不丹海军陆战师" "第2 不丹海军陆战师" "第3 不丹海军陆战师" "第4 不丹海军陆战师" "第5 不丹海军陆战师" "第6 不丹海军陆战师" "第7 不丹海军陆战师" "第8 不丹海军陆战师" "第9 不丹海军陆战师" "第10 不丹海军陆战师" 
+	}
+	bergsjaeger_brigade = {
+		"第1 廓尔喀山地师" "第2 廓尔喀山地师" "第3 廓尔喀山地师" "第4 廓尔喀山地师" "第5 廓尔喀山地师" "第8 廓尔喀山地师" "第10 廓尔喀山地师" "第11 廓尔喀山地师" "第12 廓尔喀山地师" 
+	}
+	garrison_brigade = {
+		"第1 不丹卫戍师" "第2 不丹卫戍师" "第3 不丹卫戍师" "第4 不丹卫戍师" "第5 不丹卫戍师" "第6 不丹卫戍师" "第7 不丹卫戍师" "第8 不丹卫戍师" "第9 不丹卫戍师" "第10 不丹卫戍师" "第11 不丹卫戍师" 
+		"第12 不丹卫戍师" "第13 不丹卫戍师" "1第4 不丹卫戍师" "1第5 不丹卫戍师" "1第6 不丹卫戍师" 
+	}
+	hq_brigade = {
+		"第1军" "第2军" "第3军" "第4军" "第5军" "第6军" "第7军" "第8军" "第9军" "第10军" "1第5军" 
+			}
+	militia_brigade = {
+		"第1 不丹民兵师" "第2 不丹民兵师" "第3 不丹民兵师" "第4 不丹民兵师" "第5 不丹民兵师" "第6 不丹民兵师" "第7 不丹民兵师" "第8 不丹民兵师" "第9 不丹民兵师" "第10 不丹民兵师" "第11 不丹民兵师" 
+		"第12 不丹民兵师" "第13 不丹民兵师" "1第4 不丹民兵师" "1第5 不丹民兵师" "1第6 不丹民兵师" "1第7 不丹民兵师" "1第8 不丹民兵师" "1第9 不丹民兵师" "20th 不丹民兵师" "2第1 不丹民兵师" "2第2 不丹民兵师" 
+		"2第3 不丹民兵师" "2第4 不丹民兵师" "2第5 不丹民兵师" "2第6 不丹民兵师" "2第7 不丹民兵师" "2第8 不丹民兵师" "2第9 不丹民兵师" "30th 不丹民兵师" 
+	}
+	multi_role = {
+		"No.1战斗机联队" "No.2战斗机联队" "No.3战斗机联队" "No.4战斗机联队" "No.5战斗机联队" "No.7战斗机联队" "No.8战斗机联队" "No.9战斗机联队" "No.10战斗机联队" 
+	}
+	interceptor = {
+		"No.1截击机联队" "No.2截击机联队" "No.3截击机联队" "No.4截击机联队" "No.5截击机联队" "No.7截击机联队" "No.8截击机联队" "No.9截击机联队" "No.10截击机联队" 
+	}
+	strategic_bomber = {
+		"No.1战略轰炸联队" "No.2战略轰炸联队" "No.6战略轰炸联队" "No.3战略轰炸联队" "No.4战略轰炸联队" "No.7战略轰炸联队" "No.8战略轰炸联队" "No.9战略轰炸联队" "No.10战略轰炸联队" 
+	}
+	tactical_bomber = {
+		"No.1战术轰炸联队" "No.2战术轰炸联队" "No.6战术轰炸联队" "No.3战术轰炸联队" "No.4战术轰炸联队" "No.7战术轰炸联队" "No.8战术轰炸联队" "No.9战术轰炸联队" "No.10战术轰炸联队" 
+	}
+	naval_bomber = {
+		"No.1海军轰炸联队" "No.2海军轰炸联队" "No.3海军轰炸联队" "No.4海军轰炸联队" "No.5海军轰炸联队" "No.7海军轰炸联队" "No.8海军轰炸联队" "No.9海军轰炸联队" "No.10海军轰炸联队" "No.1海军鱼雷机联队" "No.2海军鱼雷机联队" 
+		"No.3海军鱼雷机联队" "No.4海军鱼雷机联队" "No.5海军鱼雷机联队" "No.7海军鱼雷机联队" "No.8海军鱼雷机联队" "No.9海军鱼雷机联队" "No.10海军鱼雷机联队" 
+	}
+	cas = {
+		"No.1俯冲轰炸机联队" "No.2俯冲轰炸机联队" "No.6俯冲轰炸机联队" "No.3俯冲轰炸机联队" "No.4俯冲轰炸机联队" "No.7俯冲轰炸机联队" "No.8俯冲轰炸机联队" "No.9俯冲轰炸机联队" "No.10俯冲轰炸机联队" 
+	}
+	transport_plane = {
+		"No.1运输机联队" "No.2运输机联队" "No.3运输机联队" "No.4运输机联队" "No.5运输机联队" 
+	}
+	battleship = {
+		"不丹" "拉吉 森德纳瓦" 
+	}
+	light_cruiser = {
+		"安路那查尔" "帕登思" "伯姆迪拉" "伊塔拉贾" "廷布" 
+	}
+	heavy_cruiser = {
+		"Arunachal" "帕登思" "伯姆迪拉" "伊塔拉贾" "廷布" 
+	}
+	battlecruiser = {
+		"不丹" "拉吉 森德纳瓦" 
+	}
+	destroyer = {
+		"第1驱逐舰大队" "第2驱逐舰大队" "第3驱逐舰大队" "第4驱逐舰大队" "第5驱逐舰大队" "第6驱逐舰大队" "第7驱逐舰大队" "第8驱逐舰大队" "第9驱逐舰大队" "第10驱逐舰大队" 
+	}
+	carrier = {
+		"Druk" 
+	}
+	submarine = {
+		"第1潜艇大队" "第2潜艇大队" "第3潜艇大队" "第4潜艇大队" "第5潜艇大队" "第6潜艇大队" "第7潜艇大队" "第8潜艇大队" "第9潜艇大队" "第10潜艇大队" 
+	}
+	transport_ship = {
+		"第1运输船队" "第2运输船队" "第3运输船队" "第4运输船队" "第5运输船队" "第6运输船队" "第7运输船队" "第8运输船队" "第9运输船队" "第10运输船队" 
+	}
+
+}
+
+
+ministers = {
+	74001 = {
+		name = "吉美·旺彻克"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M74001
+		head_of_state = pig_headed_isolationist
+		armament_minister = infantry_proponent
+		chief_of_army = static_defence_doctrine
+		start_date = 1936.1.1
+	}
+	74002 = {
+		name = "索南·托布加伊·多杰"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M74002
+		head_of_government = backroom_backstabber
+		foreign_minister = biased_intellectual
+		armament_minister = laissez_faires_capitalist
+		minister_of_security = man_of_the_people
+		start_date = 1936.1.1
+	}
+	74004 = {
+		name = "阿马德·亚哈斯"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M74004
+		armament_minister = infantry_proponent
+		foreign_minister = the_cloak_n_dagger_schemer
+		minister_of_security = prince_of_terror
+		chief_of_navy = decisive_naval_battle_doctrine
+		start_date = 1936.1.1
+	}
+	74005 = {
+		name = "芒·珀斯·布尔·巴伊·日戈亚尔珀"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M74005
+		minister_of_security = man_of_the_people
+		foreign_minister = ideological_crusader
+		start_date = 1936.1.1
+	}
+	74006 = {
+		name = "雷吉诺德·B.·斯蒂文斯"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M74006
+		minister_of_intelligence = dismal_enigma
+		chief_of_staff = school_of_manoeuvre
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1936.1.1
+	}
+	74007 = {
+		name = "兰戈亚尔·巴哈杜尔"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M74007
+		chief_of_staff = school_of_manoeuvre
+		foreign_minister = general_staffer
+		armament_minister = strategic_air_proponent
+		minister_of_security = compassionate_gentleman
+		minister_of_intelligence = industrial_specialist
+		chief_of_air = carpet_bombing_doctrine
+		start_date = 1936.1.1
+	}
+	74008 = {
+		name = "菲利普·托泽伊"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M74008
+		chief_of_army = guns_and_butter_doctrine
+		chief_of_staff = school_of_defence
+		start_date = 1936.1.1
+	}
+	74009 = {
+		name = "汤米·古尔德"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M74009
+		chief_of_navy = indirect_approach_doctrine
+		armament_minister = submarine_proponent
+		minister_of_intelligence = naval_intelligence_specialist
+		chief_of_staff = school_of_psychology
+		start_date = 1936.1.1
+	}
+	74010 = {
+		name = "尼基·巴尔"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M74010
+		chief_of_air = air_superiority_doctrine
+		armament_minister = air_superiority_proponent
+		start_date = 1936.1.1
+	}
+	74011 = {
+		name = "巴西尔·古尔德爵士"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M74011
+		foreign_minister = iron_fisted_brute
+		minister_of_security = silent_lawyer
+		start_date = 1937.1.1
+	}
+	74015 = {
+		name = "威廉·斯蒂文森·梅耶尔"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M74015
+		foreign_minister = apologetic_clerk
+		armament_minister = resource_industrialist
+		minister_of_security = crime_fighter
+		start_date = 1941.1.1
+	}
+	74016 = {
+		name = "亚瑟·约翰·霍普金森"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M74016
+		foreign_minister = great_compromiser
+		armament_minister = theoretical_scientist
+		minister_of_intelligence = technical_specialist
+		start_date = 1945.1.1
+	}
+	74017 = {
+		name = "爱德华·库克"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M74017
+		foreign_minister = biased_intellectual
+		armament_minister = administrative_genius
+		minister_of_security = efficient_sociopath
+		minister_of_intelligence = political_specialist
+		start_date = 1945.1.1
+	}
+	74019 = {
+		name = "卡尔马·S.·巴哈杜尔"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M74019
+		armament_minister = military_entrepreneur
+		minister_of_security = back_stabber
+		minister_of_intelligence = dismal_enigma
+		start_date = 1938.1.1
+	}
+	74026 = {
+		name = "比尔·科勒特"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M74026
+		armament_minister = air_to_ground_proponent
+		chief_of_air = army_aviation_doctrine
+		start_date = 1944.1.1
+	}
+	74029 = {
+		name = "索南·帕拉杜哈"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M74029
+		armament_minister = tank_proponent
+		chief_of_staff = school_of_fire_support
+		chief_of_army = armoured_spearhead_doctrine
+		start_date = 1945.1.1
+	}
+	74040 = {
+		name = "亨利·威东·古尔德"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M74040
+		minister_of_intelligence = research_specialist
+		chief_of_staff = school_of_mass_combat
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1943.1.1
+	}
+	74056 = {
+		name = "多吉·吉格梅·旺楚克"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M74056
+		head_of_state = weary_stiff_neck
+		start_date = 1952.1.1
+	}
+	74057 = {
+		name = "吉格梅·帕尔登·多杰"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M74057
+		head_of_government = corporate_suit
+		start_date = 1952.1.1
+	}
+}

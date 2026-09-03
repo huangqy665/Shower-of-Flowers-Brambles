@@ -1,0 +1,931 @@
+color = { 93  181  227 }
+graphical_culture = Generic
+
+last_election = 1932.1.26
+duration = 48
+
+default_templates = {
+	generic_infantry = {
+		infantry_brigade
+		infantry_brigade
+		infantry_brigade
+	}
+	generic_milita = {
+		militia_brigade
+		militia_brigade
+		militia_brigade
+	}
+	generic_armoured = {
+		armor_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	generic_cavalry = {
+		cavalry_brigade
+		cavalry_brigade
+	}
+}
+
+unit_names = {
+	infantry_brigade = {
+		"第1步兵师" "第2步兵师" "第3步兵师" "第4步兵师" "第5步兵师" "第6步兵师" "第7步兵师" "第8步兵师" "第9步兵师" "第10步兵师" 
+		"第11步兵师" "第12步兵师" "第13步兵师" "第14步兵师" "第15步兵师" "第16步兵师" "第17步兵师" "第18步兵师" "第19步兵师" "第20步兵师" 
+		"第21步兵师" "第22步兵师" "第23步兵师" "第24步兵师" "第25步兵师" "第26步兵师" "第27步兵师" "第28步兵师" "第29步兵师" "第30步兵师" 
+	}
+	cavalry_brigade = {
+		"第1骑兵师" "第2骑兵师" "第3骑兵师" "第4骑兵师" "第5骑兵师" "第6骑兵师" "第7骑兵师" "第8骑兵师" "第9骑兵师" "第10骑兵师" 
+	}
+	motorized_brigade = {
+		"第1摩托化步兵师" "第2摩托化步兵师" "第3摩托化步兵师" "第4摩托化步兵师" "第5摩托化步兵师" "第6摩托化步兵师" "第7摩托化步兵师" "第8摩托化步兵师" "第9摩托化步兵师" "第10摩托化步兵师"  
+	}
+	mechanized_brigade = {
+		"第1机械化步兵师" "第2机械化步兵师" "第3机械化步兵师" "第4机械化步兵师" "第5机械化步兵师" "第6机械化步兵师" "第7机械化步兵师" "第8机械化步兵师" "第9机械化步兵师" "第10机械化步兵师" 
+	}
+	light_armor_brigade = {
+		"第1装甲师" "第2装甲师" "第3装甲师" "第4装甲师" "第5装甲师" "第6装甲师" "第7装甲师" "第8装甲师" "第9装甲师" "第10装甲师" 
+	}
+	armor_brigade = {
+		"第1装甲师" "第2装甲师" "第3装甲师" "第4装甲师" "第5装甲师" "第6装甲师" "第7装甲师" "第8装甲师" "第9装甲师" "第10装甲师" 
+	}
+	paratrooper_brigade = {
+		"第1空降师" "第2空降师" "第3空降师" "第4空降师" "第5空降师" "第6空降师" "第7空降师" "第8空降师" "第9空降师" "第10空降师" 
+	}
+	marine_brigade = {
+		"第1海军陆战师" "第2海军陆战师" "第3海军陆战师" "第4海军陆战师" "第5海军陆战师" "第6海军陆战师" "第7海军陆战师" "第8海军陆战师" "第9海军陆战师" "第10海军陆战师" 
+		"第11海军陆战师" "第12海军陆战师" "第13海军陆战师" "第14海军陆战师" "第15海军陆战师" 
+	}
+	bergsjaeger_brigade = {
+		"第1山地师" "第2山地师" "第3山地师" "第4山地师" "第5山地师" "第6山地师" "第7山地师" "第8山地师" "第9山地师" "第10山地师" 
+		"第11山地师" "第12山地师" "第13山地师" "第14山地师" "第15山地师" 
+	}
+	garrison_brigade = {
+		"第1步兵师" "第2步兵师" "第3步兵师" "第4步兵师" "第5步兵师" "第6步兵师" "第7步兵师" "第8步兵师" "第9步兵师" "第10步兵师" 
+		"第11步兵师" "第12步兵师" "第13步兵师" "第14步兵师" "第15步兵师" "第16步兵师" "第17步兵师" "第18步兵师" "第19步兵师" "第20步兵师" 
+		"第21步兵师" "第22步兵师" "第23步兵师" "第24步兵师" "第25步兵师" "第26步兵师" "第27步兵师" "第28步兵师" "第29步兵师" "第30步兵师" 
+	}
+	hq_brigade = {
+		"第1战区" "第2战区" "第3战区" "第4战区" "第5战区" "第6战区" "第7战区" "第8战区" "第9战区" "第10战区" 
+			}
+	militia_brigade = {
+		"第1民兵师" "第2民兵师" "第3民兵师" "第4民兵师" "第5民兵师" "第6民兵师" "第7民兵师" "第8民兵师" "第9民兵师" "第10民兵师" 
+		"第11民兵师" "第12民兵师" "第13民兵师" "第14民兵师" "第15民兵师" "第16民兵师" "第17民兵师" "第18民兵师" "第19民兵师" "第20民兵师"
+	}
+	multi_role = {
+		"第1歼击机联队" "第2歼击机联队" "第3歼击机联队" "第4歼击机联队" "第5歼击机联队" "第6歼击机联队" "第7歼击机联队" "第8歼击机联队" "第9歼击机联队" "第10歼击机联队" 
+	}
+	interceptor = {
+		"第1歼击机联队" "第2歼击机联队" "第3歼击机联队" "第4歼击机联队" "第5歼击机联队" "第6歼击机联队" "第7歼击机联队" "第8歼击机联队" "第9歼击机联队" "第10歼击机联队" 
+	}
+	strategic_bomber = {
+		"第1战略轰炸联队" "第2战略轰炸联队" "第3战略轰炸联队" "第4战略轰炸联队" "第5战略轰炸联队" "第6战略轰炸联队" "第7战略轰炸联队" "第8战略轰炸联队" "第9战略轰炸联队" "第10战略轰炸联队" 
+	}
+	tactical_bomber = {
+		"第1战术轰炸联队" "第2战术轰炸联队" "第3战术轰炸联队" "第4战术轰炸联队" "第5战术轰炸联队" "第6战术轰炸联队" "第7战术轰炸联队" "第8战术轰炸联队" "第9战术轰炸联队" "第10战术轰炸联队" 
+	}
+	naval_bomber = {
+		"第1海军轰炸联队" "第2海军轰炸联队" "第3海军轰炸联队" "第4海军轰炸联队" "第5海军轰炸联队" "第6海军轰炸联队" "第7海军轰炸联队" "第8海军轰炸联队" "第9海军轰炸联队" "第10海军轰炸联队" 
+		"第1鱼雷轰炸联队" "第2鱼雷轰炸联队" "第3鱼雷轰炸联队" "第4鱼雷轰炸联队" "第5鱼雷轰炸联队" "第6鱼雷轰炸联队" "第7鱼雷轰炸联队" "第8鱼雷轰炸联队" "第9鱼雷轰炸联队" "第10鱼雷轰炸联队" 
+	}
+	cas = {
+		"第1俯冲轰炸联队" "第2俯冲轰炸联队" "第3俯冲轰炸联队" "第4俯冲轰炸联队" "第5俯冲轰炸联队" "第6俯冲轰炸联队" "第7俯冲轰炸联队" "第8俯冲轰炸联队" "第9俯冲轰炸联队" "第10俯冲轰炸联队" 
+	}
+	transport_plane = {
+		"第1运输机联队" "第2运输机联队" "第3运输机联队" "第4运输机联队" "第5运输机联队" "第6运输机联队" "第7运输机联队" "第8运输机联队" "第9运输机联队" "第10运输机联队"  
+	}
+	battleship = {
+		"BEN 基尔基斯号" "BEN 雅典号" "BEN 色萨利号" "BEN 伊庇鲁斯号" "BEN 伯罗奔尼撒号" 
+	}
+	light_cruiser = {
+		"BEN 阿珀斯托里斯号" "BEN 卡纳里斯号" "BEN 萨奇图里斯号" "BEN 汤姆巴兹斯号" "BEN 埃利斯号" "BEN 比雷埃夫斯号" "BEN 基克拉泽斯号" "BEN 亚历桑德罗斯号" "BEN 帕特累号" 
+	}
+	heavy_cruiser = {
+		"BEN 阿韦罗夫号" "BEN 埃利斯号" "BEN 比雷埃夫斯号" "BEN 基克拉泽斯号" "BEN 亚历桑德罗斯号" "BEN 帕特累号" "BEN 克里特号" "BEN 爱琴号" "BEN 基西拉号" "BEN 凯法利尼亚号" 
+	}
+	battlecruiser = {
+		"BEN 基尔基斯号" "BEN 雅典号" "BEN 色萨利号" "BEN 伊庇鲁斯号" "BEN 伯罗奔尼撒号" 
+	}
+	destroyer = {
+		"第1驱逐舰编队" "第2驱逐舰编队" "第3驱逐舰编队" "第4驱逐舰编队" "第5驱逐舰编队" "第6驱逐舰编队" "第7驱逐舰编队" "第8驱逐舰编队" "第9驱逐舰编队" "第10驱逐舰编队"
+	}
+	carrier = {
+		"BEN 希腊号" "BEN 苏格拉底号 " 
+	}
+	escort_carrier = {
+		"BEN 瓦西利乌斯·乔治奥斯号" "BEN 瓦西利萨 奥尔加号" "BEN 海德拉号" "BEN 斯柏特赛号" "BEN 萨拉号" 
+	}
+	submarine = {
+		"第1潜艇编队" "第2潜艇编队" "第3潜艇编队" "第4潜艇编队" "第5潜艇编队" "第6潜艇编队" "第7潜艇编队" "第8潜艇编队" "第9潜艇编队" "第10潜艇编队"  
+	}
+	transport_ship = {
+		"第1运输舰编队" "第2运输舰编队" "第3运输舰编队" "第4运输舰编队" "第5运输舰编队" "第6运输舰编队" "第7运输舰编队" "第8运输舰编队" "第9运输舰编队" "第10运输舰编队" 
+	}
+
+}
+
+ministers = {
+	18001 = {
+		name = "乔治二世"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M18001
+		head_of_state = insignificant_layman
+		head_of_state = insignificant_layman
+		head_of_state = insignificant_layman
+		head_of_state = insignificant_layman
+		head_of_state = insignificant_layman
+		head_of_state = insignificant_layman
+		start_date = 1936.1.1
+	}
+	18002 = {
+		name = "康斯坦丁·迪莫茨"
+		ideology = paternal_autocrat
+		loyalty = 0.25
+		picture = M18002
+		head_of_government = naive_optimist
+		foreign_minister = biased_intellectual
+		start_date = 1936.1.1
+	}
+	18004 = {
+		name = "乔治·曼扎维诺斯"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M18004
+		armament_minister = military_entrepreneur
+		start_date = 1936.1.1
+	}
+	18005 = {
+		name = "乔治·勒古特提"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M18005
+		minister_of_security = crime_fighter
+		minister_of_intelligence = dismal_enigma
+		start_date = 1936.1.1
+	}
+	18007 = {
+		name = "特奥多尔·潘加洛斯"
+		ideology = paternal_autocrat
+		loyalty = 0.50
+		picture = M18007
+		chief_of_staff = school_of_defence
+		chief_of_army = static_defence_doctrine
+		start_date = 1936.1.1
+	}
+	18008 = {
+		name = "亚历山大·帕普哥斯"
+		ideology = paternal_autocrat
+		loyalty = 0.50
+		picture = M18008
+		chief_of_army = elastic_defence_doctrine
+		chief_of_staff = school_of_defence
+		head_of_government = old_general
+		start_date = 1936.1.1
+	}
+	18009 = {
+		name = "阿纳斯塔西奥·萨凯拉里欧"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M18009
+		chief_of_navy = open_seas_doctrine
+		start_date = 1936.1.1
+	}
+	18010 = {
+		name = "艾莱夫希里奥斯·维尼泽洛斯"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M18010
+		chief_of_air = army_aviation_doctrine
+		armament_minister = air_to_ground_proponent
+		start_date = 1936.1.1
+	}
+	18032 = {
+		name = "达马斯基诺斯·大主教"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M18032
+		head_of_state = barking_buffoon
+		head_of_state = barking_buffoon
+		head_of_state = barking_buffoon
+		head_of_government = flamboyant_tough_guy
+		minister_of_security = efficient_sociopath
+		head_of_state = barking_buffoon
+		head_of_state = barking_buffoon
+		start_date = 1941.1.1
+	}
+	18033 = {
+		name = "帕夫洛斯一世"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M18033
+		head_of_state = die_hard_reformer
+		head_of_state = die_hard_reformer
+		head_of_state = die_hard_reformer
+		start_date = 1947.1.1
+	}
+	18040 = {
+		name = "格里高利·莫诺夫"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M18040
+		head_of_state = weary_stiff_neck
+		minister_of_security = crime_fighter
+		start_date = 1941.1.1
+	}
+	18041 = {
+		name = "马里奥·维塞里诺"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M18041
+		head_of_state = resigned_generalissimo
+		minister_of_security = back_stabber
+		start_date = 1942.1.1
+	}
+	18042 = {
+		name = "赖因哈德·阿登堡"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M18042
+		head_of_state = autocratic_charmer
+		minister_of_security = crooked_kleptocrat
+		start_date = 1943.1.1
+	}
+	18044 = {
+		name = "吉奥吉斯·先托斯"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M18021
+		head_of_state = popular_figurehead
+		armament_minister = resource_industrialist
+		start_date = 1936.1.1
+	}
+	18045 = {
+		name = "尼科斯·扎哈里亚迪斯"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M18022
+		head_of_state = autocratic_charmer
+		head_of_government = smiling_oilman
+		foreign_minister = ideological_crusader
+		start_date = 1944.1.1
+	}
+	18046 = {
+		name = "地米斯托克利·索夫卢斯"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M18014
+		head_of_state = flamboyant_tough_guy
+		armament_minister = administrative_genius
+		foreign_minister = the_cloak_n_dagger_schemer
+		head_of_government = flamboyant_tough_guy
+		start_date = 1936.1.1
+	}
+	18047 = {
+		name = "乔治·帕潘德里欧"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M18015
+		head_of_government = silent_workhorse
+		foreign_minister = biased_intellectual
+		foreign_minister = biased_intellectual
+		minister_of_security = efficient_sociopath
+		minister_of_intelligence = political_specialist
+		start_date = 1944.1.1
+	}
+	18048 = {
+		name = "帕纳吉奥里斯·波利萨斯"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M18048
+		head_of_government = smiling_oilman
+		minister_of_security = prince_of_terror
+		start_date = 1946.1.1
+	}
+	18049 = {
+		name = "艾欧尼斯·迈塔克瑟斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M18049
+		head_of_government = old_general
+		foreign_minister = general_staffer
+		start_date = 1936.1.1
+	}
+	18050 = {
+		name = "亚历山大·科里希斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M18050
+		head_of_government = political_protege
+		foreign_minister = great_compromiser
+		start_date = 1941.1.1
+	}
+	18051 = {
+		name = "以马利·特索德洛斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M18051
+		head_of_government = happy_amateur
+		foreign_minister = apologetic_clerk
+		start_date = 1941.1.1
+	}
+	18052 = {
+		name = "索法克里斯·文兹洛斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M18012
+		head_of_government = naive_optimist
+		foreign_minister = great_compromiser
+		start_date = 1944.1.1
+	}
+	18053 = {
+		name = "康斯坦丁·查達里斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M18053
+		head_of_government = old_general
+		foreign_minister = the_cloak_n_dagger_schemer
+		minister_of_security = man_of_the_people
+		head_of_government = corporate_suit
+		start_date = 1946.1.1
+	}
+	18054 = {
+		name = "迪米特里奥斯·马克西莫斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M18054
+		head_of_government = political_protege
+		minister_of_security = crime_fighter
+		start_date = 1947.1.1
+	}
+	18055 = {
+		name = "帕纳吉斯·查达里斯"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M18055
+		head_of_government = flamboyant_tough_guy
+		armament_minister = air_to_sea_proponent
+		start_date = 1936.1.1
+	}
+	18056 = {
+		name = "乔治·特索拉古洛"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M18056
+		head_of_government = old_general
+		foreign_minister = general_staffer
+		chief_of_staff = school_of_manoeuvre
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1941.1.1
+	}
+	18057 = {
+		name = "康斯坦丁·罗格拉瑟托普洛斯"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M18057
+		head_of_government = corporate_suit
+		foreign_minister = biased_intellectual
+		start_date = 1942.1.1
+	}
+	18058 = {
+		name = "艾欧尼斯·洛里斯"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M18058
+		head_of_government = naive_optimist
+		foreign_minister = the_cloak_n_dagger_schemer
+		start_date = 1943.1.1
+	}
+	18060 = {
+		name = "尼古拉斯·普拉斯提拉斯"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M18060
+		head_of_government = old_general
+		armament_minister = infantry_proponent
+		chief_of_staff = school_of_psychology
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1945.1.1
+	}
+	18061 = {
+		name = "佩特罗斯·沃尔加里斯"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M18061
+		head_of_government = naive_optimist
+		chief_of_navy = indirect_approach_doctrine
+		foreign_minister = biased_intellectual
+		start_date = 1945.1.1
+	}
+	18062 = {
+		name = "帕纳吉奥提斯·卡纳洛普洛斯"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M18062
+		head_of_government = smiling_oilman
+		foreign_minister = great_compromiser
+		start_date = 1945.1.1
+	}
+	18063 = {
+		name = "米利提达斯·波凡拉金斯"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M18029
+		head_of_government = ambitious_union_boss
+		foreign_minister = general_staffer
+		chief_of_navy = decisive_naval_battle_doctrine
+		start_date = 1936.1.1
+	}
+	18065 = {
+		name = "厄里皮蒂斯·巴吉尔奎斯"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M18065
+		head_of_government = happy_amateur
+		minister_of_intelligence = industrial_specialist
+		start_date = 1944.1.1
+	}
+	18066 = {
+		name = "马科斯·瓦普哈蒂斯"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M18066
+		head_of_government = backroom_backstabber
+		minister_of_security = silent_lawyer
+		start_date = 1946.1.1
+	}
+	18068 = {
+		name = "艾欧尼斯·萨芬诺普洛斯"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M18068
+		foreign_minister = great_compromiser
+		foreign_minister = the_cloak_n_dagger_schemer
+		start_date = 1945.1.1
+	}
+	18069 = {
+		name = "康斯坦丁·伦提斯"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M18069
+		foreign_minister = apologetic_clerk
+		start_date = 1946.1.1
+	}
+	18075 = {
+		name = "德摩斯梯尼·尼古拉斯"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M18075
+		foreign_minister = ideological_crusader
+		start_date = 1936.1.1
+	}
+	18080 = {
+		name = "艾欧尼斯·苏格拉底·普里茨"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M18080
+		foreign_minister = apologetic_clerk
+		start_date = 1945.1.1
+	}
+	18082 = {
+		name = "帕纳吉奥提奥斯·塔麦斯提查斯"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M18082
+		foreign_minister = general_staffer
+		start_date = 1946.1.1
+	}
+	18085 = {
+		name = "佩特罗斯·卢梭斯"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M18085
+		foreign_minister = biased_intellectual
+		start_date = 1947.1.1
+	}
+	18086 = {
+		name = "马科斯·阿甘诺梭斯"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M18086
+		armament_minister = corrupt_kleptocrat
+		minister_of_security = silent_lawyer
+		start_date = 1936.1.1
+	}
+	18087 = {
+		name = "特奥多罗斯·马萨尔"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M18087
+		armament_minister = resource_industrialist
+		start_date = 1937.1.1
+	}
+	18089 = {
+		name = "亚历山大·索沃罗斯"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M18089
+		armament_minister = resource_industrialist
+		start_date = 1944.1.1
+	}
+	18090 = {
+		name = "塔麦乔斯·高西斯"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M18090
+		armament_minister = battle_fleet_proponent
+		chief_of_navy = decisive_naval_battle_doctrine
+		start_date = 1945.1.1
+	}
+	18091 = {
+		name = "阿莱西奥·塔萨莫托斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M18091
+		armament_minister = submarine_proponent
+		chief_of_navy = decisive_naval_battle_doctrine
+		start_date = 1936.1.1
+	}
+	18092 = {
+		name = "安托万·弗兰古里斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M18092
+		armament_minister = air_superiority_proponent
+		chief_of_air = air_superiority_doctrine
+		start_date = 1938.1.1
+	}
+	18093 = {
+		name = "萨纳梭斯·艾科斯哈里斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M18093
+		armament_minister = laissez_faires_capitalist
+		start_date = 1939.1.1
+	}
+	18094 = {
+		name = "塔基斯·皮潘内里斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M18094
+		armament_minister = theoretical_scientist
+		start_date = 1940.1.1
+	}
+	18096 = {
+		name = "加西亚·基纳多斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M18096
+		armament_minister = strategic_air_proponent
+		chief_of_air = carpet_bombing_doctrine
+		start_date = 1942.1.1
+	}
+	18097 = {
+		name = "阿纳斯塔西奥斯·巴迪维利亚斯s"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M18097
+		armament_minister = air_to_sea_proponent
+		minister_of_intelligence = naval_intelligence_specialist
+		chief_of_air = naval_aviation_doctrine
+		start_date = 1943.1.1
+	}
+	18098 = {
+		name = "阿纳塔西奥斯·卡纳洛普洛斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M18098
+		armament_minister = administrative_genius
+		minister_of_intelligence = dismal_enigma
+		start_date = 1944.1.1
+	}
+	18099 = {
+		name = "吉奥吉奥斯·拉乌达斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M18099
+		armament_minister = tank_proponent
+		chief_of_staff = school_of_manoeuvre
+		chief_of_army = armoured_spearhead_doctrine
+		start_date = 1945.1.1
+	}
+	18100 = {
+		name = "阿奇比亚德斯·史蒂芬诺普洛斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M18100
+		armament_minister = laissez_faires_capitalist
+		minister_of_security = compassionate_gentleman
+		minister_of_intelligence = industrial_specialist
+		start_date = 1946.1.1
+	}
+	18103 = {
+		name = "帕沃斯·梅尔奇蒂斯"
+		ideology = national_socialist
+		loyalty = 0.75
+		picture = M18103
+		armament_minister = resource_industrialist
+		start_date = 1941.1.1
+	}
+	18104 = {
+		name = "克里斯托斯·辛加特斯"
+		ideology = national_socialist
+		loyalty = 0.75
+		picture = M18104
+		armament_minister = resource_industrialist
+		minister_of_security = prince_of_terror
+		minister_of_intelligence = industrial_specialist
+		start_date = 1942.1.1
+	}
+	18105 = {
+		name = "尼古拉斯·沃特西纳里斯"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M18105
+		armament_minister = theoretical_scientist
+		start_date = 1943.1.1
+	}
+	18106 = {
+		name = "艾欧尼斯·维尼泽洛斯"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M18106
+		armament_minister = military_entrepreneur
+		start_date = 1944.1.1
+	}
+	18111 = {
+		name = "埃利亚斯·帕纳吉里斯"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M18111
+		minister_of_security = crime_fighter
+		start_date = 1944.1.1
+	}
+	18112 = {
+		name = "伊万基洛斯·帕帕诺德索斯"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M18112
+		minister_of_security = compassionate_gentleman
+		start_date = 1945.1.1
+	}
+	18114 = {
+		name = "吉奥吉奥斯·尼古拉蒂斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M18114
+		minister_of_security = back_stabber
+		start_date = 1936.1.1
+	}
+	18115 = {
+		name = "劳尔·比比卡·罗塞蒂"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M18115
+		minister_of_security = compassionate_gentleman
+		start_date = 1941.1.1
+	}
+	18118 = {
+		name = "萨纳西斯·阿尼德斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M18118
+		minister_of_security = efficient_sociopath
+		start_date = 1945.1.1
+	}
+	18119 = {
+		name = "帕纳吉奥蒂斯·卡凡塔里斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M18119
+		minister_of_security = silent_lawyer
+		start_date = 1946.1.1
+	}
+	18120 = {
+		name = "史蒂芬诺斯·拉金托斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M18120
+		minister_of_security = crooked_kleptocrat
+		start_date = 1947.1.1
+	}
+	18128 = {
+		name = "克里斯托斯·乔塔菲利蒂斯"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M18128
+		minister_of_security = man_of_the_people
+		minister_of_intelligence = dismal_enigma
+		start_date = 1946.1.1
+	}
+	18129 = {
+		name = "吉安内斯·伊奥内德斯"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M18025
+		minister_of_security = prince_of_terror
+		minister_of_intelligence = political_specialist
+		start_date = 1936.1.1
+	}
+	18131 = {
+		name = "斯特拉托斯·佩奥姆斯"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M18131
+		minister_of_security = efficient_sociopath
+		start_date = 1945.1.1
+	}
+	18133 = {
+		name = "科斯塔·莫拉斯"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M18133
+		minister_of_intelligence = naval_intelligence_specialist
+		start_date = 1944.1.1
+	}
+	18135 = {
+		name = "乔治·德罗索普洛斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M18135
+		minister_of_intelligence = technical_specialist
+		start_date = 1941.1.1
+	}
+	18136 = {
+		name = "乔治·斯瑞特"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M18136
+		minister_of_intelligence = industrial_specialist
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1944.1.1
+	}
+	18138 = {
+		name = "亚历山大·普洛帕尼斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M18138
+		minister_of_intelligence = research_specialist
+		start_date = 1947.1.1
+	}
+	18142 = {
+		name = "塞万斯蒂安·弗利蒂斯"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M18142
+		minister_of_intelligence = research_specialist
+		start_date = 1942.1.1
+	}
+	18143 = {
+		name = "拿破仑·泽瓦斯"
+		ideology = paternal_autocrat
+		loyalty = 0.50
+		picture = M18143
+		minister_of_intelligence = research_specialist
+		start_date = 1944.1.1
+	}
+	18152 = {
+		name = "帕拉斯克斯·梅里斯诺斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M18152
+		chief_of_staff = school_of_mass_combat
+		start_date = 1940.1.1
+	}
+	18153 = {
+		name = "瓦希里奥斯·特索诺卡斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M18153
+		chief_of_staff = school_of_fire_support
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1944.1.1
+	}
+	18154 = {
+		name = "阿纳斯塔西奥斯·萨凯拉里欧"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M18009
+		chief_of_staff = school_of_psychology
+		start_date = 1946.1.1
+	}
+	18155 = {
+		name = "吉奥吉奥斯·坎迪里斯"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M18155
+		chief_of_staff = school_of_manoeuvre
+		start_date = 1936.1.1
+	}
+	18159 = {
+		name = "莱昂尼达斯·帕拉斯克沃普洛斯"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M18159
+		chief_of_staff = school_of_mass_combat
+		start_date = 1946.1.1
+	}
+	18160 = {
+		name = "史蒂芬诺斯·萨拉菲斯"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M18027
+		chief_of_staff = school_of_mass_combat
+		start_date = 1936.1.1
+	}
+	18162 = {
+		name = "吉奥吉奥斯·卢梭普洛斯"
+		ideology = social_liberal
+		loyalty = 0.50
+		picture = M18162
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1941.1.1
+	}
+	18172 = {
+		name = "阿里斯·维勒奇奥蒂斯"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M18028
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1936.1.1
+	}
+	18173 = {
+		name = "尼古拉斯·沃西斯"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M18019
+		chief_of_navy = base_control_doctrine
+		start_date = 1936.1.1
+	}
+	18179 = {
+		name = "亚历山大·奥科诺莫"
+		ideology = national_socialist
+		loyalty = 0.25
+		picture = M18179
+		chief_of_navy = open_seas_doctrine
+		start_date = 1941.1.1
+	}
+	18184 = {
+		name = "尤索纳索斯·佩里克斯"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M18184
+		chief_of_air = vertical_envelopment_doctrine
+		start_date = 1944.1.1
+	}
+	18185 = {
+		name = "帕纳高迪斯·帕帕尼古拉"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M18182
+		chief_of_air = carpet_bombing_doctrine
+		start_date = 1936.1.1
+	}
+	18191 = {
+		name = "尼科斯·贝罗亚尼斯"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M18030
+		chief_of_air = naval_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	18202 = {
+		name = "亚历山大迪奥米蒂斯"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M18202
+		head_of_government = political_protege
+		start_date = 1949.1.1
+	}
+	18203 = {
+		name = "艾欧尼斯·索托基斯"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M18203
+		head_of_government = happy_amateur
+		start_date = 1950.1.1
+	}
+	18204 = {
+		name = "迪米特里奥斯·吉奥索普洛斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M18204
+		head_of_government = smiling_oilman
+		start_date = 1952.1.1
+	}
+	18206 = {
+		name = "帕纳奥提斯·皮潘内里斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M18206
+		foreign_minister = apologetic_clerk
+		start_date = 1950.1.1
+	}
+	18207 = {
+		name = "史蒂芬诺斯·史蒂芬诺普洛斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M18207
+		foreign_minister = biased_intellectual
+		start_date = 1952.1.1
+	}
+}
+

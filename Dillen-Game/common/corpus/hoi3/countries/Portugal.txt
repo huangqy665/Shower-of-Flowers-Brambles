@@ -1,0 +1,608 @@
+color = { 39  116  70 }
+graphical_culture = Generic
+
+default_templates = {
+	generic_infantry = {
+		infantry_brigade
+		infantry_brigade
+		infantry_brigade
+	}
+	generic_milita = {
+		militia_brigade
+		militia_brigade
+		militia_brigade
+	}
+	generic_armoured = {
+		armor_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	generic_cavalry = {
+		cavalry_brigade
+		cavalry_brigade
+	}
+}
+
+unit_names = {
+	infantry_brigade = {
+		"第1步兵师" "第2步兵师" "第3步兵师" "第4步兵师" "第5步兵师" "第6步兵师" "第7步兵师" "第8步兵师" "第9步兵师" "第10步兵师" "第11步兵师" 
+		"第12步兵师" "第13步兵师" "第14步兵师" "第15步兵师" "第16步兵师" "第17步兵师" "第18步兵师" "第19步兵师" "第20步兵师" "第21步兵师" "第22步兵师" 
+		"第23步兵师" "第24步兵师" "第25步兵师" "第26步兵师" "第27步兵师" "第28步兵师" "第29步兵师" "第30步兵师" 
+	}
+	cavalry_brigade = {
+		"第1骑兵师" "第2骑兵师" "第3骑兵师" "第4骑兵师" "第5骑兵师" "第6骑兵师" "第7骑兵师" "第8骑兵师" "第9骑兵师" "第10骑兵师" "第11骑兵师" 
+		"第12骑兵师" "第13骑兵师" "第14骑兵师" "第15骑兵师" 
+	}
+	motorized_brigade = {
+		"第1摩托化步兵师" "第2摩托化步兵师" "第3摩托化步兵师" "第4摩托化步兵师" "第5摩托化步兵师" "第6摩托化步兵师" "第7摩托化步兵师" "第8摩托化步兵师" "第9摩托化步兵师" "第10摩托化步兵师" "第11摩托化步兵师" 
+		"第12摩托化步兵师" "第13摩托化步兵师" "第14摩托化步兵师" "第15摩托化步兵师" 
+	}
+	mechanized_brigade = {
+		"第1机步师" "第2机步师" "第3机步师" "第4机步师" "第5机步师" "第6机步师" "第7机步师" "第8机步师" "第9机步师" "第10机步师" "第11机步师" 
+		"第12机步师" "第13机步师" "第14机步师" "第15机步师" 
+	}
+	light_armor_brigade = {
+		"第1轻型装甲师" "第2轻型装甲师" "第3轻型装甲师" "第4轻型装甲师" "第5轻型装甲师" "第6轻型装甲师" "第7轻型装甲师" "第8轻型装甲师" "第9轻型装甲师" "第10轻型装甲师" "第11轻型装甲师" 
+		"第12轻型装甲师" "第13轻型装甲师" "第14轻型装甲师" "第15轻型装甲师" 
+	}
+	armor_brigade = {
+		"第1装甲师" "第2装甲师" "第3装甲师" "第4装甲师" "第5装甲师" "第6装甲师" "第7装甲师" "第8装甲师" "第9装甲师" "第10装甲师" "第11装甲师" 
+		"第12装甲师" "第13装甲师" "第14装甲师" "第15装甲师" 
+	}
+	paratrooper_brigade = {
+		"第1伞兵师" "第2伞兵师" "第3伞兵师" "第4伞兵师" "第5伞兵师" "第6伞兵师" "第7伞兵师" "第8伞兵师" "第9伞兵师" "第10伞兵师" 
+	}
+	marine_brigade = {
+		"第1海军陆战师" "第2海军陆战师" "第3海军陆战师" "第4海军陆战师" "第5海军陆战师" "第6海军陆战师" "第7海军陆战师" "第8海军陆战师" "第9海军陆战师" "第10海军陆战师" 
+	}
+	bergsjaeger_brigade = {
+		"第1山地师" "第2山地师" "第3山地师" "第4山地师" "第5山地师" "第6山地师" "第7山地师" "第8山地师" "第9山地师" "第10山地师" "第11山地师" 
+		"第12山地师" "第13山地师" "第14山地师" "第15山地师" 
+	}
+	garrison_brigade = {
+		"第1卫戍师" "第2卫戍师" "第3卫戍师" "第4卫戍师" "第5卫戍师" "第6卫戍师" "第7卫戍师" "第8卫戍师" "第9卫戍师" "第10卫戍师" "第11卫戍师" 
+		"第12卫戍师" "第13卫戍师" "第14卫戍师" "第15卫戍师" "第16卫戍师" "第17卫戍师" "第18卫戍师" "第19卫戍师" "第20卫戍师" "第21卫戍师" "第22卫戍师" 
+		"第23卫戍师" "第24卫戍师" "第25卫戍师" "第26卫戍师" "第27卫戍师" "第28卫戍师" "第29卫戍师" "第30卫戍师" 
+	}
+	hq_brigade = {
+		"第1葡萄牙陆军" "第2葡萄牙陆军" "第3葡萄牙陆军" "第4葡萄牙陆军" "第5葡萄牙陆军" "第6葡萄牙陆军" "第7葡萄牙陆军" "第8葡萄牙陆军" "第9葡萄牙陆军" "第10葡萄牙陆军" 
+	}
+	militia_brigade = {
+		"第1民兵师" "第2民兵师" "第3民兵师" "第4民兵师" "第5民兵师" "第6民兵师" "第7民兵师" "第8民兵师" "第9民兵师" "第10民兵师" "第11民兵师" 
+		"第12民兵师" "第13民兵师" "第14民兵师" "第15民兵师" "第16民兵师" "第17民兵师" "第18民兵师" "第19民兵师" "第20民兵师" 
+	}
+	multi_role = {
+		"第1战斗机群" "第2战斗机群" "第3战斗机群" "第4战斗机群" "第5战斗机群" "第6战斗机群" "第7战斗机群" "第8战斗机群" "第9战斗机群" "第10战斗机群" "第11战斗机群" 
+		"第12战斗机群" "第13战斗机群" "第14战斗机群" "第15战斗机群" 
+	}
+	interceptor = {
+		"第1拦截机群" "第2拦截机群" "第3拦截机群" "第4拦截机群" "第5拦截机群" "第6拦截机群" "第7拦截机群" "第8拦截机群" "第9拦截机群" "第10拦截机群" "第11拦截机群" 
+		"第12拦截机群" "第13拦截机群" "第14拦截机群" "第15拦截机群" 
+	}
+	strategic_bomber = {
+		"第1战略轰炸机群" "第2战略轰炸机群" "第3战略轰炸机群" "第4战略轰炸机群" "第5战略轰炸机群" "第6战略轰炸机群" "第7战略轰炸机群" "第8战略轰炸机群" "第9战略轰炸机群" "第10战略轰炸机群" 
+	}
+	tactical_bomber = {
+		"第1战术轰炸机群" "第2战术轰炸机群" "第3战术轰炸机群" "第4战术轰炸机群" "第5战术轰炸机群" "第6战术轰炸机群" "第7战术轰炸机群" "第8战术轰炸机群" "第9战术轰炸机群" "第10战术轰炸机群" "第11战术轰炸机群" 
+		"第12战术轰炸机群" "第13战术轰炸机群" "第14战术轰炸机群" "第15战术轰炸机群" 
+	}
+	naval_bomber = {
+		"第1海军轰炸机群" "第2海军轰炸机群" "第3海军轰炸机群" "第4海军轰炸机群" "第5海军轰炸机群" "第6海军轰炸机群" "第7海军轰炸机群" "第8海军轰炸机群" "第9海军轰炸机群" "第10海军轰炸机群" "第11海军轰炸机群" 
+		"第12海军轰炸机群" "第13海军轰炸机群" "第14海军轰炸机群" "第15海军轰炸机群" "第1鱼雷轰炸机群" "第2鱼雷轰炸机群" "第3鱼雷轰炸机群" "第4鱼雷轰炸机群" "第5鱼雷轰炸机群" "第6鱼雷轰炸机群" "第7鱼雷轰炸机群" 
+		"第8鱼雷轰炸机群" "第9鱼雷轰炸机群" "第10鱼雷轰炸机群" 
+	}
+	cas = {
+		"第1俯冲轰炸机队" "第2俯冲轰炸机队" "第3俯冲轰炸机队" "第4俯冲轰炸机队" "第5俯冲轰炸机队" "第6俯冲轰炸机队" "第7俯冲轰炸机队" "第8俯冲轰炸机队" "第9俯冲轰炸机队" "第10俯冲轰炸机队" 
+	}
+	transport_plane = {
+		"第1运输机大队" "第2运输机大队" "第3运输机大队" "第4运输机大队" "第5运输机大队" 
+	}
+	battleship = {
+		"NRP 里斯本" "NRP 波尔图" "NRP 新会员" 
+	}
+	light_cruiser = {
+		"NRP 马托辛霍斯" "NRP 维拉诺瓦代盖亚" "NRP 米拉" "NRP 菲盖拉大福斯" "NRP 海军格兰达" "NRP 纳扎雷" 
+	}
+	heavy_cruiser = {
+		"NRP 马托辛霍斯" "NRP 维拉诺瓦代盖亚" "NRP 米拉" "NRP 菲盖拉大福斯" "NRP 海军格兰达" "NRP 纳扎雷"
+	}
+	battlecruiser = {
+		"NRP 里斯本" "NRP 波尔图" "NRP 新会员" 
+	}
+	destroyer = {
+		"杜罗舰队" "维亚纳堡舰队" "米尼奥舰队" "布拉加舰队" "风帆舰队" "布拉干萨舰队" "贝拉舰队" "观看舰队" "海岸舰队" "贝拉舰队" "布朗库堡舰队" 
+		"圣塔伦舰队" "埃武拉舰队" "阿连特茹舰队" "阿尔加维舰队" 
+	}
+	carrier = {
+		"NRP 阿马多拉" "NRP埃斯托利尔" 
+	}
+	escort_carrier = {
+		"NRP 普林西实" "NRP 葡萄牙女王" "NRP 阿丰布克尔克" "NRP 佩德罗因凡美杜莎" "NRP 玛丽亚第一" "NRP 圣塞巴斯蒂安" 
+	}
+	submarine = {
+		"第1潜艇舰队" "第2潜艇舰队" "第3潜艇舰队" "第4潜艇舰队" "第5潜艇舰队" "第6潜艇舰队" "第7潜艇舰队" "第8潜艇舰队" "第9潜艇舰队" "第10潜艇舰队" "第11潜艇舰队" 
+		"第12潜艇舰队" "第13潜艇舰队" "第14潜艇舰队" "第15潜艇舰队" 
+	}
+	transport_ship = {
+		"第1运输舰队" "第2运输舰队" "第3运输舰队" "第4运输舰队" "第5运输舰队" "第6运输舰队" "第7运输舰队" "第8运输舰队" "第9运输舰队" "第10运输舰队" "第11运输舰队" 
+		"第12运输舰队" "第13运输舰队" "第14运输舰队" "第15运输舰队" 
+	}
+
+}
+
+ministers = {
+	9001 = {
+		name = "安东尼奥德 佛拉格撒 卡莫纳"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M9001
+		head_of_state = stern_imperialist
+		start_date = 1936.1.1
+	}
+	9002 = {
+		name = "奥利韦拉萨拉萨尔"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M9002
+		head_of_government = backroom_backstabber
+		foreign_minister = ideological_crusader
+		start_date = 1936.1.1
+	}
+	9004 = {
+		name = "劳尔布兰当"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M9004
+		armament_minister = resource_industrialist
+		head_of_state = insignificant_layman
+		chief_of_staff = school_of_defence
+		start_date = 1936.1.1
+	}
+	9005 = {
+		name = "马里奥索萨"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M9005
+		minister_of_security = crooked_kleptocrat
+		start_date = 1936.1.1
+	}
+	9006 = {
+		name = "佩德罗 特奥杜洛 佩雷拉"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M9006
+		minister_of_intelligence = dismal_enigma
+		start_date = 1936.1.1
+	}
+	9007 = {
+		name = "塔索米兰达卡布拉尔"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M9007
+		chief_of_staff = school_of_fire_support
+		start_date = 1936.1.1
+	}
+	9008 = {
+		name = "J.A. 洛巴托"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M9008
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1936.1.1
+	}
+	9009 = {
+		name = "海梅 埃佛雷克奥"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M9009
+		chief_of_navy = base_control_doctrine
+		start_date = 1936.1.1
+	}
+	9010 = {
+		name = "曼努埃尔古韦亚"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M9010
+		chief_of_air = vertical_envelopment_doctrine
+		start_date = 1936.1.1
+	}
+	9041 = {
+		name = "阿丰科斯塔"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M9041
+		foreign_minister = the_cloak_n_dagger_schemer
+		start_date = 1937.1.1
+	}
+	9042 = {
+		name = "路易斯阿尔梅达布拉加"
+		ideology = social_conservative
+		loyalty = 0.50
+		picture = M9042
+		foreign_minister = iron_fisted_brute
+		start_date = 1938.1.1
+	}
+	9043 = {
+		name = "D.费扎斯 维塔尔"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M9022
+		foreign_minister = general_staffer
+		start_date = 1941.1.1
+	}
+	9044 = {
+		name = "瑞乌尔里希"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M9023
+		foreign_minister = great_compromiser
+		start_date = 1942.1.1
+	}
+	9045 = {
+		name = "泽维尔"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M9045
+		foreign_minister = biased_intellectual
+		start_date = 1943.1.1
+	}
+	9046 = {
+		name = "弗朗西斯科库尼亚利尔"
+		ideology = social_liberal
+		loyalty = 0.50
+		picture = M9013
+		foreign_minister = the_cloak_n_dagger_schemer
+		start_date = 1945.1.1
+	}
+	9047 = {
+		name = "阿尔弗雷多皮门塔"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M9026
+		foreign_minister = ideological_crusader
+		minister_of_security = prince_of_terror
+		start_date = 1945.1.1
+	}
+	9048 = {
+		name = "何塞 卡列罗 达 马塔"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M9048
+		foreign_minister = great_compromiser
+		start_date = 1947.1.1
+	}
+	9049 = {
+		name = "何塞 H. 瓦斯 拉波索"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M9049
+		armament_minister = infantry_proponent
+		start_date = 1936.1.1
+	}
+	9050 = {
+		name = "H.M. 派瓦 寇塞罗"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M9028
+		armament_minister = submarine_proponent
+		start_date = 1937.1.1
+	}
+	9051 = {
+		name = "若昂恰加斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M9051
+		armament_minister = military_entrepreneur
+		start_date = 1937.1.1
+	}
+	9052 = {
+		name = "瓦斯科卡瓦略"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M9052
+		armament_minister = theoretical_scientist
+		start_date = 1937.1.1
+	}
+	9053 = {
+		name = "若昂努涅斯科斯塔"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M9053
+		armament_minister = air_to_ground_proponent
+		start_date = 1938.1.1
+	}
+	9054 = {
+		name = "安东尼韦拉萨丁哈"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M9024
+		armament_minister = administrative_genius
+		start_date = 1938.1.1
+	}
+	9055 = {
+		name = "阿尔伯托 蒙萨拉什"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M9055
+		armament_minister = laissez_faires_capitalist
+		start_date = 1939.1.1
+	}
+	9056 = {
+		name = "安东尼 M. B.费雷拉"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M9056
+		armament_minister = tank_proponent
+		start_date = 1939.1.1
+	}
+	9057 = {
+		name = "海梅"
+		ideology = social_democrat
+		loyalty = 0.25
+		picture = M9012
+		armament_minister = tank_proponent
+		head_of_government = smiling_oilman
+		start_date = 1940.1.1
+	}
+	9058 = {
+		name = "阿明多蒙泰罗"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M9058
+		armament_minister = battle_fleet_proponent
+		start_date = 1944.1.1
+	}
+	9059 = {
+		name = "F.萨尔加多 曾哈"
+		ideology = leninist
+		loyalty = 0.50
+		picture = M9034
+		armament_minister = military_entrepreneur
+		start_date = 1946.1.1
+	}
+	9060 = {
+		name = "阿丰卢卡斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M9025
+		minister_of_security = silent_lawyer
+		start_date = 1936.1.1
+	}
+	9061 = {
+		name = "M. 诺布尔梅洛"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M9061
+		minister_of_security = efficient_sociopath
+		start_date = 1936.1.1
+	}
+	9062 = {
+		name = "阿基利诺博里贝罗"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M9062
+		minister_of_security = crime_fighter
+		start_date = 1937.1.1
+	}
+	9063 = {
+		name = "J.科斯塔雷特"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M9063
+		minister_of_security = back_stabber
+		start_date = 1941.1.1
+	}
+	9065 = {
+		name = "J.博泰罗 莫尼兹"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M9065
+		minister_of_security = compassionate_gentleman
+		start_date = 1944.1.1
+	}
+	9066 = {
+		name = "恩里克加尔旺"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M9066
+		minister_of_security = man_of_the_people
+		start_date = 1945.1.1
+	}
+	9067 = {
+		name = "胡里奥 丹塔斯"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M9067
+		minister_of_intelligence = industrial_specialist
+		start_date = 1938.1.1
+	}
+	9068 = {
+		name = "若昂佩雷拉巴斯托斯"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M9016
+		minister_of_intelligence = research_specialist
+		start_date = 1939.1.1
+	}
+	9069 = {
+		name = "奥古斯托 瓦斯康塞洛斯"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M9069
+		minister_of_intelligence = technical_specialist
+		start_date = 1942.1.1
+	}
+	9070 = {
+		name = "J.A. 席尔瓦巴斯托斯"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M9027
+		chief_of_staff = school_of_mass_combat
+		start_date = 1938.1.1
+	}
+	9071 = {
+		name = "埃德华多 A. 马奎斯"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M9071
+		chief_of_staff = school_of_fire_support
+		start_date = 1942.1.1
+	}
+	9072 = {
+		name = "J.M. 诺顿马托斯"
+		ideology = social_liberal
+		loyalty = 0.25
+		picture = M9072
+		chief_of_army = static_defence_doctrine
+		start_date = 1936.1.1
+	}
+	9073 = {
+		name = "罗拉奥 佩莱蒂"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M9073
+		chief_of_army = armoured_spearhead_doctrine
+		start_date = 1942.1.1
+	}
+	9074 = {
+		name = "J.巴罗斯罗德里格斯"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M9074
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1944.1.1
+	}
+	9075 = {
+		name = "昆廷 梅西莱斯"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M9029
+		chief_of_navy = open_seas_doctrine
+		start_date = 1939.1.1
+	}
+	9076 = {
+		name = "埃默里科托马斯"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M9076
+		chief_of_navy = open_seas_doctrine
+		start_date = 1944.1.1
+	}
+	9077 = {
+		name = "奥尔丁斯 贝特恩考特"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M9077
+		chief_of_air = naval_aviation_doctrine
+		start_date = 1937.1.1
+	}
+	9078 = {
+		name = "J.M. 萨门托 贝雷斯"
+		ideology = social_conservative
+		loyalty = 0.50
+		picture = M9020
+		chief_of_air = carpet_bombing_doctrine
+		start_date = 1943.1.1
+	}
+	9079 = {
+		name = "温贝托德尔加多"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M9079
+		chief_of_air = air_superiority_doctrine
+		start_date = 1947.1.1
+	}
+	9015 = {
+		name = "劳尔 普罗恩卡"
+		ideology = social_democrat
+		loyalty = 0.50
+		picture = M9015
+		minister_of_security = back_stabber
+		start_date = 1936.1.1
+	}
+	9018 = {
+		name = "温贝托卡莫纳"
+		ideology = social_liberal
+		loyalty = 0.50
+		picture = M9018
+		chief_of_army = static_defence_doctrine
+		start_date = 1936.1.1
+	}
+	9019 = {
+		name = "皮门特尔何塞萨尔门托"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M9019
+		chief_of_navy = base_control_doctrine
+		start_date = 1936.1.1
+	}
+	9020 = {
+		name = "J.M. 萨门托 贝雷斯"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M9020
+		chief_of_air = naval_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	9031 = {
+		name = "贡萨尔维斯"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M9031
+		head_of_state = weary_stiff_neck
+		head_of_government = happy_amateur
+		chief_of_navy = power_projection_doctrine
+		start_date = 1936.1.1
+	}
+	9033 = {
+		name = "H. 巴列里奥 拉斯"
+		ideology = left_wing_radical
+		loyalty = 0.25
+		picture = M9033
+		foreign_minister = ideological_crusader
+		start_date = 1936.1.1
+	}
+	9035 = {
+		name = "萨瓦罗 昆哈尔"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M9035
+		minister_of_security = man_of_the_people
+		start_date = 1936.1.1
+	}
+	9036 = {
+		name = "安东尼奥 塞尔戈"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M9036
+		minister_of_intelligence = industrial_specialist
+		chief_of_air = carpet_bombing_doctrine
+		start_date = 1936.1.1
+	}
+	9037 = {
+		name = "何塞 A.P 雷贝洛"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M9037
+		chief_of_staff = school_of_psychology
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1936.1.1
+	}
+	9080 = {
+		name = "弗朗西斯科洛佩斯克雷文"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M9080
+		head_of_state = resigned_generalissimo
+		start_date = 1951.1.1
+	}
+	9081 = {
+		name = "圣保罗库尼亚"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M9081
+		foreign_minister = apologetic_clerk
+		start_date = 1950.1.1
+	}
+}
+

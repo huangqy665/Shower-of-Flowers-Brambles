@@ -1,0 +1,341 @@
+color = { 193  138  83 }
+graphical_culture = Generic
+
+last_election = 1933.5.4
+duration = 48
+
+default_templates = {
+	generic_infantry = {
+		infantry_brigade
+		infantry_brigade
+		infantry_brigade
+	}
+	generic_milita = {
+		militia_brigade
+		militia_brigade
+		militia_brigade
+	}
+	generic_armoured = {
+		armor_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	generic_cavalry = {
+		cavalry_brigade
+		cavalry_brigade
+	}
+}
+unit_names = {
+	infantry_brigade = {
+		"第1共和警卫步兵师" "第2共和警卫步兵师" "第3共和警卫步兵师" "第4共和警卫步兵师" "第5共和警卫步兵师" "第6共和警卫步兵师" "第7共和警卫步兵师" "第8共和警卫步兵师" "第9共和警卫步兵师" "第10共和警卫步兵师" "第12共和警卫步兵师"
+		"第13共和警卫步兵师" "第14共和警卫步兵师" "第15共和警卫步兵师" "第16共和警卫步兵师" "第17共和警卫步兵师" "第18共和警卫步兵师" "第19共和警卫步兵师" "第20共和警卫步兵师" 
+	}
+	cavalry_brigade = {
+		"第1共和警卫骑兵师" "第2共和警卫骑兵师" "第3共和警卫骑兵师" "第4共和警卫骑兵师" "第5共和警卫骑兵师" "第6共和警卫骑兵师" "第7共和警卫骑兵师" "第8共和警卫骑兵师" "第9共和警卫骑兵师" "第10共和警卫骑兵师" "第11共和警卫骑兵师" 
+		"第12共和警卫骑兵师" "第13共和警卫骑兵师" "第14共和警卫骑兵师" "第15共和警卫骑兵师" 
+	}
+	motorized_brigade = {
+		"第1共和摩托警卫师" "第2共和摩托警卫师" "第3共和摩托警卫师" "第4共和摩托警卫师" "第5共和摩托警卫师" "第6共和摩托警卫师" "第7共和摩托警卫师" "第8共和摩托警卫师" "第9共和摩托警卫师" "第10共和摩托警卫师"  
+		"第12共和摩托警卫师" "第13共和摩托警卫师" "第14共和摩托警卫师" "第15共和摩托警卫师" "第16共和摩托警卫师" "第17共和摩托警卫师" "第18共和摩托警卫师" "第19共和摩托警卫师" "第20共和摩托警卫师"
+	}
+	mechanized_brigade = {
+		"第1机械化警卫师" "第2机械化警卫师" "第3机械化警卫师" "第4机械化警卫师" "第5机械化警卫师" "第6机械化警卫师" "第7机械化警卫师" "第8机械化警卫师" "第9机械化警卫师" "第10机械化警卫师" "第12机械化警卫师" 
+		"第13机械化警卫师" "第14机械化警卫师" "第15机械化警卫师" "第16机械化警卫师" "第17机械化警卫师" "第18机械化警卫师" "第19机械化警卫师" "第20机械化警卫师" 
+	}
+	light_armor_brigade = {
+		"利比里亚第1轻装甲师" "利比里亚第2轻装甲师" "利比里亚第3轻装甲师" "利比里亚第4轻装甲师" "利比里亚第5轻装甲师" "利比里亚第6轻装甲师" "利比里亚第7轻装甲师" "利比里亚第8轻装甲师" "利比里亚第9轻装甲师" "利比里亚第10轻装甲师"
+	armor_brigade = {
+		"利比里亚第1装甲师" "利比里亚第2装甲师" "利比里亚第3装甲师" "利比里亚第4装甲师" "利比里亚第5装甲师" "利比里亚第6装甲师" "利比里亚第7装甲师" "利比里亚第8装甲师" "利比里亚第9装甲师" "利比里亚第10装甲师" 
+	}
+	paratrooper_brigade = {
+		"第1空降师" "第2空降师" "第3空降师" "第4空降师" "第5空降师" "第6空降师" "第7空降师" "第8空降师" "第9空降师" "第10空降师" "第11空降师" 
+			}
+	marine_brigade = {
+		"第1海军陆战师" "第2海军陆战师" "第3海军陆战师" "第4海军陆战师" "第5海军陆战师" "第6海军陆战师" "第7海军陆战师" "第8海军陆战师" "第9海军陆战师" "第10海军陆战师"  
+			}
+	bergsjaeger_brigade = {
+		"第1山地师" "第2山地师" "第3山地师" "第4山地师" "第5山地师" "第6山地师" "第7山地师" "第8山地师" "第9山地师" "10山地师" "第11山地师" 
+			}
+	garrison_brigade = {
+		"第1共和警卫师" "第2共和警卫师" "第3共和警卫师" "第4共和警卫师" "第5共和警卫师" "第6共和警卫师" "第7共和警卫师" "第8共和警卫师" "第9共和警卫师" "第10共和警卫师" "第12共和警卫师" 
+		"第13共和警卫师" "第14共和警卫师" "第15共和警卫师" "第16共和警卫师" "第17共和警卫师" "第18共和警卫师" "第19共和警卫师" "第20共和警卫师" 
+	}
+	hq_brigade = {
+		"利比里亚第1军" "利比里亚第2军" "利比里亚第3军" "利比里亚第4军" "利比里亚第5军" 
+	}
+	militia_brigade = {
+		"第1警卫师" "第2警卫师" "第3警卫师" "第4警卫师" "第5警卫师" "第6警卫师" "第7警卫师" "第8警卫师" "第9警卫师" "第10警卫师" "第11警卫师" 
+		"第12警卫师" "第13警卫师" "第14警卫师" "第15警卫师" "第16警卫师" "第17警卫师" "第18警卫师" "第19警卫师" "第20警卫师" "第21警卫师" "第22警卫师" 
+		"第23警卫师" "第24警卫师" "第25警卫" 
+	}
+	multi_role = {
+		"第1通用战斗机大队 " "第2通用战斗机大队" "第3通用战斗机大队" "第4通用战斗机大队" "第5通用战斗机大队" "第6通用战斗机大队" "第7通用战斗机大队" "第8通用战斗机大队" "第9通用战斗机大队" 
+	}
+	interceptor = {
+		"第1截击机大队" "第2截击机大队" "第3截击机大队" "第4截击机大队" "第5截击机大队" "第6截击机大队" "第7截击机大队" "第8截击机大队" "第9截击机大队" "第10截击机大队" "第11截击机大队" 
+		"第12截击机大队" "第13截击机大队" "第14截击机大队" "第15截击机大队" "第16截击机大队" "第17截击机大队" "第18截击机大队" "第19截击机大队" "第20截击机大队" 
+	}
+	strategic_bomber = {
+		"第11战略轰炸机大队" "第12战略轰炸机大队" "第13战略轰炸机大队" "第14战略轰炸机大队" "第15战略轰炸机大队" "第16战略轰炸机大队" 
+	}
+	tactical_bomber = {
+		"第21战术轰炸机大队" "第22战术轰炸机大队" "第23战术轰炸机大队" "第24战术轰炸机大队" "第25战术轰炸机大队" "第26战术轰炸机大队" 
+	}
+	naval_bomber = {
+		"第41海军轰炸机大队" "第42海军轰炸机大队" "第43海军轰炸机大队" "第44海军轰炸机大队" "第45海军轰炸机大队" "第51海军轰炸机大队" "第52海军轰炸机大队" "第53海军轰炸机大队" "第54海军轰炸机大队" "第55海军轰炸机大队" "第56海军轰炸机大队" 
+	}
+	cas = {
+		"第31俯冲大队" "第32俯冲大队" "第33俯冲大队" "第34俯冲大队" "第35俯冲大队" 
+	}
+	transport_plane = {
+		"第61运输机大队" "第62运输机大队" "第63运输机大队" "第64运输机大队" 
+	}
+	battleship = {
+		"'蒙罗维尼亚'号战舰" "'自由'号战舰" 
+	}
+	light_cruiser = {
+		"'消灭'号轻巡" "'优美'号轻巡" "'自由人'号轻巡" "'冲击'号轻巡" "'希望'号轻巡"
+	}
+	heavy_cruiser = {
+		"'消灭'号重巡" "'优美'号重巡" "自由人'号重巡" "'冲击'号重巡" "'希望'号重巡"
+	}
+	battlecruiser = {
+		"'蒙罗维尼亚'号战巡" "'自由'号战巡" 
+	}
+	destroyer = {
+		"第1驱逐大队" "第2驱逐大队" "第3驱逐大队" "第4驱逐大队" "第5驱逐大队" "第6驱逐大队" "第7驱逐大队" "第8驱逐大队" "第9驱逐大队" "第10驱逐大队" 
+	}
+	carrier = {
+		"'共和利比里亚里'号航母" "'希望之土'号航母" 
+	}
+	submarine = {
+		"第1潜艇大队" "第2潜艇大队" "第3潜艇大队" "第4潜艇大队" "第5潜艇大队" "第6潜艇大队" "第7潜艇大队" "第8潜艇大队" "第9潜艇大队" "第10潜艇大队" 
+	}
+	transport_ship = {
+		"第1运输大队" "第2运输大队" "第3运输大队" "第4运输大队" "第5运输大队" "第6运输大队" "第7运输大队" "第8运输大队" "第9运输大队" "第10运输大队" 
+	}
+
+}
+
+
+
+ministers = {
+	69001 = {
+		name = "爱德温·简·巴特力斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M69001
+		head_of_state = barking_buffoon
+		head_of_government = happy_amateur
+		minister_of_security = back_stabber
+		start_date = 1936.1.1
+	}
+	69003 = {
+		name = "克历瓦斯·李·西普桑"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M69003
+		foreign_minister = ideological_crusader
+		start_date = 1936.1.1
+	}
+	69004 = {
+		name = "佛雷德·凯·聂耳里斯特"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M69004
+		armament_minister = infantry_proponent
+		start_date = 1936.1.1
+	}
+	69005 = {
+		name = "亨利·阿·格兰姆斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M69005
+		minister_of_security = crooked_kleptocrat
+		foreign_minister = biased_intellectual
+		start_date = 1936.1.1
+	}
+	69006 = {
+		name = "亨利·穆·鲁宾孙"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M69006
+		minister_of_intelligence = industrial_specialist
+		armament_minister = air_to_sea_proponent
+		start_date = 1936.1.1
+	}
+	69007 = {
+		name = "宾斯门·欧·戴维斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M69007
+		chief_of_staff = school_of_mass_combat
+		chief_of_army = armoured_spearhead_doctrine
+		start_date = 1936.1.1
+	}
+	69008 = {
+		name = "爱乌·佛锦"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M69008
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1936.1.1
+	}
+	69009 = {
+		name = "雷金纳德·布兰登"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M69009
+		chief_of_navy = open_seas_doctrine
+		start_date = 1936.1.1
+	}
+	69010 = {
+		name = "王楼陈"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M69010
+		chief_of_air = air_superiority_doctrine
+		start_date = 1936.1.1
+	}
+	69032 = {
+		name = "威廉·斯·特布曼"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M69032
+		head_of_state = ruthless_powermonger
+		head_of_government = silent_workhorse
+		armament_minister = corrupt_kleptocrat
+		start_date = 1944.1.1
+	}
+	69033 = {
+		name = "爱波特·图波特"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M69033
+		head_of_state = benevolent_gentleman
+		head_of_government = ambitious_union_boss
+		foreign_minister = great_compromiser
+		start_date = 1936.1.1
+	}
+	69034 = {
+		name = "亚瑟·斯维特斯"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M69034
+		head_of_state = insignificant_layman
+		head_of_government = corporate_suit
+		armament_minister = tank_proponent
+		start_date = 1944.1.1
+	}
+	69040 = {
+		name = "加百列·李·邓尼斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M69040
+		foreign_minister = iron_fisted_brute
+		start_date = 1944.1.1
+	}
+	69042 = {
+		name = "马克·迪斯维特"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M69042
+		foreign_minister = general_staffer
+		armament_minister = corrupt_kleptocrat
+		start_date = 1944.1.1
+	}
+	69046 = {
+		name = "科洛因·凡·欧由克拉斯普"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M69046
+		armament_minister = administrative_genius
+		minister_of_security = compassionate_gentleman
+		minister_of_intelligence = dismal_enigma
+		start_date = 1942.1.1
+	}
+	69047 = {
+		name = "玛母罗·迪湖特"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M69047
+		armament_minister = laissez_faires_capitalist
+		start_date = 1944.1.1
+	}
+	69052 = {
+		name = "佛拉塔斯·阿非肯·鲁瑟勒"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M69052
+		minister_of_security = efficient_sociopath
+		minister_of_security = efficient_sociopath
+		start_date = 1937.1.1
+	}
+	69053 = {
+		name = "肯·皮特曼"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M69053
+		minister_of_security = silent_lawyer
+		minister_of_security = silent_lawyer
+		start_date = 1938.1.1
+	}
+	69054 = {
+		name = "宾斯门·毕·沃尔乐"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M69054
+		minister_of_security = man_of_the_people
+		start_date = 1940.1.1
+	}
+	69056 = {
+		name = "拉佛·王·莫里桑"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M69056
+		minister_of_security = crime_fighter
+		start_date = 1944.1.1
+	}
+	69059 = {
+		name = "伊里亚得·图斯德桑"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M69059
+		minister_of_security = man_of_the_people
+		minister_of_intelligence = political_specialist
+		start_date = 1940.1.1
+	}
+	69063 = {
+		name = "宾斯门·欧·戴维斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M69007
+		minister_of_intelligence = research_specialist
+		minister_of_intelligence = research_specialist
+		start_date = 1942.1.1
+	}
+	69064 = {
+		name = "威廉·图波斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M69064
+		minister_of_intelligence = technical_specialist
+		start_date = 1946.1.1
+	}
+	69067 = {
+		name = "佛雷德·伊·穆瑟"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M69067
+		minister_of_intelligence = technical_specialist
+		start_date = 1946.1.1
+	}
+	69072 = {
+		name = "约翰·阿·法克斯"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M69072
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1936.1.1
+	}
+}

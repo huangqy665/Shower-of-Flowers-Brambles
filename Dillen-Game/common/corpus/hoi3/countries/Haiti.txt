@@ -1,0 +1,494 @@
+color = { 145  188  196 }
+graphical_culture = Generic
+
+default_templates = {
+	generic_infantry = {
+		infantry_brigade
+		infantry_brigade
+		infantry_brigade
+	}
+	generic_milita = {
+		militia_brigade
+		militia_brigade
+		militia_brigade
+	}
+	generic_armoured = {
+		armor_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	generic_cavalry = {
+		cavalry_brigade
+		cavalry_brigade
+	}
+}
+
+unit_names = {
+	infantry_brigade = {
+		"海地第1步兵师" "海地第2步兵师" "海地第3步兵师" "海地第4步兵师" "海地第6步兵师" 
+	}
+	cavalry_brigade = {
+		"第1'罗伯斯庇尔'骑兵师" "海地第2骑兵师" "海地第3骑兵师" "海地第4骑兵师" "海地第5骑兵师" 
+	}
+	motorized_brigade = {
+		"第1摩托化师" "第2摩托化师" "第3摩托化师" "第4摩托化师" "第5摩托化师" 
+	}
+	mechanized_brigade = {
+		"海地第1机械化师" "海地第2机械化师" "海地第3机械化师" "海地第4机械化师" "海地第5机械化师" 
+	}
+	light_armor_brigade = {
+		"第1'萨芬'装甲师" "海地第2装甲师" "海地第3装甲师" "海地第4装甲师" "海地第5装甲师" "海地第6装甲师" 
+	}
+	armor_brigade = {
+		"第1'萨芬'装甲师'" "海地第2装甲师" "海地第3装甲师" "海地第4装甲师" "海地第5装甲师" "海地第6装甲师" 
+	}
+	paratrooper_brigade = {
+		"第1空降师" "第2空降师" "第3空降师" "第4空降师" "第5空降师" 
+	}
+	marine_brigade = {
+		"第1海军陆战师" "第2海军陆战师" "第3海军陆战师" "第4海军陆战师" "第5海军陆战师" 
+	}
+	bergsjaeger_brigade = {
+		"第27'莱斯雅各宾'山地师" "第30山地师" "第31山地师" "第64山地师" "第66山地师" "第65山地师" 
+	}
+	garrison_brigade = {
+		"海地第10卫戍师" "海地第11卫戍师" "海地第13卫戍师" "海地第16卫戍师" "海地第18卫戍师" "海地第19卫戍师" "海地第20卫戍师" 
+	}
+	hq_brigade = {
+		"海地第1指挥部" "海地第2指挥部" "海地第3指挥部" 
+	}
+	militia_brigade = {
+		"海地第1国民警卫师" "海地第2国民警卫师" "海地第3国民警卫师" "海地第4国民警卫师" "海地第5国民警卫师" "海地第6国民警卫师" "海地第7国民警卫师" 
+	}
+	multi_role = {
+		"第1战斗机联队" "第2战斗机联队" "第3战斗机联队" "第4战斗机联队" "第5战斗机联队" 
+	}
+	interceptor = {
+		"第1截击机联队" "第2截击机联队" "第3截击机联队" "第4截击机联队" "第5截击机联队" 
+	}
+	strategic_bomber = {
+		"第1战略轰炸机联队" "第2战略轰炸机" "第3战略轰炸机" "第6战略轰炸机" 
+	}
+	tactical_bomber = {
+		"第1战术轰炸机联队" "第2战术轰炸机联队" "第3战术轰炸机联队" "第6战术轰炸机联队" "第10战术轰炸机联队" 
+	}
+	naval_bomber = {
+		"第1海军轰炸机联队" "第2海军轰炸机联队" "第3海军轰炸机联队" "第4海军轰炸机联队" "第5海军轰炸机联队" 
+	}
+	cas = {
+		"第18俯冲轰炸机联队" "第19俯冲轰炸机联队" "第21俯冲轰炸机联队" "第22俯冲轰炸机联队" "第23俯冲轰炸机联队" 
+	}
+	transport_plane = {
+		"第1运输机联队" "第2运输机联队" "第3运输机联队" "第4运输机联队" "第5运输机联队" 
+	}
+	battleship = {
+		"海地号" "太子港号" 
+	}
+	light_cruiser = {
+		"热雷米号" "萨利港号" "海地角号" "和平港号" "让拉贝尔号" 
+	}
+	heavy_cruiser = {
+		"热雷米号" "萨利港号" "海地角号" "和平港号" "让拉贝尔号" 
+	}
+	battlecruiser = {
+		"海地号" "太子港号" 
+	}
+	destroyer = {
+		"'萨姆德驱逐舰支队'" "'卡利普索'驱逐舰支队" "'瑞因蒙杰'驱逐舰支队" "'阿维'驱逐舰支队" "'约翰博士'驱逐舰支队" 
+	}
+	carrier = {
+		"海地共和国号" "拿破仑号" 
+	}
+	submarine = {
+		"'巴卡'潜艇分队" "'奥孙'潜艇分队" "'达姆巴拉'潜艇分队" "'奥古伯达哥拉斯'潜艇分队" "'恩里热'潜艇分队" 
+	}
+	transport_ship = {
+		"第1运输舰分队" "第2运输舰分队" "第3运输舰分队" "第4运输舰分队" "第5运输舰分队" 
+	}
+
+}
+
+ministers = {
+	78001 = {
+		name = "纳信·斯图尔特"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M78001
+		head_of_state = pig_headed_isolationist
+		head_of_government = corporate_suit
+		minister_of_security = crooked_kleptocrat
+		start_date = 1936.1.1
+	}
+	78003 = {
+		name = "艾伯特·布兰切特"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M78003
+		foreign_minister = apologetic_clerk
+		head_of_government = happy_amateur
+		foreign_minister = apologetic_clerk
+		start_date = 1936.1.1
+	}
+	78004 = {
+		name = "梅兰尼·勒柯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M78004
+		armament_minister = infantry_proponent
+		chief_of_staff = school_of_fire_support
+		chief_of_army = static_defence_doctrine
+		head_of_state = resigned_generalissimo
+		head_of_government = old_general
+		foreign_minister = general_staffer
+		minister_of_security = man_of_the_people
+		start_date = 1936.1.1
+	}
+	78005 = {
+		name = "路易斯·贝勒加德"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M78005
+		minister_of_security = crooked_kleptocrat
+		armament_minister = corrupt_kleptocrat
+		minister_of_intelligence = industrial_specialist
+		start_date = 1936.1.1
+	}
+	78006 = {
+		name = "路易 阿加德"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M78006
+		minister_of_intelligence = political_specialist
+		chief_of_staff = school_of_manoeuvre
+		start_date = 1936.1.1
+	}
+	78009 = {
+		name = "阿尔弗雷德·纳穆尔斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M78009
+		chief_of_navy = open_seas_doctrine
+		start_date = 1936.1.1
+	}
+	78010 = {
+		name = "爱德华·罗伊"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M78010
+		chief_of_air = army_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	78033 = {
+		name = "菲尼奥勒·圣-西尔"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M78033
+		head_of_state = die_hard_reformer
+		head_of_government = backroom_backstabber
+		armament_minister = laissez_faires_capitalist
+		start_date = 1946.1.1
+	}
+	78034 = {
+		name = "迪马瑟·埃斯蒂梅"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M78034
+		head_of_state = popular_figurehead
+		head_of_government = flamboyant_tough_guy
+		minister_of_security = back_stabber
+		start_date = 1937.1.1
+	}
+	78035 = {
+		name = "弗兰克·拉奥"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M78035
+		head_of_state = resigned_generalissimo
+		chief_of_staff = school_of_psychology
+		chief_of_army = elastic_defence_doctrine
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1946.1.1
+	}
+	78036 = {
+		name = "奥尔良 朱斯特"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M78021
+		head_of_state = insignificant_layman
+		head_of_government = happy_amateur
+		foreign_minister = biased_intellectual
+		armament_minister = laissez_faires_capitalist
+		start_date = 1937.1.1
+	}
+	78037 = {
+		name = "迪摩西尼斯 卡利克斯特"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M78037
+		head_of_state = popular_figurehead
+		minister_of_intelligence = political_specialist
+		start_date = 1946.1.1
+	}
+	78043 = {
+		name = "保罗·马格洛伊尔"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M78043
+		head_of_government = old_general
+		chief_of_staff = school_of_mass_combat
+		chief_of_army = guns_and_butter_doctrine
+		head_of_state = ruthless_powermonger
+		start_date = 1946.1.1
+	}
+	78045 = {
+		name = "安托万·凯布罗"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M78045
+		head_of_government = political_protege
+		minister_of_security = silent_lawyer
+		start_date = 1946.1.1
+	}
+	78046 = {
+		name = "乔治 朱斯罗"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M78046
+		foreign_minister = the_cloak_n_dagger_schemer
+		chief_of_navy = base_control_doctrine
+		start_date = 1936.1.1
+	}
+	78047 = {
+		name = "马塞尔弗布伦"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M78013
+		foreign_minister = iron_fisted_brute
+		start_date = 1941.1.1
+	}
+	78049 = {
+		name = "dr.乔治里谷"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M78049
+		foreign_minister = biased_intellectual
+		minister_of_intelligence = research_specialist
+		start_date = 1946.1.1
+	}
+	78051 = {
+		name = "雅克·瓦得"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M78051
+		foreign_minister = great_compromiser
+		start_date = 1941.1.1
+	}
+	78052 = {
+		name = "安德烈·多蒙"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M78052
+		foreign_minister = iron_fisted_brute
+		minister_of_intelligence = naval_intelligence_specialist
+		chief_of_staff = school_of_manoeuvre
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1943.1.1
+	}
+	78053 = {
+		name = "塞萨尔 布鲁托斯"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M78053
+		foreign_minister = ideological_crusader
+		foreign_minister = ideological_crusader
+		start_date = 1946.1.1
+	}
+	78055 = {
+		name = "米尔科·钱德勒"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M78023
+		foreign_minister = the_cloak_n_dagger_schemer
+		start_date = 1937.1.1
+	}
+	78057 = {
+		name = "克莱蒙特 佐梅尔"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M78057
+		foreign_minister = apologetic_clerk
+		armament_minister = air_superiority_proponent
+		start_date = 1946.1.1
+	}
+	78059 = {
+		name = "吕克·多米尼克"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M78014
+		armament_minister = tank_proponent
+		start_date = 1941.1.1
+	}
+	78060 = {
+		name = "简·弗兰克斯·杜华利"
+		ideology = social_conservative
+		loyalty = 0.50
+		picture = M78015
+		armament_minister = administrative_genius
+		minister_of_security = efficient_sociopath
+		start_date = 1945.1.1
+	}
+	78062 = {
+		name = "马克斯·查蒙斯"
+		ideology = social_liberal
+		loyalty = 0.50
+		picture = M78062
+		armament_minister = strategic_air_proponent
+		minister_of_security = crooked_kleptocrat
+		minister_of_intelligence = technical_specialist
+		start_date = 1937.1.1
+	}
+	78063 = {
+		name = "福里德瑞克 多里特"
+		ideology = social_liberal
+		loyalty = 0.50
+		picture = M78063
+		armament_minister = resource_industrialist
+		start_date = 1941.1.1
+	}
+	78064 = {
+		name = "阿尔梅德 奥里特"
+		ideology = social_liberal
+		loyalty = 0.50
+		picture = M78064
+		armament_minister = administrative_genius
+		start_date = 1946.1.1
+	}
+	78067 = {
+		name = "米歇尔 卡文顿 拉莫德"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M78024
+		armament_minister = theoretical_scientist
+		start_date = 1941.1.1
+	}
+	78069 = {
+		name = "阿古斯特 博钠米"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M78069
+		minister_of_security = silent_lawyer
+		start_date = 1941.1.1
+	}
+	78071 = {
+		name = "古斯里 维多里"
+		ideology = social_conservative
+		loyalty = 0.50
+		picture = M78071
+		minister_of_security = back_stabber
+		minister_of_intelligence = research_specialist
+		start_date = 1946.1.1
+	}
+	78075 = {
+		name = "安东尼 里维特"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M78075
+		minister_of_security = silent_lawyer
+		minister_of_intelligence = research_specialist
+		chief_of_staff = school_of_manoeuvre
+		chief_of_army = armoured_spearhead_doctrine
+		chief_of_air = carpet_bombing_doctrine
+		start_date = 1946.1.1
+	}
+	78076 = {
+		name = "贝尔米 马克斯-皮尔"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M78076
+		minister_of_security = back_stabber
+		minister_of_intelligence = research_specialist
+		chief_of_air = vertical_envelopment_doctrine
+		start_date = 1937.1.1
+	}
+	78077 = {
+		name = "维多利亚 威恩"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M78025
+		minister_of_security = efficient_sociopath
+		start_date = 1941.1.1
+	}
+	78079 = {
+		name = "多菲 路伊斯 伯尔诺"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M78079
+		minister_of_intelligence = technical_specialist
+		start_date = 1937.1.1
+	}
+	78086 = {
+		name = "罗克 戴勒西斯"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M78026
+		minister_of_intelligence = technical_specialist
+		start_date = 1937.1.1
+	}
+	78096 = {
+		name = "安特利 贝托"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M78027
+		chief_of_staff = school_of_defence
+		start_date = 1937.1.1
+	}
+	78103 = {
+		name = "恩斯特 西维里"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M78028
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1937.1.1
+	}
+	78106 = {
+		name = "恩来特 里威特"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M78106
+		chief_of_navy = power_projection_doctrine
+		chief_of_air = naval_aviation_doctrine
+		start_date = 1937.1.1
+	}
+	78107 = {
+		name = "罗马威 阿加德"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M78029
+		chief_of_navy = power_projection_doctrine
+		start_date = 1937.1.1
+	}
+	78110 = {
+		name = "帕斯卡 B.G. 古里梅"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M78020
+		chief_of_air = vertical_envelopment_doctrine
+		start_date = 1937.1.1
+	}
+	78113 = {
+		name = "查尔斯 H. 佛宾"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M78030
+		chief_of_air = air_superiority_doctrine
+		start_date = 1946.1.1
+	}
+	78115 = {
+		name = "里奥 拉勒奥"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M78115
+		foreign_minister = ideological_crusader
+		start_date = 1938.1.1
+	}
+}

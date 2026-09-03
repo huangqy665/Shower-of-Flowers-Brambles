@@ -1,0 +1,370 @@
+color = { 196  80  85 }
+graphical_culture = Generic
+
+default_templates = {
+	generic_infantry = {
+		infantry_brigade
+		infantry_brigade
+		infantry_brigade
+	}
+	generic_milita = {
+		militia_brigade
+		militia_brigade
+		militia_brigade
+	}
+	generic_armoured = {
+		armor_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	generic_cavalry = {
+		cavalry_brigade
+		cavalry_brigade
+	}
+}
+
+unit_names = {
+	infantry_brigade = {
+		"圭亚那第1步兵师" "圭亚那第2步兵师" "圭亚那第3步兵师" "圭亚那第4步兵师" "圭亚那第5步兵师" "圭亚那第6步兵师" "圭亚那第7步兵师" "圭亚那第8步兵师" "圭亚那第9步兵师" "圭亚那第10步兵师" "圭亚那第11步兵师" 
+		"圭亚那第12步兵师" "圭亚那第13步兵师" "圭亚那第14步兵师" "圭亚那第15步兵师" "圭亚那第16步兵师" "圭亚那第17步兵师" "圭亚那第18步兵师" "圭亚那第19步兵师" "圭亚那第20步兵师" 
+	}
+	cavalry_brigade = {
+		"圭亚那第1骑兵师" "圭亚那第2骑兵师" "圭亚那第3骑兵师" "圭亚那第4骑兵师" "圭亚那第5骑兵师" "圭亚那第6骑兵师" "圭亚那第7骑兵师" "圭亚那第8骑兵师" "圭亚那第9骑兵师" "圭亚那第10骑兵师" 
+	}
+	motorized_brigade = {
+		"圭亚那第1步兵师" "圭亚那第2步兵师" "圭亚那第3步兵师" "圭亚那第4步兵师" "圭亚那第5步兵师" "圭亚那第6步兵师" "圭亚那第7步兵师" "圭亚那第8步兵师" "圭亚那第9步兵师" 
+	}
+	mechanized_brigade = {
+		"圭亚那第1步兵师" "圭亚那第2步兵师" "圭亚那第3步兵师" "圭亚那第4步兵师" "圭亚那第5步兵师" "圭亚那第6步兵师" "圭亚那第7步兵师" "圭亚那第8步兵师" "圭亚那第9步兵师" "圭亚那第10步兵师" "圭亚那第11步兵师"  
+	}
+	light_armor_brigade = {
+		"圭亚那第1装甲师" "圭亚那第2装甲师" "圭亚那第3装甲师" "圭亚那第4装甲师" "圭亚那第5装甲师" "圭亚那第6装甲师" "圭亚那第7装甲师" "圭亚那第8装甲师" "圭亚那第9装甲师" "圭亚那第10装甲师" "圭亚那第11装甲师" 
+		"圭亚那第12装甲师" "圭亚那第13装甲师" "圭亚那第14装甲师" 
+	}
+	armor_brigade = {
+		"圭亚那第1装甲师" "圭亚那第2装甲师" "圭亚那第3装甲师" "圭亚那第4装甲师" "圭亚那第5装甲师" "圭亚那第6装甲师" "圭亚那第7装甲师" "圭亚那第8装甲师" "圭亚那第9装甲师" "圭亚那第10装甲师" "圭亚那第11装甲师" 
+		"圭亚那第12装甲师" "圭亚那第13装甲师" "圭亚那第14装甲师" 
+	}
+	paratrooper_brigade = {
+		"圭亚那第1空降师" "圭亚那第2空降师" "圭亚那第3空降师" "圭亚那第4空降师" "圭亚那第5空降师" "圭亚那第6空降师" "圭亚那第7空降师" "圭亚那第8空降师" "圭亚那第9空降师" "圭亚那第10空降师" 
+	}
+	marine_brigade = {
+		"圭亚那第1海军陆战师" "圭亚那第2海军陆战师" "圭亚那第3海军陆战师" "圭亚那第4海军陆战师" "圭亚那第5海军陆战师" "圭亚那第6海军陆战师n" "圭亚那第7海军陆战师" "圭亚那第8海军陆战师" "圭亚那第9海军陆战师" "圭亚那第10海军陆战师" 
+	}
+	bergsjaeger_brigade = {
+		"圭亚那第1山地师" "圭亚那第2山地师" "圭亚那第3山地师" "圭亚那第4山地师" "圭亚那第7山地师" "圭亚那第8山地师" "圭亚那第10山地师" "圭亚那第11山地师" "圭亚那第12山地师" 
+	}
+	garrison_brigade = {
+		"圭亚那第1卫戍师" "圭亚那第2卫戍师" "圭亚那第3卫戍师" "圭亚那第4卫戍师" "圭亚那第5卫戍师" "圭亚那第6卫戍师" "圭亚那第7卫戍师" "圭亚那第8卫戍师" "圭亚那第9卫戍师" "圭亚那第10卫戍师" "圭亚那第11卫戍师" 
+		"圭亚那第12卫戍师" "圭亚那第13卫戍师" "圭亚那第14卫戍师" "圭亚那第15卫戍师" "圭亚那第16卫戍师" "圭亚那第17卫戍师" "圭亚那第18卫戍师" "圭亚那第19卫戍师" "圭亚那第20卫戍师" 
+	}
+	hq_brigade = {
+		"圭亚那第一集团军" "圭亚那第二集团军" "圭亚那第三集团军" "圭亚那第四集团军" "圭亚那第五集团军" "圭亚那第六集团军" "圭亚那第七集团军" "圭亚那第八集团军" 
+	}
+	militia_brigade = {
+		"圭亚那第1步兵师" "圭亚那第2步兵师" "圭亚那第3步兵师" "圭亚那第4步兵师" "圭亚那第5步兵师" "圭亚那第6步兵师" "圭亚那第7步兵师" "圭亚那第8步兵师" "圭亚那第9步兵师" "圭亚那第10步兵师" "圭亚那第11步兵师" 
+		"圭亚那第12步兵师" "圭亚那第13步兵师" "圭亚那第14步兵师" "圭亚那第15步兵师" "圭亚那第16步兵师" "圭亚那第17步兵师" "圭亚那第18步兵师" "圭亚那第19步兵师" "圭亚那第20步兵师" 
+	}
+	multi_role = {
+		"皇家圭亚那空军第1联队" "皇家圭亚那空军第2联队" "皇家圭亚那空军第3联队" "皇家圭亚那空军第4联队" "皇家圭亚那空军第5联队" "皇家圭亚那空军第6联队" "皇家圭亚那空军第7联队" "皇家圭亚那空军第8联队" "皇家圭亚那空军第9联队" "皇家圭亚那空军第10联队" "皇家圭亚那空军第11联队" 
+		"皇家圭亚那空军第12联队" "皇家圭亚那空军第13联队" "皇家圭亚那空军第14联队" "皇家圭亚那空军第15联队" "皇家圭亚那空军第16联队" "皇家圭亚那空军第17联队" "皇家圭亚那空军第18联队" "皇家圭亚那空军第19联队" 
+	}
+	interceptor = {
+		"皇家圭亚那空军第1联队" "皇家圭亚那空军第2联队" "皇家圭亚那空军第3联队" "皇家圭亚那空军第4联队" "皇家圭亚那空军第5联队" "皇家圭亚那空军第6联队" "皇家圭亚那空军第7联队" "皇家圭亚那空军第8联队" "皇家圭亚那空军第9联队" "皇家圭亚那空军第10联队" "皇家圭亚那空军第11联队" 
+		"皇家圭亚那空军第12联队" "皇家圭亚那空军第13联队" "皇家圭亚那空军第14联队" "皇家圭亚那空军第15联队" "皇家圭亚那空军第16联队" "皇家圭亚那空军第17联队" "皇家圭亚那空军第18联队" "皇家圭亚那空军第19联队"
+	}
+	strategic_bomber = {
+		"皇家圭亚那空军第1联队" "皇家圭亚那空军第2联队" "皇家圭亚那空军第3联队" "皇家圭亚那空军第4联队" "皇家圭亚那空军第5联队" "皇家圭亚那空军第6联队" "皇家圭亚那空军第7联队" "皇家圭亚那空军第8联队" "皇家圭亚那空军第9联队" "皇家圭亚那空军第10联队" "皇家圭亚那空军第11联队" 
+		"皇家圭亚那空军第12联队" "皇家圭亚那空军第13联队" "皇家圭亚那空军第14联队" "皇家圭亚那空军第15联队" "皇家圭亚那空军第16联队" "皇家圭亚那空军第17联队" "皇家圭亚那空军第18联队" "皇家圭亚那空军第19联队"
+	}
+	tactical_bomber = {
+		"皇家圭亚那空军第1联队" "皇家圭亚那空军第2联队" "皇家圭亚那空军第3联队" "皇家圭亚那空军第4联队" "皇家圭亚那空军第5联队" "皇家圭亚那空军第6联队" "皇家圭亚那空军第7联队" "皇家圭亚那空军第8联队" "皇家圭亚那空军第9联队" "皇家圭亚那空军第10联队" "皇家圭亚那空军第11联队" 
+		"皇家圭亚那空军第12联队" "皇家圭亚那空军第13联队" "皇家圭亚那空军第14联队" "皇家圭亚那空军第15联队" "皇家圭亚那空军第16联队" "皇家圭亚那空军第17联队" "皇家圭亚那空军第18联队" "皇家圭亚那空军第19联队"
+	}
+	naval_bomber = {
+		"皇家圭亚那空军第1联队" "皇家圭亚那空军第2联队" "皇家圭亚那空军第3联队" "皇家圭亚那空军第4联队" "皇家圭亚那空军第5联队" "皇家圭亚那空军第6联队" "皇家圭亚那空军第7联队" "皇家圭亚那空军第8联队" "皇家圭亚那空军第9联队" "皇家圭亚那空军第10联队" 
+	}
+	cas = {
+		"皇家圭亚那空军第1联队" "皇家圭亚那空军第2联队" "皇家圭亚那空军第3联队" "皇家圭亚那空军第4联队" "皇家圭亚那空军第5联队" "皇家圭亚那空军第6联队" "皇家圭亚那空军第7联队" "皇家圭亚那空军第8联队" "皇家圭亚那空军第9联队" "皇家圭亚那空军第10联队" "皇家圭亚那空军第11联队" 
+		"皇家圭亚那空军第12联队" "皇家圭亚那空军第13联队" "皇家圭亚那空军第14联队" "皇家圭亚那空军第15联队" "皇家圭亚那空军第16联队" "皇家圭亚那空军第17联队" "皇家圭亚那空军第18联队" "皇家圭亚那空军第19联队"
+	}
+	transport_plane = {
+		"皇家圭亚那空军第1联队" "皇家圭亚那空军第2联队" "皇家圭亚那空军第3联队" "皇家圭亚那空军第4联队" "皇家圭亚那空军第5联队" "皇家圭亚那空军第6联队" "皇家圭亚那空军第7联队" "皇家圭亚那空军第8联队" "皇家圭亚那空军第9联队" "皇家圭亚那空军第10联队" 
+	}
+	battleship = {
+		"GDFS 独立" "GDFS 自由" "GDFS 解放" "GDFS 胜利" 
+	}
+	light_cruiser = {
+		"GDFS 独立" "GDFS 自由" "GDFS 解放" "GDFS 胜利"  
+	}
+	heavy_cruiser = {
+		"GDFS 独立" "GDFS 自由" "GDFS 解放" "GDFS 胜利"  
+	}
+	battlecruiser = {
+		"GDFS 独立" "GDFS 自由" "GDFS 解放" "GDFS 胜利"  
+	}
+	destroyer = {
+		"圭亚那第1驱逐舰分队" "圭亚那第2驱逐舰分队" "圭亚那第3驱逐舰分队" "圭亚那第4驱逐舰分队" "圭亚那第5驱逐舰分队" "圭亚那第6驱逐舰分队" "圭亚那第7驱逐舰分队" "圭亚那第8驱逐舰分队" "圭亚那第9驱逐舰分队" "圭亚那第10驱逐舰分队" 
+	}
+	carrier = {
+		"GDFS 独立" "GDFS 自由" "GDFS 解放" "GDFS 胜利"  
+	}
+	submarine = {
+		"圭亚那第1潜艇分队" "圭亚那第2潜艇分队" "圭亚那第3潜艇分队" "圭亚那第4潜艇分队" "圭亚那第5潜艇分队" "圭亚那第6潜艇分队" "圭亚那第7潜艇分队" "圭亚那第8潜艇分队" "圭亚那第9潜艇分队" "圭亚那第10潜艇分队" 
+	}
+	transport_ship = {
+		"圭亚那第1运输舰分队" "圭亚那第2运输舰分队" "圭亚那第3运输舰分队" "圭亚那第4运输舰分队" "圭亚那第5运输舰分队" "圭亚那第6运输舰分队" "圭亚那第7运输舰分队" "圭亚那第8运输舰分队" "圭亚那第9运输舰分队" "圭亚那第10运输舰分队" 
+	}
+
+}
+
+ministers = {
+	562001 = {
+		name = "戈登 J. 莱瑟姆 爵士"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M562001
+		head_of_state = die_hard_reformer
+		start_date = 1936.1.1
+	}
+	562002 = {
+		name = "弗朗西斯 斯坦利 杰克森 爵士"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M562002
+		head_of_government = happy_amateur
+		start_date = 1936.1.1
+	}
+	562003 = {
+		name = "杰弗里 斯坦福得 诺斯科特 爵士"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M562003
+		foreign_minister = apologetic_clerk
+		start_date = 1936.1.1
+	}
+	562004 = {
+		name = "拉尔夫 阿尼克 格雷 爵士"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M562004
+		armament_minister = administrative_genius
+		start_date = 1936.1.1
+	}
+	562005 = {
+		name = "查尔斯 坎贝尔 伍里"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M562005
+		minister_of_security = compassionate_gentleman
+		start_date = 1936.1.1
+	}
+	562006 = {
+		name = "爱德华 F. 科林武德"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M562006
+		minister_of_intelligence = industrial_specialist
+		start_date = 1936.1.1
+	}
+	562007 = {
+		name = "查尔斯 伯奇武德"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M562007
+		chief_of_staff = school_of_defence
+		start_date = 1936.1.1
+	}
+	562008 = {
+		name = "弗雷德里克 奥古斯都"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M562008
+		chief_of_army = armoured_spearhead_doctrine
+		start_date = 1936.1.1
+	}
+	562009 = {
+		name = "H.C. 比奇洛"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M562009
+		chief_of_navy = indirect_approach_doctrine
+		start_date = 1936.1.1
+	}
+	562010 = {
+		name = "H.F. 布雷特"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M562010
+		chief_of_air = naval_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	562011 = {
+		name = "塞韦罗 曼尼特-普罗沃斯特"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M562011
+		head_of_state = benevolent_gentleman
+		start_date = 1936.1.1
+	}
+	562012 = {
+		name = "契迪 贾根 博士"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M562012
+		head_of_state = popular_figurehead
+		start_date = 1936.1.1
+	}
+	562013 = {
+		name = "弗雷德里克 德雷考特"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M562013
+		head_of_government = corporate_suit
+		start_date = 1936.1.1
+	}
+	562014 = {
+		name = "福布斯 博纳姆"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M562014
+		head_of_government = political_protege
+		start_date = 1936.1.1
+	}
+	562015 = {
+		name = "查尔斯 约瑟夫 罗技"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M562015
+		foreign_minister = the_cloak_n_dagger_schemer
+		start_date = 1936.1.1
+	}
+	562016 = {
+		name = "罗利 杰克森"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M562016
+		foreign_minister = great_compromiser
+		start_date = 1936.1.1
+	}
+	562017 = {
+		name = "莫里斯 戈登"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M562017
+		armament_minister = resource_industrialist
+		start_date = 1936.1.1
+	}
+	562018 = {
+		name = "戈宾达 刚佳 博士"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M562018
+		armament_minister = theoretical_scientist
+		start_date = 1936.1.1
+	}
+	562019 = {
+		name = "詹姆斯 克里斯科克"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M562019
+		minister_of_security = crime_fighter
+		start_date = 1936.1.1
+	}
+	562020 = {
+		name = "里恩 詹姆斯"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M562020
+		minister_of_security = prince_of_terror
+		start_date = 1940.1.1
+	}
+	562021 = {
+		name = "维贝尔 帕威森"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M562021
+		minister_of_security = silent_lawyer
+		start_date = 1936.1.1
+	}
+	562022 = {
+		name = "威廉 J. 费瑟斯通"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M562022
+		minister_of_intelligence = dismal_enigma
+		start_date = 1936.1.1
+	}
+	562023 = {
+		name = "C.L.R. 詹姆斯"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M562023
+		minister_of_intelligence = political_specialist
+		start_date = 1936.1.1
+	}
+	562024 = {
+		name = "C.F. 德鲁w"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = L1111
+		chief_of_staff = school_of_psychology
+		start_date = 1936.1.1
+	}
+	562025 = {
+		name = "金斯利 福里斯特"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M562025
+		chief_of_staff = school_of_manoeuvre
+		start_date = 1936.1.1
+	}
+	562026 = {
+		name = "H.F.L. 希尔顿-格林"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = L1164
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1936.1.1
+	}
+	562027 = {
+		name = "克里斯托福 洛班"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M562027
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1936.1.1
+	}
+	562028 = {
+		name = "亨利 温斯洛"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M562028
+		chief_of_navy = base_control_doctrine
+		start_date = 1936.1.1
+	}
+	562029 = {
+		name = "托马斯 麦克加里蒂"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M562029
+		chief_of_navy = power_projection_doctrine
+		start_date = 1936.1.1
+	}
+	562030 = {
+		name = "莫蒂默 希斯伍德"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M562030
+		chief_of_air = army_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	562031 = {
+		name = "凯尔 莱特福特"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M562031
+		chief_of_air = air_superiority_doctrine
+		start_date = 1936.1.1
+	}
+}

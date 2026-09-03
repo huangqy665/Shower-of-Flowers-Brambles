@@ -1,0 +1,373 @@
+color = { 174  206  203 }
+graphical_culture = Generic
+
+default_templates = {
+	generic_infantry = {
+		infantry_brigade
+		infantry_brigade
+		infantry_brigade
+	}
+	generic_milita = {
+		militia_brigade
+		militia_brigade
+		militia_brigade
+	}
+	generic_armoured = {
+		armor_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	generic_cavalry = {
+		cavalry_brigade
+		cavalry_brigade
+	}
+}
+
+unit_names = {
+	infantry_brigade = {
+		"第1步兵师. '阿道夫 V. 哈尔'" "第2步兵师" "第3步兵师" "第4步兵师" "第5步兵师" "第6步兵师" "第7步兵师" "第8步兵师" "第9步兵师" "第10步兵师" 
+	}
+	cavalry_brigade = {
+		"第1骑兵师. '瓜克斯'" "第2骑兵师" "第3骑兵师" "第4骑兵师" "第5骑兵师" 
+	}
+	motorized_brigade = {
+		"第1摩步师" "第2摩步师" "第3摩步师" "第4摩步师" "第5摩步师" 
+	}
+	mechanized_brigade = {
+		"第1机步师" "第2机步师" "第3机步师" "第4机步师" "第5机步师" 
+	}
+	light_armor_brigade = {
+		"第1轻装甲师" "第2轻装甲师" "第3轻装甲师" "第4轻装甲师" "第5轻装甲师" 
+	}
+	armor_brigade = {
+		"第1装甲师" "第2装甲师" "第3装甲师" "第4装甲师" "第5装甲师" 
+	}
+	paratrooper_brigade = {
+		"第1 空降师" "第2 空降师" "第3 空降师" "第4 空降师" "第5 空降师" 
+	}
+	marine_brigade = {
+		"第1海军陆战师" "第2海军陆战师" "第3海军陆战师" "第4海军陆战师" "第5海军陆战师" 
+	}
+	bergsjaeger_brigade = {
+		"第1山地师. '海巴尔'" "第2山地师" "第3山地师" "第4山地师" "第5山地师" 
+	}
+	garrison_brigade = {
+		"第1卫戍师" "第2卫戍师" "第3卫戍师" "第4卫戍师" "第5卫戍师" "第6卫戍师" "第7卫戍师" "第8卫戍师" "第9卫戍师" "第10卫戍师" 
+	}
+	hq_brigade = {
+		"中央 1军" "中央 2军" "中央 3军" "中央 4军" "中央 5军" "中央 6军" "中央 7军" "中央 8o军" "中央 9军" "中央 10军" 
+	}
+	militia_brigade = {
+		"第1民兵师" "第2民兵师" "第3民兵师" "第4民兵师" "第5民兵师" "第6民兵师" "第7民兵师" "第8民兵师" "第9民兵师" "第10民兵师" 
+	}
+	multi_role = {
+		"第1战斗机联队" "第2战斗机联队" "第3战斗机联队" "第4战斗机联队" "第5战斗机联队" 
+	}
+	interceptor = {
+		"第1截击机联队" "第2截击机联队" "第3截击机联队" "第4截击机联队" "第5截击机联队" 
+	}
+	strategic_bomber = {
+		"第1战略轰炸机联队" "第2战略轰炸机联队" "第3战略轰炸机联队" "第4战略轰炸机联队" "第5战略轰炸机联队" 
+	}
+	tactical_bomber = {
+		"第1战术轰炸机联队" "第2战术轰炸机联队" "第3战术轰炸机联队" "第4战术轰炸机联队" "第5战术轰炸机联队" 
+	}
+	naval_bomber = {
+		"第1海军轰炸机联队" "第2海军轰炸机联队" "第3海军轰炸机联队" "第4海军轰炸机联队" "第5海军轰炸机联队" "第1鱼雷轰炸机联队" "第2鱼雷轰炸机联队" "第3鱼雷轰炸机联队" "第4鱼雷轰炸机联队" "第5鱼雷轰炸机联队" "第6鱼雷轰炸机联队" 
+		"第7鱼雷轰炸机联队" "第8鱼雷轰炸机联队" "第9鱼雷轰炸机联队" "第 10鱼雷轰炸机联队" 
+	}
+	cas = {
+		"第1 近距支援联队" "第2 近距支援联队" "第3 近距支援联队" "第4 近距支援联队" "第5 近距支援联队" 
+	}
+	transport_plane = {
+		"第1运输船大队" "第2运输船大队" "第3运输船大队" "第4运输船大队" "第5运输船大队" 
+	}
+	battleship = {
+		"ARG 瓜地马拉" "ARG 奎查特兰" 
+	}
+	light_cruiser = {
+		"ARG 塔帕除那" "ARG 巴里奥斯" "ARG 札卡里伊" "ARG 埃尔埃斯托" "ARG 埃尔 扑克索" 
+	}
+	heavy_cruiser = {
+		"ARG 塔帕除那" "ARG 巴里奥斯" "ARG 札卡里伊" "ARG 埃尔埃斯托" "ARG 埃尔 扑克索" 
+	}
+	battlecruiser = {
+		"ARG 瓜地马拉" "ARG 奎查特兰" 
+	}
+	destroyer = {
+		"第1驱逐舰大队 " "第2驱逐舰大队 " "第3驱逐舰大队" "第4驱逐舰大队 " "第5驱逐舰大队 " "第6驱逐舰大队 " 
+	}
+	carrier = {
+		"ARG 瓜地马拉共和国" "ARG 埃斯奎提亚" 
+	}
+	submarine = {
+		"第1潜艇大队" "第2潜艇大队" "第3潜艇大队" "第4潜艇大队" "第5潜艇大队" 
+	}
+	transport_ship = {
+		"运兵船 '士气'" "运兵船 '科班'" "运兵船 '维维特南戈'" "运兵船 '托托尼卡潘'" "运兵船 '查军" 
+	}
+
+}
+
+ministers = {
+	46001 = {
+		name = "乔科·乌维科·卡斯塔涅达"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M46001
+		head_of_state = pig_headed_isolationist
+		head_of_government = silent_workhorse
+		chief_of_army = static_defence_doctrine
+		chief_of_staff = school_of_mass_combat
+		start_date = 1936.1.1
+	}
+	46003 = {
+		name = "阿尔弗雷多·斯基纳·克里"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M46003
+		foreign_minister = the_cloak_n_dagger_schemer
+		minister_of_security = compassionate_gentleman
+		start_date = 1936.1.1
+	}
+	46004 = {
+		name = "吉尔默·弗洛里斯·阿伦达诺"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M46004
+		armament_minister = infantry_proponent
+		minister_of_intelligence = dismal_enigma
+		start_date = 1936.1.1
+	}
+	46005 = {
+		name = "T.·卡斯特罗·多明戈斯"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M46005
+		minister_of_security = crooked_kleptocrat
+		armament_minister = corrupt_kleptocrat
+		start_date = 1936.1.1
+	}
+	46006 = {
+		name = "爱德瓦多·维拉格兰·阿里扎"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M46006
+		minister_of_intelligence = research_specialist
+		head_of_government = political_protege
+		head_of_government = happy_amateur
+		start_date = 1936.1.1
+	}
+	46007 = {
+		name = "费德里克·庞塞·维兹"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M46007
+		chief_of_staff = school_of_manoeuvre
+		head_of_state = barking_buffoon
+		armament_minister = tank_proponent
+		minister_of_security = efficient_sociopath
+		chief_of_army = decisive_battle_doctrine
+		head_of_government = old_general
+		start_date = 1936.1.1
+	}
+	46009 = {
+		name = "托马斯·门德萨·乌里布"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M46009
+		chief_of_navy = indirect_approach_doctrine
+		minister_of_security = silent_lawyer
+		minister_of_intelligence = naval_intelligence_specialist
+		chief_of_navy = indirect_approach_doctrine
+		start_date = 1936.1.1
+	}
+	46010 = {
+		name = "R.·布埃纳文图拉·皮内达"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M46010
+		chief_of_air = army_aviation_doctrine
+		head_of_state = resigned_generalissimo
+		head_of_government = old_air_marshal
+		minister_of_security = prince_of_terror
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1936.1.1
+	}
+	46021 = {
+		name = "雅各布·阿本斯·古斯曼"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M46021
+		head_of_state = popular_figurehead
+		armament_minister = infantry_proponent
+		minister_of_intelligence = political_specialist
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1944.1.1
+	}
+	46022 = {
+		name = "胡安·阿雷瓦洛·波美加"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M46022
+		head_of_state = die_hard_reformer
+		head_of_government = backroom_backstabber
+		armament_minister = resource_industrialist
+		start_date = 1945.1.1
+	}
+	46023 = {
+		name = "若热·特鲁埃洛·加里多"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M46011
+		head_of_state = resigned_generalissimo
+		foreign_minister = general_staffer
+		chief_of_navy = power_projection_doctrine
+		start_date = 1945.1.1
+	}
+	46027 = {
+		name = "弗朗西斯科·贾维尔·阿拉纳"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M46027
+		head_of_government = naive_optimist
+		foreign_minister = iron_fisted_brute
+		chief_of_air = vertical_envelopment_doctrine
+		start_date = 1944.1.1
+	}
+	46029 = {
+		name = "曼努埃尔·奥勒拉纳"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M46012
+		head_of_government = smiling_oilman
+		minister_of_security = crime_fighter
+		chief_of_staff = school_of_defence
+		chief_of_army = static_defence_doctrine
+		start_date = 1945.1.1
+	}
+	46031 = {
+		name = "曼努埃尔·阿罗约"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M46031
+		head_of_government = old_admiral
+		armament_minister = theoretical_scientist
+		minister_of_intelligence = naval_intelligence_specialist
+		start_date = 1937.1.1
+	}
+	46035 = {
+		name = "卡洛斯·阿古蒙多·萨拉扎"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M46035
+		foreign_minister = the_cloak_n_dagger_schemer
+		foreign_minister = great_compromiser
+		start_date = 1944.1.1
+	}
+	46037 = {
+		name = "恩里克·姆诺兹·米尼"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M46037
+		foreign_minister = biased_intellectual
+		start_date = 1946.1.1
+	}
+	46044 = {
+		name = "迭戈·A.·卡斯特罗·阿里贡"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M46044
+		armament_minister = administrative_genius
+		start_date = 1946.1.1
+	}
+	46045 = {
+		name = "朱里奥·赫雷拉"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M46045
+		armament_minister = resource_industrialist
+		start_date = 1945.1.1
+	}
+	46046 = {
+		name = "何塞·马托斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M46014
+		armament_minister = laissez_faires_capitalist
+		start_date = 1945.1.1
+	}
+	46051 = {
+		name = "曼努埃尔·瓦拉达雷斯"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M46015
+		minister_of_security = silent_lawyer
+		start_date = 1945.1.1
+	}
+	46053 = {
+		name = "卡洛斯·卡斯蒂略·阿马斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M46053
+		minister_of_security = silent_lawyer
+		start_date = 1945.1.1
+	}
+	46057 = {
+		name = "艾德里安·莱西诺斯"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M46016
+		minister_of_intelligence = technical_specialist
+		start_date = 1944.1.1
+	}
+	46060 = {
+		name = "菲利佩·尤拉尔蒂·托马斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M46060
+		minister_of_intelligence = research_specialist
+		start_date = 1945.1.1
+	}
+	46063 = {
+		name = "卡洛斯·迪亚兹·德·莱昂"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M46063
+		chief_of_staff = school_of_manoeuvre
+		chief_of_army = armoured_spearhead_doctrine
+		start_date = 1945.1.1
+	}
+	46074 = {
+		name = "何塞·伊苏拉·亚伯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M46019
+		chief_of_navy = open_seas_doctrine
+		start_date = 1945.1.1
+	}
+	46077 = {
+		name = "W.·泰斯科·奥兰多"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M46077
+		chief_of_air = air_superiority_doctrine
+		start_date = 1945.1.1
+	}
+	46079 = {
+		name = "米盖尔·加西亚·格拉纳多斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M46079
+		chief_of_air = carpet_bombing_doctrine
+		start_date = 1945.1.1
+	}
+	46081 = {
+		name = "伊迪加拉斯·方泰斯"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M46018
+		chief_of_staff = school_of_psychology
+		start_date = 1944.1.1
+	}
+}

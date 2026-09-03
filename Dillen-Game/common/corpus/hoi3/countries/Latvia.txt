@@ -1,0 +1,601 @@
+color = { 112  90  87 }
+graphical_culture = Generic
+
+default_templates = {
+	generic_infantry = {
+		infantry_brigade
+		infantry_brigade
+		infantry_brigade
+	}
+	generic_milita = {
+		militia_brigade
+		militia_brigade
+		militia_brigade
+	}
+	generic_armoured = {
+		armor_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	generic_cavalry = {
+		cavalry_brigade
+		cavalry_brigade
+	}
+}
+
+unit_names = {
+	infantry_brigade = {
+		"库尔兰师" "拉特加尔师" "瑟米利亚师" "维德泽姆师" "第1步兵师" "第2步兵师" "第3步兵师" "第4步兵师" "第5步兵师" "第6步兵师" "第7步兵师" 
+		"第8步兵师" "第9步兵师" "第10步兵师" "第11步兵师" "第12步兵师" "第13步兵师" "第14步兵师" "第16步兵师" "第17步兵师" "第19步兵师"  
+	}
+	cavalry_brigade = {
+		"第3骑兵师" "第5骑兵师" "第6骑兵师" "第8骑兵师" "第9骑兵师" "第14骑兵师" "第24骑兵师" "第32骑兵师" "第36骑兵师" "第37骑兵师" 
+	}
+	motorized_brigade = {
+		"第7摩步师" "第29摩步师" "第36摩步师" "第57摩步师" "第81摩步师" "第84摩步师" "第163摩步师" "第198摩步师" "第202摩步师" "第204摩步师" "第205摩步师" 
+		"第208摩步师" "第209摩步师" "第210摩步师" "第212摩步师" "第213摩步师" "第215摩步师" "第216摩步师" "第240摩步师" 
+	}
+	mechanized_brigade = {
+		"第1机步师" "第15机步师" "第69机步师" "第82机步师" "第103机步师" "第109机步师" "第185机步师" "第218机步师" "第219机步师" "第220机步师" "第221机步师" 
+		"第236机步师" "第239机步师" 
+	}
+	light_armor_brigade = {
+		"第1装甲师" "第2装甲师" "第3装甲师" "第4装甲师" "第5装甲师" "第6装甲师" "第7装甲师" "第8装甲师" "第9装甲师" "第10装甲师" 
+	}
+	armor_brigade = {
+		"第1装甲师" "第2装甲师" "第3装甲师" "第4装甲师" "第5装甲师" "第6装甲师" "第7装甲师" "第8装甲师" "第9装甲师" "第10装甲师" 
+	}
+	paratrooper_brigade = {
+		"第1空降师" "第2空降师" "第3空降师" "第4空降师" "第5空降师" "第6空降师" "第7空降师" "第8空降师" "第9空降师" "第10空降师" 
+	}
+	marine_brigade = {
+		"第1海军陆战师" "第2海军陆战师" "第3海军陆战师" "第4海军陆战师" "第5海军陆战师" "第6海军陆战师" "第7海军陆战师" "第8海军陆战师" "第9海军陆战师" "第10海军陆战师" 
+	}
+	bergsjaeger_brigade = {
+		"第9山地师" "第20山地师" "第28山地师" "第30山地师" "第44山地师" "第47山地师" "第58山地师" "第60山地师" 
+	}
+	garrison_brigade = {
+		"第10卫戍师" "第11卫戍师" "第12卫戍师" "第13卫戍师" "第14卫戍师" "第16卫戍师" "第17卫戍师" "第19卫戍师" 
+	}
+	hq_brigade = {
+		"拉脱维亚1集团军" "拉脱维亚2集团军" "拉脱维亚3集团军" "拉脱维亚4集团军" 
+	}
+	militia_brigade = {
+		"第2警卫师" "第3警卫师" "第4警卫师" "第5警卫师" "第6警卫师" "第8警卫师" "第10警卫师" "第11警卫师" "第12警卫师" "第13警卫师" "第14警卫师" 
+		"第16警卫师" "第17警卫师" "第19警卫师" "第21警卫师" "第22警卫师" "第23警卫师" "第24警卫师" "第25警卫师" "第26警卫师" "第27警卫师" 
+	}
+	multi_role = {
+		"第1战斗机联队" "第2战斗机联队" "第3战斗机联队" "第4战斗机联队" "第5战斗机联队" "第6战斗机联队" "第7战斗机联队" "第8战斗机联队" "第10战斗机联队" 
+	}
+	interceptor = {
+		"第1截击机联队" "第2截击机联队" "第3截击机联队" "第4截击机联队" "第5截击机联队" "第6截击机联队" "第7截击机联队" "第8截击机联队" "第10截击机联队" 
+	}
+	strategic_bomber = {
+		"第1战略轰炸联队" "第2战略轰炸联队" "第3战略轰炸联队" "第4战略轰炸联队" "第5战略轰炸联队" "第6战略轰炸联队" "第7战略轰炸联队" "第8战略轰炸联队" "第9战略轰炸联队" "第10战略轰炸联队" 
+	}
+	tactical_bomber = {
+		"第1战术轰炸联队" "第2战术轰炸联队" "第3战术轰炸联队" "第4战术轰炸联队" "第5战术轰炸联队" "第6战术轰炸联队" "第7战术轰炸联队" "第8战术轰炸联队" "第9战术轰炸联队" "第10战术轰炸联队" 
+	}
+	naval_bomber = {
+		"第1海军轰炸联队" "第2海军轰炸联队" "第3海军轰炸联队" "第4海军轰炸联队" "第5海军轰炸联队" "第6海军轰炸联队" "第7海军轰炸联队" "第8海军轰炸联队" "第9海军轰炸联队" "第10海军轰炸联队" 
+	}
+	cas = {
+		"第23俯冲轰炸联队" "第46俯冲轰炸联队" "第77俯冲轰炸联队" "第25俯冲轰炸联队" "第72俯冲轰炸联队" "第9俯冲轰炸联队" "第10俯冲轰炸联队" "第11俯冲轰炸联队" "第1俯冲轰炸联队" "第2俯冲轰炸联队" "第5俯冲轰炸联队" 
+		"第55俯冲轰炸联队" 
+	}
+	transport_plane = {
+		"第1运输机联队" "第2运输机联队" "第3运输机联队" "第4运输机联队" "第5运输机联队"
+	}
+	battleship = {
+		"里加号" "马萨拉卡号" "敦达加号" "包斯卡号" "尤尔马拉号" "库尔迪加号" "马多纳号" "雷泽克内号" 
+	}
+	light_cruiser = {
+		"采西斯号" "利耶帕亚号" "普里耶库莱号" "陶格夫匹尔斯号" "阿格隆那号" "奥特号" 
+	}
+	heavy_cruiser = {
+		"里加号" "马萨拉卡号" "敦达加号" "包斯卡号" "尤尔马拉号" "库尔迪加号" "马多纳号" "雷泽克内号" "瓦尔米耶拉号" 
+	}
+	battlecruiser = {
+		"瓦尔米耶拉号" "采西斯号" "利耶帕亚号" "普里耶库莱号" "陶格夫匹尔斯号" "阿格隆那号" "奥特号" 
+	}
+	destroyer = {
+		"第1驱逐舰编队" "第2驱逐舰编队" "第3驱逐舰编队" "第4驱逐舰编队" "第5驱逐舰编队" "第6驱逐舰编队" "第7驱逐舰编队" "第8驱逐舰编队" "第9驱逐舰编队" "第10驱逐舰编队" "第11驱逐舰编队" 
+		"第12驱逐舰编队" "第13驱逐舰编队" "第14驱逐舰编队" "第15驱逐舰编队" "第16驱逐舰编队" "第17驱逐舰编队" "第18驱逐舰编队" "第19驱逐舰编队" "第20驱逐舰编队" 
+	}
+	carrier = {
+		"里加号" "马萨拉卡号" "敦达加号" "包斯卡号" "尤尔马拉号" "库尔迪加号" "马多纳号" "雷泽克内号" "瓦尔米耶拉号" "采西斯号" "利耶帕亚号"
+		"普里耶库莱号" "陶格夫匹尔斯号" "阿格隆那号" "奥特号"
+	}
+	escort_carrier = {
+		"酋长号" "雷姆杰斯号"
+	}
+	submarine = {
+		"罗尼 斯皮多拉号" "第2潜艇编队" "第3潜艇编队" "第4潜艇编队" "第5潜艇编队" "第6潜艇编队" "第7潜艇编队" "第8潜艇编队" "第9潜艇编队" "第10潜艇编队" "第11潜艇编队" 
+		"第12潜艇编队" "第13潜艇编队" "第14潜艇编队" "第15潜艇编队" 
+	}
+	transport_ship = {
+		"第1运输舰编队" "第2运输舰编队" "第3运输舰编队" "第4运输舰编队" "第5运输舰编队" "第6运输舰编队" "第7运输舰编队" "第8运输舰编队" "第9运输舰编队" "第10运输舰编队" "第11运输舰编队" 
+		"第12运输舰编队" "第13运输舰编队" "第14运输舰编队" "第15运输舰编队" 
+	}
+
+}
+
+ministers = {
+	27001 = {
+		name = "阿尔贝茨 克维耶西斯"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M27001
+		head_of_state = power_hungry_demagogue
+		minister_of_security = man_of_the_people
+		start_date = 1936.1.1
+	}
+	27002 = {
+		name = "卡尔利斯 乌尔马尼斯"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M27002
+		head_of_government = happy_amateur
+		foreign_minister = biased_intellectual
+		head_of_state = barking_buffoon
+		minister_of_intelligence = dismal_enigma
+		start_date = 1936.1.1
+	}
+	27004 = {
+		name = "路德维希斯 克蒂斯"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M27004
+		armament_minister = infantry_proponent
+		start_date = 1936.1.1
+	}
+	27005 = {
+		name = "维利斯 古尔比斯"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M27005
+		minister_of_security = crime_fighter
+		armament_minister = air_to_sea_proponent
+		start_date = 1936.1.1
+	}
+	27006 = {
+		name = "埃尔马尼斯 阿普西提斯"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M27006
+		minister_of_intelligence = political_specialist
+		minister_of_security = prince_of_terror
+		start_date = 1936.1.1
+	}
+	27007 = {
+		name = "耶尼斯 巴洛迪斯"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M27007
+		chief_of_staff = school_of_defence
+		minister_of_security = man_of_the_people
+		start_date = 1936.1.1
+	}
+	27008 = {
+		name = "鲁道夫斯 班格斯基斯"
+		ideology = fascistic
+		loyalty = 0.50
+		picture = M27008
+		chief_of_army = static_defence_doctrine
+		head_of_government = flamboyant_tough_guy
+		chief_of_air = army_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	27009 = {
+		name = "托马斯 斯佩德"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M27009
+		chief_of_navy = decisive_naval_battle_doctrine
+		start_date = 1936.1.1
+	}
+	27010 = {
+		name = "贾尼斯 因丹斯"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M27010
+		chief_of_air = army_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	27031 = {
+		name = "汉斯 海因里希 洛泽"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M27031
+		head_of_state = stern_imperialist
+		minister_of_intelligence = industrial_specialist
+		start_date = 1941.1.1
+	}
+	27033 = {
+		name = "贾尼斯 安德松斯"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M27033
+		head_of_state = benevolent_gentleman
+		minister_of_security = crooked_kleptocrat
+		chief_of_navy = base_control_doctrine
+		start_date = 1945.1.1
+	}
+	27034 = {
+		name = "保尔斯 卡尔宁斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M27011
+		head_of_state = insignificant_layman
+		head_of_government = silent_workhorse
+		minister_of_security = efficient_sociopath
+		start_date = 1936.1.1
+	}
+	27035 = {
+		name = "贾泽普斯 兰坎斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M27035
+		head_of_state = autocratic_charmer
+		minister_of_security = man_of_the_people
+		start_date = 1945.1.1
+	}
+	27036 = {
+		name = "奥古斯特斯 基尔兴施泰因"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M27021
+		head_of_state = weary_stiff_neck
+		head_of_government = silent_workhorse
+		foreign_minister = ideological_crusader
+		chief_of_navy = open_seas_doctrine
+		start_date = 1936.1.1
+	}
+	27037 = {
+		name = "埃内斯特 克赖斯马尼斯s"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M27037
+		head_of_state = ruthless_powermonger
+		foreign_minister = the_cloak_n_dagger_schemer
+		start_date = 1945.1.1
+	}
+	27038 = {
+		name = "阿尔弗雷斯 瓦尔德马尼斯"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M27038
+		head_of_government = smiling_oilman
+		foreign_minister = iron_fisted_brute
+		armament_minister = administrative_genius
+		minister_of_security = crime_fighter
+		start_date = 1941.1.1
+	}
+	27039 = {
+		name = "奥斯卡斯 丹克"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M27039
+		head_of_government = happy_amateur
+		foreign_minister = general_staffer
+		start_date = 1941.1.1
+	}
+	27041 = {
+		name = "耶尼斯 卡明斯基斯"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M27041
+		head_of_government = naive_optimist
+		foreign_minister = iron_fisted_brute
+		armament_minister = resource_industrialist
+		start_date = 1940.1.1
+	}
+	27044 = {
+		name = "莱因霍尔德 K. 扎里尼斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M27012
+		head_of_government = political_protege
+		foreign_minister = apologetic_clerk
+		minister_of_intelligence = technical_specialist
+		start_date = 1940.1.1
+	}
+	27046 = {
+		name = "罗伯茨 奥西斯"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M27046
+		head_of_government = old_general
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1945.1.1
+	}
+	27047 = {
+		name = "维利斯 拉奇斯"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M27025
+		head_of_government = backroom_backstabber
+		minister_of_security = efficient_sociopath
+		minister_of_intelligence = research_specialist
+		start_date = 1946.1.1
+	}
+	27050 = {
+		name = "马丁斯 普里马尼斯s"
+		ideology = national_socialist
+		loyalty = 0.75
+		picture = M27050
+		foreign_minister = ideological_crusader
+		start_date = 1944.1.1
+	}
+	27051 = {
+		name = "威廉斯 蒙特斯"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M27051
+		foreign_minister = great_compromiser
+		start_date = 1936.1.1
+	}
+	27054 = {
+		name = "阿尔弗雷斯 比尔马尼斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M27054
+		foreign_minister = biased_intellectual
+		start_date = 1940.1.1
+	}
+	27055 = {
+		name = "尤利亚克斯 拉奇斯"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M27029
+		foreign_minister = great_compromiser
+		chief_of_navy = indirect_approach_doctrine
+		start_date = 1936.1.1
+	}
+	27057 = {
+		name = "阿诺德斯 斯克列伯斯"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M27057
+		foreign_minister = great_compromiser
+		start_date = 1945.1.1
+	}
+	27058 = {
+		name = "彼得里斯 瓦列斯卡尔恩斯"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M27058
+		foreign_minister = ideological_crusader
+		start_date = 1946.1.1
+	}
+	27060 = {
+		name = "埃瓦德斯 安德松斯"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M27060
+		armament_minister = military_entrepreneur
+		start_date = 1941.1.1
+	}
+	27061 = {
+		name = "耶尼斯 斯库耶维奇"
+		ideology = national_socialist
+		loyalty = 0.75
+		picture = M27061
+		armament_minister = resource_industrialist
+		start_date = 1941.1.1
+	}
+	27062 = {
+		name = "耶尼斯 米济斯"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M27062
+		armament_minister = infantry_proponent
+		start_date = 1944.1.1
+	}
+	27064 = {
+		name = "科尔内利亚斯 魏德尼亚克斯"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M27064
+		armament_minister = air_superiority_proponent
+		start_date = 1938.1.1
+	}
+	27068 = {
+		name = "彼得鲁斯 阿普斯伽恩斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M27068
+		armament_minister = infantry_proponent
+		start_date = 1936.1.1
+	}
+	27069 = {
+		name = "埃德加斯 安德松斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M27014
+		armament_minister = military_entrepreneur
+		chief_of_air = vertical_envelopment_doctrine
+		start_date = 1945.1.1
+	}
+	27070 = {
+		name = "罗伯茨 丹比蒂斯"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M27070
+		armament_minister = resource_industrialist
+		chief_of_staff = school_of_fire_support
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1936.1.1
+	}
+	27071 = {
+		name = "卡尔利斯 卡尔森斯"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M27024
+		armament_minister = military_entrepreneur
+		start_date = 1940.1.1
+	}
+	27072 = {
+		name = "亚历山德斯 比勒"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M27072
+		armament_minister = laissez_faires_capitalist
+		start_date = 1945.1.1
+	}
+	27073 = {
+		name = "阿诺德斯 塔巴克斯"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M27073
+		armament_minister = resource_industrialist
+		start_date = 1946.1.1
+	}
+	27075 = {
+		name = "特奥多尔斯 兹韦尼亚克斯"
+		ideology = national_socialist
+		loyalty = 0.50
+		picture = M27075
+		minister_of_security = efficient_sociopath
+		minister_of_intelligence = naval_intelligence_specialist
+		chief_of_navy = power_projection_doctrine
+		start_date = 1941.1.1
+	}
+	27082 = {
+		name = "尤里斯 拉伯尔茨"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M27082
+		minister_of_security = compassionate_gentleman
+		minister_of_intelligence = technical_specialist
+		start_date = 1936.1.1
+	}
+	27084 = {
+		name = "罗多尔弗斯 罗欣"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M27084
+		minister_of_security = silent_lawyer
+		start_date = 1945.1.1
+	}
+	27085 = {
+		name = "安德烈斯 雅布隆斯基斯"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M27085
+		minister_of_security = prince_of_terror
+		start_date = 1946.1.1
+	}
+	27087 = {
+		name = "埃里希 科赫"
+		ideology = national_socialist
+		loyalty = 0.75
+		picture = M27087
+		minister_of_intelligence = research_specialist
+		start_date = 1943.1.1
+	}
+	27091 = {
+		name = "费利克斯 谢棱斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M27091
+		minister_of_intelligence = industrial_specialist
+		start_date = 1936.1.1
+	}
+	27092 = {
+		name = "弗里西斯 塞尔明斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M27016
+		minister_of_intelligence = dismal_enigma
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1940.1.1
+	}
+	27097 = {
+		name = "康斯坦丁斯 恰克斯特"
+		ideology = national_socialist
+		loyalty = 0.75
+		picture = M27097
+		chief_of_staff = school_of_fire_support
+		chief_of_navy = base_control_doctrine
+		chief_of_air = army_aviation_doctrine
+		start_date = 1941.1.1
+	}
+	27098 = {
+		name = "阿图尔斯 M. 西尔盖利斯"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M27098
+		chief_of_staff = school_of_fire_support
+		start_date = 1943.1.1
+	}
+	27100 = {
+		name = "克里西亚尼斯 贝尔基斯"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M27100
+		chief_of_staff = school_of_manoeuvre
+		start_date = 1939.1.1
+	}
+	27101 = {
+		name = "鲁道夫斯 科钦斯"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M27101
+		chief_of_staff = school_of_psychology
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1945.1.1
+	}
+	27102 = {
+		name = "韦尔纳斯 特夫佩斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M27017
+		chief_of_staff = school_of_manoeuvre
+		start_date = 1936.1.1
+	}
+	27103 = {
+		name = "贾尼斯 伯津斯"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M27027
+		chief_of_staff = school_of_mass_combat
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1936.1.1
+	}
+	27105 = {
+		name = "伊兹格利蒂巴斯 陶塔斯"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M27030
+		chief_of_staff = school_of_mass_combat
+		chief_of_air = naval_aviation_doctrine
+		start_date = 1945.1.1
+	}
+	27106 = {
+		name = "阿图尔斯 斯普罗吉斯"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M27106
+		chief_of_staff = school_of_fire_support
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1946.1.1
+	}
+	27107 = {
+		name = "奥托 黑尔米希"
+		ideology = national_socialist
+		loyalty = 0.75
+		picture = M27107
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1941.1.1
+	}
+	27128 = {
+		name = "茹库姆斯 瓦齐尔蒂斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M27126
+		chief_of_air = air_superiority_doctrine
+		start_date = 1936.1.1
+	}
+}
+

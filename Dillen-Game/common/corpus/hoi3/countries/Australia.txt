@@ -1,0 +1,1003 @@
+color = { 57  143  97 }
+graphical_culture = British
+
+last_election = 1934.10.23
+duration = 36
+
+default_templates = {
+	ENG_infantry = {
+		motorized_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	ENG_motorized = {
+		motorized_brigade
+		motorized_brigade
+	}
+	ENG_armoured_1936 = {
+		armor_brigade
+		light_armor_brigade
+		light_armor_brigade
+		motorized_brigade
+	}
+	ENG_armoured_1940 = {
+		armor_brigade
+		armor_brigade
+		motorized_brigade
+	}
+	ENG_airborne = {
+		paratrooper_brigade
+		paratrooper_brigade
+		paratrooper_brigade
+	}
+}
+
+unit_names = {
+	infantry_brigade = {
+		"澳大利亚第6步兵师" "澳大利亚第7步兵师" "澳大利亚第9步兵师" "澳大利亚第8步兵师" "澳大利亚第23rd 步兵师" "澳大利亚第1步兵师" "澳大利亚第2步兵师" "澳大利亚第3步兵师" "澳大利亚第4步兵师" "澳大利亚第5步兵师" "澳大利亚第11步兵师" 
+		"澳大利亚第10步兵师" "澳大利亚第12步兵师" "澳大利亚第14步兵师" "澳大利亚第15步兵师" "澳大利亚第16步兵师" "澳大利亚第17步兵师" "澳大利亚第18st 步兵师" "澳大利亚第19步兵师" "澳大利亚第20步兵师" "澳大利亚第21步兵师" "澳大利亚第22步兵师" 
+		"澳大利亚第24步兵师" "澳大利亚第25步兵师" "澳大利亚第26步兵师" "澳大利亚第27步兵师" "澳大利亚第28步兵师" "澳大利亚第29步兵师" "澳大利亚第30步兵师" "澳大利亚第31步兵师" "澳大利亚第32步兵师" "澳大利亚第33步兵师" "澳大利亚第34步兵师" 
+		"澳大利亚第35步兵师" "澳大利亚第36步兵师" "澳大利亚第37步兵师" "澳大利亚第38步兵师" "澳大利亚第39步兵师" "澳大利亚第40步兵师" 
+	}
+	cavalry_brigade = {
+		"澳大利亚第1骑兵师" "澳大利亚第2骑兵师" "澳大利亚第3骑兵师" "澳大利亚第4骑兵师" "澳大利亚第5骑兵师" "澳大利亚第6骑兵师" "澳大利亚第7骑兵师" "澳大利亚第8骑兵师" "澳大利亚第9骑兵师" "澳大利亚第10骑兵师" 
+	}
+	motorized_brigade = {
+		"澳大利亚第6摩托化师" "澳大利亚第7摩托化师" "澳大利亚第9摩托化师" "澳大利亚第1摩托化师" "澳大利亚第2摩托化师" "澳大利亚第3摩托化师" "澳大利亚第4摩托化师" "澳大利亚第5摩托化师" "澳大利亚第6摩托化师" "澳大利亚第10摩托化师" "澳大利亚第11摩托化师" 
+		"澳大利亚第12摩托化师" "澳大利亚第13摩托化师" "澳大利亚第14摩托化师" "澳大利亚第15摩托化师" 
+	}
+	mechanized_brigade = {
+		"澳大利亚第6机械化师" "澳大利亚第7机械化师" "澳大利亚第9机械化师" "澳大利亚第1机械化师" "澳大利亚第2机械化师" "澳大利亚第3机械化师" "澳大利亚第4机械化师" "澳大利亚第5机械化师" "澳大利亚第8机械化师" "澳大利亚第10机械化师" 
+	}
+	light_armor_brigade = {
+		"澳大利亚第1装甲师" "澳大利亚第2装甲师" "澳大利亚第3装甲师" "澳大利亚第4装甲师" "澳大利亚第5装甲师" "澳大利亚第6装甲师" "澳大利亚第7装甲师" "澳大利亚第8装甲师" "澳大利亚第9装甲师" "澳大利亚第10装甲师" "澳大利亚第11装甲师" 
+		"澳大利亚第12装甲师" "澳大利亚第14装甲师" "澳大利亚第15装甲师" 
+	}
+	armor_brigade = {
+		"澳大利亚第1装甲师" "澳大利亚第2装甲师" "澳大利亚第3装甲师" "澳大利亚第4装甲师" "澳大利亚第5装甲师" "澳大利亚第6装甲师" "澳大利亚第7装甲师" "澳大利亚第8装甲师" "澳大利亚第9装甲师" "澳大利亚第10装甲师" "澳大利亚第11装甲师" 
+		"澳大利亚第12装甲师" "澳大利亚第14装甲师" "澳大利亚第15装甲师" 
+	}
+	paratrooper_brigade = {
+		"澳大利亚第1空降师" "澳大利亚第2空降师" "澳大利亚第3空降师" "澳大利亚第4空降师" "澳大利亚第5空降师" "澳大利亚第6空降师" "澳大利亚第7空降师" "澳大利亚第8空降师" 
+	}
+	marine_brigade = {
+		"澳大利亚第1皇家海军陆战师" "澳大利亚第2皇家海军陆战师" "澳大利亚第3皇家海军陆战师" "澳大利亚第4皇家海军陆战师" "澳大利亚第5皇家海军陆战师" "澳大利亚第6皇家海军陆战师" "澳大利亚第7皇家海军陆战师" "澳大利亚第8皇家海军陆战师" "澳大利亚第9皇家海军陆战师" "澳大利亚第10皇家海军陆战师" 
+	}
+	bergsjaeger_brigade = {
+		"澳大利亚第1山地师" "澳大利亚第2山地师" "澳大利亚第3山地师" "澳大利亚第4山地师" "澳大利亚第5山地师" "澳大利亚第6山地师" "澳大利亚第7山地师" "澳大利亚第8山地师" "澳大利亚第9山地师" "澳大利亚第10山地师" "澳大利亚第11山地师" 
+		"澳大利亚第12山地师" 
+	}
+	garrison_brigade = {
+		"澳大利亚第4步兵师" "澳大利亚第5步兵师" "澳大利亚第11步兵师" "澳大利亚第10步兵师" "澳大利亚第12步兵师" "澳大利亚第14步兵师" "澳大利亚第15步兵师" "澳大利亚第16步兵师" "澳大利亚第17步兵师" "澳大利亚第18步兵师" "澳大利亚第19步兵师" 
+		"澳大利亚第20步兵师" 
+	}
+	hq_brigade = {
+		"澳大利亚第二皇家陆军" "澳大利亚第一集团军" "澳大利亚第二集团军" "澳大利亚第一集团军群" "澳大利亚第三集团军" "澳大利亚第四集团军" "澳大利亚第二集团军群" 
+	}
+	militia_brigade = {
+		"达尔文守备师" "澳大利亚第1民兵师" "澳大利亚第2民兵师" "澳大利亚第3民兵师" "澳大利亚第4民兵师" "澳大利亚第5民兵师" "澳大利亚第6民兵师" "澳大利亚第7民兵师" "澳大利亚第8民兵师" "澳大利亚第9民兵师" "澳大利亚第10民兵师" 
+		"澳大利亚第11民兵师" "澳大利亚第12民兵师" "澳大利亚第13民兵师" "澳大利亚第14民兵师" "澳大利亚第15民兵师" "澳大利亚第16民兵师" "澳大利亚第17民兵师" "澳大利亚第18民兵师" "澳大利亚第19民兵师" "澳大利亚第20民兵师" "澳大利亚第21民兵师" 
+		"澳大利亚第22民兵师" "澳大利亚第23民兵师" "澳大利亚第24民兵师" "澳大利亚第25民兵师" "澳大利亚第26民兵师" "澳大利亚第27民兵师" "澳大利亚第28民兵师" "澳大利亚第29民兵师" "澳大利亚第30民兵师" 
+	}
+	multi_role = {
+		"RAAF第1战斗机大队" "RAAF第2战斗机大队" "RAAF第3战斗机大队" "RAAF第4战斗机大队" "RAAF第5战斗机大队" "RAAF第7战斗机大队" "RAAF第8战斗机大队" "RAAF第9战斗机大队" "RAAF第10战斗机大队" "RAAF第11战斗机大队" "RAAF第12战斗机大队" 
+		"RAAF第13战斗机大队" "RAAF第14战斗机大队" "RAAF第15战斗机大队" "RAAF第16战斗机大队" "RAAF第17战斗机大队" "RAAF第18战斗机大队" "RAAF第19战斗机大队" "RAAF第20战斗机大队" 
+	}
+	interceptor = {
+		"RAAF第1战斗机大队" "RAAF第2战斗机大队" "RAAF第3战斗机大队" "RAAF第4战斗机大队" "RAAF第5战斗机大队" "RAAF第7战斗机大队" "RAAF第8战斗机大队" "RAAF第9战斗机大队" "RAAF第10战斗机大队" "RAAF第11战斗机大队" "RAAF第12战斗机大队" 
+		"RAAF第13战斗机大队" "RAAF第14战斗机大队" "RAAF第15战斗机大队" "RAAF第16战斗机大队" "RAAF第17战斗机大队" "RAAF第18战斗机大队" "RAAF第19战斗机大队" "RAAF第20战斗机大队" 
+	}
+	strategic_bomber = {
+		"RAAF第1战略轰炸大队" "RAAF第2战略轰炸大队" "RAAF第6战略轰炸大队" "RAAF第3战略轰炸大队" "RAAF第4战略轰炸大队" "RAAF第7战略轰炸大队" "RAAF第8战略轰炸大队" "RAAF第9战略轰炸大队" "RAAF第10战略轰炸大队" "RAAF第11战略轰炸大队" "RAAF第12战略轰炸大队" 
+		"RAAF第13战略轰炸大队" "RAAF第14战略轰炸大队" "RAAF第15战略轰炸大队" "RAAF第16战略轰炸大队" "RAAF第17战略轰炸大队" "RAAF第18战略轰炸大队" "RAAF第19战略轰炸大队" "RAAF第20战略轰炸大队" 
+	}
+	tactical_bomber = {
+		"RAAF第1战术轰炸大队" "RAAF第2战术轰炸大队" "RAAF第6战术轰炸大队" "RAAF第3战术轰炸大队" "RAAF第4战术轰炸大队" "RAAF第7战术轰炸大队" "RAAF第8战术轰炸大队" "RAAF第9战术轰炸大队" "RAAF第10战术轰炸大队" "RAAF第11战术轰炸大队" "RAAF第12战术轰炸大队" 
+		"RAAF第13战术轰炸大队" "RAAF第14战术轰炸大队" "RAAF第15战术轰炸大队" "RAAF第16战术轰炸大队" "RAAF第17战术轰炸大队" "RAAF第18战术轰炸大队" "RAAF第19战术轰炸大队" "RAAF第20战术轰炸大队" 
+	}
+	naval_bomber = {
+		"RAAF第1海军轰炸大队" "RAAF第2海军轰炸大队" "RAAF第3海军轰炸大队" "RAAF第4海军轰炸大队" "RAAF第5海军轰炸大队" "RAAF第7海军轰炸大队" "RAAF第8海军轰炸大队" "RAAF第9海军轰炸大队" "RAAF第10海军轰炸大队" "RAAF第11海军轰炸大队" "RAAF第12海军轰炸大队" 
+		"RAAF第13海军轰炸大队" "RAAF第14海军轰炸大队" "RAAF第15海军轰炸大队" "RAAF第16海军轰炸大队" "RAAF第17海军轰炸大队" "RAAF第18海军轰炸大队" "RAAF第19海军轰炸大队" "RAAF第20海军轰炸大队" "RAAF第1鱼雷攻击大队" "RAAF第2鱼雷攻击大队" "RAAF第3鱼雷攻击大队" 
+		"RAAF第4鱼雷攻击大队" "RAAF第5鱼雷攻击大队" "RAAF第7鱼雷攻击大队" "RAAF第8鱼雷攻击大队" "RAAF第9鱼雷攻击大队" "RAAF第10鱼雷攻击大队" "RAAF第11鱼雷攻击大队" "RAAF第12鱼雷攻击大队" "RAAF第13鱼雷攻击大队" "RAAF第14鱼雷攻击大队" "RAAF第15鱼雷攻击大队" 
+		"RAAF第16鱼雷攻击大队" "RAAF第17鱼雷攻击大队" "RAAF第18鱼雷攻击大队" "RAAF第19鱼雷攻击大队" "RAAF第20鱼雷攻击大队" 
+	}
+	cas = {
+		"RAAF第1俯冲轰炸大队" "RAAF第2俯冲轰炸大队" "RAAF第6俯冲轰炸大队" "RAAF第3俯冲轰炸大队" "RAAF第4俯冲轰炸大队" "RAAF第7俯冲轰炸大队" "RAAF第8俯冲轰炸大队" "RAAF第9俯冲轰炸大队" "RAAF第10俯冲轰炸大队" "RAAF第11俯冲轰炸大队" "RAAF第12俯冲轰炸大队" 
+		"RAAF第13俯冲轰炸大队" "RAAF第14俯冲轰炸大队" "RAAF第15俯冲轰炸大队" "RAAF第16俯冲轰炸大队" "RAAF第17俯冲轰炸大队" "RAAF第18俯冲轰炸大队" "RAAF第19俯冲轰炸大队" "RAAF第20俯冲轰炸大队" 
+	}
+	transport_plane = {
+		"RAAF第1空运大队" "RAAF第2空运大队" "RAAF第3空运大队" "RAAF第4空运大队" "RAAF第5空运大队" "RAAF第7空运大队" "RAAF第8空运大队" "RAAF第9空运大队" "RAAF第10空运大队" "RAAF第11空运大队" "RAAF第12空运大队" 
+		"RAAF第13空运大队" "RAAF第14空运大队" "RAAF第15空运大队" "RAAF第16空运大队" "RAAF第17空运大队" "RAAF第18空运大队" "RAAF第19空运大队" "RAAF第20空运大队" 
+	}
+	battleship = {
+		"HMAS伊丽莎白公主号" "HMAS新南威尔士号" "HMAS昆士兰号" "HMAS南澳大利亚号" "HMAS塔斯马尼亚号" "HMAS维多利亚号" "HMAS西澳大利亚号" 
+	}
+	light_cruiser = {
+		"HMAS珀斯号" "HMAS悉尼号" "HMAS霍巴特号" "HMAS布里斯班号" "HMAS阿德莱德号" "HMAS达尔文号" "HMAS纽卡斯尔号" "HMAS圣诞节岛号" "HMAS珊瑚海号" "HMAS诺福克岛号" "HMAS澳大利亚号" 
+		"HMAS堪培拉号" "HMAS悉尼号" "HMAS艾丽斯斯普林斯号" "HMAS库克敦号" "HMAS布鲁姆号" "HMAS沃加沃加号" 
+	}
+	heavy_cruiser = {
+		"HMAS珀斯号" "HMAS悉尼号" "HMAS霍巴特号" "HMAS布里斯班号" "HMAS阿德莱德号" "HMAS达尔文号" "HMAS纽卡斯尔号" "HMAS圣诞节岛号" "HMAS珊瑚海号" "HMAS诺福克岛号" "HMAS澳大利亚号" 
+		"HMAS堪培拉号" "HMAS悉尼号" "HMAS艾丽斯斯普林斯号" "HMAS库克敦号" "HMAS布鲁姆号" "HMAS沃加沃加号" 
+	}
+	battlecruiser = {
+		"HMAS新南威尔士号" "HMAS昆士兰号" "HMAS南澳大利亚号" "HMAS塔斯马尼亚号" "HMAS维多利亚号" "HMAS西澳大利亚号" 
+	}
+	destroyer = {
+		"第1驱逐舰编队" "第2驱逐舰编队" "第3驱逐舰编队" "第4驱逐舰编队" "第5驱逐舰编队" "第6驱逐舰编队" "第7驱逐舰编队" "第8驱逐舰编队" "第9驱逐舰编队" "第10驱逐舰编队" "第11驱逐舰编队" 
+		"第12驱逐舰编队" "第13驱逐舰编队" "第14驱逐舰编队" "第15驱逐舰编队" "第16驱逐舰编队" "第17驱逐舰编队" "第18驱逐舰编队" "第19驱逐舰编队" "第20驱逐舰编队" "第21驱逐舰编队" "第22驱逐舰编队" 
+		"第23驱逐舰编队" "第24驱逐舰编队" "第25驱逐舰编队" "第26驱逐舰编队" "第27驱逐舰编队" "第28驱逐舰编队" "第29驱逐舰编队" 
+	}
+	carrier = {
+		"HMAS库克船长号" "HMAS布莱船长号" "HMAS鲨鱼湾号" "HMAS地理湾号" "HMAS卡奔塔利亚号" "HMAS近湾号" 
+	}
+	escort_carrier = {
+		"HMAS悉尼号" "HMAS复仇号" "HMAS墨尔本号" 
+	}
+	submarine = {
+		"第1潜艇编队" "第2潜艇编队" "第3潜艇编队" "第4潜艇编队" "第5潜艇编队" "第6潜艇编队" "第7潜艇编队" "第8潜艇编队" "第9潜艇编队" "第10潜艇编队" "第11潜艇编队" 
+		"第12潜艇编队" "第13潜艇编队" "第14潜艇编队" "第15潜艇编队" "第16潜艇编队" "第17潜艇编队" "第18潜艇编队" "第19潜艇编队" "第20潜艇编队" 
+	}
+	transport_ship = {
+		"HMAS卡尼贝拉编队" "第1运输船编队" "第2运输船编队" "第3运输船编队" "第4运输船编队" "第5运输船编队" "第6运输船编队" "第7运输船编队" "第8运输船编队" "第9运输船编队" "第10运输船编队" 
+		"第11运输船编队" "第12运输船编队" "第13运输船编队" "第14运输船编队" "第15运输船编队" "第16运输船编队" "第17运输船编队" "第18运输船编队" "第19运输船编队" "第20运输船编队" "第21运输船编队" 
+		"第22运输船编队" "第23运输船编队" "第24运输船编队" "第25运输船编队" "第26运输船编队" "第27运输船编队" "第28运输船编队" "第29运输船编队" 
+	}
+
+}
+
+
+ministers = {
+	56001 = {
+		name = "艾萨克·阿尔弗雷德·艾萨克斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M56001
+		head_of_state = stern_imperialist
+		head_of_government = stern_imperialist
+		start_date = 1936.1.1
+	}
+	56002 = {
+		name = "约瑟夫·A·莱昂斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M56002
+		head_of_government = flamboyant_tough_guy
+		chief_of_staff = school_of_manoeuvre
+		start_date = 1936.1.1
+	}
+	56003 = {
+		name = "乔治·F·皮尔斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M56003
+		foreign_minister = great_compromiser
+		minister_of_security = silent_lawyer
+		start_date = 1936.1.1
+	}
+	56004 = {
+		name = "罗伯特·A·帕克希尔"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M56004
+		armament_minister = resource_industrialist
+		minister_of_security = compassionate_gentleman
+		start_date = 1936.1.1
+	}
+	56005 = {
+		name = "托马斯·帕特森"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M56005
+		minister_of_security = silent_lawyer
+		foreign_minister = biased_intellectual
+		start_date = 1936.1.1
+	}
+	56006 = {
+		name = "亚历山大·麦克拉克兰"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M56006
+		minister_of_intelligence = technical_specialist
+		minister_of_security = crime_fighter
+		start_date = 1936.1.1
+	}
+	56008 = {
+		name = "约翰·拉瓦拉克"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M56008
+		chief_of_army = static_defence_doctrine
+		armament_minister = military_entrepreneur
+		start_date = 1936.1.1
+	}
+	56009 = {
+		name = "拉格纳·M·科尔文"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M56009
+		chief_of_navy = open_seas_doctrine
+		minister_of_intelligence = naval_intelligence_specialist
+		chief_of_staff = school_of_manoeuvre
+		start_date = 1936.1.1
+	}
+	56010 = {
+		name = "理查德·威廉姆斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M56010
+		chief_of_air = air_superiority_doctrine
+		armament_minister = air_superiority_proponent
+		start_date = 1936.1.1
+	}
+	56031 = {
+		name = "亚历山大·G·阿克赖特"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M56031
+		head_of_state = stern_imperialist
+		head_of_state = stern_imperialist
+		head_of_state = stern_imperialist
+		start_date = 1936.1.1
+	}
+	56032 = {
+		name = "格洛斯特公爵·亨利"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M56032
+		head_of_state = autocratic_charmer
+		head_of_state = autocratic_charmer
+		head_of_state = autocratic_charmer
+		start_date = 1945.1.1
+	}
+	56035 = {
+		name = "保罗·罗塞维尔"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M56011
+		head_of_state = benevolent_gentleman
+		armament_minister = air_superiority_proponent
+		start_date = 1936.1.1
+	}
+	56036 = {
+		name = "兰斯·沙尔基"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M56021
+		head_of_state = barking_buffoon
+		head_of_government = ambitious_union_boss
+		chief_of_air = army_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	56037 = {
+		name = "罗伯特·戈登·孟席斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M56037
+		head_of_government = backroom_backstabber
+		foreign_minister = apologetic_clerk
+		start_date = 1937.1.1
+	}
+	56038 = {
+		name = "约翰·J·柯廷"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M56038
+		head_of_government = silent_workhorse
+		chief_of_staff = school_of_psychology
+		start_date = 1936.1.1
+	}
+	56039 = {
+		name = "本·奇夫利"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M56039
+		head_of_government = political_protege
+		start_date = 1945.1.1
+	}
+	56040 = {
+		name = "J·H·A·杜兰特"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M56012
+		head_of_government = happy_amateur
+		minister_of_security = compassionate_gentleman
+		start_date = 1936.1.1
+	}
+	56042 = {
+		name = "帕尔默·A·麦克布里德"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M56042
+		foreign_minister = iron_fisted_brute
+		armament_minister = infantry_proponent
+		minister_of_security = silent_lawyer
+		start_date = 1936.1.1
+	}
+	56043 = {
+		name = "亨利·S·古利特"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M56043
+		foreign_minister = great_compromiser
+		minister_of_security = prince_of_terror
+		start_date = 1937.1.1
+	}
+	56044 = {
+		name = "威廉·M·休斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M56044
+		foreign_minister = biased_intellectual
+		start_date = 1937.1.1
+	}
+	56046 = {
+		name = "弗雷德里克·斯图尔特"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M56046
+		foreign_minister = ideological_crusader
+		start_date = 1939.1.1
+	}
+	56048 = {
+		name = "厄尔·佩奇"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M56048
+		foreign_minister = apologetic_clerk
+		minister_of_security = man_of_the_people
+		head_of_government = naive_optimist
+		armament_minister = laissez_faires_capitalist
+		start_date = 1944.1.1
+	}
+	56049 = {
+		name = "弗农·斯图尔迪"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M56049
+		foreign_minister = general_staffer
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1936.1.1
+	}
+	56050 = {
+		name = "赫伯特·V·艾瓦特"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M56050
+		foreign_minister = biased_intellectual
+		minister_of_security = back_stabber
+		minister_of_intelligence = political_specialist
+		head_of_government = silent_workhorse
+		start_date = 1941.1.1
+	}
+	56051 = {
+		name = "彼得·斯皮里特"
+		ideology = paternal_autocrat
+		loyalty = 0.50
+		picture = M56013
+		foreign_minister = general_staffer
+		start_date = 1936.1.1
+	}
+	56052 = {
+		name = "弗朗西斯科·皮西特利"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M56052
+		foreign_minister = the_cloak_n_dagger_schemer
+		start_date = 1940.1.1
+	}
+	56053 = {
+		name = "休·莫克森"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M56023
+		foreign_minister = ideological_crusader
+		start_date = 1936.1.1
+	}
+	56054 = {
+		name = "乔治·贝特曼"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M56054
+		foreign_minister = biased_intellectual
+		start_date = 1942.1.1
+	}
+	56055 = {
+		name = "约翰·麦克奥利"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M56055
+		foreign_minister = great_compromiser
+		start_date = 1944.1.1
+	}
+	56056 = {
+		name = "爱德华·戴维斯·米伦"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M56056
+		armament_minister = resource_industrialist
+		start_date = 1936.1.1
+	}
+	56057 = {
+		name = "G·A·斯特里特"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M56046
+		armament_minister = administrative_genius
+		start_date = 1937.1.1
+	}
+	56058 = {
+		name = "哈蒂尔·S·弗尔"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M56058
+		armament_minister = administrative_genius
+		minister_of_security = compassionate_gentleman
+		start_date = 1940.1.1
+	}
+	56059 = {
+		name = "W·D·波斯托克"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M56059
+		armament_minister = air_to_sea_proponent
+		chief_of_air = naval_aviation_doctrine
+		start_date = 1943.1.1
+	}
+	56061 = {
+		name = "诺曼·J·麦金"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M56061
+		armament_minister = military_entrepreneur
+		minister_of_intelligence = industrial_specialist
+		start_date = 1937.1.1
+	}
+	56062 = {
+		name = "斯坦利·墨尔本·布鲁斯"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M56062
+		armament_minister = laissez_faires_capitalist
+		start_date = 1938.1.1
+	}
+	56063 = {
+		name = "A·M·G·琼斯"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M56063
+		armament_minister = strategic_air_proponent
+		chief_of_air = carpet_bombing_doctrine
+		start_date = 1939.1.1
+	}
+	56064 = {
+		name = "亨利·绍维尔"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M56064
+		armament_minister = battle_fleet_proponent
+		chief_of_navy = decisive_naval_battle_doctrine
+		start_date = 1941.1.1
+	}
+	56065 = {
+		name = "霍雷斯·威廉·斯特拉特"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M56065
+		armament_minister = infantry_proponent
+		chief_of_army = static_defence_doctrine
+		start_date = 1943.1.1
+	}
+	56066 = {
+		name = "西德尼·罗维尔"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M56066
+		armament_minister = tank_proponent
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1943.1.1
+	}
+	56067 = {
+		name = "斯坦利·J·格布尔"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M56067
+		armament_minister = air_to_ground_proponent
+		chief_of_air = army_aviation_doctrine
+		start_date = 1944.1.1
+	}
+	56068 = {
+		name = "盖伊·C·C·罗尔"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M56068
+		armament_minister = submarine_proponent
+		chief_of_navy = indirect_approach_doctrine
+		start_date = 1944.1.1
+	}
+	56071 = {
+		name = "弗朗西斯科·方廷"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M56014
+		armament_minister = battle_fleet_proponent
+		start_date = 1936.1.1
+	}
+	56072 = {
+		name = "弗朗克·卡梅诺罗"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M56072
+		armament_minister = strategic_air_proponent
+		start_date = 1939.1.1
+	}
+	56074 = {
+		name = "理查德·奥维勒尔"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M56074
+		armament_minister = administrative_genius
+		start_date = 1944.1.1
+	}
+	56075 = {
+		name = "杰克·亨利"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M56024
+		armament_minister = military_entrepreneur
+		start_date = 1936.1.1
+	}
+	56076 = {
+		name = "吉姆·亨德森"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M56076
+		armament_minister = infantry_proponent
+		start_date = 1939.1.1
+	}
+	56077 = {
+		name = "托尼·麦克基里克"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M56077
+		armament_minister = theoretical_scientist
+		minister_of_intelligence = technical_specialist
+		start_date = 1944.1.1
+	}
+	56078 = {
+		name = "肯尼思·伊瑟"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M56078
+		minister_of_security = efficient_sociopath
+		start_date = 1936.1.1
+	}
+	56085 = {
+		name = "休伯特·P·拉扎里尼"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M56085
+		minister_of_security = silent_lawyer
+		minister_of_intelligence = dismal_enigma
+		start_date = 1937.1.1
+	}
+	56087 = {
+		name = "詹姆斯·麦卡锡"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M56015
+		minister_of_security = crime_fighter
+		start_date = 1936.1.1
+	}
+	56089 = {
+		name = "詹姆斯·科里顿"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M56089
+		minister_of_security = back_stabber
+		start_date = 1943.1.1
+	}
+	56090 = {
+		name = "约翰·B·迈尔斯"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M56025
+		minister_of_security = prince_of_terror
+		start_date = 1936.1.1
+	}
+	56091 = {
+		name = "盖多·巴拉奇"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M56091
+		minister_of_security = silent_lawyer
+		start_date = 1939.1.1
+	}
+	56092 = {
+		name = "菲利普·亚当斯"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M56092
+		minister_of_security = man_of_the_people
+		start_date = 1942.1.1
+	}
+	56093 = {
+		name = "西里尔·宾格罕姆-怀特"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M56093
+		minister_of_intelligence = research_specialist
+		chief_of_staff = school_of_mass_combat
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1937.1.1
+	}
+	56095 = {
+		name = "本·奇夫利"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M56039
+		minister_of_intelligence = political_specialist
+		start_date = 1941.1.1
+	}
+	56098 = {
+		name = "约翰·J·迪德曼"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M56098
+		minister_of_intelligence = technical_specialist
+		armament_minister = theoretical_scientist
+		start_date = 1944.1.1
+	}
+	56099 = {
+		name = "罗恩·劳"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M56016
+		minister_of_intelligence = political_specialist
+		start_date = 1936.1.1
+	}
+	56100 = {
+		name = "汤姆·戴尔"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M56026
+		minister_of_intelligence = dismal_enigma
+		start_date = 1936.1.1
+	}
+	56101 = {
+		name = "阿尔夫·布拉德利"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M56101
+		minister_of_intelligence = research_specialist
+		start_date = 1941.1.1
+	}
+	56103 = {
+		name = "詹姆斯·V 法尔拜恩"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M56103
+		chief_of_staff = school_of_fire_support
+		start_date = 1939.1.1
+	}
+	56105 = {
+		name = "E·K·斯奎尔斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M56105
+		chief_of_staff = school_of_defence
+		start_date = 1938.1.1
+	}
+	56107 = {
+		name = "莱斯利·比维斯"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M56107
+		chief_of_staff = school_of_manoeuvre
+		start_date = 1944.1.1
+	}
+	56108 = {
+		name = "乔治·F·兰利"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M56017
+		chief_of_staff = school_of_mass_combat
+		start_date = 1936.1.1
+	}
+	56109 = {
+		name = "詹姆斯·肯南"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M56027
+		chief_of_staff = school_of_mass_combat
+		start_date = 1936.1.1
+	}
+	56111 = {
+		name = "莱斯利·莫西德"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M56066
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1940.1.1
+	}
+	56115 = {
+		name = "艾伦·拉姆奇"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M56018
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1936.1.1
+	}
+	56116 = {
+		name = "约翰·诺思科特"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M56028
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1936.1.1
+	}
+	56117 = {
+		name = "赫克托·沃勒"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M56117
+		chief_of_navy = base_control_doctrine
+		start_date = 1937.1.1
+	}
+	56118 = {
+		name = "维克托·克鲁奇利"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M56019
+		chief_of_navy = open_seas_doctrine
+		start_date = 1941.1.1
+	}
+	56120 = {
+		name = "约翰·科林斯"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M56068
+		chief_of_navy = power_projection_doctrine
+		start_date = 1941.1.1
+	}
+	56123 = {
+		name = "F·E·盖廷"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M56029
+		chief_of_navy = decisive_naval_battle_doctrine
+		start_date = 1936.1.1
+	}
+	56124 = {
+		name = "A·M·查尔斯沃思"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M56124
+		chief_of_air = vertical_envelopment_doctrine
+		start_date = 1937.1.1
+	}
+	56127 = {
+		name = "查尔斯·伯内特"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M56127
+		chief_of_air = air_superiority_doctrine
+		start_date = 1941.1.1
+	}
+	56129 = {
+		name = "约翰·勒鲁"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M56020
+		chief_of_air = army_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	56130 = {
+		name = "G·J·W·麦克金诺里"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M56030
+		chief_of_air = air_superiority_doctrine
+		start_date = 1936.1.1
+	}
+	56134 = {
+		name = "威廉·约翰·麦凯尔"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M56134
+		head_of_state = insignificant_layman
+		head_of_state = insignificant_layman
+		head_of_state = insignificant_layman
+		start_date = 1947.1.1
+	}
+	56140 = {
+		name = "阿瑟·W·法登"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M56140
+		head_of_government = happy_amateur
+		start_date = 1940.1.1
+	}
+	56141 = {
+		name = "弗朗西斯·M·福德"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M56141
+		head_of_government = silent_workhorse
+		start_date = 1945.1.1
+	}
+	56148 = {
+		name = "约翰·麦伊文"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M56148
+		foreign_minister = biased_intellectual
+		start_date = 1940.1.1
+	}
+	56150 = {
+		name = "珀西·C·斯彭德"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M56150
+		foreign_minister = apologetic_clerk
+		start_date = 1949.1.1
+	}
+	56152 = {
+		name = "埃里克·约翰·哈里森"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M56152
+		armament_minister = military_entrepreneur
+		minister_of_security = compassionate_gentleman
+		start_date = 1949.1.1
+	}
+	56153 = {
+		name = "赫伯特·V·约翰逊"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M56153
+		minister_of_security = man_of_the_people
+		start_date = 1945.1.1
+	}
+	56156 = {
+		name = "W·S·K·休斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M56156
+		minister_of_security = prince_of_terror
+		start_date = 1951.1.1
+	}
+	56158 = {
+		name = "约翰·A·斯皮瑟"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M56158
+		minister_of_intelligence = dismal_enigma
+		start_date = 1949.1.1
+	}
+	56159 = {
+		name = "威廉·斯利姆爵士"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M56159
+		head_of_state = resigned_generalissimo
+		head_of_state = resigned_generalissimo
+		start_date = 1953.1.1
+	}
+	56161 = {
+		name = "邓罗西尔勋爵·威廉"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M56161
+		head_of_state = weary_stiff_neck
+		head_of_state = weary_stiff_neck
+		start_date = 1960.1.1
+	}
+	56163 = {
+		name = "德莱斯利勋爵·威廉"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M56163
+		head_of_state = autocratic_charmer
+		head_of_state = autocratic_charmer
+		start_date = 1961.1.1
+	}
+	56166 = {
+		name = "亚瑟·科尔韦尔"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M56166
+		head_of_government = naive_optimist
+		foreign_minister = great_compromiser
+		start_date = 1960.1.1
+	}
+	56167 = {
+		name = "理查德·G·凯西"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M56167
+		foreign_minister = ideological_crusader
+		start_date = 1951.1.1
+	}
+	56168 = {
+		name = "加菲尔德·E·巴威克"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M56168
+		foreign_minister = iron_fisted_brute
+		minister_of_intelligence = political_specialist
+		start_date = 1961.1.1
+	}
+	56170 = {
+		name = "高夫·惠特拉姆"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M56170
+		foreign_minister = the_cloak_n_dagger_schemer
+		start_date = 1960.1.1
+	}
+	56171 = {
+		name = "菲利普·A·M·麦克布赖德"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M56171
+		armament_minister = laissez_faires_capitalist
+		start_date = 1950.1.1
+	}
+	56172 = {
+		name = "阿索尔·G·汤利"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M56172
+		armament_minister = resource_industrialist
+		start_date = 1958.1.1
+	}
+	56173 = {
+		name = "马尔科姆·弗拉泽"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M56173
+		armament_minister = air_superiority_proponent
+		start_date = 1958.1.1
+	}
+	56174 = {
+		name = "艾伦·费尔霍尔"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M56174
+		minister_of_security = silent_lawyer
+		start_date = 1956.1.1
+	}
+	56175 = {
+		name = "戈登·弗里思"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M56175
+		minister_of_security = compassionate_gentleman
+		start_date = 1958.1.1
+	}
+	56176 = {
+		name = "彼得·J·尼克松"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M56176
+		minister_of_security = back_stabber
+		start_date = 1961.1.1
+	}
+	56177 = {
+		name = "尼尔·奥沙利文"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M56177
+		minister_of_intelligence = industrial_specialist
+		start_date = 1956.1.1
+	}
+	56179 = {
+		name = "莱昂内尔·K·墨菲"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M56179
+		minister_of_intelligence = technical_specialist
+		start_date = 1961.1.1
+	}
+}

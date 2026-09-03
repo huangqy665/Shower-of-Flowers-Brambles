@@ -1,0 +1,470 @@
+color = { 146  154  198 }
+graphical_culture = Japanese
+
+default_templates = {
+	generic_infantry = {
+		infantry_brigade
+		infantry_brigade
+		infantry_brigade
+	}
+	generic_milita = {
+		militia_brigade
+		militia_brigade
+		militia_brigade
+	}
+	generic_armoured = {
+		armor_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	generic_cavalry = {
+		cavalry_brigade
+		cavalry_brigade
+	}
+}
+
+unit_names = {
+	infantry_brigade = {
+		"蒙古第1步兵师" "蒙古第2步兵师" "蒙古第3步兵师" "蒙古第4步兵师" "蒙古第5步兵师" "蒙古第6步兵师" "蒙古第8步兵师" "蒙古第10步兵师" "蒙古第11步兵师" "蒙古第12步兵师" "蒙古第13步兵师" 
+		"蒙古第14步兵师" "蒙古第16步兵师" "蒙古第17步兵师" "蒙古第19步兵师" "蒙古第21步兵师" "蒙古第22步兵师" "蒙古第23步兵师" "蒙古第24步兵师" "蒙古第25步兵师" 
+	}
+	cavalry_brigade = {
+		"蒙古第1骑兵师" "蒙古第2骑兵师" "蒙古第3骑兵师" "蒙古第4骑兵师" "蒙古第5骑兵师" "蒙古第6骑兵师" "蒙古第7骑兵师" "蒙古第8骑兵师" "蒙古第9骑兵师" "蒙古第10骑兵师" 
+	}
+	motorized_brigade = {
+		"蒙古第1摩步师" "蒙古第2摩步师" "蒙古第3摩步师" "蒙古第4摩步师" "蒙古第5摩步师" "蒙古第6摩步师" "蒙古第8摩步师" "蒙古第10摩步师" "蒙古第11摩步师" "蒙古第12摩步师" 
+	}
+	mechanized_brigade = {
+		"蒙古第1机步师" "蒙古第2机步师" "蒙古第3机步师" "蒙古第4机步师" "蒙古第5机步师" "蒙古第6机步师" "蒙古第8机步师" "蒙古第10机步师" "蒙古第11机步师" "蒙古第12机步师" "蒙古第13机步师" 
+			}
+	light_armor_brigade = {
+		"蒙古第1坦克师" "蒙古第2坦克师" "蒙古第3坦克师" "蒙古第4坦克师" "蒙古第5坦克师" "蒙古第6坦克师" "蒙古第7坦克师" "蒙古第8坦克师" "蒙古第9坦克师" "蒙古第10坦克师" 
+	}
+	armor_brigade = {
+		"蒙古第1坦克师" "蒙古第2坦克师" "蒙古第3坦克师" "蒙古第4坦克师" "蒙古第5坦克师" "蒙古第6坦克师" "蒙古第7坦克师" "蒙古第8坦克师" "蒙古第9坦克师" "蒙古第10坦克师" 
+	}
+	paratrooper_brigade = {
+		"蒙古第1空降师" "蒙古第2空降师" "蒙古第3空降师" "蒙古第4空降师" "蒙古第5空降师" "蒙古第6空降师" "蒙古第7空降师" "蒙古第8空降师" "蒙古第9空降师" "蒙古第10空降师" 
+	}
+	marine_brigade = {
+		"蒙古第1海军陆战师" "蒙古第2海军陆战师" "蒙古第3海军陆战师" "蒙古第4海军陆战师" "蒙古第5海军陆战师" "蒙古第6海军陆战师" "蒙古第7海军陆战师" "蒙古第8海军陆战师" "蒙古第9海军陆战师" "蒙古第10海军陆战师" 
+	}
+	bergsjaeger_brigade = {
+		"蒙古第1山地师" "蒙古第2山地师" "蒙古第3山地师" "蒙古第4山地师" "蒙古第5山地师" "蒙古第6山地师" "蒙古第8山地师" "蒙古第10山地师" "蒙古第11山地师" "蒙古第12山地师" 
+	}
+	garrison_brigade = {
+		"蒙古第1卫戍师" "蒙古第2卫戍师" "蒙古第3卫戍师" "蒙古第4卫戍师" "蒙古第5卫戍师" "蒙古第6卫戍师" "蒙古第8卫戍师" "蒙古第10卫戍师" "蒙古第11卫戍师" "蒙古第12卫戍师" "蒙古第13卫戍师" 
+		"蒙古第14卫戍师" "蒙古第16卫戍师" "蒙古第17卫戍师" "蒙古第19卫戍师" "蒙古第21卫戍师" "蒙古第22卫戍师" "蒙古第23卫戍师" "蒙古第24卫戍师" "蒙古第25卫戍师" 
+	}
+	hq_brigade = {
+		"蒙古第1集团军" "蒙古第2集团军" "蒙古第3集团军" "蒙古第4集团军" "蒙古第5集团军" 
+	}
+	militia_brigade = {
+		"蒙古第1民兵师" "蒙古第2民兵师" "蒙古第3民兵师" "蒙古第4民兵师" "蒙古第5民兵师" "蒙古第6民兵师" "蒙古第8民兵师" "蒙古第10民兵师" "蒙古第11民兵师" "蒙古第12民兵师" "蒙古第13民兵师" 
+		"蒙古第14民兵师" "蒙古第16民兵师" "蒙古第17民兵师" "蒙古第19民兵师" "蒙古第21民兵师" "蒙古第22民兵师" "蒙古第23民兵师" "蒙古第24民兵师" "蒙古第25民兵师" 
+	}
+	multi_role = {
+		"蒙古第1战斗机联队" "蒙古第2战斗机联队" "蒙古第3战斗机联队" "蒙古第4战斗机联队" "蒙古第5战斗机联队" 
+	}
+	interceptor = {
+		"蒙古第1歼击机联队" "蒙古第2歼击机联队" "蒙古第3歼击机联队" "蒙古第4歼击机联队" "蒙古第5歼击机联队" 
+	}
+	strategic_bomber = {
+		"蒙古第1战略轰炸联队" "蒙古第2战略轰炸联队" "蒙古第3战略轰炸联队" "蒙古第4战略轰炸联队" "蒙古第5战略轰炸联队" 
+	}
+	tactical_bomber = {
+		"蒙古第1战术轰炸联队" "蒙古第2战术轰炸联队" "蒙古第3战术轰炸联队" "蒙古第4战术轰炸联队" "蒙古第5战术轰炸联队" "蒙古第10战术轰炸联队" 
+	}
+	naval_bomber = {
+		"蒙古第1海军轰炸联队" "蒙古第2海军轰炸联队" "蒙古第3海军轰炸联队" "蒙古第4海军轰炸联队" "蒙古第5海军轰炸联队" 
+	}
+	cas = {
+		"蒙古第23攻击机联队" "蒙古第46攻击机联队" "蒙古第77攻击机联队" "蒙古第25攻击机联队" 
+	}
+	transport_plane = {
+		"蒙古第1运输机联队" "蒙古第2运输机联队" "蒙古第3运输机联队" "蒙古第4运输机联队" "蒙古第5运输机联队" 
+	}
+	battleship = {
+		"蒙古人民共和国号" "乌兰巴托号" 
+	}
+	light_cruiser = {
+		"列宁号" "巴恰安号Ba·Cagan" "杰尔加兰号Dzargalant" "巴彦乌拉号" "巴彦洪戈尔号" 
+	}
+	heavy_cruiser = {
+		"列宁号" "巴恰安号Ba·Cagan" "杰尔加兰Dzargalant" "巴彦乌拉号" "巴彦洪戈尔号" 
+	}
+	battlecruiser = {
+		"蒙古人民共和国号" "乌兰巴托号" 
+	}
+	destroyer = {
+		"蒙古第1驱逐舰编队" "蒙古第2驱逐舰编队" "蒙古第3驱逐舰编队" "蒙古第4驱逐舰编队" "蒙古第5驱逐舰编队" 
+	}
+	carrier = {
+		"乔巴山号" "斯大林号" 
+	}
+	submarine = {
+		"蒙古第1潜艇编队" "蒙古第2潜艇编队" "蒙古第3潜艇编队" "蒙古第4潜艇编队" "蒙古第5潜艇编队" 
+	}
+	transport_ship = {
+		"蒙古第1运输舰编队" "蒙古第2运输舰编队" "蒙古第3运输舰编队" "蒙古第4运输舰编队" "蒙古第5运输舰编队" 
+	}
+
+}
+
+ministers = {
+	94001 = {
+		name = "阿格登布·阿马尔"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M94001
+		head_of_state = weary_stiff_neck
+		start_date = 1936.1.1
+	}
+	94002 = {
+		name = "道尔给扎布·鲁布桑沙拉布"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M94002
+		head_of_government = happy_amateur
+		foreign_minister = iron_fisted_brute
+		minister_of_intelligence = research_specialist
+		start_date = 1936.1.1
+	}
+	94003 = {
+		name = "泼勒吉德·根登"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M94003
+		foreign_minister = great_compromiser
+		start_date = 1936.1.1
+	}
+	94004 = {
+		name = "姜巴·勒呼木别"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M94004
+		armament_minister = military_entrepreneur
+		start_date = 1936.1.1
+	}
+	94005 = {
+		name = "曾德·达木丁苏伦"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M94005
+		minister_of_security = efficient_sociopath
+		start_date = 1936.1.1
+	}
+	94006 = {
+		name = "霍尔洛·乔巴山"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M94006
+		minister_of_intelligence = research_specialist
+		head_of_government = old_general
+		head_of_government = old_general
+		foreign_minister = general_staffer
+		armament_minister = resource_industrialist
+		chief_of_staff = school_of_manoeuvre
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1936.1.1
+	}
+	94007 = {
+		name = "其米德"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M94007
+		chief_of_staff = school_of_psychology
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1936.1.1
+	}
+	94009 = {
+		name = "V·G·彼尔谢洛夫"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M94009
+		chief_of_navy = open_seas_doctrine
+		start_date = 1936.1.1
+	}
+	94010 = {
+		name = "乌兰夫"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M94010
+		chief_of_air = army_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	94031 = {
+		name = "云端旺楚克"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M94011
+		head_of_state = resigned_generalissimo
+		chief_of_navy = open_seas_doctrine
+		start_date = 1937.1.1
+	}
+	94032 = {
+		name = "白云梯"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M94021
+		head_of_state = benevolent_gentleman
+		head_of_government = happy_amateur
+		chief_of_staff = school_of_defence
+		start_date = 1937.1.1
+	}
+	94033 = {
+		name = "丹斯朗毕力格·道格索木"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M94025
+		head_of_state = insignificant_layman
+		minister_of_security = compassionate_gentleman
+		start_date = 1937.1.1
+	}
+	94034 = {
+		name = "冈其格·布曼曾德"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M94034
+		head_of_state = power_hungry_demagogue
+		armament_minister = military_entrepreneur
+		chief_of_navy = base_control_doctrine
+		chief_of_air = vertical_envelopment_doctrine
+		start_date = 1940.1.1
+	}
+	94035 = {
+		name = "布玛·曾德"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M94035
+		head_of_state = ruthless_powermonger
+		chief_of_staff = school_of_defence
+		start_date = 1946.1.1
+	}
+	94036 = {
+		name = "德穆楚克栋鲁普"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M94012
+		head_of_government = political_protege
+		foreign_minister = general_staffer
+		start_date = 1937.1.1
+	}
+	94038 = {
+		name = "达希·丹巴"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M94038
+		head_of_government = smiling_oilman
+		foreign_minister = the_cloak_n_dagger_schemer
+		start_date = 1937.1.1
+	}
+	94041 = {
+		name = "尤睦佳·泽登巴尔"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M94041
+		head_of_government = corporate_suit
+		foreign_minister = iron_fisted_brute
+		start_date = 1942.1.1
+	}
+	94043 = {
+		name = "曾古巴尔·巴德拉赫"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M94023
+		foreign_minister = apologetic_clerk
+		armament_minister = air_to_ground_proponent
+		start_date = 1937.1.1
+	}
+	94045 = {
+		name = "班扎尔扎布·巴桑扎布"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M94045
+		foreign_minister = biased_intellectual
+		start_date = 1937.1.1
+	}
+	94047 = {
+		name = "马塞尔·罗森伯格"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M94047
+		foreign_minister = biased_intellectual
+		start_date = 1940.1.1
+	}
+	94050 = {
+		name = "策沃勒索德诺姆"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M94014
+		armament_minister = military_entrepreneur
+		armament_minister = military_entrepreneur
+		start_date = 1937.1.1
+	}
+	94054 = {
+		name = "扎勒本格·色热特尔"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M94024
+		armament_minister = theoretical_scientist
+		start_date = 1938.1.1
+	}
+	94055 = {
+		name = "巴特尔"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M94055
+		armament_minister = air_to_sea_proponent
+		start_date = 1940.1.1
+	}
+	94057 = {
+		name = "扎木斯朗·桑布"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M94057
+		armament_minister = laissez_faires_capitalist
+		minister_of_security = back_stabber
+		start_date = 1944.1.1
+	}
+	94059 = {
+		name = "苏赫巴托尔·扬吉玛"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M94020
+		armament_minister = administrative_genius
+		chief_of_air = naval_aviation_doctrine
+		chief_of_air = naval_aviation_doctrine
+		start_date = 1947.1.1
+	}
+	94060 = {
+		name = "博彦满都"
+		ideology = paternal_autocrat
+		loyalty = 0.50
+		picture = M94015
+		minister_of_security = prince_of_terror
+		start_date = 1937.1.1
+	}
+	94062 = {
+		name = "达格瓦"
+		ideology = leninist
+		loyalty = 0.50
+		picture = M94028
+		minister_of_security = prince_of_terror
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1937.1.1
+	}
+	94064 = {
+		name = "布彦讷莫赫"
+		ideology = left_wing_radical
+		loyalty = 0.25
+		picture = M94064
+		minister_of_security = silent_lawyer
+		minister_of_intelligence = naval_intelligence_specialist
+		chief_of_air = carpet_bombing_doctrine
+		start_date = 1938.1.1
+	}
+	94065 = {
+		name = "达希道洛布"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M94065
+		minister_of_security = crooked_kleptocrat
+		start_date = 1940.1.1
+	}
+	94067 = {
+		name = "亚历山德拉·米哈伊洛夫娜·柯伦泰"
+		ideology = stalinist
+		loyalty = 0.50
+		picture = M94067
+		minister_of_security = man_of_the_people
+		start_date = 1944.1.1
+	}
+	94068 = {
+		name = "宁布"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M94068
+		minister_of_security = crime_fighter
+		minister_of_intelligence = industrial_specialist
+		start_date = 1946.1.1
+	}
+	94069 = {
+		name = "伊青浩尔罗"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M94016
+		minister_of_intelligence = research_specialist
+		minister_of_intelligence = research_specialist
+		start_date = 1937.1.1
+	}
+	94071 = {
+		name = "道尔给扎布·鲁布桑桑布"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M94071
+		minister_of_intelligence = political_specialist
+		start_date = 1937.1.1
+	}
+	94073 = {
+		name = "达希尼雅木"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M94073
+		minister_of_intelligence = research_specialist
+		start_date = 1938.1.1
+	}
+	94075 = {
+		name = "达希道尔吉"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M94075
+		minister_of_intelligence = political_specialist
+		chief_of_navy = indirect_approach_doctrine
+		start_date = 1942.1.1
+	}
+	94076 = {
+		name = "达希哲格布"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M94076
+		minister_of_intelligence = research_specialist
+		start_date = 1944.1.1
+	}
+	94078 = {
+		name = "李守信"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M94017
+		chief_of_staff = school_of_mass_combat
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1937.1.1
+	}
+	94082 = {
+		name = "沃勒吉特·巴特拉赫"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M94082
+		chief_of_staff = school_of_defence
+		chief_of_army = static_defence_doctrine
+		start_date = 1938.1.1
+	}
+	94093 = {
+		name = "海达布"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M94093
+		chief_of_navy = power_projection_doctrine
+		chief_of_air = naval_aviation_doctrine
+		start_date = 1937.1.1
+	}
+	94094 = {
+		name = "冈巴塔尔"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M94029
+		chief_of_navy = base_control_doctrine
+		chief_of_air = vertical_envelopment_doctrine
+		start_date = 1937.1.1
+	}
+}

@@ -1,0 +1,456 @@
+color = { 65  175  179 }
+graphical_culture = German
+
+last_election = 1934.6.6
+duration = 36
+
+default_templates = {
+	generic_infantry = {
+		infantry_brigade
+		infantry_brigade
+		infantry_brigade
+	}
+	generic_milita = {
+		militia_brigade
+		militia_brigade
+		militia_brigade
+	}
+	generic_armoured = {
+		armor_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	generic_cavalry = {
+		cavalry_brigade
+		cavalry_brigade
+	}
+}
+
+unit_names = {
+	infantry_brigade = {
+		"第1步兵师" "第2步兵师" "第3步兵师" "第4步兵师" "第5步兵师" "第6步兵师" "第7步兵师" "第8步兵师" "第9步兵师" "第10步兵师" "第11步兵师" 
+		"第12步兵师" 
+	}
+	cavalry_brigade = {
+		"第1骑兵师" "第2骑兵师" "第3骑兵师" "第4骑兵师" "第5骑兵师" "第6骑兵师" "第7骑兵师" "第8骑兵师" "第9骑兵师" "第10骑兵师" 
+	}
+	motorized_brigade = {
+		"第1摩托化步兵师" "第2摩托化步兵师" "第3摩托化步兵师" "第4摩托化步兵师" "第5摩托化步兵师" "第6摩托化步兵师" "第7摩托化步兵师" "第8摩托化步兵师" "第9摩托化步兵师" "第10摩托化步兵师" 
+	}
+	mechanized_brigade = {
+		"第1机械化快速师" "第2机械化快速师" "第3机械化快速师" "第4机械化快速师" "第5机械化快速师" "第6机械化快速师" "第7机械化快速师" "第8机械化快速师" "第9机械化快速师" "第10机械化快速师" 
+	}
+	light_armor_brigade = {
+		"第1轻装甲师" "第2轻装甲师" "第3轻装甲师" "第4轻装甲师" "第5轻装甲师" "第6轻装甲师" "第7轻装甲师" "第8轻装甲师" "第9轻装甲师" "第10轻装甲师" 
+	}
+	armor_brigade = {
+		"第1装甲师" "第2装甲师" "第3装甲师" "第4装甲师" "第5装甲师" "第6装甲师" "第7装甲师" "第8装甲师" "第9装甲师" "第10装甲师" 
+	}
+	paratrooper_brigade = {
+		"第1空降师" "第2空降师" "第3空降师" "第4空降师" "第5空降师" "第6空降师" "第7空降师" "第8空降师" "第9空降师" "第10空降师" 
+	}
+	marine_brigade = {
+		"第1海军突击师" "第2海军突击师" "第3海军突击师" "第4海军突击师" "第5海军突击师" "第6海军突击师" "第7海军突击师" "第8海军突击师" "第9海军突击师" "第10海军突击师" 
+	}
+	bergsjaeger_brigade = {
+		"第1阿尔卑斯猎人师" "第2阿尔卑斯猎人师" "第3阿尔卑斯猎人师" "第4阿尔卑斯猎人师" "第5阿尔卑斯猎人师" "第6阿尔卑斯猎人师" "第7阿尔卑斯猎人师" "第8阿尔卑斯猎人师" "第9阿尔卑斯猎人师" 
+	}
+	garrison_brigade = {
+		"第1步兵师" "是2步兵师" "第3步兵师" "第4步兵师" "第5步兵师" "第6步兵师" "第7步兵师" "第8步兵师" "第9步兵师" "第10步兵师" "第11步兵师" 
+		"第12步兵师" 
+	}
+	hq_brigade = {
+		"第1集团军" "第2集团军" "第3集团军" "第4集团军" "第5集团军" "第6集团军" "第7集团军" "第8集团军" "第9集团军" "第10集团军" "第11集团军" 
+		"第12集团军" 
+	}
+	militia_brigade = {
+		"第1卫戍师" "第2卫戍师" "第3卫戍师" "第4卫戍师" "第5卫戍师" "第6卫戍师" "第7卫戍师" "第8卫戍师" "第9卫戍师" "第10卫戍师" "第11卫戍师" 
+		"第12卫戍师" "第13卫戍师" "第14卫戍师" "第15卫戍师" "第16卫戍师" "第17卫戍师" "第18卫戍师" "第19卫戍师" "第20卫戍师" 
+	}
+	multi_role = {
+		"通用大队1" "通用大队2" "通用大队3" "通用大队4" "通用大队5" "通用大队6" "通用大队7" "通用大队8" "通用大队9" "通用大队10" 
+	}
+	interceptor = {
+		"截击机大队1" "截击机大队2" "截击机大队3" "截击机大队4" "截击机大队5" "截击机大队6" "截击机大队7" "截击机大队8" "截击机大队9" "截击机大队10"
+	strategic_bomber = {
+		"战略轰炸机大队1" "战略轰炸机大队2" "战略轰炸机大队3" "战略轰炸机大队4" "战略轰炸机大队5" "战略轰炸机大队6" "战略轰炸机大队7" "战略轰炸机大队8" "战略轰炸机大队9" "战略轰炸机大队10" 
+	}
+	tactical_bomber = {
+		"战术轰炸机大队1" "战术轰炸机大队2" "战术轰炸机大队3" "战术轰炸机大队4" "战术轰炸机大队5" "战术轰炸机大队6" "战术轰炸机大队7" "战术轰炸机大队8" "战术轰炸机大队9" "战术轰炸机大队10" 
+	}
+	naval_bomber = {
+		"海军俯冲轰炸机大队1" "海军俯冲轰炸机大队2" "海军俯冲轰炸机大队3" "海军俯冲轰炸机大队4" "海军俯冲轰炸机大队5" "海军俯冲轰炸机大队6" "海军俯冲轰炸机大队7" "海军俯冲轰炸机大队8" "海军俯冲轰炸机大队9" "海军俯冲轰炸机大队10" "海军鱼雷轰炸机大队1" 
+		"海军鱼雷轰炸机大队2" "海军鱼雷轰炸机大队3" "海军鱼雷轰炸机大队4" "海军鱼雷轰炸机大队5" "海军鱼雷轰炸机大队6" "海军鱼雷轰炸机大队7" "海军鱼雷轰炸机大队8" "海军鱼雷轰炸机大队9" "海军鱼雷轰炸机大队10" 
+	}
+	cas = {
+		"攻击机大队1" "攻击机大队2" "攻击机大队3" "攻击机大队4" "攻击机大队5" "攻击机大队6" "攻击机大队7" "攻击机大队8" "攻击机大队9" "攻击机大队10" 
+	}
+	transport_plane = {
+		"运输机大队1" "运输机大队2" "运输机大队3" "运输机大队4" "运输机大队5" "运输机大队6" "运输机大队7" "运输机大队8" "运输机大队9" "运输机大队10" 
+	}
+	destroyer = {
+		"第1驱逐舰中队" "第2驱逐舰中队" "第3驱逐舰中队" "第4驱逐舰中队" "第5驱逐舰中队" "第6驱逐舰中队" "第7驱逐舰中队" "第8驱逐舰中队" "第9驱逐舰中队" "第10驱逐舰中队" 
+	}
+
+}
+
+ministers = {
+	66001 = {
+		name = "夏洛特"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M66001
+		head_of_state = autocratic_charmer
+		head_of_state = autocratic_charmer
+		start_date = 1936.1.1
+	}
+	66002 = {
+		name = "约瑟夫 伯克"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M66002
+		head_of_government = naive_optimist
+		foreign_minister = ideological_crusader
+		minister_of_security = compassionate_gentleman
+		start_date = 1936.1.1
+	}
+	66004 = {
+		name = "皮埃尔 杜蓬"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M66004
+		armament_minister = laissez_faires_capitalist
+		chief_of_staff = school_of_defence
+		head_of_government = silent_workhorse
+		start_date = 1936.1.1
+	}
+	66005 = {
+		name = "诺伯特 杜蒙特"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M66005
+		minister_of_security = crime_fighter
+		start_date = 1936.1.1
+	}
+	66006 = {
+		name = "尼古拉斯 马凯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M66006
+		minister_of_intelligence = industrial_specialist
+		start_date = 1936.1.1
+	}
+	66008 = {
+		name = "埃米尔 斯佩勒"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M66008
+		chief_of_army = static_defence_doctrine
+		chief_of_navy = open_seas_doctrine
+		start_date = 1936.1.1
+	}
+	66010 = {
+		name = "尼古拉斯 迪德里奇"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M66010
+		chief_of_air = army_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	66034 = {
+		name = "亚历山大 冯 法尔肯豪森"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M66034
+		head_of_state = resigned_generalissimo
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1940.1.1
+	}
+	66035 = {
+		name = "纪尧姆 索伊森"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M66016
+		head_of_state = popular_figurehead
+		head_of_government = happy_amateur
+		minister_of_intelligence = research_specialist
+		chief_of_air = air_superiority_doctrine
+		start_date = 1945.1.1
+	}
+	66036 = {
+		name = "保罗 曼丁格"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M66021
+		head_of_state = pig_headed_isolationist
+		head_of_government = ambitious_union_boss
+		foreign_minister = biased_intellectual
+		chief_of_navy = base_control_doctrine
+		start_date = 1936.1.1
+	}
+	66037 = {
+		name = "马丁 卡普"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M66024
+		head_of_state = die_hard_reformer
+		head_of_government = corporate_suit
+		armament_minister = infantry_proponent
+		chief_of_staff = school_of_mass_combat
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1945.1.1
+	}
+	66039 = {
+		name = "勒内 百隆"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M66039
+		head_of_government = ambitious_union_boss
+		foreign_minister = iron_fisted_brute
+		minister_of_security = crime_fighter
+		start_date = 1936.1.1
+	}
+	66040 = {
+		name = "戴米安 克拉森博格"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M66011
+		head_of_government = corporate_suit
+		foreign_minister = biased_intellectual
+		start_date = 1936.1.1
+	}
+	66045 = {
+		name = "皮埃尔 克里尔"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M66045
+		foreign_minister = apologetic_clerk
+		armament_minister = resource_industrialist
+		start_date = 1936.1.1
+	}
+	66048 = {
+		name = "亨利 阿能"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M66015
+		foreign_minister = iron_fisted_brute
+		minister_of_security = compassionate_gentleman
+		chief_of_navy = indirect_approach_doctrine
+		start_date = 1945.1.1
+	}
+	66050 = {
+		name = "弗朗索瓦 夏默尔"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M66050
+		foreign_minister = general_staffer
+		minister_of_intelligence = research_specialist
+		chief_of_staff = school_of_mass_combat
+		start_date = 1945.1.1
+	}
+	66052 = {
+		name = "朱尔斯 凯弗"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M66052
+		armament_minister = military_entrepreneur
+		start_date = 1944.1.1
+	}
+	66053 = {
+		name = "奥古斯特 奥斯特"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M66053
+		armament_minister = administrative_genius
+		start_date = 1945.1.1
+	}
+	66055 = {
+		name = "亚历克斯 菲德斯皮尔"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M66055
+		armament_minister = infantry_proponent
+		chief_of_staff = school_of_fire_support
+		start_date = 1940.1.1
+	}
+	66056 = {
+		name = "古斯塔夫 法弗"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M66014
+		armament_minister = tank_proponent
+		start_date = 1936.1.1
+	}
+	66057 = {
+		name = "菲利普 霍夫曼"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M66057
+		armament_minister = theoretical_scientist
+		start_date = 1945.1.1
+	}
+	66059 = {
+		name = "吉恩 皮埃尔 考德"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M66025
+		armament_minister = military_entrepreneur
+		minister_of_security = man_of_the_people
+		minister_of_intelligence = industrial_specialist
+		start_date = 1945.1.1
+	}
+	66060 = {
+		name = "尼古拉斯 布朗斯豪恩"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M66060
+		minister_of_security = back_stabber
+		start_date = 1936.1.1
+	}
+	66061 = {
+		name = "艾蒂安 施密特"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M66061
+		minister_of_security = silent_lawyer
+		start_date = 1937.1.1
+	}
+	66063 = {
+		name = "罗伯特 阿尔斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M66063
+		minister_of_security = crime_fighter
+		start_date = 1944.1.1
+	}
+	66064 = {
+		name = "维克托 包得森"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M66064
+		minister_of_security = man_of_the_people
+		start_date = 1946.1.1
+	}
+	66066 = {
+		name = "约瑟夫 吉欧德"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M66066
+		minister_of_security = compassionate_gentleman
+		start_date = 1944.1.1
+	}
+	66070 = {
+		name = "米歇尔 汉森"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M66070
+		minister_of_security = efficient_sociopath
+		start_date = 1945.1.1
+	}
+	66072 = {
+		name = "埃德蒙 克莱因"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M66072
+		minister_of_intelligence = dismal_enigma
+		start_date = 1940.1.1
+	}
+	66073 = {
+		name = "约瑟夫 陶哥特"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M66073
+		minister_of_intelligence = technical_specialist
+		start_date = 1936.1.1
+	}
+	66075 = {
+		name = "查尔斯 贝克尔"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M66075
+		minister_of_intelligence = political_specialist
+		start_date = 1945.1.1
+	}
+	66077 = {
+		name = "马克斯 西蒙"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M66077
+		minister_of_intelligence = political_specialist
+		minister_of_security = prince_of_terror
+		start_date = 1940.1.1
+	}
+	66078 = {
+		name = "朱尔斯 佩尔森"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M66078
+		minister_of_intelligence = technical_specialist
+		start_date = 1945.1.1
+	}
+	66080 = {
+		name = "马克斯 维克瑞"
+		ideology = left_wing_radical
+		loyalty = 0.50
+		picture = M66080
+		minister_of_intelligence = dismal_enigma
+		start_date = 1945.1.1
+	}
+	66082 = {
+		name = "吉恩 舒勒斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M66082
+		chief_of_staff = school_of_psychology
+		start_date = 1940.1.1
+	}
+	66085 = {
+		name = "阿罗耶斯 格洛特"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M66017
+		chief_of_staff = school_of_fire_support
+		chief_of_army = armoured_spearhead_doctrine
+		start_date = 1936.1.1
+	}
+	66090 = {
+		name = "费利克斯 波旁-帕尔马"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M66090
+		chief_of_army = armoured_spearhead_doctrine
+		start_date = 1940.1.1
+	}
+	66109 = {
+		name = "吉恩 马克 斯特芬"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M66030
+		chief_of_air = vertical_envelopment_doctrine
+		start_date = 1936.1.1
+	}
+	66111 = {
+		name = "皮埃尔 菲施巴赫"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M66111
+		chief_of_navy = open_seas_doctrine
+		start_date = 1940.1.1
+	}
+	66114 = {
+		name = "尤金 斯考斯"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M66114
+		minister_of_security = man_of_the_people
+		start_date = 1946.1.1
+	}
+	66115 = {
+		name = "约瑟夫 沃尔法特"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M66115
+		minister_of_intelligence = industrial_specialist
+		start_date = 1951.1.1
+	}
+}

@@ -1,0 +1,662 @@
+color = { 152  130  191 }
+graphical_culture = Italian
+
+default_templates = {
+	generic_infantry = {
+		infantry_brigade
+		infantry_brigade
+		infantry_brigade
+	}
+	generic_milita = {
+		militia_brigade
+		militia_brigade
+		militia_brigade
+	}
+	generic_armoured = {
+		armor_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	generic_cavalry = {
+		cavalry_brigade
+		cavalry_brigade
+	}
+}
+
+unit_names = {
+	infantry_brigade = {
+		"第I步兵师" "第II步兵师" "第III步兵师" "第IV步兵师" "第V步兵师" "第VI步兵师" "第VII步兵师" "第VIII步兵师" "第IX步兵师" "第X步兵师" "第XI步兵师" 
+		"第XII步兵师" 
+	}
+	cavalry_brigade = {
+		"第I骑兵师" "第II骑兵师" "第III骑兵师" "第IV骑兵师" "第V骑兵师" "第VI骑兵师" "第VII骑兵师" "第VIII骑兵师" 
+	}
+	motorized_brigade = {
+		"第I摩步师" "第II摩步师" "第III摩步师" "第IV摩步师" "第V摩步师" 
+	}
+	mechanized_brigade = {
+		"第I机步师" "第II机步师" "第III机步师" "第IV机步师" "第V机步师" 
+	}
+	light_armor_brigade = {
+		"第I装甲师" "第II装甲师" "第III装甲师" "第IV装甲师" "第V装甲师" 
+	}
+	armor_brigade = {
+		"第I装甲师" "第II装甲师" "第III装甲师" "第IV装甲师" "第V装甲师" 
+	}
+	paratrooper_brigade = {
+		"第I空降师" "第II空降师" "第III空降师" "第IV空降师" "第V空降师" 
+	}
+	marine_brigade = {
+		"第I海军陆战师" "第II海军陆战师" "第III海军陆战师" "第IV海军陆战师" "第V海军陆战师" 
+	}
+	bergsjaeger_brigade = {
+		"第I山地师" "第II山地师" "第III山地师" "第IV山地师" "第V山地师" 
+	}
+	garrison_brigade = {
+		"第I卫戍师" "第II卫戍师" "第III卫戍师" "第IV卫戍师" "第V卫戍师" "第VI卫戍师" "第VII卫戍师" "第VIII卫戍师" "第IX卫戍师" "第X卫戍师" "第XI卫戍师" 
+		"第XII卫戍师" 
+	}
+	hq_brigade = {
+		"阿尔巴尼亚第I集团军" "阿尔巴尼亚第II集团军" "阿尔巴尼亚第III集团军" "阿尔巴尼亚第IV集团军" "阿尔巴尼亚第V集团军" "阿尔巴尼亚第VI集团军" "阿尔巴尼亚第VII集团军" "阿尔巴尼亚第VIII集团军" "阿尔巴尼亚第IX集团军" "阿尔巴尼亚第X集团军" 
+	}
+	militia_brigade = {
+		"第I警备步兵师" "第II警备步兵师" "第III警备步兵师" "第IV警备步兵师" "第V警备步兵师" "第VI警备步兵师" "第VII警备步兵师" "第VIII警备步兵师" "第IX警备步兵师" "第X警备步兵师" 
+	}
+	multi_role = {
+		"第1战斗机联队" "第2战斗机联队" "第3战斗机联队" "第4战斗机联队" "第5战斗机联队" 
+	}
+	interceptor = {
+		"第1截击机联队" "第2截击机联队" "第3截击机联队" "第4截击机联队" "第5截击机联队" 
+	}
+	strategic_bomber = {
+		"第1战略轰炸联队" "第2战略轰炸联队" "第3战略轰炸联队" "第4战略轰炸联队" "第5战略轰炸联队" 
+	}
+	tactical_bomber = {
+		"第1战术轰炸联队" "第2战术轰炸联队" "第3战术轰炸联队" "第4战术轰炸联队" "第5战术轰炸联队" 
+	}
+	naval_bomber = {
+		"第1海军轰炸联队" "第2海军轰炸联队" "第3海军轰炸联队" "第4海军轰炸联队" "第5海军轰炸联队" "第1鱼雷轰炸联队" "第2鱼雷轰炸联队" "第3鱼雷轰炸联队" "第4鱼雷轰炸联队" "第5鱼雷轰炸联队" 
+	}
+	cas = {
+		"第1俯冲轰炸联队" "第2俯冲轰炸联队" "第3俯冲轰炸联队" "第4俯冲轰炸联队" "第5俯冲轰炸联队" 
+	}
+	transport_plane = {
+		"第1运输机联队" "第2运输机联队" "第3运输机联队" 
+	}
+	battleship = {
+		"阿尔巴尼亚号" "地拉那号" 
+	}
+	light_cruiser = {
+		"发罗拉号" "科尔察号" "培拉特号" "都拉斯号" "爱尔巴桑号" 
+	}
+	heavy_cruiser = {
+		"发罗拉号" "科尔察号" "培拉特号" "都拉斯号" "爱尔巴桑号" 
+	}
+	battlecruiser = {
+		"阿尔巴尼亚号" "地拉那号" 
+	}
+	destroyer = {
+		"吉诺卡斯特驱逐舰编队" "克罗夫达驱逐舰编队" "察克拉尼驱逐舰编队" "维科尼驱逐舰编队" "波格拉德茨驱逐舰编队" "奥里库驱逐舰编队" "希马拉驱逐舰编队" 
+	}
+	carrier = {
+		"乔治·卡斯特里奥蒂·斯坎德培号" 
+	}
+	submarine = {
+		"第1潜艇编队 '海豚'" "第2潜艇编队 '鲑鱼'" "第3潜艇编队 '鳗鱼'" "第4潜艇编队 '鳟鱼 '" "第5潜艇编队 '贻贝'" "第6潜艇编队 '蟹'" "第7潜艇编队" "第8潜艇编队" 
+	}
+	transport_ship = {
+		"第1运输舰编队" "第2运输舰编队" "第3运输舰编队" "第4运输舰编队" "第5运输舰编队" "第6运输舰编队" 
+	}
+
+}
+
+
+ministers = {
+	32001 = {
+		name = "索古一世"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M32001
+		head_of_state = insignificant_layman
+		minister_of_intelligence = research_specialist
+		start_date = 1936.1.1
+	}
+	32002 = {
+		name = "迈扎特 弗拉谢里"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M32002
+		head_of_government = corporate_suit
+		start_date = 1936.1.1
+	}
+	32003 = {
+		name = "福阿德 阿斯拉姆"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M32003
+		foreign_minister = apologetic_clerk
+		minister_of_intelligence = research_specialist
+		start_date = 1936.1.1
+	}
+	32004 = {
+		name = "罗克 格拉"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M32004
+		armament_minister = corrupt_kleptocrat
+		start_date = 1936.1.1
+	}
+	32005 = {
+		name = "乔斯林 佩尔西"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M32005
+		minister_of_security = prince_of_terror
+		chief_of_air = army_aviation_doctrine
+		armament_minister = air_to_ground_proponent
+		start_date = 1936.1.1
+	}
+	32007 = {
+		name = "切马尔 科马尼"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M32007
+		chief_of_staff = school_of_defence
+		minister_of_intelligence = dismal_enigma
+		chief_of_army = armoured_spearhead_doctrine
+		start_date = 1936.1.1
+	}
+	32008 = {
+		name = "斯特夫希 沙图恩"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M32008
+		chief_of_army = static_defence_doctrine
+		start_date = 1936.1.1
+	}
+	32009 = {
+		name = "夸马尔 帕卡济"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M32009
+		chief_of_navy = indirect_approach_doctrine
+		armament_minister = submarine_proponent
+		minister_of_intelligence = naval_intelligence_specialist
+		start_date = 1936.1.1
+	}
+	32041 = {
+		name = "陶菲克 姆博亚"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M32021
+		head_of_state = pig_headed_isolationist
+		foreign_minister = the_cloak_n_dagger_schemer
+		start_date = 1939.1.1
+	}
+	32042 = {
+		name = "易卜拉欣 比卡库"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M32042
+		head_of_state = stern_imperialist
+		minister_of_security = prince_of_terror
+		start_date = 1942.1.1
+	}
+	32043 = {
+		name = "菲契里 戴恩"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M32043
+		head_of_state = die_hard_reformer
+		foreign_minister = great_compromiser
+		armament_minister = corrupt_kleptocrat
+		chief_of_air = army_aviation_doctrine
+		start_date = 1944.1.1
+	}
+	32044 = {
+		name = "泰奥凡 诺利"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M32011
+		head_of_state = weary_stiff_neck
+		head_of_government = naive_optimist
+		start_date = 1936.1.1
+	}
+	32045 = {
+		name = "利亚萨 丰杜阿"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M32013
+		head_of_state = popular_figurehead
+		foreign_minister = great_compromiser
+		start_date = 1941.1.1
+	}
+	32046 = {
+		name = "雷杰普 米特罗维卡"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M32046
+		head_of_state = insignificant_layman
+		foreign_minister = apologetic_clerk
+		armament_minister = air_to_sea_proponent
+		minister_of_intelligence = political_specialist
+		chief_of_staff = school_of_mass_combat
+		chief_of_navy = indirect_approach_doctrine
+		start_date = 1944.1.1
+	}
+	32047 = {
+		name = "谢夫克特 韦拉奇"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M32047
+		head_of_state = autocratic_charmer
+		head_of_government = flamboyant_tough_guy
+		armament_minister = laissez_faires_capitalist
+		chief_of_staff = school_of_psychology
+		start_date = 1939.1.1
+	}
+	32048 = {
+		name = "埃克雷姆 利博霍瓦"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M32048
+		head_of_state = power_hungry_demagogue
+		head_of_government = corporate_suit
+		armament_minister = tank_proponent
+		minister_of_security = man_of_the_people
+		chief_of_air = carpet_bombing_doctrine
+		start_date = 1942.1.1
+	}
+	32049 = {
+		name = "奥梅 尼沙尼"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M32032
+		head_of_state = resigned_generalissimo
+		head_of_government = silent_workhorse
+		foreign_minister = ideological_crusader
+		minister_of_security = back_stabber
+		start_date = 1936.1.1
+	}
+	32050 = {
+		name = "塞富拉 马勒斯霍瓦"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M32050
+		head_of_state = popular_figurehead
+		head_of_government = naive_optimist
+		armament_minister = submarine_proponent
+		start_date = 1945.1.1
+	}
+	32051 = {
+		name = "恩维尔 霍查"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M32051
+		head_of_state = ruthless_powermonger
+		head_of_government = backroom_backstabber
+		armament_minister = infantry_proponent
+		chief_of_navy = open_seas_doctrine
+		chief_of_air = carpet_bombing_doctrine
+		start_date = 1947.1.1
+	}
+	32052 = {
+		name = "科斯塔克 科塔"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M32052
+		head_of_government = smiling_oilman
+		armament_minister = strategic_air_proponent
+		minister_of_security = crime_fighter
+		start_date = 1939.1.1
+	}
+	32053 = {
+		name = "尤普 卡扎齐"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M32015
+		head_of_government = happy_amateur
+		minister_of_security = crooked_kleptocrat
+		minister_of_intelligence = naval_intelligence_specialist
+		start_date = 1941.1.1
+	}
+	32054 = {
+		name = "迈赫迪 弗拉谢里"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M32054
+		head_of_government = corporate_suit
+		foreign_minister = apologetic_clerk
+		start_date = 1944.1.1
+	}
+	32056 = {
+		name = "查费尔 伊皮"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M32056
+		head_of_government = political_protege
+		armament_minister = tank_proponent
+		minister_of_intelligence = research_specialist
+		start_date = 1941.1.1
+	}
+	32057 = {
+		name = "穆斯塔法 梅利卡"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M32057
+		head_of_government = happy_amateur
+		minister_of_security = back_stabber
+		chief_of_army = static_defence_doctrine
+		start_date = 1944.1.1
+	}
+	32066 = {
+		name = "纳齐姆 德多利"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M32066
+		foreign_minister = iron_fisted_brute
+		minister_of_security = efficient_sociopath
+		chief_of_staff = school_of_fire_support
+		chief_of_navy = decisive_naval_battle_doctrine
+		start_date = 1944.1.1
+	}
+	32068 = {
+		name = "泰奥凡 S. 诺利"
+		ideology = social_conservative
+		loyalty = 0.25
+		picture = M32068
+		foreign_minister = ideological_crusader
+		start_date = 1940.1.1
+	}
+	32069 = {
+		name = "阿里 凯尔门迪"
+		ideology = social_conservative
+		loyalty = 0.50
+		picture = M32031
+		foreign_minister = iron_fisted_brute
+		start_date = 1942.1.1
+	}
+	32071 = {
+		name = "谢夫克特 什库皮"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M32071
+		foreign_minister = biased_intellectual
+		armament_minister = battle_fleet_proponent
+		minister_of_security = man_of_the_people
+		start_date = 1944.1.1
+	}
+	32073 = {
+		name = "哈桑 贝戈利"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M32073
+		foreign_minister = biased_intellectual
+		minister_of_intelligence = political_specialist
+		chief_of_navy = power_projection_doctrine
+		chief_of_air = vertical_envelopment_doctrine
+		start_date = 1941.1.1
+	}
+	32074 = {
+		name = "科尔 比贝 米拉卡伊"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M32074
+		foreign_minister = general_staffer
+		minister_of_security = crooked_kleptocrat
+		chief_of_staff = school_of_manoeuvre
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1942.1.1
+	}
+	32075 = {
+		name = "努希 贝里沙"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M32075
+		foreign_minister = iron_fisted_brute
+		minister_of_security = compassionate_gentleman
+		minister_of_intelligence = industrial_specialist
+		chief_of_air = army_aviation_doctrine
+		start_date = 1943.1.1
+	}
+	32077 = {
+		name = "哈桑 什卡比"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M32077
+		foreign_minister = iron_fisted_brute
+		minister_of_security = compassionate_gentleman
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1942.1.1
+	}
+	32078 = {
+		name = "埃萨德 帕夏"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M32036
+		foreign_minister = apologetic_clerk
+		armament_minister = corrupt_kleptocrat
+		minister_of_intelligence = dismal_enigma
+		start_date = 1944.1.1
+	}
+	32081 = {
+		name = "斯特芬 德尔维涅"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M32020
+		armament_minister = air_to_sea_proponent
+		chief_of_navy = base_control_doctrine
+		chief_of_air = naval_aviation_doctrine
+		start_date = 1941.1.1
+	}
+	32082 = {
+		name = "伊斯梅尔 加克萨"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M32029
+		armament_minister = battle_fleet_proponent
+		chief_of_navy = open_seas_doctrine
+		start_date = 1942.1.1
+	}
+	32085 = {
+		name = "哈奇 列希"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M32014
+		armament_minister = laissez_faires_capitalist
+		minister_of_security = efficient_sociopath
+		start_date = 1936.1.1
+	}
+	32090 = {
+		name = "哈伊雷 迪兹达里"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M32090
+		armament_minister = military_entrepreneur
+		minister_of_intelligence = technical_specialist
+		chief_of_staff = school_of_defence
+		chief_of_army = decisive_battle_doctrine
+		chief_of_navy = decisive_naval_battle_doctrine
+		start_date = 1944.1.1
+	}
+	32091 = {
+		name = "杰拉尔 米特罗维卡"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M32091
+		armament_minister = infantry_proponent
+		minister_of_security = crooked_kleptocrat
+		minister_of_intelligence = dismal_enigma
+		chief_of_staff = school_of_manoeuvre
+		chief_of_army = guns_and_butter_doctrine
+		chief_of_navy = base_control_doctrine
+		chief_of_air = air_superiority_doctrine
+		start_date = 1945.1.1
+	}
+	32092 = {
+		name = "马利奇 布沙蒂"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M32024
+		armament_minister = corrupt_kleptocrat
+		minister_of_security = crooked_kleptocrat
+		minister_of_intelligence = research_specialist
+		start_date = 1939.1.1
+	}
+	32094 = {
+		name = "奥梅 比卡库"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M32084
+		armament_minister = resource_industrialist
+		start_date = 1942.1.1
+	}
+	32098 = {
+		name = "内诺 扎纳"
+		ideology = stalinist
+		loyalty = 0.50
+		picture = M32098
+		armament_minister = air_to_sea_proponent
+		minister_of_intelligence = research_specialist
+		start_date = 1943.1.1
+	}
+	32102 = {
+		name = "迈扎特 贝日 弗拉谢里"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M32002
+		minister_of_security = compassionate_gentleman
+		minister_of_security = compassionate_gentleman
+		start_date = 1940.1.1
+	}
+	32107 = {
+		name = "内克希普 德瓦"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M32107
+		minister_of_security = silent_lawyer
+		chief_of_navy = power_projection_doctrine
+		chief_of_air = carpet_bombing_doctrine
+		start_date = 1946.1.1
+	}
+	32109 = {
+		name = "哈利勒 内古蒂"
+		ideology = social_liberal
+		loyalty = 0.50
+		picture = M32109
+		minister_of_security = crime_fighter
+		chief_of_navy = power_projection_doctrine
+		start_date = 1941.1.1
+	}
+	32118 = {
+		name = "潘迪 克里斯托"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M32035
+		minister_of_security = prince_of_terror
+		start_date = 1939.1.1
+	}
+	32121 = {
+		name = "祖赫迪 沙巴尼"
+		ideology = stalinist
+		loyalty = 0.50
+		picture = M32121
+		minister_of_security = crime_fighter
+		minister_of_intelligence = political_specialist
+		chief_of_staff = school_of_manoeuvre
+		chief_of_air = army_aviation_doctrine
+		start_date = 1943.1.1
+	}
+	32122 = {
+		name = "阿齐兹 苏莱曼尼"
+		ideology = stalinist
+		loyalty = 0.50
+		picture = M32040
+		minister_of_security = crooked_kleptocrat
+		chief_of_army = armoured_spearhead_doctrine
+		chief_of_air = vertical_envelopment_doctrine
+		start_date = 1944.1.1
+	}
+	32123 = {
+		name = "哈伊雷 费塔胡"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M32039
+		minister_of_security = man_of_the_people
+		chief_of_navy = decisive_naval_battle_doctrine
+		chief_of_air = air_superiority_doctrine
+		start_date = 1945.1.1
+	}
+	32127 = {
+		name = "艾哈迈德 扎希尔"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M32127
+		minister_of_intelligence = technical_specialist
+		chief_of_air = air_superiority_doctrine
+		start_date = 1944.1.1
+	}
+	32140 = {
+		name = "阿巴兹 库皮"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M32129
+		minister_of_intelligence = industrial_specialist
+		start_date = 1942.1.1
+	}
+	32149 = {
+		name = "索克拉特 阿戈利"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M32149
+		chief_of_staff = school_of_psychology
+		chief_of_army = guns_and_butter_doctrine
+		chief_of_air = army_aviation_doctrine
+		start_date = 1944.1.1
+	}
+	32153 = {
+		name = "克里斯托 卡尤比"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M32145
+		chief_of_staff = school_of_mass_combat
+		chief_of_army = static_defence_doctrine
+		start_date = 1942.1.1
+	}
+	32154 = {
+		name = "穆罕默德 谢胡"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M32017
+		chief_of_staff = school_of_mass_combat
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1939.1.1
+	}
+	32156 = {
+		name = "普伦克 佩尔维兹"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M32156
+		chief_of_staff = school_of_fire_support
+		chief_of_army = elastic_defence_doctrine
+		chief_of_air = naval_aviation_doctrine
+		start_date = 1944.1.1
+	}
+	32157 = {
+		name = "塞利姆 莫伊希欧"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M32018
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1938.1.1
+	}
+	32161 = {
+		name = "亚历山大 莫里"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M32161
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1944.1.1
+	}
+}
+

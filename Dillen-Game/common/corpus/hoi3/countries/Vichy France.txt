@@ -1,0 +1,404 @@
+color = { 177  191  211 }
+graphical_culture = French
+
+default_templates = {
+	generic_infantry = {
+		infantry_brigade
+		infantry_brigade
+		infantry_brigade
+	}
+	generic_milita = {
+		militia_brigade
+		militia_brigade
+		militia_brigade
+	}
+	generic_armoured = {
+		armor_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	generic_cavalry = {
+		cavalry_brigade
+		cavalry_brigade
+	}
+}
+
+unit_names = {
+	infantry_brigade = {
+		"第2步兵师" "第4步兵师" "第6步兵师" "第7步兵师" "第8步兵师" "第14步兵师" "第10步兵师" "第11步兵师" "第13步兵师" "第16步兵师" "第18步兵师" 
+		"第19步兵师" "第20步兵师" "第21步兵师" "第22步兵师" "第23步兵师" "第24步兵师" "第26步兵师" "第28步兵师" "第29步兵师" "第32步兵师" "第35步兵师" 
+		"第36步兵师" "第41步兵师" "第42步兵师" "第43步兵师" "第44步兵师" "第45步兵师" "第47步兵师" "第51步兵师" "第52步兵师" "第53步兵师" "第54步兵师" 
+		"第55步兵师" "第56步兵师" "第57步兵师" "第58步兵师" "第60步兵师" "第61步兵师" "第62步兵师" "第63步兵师" "第67步兵师" "第68步兵师" "第70步兵师" 
+		"第71步兵师" "第14步兵师" "第17步兵师" "第33步兵师" "第34步兵师" "第37步兵师" "第38步兵师" "第39步兵师" "第40步兵师" "第46步兵师" "第48步兵师" 
+		"第49步兵师" "第50步兵师" "第59步兵师" "第72步兵师" "第73步兵师" "第74步兵师" "第75步兵师" 
+	}
+	cavalry_brigade = {
+		"第1骑兵师" "第2骑兵师" "第3骑兵师" "第4骑兵师" "第5骑兵师" "第6骑兵师" "第7骑兵师" "第8骑兵师" "第9骑兵师" "第10骑兵师" "第11骑兵师" 
+		"第12骑兵师" "第13骑兵师" "第14骑兵师" "第15骑兵师" "第16骑兵师" "第17骑兵师" "第18骑兵师" "第19骑兵师" "第20骑兵师" 
+	}
+	motorized_brigade = {
+		"第1摩托化步兵师" "第3摩托化步兵师" "第5摩托化步兵师" "第9摩托化步兵师" "第12摩托化步兵师" "第15摩托化步兵师" "第25摩托化步兵师" "第90摩托化步兵师" "第91摩托化步兵师" "第92摩托化步兵师" "第93摩托化步兵师" 
+		"第94摩托化步兵师" "第95摩托化步兵师" "第96摩托化步兵师" "第97摩托化步兵师" "第98摩托化步兵师" "第100摩托化步兵师" "第101摩托化步兵师" "第102摩托化步兵师" "第103摩托化步兵师" "第104摩托化步兵师" "第105摩托化步兵师" 
+		"第106摩托化步兵师" "第107摩托化步兵师" "第108摩托化步兵师" 
+	}
+	mechanized_brigade = {
+		"第1机步师" "第2机步师" "第3机步师" "第4机步师" "第5机步师" "第6机步师" "第7机步师" "第8机步师" "第9机步师" "第10机步师" "第11机步师" 
+		"第12机步师" "第13机步师" "第14机步师" "第15机步师" "第16机步师" "第17机步师" "第18机步师" "第19机步师" "第20机步师" "第21机步师" "第22机步师" 
+		"第23机步师" "第24机步师" "第25机步师" 
+	}
+	light_armor_brigade = {
+		"第1轻型装甲师" "第2轻型装甲师" "第3轻型装甲师" "第4轻型装甲师" "第4轻型装甲师" "第6轻型装甲师" "第7轻型装甲师" "第8轻型装甲师" "第9轻型装甲师" "第10轻型装甲师" "第11轻型装甲师" 
+		"第12轻型装甲师" "第13轻型装甲师" "第14轻型装甲师" "第14轻型装甲师" "第16轻型装甲师" "第17轻型装甲师" "第18轻型装甲师" "第19轻型装甲师" "第20轻型装甲师" "第21轻型装甲师" "第22轻型装甲师" 
+		"第23轻型装甲师" "第24轻型装甲师" "第24轻型装甲师" "第26轻型装甲师" "第27轻型装甲师" "第28轻型装甲师" "第29轻型装甲师" "第30轻型装甲师" 
+	}
+	armor_brigade = {
+		"第1装甲师" "第2装甲师" "第3装甲师" "第1装甲师" "第2装甲师" "第3装甲师" "第4装甲师" "第5装甲师" "第6装甲师" "第7装甲师" "第8装甲师" 
+		"第9装甲师" "第10装甲师" "第11装甲师" "第12装甲师" "第13装甲师" "第14装甲师" "第15装甲师" "第16装甲师" "第17装甲师" "第18装甲师" "第19装甲师" 
+		"第20装甲师" "第21装甲师" "第22装甲师" "第23装甲师" "第24装甲师" "第25装甲师" "第26装甲师" "第27装甲师" "第28装甲师" "第29装甲师" "第30装甲师" 
+		"第31装甲师" "第32装甲师" "第33装甲师" "第34装甲师" "第35装甲师" "第36装甲师" "第37装甲师" "第38装甲师" "第39装甲师" "第40装甲师" 
+	}
+	paratrooper_brigade = {
+		"第1伞兵师" "第2伞兵师" "第3伞兵师" "第4伞兵师" "第5伞兵师" "第6伞兵师" "第7伞兵师" "第8伞兵师" "第9伞兵师" "第10伞兵师" 
+	}
+	marine_brigade = {
+		"第1海军陆战师" "第2海军陆战师" "第3海军陆战师" "第4海军陆战师" "第5海军陆战师" "第6海军陆战师" "第7海军陆战师" "第8海军陆战师" "第9海军陆战师" "第10海军陆战师" 
+	}
+	bergsjaeger_brigade = {
+		"第27山地师" "第30山地师" "第31山地师" "第64山地师" "第66山地师" "第65山地师" "第200山地师" "第201山地师" "第202山地师" "第203山地师" "第204山地师" 
+		"第205山地师" "第150山地师" "第151山地师" "第152山地师" "第153山地师" "第154山地师" "第155山地师" "第156山地师" "第157山地师" "第158山地师" "第159山地师" 
+		"第160山地师" "第161山地师" "第162山地师" "第163山地师" "第164山地师" "第165山地师" 
+	}
+	garrison_brigade = {
+		"第2卫戍师" "第4卫戍师" "第6卫戍师" "第7卫戍师" "第8卫戍师" "第14卫戍师" "第10卫戍师" "第11卫戍师" "第13卫戍师" "第16卫戍师" "第18卫戍师" 
+		"第19卫戍师" "第20卫戍师" "第21卫戍师" "第22卫戍师" "第23卫戍师" "第24卫戍师" "第26卫戍师" "第28卫戍师" "第29卫戍师" "第32卫戍师" "第35卫戍师" 
+		"第36卫戍师" "第41卫戍师" "第42卫戍师" "第43卫戍师" 
+	}
+	hq_brigade = {
+		"第1法国陆军" "第2法国陆军" "第3法国陆军" "第4法国陆军" "第4法国陆军" "第6法国陆军" "第7法国陆军" "第8法国陆军" "第9法国陆军" "第10法国陆军" 
+	}
+	militia_brigade = {
+		"第1民兵师" "第2民兵师" "第3民兵师" "第4民兵师" "第5民兵师" "第6民兵师" "第7民兵师" "第8民兵师" "第9民兵师" "第10民兵师" "第11民兵师" 
+		"第12民兵师" "第13民兵师" "第14民兵师" "第15民兵师" "第16民兵师" "第17民兵师" "第18民兵师" "第19民兵师" "第20民兵师" "第21民兵师" "第22民兵师" 
+		"第23民兵师" "第24民兵师" "第25民兵师" 
+	}
+	multi_role = {
+		"战斗机大队21" "战斗机大队22" "战斗机大队23" "战斗机大队24" "战斗机大队25" "战斗机大队26" "战斗机大队1" "战斗机大队2" "战斗机大队3" "战斗机大队4" "战斗机大队5" 
+		"战斗机大队6" "战斗机大队7" "战斗机大队8" "战斗机大队9" "战斗机大队10" "战斗机大队11" "战斗机大队12" "战斗机大队13" "战斗机大队14" "战斗机大队15" "战斗机大队16" 
+		"战斗机大队17" "战斗机大队18" "战斗机大队19" "战斗机大队20" "战斗机大队21" "战斗机大队22" "战斗机大队23" "战斗机大队24" "战斗机大队25" 
+	}
+	interceptor = {
+		"拦截机大队22" "拦截机大队23" "拦截机大队24" "拦截机大队25" "拦截机大队de Nuit" "拦截机大队1" "拦截机大队2" "拦截机大队3" "拦截机大队4" "拦截机大队5" "拦截机大队6" 
+		"拦截机大队7" "拦截机大队8" "拦截机大队9" "拦截机大队10" "拦截机大队11" "拦截机大队12" "拦截机大队13" "拦截机大队14" "拦截机大队15" "拦截机大队16" "拦截机大队17" 
+		"拦截机大队18" "拦截机大队19" "拦截机大队20" "拦截机大队21" "拦截机大队22" "拦截机大队23" "拦截机大队24" "拦截机大队25" 
+	}
+	strategic_bomber = {
+		"战略轰炸机联队1" "战略轰炸机联队2" "战略轰炸机联队3" "战略轰炸机联队6" "战略轰炸机联队7" "战略轰炸机联队8" "战略轰炸机联队9" "战略轰炸机联队10" "战略轰炸机联队11" "战略轰炸机联队12" "战略轰炸机联队13" 
+		"战略轰炸机联队14" "战略轰炸机联队15" "战略轰炸机联队16" "战略轰炸机联队17" "战略轰炸机联队20" "战略轰炸机联队40" "战略轰炸机联队41" "战略轰炸机联队42" "战略轰炸机联队43" "战略轰炸机联队44" "战略轰炸机联队45" 
+		"战略轰炸机联队46" "战略轰炸机联队47" "战略轰炸机联队48" "战略轰炸机联队49" "战略轰炸机联队50" "战略轰炸机联队51" "战略轰炸机联队52" "战略轰炸机联队53" "战略轰炸机联队54" "战略轰炸机联队55" 
+	}
+	tactical_bomber = {
+		"战术轰炸机联队1" "战术轰炸机联队2" "战术轰炸机联队3" "战术轰炸机联队6" "战术轰炸机联队7" "战术轰炸机联队8" "战术轰炸机联队9" "战术轰炸机联队10" "战术轰炸机联队11" "战术轰炸机联队12" "战术轰炸机联队13" 
+		"战术轰炸机联队14" "战术轰炸机联队15" "战术轰炸机联队16" "战术轰炸机联队17" "战术轰炸机联队20" "战术轰炸机联队40" "战术轰炸机联队41" "战术轰炸机联队42" "战术轰炸机联队43" "战术轰炸机联队44" "战术轰炸机联队45" 
+		"战术轰炸机联队46" "战术轰炸机联队47" "战术轰炸机联队48" "战术轰炸机联队49" "战术轰炸机联队50" "战术轰炸机联队51" "战术轰炸机联队52" "战术轰炸机联队53" "战术轰炸机联队54" "战术轰炸机联队55" 
+	}
+	naval_bomber = {
+		"海军轰炸机队1" "海军轰炸机队2" "海军轰炸机队3" "海军轰炸机队4" "海军轰炸机队5" "海军轰炸机队6" "海军轰炸机队7" "海军轰炸机队8" "海军轰炸机队9" "海军轰炸机队10" "鱼雷轰炸机队 1" 
+		"鱼雷轰炸机队 2" "鱼雷轰炸机队 3" "鱼雷轰炸机队 4" "鱼雷轰炸机队 5" "鱼雷轰炸机队 6" "鱼雷轰炸机队 7" "鱼雷轰炸机队 8" "鱼雷轰炸机队 9" "鱼雷轰炸机队 10" 
+	}
+	cas = {
+		"俯冲轰炸机队18" "俯冲轰炸机队19" "俯冲轰炸机队21" "俯冲轰炸机队22" "俯冲轰炸机队23" "俯冲轰炸机队24" "俯冲轰炸机队25" "俯冲轰炸机队26" "俯冲轰炸机队27" "俯冲轰炸机队28" "俯冲轰炸机队29" 
+		"俯冲轰炸机队30" 
+	}
+	transport_plane = {
+		"第1运输机大队" "第2运输机大队" "第3运输机大队" "第4运输机大队" "第5运输机大队" "第6运输机大队" "第7运输机大队" "第8运输机大队" "第9运输机大队" "第10运输机大队" 
+	}
+	battleship = {
+		"库尔贝" "巴黎" "英国" "普罗旺斯" "洛林" "敦克尔克" "斯特拉斯堡" "黎塞留" "让巴特" "克里蒙梭" "比斯开" 
+		"朗格多克" "香槟" "阿尔萨斯" "诺曼底" "弗兰德" "艮" "皮卡" "莓" "鲁西" "奥弗涅" "多芬"
+		"弗朗什孔泰"
+	}
+	light_cruiser = {
+		"杜古亚-特瑞因" "拉莫特-皮奎特" "佩里玛格特" "图尔维尔" "杜肯" "苏芬" "科尔伯特" "福煦" "杜皮雷克" "阿尔及利亚" "冥王星" 
+		"圣女贞德" "埃米尔贝尔坦" "拉盖立森" "让德维埃纳" "乔治" "马赛曲" "荣耀" "蒙卡尔姆" "德格拉斯" "桂城" "查特奥伦尔特" 
+		"索罗克芙" "杜卡斯" "舒瓦瑟尔" "安曲凯斯特奥" "奥勒维尔" "德斯坦" 
+	heavy_cruiser = {
+		"杜古亚-特瑞因" "拉莫特-皮奎特" "佩里玛格特" "图尔维尔" "杜肯" "苏芬" "科尔伯特" "福煦" "杜皮雷克" "阿尔及利亚" "冥王星" 
+		"圣女贞德" "埃米尔贝尔坦" "拉盖立森" "让德维埃纳" "乔治" "马赛曲" "荣耀" "蒙卡尔姆" "德格拉斯" "桂城" "查特奥伦尔特" 
+		"索罗克芙" "杜卡斯" "舒瓦瑟尔" "安曲凯斯特奥" "奥勒维尔" "德斯坦" 
+	}
+	battlecruiser = {
+		"奥弗涅德" "海豚" "弗朗什孔泰" "朗格" "香槟" "阿尔萨斯" "诺曼底" "弗兰德" "艮" "皮卡" "莓" 
+		"鲁西" "库尔贝" "巴黎" "英国" "普罗旺斯" "洛林" 
+	}
+	destroyer = {
+		"第1驱逐舰大队" "第2驱逐舰大队" "第3驱逐舰大队" "第4驱逐舰大队" "第5驱逐舰大队" "第6驱逐舰大队" "第7驱逐舰大队" "第8驱逐舰大队" "第9驱逐舰大队" "第10驱逐舰大队" "第11驱逐舰大队" 
+		"第12驱逐舰大队" "第13驱逐舰大队" "第14驱逐舰大队" "第15驱逐舰大队" "第16驱逐舰大队" "第17驱逐舰大队" "第18驱逐舰大队" "第19驱逐舰大队" "第20驱逐舰大队" 
+	}
+	carrier = {
+		"梁" "若夫尔" "派尼勒芙" "迪克穆德" "阿罗曼彻斯" "拉斐特" "比奥斯布尔劳" "凡尔登" 
+	}
+	submarine = {
+		"第1潜艇大队" "第2潜艇大队" "第3潜艇大队" "第4潜艇大队" "第5潜艇大队" "第6潜艇大队" "第7潜艇大队" "第8潜艇大队" "第9潜艇大队" "第10潜艇大队" "第11潜艇大队" 
+		"第12潜艇大队" "第13潜艇大队" "第14潜艇大队" "第15潜艇大队" "第16潜艇大队" "第17潜艇大队" "第18潜艇大队" "第19潜艇大队" "第20潜艇大队" 
+	}
+	transport_ship = {
+		"第1运输船大队" "第2运输船大队" "第3运输船大队" "第4运输船大队" "第5运输船大队" "第6运输船大队" "第7运输船大队" "第8运输船大队" "第9运输船大队" "第10运输船大队" "第11运输船大队" 
+		"第12运输船大队" "第13运输船大队" "第14运输船大队" "第15运输船大队" "第16运输船大队" "第17运输船大队" "第18运输船大队" "第19运输船大队" "第20运输船大队" "第21运输船大队" "第22运输船大队" 
+		"第23运输船大队" "第24运输船大队" "第25运输船大队" "第26运输船大队" "第27运输船大队" "第28运输船大队" "第29运输船大队" "第30运输船大队" "第31运输船大队" "第32运输船大队" "第33运输船大队" 
+		"第34运输船大队" "第35运输船大队" "第36运输船大队" "第37运输船大队" "第38运输船大队" "第39运输船大队" "第40运输船大队" 
+	}
+
+}
+
+ministers = {
+	57001 = {
+		name = "菲利浦贝当"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M57001
+		head_of_state = resigned_generalissimo
+		start_date = 1936.1.1
+	}
+	57002 = {
+		name = "让弗朗索瓦达兰"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M57002
+		head_of_government = old_admiral
+		chief_of_navy = decisive_naval_battle_doctrine
+		foreign_minister = general_staffer
+		minister_of_security = back_stabber
+		chief_of_staff = school_of_psychology
+		start_date = 1936.1.1
+	}
+	57003 = {
+		name = "保罗鲍德温"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M57003
+		foreign_minister = iron_fisted_brute
+		start_date = 1936.1.1
+	}
+	57004 = {
+		name = "马吕斯贝利埃"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M57004
+		armament_minister = laissez_faires_capitalist
+		start_date = 1936.1.1
+	}
+	57005 = {
+		name = "约瑟夫巴塞洛缪"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M57005
+		minister_of_security = silent_lawyer
+		start_date = 1936.1.1
+	}
+	57006 = {
+		name = "勒内布斯凯"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M57006
+		minister_of_intelligence = technical_specialist
+		start_date = 1936.1.1
+	}
+	57007 = {
+		name = "夏尔 亨辛格"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M57007
+		chief_of_staff = school_of_defence
+		start_date = 1936.1.1
+	}
+	57008 = {
+		name = "马克西姆 魏刚"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M57008
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1936.1.1
+	}
+	57010 = {
+		name = "让 马里埃 贝尔热雷"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M57010
+		chief_of_air = army_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	57011 = {
+		name = "皮埃尔拉瓦尔"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M57011
+		head_of_government = flamboyant_tough_guy
+		foreign_minister = apologetic_clerk
+		minister_of_security = prince_of_terror
+		minister_of_intelligence = political_specialist
+		start_date = 1942.1.1
+	}
+	57013 = {
+		name = "查尔斯安德烈魏斯"
+		ideology = paternal_autocrat
+		loyalty = 0.50
+		picture = M57013
+		foreign_minister = iron_fisted_brute
+		start_date = 1941.1.1
+	}
+	57014 = {
+		name = "艾伯特托马斯"
+		ideology = paternal_autocrat
+		loyalty = 0.50
+		picture = M57014
+		foreign_minister = the_cloak_n_dagger_schemer
+		start_date = 1941.1.1
+	}
+	57016 = {
+		name = "加布里埃尔 哈诺托"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M57016
+		foreign_minister = ideological_crusader
+		start_date = 1942.1.1
+	}
+	57017 = {
+		name = "亨利 德 儒弗"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M57017
+		foreign_minister = biased_intellectual
+		head_of_government = insignificant_layman
+		start_date = 1943.1.1
+	}
+	57018 = {
+		name = "阿恩勒罗伊"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M57018
+		foreign_minister = great_compromiser
+		start_date = 1943.1.1
+	}
+	57019 = {
+		name = "图略 佛朗哥 佛朗哥"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M57019
+		armament_minister = resource_industrialist
+		start_date = 1941.1.1
+	}
+	57020 = {
+		name = "吕西安 拉卡兹"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M57020
+		armament_minister = military_entrepreneur
+		start_date = 1941.1.1
+	}
+	57021 = {
+		name = "罗伯特哈斯"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M57021
+		armament_minister = laissez_faires_capitalist
+		start_date = 1942.1.1
+	}
+	57022 = {
+		name = "斯蒂芬 奥芬"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M57022
+		armament_minister = air_to_sea_proponent
+		start_date = 1942.1.1
+	}
+	57023 = {
+		name = "保罗 庞勒维"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M57023
+		armament_minister = administrative_genius
+		start_date = 1943.1.1
+	}
+	57024 = {
+		name = "保尔芒图"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M57024
+		armament_minister = theoretical_scientist
+		start_date = 1943.1.1
+	}
+	57026 = {
+		name = "爱德华赫里奥特"
+		ideology = paternal_autocrat
+		loyalty = 0.50
+		picture = M57026
+		minister_of_security = silent_lawyer
+		start_date = 1941.1.1
+	}
+	57028 = {
+		name = "马吕斯 维普勒"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M57028
+		minister_of_security = man_of_the_people
+		start_date = 1942.1.1
+	}
+	57029 = {
+		name = "任 布斯凯"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M57006
+		minister_of_security = compassionate_gentleman
+		start_date = 1942.1.1
+	}
+	57030 = {
+		name = "拉斐尔 阿利贝尔"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M57030
+		minister_of_security = crime_fighter
+		start_date = 1943.1.1
+	}
+	57031 = {
+		name = "高弗 德 拉帕瑞德"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M57031
+		minister_of_security = efficient_sociopath
+		minister_of_intelligence = industrial_specialist
+		start_date = 1943.1.1
+	}
+	57034 = {
+		name = "欧仁 布里杜"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M57034
+		chief_of_staff = school_of_mass_combat
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1942.1.1
+	}
+	57036 = {
+		name = "让 埃斯特瓦"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M57036
+		chief_of_navy = indirect_approach_doctrine
+		start_date = 1942.1.1
+	}
+	57037 = {
+		name = "让 马里埃 阿布利尔"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M57037
+		chief_of_navy = open_seas_doctrine
+		start_date = 1943.1.1
+	}
+	57038 = {
+		name = "莫瑞斯 扬内肯"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M57038
+		chief_of_air = carpet_bombing_doctrine
+		start_date = 1942.1.1
+	}
+}

@@ -1,0 +1,364 @@
+color = { 128  182  133 }
+graphical_culture = Italian
+
+default_templates = {
+	generic_infantry = {
+		infantry_brigade
+		infantry_brigade
+		infantry_brigade
+	}
+	generic_milita = {
+		militia_brigade
+		militia_brigade
+		militia_brigade
+	}
+	generic_armoured = {
+		armor_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	generic_cavalry = {
+		cavalry_brigade
+		cavalry_brigade
+	}
+}
+
+unit_names = {
+	alpini_brigade = {
+                 "第1'图林斯'山地师" "第2'特伦蒂诺'山地师" "第3'朱莉亚'山地师" "第4'库内奥人'山地师" "第5'普斯特利亚'山地师" "第6'阿尔卑斯山鸦'山地师" "第7'蒙特罗萨'山地师" "第8'卡多雷'山地师" "第9'贝加莫山羊'山地师"
+        }
+	infantry_brigade = {
+		"第1'苏珀加'师" "第2'斯福塞斯卡'师" "第3'拉韦纳'师" "第4'李维诺'师" "第5'科塞里亚'师" "第6'库内奥'师" "第7'托斯卡纳'师" "第11'布伦纳'师" "第12'西西里'师" "第13'雷'师" "第14'伊松佐'师" 
+		"第15'贝加莫'师" "第16'皮斯托亚'师" "第17'帕维亚'师" "第18'墨西拿'师" "第19'威尼斯'师" "第20'弗留利'师" "第21'撒丁掷弹兵'师" "第22'阿尔卑斯猎人'师" "第23'费拉拉'师" "第24'皮内罗洛'师" "第25'波洛尼亚'师" 
+		"第26'阿瑟塔'师" "第27'布雷西亚'师" "第28'奥斯塔'师" "第29'皮埃蒙特'师" "第30'萨沃伊'师" "第31'卡拉布里亚'师" "第32'马尔凯'师" "第33'阿奎'师" "第36'福尔利'师" "第37'摩德纳'师" "第38'普利亚'师" 
+		"第41'佛罗伦萨'师'" "第44'克莱莫纳'师" "第47'巴里'师" "第48'塔罗'师" "第49'帕尔马'师" "第50'雷吉纳'师" 
+	}
+	cavalry_brigade = {
+		"第1'欧吉尼奥·迪·萨伏亚'骑兵师" "第2'伊曼努尔·菲利贝尔托'骑兵师" "第3'奥斯塔公爵阿曼德'骑兵师" "第4'圣毛里求斯'骑兵师" "第5'朱塞佩·加里波第'骑兵师" "第6'卢伊吉·迪·萨伏亚'骑兵师" "第7'埃马努埃莱·菲利贝托'骑兵师" "第8'雷蒙多·蒙特库科利'骑兵师" "第9'帕苏比奥'骑兵师" 
+	}
+	motorized_brigade = {
+		"第9'帕苏比亚'师" "第10'皮亚韦'师" "第17'帕维亚'师" "第22'阿尔卑斯猎人'师" "第25'波洛尼亚'师" "第27'布雷西亚'师" "第52'都灵'师" "第55'萨窝那'师" "第60'赛布拉塔'师" "第61'苏尔特'师" "第62'马马里卡'师" 
+			}
+	mechanized_brigade = {
+		"第101'的里雅斯特'师" "第102'特伦托'师" "第101'的里雅斯特'师" "第102'特伦托'师" "第10'皮亚韦'师" "第16'皮斯托亚'师" "第101'的里雅斯特'师" "第102'特伦托'师" "第103'皮亚琴察'师" "第104'曼图亚'师" 
+	}
+	light_armor_brigade = {
+		"第135'箭'装甲师" "第136'维勒托'装甲师" "第137'猎户座'装甲师" "第138'帕尔玛利亚'装甲师" "第139'拉姆'装甲师" "第140装甲师" "第141装甲师" 
+	}
+	armor_brigade = {
+		"第131'半人马'装甲师" "第132'阿里特'装甲师" "第133'利托里奥'装甲师" "第134'M'装甲师" "第135'箭'装甲师" "第136'维勒托'装甲师" "第137'猎户座'装甲师" "第138'帕尔玛利亚'装甲师" "第139'拉姆'装甲师" "第140装甲师" "第141装甲师" 
+			}
+	paratrooper_brigade = {
+		"第80'斯佩齐亚'伞兵师" "第184'风暴'伞兵师" "第185'闪电'伞兵师" "第183'旋风'伞兵师" "第182'鹰'伞兵师" "第181'人马座'伞兵师" "第186'雷电'伞兵师" 
+	}
+	marine_brigade = {
+		"第1'圣马可'海军陆战师" "第2'卡特雷尼塔'海军陆战师" "第3'卡塔德'海军陆战师" "第4'安格鲁斯'海军陆战师" "第5'詹姆斯迪拉马克'海军陆战师" "第6'杰拉诺'海军陆战师" "第7'乔瓦尼 德阿克恰罗拉'海军陆战师" "第8'米尔马特'海军陆战师" "第9'巴菲尔'海军陆战师" "第10'格拉多'海军陆战师" "第11'托布鲁克'海军陆战师" 
+			}
+	bergsjaeger_brigade = {
+		"第1'图林斯'山地师" "第2'特伦蒂诺'山地师" "第3'朱莉亚'山地师" "第4'库内奥人'山地师" "第5'普斯特利亚'山地师" "第6'阿尔卑斯山鸦'山地师" 
+	}
+	garrison_brigade = {
+		"第51'锡耶纳'卫戍师" "第53'阿雷索'卫戍师" "第55'萨沃纳'卫戍师" "第54'那波利'卫戍师" "第56'卡萨利'卫戍师" "第57'伦巴第'卫戍师" "第58'莱尼亚诺'卫戍师" "第59'卡里亚利'卫戍师" "第61'锡尔特'卫戍师" "第62'马马里卡'卫戍师" "第63'锡勒纳'卫戍师" 
+		"第64'卡坦扎罗'卫戍师" "第65'维罗纳'卫戍师" "第66'帕多瓦'卫戍师" "第67'阿雷佐'卫戍师" "第68'曼图亚'卫戍师" "第69'帕尔马'卫戍师" "第70'雷吉奥'卫戍师" "第71'米兰'卫戍师" "第72'皮亚琴察'卫戍师" "第73'诺瓦拉'卫戍师" "第74'拉格纳'卫戍师" 
+		"第75'维罗纳'卫戍师" "第76'锡耶纳'卫戍师" "第77'加埃塔'卫戍师" "第78'巴里'卫戍师" "第79'巴勒莫'卫戍师" "第80'戈兰提雷的萨沃伊'卫戍师" "第81'非洲'卫戍师" 
+	}
+	hq_brigade = {
+		"第1集团军" "第2集团军" "第3集团军" "第4集团军" "第5集团军" "第6集团军" "第7集团军" "第8集团军" "第9集团军" "第10集团军" "第11集团军" 
+		"第1集团军群" "第2集团军群" "第3集团军群" "第4集团军群" 
+	}
+	militia_brigade = {
+		"第151'佩鲁贾'师" "第152'皮切诺'师" "第153'马塞莱塔'师" "第154'莫尔哥'师" "第155'艾米利亚'师" "第156'维琴察'师" "第157'诺瓦拉'师" "第158'扎拉'师" "第159'威尼托'师" "第201海岸警卫师" "第202海岸警卫师" 
+		"第203海岸警卫师" "第204海岸警卫师" "第205海岸警卫师" "第206海岸警卫师" "第207海岸警卫师" "第208海岸警卫师" "第209海岸警卫师" "第210海岸警卫师" "第211海岸警卫师" "第212海岸警卫师" "第213海岸警卫师" 
+		"第214海岸警卫师" "第215海岸警卫师" "第216海岸警卫师" "第220海岸警卫师" "第221海岸警卫师" "第222海岸警卫师" "第223海岸警卫师" "第224海岸警卫师" "第225海岸警卫师" "第226海岸警卫师" "第227海岸警卫师" 
+		"第230海岸警卫师" 
+	}
+	multi_role = {
+		"第1'天鹰座'战斗机联队" "第2'博里'战斗机联队" "第7战斗机联队" "第8'苍鹰'战斗机联队" "第9战斗机联队" "第14'雷克斯'战斗机联队" "第15战斗机联队" "第16战斗机联队" "第17战斗机联队" 
+	}
+	interceptor = {
+		"第1'天鹰座'歼击机联队" "第2'博里'歼击机联队" "第7歼击机联队" "第8'苍鹰'歼击机联队" "第9歼击机联队" "第14'雷克斯'歼击机联队" "第15歼击机联队" "第16歼击机联队" "第17歼击机联队" "第18歼击机联队" 
+	}
+	strategic_bomber = {
+		"第3'半人马座'战略轰炸联队" "第4'龙'战略轰炸联队" "第5'风神'战略轰炸联队" "第6'隼'战略轰炸联队" "第10'战神'战略轰炸联队" "第11'风筝'战略轰炸联队" "第12战略轰炸联队" "第13'毕加索'战略轰炸联队" 
+	}
+	tactical_bomber = {
+		"第3'半人马座'战术轰炸联队" "第4'龙'战术轰炸联队" "第5'风神'战术轰炸联队" "第6'隼'战术轰炸联队" "第10'战神'战术轰炸联队" "第11'风筝'战术轰炸联队" "第12战术轰炸联队" "第13'毕加索'战术轰炸联队" 
+	}
+	naval_bomber = {
+		"第3'半人马座'海军轰炸联队" "第4'龙'海军轰炸联队" "第5'风神'海军轰炸联队" "第6'隼'海军轰炸联队" "第10'战神'海军轰炸联队" "第11'风筝'海军轰炸联队" "第12海军轰炸联队" "第13'毕加索'海军轰炸联队" 
+	}
+	cas = {
+		"第3'半人马座'俯冲轰炸联队" "第4'龙'俯冲轰炸联队" "第5'风神'俯冲轰炸联队" "第6'隼'俯冲轰炸联队" "第10'战神'俯冲轰炸联队" "第11'风筝'俯冲轰炸联队" "第12俯冲轰炸联队" "第13'毕加索'俯冲轰炸联队" 
+	}
+	transport_plane = {
+		"第39运输机联队" "第170运输机联队" "第171运输机联队" "第172运输机联队" "第173运输机联队" "第174运输机联队" 
+	}
+	battleship = {
+		"RM 利托里奥号" "RM 维托里奥·维内托号" "RM 罗马号" "RM 帝国号" "RM 弗朗西斯科·卡拉斯里奥号" "RM 克里斯托弗·哥伦布号" "RM 马卡提尼奥·卡罗那号" "RM 弗朗西斯科·莫罗斯尼号" "RM 阿利盖利·但丁号" "RM 朱里奥·恺撒号" "RM 列奥纳多·达芬奇号" 
+		"RM 加富尔公爵号" "RM 安德烈·道里亚号" "RM 卡欧·杜利奥号" 
+	}
+	light_cruiser = {
+		"RM 杜卡·迪·阿布鲁齐号" "RM 朱塞佩·加里波第号" "RM 科斯坦卓·齐亚诺号" "RM 威尼斯号" "RM 安梯里奥·雷戈洛" "RM 卡欧·马里奥号" "RM 克劳迪·杜索号" "RM 克劳迪·蒂贝罗号" "RM 克雷诺·希拉号" "RM 古里奥号" "RM 奥古斯都号" 
+		"RM 保罗·埃米利奥号" "RM 庞贝奥·曼格罗号" "RM 斯佩奥内·阿弗里卡洛号" "RM 都灵号" "RM 阿格里帕号" "RM 埃特纳号" "RM 维苏威号" "RM 埃尔巴号" "RM 伊特鲁尼亚号" "RM 尼古拉号" "RM 伦巴第号" 
+		"RM 帕格里亚号" "RM 努比亚号" "RM 卡拉比亚号" "RM 利比亚号" "RM 坎帕尼亚号" "RM 巴斯利卡号" "RM 奎托号" "RM 尼诺号" "RM 马萨拉号" "RM 布林迪斯号" "RM 安科纳号" 
+		"RM 巴里号" "RM 阿尔贝托·迪·朱桑诺号" "RM 阿尔贝里科·达·巴宾诺号" "RM 巴特罗梅奥·科雷奥尼号" "RM 班兹·内雷号" "RM 鲁齐·卡多纳号" "RM 阿曼多·迪亚斯号" "RM 莱蒙多·蒙德库科里号" "RM 穆西奥·阿坦多洛号" "RM 杜卡·道斯塔号" "RM 欧吉尼奥·迪·萨伏亚号" 
+			}
+	heavy_cruiser = {
+		"RM 马可波罗号" "RM 卡洛·阿贝罗号" "RM 维特·皮萨尼号" "RM 弗鲁西奥号" "RM 朱塞佩·加里波第号" "RM 瓦雷泽号" "RM 比萨号" "RM 阿玛尔菲号" "RM 圣乔治号" "RM 圣马可号" "RM 特兰托号" 
+		"RM 的里雅斯特" "RM 阜姆号" "RM 戈里齐亚号" "RM 波拉号" "RM 萨拉号" "RM 波尔萨诺号" 
+	}
+	battlecruiser = {
+		"RM 塔兰托号" "RM 拉斯佩齐亚号" "RM 热那亚号" "RM 米兰号" 
+	}
+	destroyer = {
+		"第1雷击舰编队" "第2雷击舰编队" "第3雷击舰编队" "第4雷击舰编队" "第5雷击舰编队" "第6雷击舰编队" "第7雷击舰编队" "第8雷击舰编队" "第9雷击舰编队" "第10雷击舰编队" 
+	}
+	carrier = {
+		"RM 天鹰号" "RM 雀鹰号" "RM 欧罗巴号" "RM 隼号" "RM 人马座号" 
+	}
+	submarine = {
+		"第1潜艇编队" "第2潜艇编队" "第3潜艇编队" "第4潜艇编队" "第5潜艇编队" "第6潜艇编队" "第7潜艇编队" "第8潜艇编队" "第9潜艇编队" "第10潜艇编队" 
+	}
+	transport_ship = {
+		"乔治加亚·奥西尼运输船编队" "塔奎尼亚运输船编队" "波尔图·罗马运输船编队" "詹保罗运输船编队" "阿维提罗运输船编队" "普契尼运输船编队" "阿斯普罗蒙特运输船编队" "玛丽亚运输船编队" "人马座运输船编队" "莉娜·科拉多运输船编队" 
+	}
+
+}
+
+
+ministers = {
+	508001 = {
+		name = "贝尼托·墨索里尼"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M3002
+		head_of_state = barking_buffoon
+		head_of_government = iron_fisted_brute
+		foreign_minister = ruthless_powermonger
+		start_date = 1936.1.1
+	}
+	508002 = {
+		name = "阿希尔·斯塔拉切"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M3126
+		head_of_government = political_protege
+		start_date = 1936.1.1
+	}
+	508003 = {
+		name = "爱德华多·莫罗尼"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M508003
+		foreign_minister = biased_intellectual
+		start_date = 1936.1.1
+	}
+	508004 = {
+		name = "詹彼得罗·佩莱格里尼"
+		ideology = national_socialist
+		loyalty = 0.75
+		picture = M508004
+		armament_minister = military_entrepreneur
+		start_date = 1936.1.1
+	}
+	508005 = {
+		name = "吉多·布法利尼·圭迪"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M3005
+		minister_of_security = efficient_sociopath
+		minister_of_intelligence = crooked_kleptocrat
+		start_date = 1936.1.1
+	}
+	508006 = {
+		name = "卡洛·桑布鲁尼"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M508006
+		minister_of_intelligence = dismal_enigma
+		start_date = 1936.1.1
+	}
+	508007 = {
+		name = "加斯托内·甘巴拉"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = L6074
+		chief_of_staff = school_of_mass_combat
+		start_date = 1936.1.1
+	}
+	508008 = {
+		name = "鲁道夫·格拉齐亚尼"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M508008
+		chief_of_army = decisive_battle_doctrine
+		armament_minister = infantry_proponent
+		start_date = 1936.1.1
+	}
+	508009 = {
+		name = "皮尔·安杰洛·布兰迪马尔特"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = L6280
+		chief_of_navy = open_seas_doctrine
+		start_date = 1936.1.1
+	}
+	508010 = {
+		name = "阿里戈·泰萨里"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = L6283
+		chief_of_air = army_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	508011 = {
+		name = "保罗·塔翁·迪·雷韦尔"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M3035
+		head_of_state = resigned_generalissimo
+		start_date = 1945.1.1
+	}
+	508012 = {
+		name = "尤尼奥·博尔盖塞"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M508012
+		head_of_government = corporate_suit
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1945.1.1
+	}
+	508013 = {
+		name = "马里奥·曼加尼"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M508013
+		foreign_minister = the_cloak_n_dagger_schemer
+		start_date = 1942.1.1
+	}
+	508014 = {
+		name = "罗马诺·鲁杰罗"
+		ideology = national_socialist
+		loyalty = 0.75
+		picture = M508014
+		armament_minister = theoretical_scientist
+		start_date = 1936.1.1
+	}
+	508015 = {
+		name = "G·因佩里亚利·德·富兰卡里洛"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M3071
+		armament_minister = administrative_genius
+		start_date = 1945.1.1
+	}
+	508016 = {
+		name = "费尔南多·梅扎索马"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M508016
+		armament_minister = infantry_proponent
+		start_date = 1943.1.1
+	}
+	508017 = {
+		name = "亚历山德罗·帕沃利尼"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M508017
+		minister_of_security = prince_of_terror
+		chief_of_staff = school_of_defence
+		start_date = 1936.1.1
+	}
+	508018 = {
+		name = "伦佐·蒙塔尼亚"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = L6265
+		minister_of_security = crime_fighter
+		start_date = 1943.1.1
+	}
+	508019 = {
+		name = "路易吉·皮森蒂"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M508019
+		minister_of_security = silent_lawyer
+		start_date = 1936.1.1
+	}
+	508020 = {
+		name = "皮奥·菲利帕尼·龙科尼"
+		ideology = national_socialist
+		loyalty = 0.75
+		picture = M508020
+		minister_of_intelligence = research_specialist
+		start_date = 1945.1.1
+	}
+	508021 = {
+		name = "布鲁诺·佩雷戈"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M508021
+		minister_of_intelligence = technical_specialist
+		start_date = 1940.1.1
+	}
+	508022 = {
+		name = "卡洛·阿尔贝托·比金尼"
+		ideology = national_socialist
+		loyalty = 0.75
+		picture = M508022
+		minister_of_intelligence = industrial_specialist
+		start_date = 1936.1.1
+	}
+	508025 = {
+		name = "卡洛·迪·科萨塔"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = L6164
+		chief_of_navy = indirect_approach_doctrine
+		start_date = 1936.1.1
+	}
+	508026 = {
+		name = "里诺·科尔索·富日耶"
+		ideology = national_socialist
+		loyalty = 0.50
+		picture = M3161
+		chief_of_air = air_superiority_doctrine
+		start_date = 1945.1.1
+	}
+	508027 = {
+		name = "鲁杰罗·博诺米"
+		ideology = fascistic
+		loyalty = 0.50
+		picture = M508027
+		chief_of_air = vertical_envelopment_doctrine
+		start_date = 1943.1.1
+	}
+	508028 = {
+		name = "卡尔·沃尔夫"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M508028
+		armament_minister = military_entrepreneur
+		minister_of_security = compassionate_gentleman
+		chief_of_staff = school_of_psychology
+		start_date = 1943.1.1
+	}
+	508031 = {
+		name = "阿尔伯特·凯塞林"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M508031
+		chief_of_staff = school_of_defence
+		chief_of_army = elastic_defence_doctrine
+		chief_of_air = army_aviation_doctrine
+		start_date = 1942.1.1
+	}
+	508034 = {
+		name = "海因里希·戈特弗里德·冯·菲廷霍夫·谢尔"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M508034
+		chief_of_army = armoured_spearhead_doctrine
+		start_date = 1944.1.1
+	}
+}

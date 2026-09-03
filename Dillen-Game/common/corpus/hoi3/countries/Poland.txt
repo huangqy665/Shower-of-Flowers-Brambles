@@ -1,0 +1,1165 @@
+color = { 190  110  101 }
+graphical_culture = Generic
+
+last_election = 1935.11.6
+duration = 36
+
+default_templates = {
+	generic_infantry = {
+		infantry_brigade
+		infantry_brigade
+		infantry_brigade
+	}
+	generic_milita = {
+		militia_brigade
+		militia_brigade
+		militia_brigade
+	}
+	generic_armoured = {
+		armor_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	generic_cavalry = {
+		cavalry_brigade
+		cavalry_brigade
+	}
+}
+
+unit_names = {
+	infantry_brigade = {
+		"第1'科希丘什科'步兵师" "第2'华沙'步兵师" "第3'罗穆尔德·特罗哥特'步兵师" "第4'让·基林斯基'步兵师" "第5'萨克森'步兵师" "多维加第6步兵师" "第7'卢斯蒂安'步兵师" "第8'巴托索兹·格洛瓦基'步兵师" "第9'德雷顿'步兵师" "第10'苏德蒂安'步兵师" "第19步兵师" 
+		"第20步兵师" "第24步兵师" "第25步兵师" "第26步兵师" "第29步兵师" "第30步兵师" "第31步兵师" "第35步兵师" "第36步兵师" "第37步兵师" "第40步兵师" 
+		"第41步兵师" "第42步兵师" "第43步兵师" "第44步兵师" "第45步兵师" "第46步兵师" "第47步兵师" "第48步兵师" "第49步兵师" "第50步兵师" "第51步兵师" 
+		"第52步兵师" "第53步兵师" "第54步兵师" "第55步兵师" "第56步兵师" "第57步兵师" "第58步兵师" "第59步兵师" "第60步兵师" "第61步兵师" "第62步兵师" 
+		"第63步兵师" "第64步兵师" "第65步兵师" "第66步兵师" "第67步兵师" "第68步兵师" "第69步兵师" "第70步兵师" "第71步兵师" "第72步兵师" "第73步兵师" 
+		"第74步兵师" "第75步兵师" "第76步兵师" "第77步兵师" "第78步兵师" "第79步兵师" "第80步兵师" "第81步兵师" "第82步兵师" "第83步兵师" "第84步兵师" 
+		"第85步兵师" "第86步兵师" "第87步兵师" "第88步兵师" "第89步兵师" "第90步兵师" "第91步兵师" "第92步兵师" "第93步兵师" "第94步兵师" "第95步兵师" 
+		"第96步兵师" "第97步兵师" "第98步兵师" "第99步兵师" "第100步兵师" 
+	}
+	cavalry_brigade = {
+		"第1罗维格骑兵师" "第2克拉科夫骑兵师" "第3科索夫骑兵师" "第4皮鲁戈骑兵师" "第7骑兵师" "第8骑兵师" "第12骑兵师" "第14骑兵师" "第15骑兵师" "第18骑兵师" "第19骑兵师" 
+		"第20骑兵师" "第24骑兵师" "第25骑兵师" "第26骑兵师" "第29骑兵师" "第30骑兵师" "第31骑兵师" "第35骑兵师" "第36骑兵师" "第37骑兵师" "第40骑兵师" 
+		"第41骑兵师" "第42骑兵师" "第43骑兵师" "第44骑兵师" "第45骑兵师" "第46骑兵师" "第47骑兵师" "第48骑兵师" "第49骑兵师" "第50骑兵师" "第51骑兵师" 
+		"第52骑兵师" "第53骑兵师" "第54骑兵师" "第55骑兵师" "第56骑兵师" "第57骑兵师" "第58骑兵师" "第59骑兵师" "第60骑兵师" "第61骑兵师" "第62骑兵师" 
+		"第63骑兵师" "第64骑兵师" "第65骑兵师" "第66骑兵师" "第67骑兵师" "第68骑兵师" "第69骑兵师" "第70骑兵师" "第71骑兵师" "第72骑兵师" "第73骑兵师" 
+		"第74骑兵师" "第75骑兵师" "第76骑兵师" "第77骑兵师" "第78骑兵师" "第79骑兵师" "第80骑兵师" "第81骑兵师" "第82骑兵师" "第83骑兵师" "第84骑兵师" 
+		"第85骑兵师" "第86骑兵师" "第87骑兵师" "第88骑兵师" "第89骑兵师" "第90骑兵师" "第91骑兵师" "第92骑兵师" "第93骑兵师" "第94骑兵师" "第95骑兵师" 
+		"第96骑兵师" "第97骑兵师" "第98骑兵师" "第99骑兵师" "第100骑兵师" 
+			}
+	motorized_brigade = {
+		"第1摩托化步兵师" "第2摩托化步兵师" "第3摩托化步兵师" "第6摩托化步兵师" "第7摩托化步兵师" "第8摩托化步兵师" "第12摩托化步兵师" "第14摩托化步兵师" "第15摩托化步兵师" "第18摩托化步兵师" "第19摩托化步兵师" 
+		"第20摩托化步兵师" "第24摩托化步兵师" "第25摩托化步兵师" "第26摩托化步兵师" "第29摩托化步兵师" "第30摩托化步兵师" "第31摩托化步兵师" "第35摩托化步兵师" "第36摩托化步兵师" "第37摩托化步兵师" "第40摩托化步兵师" 
+		"第41摩托化步兵师" "第42摩托化步兵师" "第43摩托化步兵师" "第44摩托化步兵师" "第45摩托化步兵师" "第46摩托化步兵师" "第47摩托化步兵师" "第48摩托化步兵师" "第49摩托化步兵师" "第50摩托化步兵师" "第51摩托化步兵师" 
+		"第52摩托化步兵师" "第53摩托化步兵师" "第54摩托化步兵师" "第55摩托化步兵师" "第56摩托化步兵师" "第57摩托化步兵师" "第58摩托化步兵师" "第59摩托化步兵师" "第60摩托化步兵师" "第61摩托化步兵师" "第62摩托化步兵师" 
+		"第63摩托化步兵师" "第64摩托化步兵师" "第65摩托化步兵师" "第66摩托化步兵师" "第67摩托化步兵师" "第68摩托化步兵师" "第69摩托化步兵师" "第70摩托化步兵师" "第71摩托化步兵师" "第72摩托化步兵师" "第73摩托化步兵师" 
+		"第74摩托化步兵师" "第75摩托化步兵师" "第76摩托化步兵师" "第77摩托化步兵师" "第78摩托化步兵师" "第79摩托化步兵师" "第80摩托化步兵师" "第81摩托化步兵师" "第82摩托化步兵师" "第83摩托化步兵师" "第84摩托化步兵师" 
+		"第85摩托化步兵师" "第86摩托化步兵师" "第87摩托化步兵师" "第88摩托化步兵师" "第89摩托化步兵师" "第90摩托化步兵师" "第91摩托化步兵师" "第92摩托化步兵师" "第93摩托化步兵师" "第94摩托化步兵师" "第95摩托化步兵师" 
+		"第96摩托化步兵师" "第97摩托化步兵师" "第98摩托化步兵师" "第99摩托化步兵师" "第100摩托化步兵师" 
+	}
+	mechanized_brigade = {
+		"第1机械化步兵师" "第2机械化步兵师" "第3机械化步兵师" "第6机械化步兵师" "第7机械化步兵师" "第8机械化步兵师" "第12机械化步兵师" "第14机械化步兵师" "第15机械化步兵师" "第18机械化步兵师" "第19机械化步兵师" 
+		"第20机械化步兵师" "第24机械化步兵师" "第25机械化步兵师" "第26机械化步兵师" "第29机械化步兵师" "第30机械化步兵师" "第31机械化步兵师" "第35机械化步兵师" "第36机械化步兵师" "第37机械化步兵师" "第40机械化步兵师" 
+		"第41机械化步兵师" "第42机械化步兵师" "第43机械化步兵师" "第44机械化步兵师" "第45机械化步兵师" "第46机械化步兵师" "第47机械化步兵师" "第48机械化步兵师" "第49机械化步兵师" "第50机械化步兵师" "第51机械化步兵师" 
+		"第52机械化步兵师" "第53机械化步兵师" "第54机械化步兵师" "第55机械化步兵师" "第56机械化步兵师" "第57机械化步兵师" "第58机械化步兵师" "第59机械化步兵师" "第60机械化步兵师" "第61机械化步兵师" "第62机械化步兵师" 
+		"第63机械化步兵师" "第64机械化步兵师" "第65机械化步兵师" "第66机械化步兵师" "第67机械化步兵师" "第68机械化步兵师" "第69机械化步兵师" "第70机械化步兵师" "第71机械化步兵师" "第72机械化步兵师" "第73机械化步兵师" 
+		"第74机械化步兵师" "第75机械化步兵师" "第76机械化步兵师" "第77机械化步兵师" "第78机械化步兵师" "第79机械化步兵师" "第80机械化步兵师" "第81机械化步兵师" "第82机械化步兵师" "第83机械化步兵师" "第84机械化步兵师" 
+		"第85机械化步兵师" "第86机械化步兵师" "第87机械化步兵师" "第88机械化步兵师" "第89机械化步兵师" "第90机械化步兵师" "第91机械化步兵师" "第92机械化步兵师" "第93机械化步兵师" "第94机械化步兵师" "第95机械化步兵师" 
+		"第96机械化步兵师" "第97机械化步兵师" "第98机械化步兵师" "第99机械化步兵师" "第100机械化步兵师" 
+	}
+	light_armor_brigade = {
+		"第1装甲师" "第2装甲师" "第3装甲师" "第6装甲师" "第7装甲师" "第8装甲师" "第12装甲师" "第14装甲师" "第15装甲师" "第18装甲师" "第19装甲师" 
+		"第20装甲师" "第24装甲师" "第25装甲师" "第26装甲师" "第29装甲师" "第30装甲师" "第31装甲师" "第35装甲师" "第36装甲师" "第37装甲师" "第40装甲师" 
+		"第41装甲师" "第42装甲师" "第43装甲师" "第44装甲师" "第45装甲师" "第46装甲师" "第47装甲师" "第48装甲师" "第49装甲师" "第50装甲师" "第51装甲师" 
+		"第52装甲师" "第53装甲师" "第54装甲师" "第55装甲师" "第56装甲师" "第57装甲师" "第58装甲师" "第59装甲师" "第60装甲师" "第61装甲师" "第62装甲师" 
+		"第63装甲师" "第64装甲师" "第65装甲师" "第66装甲师" "第67装甲师" "第68装甲师" "第69装甲师" "第70装甲师" "第71装甲师" "第72装甲师" "第73装甲师" 
+		"第74装甲师" "第75装甲师" "第76装甲师" "第77装甲师" "第78装甲师" "第79装甲师" "第80装甲师" "第81装甲师" "第82装甲师" "第83装甲师" "第84装甲师" 
+		"第85装甲师" "第86装甲师" "第87装甲师" "第88装甲师" "第89装甲师" "第90装甲师" "第91装甲师" "第92装甲师" "第93装甲师" "第94装甲师" "第95装甲师" 
+		"第96装甲师" "第97装甲师" "第98装甲师" "第99装甲师" "第100装甲师" 
+	}
+	armor_brigade = {
+		"第1装甲师" "第2装甲师" "第3装甲师" "第6装甲师" "第7装甲师" "第8装甲师" "第12装甲师" "第14装甲师" "第15装甲师" "第18装甲师" "第19装甲师" 
+		"第20装甲师" "第24装甲师" "第25装甲师" "第26装甲师" "第29装甲师" "第30装甲师" "第31装甲师" "第35装甲师" "第36装甲师" "第37装甲师" "第40装甲师" 
+		"第41装甲师" "第42装甲师" "第43装甲师" "第44装甲师" "第45装甲师" "第46装甲师" "第47装甲师" "第48装甲师" "第49装甲师" "第50装甲师" "第51装甲师" 
+		"第52装甲师" "第53装甲师" "第54装甲师" "第55装甲师" "第56装甲师" "第57装甲师" "第58装甲师" "第59装甲师" "第60装甲师" "第61装甲师" "第62装甲师" 
+		"第63装甲师" "第64装甲师" "第65装甲师" "第66装甲师" "第67装甲师" "第68装甲师" "第69装甲师" "第70装甲师" "第71装甲师" "第72装甲师" "第73装甲师" 
+		"第74装甲师" "第75装甲师" "第76装甲师" "第77装甲师" "第78装甲师" "第79装甲师" "第80装甲师" "第81装甲师" "第82装甲师" "第83装甲师" "第84装甲师" 
+		"第85装甲师" "第86装甲师" "第87装甲师" "第88装甲师" "第89装甲师" "第90装甲师" "第91装甲师" "第92装甲师" "第93装甲师" "第94装甲师" "第95装甲师" 
+		"第96装甲师" "第97装甲师" "第98装甲师" "第99装甲师" "第100装甲师" 
+	}
+	paratrooper_brigade = {
+		"第1空降师" "第2空降师" "第3空降师" "第6空降师" "第7空降师" "第8空降师" "第12空降师" "第14空降师" "第15空降师" "第18空降师" "第19空降师" 
+		"第20空降师" "第24空降师" "第25空降师" "第26空降师" "第29空降师" "第30空降师" "第31空降师" "第35空降师" "第36空降师" "第37空降师" "第40空降师" 
+		"第41空降师" "第42空降师" "第43空降师" "第44空降师" "第45空降师" "第46空降师" "第47空降师" "第48空降师" "第49空降师" "第50空降师" "第51空降师" 
+		"第52空降师" "第53空降师" "第54空降师" "第55空降师" "第56空降师" "第57空降师" "第58空降师" "第59空降师" "第60空降师" "第61空降师" "第62空降师" 
+		"第63空降师" "第64空降师" "第65空降师" "第66空降师" "第67空降师" "第68空降师" "第69空降师" "第70空降师" "第71空降师" "第72空降师" "第73空降师" 
+		"第74空降师" "第75空降师" "第76空降师" "第77空降师" "第78空降师" "第79空降师" "第80空降师" "第81空降师" "第82空降师" "第83空降师" "第84空降师" 
+		"第85空降师" "第86空降师" "第87空降师" "第88空降师" "第89空降师" "第90空降师" "第91空降师" "第92空降师" "第93空降师" "第94空降师" "第95空降师" 
+		"第96空降师" "第97空降师" "第98空降师" "第99空降师" "第100空降师" 
+	}
+	marine_brigade = {
+		"第1海军陆战师" "第2海军陆战师" "第3海军陆战师" "第6海军陆战师" "第7海军陆战师" "第8海军陆战师" "第12海军陆战师" "第14海军陆战师" "第15海军陆战师" "第18海军陆战师" "第19海军陆战师" 
+		"第20海军陆战师" "第24海军陆战师" "第25海军陆战师" "第26海军陆战师" "第29海军陆战师" "第30海军陆战师" "第31海军陆战师" "第35海军陆战师" "第36海军陆战师" "第37海军陆战师" "第40海军陆战师" 
+		"第41海军陆战师" "第42海军陆战师" "第43海军陆战师" "第44海军陆战师" "第45海军陆战师" "第46海军陆战师" "第47海军陆战师" "第48海军陆战师" "第49海军陆战师" "第50海军陆战师" "第51海军陆战师" 
+		"第52海军陆战师" "第53海军陆战师" "第54海军陆战师" "第55海军陆战师" "第56海军陆战师" "第57海军陆战师" "第58海军陆战师" "第59海军陆战师" "第60海军陆战师" "第61海军陆战师" "第62海军陆战师" 
+		"第63海军陆战师" "第64海军陆战师" "第65海军陆战师" "第66海军陆战师" "第67海军陆战师" "第68海军陆战师" "第69海军陆战师" "第70海军陆战师" "第71海军陆战师" "第72海军陆战师" "第73海军陆战师" 
+		"第74海军陆战师" "第75海军陆战师" "第76海军陆战师" "第77海军陆战师" "第78海军陆战师" "第79海军陆战师" "第80海军陆战师" "第81海军陆战师" "第82海军陆战师" "第83海军陆战师" "第84海军陆战师" 
+		"第85海军陆战师" "第86海军陆战师" "第87海军陆战师" "第88海军陆战师" "第89海军陆战师" "第90海军陆战师" "第91海军陆战师" "第92海军陆战师" "第93海军陆战师" "第94海军陆战师" "第95海军陆战师" 
+		"第96海军陆战师" "第97海军陆战师" "第98海军陆战师" "第99海军陆战师" "第100海军陆战师" 
+	}
+	bergsjaeger_brigade = {
+		"第1山地师" "第2山地师" "第3山地师" "第6山地师" "第7山地师" "第8山地师" "第12山地师" "第14山地师" "第15山地师" "第18山地师" "第19山地师" 
+		"第20山地师" "第24山地师" "第25山地师" "第26山地师" "第29山地师" "第30山地师" "第31山地师" "第35山地师" "第36山地师" "第37山地师" "第40山地师" 
+		"第41山地师" "第42山地师" "第43山地师" "第44山地师" "第45山地师" "第46山地师" "第47山地师" "第48山地师" "第49山地师" "第50山地师" "第51山地师" 
+		"第52山地师" "第53山地师" "第54山地师" "第55山地师" "第56山地师" "第57山地师" "第58山地师" "第59山地师" "第60山地师" "第61山地师" "第62山地师" 
+		"第63山地师" "第64山地师" "第65山地师" "第66山地师" "第67山地师" "第68山地师" "第69山地师" "第70山地师" "第71山地师" "第72山地师" "第73山地师" 
+		"第74山地师" "第75山地师" "第76山地师" "第77山地师" "第78山地师" "第79山地师" "第80山地师" "第81山地师" "第82山地师" "第83山地师" "第84山地师" 
+		"第85山地师" "第86山地师" "第87山地师" "第88山地师" "第89山地师" "第90山地师" "第91山地师" "第92山地师" "第93山地师" "第94山地师" "第95山地师" 
+		"第96山地师" "第97山地师" "第98山地师" "第99山地师" "第100山地师" 
+	}
+	garrison_brigade = {
+		"第1步兵师" "第2步兵师" "第3步兵师" "第6步兵师" "第7步兵师" "第8步兵师" "第12步兵师" "第14步兵师" "第15步兵师" "第18步兵师" "第19步兵师" 
+		"第20步兵师" "第24步兵师" "第25步兵师" "第26步兵师" "第29步兵师" "第30步兵师" "第31步兵师" "第35步兵师" "第36步兵师" "第37步兵师" "第40步兵师" 
+		"第41步兵师" "第42步兵师" "第43步兵师" "第44步兵师" "第45步兵师" "第46步兵师" "第47步兵师" "第48步兵师" "第49步兵师" "第50步兵师" "第51步兵师" 
+		"第52步兵师" "第53步兵师" "第54步兵师" "第55步兵师" "第56步兵师" "第57步兵师" "第58步兵师" "第59步兵师" "第60步兵师" "第61步兵师" "第62步兵师" 
+		"第63步兵师" "第64步兵师" "第65步兵师" "第66步兵师" "第67步兵师" "第68步兵师" "第69步兵师" "第70步兵师" "第71步兵师" "第72步兵师" "第73步兵师" 
+		"第74步兵师" "第75步兵师" "第76步兵师" "第77步兵师" "第78步兵师" "第79步兵师" "第80步兵师" "第81步兵师" "第82步兵师" "第83步兵师" "第84步兵师" 
+		"第85步兵师" "第86步兵师" "第87步兵师" "第88步兵师" "第89步兵师" "第90步兵师" "第91步兵师" "第92步兵师" "第93步兵师" "第94步兵师" "第95步兵师" 
+		"第96步兵师" "第97步兵师" "第98步兵师" "第99步兵师" "第100步兵师" 
+	}
+	hq_brigade = {
+		"第1集团军" "第2集团军" "第3集团军" "第4集团军" "第5集团军" "第6集团军" "第7集团军" "第8集团军" "第9集团军" "第10集团军" "第11集团军" 
+		"第12集团军" 
+	}
+	militia_brigade = {
+		"第1民兵师" "第2民兵师" "第3民兵师" "第6民兵师" "第7民兵师" "第8民兵师" "第12民兵师" "第14民兵师" "第15民兵师" "第18民兵师" "第19民兵师" 
+		"第20民兵师" "第24民兵师" "第25民兵师" "第26民兵师" "第29民兵师" "第30民兵师" "第31民兵师" "第35民兵师" "第36民兵师" "第37民兵师" "第40民兵师" 
+		"第41民兵师" "第42民兵师" "第43民兵师" "第44民兵师" "第45民兵师" "第46民兵师" "第47民兵师" "第48民兵师" "第49民兵师" "第50民兵师" "第51民兵师" 
+		"第52民兵师" "第53民兵师" "第54民兵师" "第55民兵师" "第56民兵师" "第57民兵师" "第58民兵师" "第59民兵师" "第60民兵师" "第61民兵师" "第62民兵师" 
+		"第63民兵师" "第64民兵师" "第65民兵师" "第66民兵师" "第67民兵师" "第68民兵师" "第69民兵师" "第70民兵师" "第71民兵师" "第72民兵师" "第73民兵师" 
+		"第74民兵师" "第75民兵师" "第76民兵师" "第77民兵师" "第78民兵师" "第79民兵师" "第80民兵师" "第81民兵师" "第82民兵师" "第83民兵师" "第84民兵师" 
+		"第85民兵师" "第86民兵师" "第87民兵师" "第88民兵师" "第89民兵师" "第90民兵师" "第91民兵师" "第92民兵师" "第93民兵师" "第94民兵师" "第95民兵师" 
+		"第96民兵师" "第97民兵师" "第98民兵师" "第99民兵师" "第100民兵师" 
+	}
+	multi_role = {
+		"第1战斗机大队" "第2战斗机大队" "第3战斗机大队" "第6战斗机大队" "第7战斗机大队" "第8战斗机大队" "第12战斗机大队" "第14战斗机大队" "第15战斗机大队" "第18战斗机大队" "第19战斗机大队" 
+		"第20战斗机大队" "第24战斗机大队" "第25战斗机大队" "第26战斗机大队" "第29战斗机大队" "第30战斗机大队" "第31战斗机大队" "第35战斗机大队" "第36战斗机大队" "第37战斗机大队" "第40战斗机大队" 
+		"第41战斗机大队" "第42战斗机大队" "第43战斗机大队" "第44战斗机大队" "第45战斗机大队" "第46战斗机大队" "第47战斗机大队" "第48战斗机大队" "第49战斗机大队" "第50战斗机大队" "第51战斗机大队" 
+		"第52战斗机大队" "第53战斗机大队" "第54战斗机大队" "第55战斗机大队" "第56战斗机大队" "第57战斗机大队" "第58战斗机大队" "第59战斗机大队" "第60战斗机大队" "第61战斗机大队" "第62战斗机大队" 
+		"第63战斗机大队" "第64战斗机大队" "第65战斗机大队" "第66战斗机大队" "第67战斗机大队" "第68战斗机大队" "第69战斗机大队" "第70战斗机大队" "第71战斗机大队" "第72战斗机大队" "第73战斗机大队" 
+		"第74战斗机大队" "第75战斗机大队" "第76战斗机大队" "第77战斗机大队" "第78战斗机大队" "第79战斗机大队" "第80战斗机大队" "第81战斗机大队" "第82战斗机大队" "第83战斗机大队" "第84战斗机大队" 
+		"第85战斗机大队" "第86战斗机大队" "第87战斗机大队" "第88战斗机大队" "第89战斗机大队" "第90战斗机大队" "第91战斗机大队" "第92战斗机大队" "第93战斗机大队" "第94战斗机大队" "第95战斗机大队" 
+		"第96战斗机大队" "第97战斗机大队" "第98战斗机大队" "第99战斗机大队" "第100战斗机大队" 
+	}
+	interceptor = {
+		"第1战斗机大队" "第2战斗机大队" "第3战斗机大队" "第6战斗机大队" "第7战斗机大队" "第8战斗机大队" "第12战斗机大队" "第14战斗机大队" "第15战斗机大队" "第18战斗机大队" "第19战斗机大队" 
+		"第20战斗机大队" "第24战斗机大队" "第25战斗机大队" "第26战斗机大队" "第29战斗机大队" "第30战斗机大队" "第31战斗机大队" "第35战斗机大队" "第36战斗机大队" "第37战斗机大队" "第40战斗机大队" 
+		"第41战斗机大队" "第42战斗机大队" "第43战斗机大队" "第44战斗机大队" "第45战斗机大队" "第46战斗机大队" "第47战斗机大队" "第48战斗机大队" "第49战斗机大队" "第50战斗机大队" "第51战斗机大队" 
+		"第52战斗机大队" "第53战斗机大队" "第54战斗机大队" "第55战斗机大队" "第56战斗机大队" "第57战斗机大队" "第58战斗机大队" "第59战斗机大队" "第60战斗机大队" "第61战斗机大队" "第62战斗机大队" 
+		"第63战斗机大队" "第64战斗机大队" "第65战斗机大队" "第66战斗机大队" "第67战斗机大队" "第68战斗机大队" "第69战斗机大队" "第70战斗机大队" "第71战斗机大队" "第72战斗机大队" "第73战斗机大队" 
+		"第74战斗机大队" "第75战斗机大队" "第76战斗机大队" "第77战斗机大队" "第78战斗机大队" "第79战斗机大队" "第80战斗机大队" "第81战斗机大队" "第82战斗机大队" "第83战斗机大队" "第84战斗机大队" 
+		"第85战斗机大队" "第86战斗机大队" "第87战斗机大队" "第88战斗机大队" "第89战斗机大队" "第90战斗机大队" "第91战斗机大队" "第92战斗机大队" "第93战斗机大队" "第94战斗机大队" "第95战斗机大队" 
+		"第96战斗机大队" "第97战斗机大队" "第98战斗机大队" "第99战斗机大队" "第100战斗机大队" 
+	}
+	strategic_bomber = {
+		"第1战略轰炸机大队" "第2战略轰炸机大队" "第3战略轰炸机大队" "第6战略轰炸机大队" "第7战略轰炸机大队" "第8战略轰炸机大队" "第12战略轰炸机大队" "第14战略轰炸机大队" "第15战略轰炸机大队" "第18战略轰炸机大队" "第19战略轰炸机大队" 
+		"第20战略轰炸机大队" "第24战略轰炸机大队" "第25战略轰炸机大队" "第26战略轰炸机大队" "第29战略轰炸机大队" "第30战略轰炸机大队" "第31战略轰炸机大队" "第35战略轰炸机大队" "第36战略轰炸机大队" "第37战略轰炸机大队" "第40战略轰炸机大队" 
+		"第41战略轰炸机大队" "第42战略轰炸机大队" "第43战略轰炸机大队" "第44战略轰炸机大队" "第45战略轰炸机大队" "第46战略轰炸机大队" "第47战略轰炸机大队" "第48战略轰炸机大队" "第49战略轰炸机大队" "第50战略轰炸机大队" "第51战略轰炸机大队" 
+		"第52战略轰炸机大队" "第53战略轰炸机大队" "第54战略轰炸机大队" "第55战略轰炸机大队" "第56战略轰炸机大队" "第57战略轰炸机大队" "第58战略轰炸机大队" "第59战略轰炸机大队" "第60战略轰炸机大队" "第61战略轰炸机大队" "第62战略轰炸机大队" 
+		"第63战略轰炸机大队" "第64战略轰炸机大队" "第65战略轰炸机大队" "第66战略轰炸机大队" "第67战略轰炸机大队" "第68战略轰炸机大队" "第69战略轰炸机大队" "第70战略轰炸机大队" "第71战略轰炸机大队" "第72战略轰炸机大队" "第73战略轰炸机大队" 
+		"第74战略轰炸机大队" "第75战略轰炸机大队" "第76战略轰炸机大队" "第77战略轰炸机大队" "第78战略轰炸机大队" "第79战略轰炸机大队" "第80战略轰炸机大队" "第81战略轰炸机大队" "第82战略轰炸机大队" "第83战略轰炸机大队" "第84战略轰炸机大队" 
+		"第85战略轰炸机大队" "第86战略轰炸机大队" "第87战略轰炸机大队" "第88战略轰炸机大队" "第89战略轰炸机大队" "第90战略轰炸机大队" "第91战略轰炸机大队" "第92战略轰炸机大队" "第93战略轰炸机大队" "第94战略轰炸机大队" "第95战略轰炸机大队" 
+		"第96战略轰炸机大队" "第97战略轰炸机大队" "第98战略轰炸机大队" "第99战略轰炸机大队" "第100战略轰炸机大队" 
+	}
+	tactical_bomber = {
+		"第1战术轰炸机大队" "第2战术轰炸机大队" "第3战术轰炸机大队" "第6战术轰炸机大队" "第7战术轰炸机大队" "第8战术轰炸机大队" "第12战术轰炸机大队" "第14战术轰炸机大队" "第15战术轰炸机大队" "第18战术轰炸机大队" "第19战术轰炸机大队" 
+		"第20战术轰炸机大队" "第24战术轰炸机大队" "第25战术轰炸机大队" "第26战术轰炸机大队" "第29战术轰炸机大队" "第30战术轰炸机大队" "第31战术轰炸机大队" "第35战术轰炸机大队" "第36战术轰炸机大队" "第37战术轰炸机大队" "第40战术轰炸机大队" 
+		"第41战术轰炸机大队" "第42战术轰炸机大队" "第43战术轰炸机大队" "第44战术轰炸机大队" "第45战术轰炸机大队" "第46战术轰炸机大队" "第47战术轰炸机大队" "第48战术轰炸机大队" "第49战术轰炸机大队" "第50战术轰炸机大队" "第51战术轰炸机大队" 
+		"第52战术轰炸机大队" "第53战术轰炸机大队" "第54战术轰炸机大队" "第55战术轰炸机大队" "第56战术轰炸机大队" "第57战术轰炸机大队" "第58战术轰炸机大队" "第59战术轰炸机大队" "第60战术轰炸机大队" "第61战术轰炸机大队" "第62战术轰炸机大队" 
+		"第63战术轰炸机大队" "第64战术轰炸机大队" "第65战术轰炸机大队" "第66战术轰炸机大队" "第67战术轰炸机大队" "第68战术轰炸机大队" "第69战术轰炸机大队" "第70战术轰炸机大队" "第71战术轰炸机大队" "第72战术轰炸机大队" "第73战术轰炸机大队" 
+		"第74战术轰炸机大队" "第75战术轰炸机大队" "第76战术轰炸机大队" "第77战术轰炸机大队" "第78战术轰炸机大队" "第79战术轰炸机大队" "第80战术轰炸机大队" "第81战术轰炸机大队" "第82战术轰炸机大队" "第83战术轰炸机大队" "第84战术轰炸机大队" 
+		"第85战术轰炸机大队" "第86战术轰炸机大队" "第87战术轰炸机大队" "第88战术轰炸机大队" "第89战术轰炸机大队" "第90战术轰炸机大队" "第91战术轰炸机大队" "第92战术轰炸机大队" "第93战术轰炸机大队" "第94战术轰炸机大队" "第95战术轰炸机大队" 
+		"第96战术轰炸机大队" "第97战术轰炸机大队" "第98战术轰炸机大队" "第99战术轰炸机大队" "第100战术轰炸机大队" 
+	}
+	naval_bomber = {
+		"第1海军轰炸机大队" "第2海军轰炸机大队" "第3海军轰炸机大队" "第6海军轰炸机大队" "第7海军轰炸机大队" "第8海军轰炸机大队" "第12海军轰炸机大队" "第14海军轰炸机大队" "第15海军轰炸机大队" "第18海军轰炸机大队" "第19海军轰炸机大队" 
+		"第20海军轰炸机大队" "第24海军轰炸机大队" "第25海军轰炸机大队" "第26海军轰炸机大队" "第29海军轰炸机大队" "第30海军轰炸机大队" "第31海军轰炸机大队" "第35海军轰炸机大队" "第36海军轰炸机大队" "第37海军轰炸机大队" "第40海军轰炸机大队" 
+		"第41海军轰炸机大队" "第42海军轰炸机大队" "第43海军轰炸机大队" "第44海军轰炸机大队" "第45海军轰炸机大队" "第46海军轰炸机大队" "第47海军轰炸机大队" "第48海军轰炸机大队" "第49海军轰炸机大队" "第50海军轰炸机大队" "第51海军轰炸机大队" 
+		"第52海军轰炸机大队" "第53海军轰炸机大队" "第54海军轰炸机大队" "第55海军轰炸机大队" "第56海军轰炸机大队" "第57海军轰炸机大队" "第58海军轰炸机大队" "第59海军轰炸机大队" "第60海军轰炸机大队" "第61海军轰炸机大队" "第62海军轰炸机大队" 
+		"第63海军轰炸机大队" "第64海军轰炸机大队" "第65海军轰炸机大队" "第66海军轰炸机大队" "第67海军轰炸机大队" "第68海军轰炸机大队" "第69海军轰炸机大队" "第70海军轰炸机大队" "第71海军轰炸机大队" "第72海军轰炸机大队" "第73海军轰炸机大队" 
+		"第74海军轰炸机大队" "第75海军轰炸机大队" "第76海军轰炸机大队" "第77海军轰炸机大队" "第78海军轰炸机大队" "第79海军轰炸机大队" "第80海军轰炸机大队" "第81海军轰炸机大队" "第82海军轰炸机大队" "第83海军轰炸机大队" "第84海军轰炸机大队" 
+		"第85海军轰炸机大队" "第86海军轰炸机大队" "第87海军轰炸机大队" "第88海军轰炸机大队" "第89海军轰炸机大队" "第90海军轰炸机大队" "第91海军轰炸机大队" "第92海军轰炸机大队" "第93海军轰炸机大队" "第94海军轰炸机大队" "第95海军轰炸机大队" 
+		"第96海军轰炸机大队" "第97海军轰炸机大队" "第98海军轰炸机大队" "第99海军轰炸机大队" "第100海军轰炸机大队" 
+	}
+	cas = {
+		"第1俯冲轰炸机大队" "第2俯冲轰炸机大队" "第3俯冲轰炸机大队" "第6俯冲轰炸机大队" "第7俯冲轰炸机大队" "第8俯冲轰炸机大队" "第12俯冲轰炸机大队" "第14俯冲轰炸机大队" "第15俯冲轰炸机大队" "第18俯冲轰炸机大队" "第19俯冲轰炸机大队" 
+		"第20俯冲轰炸机大队" "第24俯冲轰炸机大队" "第25俯冲轰炸机大队" "第26俯冲轰炸机大队" "第29俯冲轰炸机大队" "第30俯冲轰炸机大队" "第31俯冲轰炸机大队" "第35俯冲轰炸机大队" "第36俯冲轰炸机大队" "第37俯冲轰炸机大队" "第40俯冲轰炸机大队" 
+		"第41俯冲轰炸机大队" "第42俯冲轰炸机大队" "第43俯冲轰炸机大队" "第44俯冲轰炸机大队" "第45俯冲轰炸机大队" "第46俯冲轰炸机大队" "第47俯冲轰炸机大队" "第48俯冲轰炸机大队" "第49俯冲轰炸机大队" "第50俯冲轰炸机大队" "第51俯冲轰炸机大队" 
+		"第52俯冲轰炸机大队" "第53俯冲轰炸机大队" "第54俯冲轰炸机大队" "第55俯冲轰炸机大队" "第56俯冲轰炸机大队" "第57俯冲轰炸机大队" "第58俯冲轰炸机大队" "第59俯冲轰炸机大队" "第60俯冲轰炸机大队" "第61俯冲轰炸机大队" "第62俯冲轰炸机大队" 
+		"第63俯冲轰炸机大队" "第64俯冲轰炸机大队" "第65俯冲轰炸机大队" "第66俯冲轰炸机大队" "第67俯冲轰炸机大队" "第68俯冲轰炸机大队" "第69俯冲轰炸机大队" "第70俯冲轰炸机大队" "第71俯冲轰炸机大队" "第72俯冲轰炸机大队" "第73俯冲轰炸机大队" 
+		"第74俯冲轰炸机大队" "第75俯冲轰炸机大队" "第76俯冲轰炸机大队" "第77俯冲轰炸机大队" "第78俯冲轰炸机大队" "第79俯冲轰炸机大队" "第80俯冲轰炸机大队" "第81俯冲轰炸机大队" "第82俯冲轰炸机大队" "第83俯冲轰炸机大队" "第84俯冲轰炸机大队" 
+		"第85俯冲轰炸机大队" "第86俯冲轰炸机大队" "第87俯冲轰炸机大队" "第88俯冲轰炸机大队" "第89俯冲轰炸机大队" "第90俯冲轰炸机大队" "第91俯冲轰炸机大队" "第92俯冲轰炸机大队" "第93俯冲轰炸机大队" "第94俯冲轰炸机大队" "第95俯冲轰炸机大队" 
+		"第96俯冲轰炸机大队" "第97俯冲轰炸机大队" "第98俯冲轰炸机大队" "第99俯冲轰炸机大队" "第100俯冲轰炸机大队" 
+	}
+	transport_plane = {
+		"第1运输机大队" "第2运输机大队" "第3运输机大队" "第6运输机大队" "第7运输机大队" "第8运输机大队" "第12运输机大队" "第14运输机大队" "第15运输机大队" "第18运输机大队" "第19运输机大队" 
+		"第20运输机大队" "第24运输机大队" "第25运输机大队" "第26运输机大队" "第29运输机大队" "第30运输机大队" "第31运输机大队" "第35运输机大队" "第36运输机大队" "第37运输机大队" "第40运输机大队" 
+		"第41运输机大队" "第42运输机大队" "第43运输机大队" "第44运输机大队" "第45运输机大队" "第46运输机大队" "第47运输机大队" "第48运输机大队" "第49运输机大队" "第50运输机大队" "第51运输机大队" 
+		"第52运输机大队" "第53运输机大队" "第54运输机大队" "第55运输机大队" "第56运输机大队" "第57运输机大队" "第58运输机大队" "第59运输机大队" "第60运输机大队" "第61运输机大队" "第62运输机大队" 
+		"第63运输机大队" "第64运输机大队" "第65运输机大队" "第66运输机大队" "第67运输机大队" "第68运输机大队" "第69运输机大队" "第70运输机大队" "第71运输机大队" "第72运输机大队" "第73运输机大队" 
+		"第74运输机大队" "第75运输机大队" "第76运输机大队" "第77运输机大队" "第78运输机大队" "第79运输机大队" "第80运输机大队" "第81运输机大队" "第82运输机大队" "第83运输机大队" "第84运输机大队" 
+		"第85运输机大队" "第86运输机大队" "第87运输机大队" "第88运输机大队" "第89运输机大队" "第90运输机大队" "第91运输机大队" "第92运输机大队" "第93运输机大队" "第94运输机大队" "第95运输机大队" 
+		"第96运输机大队" "第97运输机大队" "第98运输机大队" "第99运输机大队" "第100运输机大队" 
+	}
+	battleship = {
+		"毕苏斯基号" "波兰号" "大波兰号" "马佐夫舍号" "库亚维·滨海号" "卢布林号" "卢布斯卡号" "小波兰号" "喀尔巴阡号" "波德拉谢号" "西里西亚号" 
+		"圣十字号" "瓦尔米亚·马祖里号" 
+	}
+	light_cruiser = {
+		"龙号" "康拉德号" "维斯瓦号" "奥得号" "扎科帕内号" "弗罗茨瓦夫号" "格丁尼亚号" "格但斯克号" "华沙号" "波兹南号" "利沃夫号" 
+		"维尔诺号" "克拉科夫号" 
+	}
+	heavy_cruiser = {
+		"扬·卡兹梅兹号" "康拉德号" "维斯瓦号" "奥得号" "扎科帕内号" "弗罗茨瓦夫号" "格丁尼亚号" "格但斯克号" "华沙号" "波兹南号" "利沃夫号" 
+		"维尔诺号" "克拉科夫号" 
+	}
+	battlecruiser = {
+		"毕苏斯基号" "波兰号" "大波兰号" "马佐夫舍号" "库亚维·滨海号" "卢布林号" "卢布斯卡号" "小波兰号" "喀尔巴阡号" "波德拉谢号" "西里西亚号" 
+		"圣十字号" "瓦尔米亚·马祖里号" 
+			}
+	destroyer = {
+		"第1驱逐舰队" "第2驱逐舰队" "第3驱逐舰队" "第4驱逐舰队" "第5驱逐舰队" "第6驱逐舰队" "第7驱逐舰队" "第8驱逐舰队" "第9驱逐舰队" "第10驱逐舰队" "第11驱逐舰队" 
+		"第12驱逐舰队" "第13驱逐舰队" "第14驱逐舰队" "第15驱逐舰队" "第16驱逐舰队" "第17驱逐舰队" "第18驱逐舰队" "第19驱逐舰队" "第20驱逐舰队" 
+	}
+	carrier = {
+		"扬·迪克曼号" "弗拉迪斯拉夫四世号" "波兰号" 
+	}
+	escort_carrier = {
+		"扬·迪克曼号" "弗拉迪斯拉夫四世号" "波兰号" 
+	}
+	submarine = {
+		"第1潜艇编队" "第2潜艇编队" "第3潜艇编队" "第4潜艇编队" "第5潜艇编队" "第6潜艇编队" "第7潜艇编队" "第8潜艇编队" "第9潜艇编队" "第10潜艇编队" "第11潜艇编队" 
+		"第12潜艇编队" "第13潜艇编队" "第14潜艇编队" "第15潜艇编队" "第16潜艇编队" "第17潜艇编队" "第18潜艇编队" "第19潜艇编队" "第20潜艇编队" 
+	}
+	transport_ship = {
+		"第1运输舰队" "第2运输舰队" "第3运输舰队" "第4运输舰队" "第5运输舰队" "第6运输舰队" "第7运输舰队" "第8运输舰队" "第9运输舰队" "第10运输舰队" "第11运输舰队" 
+		"第12运输舰队" "第13运输舰队" "第14运输舰队" "第15运输舰队" "第16运输舰队" "第17运输舰队" "第18运输舰队" "第19运输舰队" "第20运输舰队" 
+	}
+
+}
+
+ministers = {
+	13001 = {
+		name = "伊格纳西·莫希齐茨基"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M13001
+		head_of_state = stern_imperialist
+		start_date = 1936.1.1
+	}
+	13002 = {
+		name = "马里安·齐德拉姆·科赛尔考斯基 "
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M13002
+		head_of_government = flamboyant_tough_guy
+		start_date = 1936.1.1
+	}
+	13003 = {
+		name = "杰弗·贝克"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M13003
+		foreign_minister = general_staffer
+		start_date = 1936.1.1
+	}
+	13004 = {
+		name = "塔代乌兹·卡斯普尔齐科基"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M13004
+		armament_minister = military_entrepreneur
+		start_date = 1936.1.1
+	}
+	13005 = {
+		name = "乌拉迪斯劳·拉克基维茨"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M13005
+		minister_of_security = crime_fighter
+		head_of_state = insignificant_layman
+		start_date = 1936.1.1
+	}
+	13006 = {
+		name = "佩尔克奇斯基·格塞戈尔茨"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M13006
+		minister_of_intelligence = research_specialist
+		start_date = 1936.1.1
+	}
+	13007 = {
+		name = "埃德华·雷德兹·斯梅格里"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M13007
+		chief_of_staff = school_of_defence
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1936.1.1
+	}
+	13009 = {
+		name = "杰尔齐·斯韦尔斯基"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M13009
+		chief_of_navy = open_seas_doctrine
+		start_date = 1936.1.1
+	}
+	13010 = {
+		name = "杰弗·扎吉克"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M13010
+		chief_of_air = air_superiority_doctrine
+		start_date = 1936.1.1
+	}
+	13032 = {
+		name = "卡齐米尔兹·索斯考斯基"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M13032
+		head_of_state = resigned_generalissimo
+		start_date = 1939.1.1
+	}
+	13033 = {
+		name = "伯勒斯劳·比埃卢特"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M13033
+		head_of_state = stern_imperialist
+		head_of_state = barking_buffoon
+		head_of_government = flamboyant_tough_guy
+		start_date = 1945.1.1
+	}
+	13035 = {
+		name = "伯勒斯劳·维恩纳瓦·德鲁戈佐斯基"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M13035
+		head_of_state = benevolent_gentleman
+		start_date = 1939.1.1
+	}
+	13036 = {
+		name = "伊格纳西·帕德累斯基"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M13036
+		head_of_state = weary_stiff_neck
+		foreign_minister = general_staffer
+		start_date = 1936.1.1
+	}
+	13038 = {
+		name = "温达·瓦希莱斯卡"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M13038
+		head_of_state = die_hard_reformer
+		start_date = 1937.1.1
+	}
+	13039 = {
+		name = "弗拉德斯劳·格姆尔卡"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M13039
+		head_of_state = popular_figurehead
+		start_date = 1942.1.1
+	}
+	13040 = {
+		name = "瓦莱利·斯拉维克"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M13040
+		head_of_state = insignificant_layman
+		start_date = 1936.1.1
+	}
+	13041 = {
+		name = "费里科基安·斯拉沃基·斯科拉德考斯基"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M13041
+		head_of_government = naive_optimist
+		minister_of_security = efficient_sociopath
+		start_date = 1936.1.1
+	}
+	13042 = {
+		name = "瓦季奇科·科尔范迪"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M13042
+		head_of_government = happy_amateur
+		armament_minister = military_entrepreneur
+		start_date = 1936.1.1
+	}
+	13043 = {
+		name = "弗拉德斯劳·西科尔斯基"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M13043
+		head_of_government = old_general
+		chief_of_staff = school_of_manoeuvre
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1939.1.1
+	}
+	13044 = {
+		name = "斯塔尼斯拉斯·内伊曼"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M13044
+		head_of_government = smiling_oilman
+		armament_minister = administrative_genius
+		start_date = 1939.1.1
+	}
+	13045 = {
+		name = "米耶科兹斯拉夫·米卡洛维茨"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M13045
+		head_of_government = ambitious_union_boss
+		start_date = 1942.1.1
+	}
+	13046 = {
+		name = "斯坦尼斯劳·米考拉杰克"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M13046
+		head_of_government = corporate_suit
+		minister_of_security = man_of_the_people
+		start_date = 1943.1.1
+	}
+	13047 = {
+		name = "托马兹·阿基泽斯基"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M13047
+		head_of_government = political_protege
+		start_date = 1944.1.1
+	}
+	13048 = {
+		name = "爱德华·奥索布卡·莫劳斯基"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M13022
+		head_of_government = political_protege
+		foreign_minister = the_cloak_n_dagger_schemer
+		head_of_government = political_protege
+		start_date = 1945.1.1
+	}
+	13049 = {
+		name = "约泽夫·克伦基维茨"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M13049
+		head_of_government = silent_workhorse
+		start_date = 1947.1.1
+	}
+	13050 = {
+		name = "罗曼·多莫斯基"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M13050
+		head_of_government = backroom_backstabber
+		start_date = 1936.1.1
+	}
+	13051 = {
+		name = "塔代兹·比耶勒基"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M13051
+		head_of_government = happy_amateur
+		start_date = 1936.1.1
+	}
+	13052 = {
+		name = "尤根纽兹·库阿特考斯基"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M13052
+		head_of_government = naive_optimist
+		armament_minister = administrative_genius
+		minister_of_security = prince_of_terror
+		start_date = 1937.1.1
+	}
+	13053 = {
+		name = "马尔塞利·诺沃特科"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M13053
+		head_of_government = political_protege
+		start_date = 1941.1.1
+	}
+	13054 = {
+		name = "扬·卡平斯基"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M13054
+		head_of_government = corporate_suit
+		start_date = 1944.1.1
+	}
+	13055 = {
+		name = "斯坦尼斯劳·奥希耶斯基"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M13055
+		head_of_government = happy_amateur
+		start_date = 1936.1.1
+	}
+	13056 = {
+		name = "伯勒斯劳·多博纳"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M13056
+		head_of_government = naive_optimist
+		foreign_minister = ideological_crusader
+		start_date = 1943.1.1
+	}
+	13058 = {
+		name = "欧格斯特·扎莱斯基"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M13012
+		foreign_minister = ideological_crusader
+		head_of_government = happy_amateur
+		start_date = 1939.1.1
+	}
+	13059 = {
+		name = "爱德华·拉科恩斯基"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M13059
+		foreign_minister = biased_intellectual
+		start_date = 1941.1.1
+	}
+	13060 = {
+		name = "塔代兹·罗默尔"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M13060
+		foreign_minister = apologetic_clerk
+		start_date = 1943.1.1
+	}
+	13061 = {
+		name = "亚当·塔诺斯基"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M13061
+		foreign_minister = iron_fisted_brute
+		minister_of_intelligence = dismal_enigma
+		start_date = 1944.1.1
+	}
+	13063 = {
+		name = "温森特·齐姆斯基"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M13063
+		foreign_minister = great_compromiser
+		start_date = 1945.1.1
+	}
+	13064 = {
+		name = "齐格姆特·莫德泽勒斯基"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M13064
+		foreign_minister = biased_intellectual
+		start_date = 1947.1.1
+	}
+	13065 = {
+		name = "扬·佩卡尔齐维茨"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M13065
+		foreign_minister = biased_intellectual
+		start_date = 1939.1.1
+	}
+	13066 = {
+		name = "亨利克·斯特拉斯堡"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M13066
+		foreign_minister = biased_intellectual
+		armament_minister = laissez_faires_capitalist
+		start_date = 1938.1.1
+	}
+	13067 = {
+		name = "杰德齐·齐耶特科"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M13067
+		foreign_minister = ideological_crusader
+		start_date = 1936.1.1
+	}
+	13070 = {
+		name = "阿达姆·普雷尼克"
+		ideology = social_democrat
+		loyalty = 0.50
+		picture = M13070
+		foreign_minister = biased_intellectual
+		start_date = 1945.1.1
+	}
+	13071 = {
+		name = "诺伯特·巴尔里科基"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M13021
+		foreign_minister = ideological_crusader
+		head_of_state = ruthless_powermonger
+		start_date = 1943.1.1
+	}
+	13073 = {
+		name = "卡西米·艾伦伯格"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M13073
+		armament_minister = laissez_faires_capitalist
+		start_date = 1939.1.1
+	}
+	13074 = {
+		name = "波若尼斯劳·里格尔斯基"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M13074
+		armament_minister = infantry_proponent
+		start_date = 1941.1.1
+	}
+	13075 = {
+		name = "鲁丁克·拉杰克曼"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M13075
+		armament_minister = resource_industrialist
+		start_date = 1943.1.1
+	}
+	13078 = {
+		name = "海尔曼·里伯曼"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M13027
+		armament_minister = theoretical_scientist
+		chief_of_staff = school_of_psychology
+		start_date = 1945.1.1
+	}
+	13079 = {
+		name = "海拉里·明克"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M13079
+		armament_minister = air_to_sea_proponent
+		start_date = 1947.1.1
+	}
+	13080 = {
+		name = "莱昂·科兹洛夫斯基"
+		ideology = national_socialist
+		loyalty = 0.75
+		picture = M13080
+		armament_minister = infantry_proponent
+		start_date = 1937.1.1
+	}
+	13082 = {
+		name = "阿达姆·科克"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M13082
+		armament_minister = resource_industrialist
+		start_date = 1936.1.1
+	}
+	13083 = {
+		name = "斯坦尼斯劳·格拉宾斯基"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M13083
+		armament_minister = laissez_faires_capitalist
+		start_date = 1936.1.1
+	}
+	13084 = {
+		name = "扬·斯蒂芬·哈内曼"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M13084
+		armament_minister = air_to_ground_proponent
+		start_date = 1944.1.1
+	}
+	13085 = {
+		name = "杰弗·涅克"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M13085
+		armament_minister = resource_industrialist
+		start_date = 1936.1.1
+	}
+	13086 = {
+		name = "麦科尔·罗拉·齐格尔斯基"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M13086
+		armament_minister = tank_proponent
+		start_date = 1944.1.1
+	}
+	13087 = {
+		name = "杰弗·哈尔"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M13087
+		armament_minister = military_entrepreneur
+		start_date = 1936.1.1
+	}
+	13088 = {
+		name = "塔代兹·里考斯基"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M13088
+		armament_minister = administrative_genius
+		start_date = 1939.1.1
+	}
+	13090 = {
+		name = "阿达姆·罗斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M13090
+		minister_of_security = crime_fighter
+		start_date = 1939.1.1
+	}
+	13092 = {
+		name = "马尔扬·拉德齐恩斯基"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M13092
+		minister_of_security = back_stabber
+		start_date = 1943.1.1
+	}
+	13093 = {
+		name = "安东尼·罗曼"
+		ideology = market_liberal
+		loyalty = 0.50
+		picture = M13093
+		minister_of_security = silent_lawyer
+		start_date = 1943.1.1
+	}
+	13094 = {
+		name = "温森特·韦托斯"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M13094
+		minister_of_security = man_of_the_people
+		start_date = 1944.1.1
+	}
+	13095 = {
+		name = "米埃克斯劳·涅德齐阿考斯基"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M13095
+		minister_of_security = crime_fighter
+		start_date = 1945.1.1
+	}
+	13096 = {
+		name = "贾库布·伯曼"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M13096
+		minister_of_security = prince_of_terror
+		start_date = 1947.1.1
+	}
+	13098 = {
+		name = "卡洛尔·波佩尔"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M13098
+		minister_of_security = silent_lawyer
+		start_date = 1936.1.1
+	}
+	13099 = {
+		name = "亚历山大·泽瓦茨基"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M13099
+		minister_of_security = compassionate_gentleman
+		start_date = 1943.1.1
+	}
+	13100 = {
+		name = "瓦克劳·默尔"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M13100
+		minister_of_security = compassionate_gentleman
+		start_date = 1940.1.1
+	}
+	13101 = {
+		name = "米埃齐斯劳·塔贾多斯"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M13101
+		minister_of_security = silent_lawyer
+		start_date = 1938.1.1
+	}
+	13102 = {
+		name = "卡齐米尔斯·斯韦托尔斯基"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M13102
+		minister_of_security = efficient_sociopath
+		start_date = 1936.1.1
+	}
+	13103 = {
+		name = "维托尔德·格拉博斯基"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M13103
+		minister_of_security = crime_fighter
+		start_date = 1936.1.1
+	}
+	13104 = {
+		name = "贾那斯·拉德齐韦尔"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M13104
+		minister_of_security = man_of_the_people
+		start_date = 1936.1.1
+	}
+	13105 = {
+		name = "卡齐米尔斯·巴尔特"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M13105
+		minister_of_security = back_stabber
+		start_date = 1936.1.1
+	}
+	13108 = {
+		name = "费里克斯·科涅克福"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M13108
+		minister_of_intelligence = technical_specialist
+		start_date = 1943.1.1
+	}
+	13109 = {
+		name = "阿尔弗莱德·莱昂·科诺普卡"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M13109
+		minister_of_intelligence = political_specialist
+		start_date = 1944.1.1
+	}
+	13110 = {
+		name = "密克奇斯拉夫·索科劳斯基"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M13110
+		minister_of_intelligence = industrial_specialist
+		start_date = 1945.1.1
+	}
+	13111 = {
+		name = "斯坦尼斯劳·多博伊斯"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M13026
+		minister_of_intelligence = political_specialist
+		start_date = 1945.1.1
+	}
+	13112 = {
+		name = "伊格纳西·马特乌兹斯基"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M13112
+		minister_of_intelligence = research_specialist
+		start_date = 1937.1.1
+	}
+	13113 = {
+		name = "扬·考瓦莱斯基"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M13113
+		minister_of_intelligence = dismal_enigma
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1936.1.1
+	}
+	13114 = {
+		name = "韦埃斯劳·多莫伊埃斯基"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M13114
+		minister_of_intelligence = technical_specialist
+		start_date = 1938.1.1
+	}
+	13115 = {
+		name = "瓦克劳·斯塔科伊埃维茨"
+		ideology = paternal_autocrat
+		loyalty = 0.50
+		picture = M13115
+		chief_of_staff = school_of_fire_support
+		start_date = 1936.1.1
+	}
+	13117 = {
+		name = "麦克尔·卡拉斯泽维茨·托卡尔泽斯基"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M13117
+		chief_of_staff = school_of_defence
+		start_date = 1943.1.1
+	}
+	13118 = {
+		name = "斯特芬·罗埃基"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M13118
+		chief_of_staff = school_of_psychology
+		start_date = 1943.1.1
+	}
+	13119 = {
+		name = "塔代乌兹 波尔·科默罗斯基"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M13119
+		chief_of_staff = school_of_mass_combat
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1943.1.1
+	}
+	13120 = {
+		name = "斯坦尼斯劳·科潘斯基"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M13120
+		chief_of_staff = school_of_manoeuvre
+		start_date = 1944.1.1
+	}
+	13121 = {
+		name = "雷奥波尔德·奥克里克里"
+		ideology = social_democrat
+		loyalty = 0.50
+		picture = M13121
+		chief_of_staff = school_of_fire_support
+		start_date = 1945.1.1
+	}
+	13122 = {
+		name = "迈克尔·劳拉·让米尔斯基"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M13122
+		chief_of_staff = school_of_mass_combat
+		chief_of_army = armoured_spearhead_doctrine
+		start_date = 1944.1.1
+	}
+	13125 = {
+		name = "瓦尔德斯劳·安德斯"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M13125
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1943.1.1
+	}
+	13128 = {
+		name = "瓦尔德斯劳·格拉比斯基"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M13128
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1945.1.1
+	}
+	13130 = {
+		name = "约泽夫·尤冈泽"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M13130
+		chief_of_navy = indirect_approach_doctrine
+		start_date = 1936.1.1
+	}
+	13131 = {
+		name = "佛朗克斯·索卡尔"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M13131
+		chief_of_navy = open_seas_doctrine
+		start_date = 1939.1.1
+	}
+	13132 = {
+		name = "莱昂·科金"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M13132
+		chief_of_navy = base_control_doctrine
+		start_date = 1943.1.1
+	}
+	13133 = {
+		name = "阿达姆·拉帕基"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M13029
+		chief_of_navy = power_projection_doctrine
+		start_date = 1945.1.1
+	}
+	13134 = {
+		name = "鲁多米尔·拉伊斯基"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M13134
+		chief_of_air = army_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	13135 = {
+		name = "斯坦尼斯劳·帕尔鲁奇"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M13135
+		chief_of_air = air_superiority_doctrine
+		start_date = 1939.1.1
+	}
+	13136 = {
+		name = "瓦尔德斯劳·卡尔库斯"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M13136
+		chief_of_air = carpet_bombing_doctrine
+		start_date = 1943.1.1
+	}
+	13137 = {
+		name = "杰斯劳·比埃塞克"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M13137
+		chief_of_air = army_aviation_doctrine
+		start_date = 1945.1.1
+	}
+	13011 = {
+		name = "波尔斯劳·皮阿瑟奇"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M13011
+		head_of_state = barking_buffoon
+		start_date = 1936.1.1
+	}
+	13013 = {
+		name = "扬·泽姆克"
+		ideology = paternal_autocrat
+		loyalty = 0.50
+		picture = M13013
+		foreign_minister = apologetic_clerk
+		start_date = 1936.1.1
+	}
+	13014 = {
+		name = "杰西·齐埃克夫斯基"
+		ideology = national_socialist
+		loyalty = 0.75
+		picture = M13014
+		armament_minister = corrupt_kleptocrat
+		start_date = 1936.1.1
+	}
+	13015 = {
+		name = "莱昂·约瑟夫·巴拉斯基"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M13015
+		minister_of_security = back_stabber
+		start_date = 1936.1.1
+	}
+	13016 = {
+		name = "贾努斯·佐托斯基"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M13016
+		minister_of_intelligence = dismal_enigma
+		start_date = 1936.1.1
+	}
+	13017 = {
+		name = "瓦尔德斯劳·莫卡泽尔"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M13017
+		chief_of_staff = school_of_psychology
+		start_date = 1936.1.1
+	}
+	13018 = {
+		name = "托米斯劳·鲁帕索科"
+		ideology = paternal_autocrat
+		loyalty = 0.50
+		picture = M13018
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1936.1.1
+	}
+	13019 = {
+		name = "扬·基维尔拉克"
+		ideology = fascistic
+		loyalty = 0.50
+		picture = M13019
+		chief_of_navy = indirect_approach_doctrine
+		start_date = 1936.1.1
+	}
+	13020 = {
+		name = "阿尔弗莱德·科拉保斯基"
+		ideology = fascistic
+		loyalty = 0.50
+		picture = M13020
+		chief_of_air = army_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	13023 = {
+		name = "帕维尔·范德"
+		ideology = leninist
+		loyalty = 0.50
+		picture = M13023
+		foreign_minister = the_cloak_n_dagger_schemer
+		start_date = 1936.1.1
+	}
+	13024 = {
+		name = "齐格姆特·柏林"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M13024
+		armament_minister = infantry_proponent
+		start_date = 1936.1.1
+	}
+	13025 = {
+		name = "斯坦尼斯劳·拉德基维茨"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M13025
+		minister_of_security = efficient_sociopath
+		start_date = 1936.1.1
+	}
+	13028 = {
+		name = "卡洛尔·斯韦埃尔克"
+		ideology = stalinist
+		loyalty = 0.50
+		picture = M13028
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1936.1.1
+	}
+	13030 = {
+		name = "鲁德伊科·格洛斯费尔德"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M13030
+		chief_of_air = carpet_bombing_doctrine
+		start_date = 1936.1.1
+	}
+	13139 = {
+		name = "斯坦尼斯劳·斯科尔泽斯基"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M13139
+		foreign_minister = apologetic_clerk
+		start_date = 1951.1.1
+	}
+	13140 = {
+		name = "康斯坦蒂·达波罗斯基"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M13140
+		armament_minister = resource_industrialist
+		start_date = 1945.1.1
+	}
+	13141 = {
+		name = "亨利克·斯怀特科沃斯基"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M13141
+		minister_of_intelligence = dismal_enigma
+		start_date = 1947.1.1
+	}
+}
+

@@ -1,0 +1,294 @@
+color = { 166  191  167 }
+graphical_culture = Generic
+
+default_templates = {
+	generic_infantry = {
+		infantry_brigade
+		infantry_brigade
+		infantry_brigade
+	}
+	generic_milita = {
+		militia_brigade
+		militia_brigade
+		militia_brigade
+	}
+	generic_armoured = {
+		armor_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	generic_cavalry = {
+		cavalry_brigade
+		cavalry_brigade
+	}
+}
+
+unit_names = {
+        infantry_brigade = {
+		"第1步兵师" "第2步兵师" "第3步兵师" "第4步兵师" "第5步兵师" "第6步兵师" "第7步兵师" "第8步兵师" "第9步兵师" "第10步兵师" "第12步兵师"
+		"第13步兵师" "第14步兵师" "第15步兵师" "第16步兵师" "第17步兵师" "第18步兵师" "第19步兵师" "第20步兵师" 
+	}
+	cavalry_brigade = {
+		"第1骑兵师" "第2骑兵师" "第3骑兵师" "第4骑兵师" "第5骑兵师" "第6骑兵师" "第7骑兵师" "第8骑兵师" "第9骑兵师" "第10骑兵师" "第11骑兵师" 
+		"第12骑兵师" "第13骑兵师" "第14骑兵师" "第15骑兵师" 
+	}
+	motorized_brigade = {
+		"第1摩步师" "第2摩步师" "第3摩步师" "第4摩步师" "第5摩步师" "第6摩步师" "第7摩步师" "第8摩步师" "第9摩步师" "第10摩步师"  
+		"第12摩步师" "第13摩步师" "第14摩步师" "第15摩步师" "第16摩步师" "第17摩步师" "第18摩步师" "第19摩步师" "第20摩步师"
+	}
+	mechanized_brigade = {
+		"第1机步师" "第2机步师" "第3机步师" "第4机步师" "第5机步师" "第6机步师" "第7机步师" "第8机步师" "第9机步师" "第10机步师" "第12机步师" 
+		"第13机步师" "第14机步师" "第15机步师" "第16机步师" "第17机步师" "第18机步师" "第19机步师" "第20机步师" 
+	}
+	light_armor_brigade = {
+		"第1轻装甲师" "第2轻装甲师" "第3轻装甲师" "第4轻装甲师" "第5轻装甲师" "第6轻装甲师" "第7轻装甲师" "第8轻装甲师" "第9轻装甲师" "第10轻装甲师"
+	armor_brigade = {
+		"第1装甲师" "第2装甲师" "第3装甲师" "第4装甲师" "第5装甲师" "第6装甲师" "第7坦克师" "第8装甲师" "第9装甲师" "第10装甲师" 
+	}
+	paratrooper_brigade = {
+		"第21空降师" "第22空降师" "第23空降师" "第24空降师" "第25空降师" "第26空降师" "第27空降师" "第28空降师" "第29空降师" "第30空降师" "第31空降师" 
+			}
+	marine_brigade = {
+		"第20海军陆战师" "第21海军陆战师" "第22海军陆战师" "第23海军陆战师" "第24海军陆战师" "第25海军陆战师" "第26海军陆战师" "第27海军陆战师" "第28海军陆战师" "第29海军陆战师" "第30海军陆战师" 
+			}
+	bergsjaeger_brigade = {
+		"第20山地师" "第21山地师" "第22山地师" "第23山地师" "第24山地师" "第25山地师" "第26山地师" "第27山地师" "第28山地师" "第29山地师" "第30山地师" 
+			}
+	garrison_brigade = {
+		"第1卫戍师" "第2卫戍师" "第3卫戍师" "第4卫戍师" "第5卫戍师" "第6卫戍师" "第7卫戍师" "第8卫戍师" "第9卫戍师" "第10卫戍师" "第12卫戍师" 
+		"第13卫戍师" "第14卫戍师" "第15卫戍师" "第16卫戍师" "第17卫戍师" "第18卫戍师" "第19卫戍师" "第20卫戍师" 
+	}
+	hq_brigade = {
+		"阿曼第1军" "阿曼第2军" "阿曼第3军" "阿曼第4军" "阿曼第5军" 
+	}
+	militia_brigade = {
+		"第1民兵师" "第2民兵师" "第3民兵师" "第4民兵师" "第5民兵师" "第6民兵师" "第7民兵师" "第8民兵师" "第9民兵师" "第10民兵师" "第11民兵师" 
+		"第12民兵师" "第13民兵师" "第14民兵师" "第15民兵师" "第16民兵师" "第17民兵师" "第18民兵师" "第19民兵师" "第20民兵师" "第21民兵师" "第22民兵师" 
+		"第23民兵师" "第24民兵师" "第25民兵" 
+	}
+	multi_role = {
+		"第1通用战斗机大队 " "第2通用战斗机大队" "第3通用战斗机大队" "第4通用战斗机大队" "第5通用战斗机大队" "第6通用战斗机大队" "第7通用战斗机大队" "第8通用战斗机大队" "第9通用战斗机大队" 
+	}
+	interceptor = {
+		"第1截击机大队" "第2截击机大队" "第3截击机大队" "第4截击机大队" "第5截击机大队" "第6截击机大队" "第7截击机大队" "第8截击机大队" "第9截击机大队" "第10截击机大队" "第11截击机大队" 
+		"第12截击机大队" "第13截击机大队" "第14截击机大队" "第15截击机大队" "第16截击机大队" "第17截击机大队" "第18截击机大队" "第19截击机大队" "第20截击机大队" 
+	}
+	strategic_bomber = {
+		"第11战略轰炸机大队" "第12战略轰炸机大队" "第13战略轰炸机大队" "第14战略轰炸机大队" "第15战略轰炸机大队" "第16战略轰炸机大队" 
+	}
+	tactical_bomber = {
+		"第21战术轰炸机大队" "第22战术轰炸机大队" "第23战术轰炸机大队" "第24战术轰炸机大队" "第25战术轰炸机大队" "第26战术轰炸机大队" 
+	}
+	naval_bomber = {
+		"第41海军轰炸机大队" "第42海军轰炸机大队" "第43海军轰炸机大队" "第44海军轰炸机大队" "第45海军轰炸机大队" "第51海军轰炸机大队" "第52海军轰炸机大队" "第53海军轰炸机大队" "第54海军轰炸机大队" "第55海军轰炸机大队" "第56海军轰炸机大队" 
+			}
+	cas = {
+		"第31俯冲大队" "第32俯冲大队" "第33俯冲大队" "第34俯冲大队" "第35俯冲大队" 
+	}
+	transport_plane = {
+		"第61运输机大队" "第62运输机大队" "第63运输机大队" "第64运输机大队" 
+	}
+	battleship = {
+		"'马斯喀特'号战舰" "'马特拉'号战舰"
+	}
+	light_cruiser = {
+		"'萨拉赫'号轻巡" "'拉伊苏特'号轻巡" "'米尔巴哈'号轻巡" "'萨乌齐拉'号轻巡" "'杜克'号轻巡"
+	}
+	heavy_cruiser = {
+		"'萨拉赫'号重巡" "'拉伊苏特'号重巡" "米尔巴哈'号重巡" "'萨乌齐拉'号重巡" "'杜克'号重巡" 
+	}
+	battlecruiser = {
+		"'阿尔·卡赫拉'号战巡" "'雷苏特'号战巡" "穆罕默德·阿里'号战巡" 
+	}
+	destroyer = {
+		"第1驱逐大队" "第2驱逐大队" "第3驱逐大队" "第4驱逐大队" "第5驱逐大队" "第6驱逐大队" "第7驱逐大队" "第8驱逐大队" "第9驱逐大队" "第10驱逐大队"
+	}
+	carrier = {
+		"'默罕默德·阿里'号航母" "'萨拉赫·阿尔丁'号航母"
+	}
+	submarine = {
+		"第1潜艇大队" "第2潜艇大队" "第3潜艇大队" "第4潜艇大队" "第5潜艇大队" "第6潜艇大队" "第7潜艇大队" "第8潜艇大队" "第9潜艇大队" "第10潜艇大队" 
+	}
+	transport_ship = {
+		"第1运输大队" "第2运输大队" "第3运输大队" "第4运输大队" "第5运输大队" "第6运输大队" "第7运输大队" "第8运输大队" "第9运输大队" "第10运输大队" 
+	}
+
+}
+
+ministers = {
+	92001 = {
+		name = "塞得·艾博·忲莫"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M92001
+		head_of_state = ruthless_powermonger
+		head_of_government = backroom_backstabber
+		foreign_minister = general_staffer
+		chief_of_staff = school_of_defence
+		chief_of_army = static_defence_doctrine
+		minister_of_security = efficient_sociopath
+		start_date = 1936.1.1
+	}
+	92004 = {
+		name = "简牍·埃·简蒙德"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M92004
+		armament_minister = resource_industrialist
+		start_date = 1936.1.1
+	}
+	92005 = {
+		name = "亨利·勒乌朗·夯姆"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M92005
+		minister_of_security = compassionate_gentleman
+		start_date = 1936.1.1
+	}
+	92006 = {
+		name = "杰弗里·丹尼斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M92006
+		minister_of_intelligence = technical_specialist
+		start_date = 1936.1.1
+	}
+	92009 = {
+		name = "杰弗里·克莱多"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M92009
+		chief_of_navy = open_seas_doctrine
+		start_date = 1936.1.1
+	}
+	92010 = {
+		name = "爱德拉·艾博·忲莫"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M92010
+		chief_of_air = air_superiority_doctrine
+		start_date = 1936.1.1
+	}
+	92011 = {
+		name = "赫伯特·阿·劳伦斯·费希尔"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M92011
+		foreign_minister = great_compromiser
+		start_date = 1939.1.1
+	}
+	92012 = {
+		name = "英不列文·艾博·忲莫"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M92012
+		foreign_minister = iron_fisted_brute
+		start_date = 1944.1.1
+	}
+	92013 = {
+		name = "亚瑟·亨德森"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M92013
+		armament_minister = infantry_proponent
+		start_date = 1941.1.1
+	}
+	92014 = {
+		name = "简牍·罕·托马斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M92014
+		armament_minister = laissez_faires_capitalist
+		start_date = 1943.1.1
+	}
+	92015 = {
+		name = "阿里·艾博·忲莫"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M92015
+		armament_minister = corrupt_kleptocrat
+		start_date = 1945.1.1
+	}
+	92016 = {
+		name = "罗伯特·夯娜维·芬莱"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M92016
+		minister_of_security = silent_lawyer
+		start_date = 1940.1.1
+	}
+	92018 = {
+		name = "侯德·布瑞福·巴特勒"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M92018
+		minister_of_intelligence = industrial_specialist
+		start_date = 1942.1.1
+	}
+	92019 = {
+		name = "帕·曼恩"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M92019
+		chief_of_staff = school_of_fire_support
+		start_date = 1938.1.1
+	}
+	92020 = {
+		name = "安古斯·道格拉斯·汉密尔顿"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M92020
+		chief_of_staff = school_of_mass_combat
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1941.1.1
+	}
+	92021 = {
+		name = "简·艾博·忲莫"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M92021
+		chief_of_staff = school_of_manoeuvre
+		start_date = 1945.1.1
+	}
+	92022 = {
+		name = "埃里克·莱特"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M92022
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1938.1.1
+	}
+	92024 = {
+		name = "扎赫·艾博·忲莫"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M92024
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1945.1.1
+	}
+	92025 = {
+		name = "德里克·丽芙"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M92025
+		chief_of_navy = indirect_approach_doctrine
+		chief_of_air = naval_aviation_doctrine
+		start_date = 1943.1.1
+	}
+	92027 = {
+		name = "雷·马丁"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M92027
+		chief_of_air = army_aviation_doctrine
+		start_date = 1941.1.1
+	}
+	92028 = {
+		name = "法兹·艾博·忲莫"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M92028
+		chief_of_air = carpet_bombing_doctrine
+		start_date = 1945.1.1
+	}
+}

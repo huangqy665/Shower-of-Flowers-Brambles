@@ -1,0 +1,498 @@
+color = { 104  153  126 }
+graphical_culture = German
+
+default_templates = {
+	generic_infantry = {
+		infantry_brigade
+		infantry_brigade
+		infantry_brigade
+	}
+	generic_milita = {
+		militia_brigade
+		militia_brigade
+		militia_brigade
+	}
+	generic_armoured = {
+		armor_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	generic_cavalry = {
+		cavalry_brigade
+		cavalry_brigade
+	}
+}
+
+unit_names = {
+	infantry_brigade = {
+		"第1步兵师" "第2步兵师" "第3步兵师" "第4步兵师" "第5步兵师" "第6步兵师" "第7步兵师" "第8步兵师" "第10步兵师" "第11步兵师" "第12步兵师" 
+		"第13步兵师" "第14步兵师" "第15步兵师" "第16步兵师" "第17步兵师" "第18步兵师" "第19步兵师" "第20步兵师" "第21步兵师" "第22步兵师" "第23步兵师" 
+		"第24步兵师" "第25步兵师" "第26步兵师" "第27步兵师" "第28步兵师" "第29步兵师" "第30步兵师" "第31步兵师" "第32步兵师" "第33步兵师" "第34步兵师" 
+		"第35步兵师" "第36步兵师" "第37步兵师" "第38步兵师" "第39步兵师" "第40步兵师" "第41步兵师" "第42步兵师" "第43步兵师" "第44步兵师" "第45步兵师" 
+		"第46步兵师" "第47步兵师" "第48步兵师" "第49步兵师" "第50步兵师" "第51步兵师" "第52步兵师" "第53步兵师" "第54步兵师" "第55步兵师" "第56步兵师" 
+		"第57步兵师" "第58步兵师" "第59步兵师" "第60步兵师" "第61步兵师" "第62步兵师" "第63步兵师" "第64步兵师" "第65步兵师" "第66步兵师" "第67步兵师" 
+		"第68步兵师" "第69步兵师" "第70步兵师" 
+	}
+	cavalry_brigade = {
+		"第1骑兵师" "第3骑兵师" "第4骑兵师" "第5骑兵师" "第6骑兵师" "第7骑兵师" "第8骑兵师" "第9骑兵师" "第10骑兵师" "第11骑兵师" "第12骑兵师" 
+		"第13骑兵师" "第14骑兵师" "第15骑兵师" "第16骑兵师" "第17骑兵师" "第18骑兵师" "第19骑兵师" "第20骑兵师" 
+	}
+	motorized_brigade = {
+		"第1步兵师" "第2步兵师" "第3步兵师" "第4步兵师" "第5步兵师" "第6步兵师" "第7步兵师" "第8步兵师" "第10步兵师" "第11步兵师" "第12步兵师" 
+		"第13步兵师" "第14步兵师" "第15步兵师" "第16步兵师" "第17步兵师" "第18步兵师" "第19步兵师" "第20步兵师" "第21步兵师" "第22步兵师" "第23步兵师" 
+		"第24步兵师" "第25步兵师" "第26步兵师" "第27步兵师" "第28步兵师" "第29步兵师" "第30步兵师" "第31步兵师" "第32步兵师" "第33步兵师" "第34步兵师" 
+		"第35步兵师" "第36步兵师" "第37步兵师" "第38步兵师" "第39步兵师" "第40步兵师" "第41步兵师" "第42步兵师" "第43步兵师" "第44步兵师" "第45步兵师" 
+		"第46步兵师" "第47步兵师" "第48步兵师" "第49步兵师" "第50步兵师" "第51步兵师" "第52步兵师" "第53步兵师" "第54步兵师" "第55步兵师" "第56步兵师" 
+		"第57步兵师" "第58步兵师" "第59步兵师" "第60步兵师" "第61步兵师" "第62步兵师" "第63步兵师" "第64步兵师" "第65步兵师" "第66步兵师" "第67步兵师" 
+		"第68步兵师" "第69步兵师" "第70步兵师" 
+	}
+	mechanized_brigade = {
+		"第1装甲掷弹师" "第2装甲掷弹师" "第3装甲掷弹师" "第4装甲掷弹师" "第5装甲掷弹师" "第6装甲掷弹师" "第7装甲掷弹师" "第8装甲掷弹师" "第10装甲掷弹师" "第11装甲掷弹师" "第12装甲掷弹师" 
+		"第13装甲掷弹师" "第14装甲掷弹师" "第15装甲掷弹师" "第16装甲掷弹师" "第17装甲掷弹师" "第18装甲掷弹师" "第19装甲掷弹师" "第20装甲掷弹师" "第21装甲掷弹师" "第22装甲掷弹师" "第23装甲掷弹师" 
+		"第24装甲掷弹师" "第25装甲掷弹师" "第26装甲掷弹师" "第27装甲掷弹师" "第28装甲掷弹师" "第29装甲掷弹师" "第30装甲掷弹师" "第31装甲掷弹师" "第32装甲掷弹师" "第33装甲掷弹师" "第34装甲掷弹师" 
+		"第35装甲掷弹师" "第36装甲掷弹师" "第37装甲掷弹师" "第38装甲掷弹师" "第39装甲掷弹师" "第40装甲掷弹师" 
+	}
+	light_armor_brigade = {
+		"第1装甲师" "第2装甲师" "第3装甲师" "第4装甲师" "第5装甲师" "第6装甲师" "第7装甲师" "第8装甲师" "第9装甲师" "第10装甲师" "第11装甲师" 
+		"第14装甲师" "第12装甲师" "第13装甲师" "第15装甲师" "第16装甲师" "第17装甲师" "第18装甲师" "第19装甲师" "第20装甲师" "第21装甲师" "第22装甲师" 
+		"第23装甲师" "第24装甲师" "第25装甲师" "第26装甲师" "第27装甲师" "第178预备役装甲师" "第179预备役装甲师" "第155预备役装甲师" "第233预备役装甲师" 
+	}
+	armor_brigade = {
+		"第1装甲师" "第2装甲师" "第3装甲师" "第4装甲师" "第5装甲师" "第6装甲师" "第7装甲师" "第8装甲师" "第9装甲师" "第10装甲师" "第11装甲师" 
+		"第14装甲师" "第12装甲师" "第13装甲师" "第15装甲师" "第16装甲师" "第17装甲师" "第18装甲师" "第19装甲师" "第20装甲师" "第22装甲师" "第23装甲师" 
+		"第24装甲师" "第25装甲师" "第26装甲师" "第27装甲师" "第178预备役装甲师" "第179预备役装甲师" "第155预备役装甲师" "第233预备役装甲师" 
+	}
+	paratrooper_brigade = {
+		"第1伞兵师" "第2伞兵师" "第3伞兵师" "第4伞兵师" "第5伞兵师" "第6伞兵师" "第7伞兵师" "第9伞兵师" "第8伞兵师" "第10伞兵师" 
+	}
+	marine_brigade = {
+		"第1海军陆战突击师" "第2海军陆战突击师" "第3海军陆战突击师" "第3海军陆战突击师" "第4海军陆战突击师" "第5海军陆战突击师" "第6海军陆战突击师" "第7海军陆战突击师" "第8海军陆战突击师" "第9海军陆战突击师" "第10海军陆战突击师" 
+		"第11海军陆战突击师" "第12海军陆战突击师" "第13海军陆战突击师" "第14海军陆战突击师" "第15海军陆战突击师" "第16海军陆战突击师" "第17海军陆战突击师" "第18海军陆战突击师" "第19海军陆战突击师" "第20海军陆战突击师" 
+	}
+	bergsjaeger_brigade = {
+		"第1山地师" "第2山地师" "第3山地师" "第6山地师" "第4山地师" "第5山地师" "第7山地师" "第188山地师" "第157山地师" "第9山地师" "第8山地师" 
+		"第1雪橇师" "第10山地师" "第11山地师" "第12山地师" "第13山地师" "第14山地师" "第15山地师" "第16山地师" "第17山地师" "第18山地师" "第19山地师" 
+		"第20山地师" 
+	}
+	garrison_brigade = {
+		"第52警卫师" "第201警卫师" "第203警卫师" "第207警卫师" "第213警卫师" "第141预备役师" "第221警卫师" "第281警卫师" "第285警卫师" "第147预备役师" "第286警卫师" 
+		"第325警卫师" "第400警卫师" "第390警卫师" "第391警卫师" "第148预备役师" "第403警卫师" "第444警卫师" "第151预备役师" "第454警卫师" "第41要塞师" "第717警卫师" 
+		"第133要塞师" "第718警卫师" "第153预备役师" "第719警卫师" "第402训练师" "第720警卫师" "第721警卫师" "第154预备役师" "第722警卫师" "第723警卫师" "第724警卫师" 
+		"第156预备役师" "第725警卫师" "第726警卫师" "第157预备役师" "第727警卫师" "第158预备役师" "第159预备役师" "第856警卫师" "第859警卫师" "第160预备役师" "第877警卫师" 
+		"第735警卫师" "第165预备役师" "第812警卫师" "第895警卫师" "第166预备役师" "第742警卫师" "第171预备役师" "第785警卫师" "第172预备役师" "第173预备役师" "第182预备役师" 
+		"第188山地预备役师" 
+	}
+	hq_brigade = {
+		"第一集团军" "第二集团军" "第三集团军" "A集团军群" "第四集团军" "第五集团军" "第六集团军" "B集团军群" "第七集团军" "第八集团军" "第九集团军" 
+		"C集团军群" "第十集团军" "第十一集团军" "第十二集团军" "D集团军群" "第十四集团军" "第十五集团军" "第十六集团军" "E集团军群" "第十七集团军" "第十八集团军" 
+		"第十九集团军" "F集团军群" "第二十一集团军" "G集团军群" "第二十四集团军" "第二十五集团军" "H集团军群" 
+	}
+	militia_brigade = {
+		"第1空军野战师" "第2空军野战师" "第3空军野战师" "第4空军野战师" "第5空军野战师" "第6空军野战师" "第7空军野战师" "第8空军野战师" "第9空军野战师" "第10空军野战师" "第6国民掷弹兵师" 
+		"第9国民掷弹兵师" "第12国民掷弹兵师" "第16国民掷弹兵师" "第18国民掷弹兵师" "第19国民掷弹兵师" "第22国民掷弹兵师" "第26国民掷弹兵师" "第31国民掷弹兵师" "第36国民掷弹兵师" "第45国民掷弹兵师" "第47国民掷弹兵师" 
+		"第62国民掷弹兵师" "第79国民掷弹兵师" "第167国民掷弹兵师" "第183国民掷弹兵师" "第211国民掷弹兵师" "第212国民掷弹兵师" "第246国民掷弹兵师" "第256国民掷弹兵师" "第257国民掷弹兵师" "第271国民掷弹兵师" "第272国民掷弹兵师" 
+		"第276国民掷弹兵师" 
+	}
+	multi_role = {
+		"第71'希德霍芬'战斗航空团" "第74'莫德斯'战斗航空团" "第51'殷麦曼'战斗航空团" "第31'伯尔克'战斗航空团" "第38'弗里斯兰'战斗航空团" "第72'威斯特法伦'战斗航空团" "第32战斗航空团" "第34'阿尔戈'战斗航空团" "第41战斗航空团" "第43战斗航空团" "第44战斗航空团" 
+		"第49战斗航空团" "第75战斗航空团" "第73'施泰因霍夫'战斗航空团" "第12'利林塔尔'战斗航空团" "第42战斗航空团" "第89'闪电'战斗航空团" "第54战斗航空团" "第55战斗航空团" "第63战斗航空团" "第69战斗航空团" "第90战斗航空团" 
+			}
+	interceptor = {
+		"第71'希德霍芬'战斗航空团" "第74'莫德斯'战斗航空团" "第51'殷麦曼'战斗航空团" "第31'伯尔克'战斗航空团" "第38'弗里斯兰'战斗航空团" "第72'威斯特法伦'战斗航空团" "第32战斗航空团" "第34'阿尔戈'战斗航空团" "第41战斗航空团" "第43战斗航空团" "第44战斗航空团" 
+		"第49战斗航空团" "第75战斗航空团" "第73'施泰因霍夫'战斗航空团" "第12'利林塔尔'战斗航空团" "第42战斗航空团" "第89'闪电'战斗航空团" "第54战斗航空团" "第55战斗航空团" "第63战斗航空团" "第69战斗航空团" "第90战斗航空团" 
+			}
+	strategic_bomber = {
+		"第1轰炸航空团" "第4轰炸航空团" "第26轰炸航空团" "第27轰炸航空团" "第28轰炸航空团" "第51轰炸航空团" "第53轰炸航空团" "第54轰炸航空团" "第55'狮头鹰'轰炸航空团" "第100轰炸航空团" "第6轰炸航空团" 
+		"第2训练大队" "第3训练大队" "第4训练大队" "第4训练大队" "第6训练大队" "第103轰炸航空团" "第104轰炸航空团" "第105轰炸航空团" "第106轰炸航空团" "第107轰炸航空团" "第108轰炸航空团" 
+		"第109轰炸航空团" "第110轰炸航空团" "第111轰炸航空团" "第112轰炸航空团" "第113轰炸航空团" "第114轰炸航空团" "第115轰炸航空团" "第116轰炸航空团" "第117轰炸航空团" "第118轰炸航空团" "第119轰炸航空团" 
+		"第120轰炸航空团" "第121轰炸航空团" "第122轰炸航空团" "第123轰炸航空团" "第124轰炸航空团" "第125轰炸航空团" "第126轰炸航空团" "第127轰炸航空团" "第128轰炸航空团" 
+	}
+	tactical_bomber = {
+		"第2轰炸航空团" "第3轰炸航空团" "第25轰炸航空团" "第30轰炸航空团" "第1轰炸航空团" "第4轰炸航空团" "第26轰炸航空团" "第27轰炸航空团" "第28轰炸航空团" "第51轰炸航空团" "第53轰炸航空团" 
+		"第54轰炸航空团" "第55'狮头鹰'轰炸航空团" "第50轰炸航空团" "第40轰炸航空团" "第76轰炸航空团" "第77轰炸航空团" "第60轰炸航空团" "第101轰炸航空团" "第102轰炸航空团" "第66轰炸航空团" "第200轰炸航空团" 
+		"第201轰炸航空团" "第202轰炸航空团" "第203轰炸航空团" "第204轰炸航空团" "第205轰炸航空团" "第206轰炸航空团" "第207轰炸航空团" "第208轰炸航空团" "第209轰炸航空团" "第210轰炸航空团" "第211轰炸航空团" 
+			}
+	naval_bomber = {
+		"第106海军轰炸大队" "第206海军轰炸大队" "第306海军轰炸大队" "第406海军轰炸大队" "第506海军轰炸大队" "第606海军轰炸大队" "第706海军轰炸大队" "第806海军轰炸大队" "第906海军轰炸大队" "第206海军轰炸大队" "第306海军轰炸大队" 
+		"第806海军轰炸大队" "第1006海军轰炸大队" "第1106海军轰炸大队" "第1206海军轰炸大队" "第1306海军轰炸大队" "第1406海军轰炸大队" 
+	}
+	cas = {
+		"第51俯冲轰炸航空团" "第2'殷麦曼'俯冲轰炸航空团" "第76俯冲轰炸航空团" "第77俯冲轰炸航空团" "第1俯冲轰炸航空团" "第3俯冲轰炸航空团" "第210快速轰炸航空团" "第1对地攻击航空团" "第5俯冲轰炸航空团" "第10快速轰炸航空团" "第101俯冲轰炸航空团" 
+		"第2对地攻击航空团" "第101对地攻击航空团" "第102俯冲轰炸航空团" "第151俯冲轰炸航空团" "第152对地攻击航空团" "第104对地攻击航空团" "第160俯冲轰炸航空团" "第162俯冲轰炸航空团" "第163俯冲轰炸航空团" "第165俯冲轰炸航空团" 
+	}
+	transport_plane = {
+		"第9特殊轰炸大队" "第1特殊轰炸大队" "第2特殊轰炸大队" "第4特殊轰炸大队" "第5特殊轰炸大队" "第9特殊轰炸大队" "第172特殊轰炸大队" "第1空运大队" "第2空运大队" "第3空运大队" "第4空运大队" 
+		"第5空运大队" "第10空运大队" "第20空运大队" "第30空运大队" "第110空运大队" "第106特殊轰炸大队" "第108特殊轰炸大队" "第50特殊轰炸大队" "第102特殊轰炸大队" "第104特殊轰炸大队" "第105特殊轰炸大队" 
+		"第400特殊轰炸大队" "第500特殊轰炸大队" "第600特殊轰炸大队" "第700特殊轰炸大队" "第800特殊轰炸大队" "第900特殊轰炸大队" "第100特殊轰炸大队" "第200特殊轰炸大队" "第300特殊轰炸大队" 
+	}
+	battleship = {
+		"KMS毛奇号" "KMS石勒苏益格-荷尔斯泰因号" "KMS勃兰登堡边界区号" "KMS南汉诺威-不伦瑞克号" "KMS图林根号" "KMS梅克伦堡号" "KMS慕尼黑-上巴伐利亚号" "KMS马格德堡-安哈尔特号" "KMS威悉-埃姆斯号" "KMS哈雷-梅泽堡号" "KMS汉堡号" 
+		"KMS波美拉尼亞号" "KMS拜罗伊特号" "KMS埃森号" "KMS杜塞尔多夫号" "KMS北威斯特法伦号" "KMS科隆-亚琛号" "KMS黑森选帝侯号" "KMS上多瑙河号" "KMS黑森-拿骚号" "KMS摩泽尔号" "KMS东汉诺威号" 
+		"KMS威斯特马克号" "KMS柏林号" "KMS南威斯特法伦号" "KMS美因弗兰肯号" "KMS弗兰肯号" "KMS符腾堡-霍亨索伦号" "KMS巴登号" "KMS士瓦本号" 
+	}
+	light_cruiser = {
+		"KMS埃姆登号" "KMS柯尼斯堡号" "KMS卡尔斯鲁厄号" "KMS科隆号" "KMS莱比锡号" "KMS纽伦堡号" "KMS斯图加特号" "KMS斯德丁号" "KMS德累斯顿号" "KMS鹦鹉螺号" "KMS信天翁号" 
+		"KMS科尔贝格号" "KMS美因茨号" "KMS科隆号" "KMS奧格斯堡号" "KMS马格德堡号" "KMS布雷斯劳号" "KMS斯特拉斯堡号" "KMS施特拉尔松号" "KMS罗斯托克号" "KMS格鲁琼兹号" "KMS雷根斯堡号" 
+		"KMS皮劳号" "KMS埃尔布隆格号" "KMS苍蝇号" "KMS牛虻号" "KMS威斯巴登号" "KMS法兰克福号" "KMS布吕歇尔号" "KMS欧根亲王号" "KMS吕佐夫号" "KMS弗里德里希·卡尔号" "KMS卢恩号" 
+		"KMS约克号" "KMS德意志号" "KMS格拉夫·斯佩海军上将号" "KMS贝奥武甫号" "KMS弗里肖夫号" "KMS海姆达尔号" "KMS杜塞尔多夫号" "KMS杜伊斯堡号" "KMS波鸿号" "KMS伍珀塔尔号" "KMS比勒费尔德号" 
+		"KMS波恩号" "KMS曼海姆号" "KMS盖尔森基兴号" "KMS明斯特号" "KMS门兴格拉德巴赫号" "KMS开姆尼茨号" "KMS不伦瑞克号" "KMS亚琛号" "KMS克雷费尔德号" "KMS哈雷号" "KMS基尔号" 
+		"KMS奥伯豪森号" "KMS吕贝克号" "KMS弗莱堡号" "KMS哈根号" "KMS埃尔福特号" "KMS卡塞尔号" "KMS哈姆号" "KMS萨尔布吕肯号" "KMS黑尔讷号" "KMS米尔海姆号" "KMS索林根号" 
+		"KMS奥斯纳布吕克号" "KMS路德维希港号" "KMS勒沃库森号" "KMS奥尔登堡号" "KMS诺伊斯号" "KMS帕德博恩号" "KMS海德堡号" "KMS达姆施塔特号" "KMS波茨坦号" "KMS维尔茨堡号" "KMS哥廷根号" 
+		"KMS雷克林豪森号" "KMS博特罗普号" "KMS沃尔夫斯堡号" "KMS海尔布隆号" "KMS因戈尔施塔特号" 
+	}
+	heavy_cruiser = {
+		"KMS希佩尔海军上将号" "KMS布吕歇尔号" "KMS欧根亲王号" "KMS吕佐夫号" "KMS弗里德里希·卡尔号" "KMS卢恩号" "KMS德意志号" "KMS贝奥武甫号" "KMS舍尔海军上将" "KMS格拉夫·斯佩海军上将号" "KMS弗里肖夫号" 
+		"KMS汉堡号" "KMS海姆达尔号" "KMS希尔德布兰德号" "KMS哈根号" "KMS慕尼黑号" "KMS埃姆登号" "KMS柯尼斯堡号" "KMS卡尔斯鲁厄号" "KMS科隆号" "KMS莱比锡号" "KMS纽伦堡号" 
+		"KMS斯图加特号" "KMS斯德丁号" "KMS德累斯顿号" "KMS鹦鹉螺号" "KMS信天翁号" "KMS科尔贝格号" "KMS美因茨号" "KMS奧格斯堡号" "KMS马格德堡号" "KMS布雷斯劳号" "KMS斯特拉斯堡号" 
+		"KMS杜塞尔多夫号" "KMS多特蒙德号" "KMS施特拉尔松号" "KMS卡尔斯鲁厄号" "KMS罗斯托克号" "KMS格鲁琼兹号" "KMS雷根斯堡号" "KMS皮劳号" "KMS埃尔布隆格号" "KMS苍蝇号" "KMS牛虻号" 
+		"KMS威斯巴登号" "KMS法兰克福号" "KMS埃姆登号" "KMS柯尼斯堡号" "KMS卡尔斯鲁厄号" "KMS科隆号" "KMS莱比锡号" "KMS纽伦堡号" "KMS斯图加特号" "KMS斯德丁号" "KMS德累斯顿号" 
+		"KMS鹦鹉螺号" "KMS信天翁号" "KMS科尔贝格号" "KMS美因茨号" "KMS科隆号" "KMS奧格斯堡号" "KMS马格德堡号" "KMS布雷斯劳号" "KMS斯特拉斯堡号" "KMS施特拉尔松号" "KMS卡尔斯鲁厄号" 
+		"KMS罗斯托克号" "KMS凯撒斯劳滕号" "KMS格鲁琼兹号" "KMS雷根斯堡号" "KMS皮劳号" "KMS埃尔布隆格号" "KMS苍蝇号" "KMS牛虻号" "KMS威斯巴登号" "KMS法兰克福号" "KMS不来梅号" 
+		"KMS汉诺威号" "KMS纽伦堡号" "KMS莱比锡号" "KMS德累斯顿号" "KMS威斯巴登号" "KMS奧格斯堡号" "KMS马格德堡号" "KMS杜伊斯堡号" "KMS波鸿号" "KMS伍珀塔尔号" "KMS比勒费尔德号" 
+		"KMS波恩号" "KMS曼海姆号" "KMS盖尔森基兴号" "KMS明斯特号" "KMS门兴格拉德巴赫号" "KMS开姆尼茨号" "KMS不伦瑞克号" "KMS亚琛号" "KMS克雷费尔德号" "KMS哈雷号" "KMS基尔号" 
+		"KMS奥伯豪森号" "KMS吕贝克号" "KMS弗莱堡号" "KMS哈根号" "KMS埃尔福特号" "KMS卡塞尔号" "KMS哈姆号" "KMS萨尔布吕肯号" "KMS黑尔讷号" "KMS米尔海姆号" "KMS索林根号" 
+		"KMS奥斯纳布吕克号" "KMS路德维希港号" "KMS勒沃库森号" "KMS奥尔登堡号" "KMS诺伊斯号" "KMS帕德博恩号" "KMS海德堡号" "KMS达姆施塔特号" "KMS波茨坦号" "KMS维尔茨堡号" "KMS哥廷根号" 
+		"KMS雷克林豪森号" "KMS博特罗普号" "KMS沃尔夫斯堡号" "KMS海尔布隆号" "KMS因戈尔施塔特号" 
+	}
+	battlecruiser = {
+		"KMS毛奇号" "KMS戈本号" "KMS石勒苏益格-荷尔斯泰因号" "KMS汉堡号" "KMS波美拉尼亞号" "KMS南汉诺威-不伦瑞克号" "KMS梅克伦堡号" "KMS慕尼黑-上巴伐利亚号" "KMS马格德堡-安哈尔特号" "KMS哈雷-梅泽堡号" "KMS萨克森号" 
+		"KMS拜罗伊特号" "KMS東普魯士号" "KMS下西里西亚号" "KMS埃森号" "KMS杜塞尔多夫号" "KMS北威斯特法伦号" "KMS科隆-亚琛号" "KMS黑森选帝侯号" "KMS上多瑙河号" "KMS黑森-拿骚号" "KMS摩泽尔号" 
+		"KMS东汉诺威号" "KMS威斯特马克号" "KMS柏林号" "KMS南威斯特法伦号" "KMS美因弗兰肯号" "KMS弗兰肯号" "KMS符腾堡-霍亨索伦号" "KMS巴登号" "KMS士瓦本号" 
+	}
+	destroyer = {
+		"第1驱逐舰编队" "第2驱逐舰编队" "第3驱逐舰编队" "第4驱逐舰编队" "第5驱逐舰编队" "第6驱逐舰编队" "第7驱逐舰编队" "第8驱逐舰编队" "第9驱逐舰编队" "第10驱逐舰编队" "第11驱逐舰编队" 
+		"第12驱逐舰编队" "第13驱逐舰编队" "第14驱逐舰编队" "第15驱逐舰编队" 
+	}
+	carrier = {
+		"KMS齐柏林伯爵号" "KMS彼得·施特拉塞尔号" "KMS塞德利茨号" "KMS克劳塞维茨号" "KMS巴巴罗萨号" "KMS海狮号" "KMS莱茵黄金号" "KMS齐格菲号" "KMS帕西法尔号" "KMS罗恩格林号" "KMS日耳曼号" 
+		"KMS里希特霍芬号" "KMS奥托·李林塔尔号" "KMS雨果·容克斯号" "KMS克劳德·道尼尔号" "KMS恩斯特·海因克尔号" "KMS威廉·梅塞施米特号" "KMS汉斯·克莱姆号" "KMS理查德·瓦格纳号" "KMS哥德号" "KMS弗里德里希·席勒号" 
+	}
+	escort_carrier = {
+		"KMS萨克森号" "KMS汉堡号" "KMS黑森号" "KMS图林根号" 
+	}
+	submarine = {
+		"第1潜艇编队" "第2潜艇编队" "第3潜艇编队" "第5潜艇编队" "第6潜艇编队" "第7潜艇编队" "第9潜艇编队" "第10潜艇编队" "第11潜艇编队" "第12潜艇编队" "第13潜艇编队" 
+		"第14潜艇编队" "第23潜艇编队" "第29潜艇编队" "第30潜艇编队" "第33潜艇编队" "第35潜艇编队" "第36潜艇编队" "第37潜艇编队" "第38潜艇编队" 
+	}
+	transport_ship = {
+		"第1运输船编队" "第2运输船编队" "第3运输船编队" "第4运输船编队" "第5运输船编队" "第6运输船编队" "第7运输船编队" "第8运输船编队" "第9运输船编队" "第10运输船编队" "第11运输船编队" 
+		"第12运输船编队" "第13运输船编队" "第14运输船编队" "第15运输船编队" "第16运输船编队" "第17运输船编队" "第18运输船编队" "第19运输船编队" "第20运输船编队" "第21运输船编队" "第22运输船编队" 
+		"第23运输船编队" "第24运输船编队" "第25运输船编队" "第26运输船编队" "第27运输船编队" "第28运输船编队" "第29运输船编队" "第30运输船编队" 
+	}
+
+}
+
+
+ministers = {
+	506001 = {
+		name = "特奥多尔·霍伊斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M38
+		head_of_state = insignificant_layman
+		head_of_state = insignificant_layman
+		start_date = 1936.1.1
+	}
+	506002 = {
+		name = "康拉德·阿登纳"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M50
+		head_of_government = corporate_suit
+		foreign_minister = great_compromiser
+		start_date = 1936.1.1
+	}
+	506004 = {
+		name = "弗朗茨·埃策尔"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M506004
+		armament_minister = infantry_proponent
+		start_date = 1936.1.1
+	}
+	506005 = {
+		name = "罗伯特·莱尔"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M506005
+		minister_of_security = man_of_the_people
+		minister_of_security = man_of_the_people
+		start_date = 1936.1.1
+	}
+	506006 = {
+		name = "特奥多尔·布兰克"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M506006
+		minister_of_intelligence = political_specialist
+		armament_minister = military_entrepreneur
+		start_date = 1936.1.1
+	}
+	506007 = {
+		name = "奥斯卡·汉森"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = L118
+		chief_of_staff = school_of_manoeuvre
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1936.1.1
+	}
+	506008 = {
+		name = "汉斯·施派德尔"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = L506191
+		chief_of_army = armoured_spearhead_doctrine
+		chief_of_staff = school_of_fire_support
+		start_date = 1936.1.1
+	}
+	506009 = {
+		name = "赫尔曼·穆茨"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = L506297
+		chief_of_navy = indirect_approach_doctrine
+		start_date = 1936.1.1
+	}
+	506010 = {
+		name = "阿尔弗雷德·比洛韦乌斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = L431
+		chief_of_air = air_superiority_doctrine
+		start_date = 1936.1.1
+	}
+	506011 = {
+		name = "库尔特·舒马赫"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M506011
+		head_of_government = ambitious_union_boss
+		start_date = 1936.1.1
+	}
+	506012 = {
+		name = "弗朗茨·布吕歇尔"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M506012
+		head_of_government = political_protege
+		start_date = 1936.1.1
+	}
+	506013 = {
+		name = "海因里希·冯·布伦塔诺"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M506013
+		foreign_minister = ideological_crusader
+		start_date = 1936.1.1
+	}
+	506014 = {
+		name = "埃里希·奥伦豪尔"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M506014
+		foreign_minister = iron_fisted_brute
+		head_of_government = political_protege
+		start_date = 1936.1.1
+	}
+	506015 = {
+		name = "托马斯·德勒"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M506015
+		foreign_minister = apologetic_clerk
+		start_date = 1936.1.1
+	}
+	506016 = {
+		name = "弗里茨·舍费尔"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M103
+		armament_minister = laissez_faires_capitalist
+		start_date = 1936.1.1
+	}
+	506017 = {
+		name = "路德维格·埃哈德"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M104
+		armament_minister = administrative_genius
+		head_of_government = flamboyant_tough_guy
+		start_date = 1936.1.1
+	}
+	506018 = {
+		name = "海因里希·威廉·科普夫"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M506018
+		armament_minister = resource_industrialist
+		start_date = 1936.1.1
+	}
+	506019 = {
+		name = "海因茨·斯塔克"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M506019
+		armament_minister = theoretical_scientist
+		start_date = 1936.1.1
+	}
+	506020 = {
+		name = "卡尔·阿诺德"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M129
+		minister_of_security = crime_fighter
+		start_date = 1936.1.1
+	}
+	506021 = {
+		name = "古斯塔夫·海涅曼"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M130
+		minister_of_security = silent_lawyer
+		start_date = 1936.1.1
+	}
+	506022 = {
+		name = "格哈德·施罗德"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M506022
+		minister_of_security = back_stabber
+		foreign_minister = biased_intellectual
+		start_date = 1936.1.1
+	}
+	506023 = {
+		name = "格奥尔格·奥古斯特·齐恩"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M506023
+		minister_of_security = prince_of_terror
+		start_date = 1936.1.1
+	}
+	506024 = {
+		name = "莱因霍尔德·迈尔"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M506024
+		minister_of_security = compassionate_gentleman
+		start_date = 1936.1.1
+	}
+	506025 = {
+		name = "汉斯·埃哈德"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M149
+		minister_of_intelligence = research_specialist
+		start_date = 1936.1.1
+	}
+	506026 = {
+		name = "莱因哈德·格伦"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M506026
+		minister_of_intelligence = dismal_enigma
+		start_date = 1936.1.1
+	}
+	506027 = {
+		name = "弗朗茨·约瑟夫·施特劳斯"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M506027
+		minister_of_intelligence = industrial_specialist
+		chief_of_air = vertical_envelopment_doctrine
+		armament_minister = resource_industrialist
+		start_date = 1936.1.1
+	}
+	506028 = {
+		name = "欧根·格斯登美尔"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M506028
+		minister_of_intelligence = technical_specialist
+		start_date = 1936.1.1
+	}
+	506029 = {
+		name = "汉斯·塞德尔"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M506029
+		minister_of_intelligence = naval_intelligence_specialist
+		start_date = 1936.1.1
+	}
+	506031 = {
+		name = "约瑟夫·卡姆胡伯"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = L448
+		chief_of_staff = school_of_psychology
+		chief_of_air = army_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	506033 = {
+		name = "卡尔·海因里希·吕布克"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M506033
+		chief_of_army = guns_and_butter_doctrine
+		head_of_state = weary_stiff_neck
+		head_of_state = weary_stiff_neck
+		start_date = 1936.1.1
+	}
+	506034 = {
+		name = "康拉德·帕奇希"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = L506300
+		chief_of_navy = decisive_naval_battle_doctrine
+		start_date = 1936.1.1
+	}
+	506035 = {
+		name = "埃里希·克勒"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M506035
+		chief_of_navy = base_control_doctrine
+		start_date = 1936.1.1
+	}
+	506038 = {
+		name = "赫尔曼·埃勒斯"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M506038
+		chief_of_air = naval_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	506044 = {
+		name = "维利·勃兰特"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M506044
+		head_of_government = naive_optimist
+		foreign_minister = great_compromiser
+		start_date = 1957.1.1
+	}
+	506048 = {
+		name = "凯·乌韦·冯·哈塞尔"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M506048
+		armament_minister = theoretical_scientist
+		start_date = 1961.1.1
+	}
+	506049 = {
+		name = "赫尔曼·赫歇尔"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M506049
+		minister_of_security = crime_fighter
+		start_date = 1961.1.1
+	}
+	506050 = {
+		name = "埃瓦尔德·布赫尔"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M506050
+		minister_of_security = efficient_sociopath
+		start_date = 1957.1.1
+	}
+}

@@ -1,0 +1,500 @@
+color = { 84  119  168 }
+graphical_culture = Generic
+
+default_templates = {
+	generic_infantry = {
+		infantry_brigade
+		infantry_brigade
+		infantry_brigade
+	}
+	generic_milita = {
+		militia_brigade
+		militia_brigade
+		militia_brigade
+	}
+	generic_armoured = {
+		armor_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	generic_cavalry = {
+		cavalry_brigade
+		cavalry_brigade
+	}
+}
+
+unit_names = {
+	infantry_brigade = {
+		"第1步兵师" "第2步兵师" "第3步兵师" "第4步兵师" "第5步兵师" "第6步兵师" "第7步兵师" "第8步兵师" "第9步兵师" "第10步兵师" 
+		"第11步兵师" "第12步兵师" "第13步兵师" "第14步兵师" "第15步兵师" "第16步兵师" "第17步兵师" "第18步兵师" "第19步兵师" "第20步兵师" 
+	}
+	cavalry_brigade = {
+		"第1骑兵师" "第2骑兵师" "第3骑兵师" "第4骑兵师" "第5骑兵师" "第6骑兵师" "第7骑兵师" "第8骑兵师" "第9骑兵师" "第10骑兵师" 
+	}
+	motorized_brigade = {
+		"第1摩托化步兵师" "第2摩托化步兵师" "第3摩托化步兵师" "第4摩托化步兵师" "第5摩托化步兵师" "第6摩托化步兵师" "第7摩托化步兵师" "第8摩托化步兵师" "第9摩托化步兵师" "第10摩托化步兵师" 
+	}
+	mechanized_brigade = {
+		"第1机械化步兵师" "第2机械化步兵师" "第3机械化步兵师" "第4机械化步兵师" "第5机械化步兵师" "第6机械化步兵师" "第7机械化步兵师" "第8机械化步兵师" "第9机械化步兵师" "第10机械化步兵师" 
+	}
+	light_armor_brigade = {
+		"第1装甲师" "第2装甲师" "第3装甲师" "第4装甲师" "第5装甲师" "第6装甲师" "第7装甲师" "第8装甲师" "第9装甲师" "第10装甲师"  
+	}
+	armor_brigade = {
+		"第1装甲师" "第2装甲师" "第3装甲师" "第4装甲师" "第5装甲师" "第6装甲师" "第7装甲师" "第8装甲师" "第9装甲师" "第10装甲师" 
+	}
+	paratrooper_brigade = {
+		"第1空降师" "第2空降师" "第3空降师" "第4空降师" "第5空降师" "第6空降师" "第7空降师" "第8空降师" "第9空降师" "第10空降师" 
+	}
+	marine_brigade = {
+		"第1海军陆战师" "第2海军陆战师" "第3海军陆战师" "第4海军陆战师" "第5海军陆战师" "第6海军陆战师" "第7海军陆战师" "第8海军陆战师" "第9海军陆战师" "第10海军陆战师" 
+	}
+	bergsjaeger_brigade = {
+		"第1山地师“帕斯塔斯”" "第2山地师" "第3山地师" "第4山地师" "第5山地师" "第6山地师" "第7山地师" "第8山地师" "第9山地师" "第10山地师" 
+		"第11山地师" "第12山地师" "第13山地师" "第14山地师" "第15山地师" 
+	}
+	garrison_brigade = {
+		"第1卫戍师" "第2卫戍师" "第3卫戍师" "第4卫戍师" "第5卫戍师" "第6卫戍师" "第7卫戍师" "第8卫戍师" "第9卫戍师" "第10卫戍师" 
+		"第11卫戍师" "第12卫戍师" "第13卫戍师" "第14卫戍师" "第15卫戍师" "第16卫戍师" "第17卫戍师" "第18卫戍师" "第19卫戍师" "第20卫戍师" 
+	}
+	hq_brigade = {
+		"第1集团军" "第2集团军" "第3集团军" "第4集团军" "第5集团军" "第6集团军" "第7集团军" "第8集团军" "第9集团军" "第10集团军" 
+	}
+	militia_brigade = {
+		"第1步兵师" "第2步兵师" "第3步兵师" "第4步兵师" "第5步兵师" "第6步兵师" "第7步兵师" "第8步兵师" "第9步兵师" "第10步兵师" 
+		"第11步兵师" "第12步兵师" "第13步兵师" "第14步兵师" "第15步兵师" "第16步兵师" "第17步兵师" "第18步兵师" "第19步兵师" "第20步兵师" 
+		"第21步兵师" "第22步兵师" "第23步兵师" "第24步兵师" "第25步兵师" "第26步兵师" "第27步兵师" "第28步兵师" "第29步兵师" "第30步兵师" 
+	}
+	multi_role = {
+		"IAF第1联队" "IAF第2联队" "IAF第3联队" "IAF第4联队" "IAF第5联队" "IAF第6联队" "IAF第7联队" "IAF第8联队" "IAF第9联队" "IAF第10联队" 
+		"IAF第11联队" "IAF第12联队" "IAF第13联队" "IAF第14联队" "IAF第15联队" "IAF第16联队" "IAF第17联队" "IAF第18联队" "IAF第19联队" "IAF第20联队" 
+	}
+	interceptor = {
+		"IAF第1联队" "IAF第2联队" "IAF第3联队" "IAF第4联队" "IAF第5联队" "IAF第6联队" "IAF第7联队" "IAF第8联队" "IAF第9联队" "IAF第10联队" 
+		"IAF第11联队" "IAF第12联队" "IAF第13联队" "IAF第14联队" "IAF第15联队" "IAF第16联队" "IAF第17联队" "IAF第18联队" "IAF第19联队" "IAF第20联队" 
+	}
+	strategic_bomber = {
+		"IAF第1联队" "IAF第2联队" "IAF第3联队" "IAF第4联队" "IAF第5联队" "IAF第6联队" "IAF第7联队" "IAF第8联队" "IAF第9联队" "IAF第10联队" 
+		"IAF第11联队" "IAF第12联队" "IAF第13联队" "IAF第14联队" "IAF第15联队" "IAF第16联队" "IAF第17联队" "IAF第18联队" "IAF第19联队" "IAF第20联队" 
+	}
+	tactical_bomber = {
+		"IAF第1联队" "IAF第2联队" "IAF第3联队" "IAF第4联队" "IAF第5联队" "IAF第6联队" "IAF第7联队" "IAF第8联队" "IAF第9联队" "IAF第10联队" 
+		"IAF第11联队" "IAF第12联队" "IAF第13联队" "IAF第14联队" "IAF第15联队" "IAF第16联队" "IAF第17联队" "IAF第18联队" "IAF第19联队" "IAF第20联队" 
+	}
+	naval_bomber = {
+		"IAF第1联队" "IAF第2联队" "IAF第3联队" "IAF第4联队" "IAF第5联队" "IAF第6联队" "IAF第7联队" "IAF第8联队" "IAF第9联队" "IAF第10联队" 
+		"IAF第11联队" "IAF第12联队" "IAF第13联队" "IAF第14联队" "IAF第15联队" "IAF第16联队" "IAF第17联队" "IAF第18联队" "IAF第19联队" "IAF第20联队" 
+	}
+	cas = {
+		"IAF第1联队" "IAF第2联队" "IAF第3联队" "IAF第4联队" "IAF第5联队" "IAF第6联队" "IAF第7联队" "IAF第8联队" "IAF第9联队" "IAF第10联队" 
+		"IAF第11联队" "IAF第12联队" "IAF第13联队" "IAF第14联队" "IAF第15联队" "IAF第16联队" "IAF第17联队" "IAF第18联队" "IAF第19联队" "IAF第20联队" 
+	}
+	transport_plane = {
+		"IAF第1联队" "IAF第2联队" "IAF第3联队" "IAF第4联队" "IAF第5联队" "IAF第6联队" "IAF第7联队" "IAF第8联队" "IAF第9联队" "IAF第10联队" 
+		"IAF第11联队" "IAF第12联队" "IAF第13联队" "IAF第14联队" "IAF第15联队" "IAF第16联队" "IAF第17联队" "IAF第18联队" "IAF第19联队" "IAF第20联队" 
+	}
+	battleship = {
+		"INS 独立号" "INS 自由号" "INS 解放号" "INS 胜利号" 
+	}
+	light_cruiser = {
+		"INS 独立号" "INS 自由号" "INS 解放号" "INS 胜利号" 
+	}
+	heavy_cruiser = {
+		"INS 独立号" "INS 自由号" "INS 解放号" "INS 胜利号" 
+	}
+	battlecruiser = {
+		"INS 独立号" "INS 自由号" "INS 解放号" "INS 胜利号" 
+	}
+	destroyer = {
+		"第1驱逐舰师" "第2驱逐舰师" "第3驱逐舰师" "第4驱逐舰师" "第5驱逐舰师" "第6驱逐舰师" "第7驱逐舰师" "第8驱逐舰师" "第9驱逐舰师" "第10驱逐舰师"
+	}
+	carrier = {
+		"INS 独立号" "INS 自由号" "INS 解放号" "INS 胜利号" 
+	}
+	escort_carrier = {
+		"INS 罗马奇号" "INS 史米丽蒂号" "INS 德沃拉号" 
+	}
+	submarine = {
+		"第1潜艇师" "第2潜艇师" "第3潜艇师" "第4潜艇师" "第5潜艇师" "第6潜艇师" "第7潜艇师" "第8潜艇师" "第9潜艇师" "第10潜艇师"  
+	}
+	transport_ship = {
+		"第1运输舰师" "第2运输舰师" "第3运输舰师" "第4运输舰师" "第5运输舰师" "第6运输舰师" "第7运输舰师" "第8运输舰师" "第9运输舰师" "第10运输舰师" 
+	}
+
+}
+
+ministers = {
+	559001 = {
+		name = "查姆·魏滋曼"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M559001
+		head_of_state = benevolent_gentleman
+		start_date = 1936.1.1
+	}
+	559002 = {
+		name = "戴维·本·古瑞恩"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M559002
+		head_of_government = ambitious_union_boss
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1936.1.1
+	}
+	559003 = {
+		name = "莫希·萨瑞特"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M559003
+		foreign_minister = biased_intellectual
+		start_date = 1936.1.1
+	}
+	559004 = {
+		name = "勒维·艾希科勒"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M559004
+		armament_minister = resource_industrialist
+		start_date = 1936.1.1
+	}
+	559005 = {
+		name = "格兰达·梅瑞"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M559005
+		minister_of_security = man_of_the_people
+		start_date = 1936.1.1
+	}
+	559006 = {
+		name = "伊加勒·亚隆"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M559006
+		minister_of_intelligence = research_specialist
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1936.1.1
+	}
+	559007 = {
+		name = "伊加艾尔·亚丁"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M559007
+		chief_of_staff = school_of_fire_support
+		start_date = 1936.1.1
+	}
+	559009 = {
+		name = "耶迪迪亚·亚阿瑞"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M559009
+		chief_of_navy = decisive_naval_battle_doctrine
+		start_date = 1936.1.1
+	}
+	559010 = {
+		name = "海姆·拉斯科夫"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M559010
+		chief_of_air = army_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	559011 = {
+		name = "玛瑟·萨伊皮亚"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M559011
+		head_of_state = stern_imperialist
+		start_date = 1936.1.1
+	}
+	559012 = {
+		name = "查姆·阿洛索罗夫"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M559012
+		head_of_state = barking_buffoon
+		start_date = 1936.1.1
+	}
+	559013 = {
+		name = "丹尼尔·奥斯特"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M559013
+		head_of_government = backroom_backstabber
+		start_date = 1936.1.1
+	}
+	559014 = {
+		name = "Dr.·亚伯拉罕·海瑟尔"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M559014
+		head_of_government = naive_optimist
+		start_date = 1936.1.1
+	}
+	559015 = {
+		name = "泽拉奇·瓦纳弗汀"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M559015
+		foreign_minister = ideological_crusader
+		start_date = 1936.1.1
+	}
+	559016 = {
+		name = "皮恩哈斯·勒冯"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M559016
+		foreign_minister = great_compromiser
+		start_date = 1943.1.1
+	}
+	559017 = {
+		name = "伊特扎克·本·兹维"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M559017
+		foreign_minister = iron_fisted_brute
+		head_of_state = ruthless_powermonger
+		start_date = 1936.1.1
+	}
+	559018 = {
+		name = "伊特扎克·塔本金"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M559018
+		foreign_minister = the_cloak_n_dagger_schemer
+		start_date = 1939.1.1
+	}
+	559019 = {
+		name = "瓦迪亚·约瑟夫"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M559019
+		armament_minister = infantry_proponent
+		start_date = 1936.1.1
+	}
+	559020 = {
+		name = "曼彻海姆·尤西金"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M559020
+		armament_minister = strategic_air_proponent
+		start_date = 1937.1.1
+	}
+	559021 = {
+		name = "瓦查加·梅托尼安"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M559021
+		armament_minister = laissez_faires_capitalist
+		start_date = 1940.1.1
+	}
+	559022 = {
+		name = "卡迪西·鲁兹"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M559022
+		armament_minister = battle_fleet_proponent
+		start_date = 1940.1.1
+	}
+	559023 = {
+		name = "约瑟夫·斯普林扎克"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M559023
+		armament_minister = air_superiority_proponent
+		minister_of_intelligence = industrial_specialist
+		start_date = 1942.1.1
+	}
+	559024 = {
+		name = "艾里泽·卡普兰"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M559024
+		armament_minister = military_entrepreneur
+		start_date = 1945.1.1
+	}
+	559025 = {
+		name = "帕沃罗斯·勒万"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M559025
+		armament_minister = tank_proponent
+		start_date = 1936.1.1
+	}
+	559026 = {
+		name = "纳赫姆·尼尔·拉法勒克斯"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M559026
+		minister_of_security = back_stabber
+		start_date = 1936.1.1
+	}
+	559027 = {
+		name = "曼彻海姆·巴斯汀"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M559027
+		minister_of_security = compassionate_gentleman
+		start_date = 1939.1.1
+	}
+	559028 = {
+		name = "曼彻海姆·本金"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M559028
+		minister_of_security = efficient_sociopath
+		start_date = 1940.1.1
+	}
+	559029 = {
+		name = "穆瑟·海姆·萨皮瑞亚"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M559029
+		minister_of_security = silent_lawyer
+		start_date = 1949.1.1
+	}
+	559030 = {
+		name = "伊斯拉尔·罗卡西"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M559030
+		minister_of_security = crime_fighter
+		start_date = 1952.1.1
+	}
+	559031 = {
+		name = "穆瑟·卡特泽森"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M559031
+		minister_of_security = prince_of_terror
+		start_date = 1941.1.1
+	}
+	559032 = {
+		name = "伊司拉尔·巴尔·耶胡达"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M559032
+		minister_of_intelligence = political_specialist
+		start_date = 1936.1.1
+	}
+	559033 = {
+		name = "麦纳西姆·门德尔·利普斯特兹"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M559033
+		minister_of_intelligence = dismal_enigma
+		start_date = 1937.1.1
+	}
+	559034 = {
+		name = "皮恩哈斯·萨皮瑞"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M559034
+		minister_of_intelligence = technical_specialist
+		start_date = 1942.1.1
+	}
+	559035 = {
+		name = "伊特扎克·格鲁恩巴姆"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M559035
+		minister_of_intelligence = dismal_enigma
+		minister_of_security = prince_of_terror
+		start_date = 1944.1.1
+	}
+	559036 = {
+		name = "瑞尔·卡特兹尼森"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M559036
+		minister_of_intelligence = industrial_specialist
+		start_date = 1936.1.1
+	}
+	559037 = {
+		name = "梅纳彻姆·彻尼森"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M559037
+		minister_of_intelligence = naval_intelligence_specialist
+		start_date = 1937.1.1
+	}
+	559038 = {
+		name = "罗曼·扎克哈瑞"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M559038
+		chief_of_staff = school_of_defence
+		start_date = 1936.1.1
+	}
+	559039 = {
+		name = "吉罗萨哈弗特·哈瑞卡比"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M559039
+		chief_of_staff = school_of_psychology
+		start_date = 1942.1.1
+	}
+	559040 = {
+		name = "里查德·斯利文森"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M559040
+		chief_of_staff = school_of_mass_combat
+		start_date = 1936.1.1
+	}
+	559041 = {
+		name = "皮恩查斯·罗森加藤"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M559041
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1936.1.1
+	}
+	559042 = {
+		name = "穆瑟·达扬"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M559042
+		chief_of_army = armoured_spearhead_doctrine
+		start_date = 1944.1.1
+	}
+	559043 = {
+		name = "阿莫斯·佐瑞夫"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M559043
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1936.1.1
+	}
+	559044 = {
+		name = "查姆·古瓦德"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M559044
+		chief_of_navy = base_control_doctrine
+		start_date = 1936.1.1
+	}
+	559045 = {
+		name = "莫瑟·科里兹"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M559045
+		chief_of_navy = indirect_approach_doctrine
+		start_date = 1936.1.1
+	}
+	559046 = {
+		name = "瑟里斯·马格恩"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M559046
+		chief_of_air = army_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	559047 = {
+		name = "鲁恩·沃夫"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M559047
+		chief_of_air = air_superiority_doctrine
+		start_date = 1936.1.1
+	}
+}

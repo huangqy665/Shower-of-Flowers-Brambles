@@ -1,0 +1,1071 @@
+color = { 203  138  74 }
+graphical_culture = Generic
+
+last_election = 1933.5.26
+duration = 48
+
+default_templates = {
+	generic_infantry = {
+		infantry_brigade
+		infantry_brigade
+		infantry_brigade
+	}
+	generic_milita = {
+		militia_brigade
+		militia_brigade
+		militia_brigade
+	}
+	generic_armoured = {
+		armor_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	generic_cavalry = {
+		cavalry_brigade
+		cavalry_brigade
+	}
+}
+
+unit_names = {
+	infantry_brigade = {
+		"第1步兵师" "第2步兵师" "第3步兵师" "第4步兵师" "第5步兵师" "第6步兵师" "第7步兵师" "第8步兵师" "第I爪哇步兵师" "第II爪哇步兵师" "第III爪哇步兵师" 
+		"'皮尔'步兵师" "第9步兵师" "第10步兵师" "第11步兵师" "第12步兵师" "第13步兵师" "第14步兵师" "第15步兵师" "第16步兵师" "第IV爪哇步兵师" "第V爪哇步兵师" 
+		"第VI爪哇步兵师" "第VII Divisie Java" "第17步兵师" "第18步兵师" "第19步兵师" "第20步兵师" "第21步兵师" "第22步兵师" "第23步兵师" "第24步兵师" "第VIII爪哇步兵师" 
+		"第IX爪哇步兵师" "第X爪哇步兵师" "第25步兵师" "第26步兵师" "第27步兵师" "第28步兵师" "第29步兵师" "第30步兵师" 
+	}
+	cavalry_brigade = {
+		"第1骑兵师" "第2骑兵师" "第3骑兵师" "第4骑兵师" "第5骑兵师" "第6骑兵师" "第7骑兵师" "第8骑兵师" "第9骑兵师" "第10骑兵师" 
+	}
+	motorized_brigade = {
+		"第1摩步师" "第2摩步师" "第3摩步师" "第4摩步师" "第5摩步师" "第6摩步师" "第7摩步师" "第8摩步师" "第9摩步师" "第10摩步师" "第11摩步师" 
+		"第12摩步师" "第13摩步师" "第14摩步师" "第15摩步师" "第16摩步师" "第17摩步师" "第18摩步师" "第19摩步师" "第20摩步师" 
+	}
+	mechanized_brigade = {
+		"第1机步师" "2机步师" "3机步师" "4机步师" "5机步师" "6机步师" "7机步师" "8机步师" "9机步师" "10机步师" "11机步师" 
+		"第12机步师" "13机步师" "14机步师" "15机步师" "16机步师" "17机步师" "18机步师" "19机步师" "20机步师" 
+	}
+	light_armor_brigade = {
+		"第1装甲师" "第2装甲师" "第3装甲师" "第4装甲师" "第5装甲师" "第6装甲师" "第7装甲师" "第8装甲师" "第9装甲师" "第10装甲师" "第11装甲师" 
+		"第12装甲师" "第13装甲师" "第14装甲师" "第15装甲师" 
+	}
+	armor_brigade = {
+		"第1装甲师" "第2装甲师" "第3装甲师" "第4装甲师" "第5装甲师" "第6装甲师" "第7装甲师" "第8装甲师" "第9装甲师" "第10装甲师" "第11装甲师" 
+		"第12装甲师" "第13装甲师" "第14装甲师" "第15装甲师" 
+	}
+	paratrooper_brigade = {
+		"第1伞兵师" "第2伞兵师" "第3伞兵师" "第4伞兵师" "第5伞兵师" "第6伞兵师" "第7伞兵师" "第8伞兵师" "第9伞兵师" "第10伞兵师" 
+	}
+	marine_brigade = {
+		"第1'红魔'海军陆战师" "第2海军陆战师" "第3海军陆战师" "第4海军陆战师" "第5海军陆战师" "第6海军陆战师" "第7海军陆战师" "第8海军陆战师" "第9海军陆战师" "第10海军陆战师" "第11海军陆战师" 
+		"第12海军陆战师" "第13海军陆战师" "第14海军陆战师" "第15海军陆战师" "第16海军陆战师" "第17海军陆战师" "第18海军陆战师" "第19海军陆战师" "第20海军陆战师" 
+	}
+	bergsjaeger_brigade = {
+		"第1山地师" "第2山地师" "第3山地师" "第4山地师" "第5山地师" "第6山地师" "第7山地师" "第8山地师" "第9山地师" "第10山地师" 
+	}
+	garrison_brigade = {
+		"第1卫戍师" "第2卫戍师" "第3卫戍师" "第4卫戍师" "第5卫戍师" "第6卫戍师" "第7卫戍师" "第8卫戍师" "第9卫戍师" "第10卫戍师" "第11卫戍师" 
+		"第12卫戍师" "第13卫戍师" "第14卫戍师" "第15卫戍师" "第16卫戍师" "第17卫戍师" "第18卫戍师" "第19卫戍师" "第20卫戍师" "第21卫戍师" "第22卫戍师" 
+		"第23卫戍师" "第24卫戍师" "第25卫戍师" "第26卫戍师" "第27卫戍师" "第28卫戍师" "第29卫戍师" "第30卫戍师" 
+	}
+	hq_brigade = {
+		"第1集团军" "第2集团军" "O.L.Z" "第3集团军" "第4集团军" 
+	}
+	militia_brigade = {
+		"弗里斯兰国民义勇军" "上艾瑟尔国民义勇军" "北布拉班特国民义勇军" "林堡国民义勇军" "泽兰国民义勇军" "登海尔德国民义勇军" "第1民兵师" "第2民兵师" "第3民兵师" "第4民兵师" "第5民兵师" 
+		"第6民兵师" "第7民兵师" "第8民兵师" "第9民兵师" "第10民兵师" "第11民兵师" "第12民兵师" "第13民兵师" "第14民兵师" "第15民兵师" "第16民兵师" 
+		"第17民兵师" "第18民兵师" "第19民兵师" "第20民兵师" 
+	}
+	multi_role = {
+		"第1战斗机联队" "第2战斗机联队" "第3战斗机联队" "第4战斗机联队" "第5战斗机联队" "第6战斗机联队" "第7战斗机联队" "第8战斗机联队" "第9战斗机联队" "第10战斗机联队" "第11战斗机联队" 
+		"第12战斗机联队" "第13战斗机联队" "第14战斗机联队" "第15战斗机联队" "第16战斗机联队" "第17战斗机联队" "第18战斗机联队" "第19战斗机联队" "第20战斗机联队" 
+	}
+	interceptor = {
+		"第1歼击机联队" "第2歼击机联队" "第3歼击机联队" "第4歼击机联队" "第5歼击机联队" "第6歼击机联队" "第7歼击机联队" "第8歼击机联队" "第9歼击机联队" "第10歼击机联队" "第11歼击机联队" 
+		"第12歼击机联队" "第13歼击机联队" "第14歼击机联队" "第15歼击机联队" "第16歼击机联队" "第17歼击机联队" "第18歼击机联队" "第19歼击机联队" "第20歼击机联队" 
+	}
+	strategic_bomber = {
+		"第1重型轰炸机联队" "第2重型轰炸机联队" "第3重型轰炸机联队" "第4重型轰炸机联队" "第5重型轰炸机联队" "第6重型轰炸机联队" "第7重型轰炸机联队" "第8重型轰炸机联队" "第9重型轰炸机联队" "第10重型轰炸机联队" "第11重型轰炸机联队" 
+		"第12重型轰炸机联队" "第13重型轰炸机联队" "第14重型轰炸机联队" "第15重型轰炸机联队" "第16重型轰炸机联队" "第17重型轰炸机联队" "第18重型轰炸机联队" "第19重型轰炸机联队" "第20重型轰炸机联队" 
+	}
+	tactical_bomber = {
+		"第1轻型轰炸机联队" "第2轻型轰炸机联队" "第3轻型轰炸机联队" "第4轻型轰炸机联队" "第5轻型轰炸机联队" "第6轻型轰炸机联队" "第7轻型轰炸机联队" "第8轻型轰炸机联队" "第9轻型轰炸机联队" "第10轻型轰炸机联队" "第11轻型轰炸机联队" 
+		"第12轻型轰炸机联队" "第13轻型轰炸机联队" "第14轻型轰炸机联队" "第15轻型轰炸机联队" "第16轻型轰炸机联队" "第17轻型轰炸机联队" "第18轻型轰炸机联队" "第19战术轰炸机联队" "第20战术轰炸机联队" 
+	}
+	naval_bomber = {
+		"第1海军轰炸机联队" "第2海军轰炸机联队" "第3海军轰炸机联队" "第4海军轰炸机联队" "第5海军轰炸机联队" "第6海军轰炸机联队" "第7海军轰炸机联队" "第8海军轰炸机联队" "第9海军轰炸机联队" "第10海军轰炸机联队" "第11海军轰炸机联队" 
+		"第12海军轰炸机联队" "第13海军轰炸机联队" "第14海军轰炸机联队" "第15海军轰炸机联队" "第16海军轰炸机联队" "第17海军轰炸机联队" "第18海军轰炸机联队" "第19海军轰炸机联队" "第20海军轰炸机联队" "第1鱼雷轰炸机联队" "第2鱼雷轰炸机联队" 
+		"第3鱼雷轰炸机联队" "第4鱼雷轰炸机联队" "第5鱼雷轰炸机联队" "第6鱼雷轰炸机联队" "第7鱼雷轰炸机联队" "第8鱼雷轰炸机联队" "第9鱼雷轰炸机联队" "第10鱼雷轰炸机联队" "第11鱼雷轰炸机联队" "第12鱼雷轰炸机联队" "第13鱼雷轰炸机联队" 
+		"第14鱼雷轰炸机联队" "第15鱼雷轰炸机联队" "第16鱼雷轰炸机联队" "第17鱼雷轰炸机联队" "第18鱼雷轰炸机联队" "第19鱼雷轰炸机联队" "第20鱼雷轰炸机联队" 
+	}
+	cas = {
+		"第1俯冲轰炸机联队" "第2俯冲轰炸机联队" "第3俯冲轰炸机联队" "第4俯冲轰炸机联队" "第5俯冲轰炸机联队" "第6俯冲轰炸机联队" "第7俯冲轰炸机联队" "第8俯冲轰炸机联队" "第9俯冲轰炸机联队" "第10俯冲轰炸机联队" "第11俯冲轰炸机联队" 
+		"第12俯冲轰炸机联队" "第13俯冲轰炸机联队" "第14俯冲轰炸机联队" "第15俯冲轰炸机联队" "第16俯冲轰炸机联队" "第17俯冲轰炸机联队" "第18俯冲轰炸机联队" "第19俯冲轰炸机联队" "第20俯冲轰炸机联队" 
+	}
+	transport_plane = {
+		"第1运输机联队" "第2运输机联队" "第3运输机联队" "第4运输机联队" "第5运输机联队" "第6运输机联队" "第7运输机联队" "第8运输机联队" "第9运输机联队" "第10运输机联队" 
+	}
+	battleship = {
+		"HrMs 赖尼尔 克拉松号" "HrMs 埃弗森号" "HrMs 皮特 海因号" "HrMs 科顿埃尔号" "HrMs 雷根特茨国王号" "HrMs 亨利大公号" "HrMs 范 斯派克号" "HrMs 维特号" 
+	}
+	light_cruiser = {
+		"HrMs 德鲁伊特尔号" "HrMs 雅各布 冯 赫姆斯科里科号" "HrMs 荷兰号" "HrMs 德瑞特号" "HrMs 泽兰号" "HrMs 弗里斯兰号" "HrMs 海尔德兰号" "HrMs 北布拉班特号" "HrMs 乌得勒支号" "HrMs 德伦特号" "HrMs 布拉班特号" 
+		"HrMs 林堡号" 
+	}
+	heavy_cruiser = {
+		"HrMs 七省号" "HrMs 团结号" "HrMs 爪哇号" "HrMs 苏门答腊号" "HrMs 苏拉威西号" "HrMs 泗水号" "HrMs 巴占号" "HrMs 斯兰号" "HrMs 安汶号" "HrMs 班达号" "HrMs 特尔纳特号" 
+		"HrMs 布鲁号" "HrMs 莫罗泰号" "HrMs 蒂多雷号" 
+	}
+	battlecruiser = {
+		"HrMs 范 斯派克号" "HrMs 维特号h" "HrMs 皮特 海因号" "HrMs 科顿埃尔号" "HrMs 雷根特茨国王号" "HrMs 亨利大公号" 
+	}
+	destroyer = {
+		"第1雷击舰编队" "第2雷击舰编队" "第3雷击舰编队" "第4雷击舰编队" "第5雷击舰编队" "第6雷击舰编队" "第7雷击舰编队" "第8雷击舰编队" "第9雷击舰编队" "第10雷击舰编队" "第11雷击舰编队" 
+		"第12雷击舰编队" "第13雷击舰编队" "第14雷击舰编队" "第15雷击舰编队" "第16雷击舰编队" "第17雷击舰编队" "第18雷击舰编队" "第19雷击舰编队" "第20雷击舰编队" "第21雷击舰编队" "第22雷击舰编队" 
+		"第23雷击舰编队" "第24雷击舰编队" "第25雷击舰编队" "第26雷击舰编队" "第27雷击舰编队" "第28雷击舰编队" "第29雷击舰编队" "第30雷击舰编队" 
+	}
+	carrier = {
+		"HrMs 卡雷尔 多尔曼号" "HrMs 七省号" "HrMs 德瑞特号" "HrMs 德鲁伊特尔号" "HrMs 皮特 海因号" "HrMs 飞翔的荷兰人号" 
+	}
+	escort_carrier = {
+		"HrMs 卡雷尔 多尔曼号" "HrMs 七省号" "HrMs 德瑞特号" "HrMs 德鲁伊特尔号" "HrMs 皮特 海因号" 
+	}
+	submarine = {
+		"第1潜艇编队" "第2潜艇编队" "第3潜艇编队" "第4潜艇编队" "第5潜艇编队" "第6潜艇编队" "第7潜艇编队" "第8潜艇编队" "第9潜艇编队" "第10潜艇编队" "第11潜艇编队" 
+		"第12潜艇编队" "第13潜艇编队" "第14潜艇编队" "第15潜艇编队" "第16潜艇编队" "第17潜艇编队" "第18潜艇编队" "第19潜艇编队" "第20潜艇编队" "第21潜艇编队" "第22潜艇编队" 
+		"第23潜艇编队" "第24潜艇编队" "第25潜艇编队" "第26潜艇编队" "第27潜艇编队" "第28潜艇编队" "第29潜艇编队" "第30潜艇编队" 
+	}
+	transport_ship = {
+		"第1运输舰编队" "第2运输舰编队" "第3运输舰编队" "第4运输舰编队" "第5运输舰编队" "第6运输舰编队" "第7运输舰编队" "第8运输舰编队" "第9运输舰编队" "第10运输舰编队" "第11运输舰编队" 
+		"第12运输舰编队" "第13运输舰编队" "第14运输舰编队" "第15运输舰编队" "第16运输舰编队" "第17运输舰编队" "第18运输舰编队" "第19运输舰编队" "第20运输舰编队" "第21运输舰编队" "第22运输舰编队" 
+		"第23运输舰编队" "第24运输舰编队" "第25运输舰编队" "第26运输舰编队" "第27运输舰编队" "第28运输舰编队" "第29运输舰编队" "第30运输舰编队" 
+	}
+
+}
+
+ministers = {
+	8001 = {
+		name = "威廉明娜"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M8001
+		head_of_state = stern_imperialist
+		head_of_state = stern_imperialist
+		head_of_state = stern_imperialist
+		start_date = 1936.1.1
+	}
+	8002 = {
+		name = "亨德利库斯·科莱恩"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M8002
+		head_of_government = silent_workhorse
+		foreign_minister = ideological_crusader
+		start_date = 1936.1.1
+	}
+	8003 = {
+		name = "弗朗斯·B.·范·贝拉斯"
+		ideology = social_conservative
+		loyalty = 0.50
+		picture = M8003
+		foreign_minister = ideological_crusader
+		start_date = 1936.1.1
+	}
+	8004 = {
+		name = "彼德·欧德"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M8004
+		armament_minister = submarine_proponent
+		start_date = 1936.1.1
+	}
+	8005 = {
+		name = "约瑟夫·H.H.·范·海克"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M8005
+		minister_of_security = silent_lawyer
+		start_date = 1936.1.1
+	}
+	8006 = {
+		name = "约翰·W.·范·奥尔斯霍特"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M8006
+		minister_of_intelligence = dismal_enigma
+		start_date = 1936.1.1
+	}
+	8007 = {
+		name = "阿德瑞安·迪希霍恩"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M8007
+		chief_of_staff = school_of_defence
+		armament_minister = tank_proponent
+		start_date = 1936.1.1
+	}
+	8008 = {
+		name = "伊扎克·雷恩代尔"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M8008
+		chief_of_army = static_defence_doctrine
+		start_date = 1936.1.1
+	}
+	8009 = {
+		name = "约翰内斯·弗尔斯特纳"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M8009
+		chief_of_navy = indirect_approach_doctrine
+		start_date = 1936.1.1
+	}
+	8010 = {
+		name = "马里尤斯·莱美克斯"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M8010
+		chief_of_air = air_superiority_doctrine
+		start_date = 1936.1.1
+	}
+	8038 = {
+		name = "安东·马瑟特"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M8148
+		head_of_state = barking_buffoon
+		head_of_government = ambitious_union_boss
+		foreign_minister = the_cloak_n_dagger_schemer
+		chief_of_staff = school_of_psychology
+		start_date = 1937.1.1
+	}
+	8040 = {
+		name = "本加明·布尔斯"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M8040
+		head_of_state = insignificant_layman
+		foreign_minister = great_compromiser
+		start_date = 1937.1.1
+	}
+	8041 = {
+		name = "简·迪特尔斯"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M8041
+		head_of_state = autocratic_charmer
+		chief_of_air = vertical_envelopment_doctrine
+		start_date = 1940.1.1
+	}
+	8042 = {
+		name = "索尔·德·格罗特"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M8021
+		head_of_state = ruthless_powermonger
+		foreign_minister = ideological_crusader
+		start_date = 1943.1.1
+	}
+	8043 = {
+		name = "约翰·阿尔巴拉达"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M8043
+		head_of_government = happy_amateur
+		armament_minister = laissez_faires_capitalist
+		start_date = 1939.1.1
+	}
+	8044 = {
+		name = "刘易斯·贝尔"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M8044
+		head_of_government = smiling_oilman
+		minister_of_security = man_of_the_people
+		start_date = 1946.1.1
+	}
+	8046 = {
+		name = "彼德·海布兰迪"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M8046
+		head_of_government = flamboyant_tough_guy
+		minister_of_security = crime_fighter
+		start_date = 1939.1.1
+	}
+	8047 = {
+		name = "威廉·舍默尔霍恩"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M8047
+		head_of_government = naive_optimist
+		armament_minister = resource_industrialist
+		start_date = 1945.1.1
+	}
+	8048 = {
+		name = "安德瑞斯·德克·德·格拉夫"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M8048
+		head_of_government = happy_amateur
+		foreign_minister = great_compromiser
+		start_date = 1937.1.1
+	}
+	8049 = {
+		name = "迪瑞克·扬·德·海尔"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M8049
+		head_of_government = political_protege
+		armament_minister = infantry_proponent
+		start_date = 1939.1.1
+	}
+	8050 = {
+		name = "扬·德·奎"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M8050
+		head_of_government = happy_amateur
+		armament_minister = resource_industrialist
+		start_date = 1940.1.1
+	}
+	8051 = {
+		name = "梅诺托·洛斯特·范·托尼根"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M8012
+		head_of_government = backroom_backstabber
+		foreign_minister = iron_fisted_brute
+		start_date = 1937.1.1
+	}
+	8053 = {
+		name = "格拉夫·德·马恰特·德安森姆博格"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M8013
+		head_of_government = flamboyant_tough_guy
+		foreign_minister = ideological_crusader
+		start_date = 1940.1.1
+	}
+	8054 = {
+		name = "尼古拉斯·贝泽马克"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M8054
+		head_of_government = happy_amateur
+		foreign_minister = the_cloak_n_dagger_schemer
+		start_date = 1937.1.1
+	}
+	8055 = {
+		name = "戴维·怀恩科普"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M8022
+		head_of_government = naive_optimist
+		foreign_minister = biased_intellectual
+		start_date = 1943.1.1
+	}
+	8056 = {
+		name = "丹尼尔·格罗泽"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M8025
+		head_of_government = smiling_oilman
+		minister_of_security = crime_fighter
+		start_date = 1945.1.1
+	}
+	8057 = {
+		name = "塞尔瓦蒂·巴特"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M8057
+		foreign_minister = great_compromiser
+		start_date = 1937.1.1
+	}
+	8058 = {
+		name = "阿德里亚努斯·皮尔特"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M8058
+		foreign_minister = apologetic_clerk
+		start_date = 1938.1.1
+	}
+	8059 = {
+		name = "乔治·范·登·博格"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M8059
+		foreign_minister = iron_fisted_brute
+		start_date = 1943.1.1
+	}
+	8060 = {
+		name = "简·范·罗伊"
+		ideology = social_democrat
+		loyalty = 0.50
+		picture = M8060
+		foreign_minister = biased_intellectual
+		start_date = 1946.1.1
+	}
+	8061 = {
+		name = "皮姆·范·贝特泽拉尔"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M8061
+		foreign_minister = general_staffer
+		start_date = 1946.1.1
+	}
+	8062 = {
+		name = "查尔斯·吉列姆·克雷默"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M8062
+		foreign_minister = the_cloak_n_dagger_schemer
+		armament_minister = air_superiority_proponent
+		minister_of_security = silent_lawyer
+		minister_of_intelligence = technical_specialist
+		start_date = 1947.1.1
+	}
+	8064 = {
+		name = "雅可比·帕泰恩"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M8064
+		foreign_minister = apologetic_clerk
+		foreign_minister = apologetic_clerk
+		start_date = 1937.1.1
+	}
+	8067 = {
+		name = "埃尔科·范·克莱芬斯"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M8065
+		foreign_minister = great_compromiser
+		start_date = 1939.1.1
+	}
+	8076 = {
+		name = "威廉·范·拉维斯汀n"
+		ideology = leninist
+		loyalty = 0.75
+		picture = M8023
+		foreign_minister = apologetic_clerk
+		start_date = 1943.1.1
+	}
+	8077 = {
+		name = "雅克布·范·杰登"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M8077
+		armament_minister = laissez_faires_capitalist
+		start_date = 1937.1.1
+	}
+	8078 = {
+		name = "兰伯特·H.·蒙索尔特"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M8078
+		armament_minister = resource_industrialist
+		start_date = 1939.1.1
+	}
+	8079 = {
+		name = "查尔斯·维尔特"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M8079
+		armament_minister = theoretical_scientist
+		start_date = 1940.1.1
+	}
+	8081 = {
+		name = "雅克·德·卡迪特"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M8081
+		armament_minister = military_entrepreneur
+		armament_minister = military_entrepreneur
+		start_date = 1942.1.1
+	}
+	8083 = {
+		name = "亚历山大·费兹"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M8083
+		armament_minister = administrative_genius
+		start_date = 1946.1.1
+	}
+	8084 = {
+		name = "简·丁伯根"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M8084
+		armament_minister = resource_industrialist
+		start_date = 1947.1.1
+	}
+	8086 = {
+		name = "悌特瑟·皮特·塞文玛"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M8086
+		armament_minister = laissez_faires_capitalist
+		start_date = 1939.1.1
+	}
+	8087 = {
+		name = "丹尼尔·范·德尔泽"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M8087
+		armament_minister = air_to_sea_proponent
+		start_date = 1940.1.1
+	}
+	8088 = {
+		name = "W.G.·范·维特姆"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M8088
+		armament_minister = tank_proponent
+		start_date = 1941.1.1
+	}
+	8090 = {
+		name = "O.·范·李汀·德·吉德"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M8090
+		armament_minister = administrative_genius
+		start_date = 1942.1.1
+	}
+	8091 = {
+		name = "詹姆斯·德·博伊"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M8091
+		armament_minister = battle_fleet_proponent
+		start_date = 1945.1.1
+	}
+	8092 = {
+		name = "约翰内斯·梅伊恩"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M8092
+		armament_minister = theoretical_scientist
+		start_date = 1945.1.1
+	}
+	8093 = {
+		name = "约斯特·范·哈梅尔"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M8093
+		armament_minister = military_entrepreneur
+		start_date = 1946.1.1
+	}
+	8096 = {
+		name = "马克米西连·斯登博格"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M8096
+		armament_minister = air_to_ground_proponent
+		start_date = 1942.1.1
+	}
+	8098 = {
+		name = "詹尼斯·范·迪克"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M8098
+		armament_minister = administrative_genius
+		start_date = 1940.1.1
+	}
+	8099 = {
+		name = "C.J.·尤根斯"
+		ideology = national_socialist
+		loyalty = 0.25
+		picture = M8014
+		armament_minister = administrative_genius
+		start_date = 1937.1.1
+	}
+	8100 = {
+		name = "格雷特·范·布瑞克"
+		ideology = national_socialist
+		loyalty = 0.75
+		picture = M8100
+		armament_minister = infantry_proponent
+		armament_minister = infantry_proponent
+		start_date = 1943.1.1
+	}
+	8102 = {
+		name = "彼德·贝格玛"
+		ideology = stalinist
+		loyalty = 0.75
+		picture = M8102
+		armament_minister = laissez_faires_capitalist
+		start_date = 1937.1.1
+	}
+	8104 = {
+		name = "简·柏士玛"
+		ideology = leninist
+		loyalty = 0.50
+		picture = M8024
+		armament_minister = theoretical_scientist
+		start_date = 1940.1.1
+	}
+	8105 = {
+		name = "雅克布·恩格斯"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M8105
+		armament_minister = strategic_air_proponent
+		chief_of_staff = school_of_psychology
+		start_date = 1944.1.1
+	}
+	8106 = {
+		name = "弗郎斯·范·德尔·格斯"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M8106
+		minister_of_security = man_of_the_people
+		start_date = 1937.1.1
+	}
+	8107 = {
+		name = "简·贝格梅加"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M8107
+		minister_of_security = compassionate_gentleman
+		start_date = 1939.1.1
+	}
+	8110 = {
+		name = "约翰·布劳提根"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M8110
+		minister_of_security = prince_of_terror
+		start_date = 1945.1.1
+	}
+	8113 = {
+		name = "费德·希雷尔"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M8113
+		minister_of_security = man_of_the_people
+		start_date = 1946.1.1
+	}
+	8114 = {
+		name = "威廉姆斯·安德森"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M8114
+		minister_of_security = prince_of_terror
+		start_date = 1940.1.1
+	}
+	8115 = {
+		name = "约翰·卢登"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M8115
+		minister_of_security = compassionate_gentleman
+		start_date = 1942.1.1
+	}
+	8116 = {
+		name = "贝纳德·C.J.·罗德尔"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M8116
+		minister_of_security = back_stabber
+		start_date = 1937.1.1
+	}
+	8117 = {
+		name = "刘易斯·爱因托芬"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M8117
+		minister_of_security = crime_fighter
+		start_date = 1939.1.1
+	}
+	8118 = {
+		name = "格瑞特·范·赫温·歌德哈特"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M8118
+		minister_of_security = compassionate_gentleman
+		start_date = 1943.1.1
+	}
+	8119 = {
+		name = "科内斯·范·格雷肯"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M8015
+		minister_of_security = prince_of_terror
+		minister_of_security = prince_of_terror
+		start_date = 1937.1.1
+	}
+	8122 = {
+		name = "卡尔·格塞宁"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M8122
+		minister_of_security = compassionate_gentleman
+		start_date = 1940.1.1
+	}
+	8123 = {
+		name = "福克·博斯曼"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M8123
+		minister_of_security = compassionate_gentleman
+		chief_of_navy = open_seas_doctrine
+		start_date = 1937.1.1
+	}
+	8124 = {
+		name = "亨德立克斯·斯内夫利特"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M8124
+		minister_of_security = man_of_the_people
+		start_date = 1939.1.1
+	}
+	8126 = {
+		name = "伊曼纽尔·博克曼"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M8126
+		minister_of_intelligence = dismal_enigma
+		start_date = 1937.1.1
+	}
+	8127 = {
+		name = "海门·德·伯尔"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M8127
+		minister_of_intelligence = political_specialist
+		start_date = 1939.1.1
+	}
+	8129 = {
+		name = "简·拉姆贝图斯·法贝尔"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M8129
+		minister_of_intelligence = political_specialist
+		start_date = 1943.1.1
+	}
+	8130 = {
+		name = "威廉·德瑞斯"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M8130
+		minister_of_intelligence = research_specialist
+		head_of_government = ambitious_union_boss
+		start_date = 1945.1.1
+	}
+	8131 = {
+		name = "H.A.·范·卡梅贝克"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M8131
+		minister_of_intelligence = technical_specialist
+		start_date = 1937.1.1
+	}
+	8132 = {
+		name = "简·斯罗特马克"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M8132
+		minister_of_intelligence = research_specialist
+		start_date = 1939.1.1
+	}
+	8133 = {
+		name = "G.J.·萨斯"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M8133
+		minister_of_intelligence = research_specialist
+		start_date = 1940.1.1
+	}
+	8134 = {
+		name = "弗郎斯·福克斯索特"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M8134
+		minister_of_intelligence = dismal_enigma
+		start_date = 1946.1.1
+	}
+	8136 = {
+		name = "克里斯托费尔·范·图因恩"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M8136
+		minister_of_intelligence = industrial_specialist
+		start_date = 1939.1.1
+	}
+	8137 = {
+		name = "西蒙·索帕"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M8137
+		minister_of_intelligence = naval_intelligence_specialist
+		chief_of_staff = school_of_psychology
+		start_date = 1942.1.1
+	}
+	8138 = {
+		name = "亨克·费尔德梅杰"
+		ideology = national_socialist
+		loyalty = 0.50
+		picture = M8016
+		minister_of_intelligence = political_specialist
+		start_date = 1937.1.1
+	}
+	8139 = {
+		name = "米歇尔·德·布鲁尼"
+		ideology = paternal_autocrat
+		loyalty = 0.50
+		picture = M8139
+		minister_of_intelligence = technical_specialist
+		start_date = 1945.1.1
+	}
+	8140 = {
+		name = "阿卜拉翰·蒙斯特"
+		ideology = leninist
+		loyalty = 1.00
+		picture = M8026
+		minister_of_intelligence = political_specialist
+		start_date = 1937.1.1
+	}
+	8141 = {
+		name = "伊纳·威莱克斯·马克多纳德"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M8141
+		minister_of_intelligence = dismal_enigma
+		start_date = 1943.1.1
+	}
+	8142 = {
+		name = "贝纳哈德·克罗托夫"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M8142
+		chief_of_staff = school_of_psychology
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1937.1.1
+	}
+	8149 = {
+		name = "亨德瑞克·瑟法德"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M8017
+		chief_of_staff = school_of_defence
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1943.1.1
+	}
+	8151 = {
+		name = "托马斯·斯图克"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M8027
+		chief_of_staff = school_of_mass_combat
+		start_date = 1937.1.1
+	}
+	8152 = {
+		name = "格瑞特·斯特瑞加"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M8152
+		chief_of_staff = school_of_defence
+		start_date = 1940.1.1
+	}
+	8155 = {
+		name = "简·范·沃瑞斯特·托特·沃斯特"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M8155
+		chief_of_army = static_defence_doctrine
+		start_date = 1937.1.1
+	}
+	8156 = {
+		name = "亨瑞·温克莱曼"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M8154
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1940.1.1
+	}
+	8159 = {
+		name = "阿德瑞努斯·佐德瓦"
+		ideology = national_socialist
+		loyalty = 0.25
+		picture = M8018
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1937.1.1
+	}
+	8161 = {
+		name = "赫尔曼·范·沃斯特·托特·沃斯特"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M8161
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1945.1.1
+	}
+	8162 = {
+		name = "亚历山大·德·李乌"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M8162
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1937.1.1
+	}
+	8163 = {
+		name = "尼科·范·斯特拉登"
+		ideology = leninist
+		loyalty = 0.50
+		picture = M8028
+		chief_of_army = armoured_spearhead_doctrine
+		start_date = 1943.1.1
+	}
+	8164 = {
+		name = "安东·科吉曼斯"
+		ideology = stalinist
+		loyalty = 1.00
+		picture = M8164
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1945.1.1
+	}
+	8168 = {
+		name = "皮特·克恩拉德"
+		ideology = fascistic
+		loyalty = 0.50
+		picture = M8019
+		chief_of_navy = base_control_doctrine
+		start_date = 1937.1.1
+	}
+	8170 = {
+		name = "克里斯汀·贝克曼"
+		ideology = leninist
+		loyalty = 0.50
+		picture = M8170
+		chief_of_navy = base_control_doctrine
+		start_date = 1937.1.1
+	}
+	8172 = {
+		name = "皮特鲁斯·W.·贝斯特"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M8172
+		chief_of_air = naval_aviation_doctrine
+		start_date = 1939.1.1
+	}
+	8177 = {
+		name = "查尔斯·多瓦·范·德尔·卡普"
+		ideology = fascistic
+		loyalty = 0.50
+		picture = M8020
+		chief_of_air = naval_aviation_doctrine
+		start_date = 1937.1.1
+	}
+	8180 = {
+		name = "朱利斯·泽格斯"
+		ideology = leninist
+		loyalty = 0.50
+		picture = M8030
+		chief_of_air = air_superiority_doctrine
+		start_date = 1943.1.1
+	}
+	8183 = {
+		name = "亚历山大·冯·法肯豪森"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M510086
+		head_of_state = resigned_generalissimo
+		start_date = 1940.1.1
+	}
+	8184 = {
+		name = "阿力特·塞伊斯·伊扎克"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M58
+		head_of_state = power_hungry_demagogue
+		start_date = 1940.1.1
+	}
+	8029 = {
+		name = "卡尔·多尔曼"
+		ideology = left_wing_radical
+		loyalty = 0.50
+		picture = M8029
+		chief_of_navy = open_seas_doctrine
+		start_date = 1936.1.1
+	}
+	8186 = {
+		name = "朱丽安娜"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M8186
+		head_of_state = popular_figurehead
+		head_of_state = popular_figurehead
+		start_date = 1948.1.1
+	}
+	8189 = {
+		name = "迪瑞克·U.·斯悌克"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M8189
+		foreign_minister = great_compromiser
+		start_date = 1948.1.1
+	}
+	8190 = {
+		name = "简·威廉·贝恩"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M8190
+		foreign_minister = apologetic_clerk
+		start_date = 1951.1.1
+	}
+	8191 = {
+		name = "威姆·索金"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M8191
+		armament_minister = air_to_ground_proponent
+		start_date = 1948.1.1
+	}
+	8192 = {
+		name = "路易斯·德·维塞尔"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M8192
+		armament_minister = theoretical_scientist
+		start_date = 1950.1.1
+	}
+	8193 = {
+		name = "科斯·斯塔夫"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M8193
+		armament_minister = resource_industrialist
+		start_date = 1951.1.1
+	}
+	8194 = {
+		name = "约翰尼斯·范·马尔赛文"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M8194
+		minister_of_security = silent_lawyer
+		start_date = 1946.1.1
+	}
+	8195 = {
+		name = "特恩·斯特瑞克"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M8195
+		minister_of_security = back_stabber
+		start_date = 1948.1.1
+	}
+	8196 = {
+		name = "Henrik·Mulderije"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M8196
+		minister_of_security = crime_fighter
+		start_date = 1951.1.1
+	}
+	8197 = {
+		name = "Leendert·A.·Donker"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M8197
+		minister_of_security = compassionate_gentleman
+		start_date = 1952.1.1
+	}
+}
+

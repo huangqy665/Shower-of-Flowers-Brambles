@@ -1,0 +1,620 @@
+color = { 72  73  126 }
+
+graphical_culture = Generic
+
+default_templates = {
+	generic_infantry = {
+		infantry_brigade
+		infantry_brigade
+		infantry_brigade
+	}
+	generic_milita = {
+		militia_brigade
+		militia_brigade
+		militia_brigade
+	}
+	generic_armoured = {
+		armor_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	generic_cavalry = {
+		cavalry_brigade
+		cavalry_brigade
+	}
+}
+
+unit_names = {
+	infantry_brigade = {
+		"近卫步兵师" "切尔斯克第1步兵师" "多瑙河第3步兵师" "舒马迪亚第5步兵师" "博迪斯亚第7步兵师" "康吉斯第8步兵师" "蒂莫克第9步兵师" "波斯尼亚第10步兵师" "亚得里亚第12步兵师" "黑塞哥维那第13步兵师" "泽塔河第15步兵师" 
+		"弗尔巴斯河第17步兵师" "贝尔戈尔宁第20步兵师" "伊巴尔第22步兵师" "发达河第25步兵师" "萨瓦河第27步兵师" "奥西耶克第30步兵师" "科索沃第31步兵师" "特里格拉夫第32步兵师" "里克第33步兵师" "托普利卡第34步兵师" "德拉瓦河第38步兵师" 
+		"斯拉沃尼亚第40步兵师" "穆尔斯卡第42步兵师" "阿斯克第44步兵师" "摩拉瓦河第46步兵师" "迪纳拉第47步兵师" "斯雷姆斯卡第49步兵师" "德里纳河第50步兵师" "第51步兵师" "第52步兵师" "第53步兵师" "第54步兵师" 
+		"第55步兵师" "第56步兵师" "第57步兵师" "第58步兵师" "第59步兵师" "第60步兵师" "第61步兵师" "第62步兵师" "第63步兵师" "第64步兵师" "第64步兵师" 
+		"第66步兵师" "第67步兵师" "第68步兵师" "第69步兵师" "第70步兵师" 
+	}
+	cavalry_brigade = {
+		"第1骑兵师" "第2骑兵师" "第3骑兵师" "第4骑兵师" "第5骑兵师" "第6骑兵师" "第7骑兵师" "第8骑兵师" "第9骑兵师" "第10骑兵师" "第11骑兵师" 
+		"第12骑兵师" 
+	}
+	motorized_brigade = {
+		"第1摩托化步兵师" "第2摩托化步兵师" "第3摩托化步兵师" "第4摩托化步兵师" "第5摩托化步兵师" "第5摩托化步兵师" "第6摩托化步兵师" "第7摩托化步兵师" "第8摩托化步兵师" "第9摩托化步兵师" "第10摩托化步兵师" 
+		"第11摩托化步兵师" 
+	}
+	mechanized_brigade = {
+		"第1机械化步兵师" "第2机械化步兵师" "第3机械化步兵师" "第4机械化步兵师" "第5机械化步兵师" "第6机械化步兵师" "第7机械化步兵师" "第8机械化步兵师" "第9机械化步兵师" "第10机械化步兵师" "第11机械化步兵师" 
+		"第12机械化步兵师" "第13机械化步兵师" 
+	}
+	light_armor_brigade = {
+		"第1轻装甲师" "第2轻装甲师" "第3轻装甲师" "第4轻装甲师" "第5轻装甲师" "第6轻装甲师" "第7轻装甲师" "第8轻装甲师" "第9轻装甲师" "第10轻装甲师" "第11轻装甲师" 
+		"第12轻装甲师" "第13轻装甲师" "第14轻装甲师" 
+	}
+	armor_brigade = {
+		"第1装甲师" "第2装甲师" "第3装甲师" "第4装甲师" "第5装甲师" "第6装甲师" "第7装甲师" "第8装甲师" "第9装甲师" "第10装甲师" "第11装甲师" 
+		"第12装甲师" "第13装甲师" "第14装甲师" 
+	}
+	paratrooper_brigade = {
+		"第1空降师" "第2空降师" "第3空降师" "第4空降师" "第5空降师" "第6空降师" "第7空降师" "第8空降师" "第9空降师" 
+	}
+	marine_brigade = {
+		"第1海军陆战师" "第2海军陆战师" "第3海军陆战师" "第4海军陆战师" "第5海军陆战师" "第6海军陆战师" "第7海军陆战师" "第8海军陆战师" "第9海军陆战师" "第10海军陆战师" 
+	}
+	bergsjaeger_brigade = {
+		"特里格拉夫山地师" "里斯尼亚克山地师" "波兰宁山地师" "巴纳特山地师" "布兰尼切夫山地师" "卡尔纳山地师" "康穆斯山地师" "里克山地师" "奥尔莫山地师" "波扎雷瓦茨山地师" "萨夫斯基山地师" 
+		"圣康思山地师" "斯梅代雷沃山地师" "松博尔山地师" "斯特鲁米察山地师" "瓦兰斯山地师" "扎巴尔山地师" 
+	}
+	garrison_brigade = {
+		"发达河第25卫戍师" "萨瓦河第27卫戍师" "奥西耶克第30卫戍师" "科索沃第31卫戍师" "32. 特里格拉夫 第卫戍师" "里克第33卫戍师" "托普利卡第34卫戍师" "德拉瓦河第38卫戍师" "斯拉沃尼亚第40卫戍师" "穆尔斯卡第42卫戍师" "阿斯克第44卫戍师" 
+		"摩拉瓦河第46卫戍师" "迪纳拉第47卫戍师" "斯雷姆斯卡第49卫戍师" "德里纳河第40卫戍师" "第51卫戍师" "第52卫戍师" "第53卫戍师" "第54卫戍师" "第55卫戍师" "第56卫戍师" "第57卫戍师" 
+		"第58卫戍师" "第59卫戍师" "第60卫戍师" "第61卫戍师" "第62卫戍师" "第63卫戍师" "第64卫戍师" "第65卫戍师" "第66卫戍师" "第67卫戍师" "第68卫戍师" 
+		"第69卫戍师" "第70卫戍师" 
+	}
+	hq_brigade = {
+		"第1集团军" "第2集团军" "第3集团军" "第4集团军" "第5集团军" "第6集团军" "第7集团军" "第8集团军" "第9集团军" "第10集团军" "第15集团军" 
+			}
+	militia_brigade = {
+		"第1警备师" "第2警备师" "第3警备师" "第4警备师" "第5警备师" "第6警备师" "第7警备师" "第8警备师" "第9警备师" "第10警备师" "第11警备师" 
+		"第12警备师" "第13警备师" "第14警备师" "第15警备师" "第16警备师" "第17警备师" "第18警备师" "第19警备师" "第20警备师" 
+	}
+	multi_role = {
+		"第2战斗机大队" "第4战斗机大队" "第5战斗机大队" "第6战斗机大队" "第9战斗机大队" "第10战斗机大队" "第15战斗机大队" "第16战斗机大队" "第17战斗机大队" "第18战斗机大队" 
+	}
+	interceptor = {
+		"第2截击机联队" "第4截击机联队" "第5截击机联队" "第6截击机联队" "第9截击机联队" "第10截击机联队" "第15截击机联队" "第16截击机联队" "第17截击机联队" "第18截击机联队" 
+	}
+	strategic_bomber = {
+		"第1战略轰炸机联队" "第3战略轰炸机联队" "第7战略轰炸机联队" "第8战略轰炸机联队" "第11战略轰炸机联队" "第12战略轰炸机联队" "第13战略轰炸机联队" "第14战略轰炸机联队" "第15战略轰炸机联队" "第16战略轰炸机联队" 
+	}
+	tactical_bomber = {
+		"第26战术轰炸机联队" "第17战术轰炸机联队" "第18战术轰炸机联队" "第19战术轰炸机联队" "第28战术轰炸机联队" "第38战术轰炸机联队" "第48战术轰炸机联队" "第58战术轰炸机联队" "第68战术轰炸机联队" "第78战术轰炸机联队" 
+	}
+	naval_bomber = {
+		"第1海军轰炸机联队" "第2海军轰炸机联队" "第3海军轰炸机联队" "第4海军轰炸机联队" "第5海军轰炸机联队" "第6海军轰炸机联队" "第7海军轰炸机联队" "第8海军轰炸机联队" "第9海军轰炸机联队" "第10海军轰炸机联队" "第13鱼雷攻击机联队" 
+		"第14鱼雷攻击机联队" "第15鱼雷攻击机联队" "第16鱼雷攻击机联队" "第17鱼雷攻击机联队" "第18鱼雷攻击机联队" "第19鱼雷攻击机联队" "第20鱼雷攻击机联队" "第24鱼雷攻击机联队" "第26鱼雷攻击机联队" 
+	}
+	cas = {
+		"第19俯冲轰炸机联队" "第20俯冲轰炸机联队" "第21俯冲轰炸机联队" "第22俯冲轰炸机联队" "第23俯冲轰炸机联队" "第24俯冲轰炸机联队" "第25俯冲轰炸机联队" "第27俯冲轰炸机联队" "第29俯冲轰炸机联队" "第30俯冲轰炸机联队" 
+	}
+	transport_plane = {
+		"第1航空运输联队" "第2航空运输联队" "第3航空运输联队" "第4航空运输联队" "第5航空运输联队" 
+	}
+	battleship = {
+		"CJMN贝尔格莱德" "CJMN萨格勒布" "CJMN诺维萨德" "CJMN布德瓦" "CJMN采蒂涅" "CJMN杜布罗夫尼克" "CJMN佩奇" "CJMN普里兹伦" "CJMN普里士提纳" "CJMN萨拉热窝" 
+	}
+	light_cruiser = {
+		"CJMN达尔马提亚" "CJMN萨拉热窝" "CJMN布鲁瑟" "CJMN尼什" "CJMN斯梅代雷沃" "CJMN马纳希亚" "CJMN弗尔沙茨" "CJMN卢布尔雅那" 
+	}
+	heavy_cruiser = {
+		"CJMN贝尔格莱德" "CJMN萨格勒布" "CJMN诺维萨德" "CJMN布德瓦" "CJMN采蒂涅" "CJMN杜布罗夫尼克" "CJMN佩奇" "CJMN普里兹伦" "CJMN普里士提纳" 
+	}
+	battlecruiser = {
+		"CJMN布鲁瑟" "CJMN尼什" 
+	}
+	destroyer = {
+		"第1驱逐舰队" "第2驱逐舰队" "第3驱逐舰队" "第4驱逐舰队" "第5驱逐舰队" "第6驱逐舰队" "第7驱逐舰队" "第8驱逐舰队" "第9驱逐舰队" "第10驱逐舰队" "第11驱逐舰队" 
+		"第12驱逐舰队" "第13驱逐舰队" "第14驱逐舰队" "第15驱逐舰队" "第16驱逐舰队" "第17驱逐舰队" "第18驱逐舰队" "第19驱逐舰队" "第20驱逐舰队" 
+	}
+	carrier = {
+		"CJMN斯梅代雷沃" "CJMN马纳希亚" "CJMN弗尔沙茨" "CJMN卢布尔雅那" "CJMN布鲁瑟" "CJMN卢布尔雅那" "CJMN贝尔格莱德" "CJMN萨格勒布" "CJMN诺维萨德" "CJMN布德瓦" 
+	}
+	submarine = {
+		"第1潜艇编队" "第2潜艇编队" "第3潜艇编队" "第4潜艇编队" "第5潜艇编队" "第6潜艇编队" "第7潜艇编队" "第8潜艇编队" "第9潜艇编队" "第10潜艇编队" "第11潜艇编队" 
+		"第12潜艇编队" "第13潜艇编队" "第14潜艇编队" "第15潜艇编队" "第16潜艇编队" "第17潜艇编队" "第18潜艇编队" "第19潜艇编队" "第20潜艇编队" 
+	}
+	transport_ship = {
+		"第1运输编队" "第2运输编队" "第3运输编队" "第4运输编队" "第5运输编队" "第6运输编队" "第7运输编队" "第8运输编队" "第9运输编队" "第10运输编队" "第11运输编队" 
+		"第12运输编队" "第13运输编队" "第14运输编队" "第15运输编队" "第16运输编队" "第17运输编队" "第18运输编队" "第19运输编队" "第20运输编队" 
+	}
+
+}
+
+ministers = {
+	20001 = {
+		name = "H.R.H.保罗·卡拉乔治维奇"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M20001
+		head_of_state = benevolent_gentleman
+		minister_of_security = prince_of_terror
+		chief_of_navy = power_projection_doctrine
+		start_date = 1936.1.1
+	}
+	20002 = {
+		name = "米兰·斯托亚迪诺维奇"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M20002
+		head_of_government = silent_workhorse
+		foreign_minister = the_cloak_n_dagger_schemer
+		start_date = 1936.1.1
+	}
+	20004 = {
+		name = "博戈柳布·耶夫蒂奇"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M20004
+		armament_minister = corrupt_kleptocrat
+		start_date = 1936.1.1
+	}
+	20006 = {
+		name = "鲍里沃耶·祖斯莫维奇"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = L46013
+		minister_of_intelligence = political_specialist
+		start_date = 1936.1.1
+	}
+	20007 = {
+		name = "佩塔尔·柯西奇"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = L46015
+		chief_of_staff = school_of_mass_combat
+		start_date = 1936.1.1
+	}
+	20008 = {
+		name = "亚历山大·辛卡尔-马科维奇"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = L46005
+		chief_of_army = decisive_battle_doctrine
+		foreign_minister = general_staffer
+		start_date = 1936.1.1
+	}
+	20009 = {
+		name = "博戈柳布·伊利奇"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = L46043
+		chief_of_navy = base_control_doctrine
+		start_date = 1936.1.1
+	}
+	20010 = {
+		name = "杜尚·西莫维奇"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = L46060
+		chief_of_air = army_aviation_doctrine
+		head_of_government = happy_amateur
+		start_date = 1936.1.1
+	}
+	20031 = {
+		name = "约瑟普·布罗兹·铁托"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M20021
+		head_of_state = power_hungry_demagogue
+		head_of_government = backroom_backstabber
+		chief_of_army = armoured_spearhead_doctrine
+		chief_of_navy = indirect_approach_doctrine
+		chief_of_air = army_aviation_doctrine
+		start_date = 1936.1.1
+	}
+	20032 = {
+		name = "德拉吉沙·茨维特科维奇"
+		ideology = paternal_autocrat
+		loyalty = 1.00
+		picture = M20032
+		head_of_government = naive_optimist
+		start_date = 1939.1.1
+	}
+	20034 = {
+		name = "斯洛博丹·约万诺维奇"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M20034
+		head_of_government = political_protege
+		foreign_minister = biased_intellectual
+		start_date = 1942.1.1
+	}
+	20035 = {
+		name = "米洛什·特里富诺维奇"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M20035
+		head_of_government = old_general
+		start_date = 1943.1.1
+	}
+	20036 = {
+		name = "伊万·舒巴希奇"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M20014
+		head_of_government = corporate_suit
+		foreign_minister = apologetic_clerk
+		armament_minister = infantry_proponent
+		start_date = 1944.1.1
+	}
+	20038 = {
+		name = "弗拉特科·梅塞克"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M20038
+		head_of_government = old_air_marshal
+		foreign_minister = apologetic_clerk
+		start_date = 1936.1.1
+	}
+	20040 = {
+		name = "莫姆契洛·宁契奇"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M20013
+		foreign_minister = great_compromiser
+		foreign_minister = the_cloak_n_dagger_schemer
+		start_date = 1941.1.1
+	}
+	20042 = {
+		name = "米兰·格罗尔"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M20042
+		foreign_minister = apologetic_clerk
+		start_date = 1943.1.1
+	}
+	20043 = {
+		name = "博日达尔·普里奇"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M20043
+		foreign_minister = ideological_crusader
+		start_date = 1943.1.1
+	}
+	20045 = {
+		name = "斯塔诺耶·西米克"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M20023
+		foreign_minister = great_compromiser
+		start_date = 1936.1.1
+	}
+	20047 = {
+		name = "爱德华·卡德尔"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M20047
+		foreign_minister = ideological_crusader
+		start_date = 1941.1.1
+	}
+	20048 = {
+		name = "迪米特里捷·廖蒂奇"
+		ideology = national_socialist
+		loyalty = 0.75
+		picture = M20048
+		foreign_minister = iron_fisted_brute
+		start_date = 1943.1.1
+	}
+	20049 = {
+		name = "埃多·鲍格丹·马尔科维奇"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M20049
+		armament_minister = resource_industrialist
+		start_date = 1939.1.1
+	}
+	20050 = {
+		name = "拉迪斯拉夫·波利奇"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M20050
+		armament_minister = laissez_faires_capitalist
+		start_date = 1941.1.1
+	}
+	20051 = {
+		name = "安东·科扎列夫"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M20051
+		armament_minister = tank_proponent
+		start_date = 1942.1.1
+	}
+	20052 = {
+		name = "塔纳西耶·塔萨·迪尼奇"
+		ideology = national_socialist
+		loyalty = 0.75
+		picture = M20052
+		armament_minister = corrupt_kleptocrat
+		start_date = 1943.1.1
+	}
+	20053 = {
+		name = "佩塔尔·伊韦利奇"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M20053
+		armament_minister = theoretical_scientist
+		start_date = 1944.1.1
+	}
+	20054 = {
+		name = "米伦蒂耶·波波维奇"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M20024
+		armament_minister = resource_industrialist
+		start_date = 1936.1.1
+	}
+	20055 = {
+		name = "徳雷泽·米哈伊洛夫维奇"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M20055
+		armament_minister = tank_proponent
+		chief_of_staff = school_of_defence
+		chief_of_army = static_defence_doctrine
+		head_of_government = naive_optimist
+		start_date = 1936.1.1
+	}
+	20056 = {
+		name = "米歇尔·叶凡诺维克"
+		ideology = paternal_autocrat
+		loyalty = 0.50
+		picture = M20056
+		minister_of_security = compassionate_gentleman
+		start_date = 1939.1.1
+	}
+	20057 = {
+		name = "莫姆契洛·杜伊奇"
+		ideology = social_conservative
+		loyalty = 0.50
+		picture = M20015
+		minister_of_security = silent_lawyer
+		start_date = 1941.1.1
+	}
+	20058 = {
+		name = "佩塔尔·格拉波夫斯基"
+		ideology = fascistic
+		loyalty = 0.50
+		picture = M20058
+		minister_of_security = efficient_sociopath
+		start_date = 1942.1.1
+	}
+	20059 = {
+		name = "米兰·内迪奇"
+		ideology = national_socialist
+		loyalty = 0.75
+		picture = M20059
+		minister_of_security = prince_of_terror
+		start_date = 1943.1.1
+	}
+	20060 = {
+		name = "斯皮罗·凯廷契夫"
+		ideology = national_socialist
+		loyalty = 0.75
+		picture = M20060
+		minister_of_security = back_stabber
+		start_date = 1944.1.1
+	}
+	20061 = {
+		name = "德拉戈柳布·斯特凡尼奇"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M20061
+		minister_of_security = crime_fighter
+		start_date = 1944.1.1
+	}
+	20062 = {
+		name = "科查·波波维奇"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M20025
+		minister_of_security = silent_lawyer
+		chief_of_staff = school_of_mass_combat
+		foreign_minister = the_cloak_n_dagger_schemer
+		start_date = 1936.1.1
+	}
+	20063 = {
+		name = "安德里亚·什坦帕尔"
+		ideology = paternal_autocrat
+		loyalty = 0.75
+		picture = M20063
+		minister_of_intelligence = technical_specialist
+		start_date = 1939.1.1
+	}
+	20064 = {
+		name = "乔尔杰·佩奇里奇"
+		ideology = social_conservative
+		loyalty = 0.75
+		picture = M20064
+		minister_of_intelligence = industrial_specialist
+		start_date = 1941.1.1
+	}
+	20065 = {
+		name = "迪米特尔·卡洛夫"
+		ideology = fascistic
+		loyalty = 0.75
+		picture = M20065
+		minister_of_intelligence = dismal_enigma
+		start_date = 1942.1.1
+	}
+	20066 = {
+		name = "科斯塔·俄肯尼克"
+		ideology = national_socialist
+		loyalty = 0.75
+		picture = M20066
+		minister_of_intelligence = research_specialist
+		start_date = 1943.1.1
+	}
+	20067 = {
+		name = "德拉戈柳布·约万诺维奇"
+		ideology = national_socialist
+		loyalty = 0.75
+		picture = M20067
+		minister_of_intelligence = political_specialist
+		start_date = 1943.1.1
+	}
+	20068 = {
+		name = "米哈伊尔·米洛舍维奇"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M20068
+		minister_of_intelligence = technical_specialist
+		start_date = 1944.1.1
+	}
+	20069 = {
+		name = "亚历山大·兰科维奇"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M20026
+		minister_of_intelligence = dismal_enigma
+		start_date = 1936.1.1
+	}
+	20071 = {
+		name = "拉迪沃耶·扬科维奇"
+		ideology = social_conservative
+		loyalty = 0.50
+		picture = L46012
+		chief_of_staff = school_of_fire_support
+		start_date = 1941.1.1
+	}
+	20072 = {
+		name = "迪米特尔·杜泽洛夫"
+		ideology = fascistic
+		loyalty = 0.50
+		picture = M20072
+		chief_of_staff = school_of_manoeuvre
+		chief_of_army = armoured_spearhead_doctrine
+		start_date = 1942.1.1
+	}
+	20073 = {
+		name = "马尔科·博若维奇"
+		ideology = national_socialist
+		loyalty = 0.50
+		picture = L46002
+		chief_of_staff = school_of_mass_combat
+		chief_of_army = elastic_defence_doctrine
+		start_date = 1943.1.1
+	}
+	20074 = {
+		name = "约万·尼科利奇"
+		ideology = market_liberal
+		loyalty = 0.50
+		picture = M20074
+		chief_of_staff = school_of_psychology
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1944.1.1
+	}
+	20075 = {
+		name = "阿尔萨·约万诺维奇"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M20075
+		chief_of_staff = school_of_mass_combat
+		start_date = 1936.1.1
+	}
+	20078 = {
+		name = "米卢廷·内迪奇"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = L46026
+		chief_of_army = decisive_battle_doctrine
+		chief_of_navy = decisive_naval_battle_doctrine
+		start_date = 1941.1.1
+	}
+	20085 = {
+		name = "佩塔尔·迪梅夫"
+		ideology = fascistic
+		loyalty = 1.00
+		picture = M20085
+		chief_of_navy = indirect_approach_doctrine
+		chief_of_air = vertical_envelopment_doctrine
+		start_date = 1942.1.1
+	}
+	20086 = {
+		name = "尼古拉·曼迪奇"
+		ideology = national_socialist
+		loyalty = 1.00
+		picture = M20086
+		chief_of_navy = base_control_doctrine
+		start_date = 1943.1.1
+	}
+	20091 = {
+		name = "阿德曼加·梅西奇"
+		ideology = national_socialist
+		loyalty = 0.75
+		picture = M20091
+		chief_of_air = army_aviation_doctrine
+		start_date = 1943.1.1
+	}
+	20092 = {
+		name = "佩塔尔·武克切维奇"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = L46062
+		chief_of_air = naval_aviation_doctrine
+		start_date = 1944.1.1
+	}
+	20093 = {
+		name = "伊万·里巴尔"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M20093
+		chief_of_air = air_superiority_doctrine
+		start_date = 1936.1.1
+	}
+	20094 = {
+		name = "H.M.佩塔尔二世"
+		ideology = social_conservative
+		loyalty = 1.00
+		picture = M20011
+		head_of_state = benevolent_gentleman
+		start_date = 1941.1.1
+	}
+	20016 = {
+		name = "米罗斯拉夫·斯帕莱科夫维奇"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M20016
+		minister_of_intelligence = technical_specialist
+		start_date = 1936.1.1
+	}
+	20017 = {
+		name = "米哈伊洛·卢奇克"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = L46020
+		chief_of_staff = school_of_manoeuvre
+		start_date = 1936.1.1
+	}
+	20104 = {
+		name = "伊万·戈什尼亚克"
+		ideology = left_wing_radical
+		loyalty = 1.00
+		picture = M20104
+		armament_minister = infantry_proponent
+		start_date = 1953.1.1
+	}
+	20105 = {
+		name = "弗拉迪米尔·西米克"
+		ideology = left_wing_radical
+		loyalty = 0.75
+		picture = M20105
+		minister_of_security = compassionate_gentleman
+		start_date = 1953.1.1
+	}
+	20106 = {
+		name = "米洛文·吉拉斯"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M20106
+		minister_of_intelligence = political_specialist
+		start_date = 1953.1.1
+	}
+}
+

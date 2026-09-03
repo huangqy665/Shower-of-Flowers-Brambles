@@ -1,0 +1,311 @@
+color = { 62  129  155 }
+graphical_culture = Generic
+
+default_templates = {
+	generic_infantry = {
+		infantry_brigade
+		infantry_brigade
+		infantry_brigade
+	}
+	generic_milita = {
+		militia_brigade
+		militia_brigade
+		militia_brigade
+	}
+	generic_armoured = {
+		armor_brigade
+		motorized_brigade
+		motorized_brigade
+	}
+	generic_cavalry = {
+		cavalry_brigade
+		cavalry_brigade
+	}
+}
+
+unit_names = {
+	infantry_brigade = {
+		"第1步兵师" "第2步兵师" "第3步兵师" "第4步兵师" "第5步兵师" "第6步兵师" "第7步兵师" "第8步兵师" "第9步兵师" "第10步兵师" 
+	}
+	cavalry_brigade = {
+		"第1龙骑兵" "第2龙骑兵" "第3龙骑兵" "第3龙骑兵" "第5龙骑兵" "第6龙骑兵" 
+	}
+	motorized_brigade = {
+		"第1摩托化步兵师" "第2摩托化步兵师" "第3摩托化步兵师" "第3摩托化步兵师" "第5摩托化步兵师" "第6摩托化步兵师" 
+	}
+	mechanized_brigade = {
+		"第1机械化步兵师" "第2机械化步兵师" "第3机械化步兵师" "第3机械化步兵师" "第5机械化步兵师" "第6机械化步兵师" 
+	}
+	light_armor_brigade = {
+		"第1轻装甲师" "第2轻装甲师" "第3轻装甲师" "第3轻装甲师" "第5轻装甲师" 
+	}
+	armor_brigade = {
+		"第1装甲师" "第2装甲师" "第3装甲师" "第3装甲师" "第5装甲师" 
+	}
+	paratrooper_brigade = {
+		"第1伞兵师" "第2伞兵师" "第3伞兵师" "第3伞兵师" "第5伞兵师" 
+	}
+	marine_brigade = {
+		"第1海军陆战队师" "第2海军陆战队师" "第3海军陆战队师" "第3海军陆战队师" "第5海军陆战队师" 
+	}
+	bergsjaeger_brigade = {
+		"第1山地师" "第2山地师" "第3山地师" "第3山地师" "第5山地师" 
+	}
+	garrison_brigade = {
+		"第1卫戍师" "第2卫戍师" "第3卫戍师" "第3卫戍师" "第5卫戍师" "第6卫戍师" "第7卫戍师" "第8卫戍师" "第9卫戍师" "第10卫戍师" 
+	}
+	hq_brigade = {
+		"第1军" "第2军" 
+	}
+	militia_brigade = {
+		"民兵第1师" "民兵第2师" "民兵第3师" "民兵第3师" "民兵第5师" 
+	}
+	multi_role = {
+		"第1战斗机联队" "第2战斗机联队" "第3战斗机联队" "第3战斗机联队" "第5战斗机联队" 
+	}
+	interceptor = {
+		"第1截击机联队" "第2截击机联队" "第3截击机联队" "第3截击机联队" "第5截击机联队" 
+	}
+	strategic_bomber = {
+		"第1战略轰炸机联队" "第2战略轰炸机联队" "第3战略轰炸机联队" "第3战略轰炸机联队" "第5战略轰炸机联队" 
+	}
+	tactical_bomber = {
+		"第1战术轰炸机联队" "第2战术轰炸机联队" "第3战术轰炸机联队" "第3战术轰炸机联队" "第5战术轰炸机联队" 
+	}
+	naval_bomber = {
+		" 第1海军轰炸机联队" " 第2海军轰炸机联队" " 第3海军轰炸机联队" " 第3海军轰炸机联队" " 第5海军轰炸机联队" 
+	}
+	cas = {
+		" 第1海军轰炸机联队" " 第2海军轰炸机联队" " 第3海军轰炸机联队" " 第3海军轰炸机联队" " 第5海军轰炸机联队" 
+	}
+	transport_plane = {
+		" 第1 运输机大队" " 第2 运输机大队" " 第3 运输机大队" " 第3 运输机大队" " 第5 运输机大队" 
+	}
+	destroyer = {
+		"第1驱逐舰大队" "第2驱逐舰大队" "第3驱逐舰大队" "第3驱逐舰大队" "第5驱逐舰大队" 
+	}
+	transport_ship = {
+		" 第1运输船舰队" " 第2运输船舰队" " 第3运输船舰队" " 第3运输船舰队" " 第5运输船舰队" 
+	}
+
+}
+
+ministers = {
+	581001 = {
+		name = "斯蒂芬·本杰森"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M581001
+		head_of_state = stern_imperialist
+		start_date = 1936.1.1
+	}
+	581002 = {
+		name = "赫尔曼·强纳什"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M581002
+		head_of_government = smiling_oilman
+		start_date = 1936.1.1
+	}
+	581003 = {
+		name = "奥拉福·舒尔茨"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M581003
+		foreign_minister = ideological_crusader
+		head_of_government = flamboyant_tough_guy
+		start_date = 1936.1.1
+	}
+	581004 = {
+		name = "因利尔·舒尔唐纳森"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M581004
+		armament_minister = infantry_proponent
+		start_date = 1936.1.1
+	}
+	581005 = {
+		name = "格鲁德·第比"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M581005
+		minister_of_security = crime_fighter
+		start_date = 1936.1.1
+	}
+	581006 = {
+		name = "斯蒂芬·J.·斯蒂芬森"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M581006
+		minister_of_intelligence = political_specialist
+		foreign_minister = great_compromiser
+		head_of_government = ambitious_union_boss
+		start_date = 1936.1.1
+	}
+	581007 = {
+		name = "舒克尔·松勒"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M581007
+		chief_of_staff = school_of_defence
+		start_date = 1936.1.1
+	}
+	581008 = {
+		name = "沃尔特·乌尔里希"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M581008
+		chief_of_army = guns_and_butter_doctrine
+		start_date = 1936.1.1
+	}
+	581009 = {
+		name = "英格瓦·帕尔马森"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M581009
+		chief_of_navy = indirect_approach_doctrine
+		armament_minister = submarine_proponent
+		minister_of_intelligence = naval_intelligence_specialist
+		start_date = 1936.1.1
+	}
+	581010 = {
+		name = "亚库布·R.V.·穆勒"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M581010
+		chief_of_air = air_superiority_doctrine
+		minister_of_security = man_of_the_people
+		start_date = 1936.1.1
+	}
+	581014 = {
+		name = "约更·F.T.·诺热"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M581014
+		minister_of_intelligence = naval_intelligence_specialist
+		start_date = 1942.1.1
+	}
+	581015 = {
+		name = "奥古斯都·安德洛普"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M581015
+		chief_of_staff = school_of_mass_combat
+		start_date = 1942.1.1
+	}
+	581016 = {
+		name = "凯·翰莫里西"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M581016
+		chief_of_army = decisive_battle_doctrine
+		start_date = 1942.1.1
+	}
+	581017 = {
+		name = "保尔·易普生"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M581017
+		chief_of_navy = open_seas_doctrine
+		start_date = 1942.1.1
+	}
+	581018 = {
+		name = "奥森格·E.V.·格兰特"
+		ideology = social_liberal
+		loyalty = 0.75
+		picture = M581018
+		chief_of_air = naval_aviation_doctrine
+		start_date = 1942.1.1
+	}
+	581019 = {
+		name = "奥森格·奥森格森"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M581019
+		head_of_state = pig_headed_isolationist
+		start_date = 1952.1.1
+	}
+	581021 = {
+		name = "维哈杰姆尔·舒尔"
+		ideology = social_liberal
+		loyalty = 1.00
+		picture = M581021
+		foreign_minister = apologetic_clerk
+		start_date = 1942.1.1
+	}
+	581023 = {
+		name = "皮特·玛古森"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M581023
+		armament_minister = submarine_proponent
+		start_date = 1944.1.1
+	}
+	581024 = {
+		name = "冯勒·约翰森"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M581024
+		minister_of_security = back_stabber
+		start_date = 1944.1.1
+	}
+	581026 = {
+		name = "本杰里·本尼迪克森"
+		ideology = social_democrat
+		loyalty = 1.00
+		picture = M581026
+		foreign_minister = great_compromiser
+		minister_of_security = compassionate_gentleman
+		start_date = 1947.1.1
+	}
+	581027 = {
+		name = "约翰·Th.·杰弗森"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M581027
+		armament_minister = military_entrepreneur
+		start_date = 1947.1.1
+	}
+	581029 = {
+		name = "本杰明·奥尔分森"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M581029
+		armament_minister = battle_fleet_proponent
+		start_date = 1949.1.1
+	}
+	581030 = {
+		name = "斯丁穆尔·斯丁罗森"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M581030
+		minister_of_intelligence = industrial_specialist
+		head_of_government = silent_workhorse
+		start_date = 1949.1.1
+	}
+	581032 = {
+		name = "爱因斯坦·约翰森"
+		ideology = social_democrat
+		loyalty = 0.75
+		picture = M581032
+		armament_minister = administrative_genius
+		start_date = 1950.1.1
+	}
+	581033 = {
+		name = "库姆德·古德莫森"
+		ideology = market_liberal
+		loyalty = 1.00
+		picture = M581033
+		foreign_minister = the_cloak_n_dagger_schemer
+		start_date = 1953.1.1
+	}
+	581034 = {
+		name = "因勒·阿诺森"
+		ideology = market_liberal
+		loyalty = 0.75
+		picture = M581034
+		minister_of_security = crime_fighter
+		start_date = 1953.1.1
+	}
+}
+
