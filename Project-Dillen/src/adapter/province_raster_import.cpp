@@ -243,6 +243,90 @@ bool ParseDefinitions(
 
 }
 
+// Read an 8-bit indexed BMP into a top-down buffer of palette indices.
+//
+// Separate from the province reader rather than folded into it: that one is
+// 24-bit by contract, because a province raster's colours ARE its identity
+// and a palette between them and the id would be one more place for two
+// provinces to collide. A terrain raster has no such requirement.
+bool ReadIndexedBitmap(
+    const std::filesystem::path& path,
+    bool northAtImageBottom,
+    std::uint32_t expectedWidth,
+    std::uint32_t expectedHeight,
+    std::vector<std::uint8_t>& output,
+    std::string& message
+)
+{
+    std::ifstream file(path, std::ios::binary);
+    if (!file)
+    {
+        message = "terrain raster could not be opened";
+        return false;
+    }
+    unsigned char header[54] = {};
+    file.read(reinterpret_cast<char*>(header), sizeof(header));
+    if (file.gcount() != static_cast<std::streamsize>(sizeof(header))
+        || header[0] != 'B' || header[1] != 'M')
+    {
+        message = "terrain raster is not a BMP";
+        return false;
+    }
+    const std::uint32_t dataOffset = ReadLittleEndian32(header + 10);
+    const std::uint32_t width = ReadLittleEndian32(header + 18);
+    const std::int32_t signedHeight =
+        static_cast<std::int32_t>(ReadLittleEndian32(header + 22));
+    const std::uint16_t bitsPerPixel = ReadLittleEndian16(header + 28);
+    const std::uint32_t compression = ReadLittleEndian32(header + 30);
+    if (bitsPerPixel != 8 || compression != 0)
+    {
+        message = "terrain raster must be an uncompressed 8-bit BMP";
+        return false;
+    }
+    const bool bottomUp = signedHeight > 0;
+    const std::uint32_t height = static_cast<std::uint32_t>(
+        bottomUp ? signedHeight : -signedHeight
+    );
+    // The province raster decides the geometry. A terrain raster of a
+    // different size is not a terrain raster for THIS map, and silently
+    // sampling it anyway would misclassify a band of provinces whose width
+    // depends on how far the two disagree.
+    if (width != expectedWidth || height != expectedHeight)
+    {
+        message = "terrain raster is " + std::to_string(width) + "x"
+            + std::to_string(height) + ", the province raster is "
+            + std::to_string(expectedWidth) + "x"
+            + std::to_string(expectedHeight);
+        return false;
+    }
+    const std::size_t rowStride =
+        ((static_cast<std::size_t>(width) + 3u) / 4u) * 4u;
+    output.assign(static_cast<std::size_t>(width) * height, 0u);
+    file.seekg(static_cast<std::streamoff>(dataOffset), std::ios::beg);
+    std::vector<unsigned char> row(rowStride);
+    for (std::uint32_t scan = 0; scan < height; ++scan)
+    {
+        file.read(reinterpret_cast<char*>(row.data()),
+            static_cast<std::streamsize>(rowStride));
+        if (file.gcount() != static_cast<std::streamsize>(rowStride))
+        {
+            message = "terrain raster ends before its declared height";
+            return false;
+        }
+        std::uint32_t y = bottomUp ? (height - 1 - scan) : scan;
+        if (northAtImageBottom)
+        {
+            y = height - 1 - y;
+        }
+        std::copy(
+            row.begin(),
+            row.begin() + static_cast<std::ptrdiff_t>(width),
+            output.begin() + static_cast<std::ptrdiff_t>(y) * width
+        );
+    }
+    return true;
+}
+
 ProvinceRasterImport ImportProvinceRaster(
     const ProvinceRasterImportOptions& options
 )
@@ -495,6 +579,58 @@ ProvinceRasterImport ImportProvinceRaster(
     for (const std::uint32_t key : pairs)
     {
         result.adjacency.push_back({key >> 16, key & 0xFFFFu});
+    }
+
+    // --- land or sea, if the corpus said ----------------------------------
+    if (!options.terrain.empty())
+    {
+        std::vector<std::uint8_t> terrain;
+        std::string terrainMessage;
+        if (!ReadIndexedBitmap(
+                options.terrain,
+                options.northAtImageBottom,
+                result.width,
+                result.height,
+                terrain,
+                terrainMessage))
+        {
+            return Fail(
+                ProvinceRasterImportStatus::RasterUnsupported,
+                terrainMessage
+            );
+        }
+        std::vector<std::uint64_t> sea(result.sourceIdByIndex.size(), 0);
+        std::vector<std::uint64_t> land(result.sourceIdByIndex.size(), 0);
+        for (std::size_t at = 0; at < result.indexRaster.size(); ++at)
+        {
+            const std::uint16_t index = result.indexRaster[at];
+            if (index == 0 || index >= sea.size())
+            {
+                continue;
+            }
+            if (terrain[at] == options.terrainSeaIndex)
+            {
+                ++sea[index];
+            }
+            else
+            {
+                ++land[index];
+            }
+        }
+        result.seaByIndex.assign(result.sourceIdByIndex.size(), 0u);
+        for (std::size_t index = 1; index < sea.size(); ++index)
+        {
+            const bool isSea = sea[index] > land[index];
+            result.seaByIndex[index] = isSea ? 1u : 0u;
+            if (isSea)
+            {
+                ++result.seaProvinces;
+            }
+            else
+            {
+                ++result.landProvinces;
+            }
+        }
     }
     return result;
 }

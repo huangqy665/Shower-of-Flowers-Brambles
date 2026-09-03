@@ -40,6 +40,9 @@ struct AlgorithmInvocationContext
     const kernel::WorldEvent* event = nullptr;
     const kernel::ScheduledAlgorithmEvent* scheduledEvent = nullptr;
     const kernel::WorldTransaction* command = nullptr;
+    // What AlgorithmReadRoot::SubjectEntity resolves to. Null for an
+    // algorithm, which is never given one.
+    const kernel::EntityId* subject = nullptr;
     AlgorithmExecutionBudget& budget;
 
     const kernel::RuntimeCapabilityContract* FindCapability(

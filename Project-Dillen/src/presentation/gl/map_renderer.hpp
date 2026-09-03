@@ -148,6 +148,23 @@ public:
 
     void SetPalette(const std::vector<std::uint32_t>& palette);
 
+    // The colour of the polar caps -- the surface that closes the sphere where
+    // the raster does not reach.
+    //
+    // Passed in rather than chosen here. A raster whose aspect is not 1:2
+    // covers a band of latitude, so wrapping it leaves a hole at each pole;
+    // the cap fills it and writes index 0, so picking there resolves to no
+    // Entity rather than to whichever province the edge row happened to hold.
+    // What colour that surface should be is the Package's business.
+    void SetPolarFill(float red, float green, float blue, float alpha = 1.0f);
+
+    // How far past the raster the grid currently runs, in map v. Zero when the
+    // raster already reaches the poles (aspect 1:2) or when the bend is too
+    // low for a pole to exist. Exposed so a gate can assert the cap is there
+    // at all -- a cap that silently stopped being drawn would look exactly
+    // like the hole it was added to close.
+    double PolarPad() const noexcept;
+
     // The province the map shader tints. 0 is none, which is what an
     // unselected client state means. The tint is applied by the SAME fragment
     // shader invocation that writes the id attachment, so the province that

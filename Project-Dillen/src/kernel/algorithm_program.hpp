@@ -100,7 +100,21 @@ enum class AlgorithmReadRoot
     Constant,
     EventPayload,
     SelfField,
-    RoleTarget
+    RoleTarget,
+    // The Entity this evaluation was handed.
+    //
+    // Appended, never inserted -- the compile golden holds every existing
+    // construct to the same bytes.
+    //
+    // The other four roots are all relative to a Mechanism Instance, which is
+    // right for an algorithm and useless to anything that reads the world
+    // without being a mechanism. A read that starts at a given Entity is not
+    // a new kind of read; it is the one root this path could not name.
+    //
+    // An algorithm cannot use it: nothing hands an algorithm a subject, so the
+    // compiler refuses it there. What can is a projection -- something that
+    // asks the same question of each of fourteen thousand provinces in turn.
+    SubjectEntity
 };
 
 // A role slot holds a list of references, and a Relation hop widens that list

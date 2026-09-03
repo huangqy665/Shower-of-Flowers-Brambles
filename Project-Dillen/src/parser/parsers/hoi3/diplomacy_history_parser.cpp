@@ -145,7 +145,7 @@ bool ParseRelationBlock(
         const std::string field = LowerAscii(key.text);
         if (field == "first")
         {
-            if (hasFirst || !ReadCountry(cursor, output.first))
+            if (hasFirst)
             {
                 cursor.Diagnostics().Error(
                     "hoi3.diplomacy_history.first_duplicate",
@@ -154,11 +154,15 @@ bool ParseRelationBlock(
                 );
                 return false;
             }
+            if (!ReadCountry(cursor, output.first))
+            {
+                return false;
+            }
             hasFirst = true;
         }
         else if (field == "second")
         {
-            if (hasSecond || !ReadCountry(cursor, output.second))
+            if (hasSecond)
             {
                 cursor.Diagnostics().Error(
                     "hoi3.diplomacy_history.second_duplicate",
@@ -167,11 +171,15 @@ bool ParseRelationBlock(
                 );
                 return false;
             }
+            if (!ReadCountry(cursor, output.second))
+            {
+                return false;
+            }
             hasSecond = true;
         }
         else if (field == "start_date")
         {
-            if (hasStartDate || !ReadDate(cursor, output.startDate))
+            if (hasStartDate)
             {
                 cursor.Diagnostics().Error(
                     "hoi3.diplomacy_history.start_date_duplicate",
@@ -180,17 +188,25 @@ bool ParseRelationBlock(
                 );
                 return false;
             }
+            if (!ReadDate(cursor, output.startDate))
+            {
+                return false;
+            }
             hasStartDate = true;
         }
         else if (field == "end_date")
         {
-            if (hasEndDate || !ReadDate(cursor, output.endDate))
+            if (hasEndDate)
             {
                 cursor.Diagnostics().Error(
                     "hoi3.diplomacy_history.end_date_duplicate",
                     "diplomacy relation may define end_date only once",
                     key.span
                 );
+                return false;
+            }
+            if (!ReadDate(cursor, output.endDate))
+            {
                 return false;
             }
             hasEndDate = true;

@@ -85,15 +85,16 @@ bool CopyDirectory(
 
 bool CopyRepositoryFixture(const std::filesystem::path& root)
 {
-    const std::filesystem::path repository = std::filesystem::current_path();
+    const std::filesystem::path game =
+        std::filesystem::current_path() / "Dillen-Game";
     return CopyFile(
-            repository / "map/definition.csv",
+            game / "map/source/definition.csv",
             root / "map/definition.csv")
         && CopyFile(
-            repository / "common/countries.txt",
+            game / "common/corpus/hoi3/countries.txt",
             root / "common/countries.txt")
         && CopyDirectory(
-            repository / "history/countries",
+            game / "history/corpus/hoi3/countries",
             root / "history/countries");
 }
 

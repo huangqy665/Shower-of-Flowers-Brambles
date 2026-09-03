@@ -5,6 +5,10 @@ dillen_add_component(
         world_builder.hpp
         hoi3_world_state.cpp
         hoi3_world_state.hpp
+        political_snapshot.cpp
+        political_snapshot.hpp
+        hoi3_1936_content_emitter.cpp
+        hoi3_1936_content_emitter.hpp
     PUBLIC_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}"
     PUBLIC_LINKS
         dillen::compatibility::hoi3_content

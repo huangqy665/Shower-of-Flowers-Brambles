@@ -27,6 +27,8 @@ dillen_add_component(
         presentation_schema.hpp
         presentation_view.cpp
         presentation_view.hpp
+        political_map_projection.cpp
+        political_map_projection.hpp
         province_centroids.cpp
         province_centroids.hpp
         province_projection.cpp

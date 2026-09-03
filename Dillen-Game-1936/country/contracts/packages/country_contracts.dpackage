@@ -1,0 +1,9 @@
+package_manifest = {
+    name = dillen.country.contracts
+    version_major = 1
+    version_minor = 0
+    version_patch = 0
+    role = contract
+    content_digest = "c240bde749d5c2f170cd0f0842d809d543e307b3bbd8d2c01c7519991e1cae09"
+    load_priority = 10
+}

@@ -257,6 +257,18 @@ ProvinceContentReport EmitProvinceContent(
     // is built from.
     component += "        field = { name = source_id  kind = integer "
                  " required = yes  default = 0 }\n";
+    // Whether the region is water.
+    //
+    // Declared only when the corpus carried a terrain raster to decide it
+    // from. A field that is always present but sometimes meaningless is worse
+    // than one that is absent: content downstream can ask whether the Ruleset
+    // has this field, and cannot ask whether the zeroes in it mean "land" or
+    // "nobody looked".
+    if (!imported.seaByIndex.empty())
+    {
+        component += "        field = { name = is_sea  kind = integer "
+                     " required = yes  default = 0 }\n";
+    }
     component += "    }\n";
     component += "}\n";
     if (!contracts.Emit(
@@ -341,7 +353,9 @@ ProvinceContentReport EmitProvinceContent(
     entities += "    component = {\n";
     entities += "        type = " + options.componentName + "\n";
     entities += "        schema_version = 1\n";
-    entities += "        columns = { source_id }\n";
+    entities += imported.seaByIndex.empty()
+        ? "        columns = { source_id }\n"
+        : "        columns = { source_id is_sea }\n";
     entities += "    }\n";
     entities += "    rows = {\n";
     for (std::uint32_t index = 1; index <= imported.Count(); ++index)
@@ -350,7 +364,13 @@ ProvinceContentReport EmitProvinceContent(
         // index is what the raster and the palette carry, so a name built from
         // it is the one a renderer can reach without a second table.
         entities += "        row = { " + std::to_string(index) + "  "
-            + std::to_string(imported.sourceIdByIndex[index]) + " }\n";
+            + std::to_string(imported.sourceIdByIndex[index]);
+        if (!imported.seaByIndex.empty())
+        {
+            entities += "  ";
+            entities += imported.seaByIndex[index] ? "1" : "0";
+        }
+        entities += " }\n";
     }
     entities += "    }\n";
     entities += "}\n";

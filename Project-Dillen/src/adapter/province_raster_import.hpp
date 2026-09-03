@@ -38,6 +38,19 @@ struct ProvinceRasterImportOptions
 {
     std::filesystem::path raster;
     std::filesystem::path definitions;
+    // The corpus's terrain raster, if it has one.
+    //
+    // Optional, and the map is complete without it: leaving it out produces
+    // the geography that has always been produced. Given, every province is
+    // classified land or sea, which is the difference between a world that
+    // has 3547 "unowned" regions and one that knows which of those are ocean.
+    //
+    // It is a path rather than a flag because whether a corpus HAS a terrain
+    // raster, and which index in it means water, are facts about that corpus.
+    std::filesystem::path terrain;
+    // The palette index terrain uses for water. HOI3's is 254; a different
+    // corpus is free to differ, and nothing here assumes otherwise.
+    std::uint8_t terrainSeaIndex = 254;
     // A world map's left and right edges meet. Off by default only because a
     // regional map's do not.
     bool wrapHorizontally = true;
@@ -117,6 +130,18 @@ struct ProvinceRasterImport
     // that the raster stays 16-bit and the palette gap-free regardless.
     std::vector<std::uint32_t> sourceIdByIndex;
     std::vector<std::uint16_t> indexRaster;
+
+    // 1 where the province is water, 0 where it is land, indexed by the same
+    // dense index as sourceIdByIndex. Empty when no terrain raster was given.
+    //
+    // Decided by majority of the province's own pixels. A coastal province is
+    // whichever it mostly is, which is the only answer a single flag can give
+    // and the one the corpus itself behaves as if it were giving: HOI3's own
+    // sea zones are entirely water and its land provinces almost entirely
+    // land, so the majority is not close except in a handful of cases.
+    std::vector<std::uint8_t> seaByIndex;
+    std::uint32_t seaProvinces = 0;
+    std::uint32_t landProvinces = 0;
     std::vector<ProvinceAdjacency> adjacency;
 
     // Both sorted by packed colour, so they are reproducible like everything

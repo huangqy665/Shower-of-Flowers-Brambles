@@ -1,0 +1,12 @@
+root_ruleset = {
+    name = dillen.map.world_root
+    version = 1
+    required_packages = {
+        requirement = { name = dillen.map.world.contracts  minimum_major = 1 minimum_minor = 0 minimum_patch = 0  maximum_major = 2 maximum_minor = 0 maximum_patch = 0 }
+        requirement = { name = dillen.map.world  minimum_major = 1 minimum_minor = 0 minimum_patch = 0  maximum_major = 2 maximum_minor = 0 maximum_patch = 0 }
+    }
+    required_components = { dillen.map.geography = 1 }
+    required_relations = { dillen.map.borders = 1 }
+    required_entity_definitions = { all = yes }
+    required_relation_definitions = { all = yes }
+}

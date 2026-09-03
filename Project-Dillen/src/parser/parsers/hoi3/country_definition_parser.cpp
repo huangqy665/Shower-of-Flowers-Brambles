@@ -36,6 +36,68 @@ bool EqualsIgnoreCase(
         );
 }
 
+// A scalar field set twice.
+//
+// This used to be folded into the same condition as the read itself --
+// `if (hasX || !Read(...)) { return false; }` -- so a duplicate returned false
+// having reported nothing at all. ParserRegistry could then only say "parser
+// rejected the source without a diagnostic": no file, no line, no field name.
+// Finding one duplicated `picture` line in a 852-line country took a
+// block-aligned bisection of the file rather than reading an error message.
+//
+// death_date, four cases below this one, always did it properly. The rest now
+// match it.
+bool DuplicateField(
+    ParserCursor& cursor,
+    const Token& key,
+    bool alreadySeen,
+    const char* code,
+    const char* what
+)
+{
+    if (!alreadySeen)
+    {
+        return false;
+    }
+    cursor.Diagnostics().Error(
+        code,
+        std::string(what) + " '" + std::string(key.text)
+            + "' is set more than once",
+        key.span
+    );
+    return true;
+}
+
+bool DuplicateMinisterField(
+    ParserCursor& cursor,
+    const Token& key,
+    bool alreadySeen
+)
+{
+    return DuplicateField(
+        cursor,
+        key,
+        alreadySeen,
+        "hoi3.country.minister_field_duplicate",
+        "minister field"
+    );
+}
+
+bool DuplicateCountryField(
+    ParserCursor& cursor,
+    const Token& key,
+    bool alreadySeen
+)
+{
+    return DuplicateField(
+        cursor,
+        key,
+        alreadySeen,
+        "hoi3.country.field_duplicate",
+        "country definition field"
+    );
+}
+
 bool ExpectAssignment(
     ParserCursor& cursor,
     const Token& key
@@ -345,7 +407,8 @@ bool ParseMinister(
         if (EqualsIgnoreCase(key.text, "name"))
         {
             Token value;
-            if (hasName || !cursor.ReadScalar(value))
+            if (DuplicateMinisterField(cursor, key, hasName)
+                || !cursor.ReadScalar(value))
             {
                 return false;
             }
@@ -355,7 +418,8 @@ bool ParseMinister(
         else if (EqualsIgnoreCase(key.text, "ideology"))
         {
             Token value;
-            if (hasIdeology || !cursor.ReadScalar(value))
+            if (DuplicateMinisterField(cursor, key, hasIdeology)
+                || !cursor.ReadScalar(value))
             {
                 return false;
             }
@@ -364,7 +428,8 @@ bool ParseMinister(
         }
         else if (EqualsIgnoreCase(key.text, "loyalty"))
         {
-            if (hasLoyalty || !cursor.ReadDouble(output.loyalty))
+            if (DuplicateMinisterField(cursor, key, hasLoyalty)
+                || !cursor.ReadDouble(output.loyalty))
             {
                 return false;
             }
@@ -373,7 +438,8 @@ bool ParseMinister(
         else if (EqualsIgnoreCase(key.text, "picture"))
         {
             Token value;
-            if (hasPicture || !cursor.ReadScalar(value))
+            if (DuplicateMinisterField(cursor, key, hasPicture)
+                || !cursor.ReadScalar(value))
             {
                 return false;
             }
@@ -382,7 +448,8 @@ bool ParseMinister(
         }
         else if (EqualsIgnoreCase(key.text, "start_date"))
         {
-            if (hasStartDate || !ReadDateValue(cursor, output.startDate))
+            if (DuplicateMinisterField(cursor, key, hasStartDate)
+                || !ReadDateValue(cursor, output.startDate))
             {
                 return false;
             }
@@ -531,7 +598,8 @@ bool ParseCountryDefinition(
         if (EqualsIgnoreCase(key.text, "color"))
         {
             dillen::compatibility::hoi3::content::CountryColor color;
-            if (hasColor || !ParseColor(cursor, color))
+            if (DuplicateCountryField(cursor, key, hasColor)
+                || !ParseColor(cursor, color))
             {
                 return false;
             }
@@ -541,7 +609,8 @@ bool ParseCountryDefinition(
         else if (EqualsIgnoreCase(key.text, "graphical_culture"))
         {
             Token value;
-            if (hasGraphicalCulture || !cursor.ReadScalar(value))
+            if (DuplicateCountryField(cursor, key, hasGraphicalCulture)
+                || !cursor.ReadScalar(value))
             {
                 return false;
             }
@@ -550,7 +619,8 @@ bool ParseCountryDefinition(
         }
         else if (EqualsIgnoreCase(key.text, "major"))
         {
-            if (hasMajor || !cursor.ReadBool(document.definition.major))
+            if (DuplicateCountryField(cursor, key, hasMajor)
+                || !cursor.ReadBool(document.definition.major))
             {
                 return false;
             }
@@ -559,7 +629,8 @@ bool ParseCountryDefinition(
         else if (EqualsIgnoreCase(key.text, "last_election"))
         {
             dillen::compatibility::hoi3::content::DefinitionDate date;
-            if (hasLastElection || !ReadDateValue(cursor, date))
+            if (DuplicateCountryField(cursor, key, hasLastElection)
+                || !ReadDateValue(cursor, date))
             {
                 return false;
             }
@@ -569,7 +640,8 @@ bool ParseCountryDefinition(
         else if (EqualsIgnoreCase(key.text, "duration"))
         {
             std::int64_t duration = 0;
-            if (hasDuration || !cursor.ReadInt64(duration))
+            if (DuplicateCountryField(cursor, key, hasDuration)
+                || !cursor.ReadInt64(duration))
             {
                 return false;
             }

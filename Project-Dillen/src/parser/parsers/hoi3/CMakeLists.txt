@@ -25,6 +25,8 @@ dillen_add_component(
         order_of_battle_parser.hpp
         order_of_battle_slice.cpp
         order_of_battle_slice.hpp
+        political_corpus.cpp
+        political_corpus.hpp
         province_definition_parser.cpp
         province_definition_parser.hpp
         province_definition_slice.cpp

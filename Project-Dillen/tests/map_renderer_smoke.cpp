@@ -1,6 +1,9 @@
 #include <algorithm>
 #include <cstdint>
+#include <cstdio>
+#include <cstdlib>
 #include <filesystem>
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -833,6 +836,104 @@ int main()
                       << " identical save bytes with and without a window"
                       << std::endl;
         }
+    }
+
+    // --- the poles are closed, and the cap is not a province -------------
+    //
+    // This corpus's raster is 5616x2160 -- aspect 0.385 -- so it covers about
+    // +-69 degrees of latitude and wrapping it onto a sphere leaves a hole at
+    // each pole. The grid runs past the raster to close them.
+    //
+    // Three assertions, and the middle one is the point. Any cap satisfies
+    // "the pole is not background": stretching the raster's edge row over it
+    // would too, and that is the cheap fix this deliberately did not take.
+    // What separates them is what a click there resolves to. A stretched edge
+    // row returns a real province, so Greenland would own the North Pole and
+    // a pick would say so -- a lie in identity data, which is the one kind
+    // this renderer must not tell.
+    {
+        renderer.SetPolarFill(0.86f, 0.90f, 0.94f, 1.0f);
+        presentation::MapCamera globe;
+        globe.distance = 1.9;
+        globe.lookAtU = 0.5;
+        globe.lookAtV = 0.10;          // over the top of the sphere
+        globe.bend = 1.0;
+        renderer.Draw(map, globe);
+        ++drawn;
+
+        Check(renderer.PolarPad() > 0.0,
+            "the grid does not run past the raster at bend 1, so the polar "
+            "holes are still there");
+
+        // The clear colour, measured rather than assumed. Taking it to be 0
+        // made every pixel count as "the sphere", so the silhouette spanned
+        // the whole window and the holes it reported were just pixels whose
+        // packed colour happened to be zero. A gate that reads the frame has
+        // to learn what empty looks like from the frame.
+        const std::uint32_t empty = renderer.ColourAt(1, 1);
+        std::uint32_t capPixels = 0;
+        std::uint32_t capProvinces = 0;
+        std::uint32_t holes = 0;
+        for (std::uint32_t y = 2; y < options.windowHeight / 2; ++y)
+        {
+            // The sphere's silhouette on this row, then anything unpainted
+            // between its edges. A cap that failed to close would leave
+            // background inside the outline, which is exactly what a hole is.
+            std::uint32_t left = options.windowWidth;
+            std::uint32_t right = 0;
+            for (std::uint32_t x = 0; x < options.windowWidth; ++x)
+            {
+                if (renderer.ColourAt(x, y) != empty)
+                {
+                    left = left == options.windowWidth ? x : left;
+                    right = x;
+                }
+            }
+            if (left >= right)
+            {
+                continue;
+            }
+            for (std::uint32_t x = left; x <= right; ++x)
+            {
+                if (renderer.ColourAt(x, y) == empty)
+                {
+                    ++holes;
+                }
+                else if (renderer.PickAt(x, y) == 0)
+                {
+                    ++capPixels;
+                }
+                else
+                {
+                    ++capProvinces;
+                }
+            }
+        }
+        Check(capPixels > 0,
+            "no pixel over the pole resolves to 'no province': the cap is "
+            "either missing or claiming to be somewhere on the map");
+        Check(capProvinces > 0,
+            "nothing but cap was drawn, so this is measuring an empty frame");
+        Check(holes == 0,
+            "the polar cap leaves " + std::to_string(holes)
+                + " background pixels inside the sphere's outline");
+        std::cout << "  polar cap: pad " << renderer.PolarPad() << ", "
+                  << capPixels << " capped and " << capProvinces
+                  << " province pixels over the pole, " << holes
+                  << " holes" << std::endl;
+
+        // And it goes away as the map flattens. A flat map has no poles: its
+        // top and bottom are edges. Leaving the cap on turned it into a slab
+        // half the map's height stuck to each edge -- a coloured band across
+        // a flattening map, which is what this number stops.
+        presentation::MapCamera flat = globe;
+        flat.lookAtV = 0.5;
+        flat.bend = 0.3;
+        renderer.Draw(map, flat);
+        ++drawn;
+        Check(renderer.PolarPad() == 0.0,
+            "the cap is still drawn at bend 0.3, where the surface has no "
+            "poles to close");
     }
 
     // --- the GL half of close and reopen ---------------------------------

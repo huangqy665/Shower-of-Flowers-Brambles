@@ -20,6 +20,8 @@ namespace
 bool CopyRepositoryCountryData(const std::filesystem::path& root)
 {
     namespace fs = std::filesystem;
+    const fs::path source =
+        fs::current_path() / "Dillen-Game/common/corpus/hoi3";
     std::error_code error;
     fs::create_directories(root / "common/countries", error);
     if (error)
@@ -27,7 +29,7 @@ bool CopyRepositoryCountryData(const std::filesystem::path& root)
         return false;
     }
     fs::copy_file(
-        fs::current_path() / "common/countries.txt",
+        source / "countries.txt",
         root / "common/countries.txt",
         fs::copy_options::overwrite_existing,
         error
@@ -37,7 +39,7 @@ bool CopyRepositoryCountryData(const std::filesystem::path& root)
         return false;
     }
     for (const fs::directory_entry& entry
-        : fs::directory_iterator(fs::current_path() / "common/countries"))
+        : fs::directory_iterator(source / "countries"))
     {
         if (!entry.is_regular_file()
             || entry.path().extension() != ".txt")
@@ -165,9 +167,18 @@ int main()
 
     dillen::parser::DiagnosticBag diagnostics;
     dillen::parser::FileCatalog catalog;
+    std::size_t expectedClassifiedFiles = 1;
+    for (const fs::directory_entry& entry
+        : fs::directory_iterator(root / "common/countries"))
+    {
+        if (entry.is_regular_file() && entry.path().extension() == ".txt")
+        {
+            ++expectedClassifiedFiles;
+        }
+    }
     if (!catalog.AddLayer({1, "repository", root, 0, {}})
         || !catalog.Build(templates, diagnostics)
-        || catalog.ActiveClassifiedFileCount() != 51)
+        || catalog.ActiveClassifiedFileCount() != expectedClassifiedFiles)
     {
         std::cerr << "Country definition catalog failed\n";
         return 3;
@@ -205,10 +216,10 @@ int main()
     const auto* finland = definitions.Countries().Find("FIN");
     const auto* mengkukuo = definitions.Countries().Find("MEN");
     const auto* mengkukuoAlias = definitions.Countries().Find("MEB");
-    const auto* unresolved = definitions.Countries().Find("USA");
+    const auto* usa = definitions.Countries().Find("USA");
     const bool valid = ValidateRecoveryParser()
         && definitions.Countries().Size() == 142
-        && definitions.Countries().ResolvedCount() == 58
+        && definitions.Countries().ResolvedCount() == 142
         && china != nullptr
         && chinaAlias != nullptr
         && china->definition != nullptr
@@ -232,8 +243,8 @@ int main()
         && mengkukuo != nullptr
         && mengkukuoAlias != nullptr
         && mengkukuo->definition == mengkukuoAlias->definition
-        && unresolved != nullptr
-        && unresolved->definition == nullptr
+        && usa != nullptr
+        && usa->definition != nullptr
         && HasDiagnostic(
             diagnostics,
             "hoi3.country.definition_unreferenced"
@@ -243,6 +254,23 @@ int main()
     fs::remove_all(root, cleanupError);
     if (!valid)
     {
+        std::cerr
+            << "countries=" << definitions.Countries().Size()
+            << " resolved=" << definitions.Countries().ResolvedCount()
+            << " china=" << (china != nullptr && china->definition != nullptr)
+            << " japan=" << (japan != nullptr && japan->definition != nullptr)
+            << " finland=" << (finland != nullptr && finland->definition != nullptr)
+            << " mengkukuo="
+            << (mengkukuo != nullptr && mengkukuo->definition != nullptr)
+            << " mengkukuo_alias="
+            << (mengkukuoAlias != nullptr
+                && mengkukuoAlias->definition != nullptr)
+            << " usa=" << (usa != nullptr && usa->definition != nullptr)
+            << " unreferenced_diagnostic="
+            << HasDiagnostic(
+                diagnostics,
+                "hoi3.country.definition_unreferenced")
+            << '\n';
         std::cerr << "Country definition Registry validation failed\n";
         return 5;
     }

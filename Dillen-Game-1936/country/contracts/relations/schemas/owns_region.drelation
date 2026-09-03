@@ -1,0 +1,7 @@
+relation_schema = {
+    name = dillen.country.owns_region
+    version = 1
+    source_type = dillen.country
+    target_type = dillen.map.region
+    allow_self = no
+}

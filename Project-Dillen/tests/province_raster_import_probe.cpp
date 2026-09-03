@@ -47,6 +47,7 @@ int main()
     adapter::ProvinceRasterImportOptions options;
     options.raster = kMapRoot / "provinces.bmp";
     options.definitions = kMapRoot / "definition.csv";
+    options.terrain = kMapRoot / "terrain.bmp";
     options.wrapHorizontally = true;
     // The map in Dillen-Game is already north-up, so this is off. The option
     // exists for corpora that are not -- HOI3's own bitmaps display with
@@ -341,6 +342,74 @@ int main()
         Check(southest > northest,
             "the map is upside down: the southern landmarks are above the "
             "northern ones");
+    }
+
+
+    // --- land and sea, decided by geography rather than by the classifier ---
+    //
+    // A gate that checked the split against the terrain raster's own pixel
+    // fractions would be asking the classifier to confirm itself. These ask
+    // the world instead: the middle of the Pacific is water and the middle of
+    // Asia is not, and no bug in a majority vote makes that untrue.
+    {
+        Check(!imported.seaByIndex.empty(),
+            "no province was classified, so the terrain raster was not read");
+        Check(imported.seaByIndex.size() == imported.sourceIdByIndex.size(),
+            "the classification and the id table disagree about how many "
+            "provinces there are");
+        Check(imported.seaProvinces + imported.landProvinces
+                == imported.Count(),
+            "the land and sea counts do not add up to "
+                + std::to_string(imported.Count()));
+
+        struct Place
+        {
+            double longitude;
+            double latitude;
+            bool sea;
+            const char* name;
+        };
+        // Latitude is read off this corpus's own projection, which is not
+        // equirectangular -- so these are given as raster fractions taken from
+        // the map itself rather than as degrees. What each one IS, is not in
+        // dispute.
+        // Chosen well inside each region rather than near its coast. That is
+        // not the assertion bending to the answer: WHERE to sample is a
+        // choice, WHAT is there is not, and a point one percent from a
+        // coastline tests the corpus's coastline rather than the classifier.
+        const Place places[] = {
+            {-150.0, 0.25, true, "the mid Pacific"},
+            {-150.0, 0.75, true, "the south Pacific"},
+            {-30.0, 0.50, true, "the mid Atlantic"},
+            {80.0, 0.80, true, "the Indian Ocean"},
+            {100.0, 0.25, false, "inland Asia"},
+            {20.0, 0.25, false, "central Europe"},
+            {-100.0, 0.30, false, "North America"},
+            {20.0, 0.60, false, "southern Africa"},
+        };
+        for (const Place& place : places)
+        {
+            const std::uint32_t x = static_cast<std::uint32_t>(
+                (place.longitude + 180.0) / 360.0 * imported.width);
+            const std::uint32_t y = static_cast<std::uint32_t>(
+                place.latitude * imported.height);
+            const std::uint16_t index = imported.indexRaster[
+                static_cast<std::size_t>(y) * imported.width + x];
+            if (index == 0 || index >= imported.seaByIndex.size())
+            {
+                Check(false, std::string(place.name)
+                    + " is not covered by any province");
+                continue;
+            }
+            const bool sea = imported.seaByIndex[index] != 0;
+            Check(sea == place.sea,
+                std::string(place.name) + " (province " + std::to_string(index)
+                    + ") came out as " + (sea ? "sea" : "land")
+                    + ", and it is " + (place.sea ? "sea" : "land"));
+        }
+        std::cout << "  land and sea: " << imported.seaProvinces
+                  << " sea, " << imported.landProvinces << " land"
+                  << std::endl;
     }
 
     if (failures != 0)

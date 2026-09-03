@@ -113,6 +113,10 @@ int main()
     adapter::ProvinceRasterImportOptions importOptions;
     importOptions.raster = kMapSourceRoot / "provinces.bmp";
     importOptions.definitions = kMapSourceRoot / "definition.csv";
+    // The terrain raster, which is what decides land from sea. Without
+    // it the world knows only that 3547 regions have no owner, and
+    // cannot say which of those are ocean.
+    importOptions.terrain = kMapSourceRoot / "terrain.bmp";
     // The map in Dillen-Game is already north-up, so no corpus flip. The
     // option stays because HOI3's own bitmaps are not: a corpus imported
     // straight from that game needs it set, and which way round a given

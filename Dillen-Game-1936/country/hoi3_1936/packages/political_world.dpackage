@@ -1,0 +1,41 @@
+package_manifest = {
+    name = dillen.hoi3.1936_world
+    version_major = 1
+    version_minor = 0
+    version_patch = 0
+    role = content
+    content_digest = "940f32540fbfb51efa900f9e4c698e34232f09a73e01bcf2f29f60cec9249d47"
+    load_priority = 110
+    dependencies = {
+        dependency = {
+            name = dillen.map.world.contracts
+            minimum_major = 1
+            minimum_minor = 0
+            minimum_patch = 0
+            maximum_major = 2
+            maximum_minor = 0
+            maximum_patch = 0
+            required = yes
+        }
+        dependency = {
+            name = dillen.map.world
+            minimum_major = 1
+            minimum_minor = 0
+            minimum_patch = 0
+            maximum_major = 2
+            maximum_minor = 0
+            maximum_patch = 0
+            required = yes
+        }
+        dependency = {
+            name = dillen.country.contracts
+            minimum_major = 1
+            minimum_minor = 0
+            minimum_patch = 0
+            maximum_major = 2
+            maximum_minor = 0
+            maximum_patch = 0
+            required = yes
+        }
+    }
+}

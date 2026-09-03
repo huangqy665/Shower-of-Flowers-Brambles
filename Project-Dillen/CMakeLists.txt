@@ -57,9 +57,13 @@ endif()
 
 add_subdirectory(src)
 
-if(DILLEN_BUILD_MAP_RENDERER)
-    add_subdirectory(apps)
-endif()
+# Applications guard themselves.
+#
+# This used to be behind DILLEN_BUILD_MAP_RENDERER, because the only
+# application here needed a window. A headless content generator does not, and
+# leaving the whole directory behind the renderer switch would mean one could
+# only be configured alongside SDL, a display and a GPU.
+add_subdirectory(apps)
 
 if(DILLEN_BUILD_HOI3_ORACLE)
     add_subdirectory(hoi3oracle)

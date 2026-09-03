@@ -1,0 +1,7 @@
+component_schema = {
+    name = dillen.country.identity
+    version = 1
+    fields = {
+        field = { name = source_tag  kind = string  required = yes  default = "---" }
+    }
+}

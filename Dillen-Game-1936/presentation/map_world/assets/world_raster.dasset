@@ -1,0 +1,13 @@
+presentation_asset = {
+    name = dillen.map.world_raster
+    kind = map_index_raster
+    asset = rasters/world.dmapindex
+    asset_digest = "71fb3d7b166ab5344cf10f35ee610c5c8e68e74dc2ecb9d845ef084e14ccf7ce"
+    properties = {
+        format = index16_rle
+        width = 5616
+        height = 2160
+        province_count = 14187
+        runs = 438781
+    }
+}

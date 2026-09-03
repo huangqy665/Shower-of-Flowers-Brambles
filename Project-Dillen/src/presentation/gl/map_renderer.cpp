@@ -170,6 +170,24 @@ bool Load(T& slot, const char* name)
     return slot != nullptr;
 }
 
+// The cap is a GLOBE feature, and has to stop being one as the map flattens.
+//
+// The pole sits at |0.5 - v| = 0.25 / (bend * aspect), so the reach the grid
+// needs grows as 1/bend and diverges: at bend 0.2 it is 2.75 map heights. A
+// plain clamp was the first thing tried and it is worse than it sounds --
+// the cap stops being a cap and becomes a slab half the map's height stuck
+// to each edge, which is what it looked like on screen: a coloured band
+// across the top of a flattening map.
+//
+// A flat map has no poles. Its top and bottom are edges, and an edge needs no
+// closing. So the reach is faded out over the range where the surface stops
+// being usefully spherical. Between these two the cap closes only part of the
+// hole, which costs nothing visible: the camera controller pins the view to
+// the equatorial band before the map will flatten at all, so the poles are
+// off screen by the time the fade bites.
+const double kPolarFadeFull = 0.85;   // at and above this the cap closes
+const double kPolarFadeNone = 0.50;   // at and below this there is no cap
+
 const char* kVertexShader = R"(#version 330 core
 layout(location = 0) in vec3 aPosition;
 layout(location = 1) in vec2 aTexture;
@@ -211,11 +229,39 @@ uniform int uPaletteSide;
 // carry the same index -- so it is one province rendered twice, not two
 // provinces.
 uniform float uMapOffset;
+// The polar caps.
+//
+// An equirectangular raster whose aspect is not 1:2 does not reach the poles:
+// this corpus covers a band, so wrapping it onto a sphere leaves a hole at
+// each end. The grid is extended past the raster to close them, and this is
+// where a fragment finds out it is on a cap rather than on the map.
+//
+// It writes index 0 -- "no province" -- so a click on the cap resolves to no
+// Entity. Sampling the edge row instead would have been one clamp and would
+// have stretched Greenland's northern coastline over the pole, giving a
+// province territory it does not have and returning it from a pick. That is a
+// lie in identity data, which is the one kind this renderer must not tell.
+uniform vec4 uPolarFill;
+// How far past the raster the grid runs at each end, in map v.
+//
+// The texture coordinate is the GRID parameter and stays static -- the morph
+// is computed on the CPU precisely so this shader does not become a second
+// implementation of it -- so the map coordinate is recovered here from the
+// pad rather than baked into the attribute.
+uniform float uPolarPad;
 void main()
 {
+    float vMap = -uPolarPad + (1.0 + 2.0 * uPolarPad) * vTexture.y;
+    if (vMap < 0.0 || vMap > 1.0)
+    {
+        oColour = uPolarFill;
+        oIndex = 0u;
+        oMapPoint = vec2(fract(vTexture.x + uMapOffset), clamp(vMap, 0.0, 1.0));
+        return;
+    }
     vec2 mapPoint = vec2(
         fract(vTexture.x + uMapOffset),
-        clamp(vTexture.y, 0.0, 1.0)
+        clamp(vMap, 0.0, 1.0)
     );
     ivec2 texel = ivec2(mapPoint * (uIndexSize - vec2(1.0)));
     uint index = texelFetch(uIndexTexture, texel, 0).r;
@@ -303,6 +349,15 @@ struct MapRenderer::Impl
     GLint selectedUniform = -1;
     GLint paletteSideUniform = -1;
     GLint mapOffsetUniform = -1;
+    GLint polarFillUniform = -1;
+    GLint polarPadUniform = -1;
+    // How far past the raster the grid runs at each end, in v. Recomputed with
+    // the grid, because it depends on the bend.
+    double polarPad = 0.0;
+    // Declared by the Package, not chosen here. What colour "there is no map
+    // here" should be is a content decision; a renderer that picked one would
+    // be a renderer with an opinion about the world it draws.
+    float polarFill[4] = {0.86f, 0.90f, 0.94f, 1.0f};
     // Side of the square palette texture, in texels. Chosen at Open from the
     // province count rather than fixed, so the map's size decides it and the
     // renderer imposes no ceiling of its own.
@@ -651,6 +706,10 @@ MapRendererStatus MapRenderer::Open(
         api.GetUniformLocation(impl_->program, "uPaletteSide");
     impl_->mapOffsetUniform =
         api.GetUniformLocation(impl_->program, "uMapOffset");
+    impl_->polarFillUniform =
+        api.GetUniformLocation(impl_->program, "uPolarFill");
+    impl_->polarPadUniform =
+        api.GetUniformLocation(impl_->program, "uPolarPad");
 
     // --- the overlay program ---
     const GLuint overlayVertex =
@@ -1172,6 +1231,28 @@ void MapRenderer::SetPalette(const std::vector<std::uint32_t>& palette)
     );
 }
 
+void MapRenderer::SetPolarFill(
+    float red,
+    float green,
+    float blue,
+    float alpha
+)
+{
+    if (impl_ == nullptr)
+    {
+        return;
+    }
+    impl_->polarFill[0] = red;
+    impl_->polarFill[1] = green;
+    impl_->polarFill[2] = blue;
+    impl_->polarFill[3] = alpha;
+}
+
+double MapRenderer::PolarPad() const noexcept
+{
+    return impl_ == nullptr ? 0.0 : impl_->polarPad;
+}
+
 void MapRenderer::Draw(
     const MapProjection& projection,
     const MapCamera& camera
@@ -1198,11 +1279,35 @@ void MapRenderer::Draw(
     {
         const std::uint32_t columns = impl_->columns + 1;
         const std::uint32_t rows = impl_->rows + 1;
+
+        // How far past the raster the grid has to run to reach the pole.
+        //
+        // The morph puts v at latitude phi = 2*pi*b*(0.5 - v)*aspect, so the
+        // pole (phi = pi/2) sits at |0.5 - v| = 0.25 / (b * aspect). At b = 1
+        // and this corpus's aspect that is v = -0.15 and 1.15; as b falls the
+        // sphere's radius grows as 1/b and the pole runs away without bound,
+        // because a plane has no poles to close.
+        //
+        // So it is clamped. Above the bend where the clamp binds the cap shuts
+        // exactly; below it the surface is a partly unrolled sheet whose ends
+        // are edges rather than holes, and the camera controller has stopped
+        // letting the view orbit by then anyway.
+        const double aspect = projection.Aspect();
+        const double bend = camera.bend > 1e-4 ? camera.bend : 1e-4;
+        const double reach = 0.25 / (bend * aspect) - 0.5;
+        double fade = (bend - kPolarFadeNone)
+            / (kPolarFadeFull - kPolarFadeNone);
+        fade = fade < 0.0 ? 0.0 : (fade > 1.0 ? 1.0 : fade);
+        fade = fade * fade * (3.0 - 2.0 * fade);      // smooth at both ends
+        impl_->polarPad = reach < 0.0 ? 0.0 : reach * fade;
+        const double span = 1.0 + 2.0 * impl_->polarPad;
+
         std::size_t cursor = 0;
         for (std::uint32_t row = 0; row < rows; ++row)
         {
-            const double v =
-                static_cast<double>(row) / static_cast<double>(impl_->rows);
+            const double v = -impl_->polarPad
+                + span * static_cast<double>(row)
+                    / static_cast<double>(impl_->rows);
             for (std::uint32_t column = 0; column < columns; ++column)
             {
                 const double u = static_cast<double>(column)
@@ -1306,6 +1411,15 @@ void MapRenderer::Draw(
     );
     // The map's own longitude, minus the grid's centre.
     const double offset = camera.lookAtU - 0.5;
+    api.Uniform1f(impl_->polarPadUniform,
+        static_cast<GLfloat>(impl_->polarPad));
+    api.Uniform4f(
+        impl_->polarFillUniform,
+        static_cast<GLfloat>(impl_->polarFill[0]),
+        static_cast<GLfloat>(impl_->polarFill[1]),
+        static_cast<GLfloat>(impl_->polarFill[2]),
+        static_cast<GLfloat>(impl_->polarFill[3])
+    );
     api.Uniform1f(
         impl_->mapOffsetUniform,
         static_cast<float>(offset - std::floor(offset))

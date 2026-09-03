@@ -1,0 +1,9 @@
+package_manifest = {
+    name = dillen.hoi3.1936_world.presentation
+    version_major = 1
+    version_minor = 0
+    version_patch = 0
+    role = presentation
+    content_digest = "dededfdec8bc36a9cf3d0ebe4f862d8b4ebf624ced4bce241d658f97d3e87686"
+    load_priority = 210
+}
