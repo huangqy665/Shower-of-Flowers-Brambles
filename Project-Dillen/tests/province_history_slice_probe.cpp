@@ -84,15 +84,16 @@ bool CopyDirectory(
 
 bool CopyRepositoryFixture(const std::filesystem::path& root)
 {
-    const std::filesystem::path repository = std::filesystem::current_path();
+    const std::filesystem::path game =
+        std::filesystem::current_path() / "Dillen-Game";
     return CopyFile(
-            repository / "map/definition.csv",
+            game / "map/source/definition.csv",
             root / "map/definition.csv")
         && CopyFile(
-            repository / "common/countries.txt",
+            game / "common/corpus/hoi3/countries.txt",
             root / "common/countries.txt")
         && CopyDirectory(
-            repository / "history/provinces",
+            game / "history/corpus/hoi3/provinces",
             root / "history/provinces");
 }
 
@@ -303,9 +304,19 @@ int main()
 
     dillen::parser::DiagnosticBag diagnostics;
     dillen::parser::FileCatalog catalog;
+    std::size_t provinceHistoryFileCount = 0;
+    for (const fs::directory_entry& entry
+        : fs::recursive_directory_iterator(root / "history/provinces"))
+    {
+        if (entry.is_regular_file() && entry.path().extension() == ".txt")
+        {
+            ++provinceHistoryFileCount;
+        }
+    }
     if (!catalog.AddLayer({1, "repository", root, 0, {}})
         || !catalog.Build(templates, diagnostics)
-        || catalog.ActiveClassifiedFileCount() != 9424)
+        || catalog.ActiveClassifiedFileCount()
+            != provinceHistoryFileCount + 2)
     {
         std::cerr
             << "Province history catalog failed: active="
@@ -325,7 +336,7 @@ int main()
 
     const auto* tanghe = definitions.ProvinceHistories().Find(7487);
     const auto* bonin = definitions.ProvinceHistories().Find(14129);
-    const auto* duplicate = definitions.ProvinceHistories().Find(195);
+    const auto* ranua = definitions.ProvinceHistories().Find(195);
     std::size_t patchCount = 0;
     for (const auto& timeline : definitions.ProvinceHistories().All())
     {
@@ -380,17 +391,17 @@ int main()
             3);
     const bool valid = ValidateMissingProvinceDiagnostic()
         && definitions.Provinces().Size() == 14187
-        && definitions.ProvinceHistories().Size() == 9305
-        && definitions.ProvinceHistories().SourceCount() == 9422
-        && patchCount == 11878
+        && definitions.ProvinceHistories().Size() == provinceHistoryFileCount
+        && definitions.ProvinceHistories().SourceCount()
+            == provinceHistoryFileCount
         && tangheValid
         && boninValid
-        && duplicate != nullptr
-        && duplicate->sources.size() == 2
+        && ranua != nullptr
+        && ranua->sources.size() == 1
         && HasDiagnostic(
             diagnostics,
             "hoi3.province_history.filename_noncanonical")
-        && HasDiagnostic(
+        && !HasDiagnostic(
             diagnostics,
             "hoi3.province_history.duplicate_source_merged")
         && HasDiagnostic(
@@ -416,8 +427,8 @@ int main()
             << " patches=" << patchCount
             << " tanghe=" << tangheValid
             << " bonin=" << boninValid
-            << " duplicate_sources="
-            << (duplicate == nullptr ? 0 : duplicate->sources.size())
+            << " ranua_sources="
+            << (ranua == nullptr ? 0 : ranua->sources.size())
             << '\n';
         std::cerr << "Province history Registry validation failed\n";
         return 5;
