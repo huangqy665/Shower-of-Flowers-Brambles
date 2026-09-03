@@ -4,6 +4,6 @@ package_manifest = {
     version_minor = 0
     version_patch = 0
     role = presentation
-    content_digest = "dededfdec8bc36a9cf3d0ebe4f862d8b4ebf624ced4bce241d658f97d3e87686"
+    content_digest = "a20bed1164fef95b79aa4011532a5fd25aa7e15beb0b4280e6e9d1d32180692c"
     load_priority = 210
 }

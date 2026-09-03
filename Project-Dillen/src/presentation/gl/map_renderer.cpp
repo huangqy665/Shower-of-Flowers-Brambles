@@ -1682,6 +1682,11 @@ MapInput MapRenderer::PollInput()
             {
                 input.step = true;
             }
+            else if (event.key.key >= SDLK_F1 && event.key.key <= SDLK_F12)
+            {
+                input.modeSelect =
+                    static_cast<std::int32_t>(event.key.key - SDLK_F1);
+            }
             else if (event.key.key >= SDLK_0 && event.key.key <= SDLK_9)
             {
                 // 1 is flat, 9 is very nearly a globe, 0 is the globe. A

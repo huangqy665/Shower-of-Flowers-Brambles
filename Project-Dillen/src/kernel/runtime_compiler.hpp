@@ -34,6 +34,25 @@ enum class RuntimeCompileIssueCode
     ComponentSchemaVersionAmbiguous
 };
 
+// Lower one read path for a caller that is not an algorithm.
+//
+// A projection -- something that asks one question of each of many Entities --
+// needs the same read path an algorithm uses, rooted at the Entity it is
+// asking about. This is that lowering, against a frozen Catalog; the terminal
+// is resolved by the same code the algorithm compiler uses, so there is one
+// answer to what a read path means rather than two.
+bool LowerSubjectReadPath(
+    const AlgorithmReadPathDefinition& source,
+    const FrozenRuntimeCatalog& catalog,
+    // The Component schema version the path's terminal is read at. Declared by
+    // the asset rather than guessed, for the same reason a Capability names
+    // its version: two schema versions of one Component are two field layouts,
+    // and picking the wrong one reads the wrong slot without failing.
+    std::uint32_t componentVersion,
+    std::string& message,
+    CompiledAlgorithmReadPath& out
+);
+
 struct RuntimeCompileIssue
 {
     RuntimeCompileIssueCode code =

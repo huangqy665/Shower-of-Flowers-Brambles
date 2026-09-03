@@ -70,8 +70,8 @@ struct Hoi31936ContentOptions
     std::string capitalRelationName =
         "dillen.country.capital_region";
 
-    std::string paletteAssetName =
-        "dillen.hoi3.1936.country_palette";
+    std::string modeSetAssetName =
+        "dillen.hoi3.1936.map_modes";
 };
 
 enum class Hoi31936ContentStatus

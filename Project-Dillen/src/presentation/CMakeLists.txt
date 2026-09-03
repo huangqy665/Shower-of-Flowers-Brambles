@@ -13,6 +13,8 @@ dillen_add_component(
         map_camera_controller.hpp
         map_entity_index.cpp
         map_entity_index.hpp
+        map_mode.cpp
+        map_mode.hpp
         map_index_raster.cpp
         map_index_raster.hpp
         map_view.cpp
@@ -27,8 +29,6 @@ dillen_add_component(
         presentation_schema.hpp
         presentation_view.cpp
         presentation_view.hpp
-        political_map_projection.cpp
-        political_map_projection.hpp
         province_centroids.cpp
         province_centroids.hpp
         province_projection.cpp

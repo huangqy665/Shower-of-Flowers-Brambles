@@ -26,7 +26,7 @@
 #include "map_renderer.hpp"
 #include "map_view.hpp"
 #include "overlay.hpp"
-#include "political_map_projection.hpp"
+#include "map_mode.hpp"
 #include "client_state.hpp"
 #include "presentation_view.hpp"
 #include "province_centroids.hpp"
@@ -154,15 +154,15 @@ int main(int argc, char** argv)
         FindAsset(session.PresentationAssets(), "map_index_raster");
     const kernel::PresentationAsset* idAsset =
         FindAsset(session.PresentationAssets(), "map_province_ids");
-    const kernel::PresentationAsset* paletteAsset =
-        FindAsset(session.PresentationAssets(), "country_palette");
+    const kernel::PresentationAsset* modeAsset =
+        FindAsset(session.PresentationAssets(), "map_mode_set");
     const kernel::PresentationAsset* fontAsset =
         FindAsset(session.PresentationAssets(), "font");
-    if (rasterAsset == nullptr || idAsset == nullptr || paletteAsset == nullptr)
+    if (rasterAsset == nullptr || idAsset == nullptr || modeAsset == nullptr)
     {
         std::cerr << "political viewer: the Presentation Packages are "
-                     "incomplete (raster, id table and country palette are "
-                     "all required)\n";
+                     "incomplete (raster, id table and map mode set are all "
+                     "required)\n";
         return 2;
     }
 
@@ -192,19 +192,20 @@ int main(int argc, char** argv)
         return 4;
     }
 
-    presentation::PoliticalMapProjection political;
-    if (political.Bind(session.Catalog(), *paletteAsset, message)
-        != presentation::PoliticalMapProjectionStatus::Ok)
+    presentation::MapModeSet modes;
+    if (modes.Bind(session.Catalog(), *modeAsset, message)
+        != presentation::MapModeStatus::Ok)
     {
-        std::cerr << "political viewer: the country palette failed to bind: "
+        std::cerr << "political viewer: the map modes failed to bind: "
                   << message << '\n';
         return 5;
     }
-    if (political.Refresh(view, entityIndex)
-        != presentation::PoliticalMapProjectionStatus::Ok)
+    std::size_t mode = 0;
+    if (modes.Refresh(view, entityIndex, mode)
+        != presentation::MapModeStatus::Ok)
     {
-        std::cerr << "political viewer: the country palette failed to "
-                     "resolve against the world\n";
+        std::cerr << "political viewer: map mode '" << modes.Mode(mode).id
+                  << "' failed to resolve against the world\n";
         return 6;
     }
 
@@ -284,16 +285,33 @@ int main(int argc, char** argv)
     }
     renderer.SetEntityIndex(&entityIndex);
 
+    // The corpus is a latitude band and never reaches the poles; the renderer
+    // fills that gap with a flat colour of its own. Content says what belongs
+    // there -- open ocean -- so the cap is not a different blue from the sea
+    // beside it. Silent when the asset does not name one: the renderer keeps
+    // its default.
+    if (modes.HasPolarColour())
+    {
+        const std::uint32_t polar = modes.PolarColour();
+        renderer.SetPolarFill(
+            static_cast<float>((polar >> 16) & 0xFFu) / 255.0f,
+            static_cast<float>((polar >> 8) & 0xFFu) / 255.0f,
+            static_cast<float>(polar & 0xFFu) / 255.0f
+        );
+    }
+
     // The projection's palette is indexed by dense raster index and is exactly
     // as long as the map has provinces; the renderer's texture is a square, so
     // the answer is copied into it rather than handed over directly.
+    const auto uploadPalette = [&]()
     {
         std::vector<std::uint32_t> palette(renderer.PaletteSize(), 0u);
-        const std::vector<std::uint32_t>& source = political.Palette();
+        const std::vector<std::uint32_t>& source = modes.Palette();
         const std::size_t count = std::min(palette.size(), source.size());
         std::copy(source.begin(), source.begin() + count, palette.begin());
         renderer.SetPalette(palette);
-    }
+    };
+    uploadPalette();
 
     presentation::ProvinceCentroids centroids;
     if (!centroids.Build(raster))
@@ -321,24 +339,16 @@ int main(int argc, char** argv)
 
     const presentation::MapProjection map{raster.width, raster.height};
 
-    std::cout
-        << "\n  " << political.Palette().size() - 1 << " provinces: "
-        << (political.Palette().size() - 1 - political.Unowned()
-            - political.Sea())
-        << " owned, " << political.Sea() << " sea, "
-        << political.Unowned() << " unclaimed land.\n";
-    if (political.AmbiguousOwners() != 0)
+    std::cout << "\n  " << modes.Count() << " map modes declared:";
+    for (std::size_t at = 0; at < modes.Count(); ++at)
     {
-        std::cout << "  " << political.AmbiguousOwners()
-                  << " provinces have more than one owner.\n";
+        std::cout << "  " << (at + 1) << ") " << modes.Mode(at).label;
     }
-    if (political.MissingColours() != 0)
-    {
-        std::cout << "  " << political.MissingColours()
-                  << " owners have no colour in the palette.\n";
-    }
+    std::cout << "\n  " << modes.Palette().size() - 1 << " provinces, "
+              << modes.Absent() << " with no value in this mode.\n";
     std::cout
-        << "\n  middle-drag turns the globe, the wheel moves in and out.\n"
+        << "\n  F1 .. F" << modes.Count() << "   switch map mode\n"
+        << "  middle-drag turns the globe, the wheel moves in and out.\n"
         << "  Near the equator the wheel unrolls it into a plane.\n"
         << "  hover a province to read its owner        esc  quit\n\n";
 
@@ -347,6 +357,20 @@ int main(int argc, char** argv)
     {
         const presentation::gl::MapInput input = renderer.PollInput();
         running = !input.quit;
+
+        // A different mode is a different palette and nothing else. The
+        // renderer is not told which mode this is, or that modes exist.
+        if (input.modeSelect >= 0
+            && static_cast<std::size_t>(input.modeSelect) < modes.Count()
+            && static_cast<std::size_t>(input.modeSelect) != mode)
+        {
+            mode = static_cast<std::size_t>(input.modeSelect);
+            if (modes.Refresh(view, entityIndex, mode)
+                == presentation::MapModeStatus::Ok)
+            {
+                uploadPalette();
+            }
+        }
 
         if (input.bendPreset >= 0.0)
         {
@@ -408,7 +432,8 @@ int main(int argc, char** argv)
             const std::int32_t top =
                 static_cast<std::int32_t>(client.viewportHeight)
                     - kStatusHeight - 8;
-            std::string line = "province ";
+            std::string line = modes.Mode(mode).label;
+            line += "   province ";
             line += hovered != 0 ? std::to_string(hovered) : std::string("--");
             line += "   owner ";
             line += ownerOf(hovered);

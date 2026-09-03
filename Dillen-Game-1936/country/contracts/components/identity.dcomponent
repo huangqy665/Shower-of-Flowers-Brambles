@@ -3,5 +3,6 @@ component_schema = {
     version = 1
     fields = {
         field = { name = source_tag  kind = string  required = yes  default = "---" }
+        field = { name = colour  kind = integer  required = yes  default = 0 }
     }
 }

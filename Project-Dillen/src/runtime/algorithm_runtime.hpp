@@ -40,10 +40,14 @@ struct AlgorithmInvocationContext
     const kernel::WorldEvent* event = nullptr;
     const kernel::ScheduledAlgorithmEvent* scheduledEvent = nullptr;
     const kernel::WorldTransaction* command = nullptr;
-    // What AlgorithmReadRoot::SubjectEntity resolves to. Null for an
-    // algorithm, which is never given one.
-    const kernel::EntityId* subject = nullptr;
     AlgorithmExecutionBudget& budget;
+    // What AlgorithmReadRoot::SubjectEntity resolves to. Null for an
+    // algorithm, which is never handed one.
+    //
+    // LAST, deliberately: every existing construction of this context is a
+    // positional aggregate initialiser, and a field inserted before `budget`
+    // silently shifts what each of them means.
+    const kernel::EntityId* subject = nullptr;
 
     const kernel::RuntimeCapabilityContract* FindCapability(
         kernel::CapabilityId capability

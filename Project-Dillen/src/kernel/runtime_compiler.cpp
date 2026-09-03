@@ -88,6 +88,57 @@ void AddIssue(
 // that wants a Component field must go through a role slot bound to an Entity,
 // and a Relation hop must start from such an Entity. There is no way to
 // shortcut that, and no reason to want one.
+// The part of a read path that happens once it has arrived at an Entity.
+//
+// Two roots arrive there: a role slot bound to Entities, and a subject handed
+// in from outside. What follows -- the optional Relation hop, the Component,
+// the field, and the insistence that it is numeric -- is the same both times,
+// so it is written once and called twice rather than being the sort of thing
+// that drifts.
+// The lookups differ by WHEN the caller runs -- during compilation there are
+// vectors of layouts, afterwards there is a frozen Catalog -- and nothing
+// else does. Passing them in keeps that difference out of the meaning.
+template <typename FindComponent, typename KnowsRelation, typename Reject>
+bool LowerEntityTerminal(
+    const AlgorithmReadPathDefinition& source,
+    const FindComponent& findComponent,
+    const KnowsRelation& knowsRelation,
+    const Reject& reject,
+    CompiledAlgorithmReadPath& out
+)
+{
+    if (source.traverseRelation && !knowsRelation(source.relationType))
+    {
+        return reject("read path traverses an unknown Relation type");
+    }
+
+    const CompiledComponentLayout* componentLayout =
+        findComponent(source.component);
+    if (componentLayout == nullptr)
+    {
+        return reject("read path names an unknown Component type");
+    }
+    const auto componentField =
+        componentLayout->fieldSlotsByName.find(source.componentField);
+    if (componentField == componentLayout->fieldSlotsByName.end())
+    {
+        return reject(
+            "read path names an unknown Component field: "
+                + source.componentField);
+    }
+    const MechanismValueKind kind =
+        componentLayout->fields[componentField->second.value].kind;
+    if (kind != MechanismValueKind::Integer
+        && kind != MechanismValueKind::Decimal)
+    {
+        return reject(
+            "read path Component field '" + source.componentField
+                + "' is not numeric");
+    }
+    out.componentField = componentField->second;
+    return true;
+}
+
 bool LowerReadPath(
     const AlgorithmReadPathDefinition& source,
     const CompiledMechanismLayout& layout,
@@ -149,6 +200,16 @@ bool LowerReadPath(
         out.selfField = field->second;
         return true;
     }
+    case AlgorithmReadRoot::SubjectEntity:
+        // Nothing hands an ALGORITHM a subject, and this overload is the
+        // algorithm one. A projection lowers the same path through
+        // LowerSubjectReadPath, which reaches the same terminal by the same
+        // code; refusing here keeps a construct that would always fail at run
+        // time from compiling and looking fine on the page.
+        return reject(
+            "a read path in an algorithm cannot start at a subject Entity; "
+            "an algorithm is not given one"
+        );
     case AlgorithmReadRoot::RoleTarget:
         break;
     }
@@ -235,56 +296,33 @@ bool LowerReadPath(
             "role '" + source.role + "' does not reference Entities, so it "
             "cannot reach a Component");
     }
-    if (source.traverseRelation)
-    {
-        bool relationKnown = false;
-        for (const CompiledRelationLayout& relation
-            : relationLayouts)
+    return LowerEntityTerminal(
+        source,
+        [&componentLayouts](ComponentTypeId type)
+            -> const CompiledComponentLayout*
         {
-            if (relation.type == source.relationType)
+            for (const CompiledComponentLayout& compiled : componentLayouts)
             {
-                relationKnown = true;
-                break;
+                if (compiled.type == type)
+                {
+                    return &compiled;
+                }
             }
-        }
-        if (!relationKnown)
+            return nullptr;
+        },
+        [&relationLayouts](RelationTypeId type)
         {
-            return reject("read path traverses an unknown Relation type");
-        }
-    }
-
-    const CompiledComponentLayout* componentLayout = nullptr;
-    for (const CompiledComponentLayout& compiled : componentLayouts)
-    {
-        if (compiled.type == source.component)
-        {
-            componentLayout = &compiled;
-            break;
-        }
-    }
-    if (componentLayout == nullptr)
-    {
-        return reject("read path names an unknown Component type");
-    }
-    const auto componentField =
-        componentLayout->fieldSlotsByName.find(source.componentField);
-    if (componentField == componentLayout->fieldSlotsByName.end())
-    {
-        return reject(
-            "read path names an unknown Component field: "
-                + source.componentField);
-    }
-    const MechanismValueKind kind =
-        componentLayout->fields[componentField->second.value].kind;
-    if (kind != MechanismValueKind::Integer
-        && kind != MechanismValueKind::Decimal)
-    {
-        return reject(
-            "read path Component field '" + source.componentField
-                + "' is not numeric");
-    }
-    out.componentField = componentField->second;
-    return true;
+            for (const CompiledRelationLayout& relation : relationLayouts)
+            {
+                if (relation.type == type)
+                {
+                    return true;
+                }
+            }
+            return false;
+        },
+        reject,
+        out);
 }
 
 // A Capability Contract identity may be provided by at most ONE package in a
@@ -679,6 +717,62 @@ bool BuildCompileSelection(
     return true;
 }
 
+}
+
+bool LowerSubjectReadPath(
+    const AlgorithmReadPathDefinition& source,
+    const FrozenRuntimeCatalog& catalog,
+    std::uint32_t componentVersion,
+    std::string& message,
+    CompiledAlgorithmReadPath& out
+)
+{
+    // The compiler, reached from the other side.
+    //
+    // A projection lowers a read path after the Ruleset is frozen, against a
+    // Catalog rather than against the layout vectors compilation works from.
+    // What the path MEANS is not restated here: the terminal is lowered by the
+    // same function the algorithm path uses, with lookups that read a Catalog
+    // instead of a vector.
+    out = CompiledAlgorithmReadPath{};
+    if (!catalog.IsFrozen())
+    {
+        message = "a read path can only be lowered against a frozen Catalog";
+        return false;
+    }
+    if (source.root != AlgorithmReadRoot::SubjectEntity)
+    {
+        message = "a projection's read path must start at a subject Entity";
+        return false;
+    }
+    if (source.terminal != AlgorithmReadTerminal::ComponentField)
+    {
+        message = "a projection's read path must end at a Component field";
+        return false;
+    }
+    out.root = source.root;
+    out.reduce = source.reduce;
+    out.terminal = source.terminal;
+    out.traverseRelation = source.traverseRelation;
+    out.relationType = source.relationType;
+    out.direction = source.direction;
+    out.component = source.component;
+    return LowerEntityTerminal(
+        source,
+        [&catalog, componentVersion](ComponentTypeId type)
+        {
+            return catalog.FindComponentLayout(type, componentVersion);
+        },
+        [&catalog](RelationTypeId type)
+        {
+            return catalog.FindRelationLayout(type) != nullptr;
+        },
+        [&message](const std::string& why)
+        {
+            message = why;
+            return false;
+        },
+        out);
 }
 
 bool RuntimeCompileReport::Success() const noexcept

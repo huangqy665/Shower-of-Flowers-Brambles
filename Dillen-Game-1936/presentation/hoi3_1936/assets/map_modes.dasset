@@ -1,0 +1,36 @@
+presentation_asset = {
+    name = dillen.hoi3.1936.map_modes
+    kind = map_mode_set
+    properties = {
+        ownership_relation = dillen.country.owns_region
+        ownership_relation_version = 1
+        modes = 2
+        polar_colour = 3564696
+    }
+    content = {
+        mode = {
+            id = political
+            label = "Political"
+            relation = dillen.country.owns_region
+            relation_direction = incoming
+            component = dillen.country.identity
+            component_version = 1
+            component_field = colour
+            mapping = { kind = value }
+            absent = 3564696
+        }
+        mode = {
+            id = terrain
+            label = "Land and sea"
+            component = dillen.map.geography
+            component_version = 1
+            component_field = is_sea
+            mapping = {
+                kind = lookup
+                entry = { value = 0  colour = 7902066 }
+                entry = { value = 1  colour = 3564696 }
+            }
+            absent = 2236962
+        }
+    }
+}

@@ -4,6 +4,6 @@ package_manifest = {
     version_minor = 0
     version_patch = 0
     role = contract
-    content_digest = "c240bde749d5c2f170cd0f0842d809d543e307b3bbd8d2c01c7519991e1cae09"
+    content_digest = "4828c12d48886662fd52d36276d1440694b5e538cba64b45400bd5c6b1bf52b5"
     load_priority = 10
 }

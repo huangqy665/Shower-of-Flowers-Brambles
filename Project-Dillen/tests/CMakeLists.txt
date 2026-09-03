@@ -139,6 +139,11 @@ if(DILLEN_BUILD_STANDALONE_RUNTIME)
         dillen_add_probe(presentation_binding_probe dillen::host)
         dillen_add_probe(map_view_probe dillen::presentation)
         dillen_add_probe(
+            map_mode_probe
+            dillen::host
+            dillen::presentation
+        )
+        dillen_add_probe(
             map_camera_controller_probe
             dillen::presentation
         )

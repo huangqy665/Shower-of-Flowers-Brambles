@@ -585,6 +585,22 @@ EmitHoi31936PoliticalContent(
         "  default = \"---\""
         " }\n";
 
+    // The country's colour, as a fact about the country.
+    //
+    // It used to live in the palette asset, which made it a fact about one
+    // presentation of the world -- so anything else that wanted to draw a
+    // country had to read that asset, and a second view would have had to
+    // agree with it by hand. Packed 0x00RRGGBB in one integer: a Component
+    // field is numeric, and three fields would be three chances to set two of
+    // them.
+    identity +=
+        "        field = {"
+        " name = colour"
+        "  kind = integer"
+        "  required = yes"
+        "  default = 0"
+        " }\n";
+
     identity += "    }\n";
     identity += "}\n";
 
@@ -700,7 +716,7 @@ EmitHoi31936PoliticalContent(
         "        schema_version = 1\n";
 
     countries +=
-        "        columns = { source_tag }\n";
+        "        columns = { source_tag colour }\n";
 
     countries += "    }\n";
 
@@ -709,12 +725,28 @@ EmitHoi31936PoliticalContent(
     for (const PoliticalCountryState& country
         : snapshot.countries)
     {
+        // A country the corpus gave no colour is written as zero, which
+        // the mode's `absent` colour then covers. Skipping the row instead
+        // would leave an Entity with no Component and a hole in the table.
+        std::uint32_t packed = 0;
+        if (country.color)
+        {
+            packed = (static_cast<std::uint32_t>(country.color->red) << 16)
+                | (static_cast<std::uint32_t>(country.color->green) << 8)
+                | static_cast<std::uint32_t>(country.color->blue);
+        }
+        else
+        {
+            ++report.countriesWithoutColour;
+        }
         countries +=
             "        row = { "
             + countrySuffixById.at(country.id)
             + "  \""
             + country.tag.ToString()
-            + "\" }\n";
+            + "\"  "
+            + std::to_string(packed)
+            + " }\n";
     }
 
     countries += "    }\n";
@@ -1211,10 +1243,10 @@ EmitHoi31936PoliticalContent(
     palette += "presentation_asset = {\n";
 
     palette += "    name = "
-        + options.paletteAssetName
+        + options.modeSetAssetName
         + "\n";
 
-    palette += "    kind = country_palette\n";
+    palette += "    kind = map_mode_set\n";
 
     palette += "    properties = {\n";
 
@@ -1227,72 +1259,68 @@ EmitHoi31936PoliticalContent(
 
     // Water, so the political map can tell an ocean from a region nobody
     // has claimed. Named here rather than known by the renderer: which
-    // Component carries it is this content's business.
-    palette += "        sea_component = " + options.mapComponentName + "\n";
-    palette += "        sea_field = is_sea\n";
-    palette += "        sea_colour = 3564696\n";   // 0x365A98, a deep blue
-    palette += "        country_entity_type = "
-        + options.countryEntityTypeName
-        + "\n";
+    // Two modes, declared rather than written.
+    //
+    // Political is a read path: from the province, one hop inward along
+    // owns_region, then the owner's colour -- and the value read IS the
+    // colour, so there is no table between the world and the picture. The
+    // renderer never learns what "political" means; it uploads whichever
+    // palette the selected mode produced.
+    //
+    // Adding a third mode is content from here on, not C++.
+    palette += "        modes = 2\n";
 
+    // The corpus is an equirectangular band and stops short of the poles, so
+    // wrapping it onto a globe leaves a hole at each end that the renderer
+    // fills flat. That fill is open ocean -- the Arctic and the Southern
+    // Ocean both are -- so its colour is named here, the same 0x365A98 the
+    // sea reads as, rather than left to a constant baked into the renderer.
+    palette += "        polar_colour = 3564696\n";
     palette += "    }\n";
-
     palette += "    content = {\n";
 
-    for (const PoliticalCountryState& country
-        : snapshot.countries)
-    {
-        if (!country.color)
-        {
-            ++report.countriesWithoutColour;
-            continue;
-        }
+    palette += "        mode = {\n";
+    palette += "            id = political\n";
+    palette += "            label = \"Political\"\n";
+    palette += "            relation = " + options.ownershipRelationName
+        + "\n";
+    palette += "            relation_direction = incoming\n";
+    palette += "            component = "
+        + options.countryIdentityComponentName + "\n";
+    palette += "            component_version = 1\n";
+    palette += "            component_field = colour\n";
+    palette += "            mapping = { kind = value }\n";
+    // Water and unclaimed land both read nothing here -- neither is owned --
+    // so political draws them alike and the terrain mode is what tells them
+    // apart. Saying so is the point of `absent` being required.
+    palette += "            absent = 3564696\n";
+    palette += "        }\n";
 
-        palette += "        country = {\n";
-
-        palette += "            entity = "
-            + options.countryEntityNamePrefix
-            + countrySuffixById.at(country.id)
-            + "\n";
-
-        palette += "            red = "
-            + std::to_string(
-                static_cast<unsigned>(
-                    country.color->red
-                )
-            )
-            + "\n";
-
-        palette += "            green = "
-            + std::to_string(
-                static_cast<unsigned>(
-                    country.color->green
-                )
-            )
-            + "\n";
-
-        palette += "            blue = "
-            + std::to_string(
-                static_cast<unsigned>(
-                    country.color->blue
-                )
-            )
-            + "\n";
-
-        palette += "        }\n";
-    }
+    palette += "        mode = {\n";
+    palette += "            id = terrain\n";
+    palette += "            label = \"Land and sea\"\n";
+    palette += "            component = " + options.mapComponentName + "\n";
+    palette += "            component_version = 1\n";
+    palette += "            component_field = is_sea\n";
+    palette += "            mapping = {\n";
+    palette += "                kind = lookup\n";
+    palette += "                entry = { value = 0  colour = 7902066 }\n";
+    palette += "                entry = { value = 1  colour = 3564696 }\n";
+    palette += "            }\n";
+    palette += "            absent = 2236962\n";
+    palette += "        }\n";
 
     palette += "    }\n";
     palette += "}\n";
 
     if (!presentation.Emit(
-            "assets/country_palette.dasset",
+            "assets/map_modes.dasset",
             std::move(palette),
             report))
     {
         return Fail(
             Hoi31936ContentStatus::WriteFailed,
-            "country palette asset"
+            "map mode set asset"
         );
     }
 

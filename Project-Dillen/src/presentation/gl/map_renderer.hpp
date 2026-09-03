@@ -96,6 +96,12 @@ struct MapInput
     // preference". Held keys move the value; these jump to it, which is what
     // makes the plane reachable without knowing it is 170 frames away.
     double bendPreset = -1.0;
+    // A map mode the viewer asked for, by position, or -1 for "no change".
+    //
+    // On its own keys rather than sharing the number row with bendPreset: two
+    // meanings on one key is a viewer that cannot offer both, and which one
+    // wins would be decided by whichever branch happened to run first.
+    std::int32_t modeSelect = -1;
     // Pressed this frame.
     bool step = false;
     // The window changed size this frame; `viewportWidth` and
