@@ -38,6 +38,28 @@ using namespace dillen;
 const fs::path kGameRoot = "Dillen-Game";
 const fs::path kMapSourceRoot = kGameRoot / "map/source";
 
+// std::getenv is deprecated by MSVC's secure CRT (C4996), and this suite is
+// built warning-clean. _dupenv_s is the sanctioned replacement there; every
+// other toolchain keeps std::getenv. Silencing it with _CRT_SECURE_NO_WARNINGS
+// would turn the warning off for every file in the target, not this one line.
+bool EnvironmentFlagIsSet(const char* name)
+{
+#if defined(_MSC_VER)
+    char* value = nullptr;
+    std::size_t length = 0;
+    if (_dupenv_s(&value, &length, name) != 0 || value == nullptr)
+    {
+        return false;
+    }
+    const bool set = std::string(value) == "1";
+    std::free(value);
+    return set;
+#else
+    const char* const value = std::getenv(name);
+    return value != nullptr && std::string(value) == "1";
+#endif
+}
+
 bool ReadFile(const fs::path& path, std::string& output)
 {
     std::ifstream stream(path, std::ios::binary);
@@ -112,9 +134,7 @@ int main()
         return 2;
     }
 
-    const char* regenerate = std::getenv("DILLEN_REGENERATE_WORLD_MAP");
-    const bool rewriting = regenerate != nullptr
-        && std::string(regenerate) == "1";
+    const bool rewriting = EnvironmentFlagIsSet("DILLEN_REGENERATE_WORLD_MAP");
 
     adapter::ProvinceContentOptions options;
     // The demo's gameplay, asked for by name. Leaving it out emits a plain

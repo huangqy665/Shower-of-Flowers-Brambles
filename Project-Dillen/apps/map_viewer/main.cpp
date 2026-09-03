@@ -570,7 +570,7 @@ int main()
         std::vector<presentation::OverlayQuad> quads =
             presentation::BuildPanelOverlay(tree, atlas, readout, hovered);
         const std::int32_t statusTop =
-            static_cast<std::int32_t>(options.windowHeight)
+            static_cast<std::int32_t>(client.viewportHeight)
                 - 3 * kStatusHeight - 8;
         AppendStatusLine(
             atlas,

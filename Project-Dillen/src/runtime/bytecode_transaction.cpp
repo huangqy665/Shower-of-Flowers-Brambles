@@ -4,6 +4,7 @@
 
 #include "algorithm_runtime.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <limits>
 #include <utility>
@@ -485,8 +486,17 @@ BytecodeTransactionOutcome EmitBytecodeTransaction(
         // commands -- the instruction budget is the only bound on how much
         // work one algorithm invocation can commit, so any construct that
         // expands at run time has to pay for its expansion.
+        //
+        // `bound.size()` is size_t and the budget counts in uint32, so the
+        // charge is SATURATED rather than cast. A truncating cast wraps a huge
+        // slot down to a small charge -- the one direction that matters, since
+        // the budget is the only bound here. A slot that large exhausts any
+        // budget, which is the right answer.
         if (bound.size() > 1
-            && !context.budget.Consume(bound.size() - 1))
+            && !context.budget.Consume(
+                static_cast<std::uint32_t>(std::min<std::size_t>(
+                    bound.size() - 1,
+                    std::numeric_limits<std::uint32_t>::max()))))
         {
             return Reject(
                 // Same status cancel_events uses for the same situation;

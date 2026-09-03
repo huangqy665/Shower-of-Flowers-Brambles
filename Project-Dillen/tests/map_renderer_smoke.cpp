@@ -835,6 +835,74 @@ int main()
         }
     }
 
+    // --- the GL half of close and reopen ---------------------------------
+    //
+    // presentation_lifecycle_probe destroys and rebuilds the CPU presentation
+    // stack, which is the half about the world not depending on a viewer. It
+    // runs headless, so it never touches a GL object -- and the resources that
+    // are actually hard to tear down and rebuild inside one process are the GL
+    // ones: the context, the shader program, the index texture, the palette,
+    // the render targets, the pixel pack buffers. Leak or reuse any of them
+    // across a Close and the second Open either fails or draws the first map.
+    //
+    // So: record what the renderer draws and picks, close it, open it again in
+    // the same process, and require the same answers. Comparing a pick alone
+    // would pass for a renderer that reopened with a black screen, so the
+    // colour is checked too, and required to be non-zero.
+    {
+        const std::uint32_t x = options.windowWidth / 2;
+        const std::uint32_t y = options.windowHeight / 2;
+        const std::uint32_t paletteSideBefore = renderer.PaletteSide();
+        presentation::MapCamera settled;
+        settled.distance = 1.1;
+        settled.lookAtU = 0.42;
+        settled.lookAtV = 0.55;
+        settled.bend = 1.0;
+
+        renderer.Draw(map, settled);
+        ++drawn;
+        const std::uint16_t pickedBefore = renderer.PickAt(x, y);
+        const std::uint32_t colourBefore = renderer.ColourAt(x, y);
+        Check(colourBefore != 0,
+            "the reference frame for the reopen check is blank");
+
+        renderer.Close();
+
+        std::string reopenMessage;
+        const presentation::gl::MapRendererStatus reopened =
+            renderer.Open(options, raster, reopenMessage);
+        Check(reopened == presentation::gl::MapRendererStatus::Ok,
+            "the renderer would not reopen in the same process: "
+                + reopenMessage);
+        if (reopened == presentation::gl::MapRendererStatus::Ok)
+        {
+            // Everything Open decides has to be decided again, not inherited.
+            Check(renderer.PaletteSide() == paletteSideBefore,
+                "the reopened renderer sized its palette differently: "
+                    + std::to_string(renderer.PaletteSide()) + " against "
+                    + std::to_string(paletteSideBefore));
+            renderer.SetEntityIndex(&entityIndex);
+            fillPalette();
+            renderer.SetPalette(palette);
+
+            renderer.Draw(map, settled);
+            ++drawn;
+            Check(renderer.PickAt(x, y) == pickedBefore,
+                "the reopened renderer picks "
+                    + std::to_string(renderer.PickAt(x, y))
+                    + " where it picked " + std::to_string(pickedBefore));
+            Check(renderer.ColourAt(x, y) == colourBefore,
+                "the reopened renderer draws a different colour at the same "
+                "camera");
+            // And the Entity mapping survives, which is the part a renderer
+            // that reopened with a stale index would get wrong.
+            Check(renderer.PickEntityAt(x, y)
+                    == entityIndex.EntityFor(pickedBefore),
+                "the reopened renderer resolves the picked province to a "
+                "different Entity");
+        }
+    }
+
     renderer.Close();
 
     if (failures != 0)

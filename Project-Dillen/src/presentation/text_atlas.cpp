@@ -340,8 +340,10 @@ TextAtlasStatus TextAtlas::Load(
     // wrapped or not.
     std::int32_t sheetWidth = kMaxAtlasWidth;
     {
-        const auto declared = asset.properties.find("atlas_max_width");
-        if (declared != asset.properties.end() && !declared->second.empty())
+        const auto declaredWidth =
+            asset.properties.find("atlas_max_width");
+        if (declaredWidth != asset.properties.end()
+            && !declaredWidth->second.empty())
         {
             std::int32_t value = 0;
             std::string reason;
@@ -457,10 +459,10 @@ TextAtlasStatus TextAtlas::Load(
         static_cast<std::size_t>(width_) * height_,
         0
     );
-    for (std::size_t index = 0; index < count; ++index)
+    for (std::size_t glyphIndex = 0; glyphIndex < count; ++glyphIndex)
     {
-        const Raster& raster = rasters[index];
-        const GlyphMetrics& metrics = glyphs_[index];
+        const Raster& raster = rasters[glyphIndex];
+        const GlyphMetrics& metrics = glyphs_[glyphIndex];
         for (std::int32_t row = 0; row < raster.height; ++row)
         {
             const std::size_t target =

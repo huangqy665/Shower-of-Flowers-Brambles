@@ -362,6 +362,8 @@ int main()
             persistence::RuntimePersistenceService::IdentityFor(
                 session.Catalog()
             );
+        const std::size_t worldMechanisms =
+            session.Runtime().Query().Mechanisms().Size();
         persistence::RuntimeSaveImage legacy = midway;
         // An older fingerprint stands in for an older Ruleset. Every mechanism
         // in the world carries the old version, so the migration has to touch
@@ -373,7 +375,13 @@ int main()
         step.canonicalName = "dillen.map.world.v0_to_v1";
         step.source = legacy.identity;
         step.target = current;
-        step.migrate = [](
+        // The registry writes candidate.identity = step.target itself, so a
+        // step that only rewrote the fingerprint would be doing nothing. This
+        // one walks every mechanism the image carries and reports how many it
+        // saw, so "the migration ran over the whole world" is a number checked
+        // below rather than a sentence in a comment.
+        std::size_t steppedMechanisms = 0;
+        step.migrate = [&steppedMechanisms](
             persistence::RuntimeSaveImage& image,
             std::string& reason)
         {
@@ -382,7 +390,7 @@ int main()
                 reason = "nothing to migrate";
                 return false;
             }
-            image.identity.rulesetFingerprint = {};
+            steppedMechanisms = image.mechanisms.size();
             return true;
         };
         Check(migrations.Register(std::move(step))
@@ -398,19 +406,35 @@ int main()
                          "load\n";
             return 7;
         }
-        // The fingerprint the step writes back is filled in by Restore from
-        // the catalog it is restoring into, so the lambda above only has to
-        // clear the stale one.
-        persistence::RuntimeSaveImage carried = legacy;
-        carried.identity.rulesetFingerprint = current.rulesetFingerprint;
+        // The stale fingerprint goes in AS IS.
+        //
+        // An earlier version of this block copied the current fingerprint onto
+        // the image first. That made Restore's identity check pass, so
+        // Migrate() was never called at all -- and every assertion below still
+        // held, because an image that needs no migration restores fine and
+        // carries on fine. The gate was green and it was measuring nothing.
+        // Hence the three assertions after it: a migration that did not
+        // happen must not be able to report that it did.
         const persistence::RuntimePersistenceReport restored =
             persistence.Restore(
                 migrated.Runtime(),
-                std::move(carried),
+                legacy,
                 &migrations
             );
         Check(static_cast<bool>(restored),
             "the migrated image could not be restored");
+        Check(restored.migration.status
+                == persistence::RuntimeMigrationStatus::Migrated,
+            "Restore did not migrate: the image was accepted as already "
+            "current, so nothing under test ran");
+        Check(restored.migration.appliedSteps.size() == 1
+                && restored.migration.appliedSteps.front()
+                    == "dillen.map.world.v0_to_v1",
+            "the migration did not apply exactly the one registered step");
+        Check(steppedMechanisms == worldMechanisms && worldMechanisms != 0,
+            "the migration step saw " + std::to_string(steppedMechanisms)
+                + " mechanisms, the world holds "
+                + std::to_string(worldMechanisms));
         Check(drive(migrated.Runtime(), 9, kFinalTick),
             "the migrated world would not keep running");
 

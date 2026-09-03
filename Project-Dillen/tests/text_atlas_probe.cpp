@@ -371,14 +371,15 @@ int main()
             readout.fields.push_back(field);
         }
 
-        const std::vector<presentation::OverlayQuad> quads =
+        const std::vector<presentation::OverlayQuad> panelQuads =
             presentation::BuildPanelOverlay(
                 tree, atlas, readout, UINT32_MAX);
-        Check(!quads.empty(), "the panel produced nothing to draw");
+        Check(!panelQuads.empty(),
+            "the panel produced nothing to draw");
 
         std::size_t solid = 0;
         std::size_t glyphs = 0;
-        for (const presentation::OverlayQuad& quad : quads)
+        for (const presentation::OverlayQuad& quad : panelQuads)
         {
             Check(quad.width > 0 && quad.height > 0,
                 "an overlay quad has no area");
@@ -404,18 +405,18 @@ int main()
         // Surfaces before text, so a backend can draw the list in order with
         // no sorting and no depth buffer. If text came first it would be
         // painted over by the panel behind it.
-        std::size_t firstGlyph = quads.size();
-        for (std::size_t index = 0; index < quads.size(); ++index)
+        std::size_t firstGlyph = panelQuads.size();
+        for (std::size_t index = 0; index < panelQuads.size(); ++index)
         {
-            if (quads[index].textured)
+            if (panelQuads[index].textured)
             {
                 firstGlyph = index;
                 break;
             }
         }
-        for (std::size_t index = firstGlyph; index < quads.size(); ++index)
+        for (std::size_t index = firstGlyph; index < panelQuads.size(); ++index)
         {
-            Check(quads[index].textured,
+            Check(panelQuads[index].textured,
                 "a solid quad is listed after the text that covers it");
         }
 
@@ -427,14 +428,14 @@ int main()
         {
             const std::vector<presentation::OverlayQuad> hovered =
                 presentation::BuildPanelOverlay(tree, atlas, readout, raise);
-            Check(hovered.size() == quads.size(),
+            Check(hovered.size() == panelQuads.size(),
                 "hovering changed how many quads are drawn");
             std::size_t differing = 0;
             for (std::size_t index = 0;
-                index < quads.size() && index < hovered.size();
+                index < panelQuads.size() && index < hovered.size();
                 ++index)
             {
-                if (hovered[index].colour != quads[index].colour)
+                if (hovered[index].colour != panelQuads[index].colour)
                 {
                     ++differing;
                 }
@@ -594,10 +595,10 @@ int main()
     // Latin ranges this project ships fit in one row at 4096 -- a gate that
     // could only use the default would pass whether the packer wrapped or not.
     {
-        kernel::PresentationAsset narrow = *fontAsset;
-        narrow.properties["atlas_max_width"] = "256";
+        kernel::PresentationAsset narrowAsset = *fontAsset;
+        narrowAsset.properties["atlas_max_width"] = "256";
         presentation::TextAtlas shelved;
-        Check(shelved.Load(narrow, message)
+        Check(shelved.Load(narrowAsset, message)
                 == presentation::TextAtlasStatus::Ok,
             "a narrow sheet did not load: " + message);
         if (shelved.IsLoaded())

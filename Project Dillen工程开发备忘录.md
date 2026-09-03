@@ -165,7 +165,7 @@ Kernel 至少提供以下通用能力：
 - **Entity / Component / Relation**：提供通用对象、属性和关系的创建、修改、索引和持久化；
 - **Mechanism Instance**：保存机制实例身份、字段、角色、生命周期和算法状态；
 - **Lifecycle**：统一管理 Created、Active、Paused、Completed、Failed、Destroy 等状态和转换；
-- **Algorithm Runtime**：受控调用算法入口点，限制权限、预算和副作用；
+- **Algorithm Runtime**：受控执行由 Runtime Compiler 冻结的统一 Gameplay Program；Scope、Trigger 与 Effect 只是 Algorithm Program 内的类型化选择、判定和事务生成语义，不建立平行执行系统；
 - **Query / Command / Transaction**：只读查询、修改意图和跨 Store 原子提交；
 - **Event / Scheduled Inbox**：区分已发生事实与未来权威行为；
 - **Deterministic Scheduler / RNG**：固定 Tick、Phase、顺序和随机流；
@@ -181,7 +181,7 @@ Kernel 不直接解释外部 Corpus，不直接消费 HOI3 IR，也不编码任�
 |---|---|---|
 | Mechanism Template Source | 可编辑字段、角色、引用、约束、索引和持久化声明 | 不直接成为运行时布局，不保存战局状态 |
 | Mechanism Schema | 经 Resolver 验证和版本冻结的类型契约 | 不包含 Gameplay Content，不执行行为 |
-| Mechanism Algorithm | Tick、Event、Command、条件和变更请求 | 不直接写 World，不拥有权威状态 |
+| Mechanism Algorithm | Create / Tick / Event / Command / Destroy 入口，以及入口内组合的 Scope、Trigger 与 Effect Program | 不直接写 World，不拥有权威状态，不绕过统一 Bytecode / Transaction 管线 |
 | Mechanism Definition | 针对 Schema 的共享静态参数、绑定和配置 | 不代表当前战局进度，不自行创建实例 |
 | Mechanism Spawn Definition | 场景初始实例化意图 | 不拥有运行时 Instance ID，不保存后续状态 |
 | Mechanism Instance | 当前 Simulation 中的权威动态状态 | 不重新定义 Schema、Definition 或 Algorithm |
@@ -213,6 +213,7 @@ Kernel 不直接解释外部 Corpus，不直接消费 HOI3 IR，也不编码任�
 15. **原生扩展可选**：Native Extension 只提供通用能力或性能后端，不把业务重新写回 Kernel。
 16. **外部 Corpus 非规则来源**：HOI3 等 Corpus 可以提供数据和资源，但不能定义 Dillen 的最终 Gameplay Meaning。
 17. **兼容声明分级**：Importer 只能声明 Source Compatibility；只有具体 Mapping Profile 才能声明对某个目标 Ruleset 的 Mapping Compatibility；Gameplay 等价性必须另行定义和验证，不能由“成功导入”自动推出。
+18. **Gameplay 语言只有一条执行管线**：不得建立独立的 `ScopeManager`、`TriggerManager`、`EffectManager` 或第二套解释器；所有 Scope 选择、Trigger 判定和 Effect 变更都必须沿 `Algorithm → Runtime Compiler → Frozen Bytecode → World Transaction` 管线编译和执行。
 
 ### 1.6 Kernel 扩展判据
 
@@ -249,10 +250,10 @@ Project Dillen 主体框架达到第一阶段验收必须满足：
 在启动 HOI3 正式移植前，还必须完成第二阶段通用能力验收：
 
 11. 不修改 Kernel C++，能够以外部 Package 分别声明并运行科研、生产、外交、政治、情报和战区机制模板；
-12. Dillen 原生内容语言具有统一、类型化、可编译的 Trigger / Effect / Scope 前端与语义层；
+12. Dillen 原生内容语言在现有 Algorithm 前端中具有统一、类型化、可编译的 Scope / Trigger / Effect 语义；它们不得形成与 Algorithm Runtime 并列的 Manager 或 VM；
 13. 外部静态定义文件能够经过 Parser、Resolver、Definition Registry 和 Runtime Compiler 进入冻结目录，并支持稳定引用、覆盖诊断和版本身份；
 14. 上述六类参考机制只能通过通用 Entity / Component / Relation / Mechanism、Query / Command / Transaction、Event / Capability 和 Scope 语义实现，不得向 Kernel 增加领域专用类型或操作；
-15. Trigger 求值无副作用且只读取同代际 Query Snapshot；Effect 只生成受验证 Transaction / Event / Capability Invocation；Scope 只负责确定上下文和目标集合；
+15. Scope 编译为类型化上下文切换与稳定查询计划；Trigger 编译为只读取同代际 Query Snapshot 的纯 Predicate Bytecode；Effect 编译为只生成受验证 Transaction / Event / Capability Invocation 的事务 Bytecode；
 16. 静态定义、语义程序与运行时实例均进入 Package Lock、Source Lock、Ruleset Fingerprint、Persistence 和 Migration 的既有身份边界。
 
 HOI3 导入不用于替代这些通用能力的建设。只有第 11—16 条由纯 Dillen 参考 Package 验证后，才开始 HOI3 正式移植；移植结果只能暴露通用能力缺口，不能直接成为 Kernel 专用接口的理由。
@@ -277,8 +278,8 @@ HOI3 导入不用于替代这些通用能力的建设。只有第 11—16 条由
              ▼                                 ▼
   Dillen Native Package Sources       External Content Corpus
   Template / Static Definition /         e.g. HOI3 / TFH / Mods
-  Scope / Trigger / Effect / Algorithm /
-  Data / Presentation
+  Algorithm Program（含 Scope / Trigger /
+  Effect）/ Data / Presentation
              │                                 │
              ▼                                 ▼
   Dillen VFS + FileCatalog            Independent Corpus Importer
@@ -304,16 +305,16 @@ HOI3 导入不用于替代这些通用能力的建设。只有第 11—16 条由
                  Resolver: Declare → Resolve → Validate
                                      │
                                      ▼
-              Schema / Static Definition / Semantic Program /
-              Algorithm / Spawn / Capability / Resource Registries
+              Schema / Static Definition / Algorithm Source /
+              Spawn / Capability / Resource Registries
                                      │
                                      ▼
                    Ruleset Composition + Integrity Gate
                                      │
                                      ▼
                             Runtime Compiler
-              Slot / Layout / Binding / Scope / Predicate /
-                    Effect / Index / Schedule Plan
+              Algorithm-owned Context / Predicate / Transaction Plan
+              → Slot / Stable ID Bytecode / Index / Schedule Plan
                                      │
                                      ▼
                          Frozen Runtime Catalog
@@ -330,7 +331,7 @@ HOI3 导入不用于替代这些通用能力的建设。只有第 11—16 条由
 │                                                              │
 │ Entity / Component / Relation / Mechanism Stores             │
 │ World Clock / RNG Streams / Scheduled Algorithm Inbox        │
-│ Lifecycle / Algorithm Runtime / Deterministic Scheduler      │
+│ Lifecycle / Algorithm Bytecode Runtime / Deterministic Scheduler │
 │ Query / Command / Transaction / Event / Capability           │
 │ Persistence / Migration / Diagnostics / Fault Isolation      │
 └──────────────────────────────┬───────────────────────────────┘
@@ -353,7 +354,7 @@ HOI3 导入不用于替代这些通用能力的建设。只有第 11—16 条由
 3. Native Source 与 Projection Artifact 在 Resolver 前汇合；
 4. Source Lock 在 Importer、Mapping 与 Native Source Workspace 确定后才能最终生成；
 5. Ruleset 完整性验证先于 Runtime Compiler；
-6. Scope / Trigger / Effect 在加载期完成类型检查、引用解析和 Slot 化，Tick 期不解释可编辑字符串；
+6. Algorithm Source 中的 Scope / Trigger / Effect 在加载期由同一个 Runtime Compiler 完成类型检查、引用解析和 Slot 化；Tick 期只执行 Frozen Bytecode，不解释可编辑字符串，也不调用独立 Manager；
 7. WorldBuilder 只消费 Frozen Runtime Catalog，不消费 HOI3 IR；
 8. Kernel 对输入来源无感知。
 
@@ -366,11 +367,11 @@ HOI3 导入不用于替代这些通用能力的建设。只有第 11—16 条由
 | External Projection Artifact Identity | Adapter | Corpus 快照摘要、Importer 版本与实现摘要、Normalized IR 摘要、Mapping Profile 版本与摘要，及其联合摘要（`adapter::ProjectionArtifactIdentity`） | 不进入 Native Source Lock；不直接创建 Runtime Instance |
 | Ruleset Fingerprint | Runtime Compiler | 最终装配身份。**当前实现**只覆盖 Ruleset Definition + Package Lock + Native Source Lock（`ComputeRulesetFingerprint`）；**Projection Artifact Identity 尚未接入**，是 §3.18 已登记的缺口 | 不保存战局状态 |
 | Parse Artifact | Parser | 语法结构、动态键、顺序和 Source Span | 不执行 Gameplay 行为 |
-| Gameplay Semantic IR | Semantic Resolver | 类型化 Scope、无副作用 Trigger、事务化 Effect 及其稳定引用 | 不持有运行时实例；不直接修改 World |
+| Algorithm Semantic IR | Semantic Resolver | Algorithm 入口内的类型化 Scope Context、纯 Trigger Predicate、事务化 Effect 及稳定引用 | 不持有运行时实例；不直接修改 World；不形成独立执行器 |
 | Normalized External Source IR | Importer | 与目标 Ruleset 无关的规范化外部内容 | 不引用 Dillen Gameplay Target |
 | Dillen Projection Artifact | Mapping Profile | 对目标 Contract 的声明式投影结果 | 不直接创建 Runtime Instance |
-| Resolved Registry Set | Resolver / Registry | 已解析和验证的 Schema、静态 Definition、Semantic Program、Algorithm、Capability 与资源 | 不允许 Tick 期修改结构 |
-| Frozen Runtime Catalog | Runtime Compiler | Slot、Layout、Binding、Scope、Predicate、Effect、Index 与 Schedule Plan | 不保存当前战局状态 |
+| Resolved Registry Set | Resolver / Registry | 已解析和验证的 Schema、静态 Definition、Algorithm Source / Semantic IR、Capability 与资源 | 不允许 Tick 期修改结构 |
+| Frozen Runtime Catalog | Runtime Compiler | Algorithm Program、Slot、Layout、Binding、Context / Predicate / Transaction Bytecode、Index 与 Schedule Plan | 不保存当前战局状态；不保留 Tick 热路径需要解释的作者字符串 |
 | Authoritative World | Kernel Runtime | 当前 Simulation 的唯一权威状态 | 不保存可重建表现缓存 |
 
 ### 2.3 严格依赖方向
@@ -517,7 +518,9 @@ WorldBuilder 只消费 Frozen Runtime Catalog 和场景入口，构造临时候�
 
 **当前实现**：Algorithm Descriptor 已包含稳定 ID、版本、Backend、Create / Tick / Event / Command / Destroy 入口点、确定性声明、Execution Policy 和 Capability Requirement。Algorithm Runtime 已接通全部五个阶段；Executor 只读同代际 Snapshot、Scheduled Event 和 RNG Snapshot，只能输出 World Transaction。Declarative / Bytecode 后端支持字段设值与增量、生命周期转换、Entity / Component / Relation / Mechanism Query 数量条件、字段条件、事件类型条件、RNG 模条件，以及创建 Entity、设置 Component、增加 Relation、Spawn Mechanism、调度事件、创建和推进 RNG Stream 等通用事务指令。Runtime Compiler 在加载期解析引用并冻结为 Slot / Stable ID 字节码，内建无循环 VM 按稳定顺序执行并仅生成事务。Native 后端继续使用显式 Executor Registry。
 
-**重要现状界定**：上述能力是可执行 Algorithm 后端和底层通用操作数/事务指令，不代表完整的 Trigger / Effect / Scope 内容语言已经完成。当前仍缺少独立的一等 Scope 选择计划、可组合且纯只读的 Trigger 语义树、只产生受控事务的 Effect 语义树，以及三者共享的 Source → AST → Semantic IR → Resolve → Validate → Frozen Program 前端。后续不得继续以向 Algorithm DSL 零散增加专用条件或指令的方式替代这层建设。
+**重要现状界定与架构裁定**：上述能力已经证明 `Algorithm → Runtime Compiler → Bytecode → World Transaction` 主干可执行，但当前作者语言仍只是“局部条件 + 局部事务指令”的 DSL，不足以表达完整 Gameplay Semantic。下一阶段不是在旁边新增 `ScopeManager`、`TriggerManager`、`EffectManager`，也不是再造三套 Registry、调度器或 VM，而是把现有 Algorithm Source 提升为统一 Dillen Gameplay Program：Scope 成为入口程序中的类型化上下文/目标选择计划，Trigger 成为同一 Bytecode 中的纯 Predicate Block，Effect 成为沿既有事务下降路径生成 `WorldTransaction` 的 Effect Block。当前局部 DSL 必须作为新语言的兼容子集迁移，不能被废弃后重写一套平行实现。
+
+统一前端固定为 `Algorithm Source → Source AST → Algorithm Semantic IR → Resolve / Validate → Runtime Compiler → Frozen Algorithm Bytecode`；统一运行路径固定为 `Algorithm Lifecycle Entry → Scope Context/Iterator → Trigger Predicate → Effect Transaction Emission → World Transaction Validation/Commit`。Declarative Backend 与 Controlled Script Backend 可以采用不同的控制流表达，但必须共享同一类型系统、Scope 查询语义、Predicate 求值语义、Effect Opcode、预算计费、稳定遍历和事务下降实现。
 
 Execution Policy 提供正数确定性指令预算、受控 Script 单次切片预算、Script 权威状态内存配额、非权威墙钟警告阈值和 `isolate_instance / pause_instance / fail_instance` 三种失败策略。Declarative VM 与 Controlled Script VM 在每条字节码前消费确定性预算；Native Executor 通过 Context 中的 Tracker 协作消费预算。只有指令预算超限、Script 内存配额超限、契约错误、执行拒绝、异常或事务拒绝等确定性/语义故障才会丢弃输出、记录权威 Fault 并执行 Failure Policy。墙钟耗时只保存在当次 Invocation 诊断报告中，不中止算法、不影响事务提交、不进入 Authoritative World、Save、Replay Checksum 或生命周期。Fault State 包含隔离标记、次数、错误码、阶段和 Tick，可由显式事务清除。
 
@@ -752,7 +755,7 @@ GUI、AI 和工具必须只通过 Query、Command 与 Fact Stream 使用世界�
 
 Kernel 工程验证夹具（目录与 Probe 仍沿用历史名称 `dillen_demo_1_0`）已经通过；该名称只是一项历史命名遗留，不再对应未来产品 Demo 计划。通用 `dillen::adapter` 基础层现已建立 Projection Artifact Identity 与 Adapter Migration：身份同时锁定 Corpus Snapshot、Importer 实现、Normalized IR Schema / Digest、Mapping Profile、目标 Root Ruleset 和生成 Source / Source Map 摘要；产物篡改会被拒绝，并可生成作为普通 Generated Source 进入 Package 的 Projection Lock Document。Migration Registry 只允许冻结后的显式身份迁移，要求 Corpus Snapshot 不变、每步输出重新封印并验证；无路径、歧义路径、转换拒绝和非法输出均独立诊断。该层不解析任何 HOI3 语义，也不绕过 Resolver 创建 Runtime 对象。
 
-真实 External Corpus Importer / Mapping Profile 在通用 Gameplay Authoring、Trigger / Effect / Scope 和静态定义能力完成前保持冻结；恢复时必须把 Projection Lock Document 作为普通 Source 纳入 Package / Source Lock，禁止把 Adapter 身份藏入 Kernel 或 Tick 热路径。
+真实 External Corpus Importer / Mapping Profile 在通用 Gameplay Authoring、Algorithm 内 Scope / Trigger / Effect 语义和静态定义能力完成前保持冻结；恢复时必须把 Projection Lock Document 作为普通 Source 纳入 Package / Source Lock，禁止把 Adapter 身份藏入 Kernel 或 Tick 热路径。
 
 ### 3.14 HOI3 Oracle
 
@@ -855,12 +858,12 @@ Importer 测试只证明规范化；Mapping 测试只证明投影；Gameplay 测
 
 1. **通用 Gameplay Authoring 表达力**——补齐构造科研、生产、外交、政治、情报和战区参考机制所需的通用 Schema、Definition、Relation、Query、Event、Capability 与事务组合能力；任何缺口必须先证明可跨领域、跨 Ruleset 复用。
 2. **静态定义系统**——让外部静态规则与类型定义经过 Schema、Parser、Resolver、Definition Registry、引用校验、Package / Source Lock 和 Runtime Freeze，成为可查询、可版本化、不可在 Tick 热路径临时解释的只读数据。
-3. **Trigger / Effect / Scope 前端与语义层**——建立 Dillen 原生的类型化 Scope 上下文和遍历、无副作用 Trigger 谓词、只产生事务的 Effect，以及共享的 Registry、Resolver、Compiler、诊断和 Frozen Program 表示。
+3. **Algorithm Gameplay Program 前端与语义层**——在现有 Algorithm Source、Resolver、Runtime Compiler、Bytecode Runtime 与 Transaction 管线内建立类型化 Scope 上下文和遍历、无副作用 Trigger 谓词、只产生事务的 Effect；不得新增平行 Registry、Manager 或 VM。
 4. **六领域参考 Package 验收**——以科研、生产、外交、政治、情报和战区六类独立 Package 验证通用能力，而不是把这些名词写进 Kernel；跨机制交互只经过公共 Contract。
 5. **External Corpus 接入基础**——在纯 Dillen 能力验收通过后，完成 Normalized IR 容器、Importer / Mapping 执行分离、Projection Lock 与 Ruleset 身份接线，再开始 HOI3 正式移植。
 6. **后续性能能力**——同相位 Worker Pool、1-vs-N 对拍、Native Executor `parallel_safe` 契约、更大 Package 图加载基线和粗粒度 CoW 优化均排在语义完整性之后；不得以性能优化替代语义门禁。
 
-地图纵向切片仍有 14187 Entity Save / Load、Migration 后续跑、长周期 Tick、多检查点 Replay、GUI 关闭/重建和窗口 Host/无头路径对拍等耐久性待办，但这些项目自本次路线重置起进入**非阻塞维护清单**，不再排在通用 Kernel / Authoring 能力之前，也不产生新的产品 Demo。
+地图纵向切片的耐久性项目——14187 Entity 的 Save / Load、Migration 后续跑、长周期 Tick、多检查点 Replay、GUI 关闭/重建（含同进程 GL 资源销毁重建）和窗口 Host / 无头路径对拍——**已于 §4.4.10、§4.4.11 全部达成**，§4.4.4 的验收门禁不再有未达成项。地图自此进入**非阻塞维护清单**：它作为回归样本保留，不再排在通用 Kernel / Authoring 能力之前，也不产生新的产品 Demo。
 
 Capability ABI v2 的多 Operation、返回值和关联 ID 仍是可选增量；除非六领域参考机制证明 v1 无法表达必要的跨机制契约，否则不进入当前主线。
 
@@ -968,7 +971,7 @@ Capability ABI v2 的多 Operation、返回值和关联 ID 仍是可选增量；
 
 ### 4.0 路线重置（2026-09-03）
 
-此前以 Demo 0.8 → Demo 1.0 → Demo 1.1 → External Corpus Demo 编号推进的计划自本次修订起**全部撤销**。原因是地图、窗口或内容数量无法证明 Kernel 已具备承载完整大战略语义的通用表达力；继续按产品 Demo 堆叠界面和玩法，会在 Trigger / Effect / Scope、静态定义和跨领域语义尚未成型时过早冻结错误接口。
+此前以 Demo 0.8 → Demo 1.0 → Demo 1.1 → External Corpus Demo 编号推进的计划自本次修订起**全部撤销**。原因是地图、窗口或内容数量无法证明 Kernel 已具备承载完整大战略语义的通用表达力；继续按产品 Demo 堆叠界面和玩法，会在 Algorithm 内 Scope / Trigger / Effect、静态定义和跨领域语义尚未成型时过早冻结错误接口。
 
 以下历史成果继续有效，但不再产生后续版本编号：
 
@@ -987,15 +990,16 @@ Capability ABI v2 的多 Operation、返回值和关联 ID 仍是可选增量；
 
 1. **通用机制表达力审计**：分别设计科研、生产、外交、政治、情报和战区的外部机制模板草案，用它们发现 Kernel 的通用原语缺口；草案不得作为 Kernel 类型来源。
 2. **静态定义前端**：建立外部 Definition Schema、类型化字段、嵌套值/集合、枚举或符号、稳定引用、跨文件 Declare / Resolve / Validate、覆盖诊断、版本和冻结目录。
-3. **Scope 语义层**：建立类型化当前上下文、命名角色、关系遍历、集合选择、父子上下文和确定性排序；Scope 只解析“对谁求值或执行”，不包含业务动作。
-4. **Trigger 语义层**：建立无副作用谓词、组合逻辑、比较、存在/全称/计数、集合归约、Definition 与 Snapshot 查询；所有读取必须来自同代际 Query Snapshot。
-5. **Effect 语义层**：建立只生成 Command / World Transaction / Event / Capability Invocation 的类型化效果程序；禁止直接写 Store，禁止把领域动词编码进 Effect VM。
-6. **共享语义编译管线**：`Source → AST → Semantic IR → Resolve → Validate → Slot/Stable ID Compile → Frozen Program Catalog`；Declarative 与 Controlled Script 必须复用同一语义和事务下降路径。
-7. **六领域参考 Package 验收**：科研、生产、外交、政治、情报和战区各自形成 Contract / Mechanism / Content 测试包，并通过跨机制契约、故障隔离、Save / Load、Migration、Replay 和更换 Root 验收。
-8. **HOI3 移植准备**：完成独立 Importer ABI、Normalized Source IR、Mapping Profile Compiler、Projection Lock 和 Adapter Migration 的执行闭环。
-9. **HOI3 正式移植**：按静态定义 → 历史与初始状态 → Trigger / Effect / Scope → Event / Decision → 机制与 Presentation 映射的顺序推进；HOI3 源语义不得反向成为 Kernel 业务类型。
+3. **现有 Algorithm DSL 归一化**：盘点现有 Read Operand、Condition 与 Transaction Opcode，把它们提升为带 Source Span 和静态类型的 Algorithm Semantic IR；现有 DSL 语法继续编译到新 IR，禁止另起第二套语言实现。
+4. **Algorithm 内 Scope 语义**：在同一 IR 中建立类型化当前上下文、命名角色、Relation / Component / Definition / Mechanism 遍历、集合选择、父子上下文和稳定排序；编译结果是 Context / Iterator Bytecode，不是独立 Scope Runtime。
+5. **Algorithm 内 Trigger 语义**：在同一 IR 中建立无副作用谓词块、组合逻辑、比较、存在/全称/计数和确定性归约；所有读取来自同代际 Query Snapshot，编译结果由现有 Algorithm VM 执行。
+6. **Algorithm 内 Effect 语义**：把现有局部事务指令提升为可组合的 Effect Block，只生成 Command / World Transaction / Event / Capability Invocation；禁止直接写 Store，禁止领域专用 Opcode，并与 Controlled Script 共享事务下降实现。
+7. **统一编译、身份与故障收口**：固定 `Algorithm Source → AST → Semantic IR → Resolve → Validate → Slot/Stable ID Bytecode → Frozen Runtime Catalog`；补齐预算、Source Map、诊断、Package / Source Lock、Ruleset Fingerprint、Persistence、Migration 和 Replay 门禁。
+8. **六领域参考 Package 验收**：科研、生产、外交、政治、情报和战区各自形成 Contract / Mechanism / Content 测试包，并通过跨机制契约、故障隔离、Save / Load、Migration、Replay 和更换 Root 验收。
+9. **HOI3 移植准备**：完成独立 Importer ABI、Normalized Source IR、Mapping Profile Compiler、Projection Lock 和 Adapter Migration 的执行闭环。
+10. **HOI3 正式移植**：按静态定义 → 历史与初始状态 → Scope / Trigger / Effect → Event / Decision → 机制与 Presentation 映射的顺序推进；HOI3 源语义不得反向成为 Kernel 业务类型。
 
-第 1—7 项是 HOI3 正式移植的硬前置。某个 HOI3 文件“已经可以被词法解析”不等于 Dillen 已经具备承载其 Gameplay Meaning 的能力。地图纵向切片的剩余耐久性验证只作为维护任务穿插执行，不得阻塞或改变上述顺序。
+第 1—8 项是 HOI3 正式移植的硬前置。某个 HOI3 文件“已经可以被词法解析”不等于 Dillen 已经具备承载其 Gameplay Meaning 的能力。地图纵向切片只作为冻结回归样本，不得阻塞或改变上述顺序。
 
 **下列内容是已经完成的基础建设记录，不表示当前待执行队列**：
 
@@ -2434,6 +2438,120 @@ Tick 4 关掉，Tick 9 重开。两条断言：
 
 至此 §4.4.4 全部门禁达成，地图基础可以正式冻结。
 
+#### 4.4.11 第四轮审查修正（已完成，2026-09-03）
+
+封存前的最后一轮。五条里有一条是**门禁本身在说谎**，那条最值得记。
+
+##### 1. Migration 门禁是假阳性
+
+`world_map_durability_probe` 的迁移段先把陈旧指纹改回当前值再调 `Restore()`：
+
+```cpp
+persistence::RuntimeSaveImage carried = legacy;
+carried.identity.rulesetFingerprint = current.rulesetFingerprint;   // ← 这一行
+```
+
+于是 `SameRuntimeSaveIdentity(image.identity, target)` 为真，
+`Restore()` 直接跳过 `migrations->Migrate()`——**整条迁移一次都没跑**。
+而下面每一条断言依然成立：一个不需要迁移的镜像本来就能恢复、能续跑、
+能落在同一份字节上。门禁全绿，测的是空气。
+
+我当时还写了一条注释替它解释（「指纹由 Restore 从目标 Catalog 填回」）。
+实情相反：`RuntimeMigrationRegistry::Migrate()` 自己执行
+`candidate.identity = step.target`，所以**步骤根本不需要碰指纹**，
+探针更不该替它碰。
+
+改正三处：
+
+- 陈旧指纹**原样送进** `Restore()`；
+- 断言 `restored.migration.status == Migrated` 与
+  `appliedSteps == {"dillen.map.world.v0_to_v1"}`——
+  一个没发生的迁移不能报告它发生了；
+- 迁移步骤改为**真的走一遍镜像里的机制并报出条数**，断言它等于世界里的
+  14187。原来的 lambda 只判 `mechanisms.empty()`，
+  注释却说「要触及 14187 个」，那是注释在替代验证。
+
+**注入**：把那一行原样放回。三条断言同时报错，其中
+`the migration step saw 0 mechanisms, the world holds 14187`
+直接指出步骤没跑。
+
+##### 2. GL 资源的关闭与重建没被覆盖
+
+`presentation_lifecycle_probe` 销毁并重建的是 **CPU 表现层对象**，
+它无头运行，`MapRenderer` 一次都没出现。而同进程里真正难以拆干净再建起来的
+恰恰是 GL 那一侧：上下文、着色器程序、索引纹理、调色板、渲染目标、
+像素打包缓冲。任何一个被跨 `Close` 复用或泄漏，第二次 `Open` 要么失败，
+要么画出上一张地图。
+
+`map_renderer_smoke` 末尾补一段：记录当前相机下的拾取与颜色 →
+`Close()` → 同进程 `Open()` → 重新上传调色板与 Entity 索引 → 重绘 →
+要求**拾取、颜色、Entity 三者与关闭前一致**。
+只比拾取会被「重开后一片黑」蒙混过去，所以颜色也比，且要求非零。
+
+**注入两次**：
+
+1. 先让 `Open()` 在 `impl_ != nullptr` 时直接返回 Ok。**没被捕获**——
+   因为 `Close()` 会 `impl_ = nullptr` 并销毁窗口和上下文，这段注入是死代码。
+   它对门禁什么都没证明，记在这里是因为**一次没打中的注入不等于门禁有效**。
+2. 换成只在第二次 `Open` 才发作的形态：给索引纹理上传加一个
+   `static bool uploadedOnce`。三条断言同时命中——
+   `picks 0 where it picked 12970`。
+
+##### 3. 其余三条
+
+- **状态文字**仍用初始 `options.windowHeight`（面板已经用
+  `client.viewportHeight` 重排了，文字没跟上）。§4.4.10 写成已改，
+  是备忘录先于代码。现已改正，两者一致。
+
+  这一条**没有门禁**，也正是它能漂的原因：`dillen_map_viewer` 是 `apps/`
+  下的宿主，没有测试覆盖它的文字排布。为一行取值抽出可测的布局算术不值得，
+  所以它只经**人工核对**（`client.viewportHeight` 在
+  `input.resized` 分支里更新，初值取 `options.windowHeight`）。
+  记在这里，是为了不让「已改正」被读成「已被门禁守住」。
+- **备忘录自相矛盾**：一处写耐久性「待办」，一处写「全部达成」。
+  前者是路线重置时写的，已随本节更新。
+- **C4996**：`world_map_content_probe` 的 `std::getenv` 在 MSVC 下报
+  C4996，与「零警告」不符。改用 `_dupenv_s`（MSVC）/ `std::getenv`（其余），
+  而不是给整个 target 开 `_CRT_SECURE_NO_WARNINGS`——
+  那会把这一行的警告关成所有文件的警告。
+
+  **为什么之前没看见**：增量构建不会重编未改动的文件，警告只在编译时产生。
+  所以「零警告」只有**全新构建**才算数。
+
+##### 4. 「零警告」本身是错的，被这条线索牵出来
+
+C4996 只是露出来的一角。把四个构建目录**清空重建**之后，
+Dillen 自己的代码另有五条警告，全部被增量构建藏了起来：
+
+| 位置 | 警告 |
+| --- | --- |
+| `text_atlas.cpp:343` | C4456 `declared` 遮蔽 |
+| `text_atlas.cpp:460` | C4456 `index` 遮蔽 |
+| `text_atlas_probe.cpp:374` | C4456 `quads` 遮蔽 |
+| `text_atlas_probe.cpp:597` | C4456 `narrow` 遮蔽 |
+| `bytecode_transaction.cpp:489` | C4267 `size_t` → `uint32_t` 可能丢失数据 |
+
+最后一条不是噪声。`set_component_field` 按绑定 Entity 数收费，
+`Consume()` 收 `uint32_t`，而 `bound.size()` 是 `size_t`：
+截断转换会把一个巨大的槽**回绕**成很小的收费——
+恰好是预算唯一不能出错的方向，因为按同一段代码自己的注释，
+「指令预算是一次算法调用能提交多少工作的唯一上界」。
+改为**饱和**而非截断：大到溢出的槽必然耗尽任何预算，那才是正确答案。
+
+遮蔽的四条按就近改名消除（`declaredWidth` / `glyphIndex` /
+`panelQuads` / `narrowAsset`）。其中 `panelQuads` 一处要连同同一块里
+后续所有引用一起改——只改声明会让那些引用**静默落到外层那个同名变量上**，
+编译器这次报了类型错误，但换成类型相同的两个变量就不会报。
+
+**结论写进规矩**：此后「零警告」一律以**清空重建**为准。
+第三方 vendored 代码（FreeType 的 5 条 C4819，源文件含 CP936 无法表示的字符）
+不属于 Dillen 代码，不计入，也不修改上游文件。
+
+##### 门禁
+
+四配置**清空重建**、Dillen 侧零警告：**43/43**（标准）、**44/44**（渲染器）、
+**28/28**（纯 Standalone）、Debug 43/43。
+
 #### 4.4.6 R3：Presentation Source → Compiler → Frozen Catalog（已完成，2026-09-02）
 
 §4.4.5 第 2 条与第 5 条的修复。先做 R3 而不是放到下一阶段，是因为它重排整个
@@ -2536,34 +2654,102 @@ label 带子控件 / 两个根 / 未冻结的 Schema / 未冻结的 Runtime Cata
 
 验收：同一套 Kernel 二进制装载六组完全外部的机制模板；删去任一包、替换实现包或替换 Root 时，未被选择的定义和程序不会进入 Frozen Catalog，合法替换不要求重新编译引擎。
 
-### 4.6 Trigger / Effect / Scope 语言与语义层
+### 4.6 Scope / Trigger / Effect 语言与语义层
 
-这三类概念属于通用 Gameplay Authoring 语言，不属于 HOI3 兼容层，但也不能成为绕开现有 Algorithm Runtime 的第二套执行器。
+Scope、Trigger 与 Effect 属于 Dillen 原生 Gameplay Authoring 语言，不属于 HOI3 兼容层；但它们也**不是三套新的运行时系统**。本阶段的唯一允许方案是沿已经验证的 `Algorithm → Runtime Compiler → Bytecode → Transaction` 主干做纵向扩展，把现有“局部指令 DSL”迁移为完整的 Dillen Gameplay Program。
 
-**Scope**：
+**明确禁止的架构**：
 
-- 表示类型化求值上下文、当前 Subject、命名角色和确定性目标集合；
-- 支持通过公开 Relation、Component、Definition 和 Mechanism Role 遍历；
-- 每次上下文切换都具有静态输入/输出类型，空集合、单值和多值规则必须明确；
-- 集合遍历使用稳定 ID 排序，禁止依赖容器地址或导入源偶然顺序。
+- 不建立全局或每世界一个 `ScopeManager`、`TriggerManager`、`EffectManager`；
+- 不建立与 Algorithm Runtime 并列的 Trigger VM、Effect VM 或第二 Scheduler；
+- 不让 Trigger / Effect 在 Tick 热路径重新解析作者字符串；
+- 不让 Effect 直接持有或修改 Entity、Component、Relation、Mechanism Store；
+- 不因 HOI3 存在某个动词，就向 Kernel 增加同名专用 Opcode。
 
-**Trigger**：
+#### 4.6.1 统一程序模型
 
-- 是无副作用、可组合、可缓存的布尔程序；
-- 支持比较、逻辑组合、存在、全称、计数和确定性归约；
-- 只能读取同代际 Query Snapshot、静态 Definition 和显式参数；
-- 不调 RNG、不排队事件、不修改 World。
+一个可执行机制行为仍然只有一个宿主：**Algorithm Lifecycle Entry**。Create、Tick、Event、Command、Destroy 的每个入口都可以包含以下三类编译期结构：
 
-**Effect**：
+1. **Scope Block**：确定当前 Subject、命名上下文和稳定目标集合；
+2. **Trigger Block**：在当前 Scope 上执行无副作用判定；
+3. **Effect Block**：在 Trigger 成立时生成事务化权威意图。
 
-- 是产生权威意图的类型化程序；
-- 只允许生成现有 World Command、World Transaction、Scheduled Event 或 Capability Invocation；
-- 所有修改继续经过 Schema、权限、生命周期、引用和事务校验；
-- 不直接持有 Store，不增加外交、科技、间谍等领域专用 opcode。
+统一加载管线：
 
-**共享语义管线**：Parser 只产生 Source AST；Semantic Resolver 负责类型、Scope、引用和 Contract 解析；Compiler 将合法语义编译为 Stable ID / Slot 化 Frozen Program；Declarative 与 Controlled Script 复用相同 Trigger、Scope 和事务下降语义。Source Span、诊断码和 Source Map 必须贯穿整个管线。
+```text
+Algorithm Source
+→ Source AST
+→ typed Algorithm Semantic IR
+→ Declare / Resolve / Validate
+→ Runtime Compiler
+→ Context / Predicate / Transaction Bytecode
+→ Frozen Runtime Catalog
+```
 
-验收：同一 Trigger 在不同遍历/装载顺序下结果一致；同一 Effect 产生相同 Canonical Transaction；非法 Scope 转换、悬空引用、写入只读 Definition、跨包私有字段访问和非确定性遍历在加载期拒绝。
+统一运行管线：
+
+```text
+Lifecycle Entry
+→ establish typed Scope Context
+→ iterate targets in stable-id order
+→ evaluate Trigger Predicate against one Query Snapshot generation
+→ emit Effect commands into a candidate WorldTransaction
+→ validate and atomically commit or reject the transaction
+```
+
+现有 Declarative Algorithm DSL 的 Read Operand、`when` 条件和通用事务指令不是临时代码，也不废弃；它们是新语言的第一批兼容语法与 Effect 子集。迁移期间，同一旧语法必须先解析到新的统一 AST / Semantic IR，再由 Runtime Compiler 产生与当前行为一致的 Bytecode。禁止保留“旧 DSL 直接编译”和“新语言编译”两条长期平行路径。
+
+#### 4.6.2 Scope 语义
+
+- Scope 是类型化求值上下文和查询计划，不是持久化运行服务；
+- 输入、输出和当前 Subject 必须具有静态 Kind，例如 Entity、Mechanism Instance、Definition 或相应集合；
+- 支持通过公开 Relation、Component、Definition、Mechanism Role 和显式参数遍历；
+- 单值、可空值和集合必须在类型中区分，禁止运行时静默“取第一个”；
+- 嵌套 Scope 使用编译后的上下文 Frame / Iterator，退出后恢复父上下文；
+- 集合遍历和归约统一按 Stable ID 排序，禁止依赖容器地址、哈希桶或源文件偶然顺序；
+- Scope Program 只从当前同代际 Query Snapshot 与 Frozen Definition 读取，不接触可变 Store。
+
+#### 4.6.3 Trigger 语义
+
+- Trigger 是 Algorithm Bytecode 中无副作用、可组合的 Predicate Block；
+- 支持比较、逻辑组合、存在、全称、计数、集合归约和嵌套 Scope 判定；
+- 只能读取当前 Invocation 的 Query Snapshot、Frozen Definition、事件载荷和显式参数；
+- Trigger 不生成 Command，不排队 Event，不推进 RNG，不改变生命周期；
+- 读取失败、空集合、类型不匹配和三值/二值逻辑必须在语言规范中明确，禁止各 Opcode 自行决定；
+- 可缓存只是一种非权威优化，缓存不得改变结果，也不得进入 Persistence 身份。
+
+#### 4.6.4 Effect 语义
+
+- Effect 是 Algorithm Bytecode 中生成权威意图的类型化 Transaction Block；
+- 只允许下降为现有 World Command、World Transaction、Scheduled Event、RNG Command 或 Capability Invocation；
+- 所有写入继续经过 Schema、Capability、生命周期、引用完整性、预算和事务原子性校验；
+- Effect 不直接访问 Store，不产生部分提交，不把 Presentation 或外部 Corpus 对象带入 World；
+- 随机效果只能显式使用权威命名 RNG Stream，并按冻结规则计费和持久化；
+- 不增加外交、科技、间谍、战区等领域专用 Opcode；领域含义由外部 Schema、Definition、Relation、Mechanism 和 Algorithm 组合表达。
+
+#### 4.6.5 Declarative 与 Controlled Script 的关系
+
+Declarative 与 Controlled Script 是两种**控制流前端/后端策略**，不是两套 Gameplay 语义：
+
+- 两者共享 Scope 类型系统、Query Operand、Predicate、Effect Opcode 和 Transaction Emitter；
+- Declarative Program 可以直接冻结为结构化 Bytecode；
+- Controlled Script 额外拥有 PC、持久状态、跳转、`yield` 和确定性抢占，但其中涉及世界读取与修改的指令仍下降到同一 Context / Predicate / Transaction Bytecode；
+- 两者使用相同 Capability 解析、预算计费、Fault Policy、Source Map 和诊断码；
+- 新增一种通用语义时，必须先进入共享 IR 与共享执行原语，禁止分别在两个后端复制实现。
+
+#### 4.6.6 迁移顺序与冻结门禁
+
+1. 盘点现有 Read Operand、Condition、Transaction Opcode 和 Controlled Script `Transact`，形成当前语义清单；
+2. 定义带 Source Span 的统一类型、Scope Context、Predicate 和 Effect AST / Semantic IR；
+3. 让全部旧 DSL Fixture 经新 IR 编译，要求 Frozen Bytecode、Save、Replay Checksum 和权威结果保持不变；
+4. 在同一 IR 中加入嵌套 Scope、稳定集合遍历和显式单值/集合规则；
+5. 加入可组合 Trigger Predicate，并完成纯度、同代际 Snapshot 和确定性门禁；
+6. 将局部事务指令组合为 Effect Block，并继续复用 `EmitBytecodeTransaction`；
+7. 接通 Declarative 与 Controlled Script，消除任何重复的世界读取或事务下降路径；
+8. 将语法版本、程序摘要、引用闭包和编译结果纳入 Package / Source Lock、Ruleset Fingerprint、Persistence、Migration 与 Replay；
+9. 用至少两个不含 HOI3 名词的纯 Dillen 机制验证跨 Scope 查询、Trigger 条件和 Effect 事务；随后才进入六领域参考 Package。
+
+验收必须证明：同一 Trigger 在不同文件遍历、容器布局和线程调度下结果一致；同一 Effect 产生相同 Canonical Transaction；非法 Scope 转换、悬空引用、写入只读 Definition、跨包私有字段访问、隐式非确定性遍历和绕过 Transaction 的写入均在加载期拒绝。删除全部 HOI3 Corpus、Importer 与 Mapping 后，这套语言仍能独立编译和运行。
 
 ### 4.7 六领域参考机制门禁
 
@@ -2592,7 +2778,7 @@ label 带子控件 / 两个根 / 未冻结的 Schema / 未冻结的 Runtime Cata
 2. 实现 HOI3 VFS、编码、Clausewitz 文本、CSV、Lua 数据、地图和资源的来源规范化；
 3. 优先导入 `common/` 静态规则与类型定义，验证静态 Definition 管线；
 4. 导入国家、省份、外交、战争、单位和领袖等历史/初始状态；
-5. 将 HOI3 Scope / Trigger / Effect 解析为 Normalized HOI3 Semantic IR，由 Mapping Profile 映射到 Dillen 原生 Scope / Trigger / Effect；
+5. 将 HOI3 Scope / Trigger / Effect 解析为 Normalized HOI3 Semantic IR，由 Mapping Profile 映射为 Dillen `Algorithm Semantic IR` 中的 Scope Context、Trigger Predicate 与 Effect Transaction Block；
 6. 在共享语义基础上导入 Event 和 Decision；
 7. 最后处理原版 GUI / GFX、本地化与 Presentation 映射；
 8. 使用 Oracle 只补充内容作者实际依赖、但文本本身无法确定的最小可观察语义证据。
@@ -2609,10 +2795,10 @@ Importer 不引用目标 Gameplay Contract；Mapping Profile 不读取原始文�
 - 让 Mapping Profile 解析 HOI3 原始文件；
 - 让 Importer 引用 Dillen Gameplay Contract；
 - 用 Oracle 逐 Tick 轨迹定义 Dillen Runtime；
-- 在 Trigger / Effect / Scope 与静态 Definition 语义尚未冻结时直接移植 HOI3 Event、Decision 或 Gameplay 行为；
+- 在 Algorithm 内 Scope / Trigger / Effect 与静态 Definition 语义尚未冻结时直接移植 HOI3 Event、Decision 或 Gameplay 行为；
 - 把科研、生产、外交、政治、情报或战区参考机制的字段、动词、状态机或 Query 写进 Kernel C++；
-- 为赶进度在 Parser 中直接创建权威实例，或让运行时解释可编辑 Trigger / Effect / Scope 字符串；
+- 为赶进度在 Parser 中直接创建权威实例，或让运行时解释可编辑 Scope / Trigger / Effect 字符串；
 - 用新的产品 Demo 编号替代 §4.1 的能力门禁；
 - 为未来可能使用的功能提前扩大 Kernel 公共 API。
 
-当前唯一主线是：**先补齐可由外部 Package 编写科研、生产、外交、政治、情报和战区机制所需的通用 Kernel / Authoring 能力，让静态定义文件进入版本化 Frozen Catalog，建立完整的 Dillen 原生 Scope / Trigger / Effect 前端与语义编译层；上述能力由纯 Dillen 六领域参考 Package 验收后，再启动 HOI3 Importer、Mapping Profile 与内容移植。地图纵向切片只保留为非阻塞维护与回归样本。**
+当前唯一主线是：**先补齐可由外部 Package 编写科研、生产、外交、政治、情报和战区机制所需的通用 Kernel / Authoring 能力，让静态定义文件进入版本化 Frozen Catalog，并在既有 `Algorithm → Runtime Compiler → Frozen Bytecode → World Transaction` 管线内建立完整的 Scope Context、Trigger Predicate 与 Effect Transaction 语义；上述能力由纯 Dillen 六领域参考 Package 验收后，再启动 HOI3 Importer、Mapping Profile 与内容移植。地图纵向切片只保留为非阻塞维护与回归样本。**
