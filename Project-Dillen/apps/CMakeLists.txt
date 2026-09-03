@@ -21,6 +21,7 @@ if(DILLEN_BUILD_MAP_RENDERER)
     dillen_configure_target(dillen_map_viewer)
 
     add_subdirectory(political_viewer)
+    add_subdirectory(map_mode_debug)
 endif()
 
 # Needs the HOI3 compatibility layer and nothing else -- it reads a corpus and
