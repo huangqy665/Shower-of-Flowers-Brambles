@@ -11,6 +11,8 @@
 namespace dillen::runtime {
 
 struct AlgorithmInvocationContext;
+class AlgorithmExecutionBudget;
+class WorldQuerySnapshot;
 
 enum class ReadPathStatus
 {
@@ -63,6 +65,23 @@ ReadPathResult EvaluateReadPath(
     const kernel::CompiledAlgorithmReadPath& path,
     const AlgorithmInvocationContext& context,
     const std::vector<kernel::MechanismValue>& selfValues
+);
+
+// The same evaluation, for a caller that is not an algorithm.
+//
+// A projection asks one read path of each of many Entities and has no
+// instance, no mechanism snapshot and no rng to offer. This assembles the
+// context those callers cannot and calls the evaluator above -- one
+// implementation of what a read path means, reachable from both sides.
+//
+// Only AlgorithmReadRoot::SubjectEntity is usable through it; any other root
+// reads from an instance that is not there and is rejected rather than read
+// as a default.
+ReadPathResult EvaluateSubjectReadPath(
+    const kernel::CompiledAlgorithmReadPath& path,
+    const WorldQuerySnapshot& query,
+    kernel::EntityId subject,
+    AlgorithmExecutionBudget& budget
 );
 
 // Applies a binary operator to two already-evaluated reads.

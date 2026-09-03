@@ -212,6 +212,47 @@ void TakeFromReference(
 
 }
 
+ReadPathResult EvaluateSubjectReadPath(
+    const kernel::CompiledAlgorithmReadPath& path,
+    const WorldQuerySnapshot& query,
+    kernel::EntityId subject,
+    AlgorithmExecutionBudget& budget
+)
+{
+    // A second entry, not a second evaluator.
+    //
+    // AlgorithmInvocationContext is built for an algorithm: it carries an
+    // instance, a mechanism snapshot, an rng and a capability list, because an
+    // algorithm has all of those. A projection has none, and a subject-rooted
+    // path reaching a Component field touches none either -- only the world
+    // query and the budget. The empties below exist to satisfy the references,
+    // and a path that reached for one of them would have to be rooted
+    // somewhere a projection cannot root, which the compiler refuses.
+    static const kernel::MechanismInstance kNoInstance{};
+    static const kernel::MechanismQuerySnapshot kNoMechanisms{};
+    static const kernel::DeterministicRngSnapshot kNoRng{};
+    static const std::vector<kernel::CapabilityBindingSlotId> kNoCapabilities;
+    static const kernel::FrozenRuntimeCatalog kNoCatalog{};
+
+    const AlgorithmInvocationContext context{
+        AlgorithmRuntimeStage::Tick,
+        0,
+        kNoInstance,
+        query,
+        kNoMechanisms,
+        kNoRng,
+        kNoCatalog,
+        kNoCapabilities,
+        nullptr,
+        nullptr,
+        nullptr,
+        budget,
+        &subject
+    };
+    static const std::vector<kernel::MechanismValue> kNoSelfValues;
+    return EvaluateReadPath(path, context, kNoSelfValues);
+}
+
 ReadPathResult EvaluateReadPath(
     const kernel::CompiledAlgorithmReadPath& path,
     const AlgorithmInvocationContext& context,
@@ -271,6 +312,24 @@ ReadPathResult EvaluateReadPath(
             TakeFromReference(collected, path, context, reference);
             if (collected.failed) break;
         }
+        break;
+    }
+    case kernel::AlgorithmReadRoot::SubjectEntity:
+    {
+        if (context.subject == nullptr)
+        {
+            return Reject(
+                ReadPathStatus::TargetMissing,
+                "read path starts at a subject Entity and none was given"
+            );
+        }
+        // Handed to the SAME traversal every other root uses. The relation
+        // hop, the terminals and the reduce are not reimplemented here; the
+        // root only decides where the walk begins.
+        kernel::MechanismReference reference;
+        reference.kind = kernel::MechanismReferenceKind::Entity;
+        reference.value = context.subject->value;
+        TakeFromReference(collected, path, context, reference);
         break;
     }
     }
